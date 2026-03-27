@@ -17,8 +17,14 @@ Use it to create and manage:
 ## Install
 
 ```bash
+npm install @flintpay/node
+# or
 pnpm add @flintpay/node
+# or
+yarn add @flintpay/node
 ```
+
+Package page: https://www.npmjs.com/package/@flintpay/node
 
 Node `>=18` is required.
 

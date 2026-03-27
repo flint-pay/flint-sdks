@@ -7,6 +7,7 @@ This directory contains the official Flint SDKs for the public API.
 ## Available SDKs
 
 - Node.js / TypeScript: [`@flintpay/node`](./node)
+  npm: https://www.npmjs.com/package/@flintpay/node
 
 More SDKs can be added here over time, but the only released SDK in this repo today is the Node SDK.
 
@@ -87,6 +88,22 @@ After creating your account:
 4. Store the key securely.
 
 Flint SDKs are designed for server-side use with your Flint API key.
+
+### 3. Install the Node SDK
+
+Install the published SDK package:
+
+```bash
+npm install @flintpay/node
+# or
+pnpm add @flintpay/node
+# or
+yarn add @flintpay/node
+```
+
+Package page: https://www.npmjs.com/package/@flintpay/node
+
+Node `>=18` is required.
 
 ## What You Need For Any Flint SDK
 
