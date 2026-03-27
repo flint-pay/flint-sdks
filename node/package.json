@@ -1,0 +1,90 @@
+{
+  "name": "@flintpay/node",
+  "version": "0.1.0",
+  "description": "Official Node.js and TypeScript SDK for the Flint payments API: orders, payment intents, checkout sessions, payment links, invoices, subscriptions, and webhooks.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepare:version": "node ./scripts/write-version.mjs",
+    "prebuild": "pnpm prepare:version",
+    "predev": "pnpm prepare:version",
+    "pretypecheck": "pnpm prepare:version",
+    "pretypecheck:tests": "pnpm prepare:version",
+    "pretest": "pnpm prepare:version",
+    "pretest:contract": "pnpm prepare:version",
+    "pretest:integration": "pnpm prepare:version",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepack": "pnpm build",
+    "release:check": "pnpm build && pnpm typecheck && pnpm typecheck:tests && pnpm test && pnpm test:contract && pnpm test:integration:required && pnpm test:integration && npm pack --dry-run",
+    "test": "vitest run",
+    "test:contract": "node ./scripts/validate-public-contract.mjs",
+    "test:integration": "vitest run tests/integration.test.ts",
+    "test:integration:required": "node -e \"if (!process.env.FLINT_TEST_API_KEY) { console.error('FLINT_TEST_API_KEY is required for release:check'); process.exit(1); }\"",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "typecheck:tests": "tsc --noEmit -p tsconfig.tests.json",
+    "lint": "tsc --noEmit",
+    "generate": "npx tsx scripts/generate.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flint-pay/flint-sdks.git",
+    "directory": "node"
+  },
+  "homepage": "https://developers.withflintpay.com",
+  "bugs": {
+    "url": "https://github.com/flint-pay/flint-sdks/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "flint",
+    "flintpay",
+    "typescript",
+    "node",
+    "nodejs",
+    "payments",
+    "payment-api",
+    "payments-sdk",
+    "commerce",
+    "checkout",
+    "checkout-sessions",
+    "payment-intents",
+    "payment-links",
+    "invoices",
+    "subscriptions",
+    "webhooks",
+    "stripe-connect",
+    "sdk"
+  ]
+}
