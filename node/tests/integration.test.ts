@@ -264,17 +264,17 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(typeof item.quantityAvailable).toBe("number");
     });
 
-    it("should add item categories", async () => {
-      const item = await flint.items.addItemCategories(itemId, {
+    it("should replace item categories to add a category", async () => {
+      const item = await flint.items.replaceItemCategories(itemId, {
         categories: ["seasonal"],
       });
 
       expect(item.categories).toContain("seasonal");
     });
 
-    it("should remove item categories", async () => {
-      const item = await flint.items.removeItemCategories(itemId, {
-        categories: ["seasonal"],
+    it("should replace item categories to remove a category", async () => {
+      const item = await flint.items.replaceItemCategories(itemId, {
+        categories: [],
       });
 
       expect(item.categories).not.toContain("seasonal");
@@ -361,7 +361,7 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(coupon.description).toBe("Updated coupon description");
     });
 
-    it("should add and remove coupon limit to items", async () => {
+    it("should replace coupon limit-to-items values", async () => {
       // Create temporary items to limit the coupon to
       const tempItem1 = await flint.items.create({
         name: `Coupon Limit Item A ${testRunId}`,
@@ -374,16 +374,16 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
         type: "product",
       });
 
-      // Add both items as limits
-      const added = await flint.coupons.addCouponLimitToItems(couponId, {
+      // Replace with both items as limits
+      const added = await flint.coupons.replaceCouponLimitToItems(couponId, {
         limitToItemIds: [tempItem1.itemId, tempItem2.itemId],
       });
       expect(added.limitToItemIds).toContain(tempItem1.itemId);
       expect(added.limitToItemIds).toContain(tempItem2.itemId);
 
-      // Remove one specific item via removeCouponLimitToItems
-      const removed = await flint.coupons.removeCouponLimitToItems(couponId, {
-        limitToItemIds: [tempItem1.itemId],
+      // Replace with only one item to remove the other limit
+      const removed = await flint.coupons.replaceCouponLimitToItems(couponId, {
+        limitToItemIds: [tempItem2.itemId],
       });
       expect(removed.limitToItemIds).not.toContain(tempItem1.itemId);
       expect(removed.limitToItemIds).toContain(tempItem2.itemId);
