@@ -28,9 +28,24 @@ Package page: https://www.npmjs.com/package/@flintpay/node
 
 Node `>=18` is required.
 
+## Resources
+
+- Dashboard: https://dashboard.withflintpay.com
+- API key settings: https://dashboard.withflintpay.com/settings/api-keys
+- Developer docs: https://developers.withflintpay.com
+- API reference: https://developers.withflintpay.com/docs/api
+
+## Before You Start
+
+- Create a Flint account and API key in the dashboard.
+- Use this SDK from your server, worker, or other trusted backend environment.
+- Keep your API key out of browser and mobile client code.
+
 ## Authentication
 
-Create an API key in the Flint dashboard, then use it from your server:
+Create an API key in the [Flint dashboard](https://dashboard.withflintpay.com) under
+[Settings > API Keys](https://dashboard.withflintpay.com/settings/api-keys), then use it
+from your server:
 
 ```ts
 import { Flint } from "@flintpay/node";
@@ -42,9 +57,30 @@ const flint = new Flint({
 
 By default the SDK talks to `https://api.withflintpay.com`.
 
+Recommended environment variables:
+
+```bash
+FLINT_API_KEY=flint_...
+# Optional: only set this when testing against staging
+FLINT_BASE_URL=https://api.staging.withflintpay.com
+```
+
+Then initialize the client from your environment:
+
+```ts
+import { Flint } from "@flintpay/node";
+
+const flint = new Flint({
+  apiKey: process.env.FLINT_API_KEY!,
+  baseUrl: process.env.FLINT_BASE_URL,
+});
+```
+
 ## Quick Start
 
 Create an order, then create a payment intent from that order:
+
+Amounts use minor currency units. For example, `500` USD means `$5.00`.
 
 ```ts
 import { Flint } from "@flintpay/node";
@@ -72,6 +108,17 @@ const order = await flint.orders.create({
 const paymentIntent = await flint.paymentIntents.create({
   orderId: order.orderId,
 });
+```
+
+## Verify Your Setup
+
+After configuring your API key, make a simple read request to confirm the SDK can reach
+the API:
+
+```ts
+const page = await flint.merchants.list({ limit: 1 });
+
+console.log(page.data[0]?.merchantId);
 ```
 
 ## Common Flows
@@ -195,6 +242,9 @@ Defaults:
 - `baseUrl`: `https://api.withflintpay.com`
 - `timeoutMs`: `30000`
 - `maxRetries`: `2`
+
+Use the default `baseUrl` for production. Only set `baseUrl` explicitly when pointing the
+SDK at staging or another non-default environment.
 
 ## Supported Resources
 
