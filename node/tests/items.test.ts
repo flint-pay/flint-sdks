@@ -48,18 +48,32 @@ describe("ItemService", () => {
     expect(item.createdAt).toBeInstanceOf(Date);
   });
 
+  it("should list items with a query filter", async () => {
+    fetchSpy.mockResolvedValueOnce(
+      new Response(JSON.stringify({ data: [{ ...MOCK_ITEM, sku: "COFFEE-1" }] }), { status: 200 })
+    );
+
+    const page = await flint.items.list({ query: "COFFEE-1" });
+    const item = page.data[0]!;
+    expect(item.sku).toBe("COFFEE-1");
+
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/items");
+    expect(url).toContain("query=COFFEE-1");
+  });
+
   it("should get an item by sku", async () => {
     fetchSpy.mockResolvedValueOnce(
-      new Response(JSON.stringify({ item: { ...MOCK_ITEM, sku: "COFFEE-1" } }), { status: 200 })
+      new Response(JSON.stringify({ data: [{ ...MOCK_ITEM, sku: "COFFEE-1" }] }), { status: 200 })
     );
 
     const item = await flint.items.getBySKU("COFFEE-1");
-    expect(item.sku).toBe("COFFEE-1");
 
-    const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("GetItemBySKU");
-    const body = JSON.parse(options.body);
-    expect(body.sku).toBe("COFFEE-1");
+    expect(item?.sku).toBe("COFFEE-1");
+
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/items");
+    expect(url).toContain("sku=COFFEE-1");
   });
 
   it("should adjust inventory", async () => {
@@ -112,9 +126,8 @@ describe("ItemService", () => {
     expect(item.categories).toEqual(["vip", "events"]);
 
     const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ReplaceItemCategories");
+    expect(url).toContain("/v1/items/item_01ABCDEFGHIJKLMNOPQRSTUV/categories/replace");
     const body = JSON.parse(options.body);
-    expect(body.itemId).toBe("item_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(body.categories).toEqual(["vip", "events"]);
   });
 
@@ -135,9 +148,7 @@ describe("ItemService", () => {
 
     expect(item.status).toBe("deleted");
 
-    const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("DeleteItem");
-    const body = JSON.parse(options.body);
-    expect(body.itemId).toBe("item_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/items/item_01ABCDEFGHIJKLMNOPQRSTUV");
   });
 });

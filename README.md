@@ -1,6 +1,8 @@
 # Flint SDKs
 
-Flint Pay is an order-first payments platform for developers building checkout, payment links, invoicing, subscriptions, merchant tooling, and webhook-driven payment systems.
+Flint Pay is commerce for developers.
+
+Accept cards, wallets, and ACH with an order-first API. Start with payments, then add checkout, refunds, and subscriptions on the same API.
 
 This directory contains the official Flint SDKs for the public API.
 
@@ -11,9 +13,9 @@ This directory contains the official Flint SDKs for the public API.
 
 More SDKs can be added here over time, but the only released SDK in this repo today is the Node SDK.
 
-## What Flint Pay Is For
+## What Flint Is For
 
-Flint is built for teams that want a payment API centered around commerce objects instead of stitching everything together around a raw payment processor primitive.
+Flint is built for teams that want a commerce API centered around orders, invoices, subscriptions, and checkout flows instead of stitching everything together around raw processor primitives.
 
 Common Flint flows:
 
@@ -111,21 +113,18 @@ Node `>=18` is required.
 - a Flint API key
 - a server-side runtime environment
 - a way to store secrets securely
-- your target environment configuration
 
-Recommended environment variables:
+Recommended environment variable:
 
 ```bash
 FLINT_API_KEY=flint_...
-FLINT_BASE_URL=https://api.withflintpay.com
 ```
 
 Notes:
 
 - Keep your API key on the server only.
 - Do not expose secret API keys in browser or mobile client code.
-- Production API traffic uses `https://api.withflintpay.com`.
-- Use staging only when you intentionally want to test against staging infrastructure.
+- SDKs default to `https://api.withflintpay.com`.
 
 ## Common SDK Pattern
 
@@ -136,7 +135,6 @@ import { Flint } from "@flintpay/node";
 
 const flint = new Flint({
   apiKey: process.env.FLINT_API_KEY!,
-  baseUrl: process.env.FLINT_BASE_URL,
 });
 ```
 

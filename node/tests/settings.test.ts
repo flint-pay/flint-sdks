@@ -48,11 +48,10 @@ describe("SettingsService", () => {
     expect(settings.settingsId).toBe("set_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(settings.createdAt).toBeInstanceOf(Date);
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.locationId).toBe("loc_01ABCDEFGHIJKLMNOPQRSTUV");
-
-    const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("GetEffectiveSettings");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/settings/effective");
+    expect(url).toContain("location_id=loc_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(options.body).toBeUndefined();
   });
 
   it("should get raw settings for a scope", async () => {
@@ -63,11 +62,10 @@ describe("SettingsService", () => {
     const settings = await flint.settings.get({ scope: "merchant" });
     expect(settings.settingsId).toBe("set_01ABCDEFGHIJKLMNOPQRSTUV");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.scope).toBe(2);
-
-    const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("GetSettings");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/settings");
+    expect(url).toContain("scope=merchant");
+    expect(options.body).toBeUndefined();
   });
 
   it("should update settings", async () => {
@@ -87,10 +85,10 @@ describe("SettingsService", () => {
     expect(settings.settingsId).toBe("set_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.scope).toBe(2);
-    expect(body.tipping).toEqual({ isEnabled: false });
+    expect(body.tipping).toEqual({ is_enabled: false });
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("UpdateSettings");
+    expect(url).toContain("/v1/settings");
+    expect(url).toContain("scope=merchant");
   });
 });

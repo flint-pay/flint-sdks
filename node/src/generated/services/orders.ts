@@ -57,8 +57,6 @@ export class OrderService extends BaseService {
         customerId: params.customerId,
         buyerNote: params.buyerNote,
         merchantNote: params.merchantNote,
-        source: params.source ? SOURCE_TO_PROTO[params.source] : undefined,
-        subscriptionId: params.subscriptionId,
       }
     );
     return fromRawOrder(res.order);

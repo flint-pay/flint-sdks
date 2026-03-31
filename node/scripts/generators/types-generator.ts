@@ -122,7 +122,7 @@ const COMMON_MESSAGE_MAP: Record<string, string> = {
   "ProcessorDetails": "ProcessorDetails",
 };
 
-const CROSS_FILE_TYPE_IMPORTS: Record<string, { typeName: string; path: string }> = {
+const CROSS_FILE_TYPE_IMPORTS: Record<string, { typeName: string; requestTypeName?: string; path: string }> = {
   Theme: { typeName: "Theme", path: "./checkout-sessions" },
   PaymentConfig: { typeName: "PaymentConfig", path: "./checkout-sessions" },
   TipConfig: { typeName: "TipConfig", path: "./checkout-sessions" },
@@ -130,7 +130,7 @@ const CROSS_FILE_TYPE_IMPORTS: Record<string, { typeName: string; path: string }
   TaxConfig: { typeName: "TaxConfig", path: "./checkout-sessions" },
   LegalConfig: { typeName: "LegalConfig", path: "./checkout-sessions" },
   ExpirationConfig: { typeName: "ExpirationConfig", path: "./checkout-sessions" },
-  CustomTextConfig: { typeName: "CustomTextConfig", path: "./checkout-sessions" },
+  CustomTextConfig: { typeName: "CustomTextConfig", requestTypeName: "CustomTextConfigInput", path: "./checkout-sessions" },
   CouponConfig: { typeName: "CouponConfig", path: "./checkout-sessions" },
   Redirects: { typeName: "Redirects", path: "./checkout-sessions" },
 };
@@ -207,6 +207,7 @@ function isSimpleGetRequest(msg: ProtoMessage): boolean {
   const publicFields = msg.fields.filter(
     (field) =>
       !field.isInternal &&
+      !field.isWriteInternal &&
       !field.isOutputOnly &&
       !field.isServiceOnly &&
       !isFieldMask(field.type),
@@ -217,6 +218,22 @@ function isSimpleGetRequest(msg: ProtoMessage): boolean {
     publicFields[0]?.name.endsWith("_id") === true &&
     publicFields[0].optional === false
   );
+}
+
+function isPublicRequestField(field: ProtoField): boolean {
+  return !field.isInternal && !field.isWriteInternal && !field.isOutputOnly && !field.isServiceOnly;
+}
+
+function hasRestrictedRequestFields(msg: ProtoMessage): boolean {
+  return [...msg.fields, ...msg.oneofs.flatMap((oneof) => oneof.fields)].some(
+    (field) => !isPublicRequestField(field),
+  );
+}
+
+function deriveNestedRequestTypeName(msg: ProtoMessage): string | null {
+  if (msg.name.endsWith("Input")) return null;
+  if (!hasRestrictedRequestFields(msg)) return null;
+  return `${msg.name}Input`;
 }
 
 function shouldMakeRequestFieldOptional(
@@ -233,6 +250,29 @@ function shouldMakeRequestFieldOptional(
   }
   if (field.name.startsWith("clear_")) return true;
   return false;
+}
+
+function resolveRequestFieldType(
+  field: ProtoField,
+  localEnums: Map<string, ProtoEnum>,
+  localMessages: Map<string, ProtoMessage>,
+  pkg: string,
+): string {
+  const crossFile = CROSS_FILE_TYPE_IMPORTS[field.type];
+  if (crossFile?.requestTypeName) return crossFile.requestTypeName;
+
+  const shortType = getShortType(field.type);
+  const localMessage = localMessages.get(shortType);
+  if (localMessage) {
+    const requestTypeName = deriveNestedRequestTypeName(localMessage);
+    if (requestTypeName) return requestTypeName;
+  }
+
+  return resolveFieldType(field, localEnums, localMessages, pkg);
+}
+
+function shouldMakeNestedRequestFieldOptional(field: ProtoField): boolean {
+  return field.optional || field.repeated || field.type === "map";
 }
 
 // ============================================================================
@@ -294,6 +334,42 @@ export function generateTypesFile(
   };
   scanFieldsSafe(messages);
 
+  const scanRequestImports = (msgs: ProtoMessage[]) => {
+    for (const msg of msgs) {
+      for (const f of [...msg.fields, ...msg.oneofs.flatMap((o) => o.fields)]) {
+        const crossFile = CROSS_FILE_TYPE_IMPORTS[f.type];
+        if (!crossFile || crossFile.path === `./${kebabCase(config.sdk)}`) continue;
+        if (!crossFile.requestTypeName) continue;
+        const existing = crossFileImports.get(crossFile.path) ?? new Set<string>();
+        existing.add(crossFile.requestTypeName);
+        crossFileImports.set(crossFile.path, existing);
+      }
+    }
+  };
+
+  const excludedRequestTypes = new Set(
+    service.rpcs
+      .filter((rpc) => config.excludeRpcs?.includes(rpc.name))
+      .map((rpc) => rpc.requestType),
+  );
+  const requestMessages = messages.filter(
+    (m) => m.name.endsWith("Request") && !excludedRequestTypes.has(m.name),
+  );
+  scanRequestImports(requestMessages);
+  const requestViewMessageNames = new Set<string>();
+  const collectRequestViewMessages = (msg: ProtoMessage) => {
+    for (const field of [...msg.fields, ...msg.oneofs.flatMap((oneof) => oneof.fields)]) {
+      const shortType = getShortType(field.type);
+      const nested = localMessages.get(shortType);
+      if (!nested || requestViewMessageNames.has(nested.name)) continue;
+      requestViewMessageNames.add(nested.name);
+      collectRequestViewMessages(nested);
+    }
+  };
+  for (const requestMsg of requestMessages) {
+    collectRequestViewMessages(requestMsg);
+  }
+
   if (commonImports.size > 0) {
     lines.push(`import type { ${[...commonImports].sort().join(", ")} } from "./common";`);
     lines.push("");
@@ -337,15 +413,6 @@ export function generateTypesFile(
       m.name !== "ResponseMeta",
   );
 
-  const excludedRequestTypes = new Set(
-    service.rpcs
-      .filter((rpc) => config.excludeRpcs?.includes(rpc.name))
-      .map((rpc) => rpc.requestType),
-  );
-  const requestMessages = messages.filter(
-    (m) => m.name.endsWith("Request") && !excludedRequestTypes.has(m.name),
-  );
-
   // Generate entity types
   if (entityMessages.length > 0) {
     lines.push("// ============================================================================");
@@ -355,6 +422,13 @@ export function generateTypesFile(
 
     for (const msg of entityMessages) {
       lines.push(generateEntityType(msg, localEnums, localMessages, pkg));
+      lines.push("");
+    }
+
+    for (const msg of entityMessages) {
+      const requestTypeName = deriveNestedRequestTypeName(msg);
+      if (!requestTypeName || !requestViewMessageNames.has(msg.name)) continue;
+      lines.push(generateNestedRequestType(msg, localEnums, localMessages, pkg));
       lines.push("");
     }
   }
@@ -501,8 +575,7 @@ function generateParamsType(
   lines.push(`export type ${paramsName} = {`);
 
   for (const field of msg.fields) {
-    if (field.isInternal) continue;
-    if (field.isOutputOnly || field.isServiceOnly) continue;
+    if (!isPublicRequestField(field)) continue;
     // Skip the parent ID field — it's a method arg, not a params field
     if (idField && field === idField) continue;
 
@@ -530,7 +603,7 @@ function generateParamsType(
       continue;
     }
 
-    const tsType = resolveFieldType(field, localEnums, localMessages, pkg);
+    const tsType = resolveRequestFieldType(field, localEnums, localMessages, pkg);
     const optional = shouldMakeRequestFieldOptional(msg, field, isListRequest) ? "?" : "";
 
     const arrayMod = field.repeated ? "[]" : "";
@@ -540,8 +613,43 @@ function generateParamsType(
   // Flatten oneof fields as optional
   for (const oneof of msg.oneofs) {
     for (const field of oneof.fields) {
-      if (field.isInternal) continue;
-      const tsType = resolveFieldType(field, localEnums, localMessages, pkg);
+      if (!isPublicRequestField(field)) continue;
+      const tsType = resolveRequestFieldType(field, localEnums, localMessages, pkg);
+      const tsName = snakeToCamel(field.name);
+      lines.push(`  ${tsName}?: ${tsType};`);
+    }
+  }
+
+  lines.push("};");
+  return lines.join("\n");
+}
+
+function generateNestedRequestType(
+  msg: ProtoMessage,
+  localEnums: Map<string, ProtoEnum>,
+  localMessages: Map<string, ProtoMessage>,
+  pkg: string,
+): string {
+  const requestTypeName = deriveNestedRequestTypeName(msg);
+  if (!requestTypeName) return "";
+
+  const lines: string[] = [];
+  lines.push(`export type ${requestTypeName} = {`);
+
+  for (const field of msg.fields) {
+    if (!isPublicRequestField(field)) continue;
+
+    const tsType = resolveRequestFieldType(field, localEnums, localMessages, pkg);
+    const tsName = snakeToCamel(field.name);
+    const optional = shouldMakeNestedRequestFieldOptional(field) ? "?" : "";
+    const arrayMod = field.repeated ? "[]" : "";
+    lines.push(`  ${tsName}${optional}: ${tsType}${arrayMod};`);
+  }
+
+  for (const oneof of msg.oneofs) {
+    for (const field of oneof.fields) {
+      if (!isPublicRequestField(field)) continue;
+      const tsType = resolveRequestFieldType(field, localEnums, localMessages, pkg);
       const tsName = snakeToCamel(field.name);
       lines.push(`  ${tsName}?: ${tsType};`);
     }

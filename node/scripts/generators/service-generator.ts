@@ -98,6 +98,7 @@ function isSimpleGetRequest(requestMsg: ProtoMessage): boolean {
   const publicFields = requestMsg.fields.filter(
     (field) =>
       !field.isInternal &&
+      !field.isWriteInternal &&
       !field.isOutputOnly &&
       !field.isServiceOnly &&
       !isFieldMask(field.type),
@@ -108,6 +109,10 @@ function isSimpleGetRequest(requestMsg: ProtoMessage): boolean {
     publicFields[0]?.name.endsWith("_id") === true &&
     publicFields[0].optional === false
   );
+}
+
+function isPublicRequestField(field: ProtoField): boolean {
+  return !field.isOutputOnly && !field.isServiceOnly && !field.isInternal && !field.isWriteInternal;
 }
 
 function deriveParamsTypeNameFromRpc(
@@ -170,7 +175,7 @@ function hasRequiredRequestFields(
   isListRequest = false,
 ): boolean {
   return fields.some((field) => {
-    if (field.isOutputOnly || field.isServiceOnly || field.isInternal) return false;
+    if (!isPublicRequestField(field)) return false;
     if (field.name === "idempotency_key") return false;
     if (isFieldMask(field.type)) return false;
     return !isRequestFieldOptional(requestMsg, field, isListRequest);
@@ -237,7 +242,7 @@ export function generateServiceFile(
         if (reqMsg) {
           const idField = reqMsg.fields.find((f) => f.name.endsWith("_id") && !f.optional);
           const extraFields = reqMsg.fields.filter(
-            (f) => f !== idField && f.name !== "idempotency_key" && !isFieldMask(f.type) && !f.isOutputOnly && !f.isServiceOnly && !f.isInternal,
+            (f) => f !== idField && f.name !== "idempotency_key" && !isFieldMask(f.type) && isPublicRequestField(f),
           );
           const hasExtras = extraFields.length > 0 || reqMsg.oneofs.length > 0 ||
             reqMsg.fields.some((f) => isFieldMask(f.type)) ||
@@ -557,29 +562,26 @@ function generateMethod(
     ].join("\n");
   }
 
-  // Get by X (e.g., GetCustomerByEmail, GetItemBySKU)
-  const byMatch = rpc.name.match(/^Get\w+By(\w+)$/);
-  if (byMatch) {
-    const byField = byMatch[1]!;
-    const methodName = `getBy${byField}`;
-    const paramName = byField.charAt(0).toLowerCase() + byField.slice(1);
-    const firstField = requestMsg.fields[0];
-    return [
-      `  async ${methodName}(${paramName}: string): Promise<${config.entity}> {`,
-      `    const res = await this.rpc<Record<string, unknown>, { ${entityField}: Raw }>(`,
-      `      SERVICE,`,
-      `      "${rpc.name}",`,
-      `      { ${snakeToCamel(firstField?.name ?? paramName)}: ${paramName} }`,
-      `    );`,
-      `    return fromRaw${config.entity}(res.${entityField});`,
-      `  }`,
-    ].join("\n");
-  }
-
   // Get (single ID lookup)
   if (rpc.annotations.operationType === "OPERATION_TYPE_READ" && rpc.name.startsWith("Get")) {
     const methodName = deriveMethodName(rpc.name, config.entity);
     if (!entityField) return "";
+
+    if (/^Get\w+By\w+$/.test(rpc.name)) {
+      const lookupField = requestMsg.fields[0];
+      if (!lookupField) return null;
+      const lookupParam = snakeToCamel(lookupField.name);
+      return [
+        `  async ${methodName}(${lookupParam}: string): Promise<${config.entity} | null> {`,
+        `    const res = await this.rpc<Record<string, unknown>, { ${entityField}?: Raw }>(`,
+        `      SERVICE,`,
+        `      "${rpc.name}",`,
+        `      { ${lookupParam} }`,
+        `    );`,
+        `    return res.${entityField} ? fromRaw${config.entity}(res.${entityField}) : null;`,
+        `  }`,
+      ].join("\n");
+    }
 
     if (isSimpleGetRequest(requestMsg)) {
       const idField = requestMsg.fields[0];
@@ -606,7 +608,7 @@ function generateMethod(
       `      "${rpc.name}",`,
       `      {`,
       ...requestMsg.fields
-        .filter((field) => !field.isOutputOnly && !field.isServiceOnly && !field.isInternal)
+        .filter((field) => isPublicRequestField(field))
         .map((field) => `        ${genReqField(field, "params", enumMap)}`),
       `      }`,
       `    );`,
@@ -680,9 +682,7 @@ function generateCreateOrAction(
       f !== idField &&
       f.name !== "idempotency_key" &&
       !isFieldMask(f.type) &&
-      !f.isOutputOnly &&
-      !f.isServiceOnly &&
-      !f.isInternal,
+      isPublicRequestField(f),
   );
   const hasOneofs = requestMsg.oneofs.length > 0;
   const hasFieldMask = requestMsg.fields.some((f) => isFieldMask(f.type));
@@ -704,11 +704,12 @@ function generateCreateOrAction(
     lines.push(`      "${rpc.name}",`);
     lines.push(`      {`);
     for (const field of requestMsg.fields) {
-      if (field.isOutputOnly || field.isServiceOnly || field.isInternal) continue;
+      if (!isPublicRequestField(field)) continue;
       lines.push(`        ${genReqField(field, "params", enumMap)}`);
     }
     for (const oneof of requestMsg.oneofs) {
       for (const field of oneof.fields) {
+        if (!isPublicRequestField(field)) continue;
         lines.push(`        ${genReqField(field, "params", enumMap)}`);
       }
     }
@@ -730,11 +731,12 @@ function generateCreateOrAction(
     lines.push(`        ${idParam},`);
     for (const field of requestMsg.fields) {
       if (field === idField) continue;
-      if (field.isOutputOnly || field.isServiceOnly || field.isInternal) continue;
+      if (!isPublicRequestField(field)) continue;
       lines.push(`        ${genReqField(field, "params", enumMap)}`);
     }
     for (const oneof of requestMsg.oneofs) {
       for (const field of oneof.fields) {
+        if (!isPublicRequestField(field)) continue;
         lines.push(`        ${genReqField(field, "params", enumMap)}`);
       }
     }
@@ -778,11 +780,12 @@ function generateCreateOrAction(
     lines.push(`        ${idParam},`);
     for (const field of requestMsg.fields) {
       if (field === idField) continue;
-      if (field.isOutputOnly || field.isServiceOnly || field.isInternal) continue;
+      if (!isPublicRequestField(field)) continue;
       lines.push(`        ${genReqField(field, "params", enumMap)}`);
     }
     for (const oneof of requestMsg.oneofs) {
       for (const field of oneof.fields) {
+        if (!isPublicRequestField(field)) continue;
         lines.push(`        ${genReqField(field, "params", enumMap)}`);
       }
     }
@@ -803,7 +806,7 @@ function generateCreateOrAction(
     lines.push(`      "${rpc.name}",`);
     lines.push(`      {`);
     for (const field of requestMsg.fields) {
-      if (field.isOutputOnly || field.isServiceOnly || field.isInternal) continue;
+      if (!isPublicRequestField(field)) continue;
       lines.push(`        ${genReqField(field, "params", enumMap)}`);
     }
     lines.push(`      }`);
@@ -839,7 +842,7 @@ function generateFetchPage(
   lines.push(`    >(SERVICE, "${rpc.name}", {`);
 
   for (const field of requestMsg.fields) {
-    if (field.isOutputOnly || field.isServiceOnly || field.isInternal) continue;
+    if (!isPublicRequestField(field)) continue;
     const cn = snakeToCamel(field.name);
 
     if (field.name === "page_size") {
@@ -1256,6 +1259,8 @@ function scanEntityForImports(
 
 function deriveMethodName(rpcName: string, entityName: string): string {
   if (rpcName === `Get${entityName}`) return "get";
+  const getByMatch = rpcName.match(new RegExp(`^Get${entityName}By(.+)$`));
+  if (getByMatch) return `getBy${getByMatch[1]!}`;
   if (rpcName === `Create${entityName}`) return "create";
   if (rpcName === `Update${entityName}`) return "update";
   if (rpcName === `Delete${entityName}`) return "del";

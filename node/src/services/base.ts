@@ -2,6 +2,8 @@ import { FlintError, parseHttpError } from "../errors";
 import type { FlintPage } from "../pagination";
 import { createFlintList, type FlintList, type ListFetcher } from "../pagination";
 import { SDK_VERSION } from "../version";
+import { normalizePublicRequest } from "./public-request-normalization";
+import { resolvePublicRoute } from "./public-routes";
 
 export type RequestConfig = {
   baseUrl: string;
@@ -13,7 +15,7 @@ export type RequestConfig = {
 
 /**
  * Base class for all Flint service wrappers.
- * Makes direct JSON POST requests to Connect RPC endpoints.
+ * Makes direct HTTP requests to the public /v1 API.
  */
 export abstract class BaseService {
   protected readonly config: RequestConfig;
@@ -23,15 +25,17 @@ export abstract class BaseService {
   }
 
   /**
-   * Make an RPC call to a Connect endpoint.
-   * Connect protocol: POST with JSON body, JSON response.
+   * Make a request against the public /v1 API.
    */
   protected async rpc<TReq extends Record<string, unknown>, TRes>(
     service: string,
     method: string,
     request: TReq
   ): Promise<TRes> {
-    const url = `${this.config.baseUrl}/${service}/${method}`;
+    const normalizedRequest = normalizePublicRequest(service, method, request);
+    const route = resolvePublicRoute(service, method, normalizedRequest);
+    const url = buildURL(this.config.baseUrl, route.path, normalizedRequest, route.query);
+    const { body, idempotencyKey } = extractBodyAndIdempotency(route.body);
     let lastError: unknown;
 
     for (let attempt = 0; attempt <= this.config.maxRetries; attempt++) {
@@ -44,17 +48,18 @@ export abstract class BaseService {
 
       try {
         const response = await fetch(url, {
-          method: "POST",
+          method: route.method,
           headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${this.config.apiKey}`,
             "User-Agent": `flintpay-node/${SDK_VERSION}`,
             "X-Flint-Client": `node/${SDK_VERSION}`,
-            "Connect-Protocol-Version": "1",
+            ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+            ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}),
+            ...route.headers,
             ...this.config.headers,
           },
           signal: controller.signal,
-          body: JSON.stringify(request),
+          body: body !== undefined ? JSON.stringify(body) : undefined,
         });
 
         if (!response.ok) {
@@ -73,7 +78,24 @@ export abstract class BaseService {
           throw error;
         }
 
-        return (await response.json()) as TRes;
+        if (response.status === 204) {
+          return {} as TRes;
+        }
+
+        const contentType = response.headers.get("Content-Type") ?? "";
+        let parsed: Record<string, unknown> = {};
+        if (!contentType.includes("application/pdf")) {
+          const text = await response.text();
+          if (text.trim() !== "") {
+            parsed = camelizeKeys(JSON.parse(text) as unknown) as Record<string, unknown>;
+          }
+        } else {
+          const bytes = new Uint8Array(await response.arrayBuffer());
+          parsed = { content: encodeBase64(bytes) };
+        }
+
+        const adapted = route.adaptResponse ? route.adaptResponse(parsed, response) : parsed;
+        return adapted as TRes;
       } catch (err) {
         if (err instanceof FlintError) throw err;
 
@@ -167,6 +189,94 @@ export abstract class BaseService {
     return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
   }
 }
+
+const extractBodyAndIdempotency = (
+  body: Record<string, unknown> | undefined,
+): { body: Record<string, unknown> | undefined; idempotencyKey?: string } => {
+  if (!body) {
+    return { body: undefined };
+  }
+
+  const { idempotencyKey, ...rest } = body;
+  const normalizedBody = Object.keys(rest).length > 0 ? snakeCaseKeys(rest) as Record<string, unknown> : undefined;
+  return {
+    body: normalizedBody,
+    idempotencyKey: typeof idempotencyKey === "string" ? idempotencyKey : undefined,
+  };
+};
+
+const buildURL = (
+  baseUrl: string,
+  template: string,
+  request: Record<string, unknown>,
+  query: Record<string, unknown> | undefined,
+): string => {
+  let path = template;
+  for (const [key, value] of Object.entries(request)) {
+    if (value == null) continue;
+    path = path.replaceAll(`{${key}}`, encodeURIComponent(String(value)));
+  }
+
+  const url = new URL(path, ensureTrailingSlash(baseUrl));
+  if (query) {
+    appendQuery(url.searchParams, snakeCaseKeys(query) as Record<string, unknown>);
+  }
+  return url.toString();
+};
+
+const ensureTrailingSlash = (value: string): string =>
+  value.endsWith("/") ? value : `${value}/`;
+
+const appendQuery = (params: URLSearchParams, query: Record<string, unknown>) => {
+  for (const [key, value] of Object.entries(query)) {
+    if (value == null) continue;
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item != null) params.append(key, String(item));
+      }
+      continue;
+    }
+    params.set(key, String(value));
+  }
+};
+
+const snakeCaseKeys = (value: unknown): unknown => {
+  if (Array.isArray(value)) {
+    return value.map(snakeCaseKeys);
+  }
+  if (!value || typeof value !== "object" || value instanceof Date) {
+    return value;
+  }
+
+  const result: Record<string, unknown> = {};
+  for (const [key, entry] of Object.entries(value)) {
+    result[camelToSnake(key)] = snakeCaseKeys(entry);
+  }
+  return result;
+};
+
+const camelizeKeys = (value: unknown): unknown => {
+  if (Array.isArray(value)) {
+    return value.map(camelizeKeys);
+  }
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  const result: Record<string, unknown> = {};
+  for (const [key, entry] of Object.entries(value)) {
+    result[snakeToCamelDeep(key)] = camelizeKeys(entry);
+  }
+  return result;
+};
+
+const camelToSnake = (value: string): string =>
+  value.replace(/([A-Z])/g, "_$1").toLowerCase();
+
+const snakeToCamelDeep = (value: string): string =>
+  value.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase());
+
+const encodeBase64 = (value: Uint8Array): string => Buffer.from(value).toString("base64");
 
 const isRetryableStatus = (status: number): boolean => {
   return status === 429 || status === 502 || status === 503 || status === 504;

@@ -48,24 +48,38 @@ describe("CouponService", () => {
     expect(coupon.createdAt).toBeInstanceOf(Date);
 
     const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CreateCoupon");
+    expect(url).toContain("/v1/coupons");
     const body = JSON.parse(options.body);
-    expect(body.couponCode).toBe("SUMMER25");
-    expect(body.percentOff).toBe(25);
+    expect(body.coupon_code).toBe("SUMMER25");
+    expect(body.percent_off).toBe(25);
+  });
+
+  it("should list coupons with a query filter", async () => {
+    fetchSpy.mockResolvedValueOnce(
+      new Response(JSON.stringify({ data: [MOCK_COUPON] }), { status: 200 })
+    );
+
+    const page = await flint.coupons.list({ query: "SUMMER25" });
+    const coupon = page.data[0]!;
+    expect(coupon.couponCode).toBe("SUMMER25");
+
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/coupons");
+    expect(url).toContain("query=SUMMER25");
   });
 
   it("should get a coupon by code", async () => {
     fetchSpy.mockResolvedValueOnce(
-      new Response(JSON.stringify({ coupon: MOCK_COUPON }), { status: 200 })
+      new Response(JSON.stringify({ data: [MOCK_COUPON] }), { status: 200 })
     );
 
     const coupon = await flint.coupons.getByCode("SUMMER25");
-    expect(coupon.couponCode).toBe("SUMMER25");
 
-    const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("GetCouponByCode");
-    const body = JSON.parse(options.body);
-    expect(body.couponCode).toBe("SUMMER25");
+    expect(coupon?.couponCode).toBe("SUMMER25");
+
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/coupons");
+    expect(url).toContain("code=SUMMER25");
   });
 
   it("should list coupons", async () => {
@@ -105,10 +119,9 @@ describe("CouponService", () => {
     ]);
 
     const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ReplaceCouponLimitToItems");
+    expect(url).toContain("/v1/coupons/cpn_01ABCDEFGHIJKLMNOPQRSTUV/limit-to-items/replace");
     const body = JSON.parse(options.body);
-    expect(body.couponId).toBe("cpn_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.limitToItemIds).toEqual([
+    expect(body.limit_to_item_ids).toEqual([
       "item_01ABCDEFGHIJKLMNOPQRSTUV",
       "item_02ABCDEFGHIJKLMNOPQRSTUV",
     ]);
@@ -131,9 +144,7 @@ describe("CouponService", () => {
 
     expect(coupon.status).toBe("deleted");
 
-    const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("DeleteCoupon");
-    const body = JSON.parse(options.body);
-    expect(body.couponId).toBe("cpn_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/coupons/cpn_01ABCDEFGHIJKLMNOPQRSTUV");
   });
 });

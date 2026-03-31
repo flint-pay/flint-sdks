@@ -162,6 +162,10 @@ export type QuickPayInput = {
   amountMoney: Money;
 };
 
+export type CustomTextConfigInput = {
+  shippingAddressLabel?: string;
+};
+
 // ============================================================================
 // Request params
 // ============================================================================
@@ -169,7 +173,6 @@ export type QuickPayInput = {
 export type CheckoutSessionCreateParams = {
   quickPay?: QuickPayInput;
   orderId?: string;
-  invoiceId?: string;
   planId?: string;
   theme?: Theme;
   payments?: PaymentConfig;
@@ -181,10 +184,8 @@ export type CheckoutSessionCreateParams = {
   metadata?: Record<string, string>;
   legal?: LegalConfig;
   expiration?: ExpirationConfig;
-  customText?: CustomTextConfig;
-  source?: Source;
+  customText?: CustomTextConfigInput;
   coupon?: CouponConfig;
-  paymentLinkId?: string;
   idempotencyKey?: string;
 };
 

@@ -312,14 +312,12 @@ export type ManualInvoicePaymentParams = {
 
 export type InvoiceSendResult = {
   invoice: Invoice;
-  publicToken: string;
   publicUrl: string;
   deliveryAttempt?: InvoiceDeliveryAttempt;
 };
 
 export type InvoicePublicLinkResult = {
   invoice: Invoice;
-  publicToken: string;
   publicUrl: string;
 };
 
@@ -422,7 +420,7 @@ export class InvoiceService extends BaseService {
   async send(invoiceId: string, params: IdempotentInvoiceActionParams = {}): Promise<InvoiceSendResult> {
     const res = await this.rpc<
       Record<string, unknown>,
-      { invoice: Raw; publicToken: string; publicUrl: string; deliveryAttempt?: Raw }
+      { invoice: Raw; publicUrl: string; deliveryAttempt?: Raw }
     >(SERVICE, "SendInvoice", {
       invoiceId,
       idempotencyKey: this.ensureIdempotencyKey(params.idempotencyKey),
@@ -430,7 +428,6 @@ export class InvoiceService extends BaseService {
 
     return {
       invoice: fromRawInvoice(res.invoice),
-      publicToken: res.publicToken,
       publicUrl: res.publicUrl,
       deliveryAttempt: res.deliveryAttempt ? fromRawInvoiceDeliveryAttempt(res.deliveryAttempt) : undefined,
     };
@@ -455,7 +452,7 @@ export class InvoiceService extends BaseService {
   ): Promise<InvoicePublicLinkResult> {
     const res = await this.rpc<
       Record<string, unknown>,
-      { invoice: Raw; publicToken: string; publicUrl: string }
+      { invoice: Raw; publicUrl: string }
     >(SERVICE, "RegenerateInvoiceToken", {
       invoiceId,
       idempotencyKey: this.ensureIdempotencyKey(params.idempotencyKey),
@@ -463,7 +460,6 @@ export class InvoiceService extends BaseService {
 
     return {
       invoice: fromRawInvoice(res.invoice),
-      publicToken: res.publicToken,
       publicUrl: res.publicUrl,
     };
   }

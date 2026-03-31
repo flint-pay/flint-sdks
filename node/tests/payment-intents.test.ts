@@ -49,9 +49,10 @@ describe("PaymentIntentService", () => {
     expect(paymentIntent.amountMoney.amount).toBe(500);
 
     const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CreatePaymentIntent");
+    expect(url).toContain("/v1/payment-intents");
     const body = JSON.parse(options.body);
-    expect(body.idempotencyKey).toBeDefined();
+    expect(body.idempotencyKey).toBeUndefined();
+    expect(options.headers["Idempotency-Key"]).toBeDefined();
   });
 
   it("should confirm a payment intent", async () => {

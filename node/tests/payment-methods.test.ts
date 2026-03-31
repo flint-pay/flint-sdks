@@ -53,11 +53,11 @@ describe("PaymentMethodService", () => {
     expect(pm.createdAt).toBeInstanceOf(Date);
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.customerId).toBe("cus_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.idempotencyKey).toBe("pm-test-1");
+    expect(body.customer_id).toBe("cus_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(fetchSpy.mock.calls[0]![1].headers["Idempotency-Key"]).toBe("pm-test-1");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("SavePaymentMethod");
+    expect(url).toContain("/v1/payment-methods");
   });
 
   it("should get a payment method", async () => {
@@ -69,8 +69,9 @@ describe("PaymentMethodService", () => {
     expect(pm.paymentMethodId).toBe("pm_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(pm.card?.last4).toBe("4242");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.paymentMethodId).toBe("pm_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/payment-methods/pm_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(options.body).toBeUndefined();
   });
 
   it("should remove a payment method", async () => {
@@ -82,11 +83,9 @@ describe("PaymentMethodService", () => {
       flint.paymentMethods.remove("pm_01ABCDEFGHIJKLMNOPQRSTUV")
     ).resolves.toBeUndefined();
 
-    const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("RemovePaymentMethod");
-
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.paymentMethodId).toBe("pm_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/payment-methods/pm_01ABCDEFGHIJKLMNOPQRSTUV/remove");
+    expect(options.body).toBeUndefined();
   });
 
   it("should set a payment method as default", async () => {
@@ -100,12 +99,9 @@ describe("PaymentMethodService", () => {
     );
     expect(pm.paymentMethodId).toBe("pm_01ABCDEFGHIJKLMNOPQRSTUV");
 
-    const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("SetDefaultPaymentMethod");
-
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.customerId).toBe("cus_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.paymentMethodId).toBe("pm_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/payment-methods/pm_01ABCDEFGHIJKLMNOPQRSTUV/set-default");
+    expect(options.body).toBeUndefined();
   });
 
   it("should list payment methods for a customer", async () => {

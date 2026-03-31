@@ -48,13 +48,13 @@ export class CustomerService extends BaseService {
     return fromRawCustomer(res.customer);
   }
 
-  async getByEmail(email: string): Promise<Customer> {
-    const res = await this.rpc<Record<string, unknown>, { customer: Raw }>(
+  async getByEmail(email: string): Promise<Customer | null> {
+    const res = await this.rpc<Record<string, unknown>, { customer?: Raw }>(
       SERVICE,
       "GetCustomerByEmail",
-      { email: email }
+      { email }
     );
-    return fromRawCustomer(res.customer);
+    return res.customer ? fromRawCustomer(res.customer) : null;
   }
 
   async update(customerId: string, params: CustomerUpdateParams): Promise<Customer> {

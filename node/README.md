@@ -1,51 +1,18 @@
 # `@flintpay/node`
 
-Official Node.js and TypeScript SDK for the Flint payments API.
-
-Use it to create and manage:
-
-- customers
-- orders
-- payment intents
-- checkout sessions
-- payment links
-- invoices
-- subscriptions
-- webhooks
-- settings, analytics, API keys, devices, merchants, and users
+Official Node.js and TypeScript SDK for Flint's public API.
 
 ## Install
 
 ```bash
 npm install @flintpay/node
-# or
-pnpm add @flintpay/node
-# or
-yarn add @flintpay/node
 ```
-
-Package page: https://www.npmjs.com/package/@flintpay/node
 
 Node `>=18` is required.
 
-## Resources
+Use this SDK from your server, worker, or other trusted backend environment. Do not ship your Flint API key in browser or mobile client code.
 
-- Dashboard: https://dashboard.withflintpay.com
-- API key settings: https://dashboard.withflintpay.com/settings/api-keys
-- Developer docs: https://developers.withflintpay.com
-- API reference: https://developers.withflintpay.com/docs/api
-
-## Before You Start
-
-- Create a Flint account and API key in the dashboard.
-- Use this SDK from your server, worker, or other trusted backend environment.
-- Keep your API key out of browser and mobile client code.
-
-## Authentication
-
-Create an API key in the [Flint dashboard](https://dashboard.withflintpay.com) under
-[Settings > API Keys](https://dashboard.withflintpay.com/settings/api-keys), then use it
-from your server:
+Create an API key in the [Flint dashboard](https://dashboard.withflintpay.com/settings/api-keys), then initialize the client:
 
 ```ts
 import { Flint } from "@flintpay/node";
@@ -55,30 +22,13 @@ const flint = new Flint({
 });
 ```
 
-By default the SDK talks to `https://api.withflintpay.com`.
-
-Recommended environment variables:
+Set your API key with:
 
 ```bash
 FLINT_API_KEY=flint_...
-# Optional: only set this when testing against staging
-FLINT_BASE_URL=https://api.staging.withflintpay.com
-```
-
-Then initialize the client from your environment:
-
-```ts
-import { Flint } from "@flintpay/node";
-
-const flint = new Flint({
-  apiKey: process.env.FLINT_API_KEY!,
-  baseUrl: process.env.FLINT_BASE_URL,
-});
 ```
 
 ## Quick Start
-
-Create an order, then create a payment intent from that order:
 
 Amounts use minor currency units. For example, `500` USD means `$5.00`.
 
@@ -110,10 +60,7 @@ const paymentIntent = await flint.paymentIntents.create({
 });
 ```
 
-## Verify Your Setup
-
-After configuring your API key, make a simple read request to confirm the SDK can reach
-the API:
+Verify the SDK can reach the API:
 
 ```ts
 const page = await flint.merchants.list({ limit: 1 });
@@ -202,7 +149,7 @@ const rotated = await flint.webhooks.rotateWebhookSecret(
 
 ## Pagination
 
-List endpoints return a `FlintList`, which supports both page access and async iteration:
+List endpoints return a `FlintList` that supports async iteration:
 
 ```ts
 for await (const customer of flint.customers.list({ limit: 25 })) {
@@ -212,7 +159,7 @@ for await (const customer of flint.customers.list({ limit: 25 })) {
 
 ## Errors
 
-SDK requests throw `FlintError` with normalized error types and remediation metadata when available:
+SDK requests throw `FlintError`:
 
 ```ts
 import { FlintError } from "@flintpay/node";
@@ -231,7 +178,6 @@ try {
 ```ts
 const flint = new Flint({
   apiKey: process.env.FLINT_API_KEY!,
-  baseUrl: "https://api.staging.withflintpay.com",
   timeoutMs: 10_000,
   maxRetries: 2,
 });
@@ -243,36 +189,12 @@ Defaults:
 - `timeoutMs`: `30000`
 - `maxRetries`: `2`
 
-Use the default `baseUrl` for production. Only set `baseUrl` explicitly when pointing the
-SDK at staging or another non-default environment.
+## Docs
 
-## Supported Resources
-
-- `customers`
-- `orders`
-- `items`
-- `coupons`
-- `paymentLinks`
-- `paymentIntents`
-- `paymentMethods`
-- `refunds`
-- `checkoutSessions`
-- `subscriptionPlans`
-- `subscriptions`
-- `settings`
-- `analytics`
-- `apiKeys`
-- `devices`
-- `invoices`
-- `merchants`
-- `users`
-- `webhooks`
-
-## Current Scope
-
-This SDK covers Flint’s public API-key-authenticated commerce, checkout, invoice, subscription, analytics, account, and webhook surfaces.
-
-Developer bootstrap is separate because it uses a different pre-API-key authentication flow.
+- Package: https://www.npmjs.com/package/@flintpay/node
+- Dashboard: https://dashboard.withflintpay.com
+- Developer docs: https://developers.withflintpay.com
+- API reference: https://developers.withflintpay.com/docs/api
 
 ## Development
 

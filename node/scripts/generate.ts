@@ -110,7 +110,7 @@ const SERVICE_CONFIG: ServiceConfig[] = [
 // ============================================================================
 
 const SDK_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..");
-const PROTO_ROOT = resolve(SDK_ROOT, "../../server/monolith");
+const PROTO_ROOT = resolveProtoRoot();
 const GENERATED_DIR = resolve(SDK_ROOT, "src/generated");
 const TYPES_DIR = resolve(GENERATED_DIR, "types");
 const SERVICES_DIR = resolve(GENERATED_DIR, "services");
@@ -217,6 +217,27 @@ function writeFile(path: string, content: string) {
     ? content
     : header + content;
   writeFileSync(path, fullContent, "utf-8");
+}
+
+function resolveProtoRoot() {
+  const candidates = [
+    process.env.FLINT_MONOREPO_ROOT ? resolve(process.env.FLINT_MONOREPO_ROOT, "server/monolith") : null,
+    resolve(SDK_ROOT, "../../server/monolith"),
+    resolve(SDK_ROOT, "../../flint/server/monolith"),
+  ].filter((candidate): candidate is string => Boolean(candidate));
+
+  for (const candidate of candidates) {
+    if (existsSync(resolve(candidate, "protos/v1/common.proto"))) {
+      return candidate;
+    }
+  }
+
+  throw new Error(
+    [
+      "Unable to locate the Flint monorepo server for code generation.",
+      "Set FLINT_MONOREPO_ROOT to the Flint repo root or place flint-sdks next to the Flint monorepo.",
+    ].join(" "),
+  );
 }
 
 function kebabCase(s: string): string {

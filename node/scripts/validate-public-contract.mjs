@@ -1,10 +1,11 @@
 import { execFileSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const sdkRoot = path.resolve(__dirname, "..");
-const serverRoot = path.resolve(sdkRoot, "../../server/monolith");
+const serverRoot = resolveServerRoot();
 
 const specJson = execFileSync("go", ["run", "./cmd/public-openapi-json"], {
   cwd: serverRoot,
@@ -16,12 +17,81 @@ const dist = await import(pathToFileURL(path.join(sdkRoot, "dist/index.js")).hre
 
 const supportedResources = Array.from(dist.SUPPORTED_PUBLIC_RESOURCES);
 const supportedPaths = new Set(dist.SUPPORTED_PUBLIC_API_PATHS);
+const generatedTypesRoot = path.join(sdkRoot, "src/generated/types");
+
+const forbiddenSdkParams = [
+  {
+    file: "checkout-sessions.ts",
+    typeName: "CheckoutSessionCreateParams",
+    fields: ["invoiceId", "source", "paymentLinkId"],
+  },
+  {
+    file: "payment-intents.ts",
+    typeName: "PaymentIntentCreateParams",
+    fields: ["invoiceId", "source", "checkoutSessionId"],
+  },
+  {
+    file: "orders.ts",
+    typeName: "OrderCreateParams",
+    fields: ["source", "subscriptionId"],
+  },
+];
+
+const forbiddenNestedRequestFields = [
+  {
+    file: "checkout-sessions.ts",
+    typeName: "CustomTextConfigInput",
+    fields: ["checkoutButtonText"],
+  },
+];
+
+const forbiddenRequestTypeReferences = [
+  {
+    file: "checkout-sessions.ts",
+    typeName: "CheckoutSessionCreateParams",
+    pattern: /\bcustomText\?: CustomTextConfig;/,
+    description: 'CheckoutSessionCreateParams uses response type "CustomTextConfig" for customText.',
+  },
+  {
+    file: "payment-links.ts",
+    typeName: "PaymentLinkCreateParams",
+    pattern: /\bcustomText\?: CustomTextConfig;/,
+    description: 'PaymentLinkCreateParams uses response type "CustomTextConfig" for customText.',
+  },
+  {
+    file: "payment-links.ts",
+    typeName: "PaymentLinkUpdateParams",
+    pattern: /\bcustomText\?: CustomTextConfig;/,
+    description: 'PaymentLinkUpdateParams uses response type "CustomTextConfig" for customText.',
+  },
+];
+
+function resolveServerRoot() {
+  const candidates = [
+    process.env.FLINT_MONOREPO_ROOT ? path.resolve(process.env.FLINT_MONOREPO_ROOT, "server/monolith") : null,
+    path.resolve(sdkRoot, "../../server/monolith"),
+    path.resolve(sdkRoot, "../../flint/server/monolith"),
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(path.join(candidate, "cmd/public-openapi-json/main.go"))) {
+      return candidate;
+    }
+  }
+
+  throw new Error(
+    [
+      "Unable to locate the Flint monorepo server for contract validation.",
+      "Set FLINT_MONOREPO_ROOT to the Flint repo root or place flint-sdks next to the Flint monorepo.",
+    ].join(" "),
+  );
+}
 
 const surface = {
   customers: {
     serviceExport: "CustomerService",
     clientProperty: "customers",
-    methods: ["create", "get", "getByEmail", "update", "list"],
+    methods: ["create", "get", "update", "list"],
     operations: [
       ["post", "/v1/customers"],
       ["get", "/v1/customers/{customer_id}"],
@@ -366,6 +436,50 @@ for (const resource of supportedResources) {
   }
 }
 
+for (const { file, typeName, fields } of forbiddenSdkParams) {
+  const typeSource = fs.readFileSync(path.join(generatedTypesRoot, file), "utf8");
+  const typeBlock = extractTypeBlock(typeSource, typeName);
+  if (!typeBlock) {
+    problems.push(`Generated SDK type "${typeName}" was not found in ${file}.`);
+    continue;
+  }
+
+  for (const fieldName of fields) {
+    const fieldPattern = new RegExp(`^\\s*${fieldName}\\??\\s*:`, "m");
+    if (fieldPattern.test(typeBlock)) {
+      problems.push(`${typeName} exposes internal-only request field "${fieldName}".`);
+    }
+  }
+}
+
+for (const { file, typeName, fields } of forbiddenNestedRequestFields) {
+  const typeSource = fs.readFileSync(path.join(generatedTypesRoot, file), "utf8");
+  const typeBlock = extractTypeBlock(typeSource, typeName);
+  if (!typeBlock) {
+    problems.push(`Generated SDK type "${typeName}" was not found in ${file}.`);
+    continue;
+  }
+
+  for (const fieldName of fields) {
+    const fieldPattern = new RegExp(`^\\s*${fieldName}\\??\\s*:`, "m");
+    if (fieldPattern.test(typeBlock)) {
+      problems.push(`${typeName} exposes internal-only nested request field "${fieldName}".`);
+    }
+  }
+}
+
+for (const { file, typeName, pattern, description } of forbiddenRequestTypeReferences) {
+  const typeSource = fs.readFileSync(path.join(generatedTypesRoot, file), "utf8");
+  const typeBlock = extractTypeBlock(typeSource, typeName);
+  if (!typeBlock) {
+    problems.push(`Generated SDK type "${typeName}" was not found in ${file}.`);
+    continue;
+  }
+  if (pattern.test(typeBlock)) {
+    problems.push(description);
+  }
+}
+
 if (problems.length > 0) {
   console.error("Public contract validation failed:");
   for (const problem of problems) {
@@ -375,3 +489,10 @@ if (problems.length > 0) {
 }
 
 console.log("Public contract validation passed.");
+
+function extractTypeBlock(source, typeName) {
+  const match = source.match(
+    new RegExp(`export type ${typeName} = \\{([\\s\\S]*?)\\n\\};`)
+  );
+  return match?.[1] ?? null;
+}

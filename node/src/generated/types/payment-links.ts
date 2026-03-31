@@ -2,7 +2,7 @@
 
 import type { Money, SortDirection } from "./common";
 
-import type { CouponConfig, CustomTextConfig, CustomerConfig, ExpirationConfig, LegalConfig, PaymentConfig, Redirects, TaxConfig, Theme, TipConfig } from "./checkout-sessions";
+import type { CouponConfig, CustomTextConfig, CustomTextConfigInput, CustomerConfig, ExpirationConfig, LegalConfig, PaymentConfig, Redirects, TaxConfig, Theme, TipConfig } from "./checkout-sessions";
 
 // ============================================================================
 // Enums
@@ -170,7 +170,7 @@ export type PaymentLinkCreateParams = {
   tax?: TaxConfig;
   legal?: LegalConfig;
   expiration?: ExpirationConfig;
-  customText?: CustomTextConfig;
+  customText?: CustomTextConfigInput;
   coupon?: CouponConfig;
   redirects?: Redirects;
   maxCompletions?: number;
@@ -210,7 +210,7 @@ export type PaymentLinkUpdateParams = {
   tax?: TaxConfig;
   legal?: LegalConfig;
   expiration?: ExpirationConfig;
-  customText?: CustomTextConfig;
+  customText?: CustomTextConfigInput;
   coupon?: CouponConfig;
   redirects?: Redirects;
   maxCompletions?: number;

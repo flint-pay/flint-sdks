@@ -162,7 +162,6 @@ export class ApiKeyService extends BaseService {
       {
         name: params.name,
         scopes: params.scopes.map(toProtoApiScope),
-        keyType: params.keyType ? API_KEY_TYPE_TO_PROTO[params.keyType] : undefined,
         idempotencyKey: this.ensureIdempotencyKey(params.idempotencyKey),
       }
     );

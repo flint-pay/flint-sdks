@@ -88,38 +88,28 @@ export class WebhookEndpointService extends BaseService {
   private async fetchPage(params: WebhookEndpointListParams, pageToken?: string) {
     const res = await this.rpc<
       Record<string, unknown>,
-      { webhookEndpoints?: Raw[] }
-    >(SERVICE, "ListWebhookEndpoints", {});
+      { webhookEndpoints?: Raw[]; nextPageToken?: string }
+    >(SERVICE, "ListWebhookEndpoints", {
+      pageSize: params.limit,
+      pageToken: pageToken ?? params.pageToken,
+    });
 
-    const pageSize = params.limit ?? 20;
-    const offset = Number(pageToken ?? params.pageToken ?? "0");
-    const endpoints = (res.webhookEndpoints ?? []).map(fromRawWebhookEndpoint);
-    const page = endpoints.slice(offset, offset + pageSize);
-    const nextPageToken = offset + page.length < endpoints.length ? String(offset + page.length) : undefined;
-
-    return this.toPage(
-      page,
-      nextPageToken
-    );
+    return this.toPage((res.webhookEndpoints ?? []).map(fromRawWebhookEndpoint), res.nextPageToken);
   }
 
   private async fetchEventPage(params: WebhookEventListParams, pageToken?: string) {
-    const limit = params.limit ?? 20;
-    const offset = Number(pageToken ?? params.pageToken ?? "0");
     const res = await this.rpc<
       Record<string, unknown>,
-      { webhookEvents?: Raw[] }
+      { webhookEvents?: Raw[]; nextPageToken?: string }
     >(SERVICE, "ListWebhookEvents", {
       webhookEndpointId: params.webhookEndpointId,
       eventType: params.eventType,
-      limit,
-      offset,
+      pageSize: params.limit,
+      pageToken: pageToken ?? params.pageToken,
     });
 
     const events = (res.webhookEvents ?? []).map(fromRawWebhookEvent);
-    const nextPageToken = events.length === limit ? String(offset + events.length) : undefined;
-
-    return this.toPage(events, nextPageToken);
+    return this.toPage(events, res.nextPageToken);
   }
 }
 

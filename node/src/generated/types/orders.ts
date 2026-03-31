@@ -301,8 +301,6 @@ export type OrderCreateParams = {
   customerId?: string;
   buyerNote?: string;
   merchantNote?: string;
-  source?: Source;
-  subscriptionId?: string;
 };
 
 export type OrderUpdateParams = {

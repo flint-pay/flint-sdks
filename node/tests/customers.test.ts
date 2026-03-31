@@ -53,23 +53,23 @@ describe("CustomerService", () => {
     expect(customer.createdAt).toBeInstanceOf(Date);
   });
 
-  it("should get a customer by email", async () => {
+  it("should list customers with an email filter", async () => {
     fetchSpy.mockResolvedValueOnce(
-      new Response(JSON.stringify({ customer: MOCK_CUSTOMER }), { status: 200 })
+      new Response(JSON.stringify({ data: [MOCK_CUSTOMER] }), { status: 200 })
     );
 
-    const customer = await flint.customers.getByEmail("jane@example.com");
+    const page = await flint.customers.list({ email: "jane@example.com" });
+    const customer = page.data[0]!;
     expect(customer.email).toBe("jane@example.com");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("GetCustomerByEmail");
+    expect(url).toContain("/v1/customers");
+    expect(url).toContain("email=jane%40example.com");
   });
 
   it("should update a customer", async () => {
     const updated = { ...MOCK_CUSTOMER, name: "Jane Smith" };
-    fetchSpy.mockResolvedValueOnce(
-      new Response(JSON.stringify({ customer: updated }), { status: 200 })
-    );
+    fetchSpy.mockResolvedValueOnce(new Response(JSON.stringify({ data: updated }), { status: 200 }));
 
     const customer = await flint.customers.update("cus_01ABCDEFGHIJKLMNOPQRSTUV", {
       name: "Jane Smith",

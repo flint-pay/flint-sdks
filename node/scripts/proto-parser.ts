@@ -32,6 +32,7 @@ export type ProtoField = {
   mapValueType?: string;
   isOutputOnly: boolean;
   isInternal: boolean;
+  isWriteInternal: boolean;
   isServiceOnly: boolean;
 };
 
@@ -337,6 +338,7 @@ function parseFieldLine(line: string): ProtoField | null {
       mapValueType: mapMatch[2],
       isOutputOnly: isOutputOnly(line),
       isInternal: isInternal(line),
+      isWriteInternal: isWriteInternal(line),
       isServiceOnly: isServiceOnlyWrite(line),
     };
   }
@@ -355,6 +357,7 @@ function parseFieldLine(line: string): ProtoField | null {
       repeated: modifier === "repeated",
       isOutputOnly: isOutputOnly(line),
       isInternal: isInternal(line),
+      isWriteInternal: isWriteInternal(line),
       isServiceOnly: isServiceOnlyWrite(line),
     };
   }
@@ -370,8 +373,11 @@ function isOutputOnly(line: string): boolean {
 }
 
 function isInternal(line: string): boolean {
-  // Both read and write are internal
   return /read:\s*ACCESS_LEVEL_INTERNAL/.test(line);
+}
+
+function isWriteInternal(line: string): boolean {
+  return /write:\s*ACCESS_LEVEL_INTERNAL/.test(line);
 }
 
 function isServiceOnlyWrite(line: string): boolean {

@@ -49,8 +49,8 @@ describe("SubscriptionService", () => {
     expect(sub.createdAt).toBeInstanceOf(Date);
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.planId).toBe("plan_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.idempotencyKey).toBe("sub-test-1");
+    expect(body.plan_id).toBe("plan_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(fetchSpy.mock.calls[0]![1].headers["Idempotency-Key"]).toBe("sub-test-1");
   });
 
   it("should get a subscription", async () => {
@@ -72,7 +72,7 @@ describe("SubscriptionService", () => {
     expect(sub.cancelAtPeriodEnd).toBe(true);
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CancelSubscription");
+    expect(url).toContain("/v1/subscriptions/sub_01ABCDEFGHIJKLMNOPQRSTUV/cancel");
   });
 
   it("should cancel a subscription immediately", async () => {
@@ -86,7 +86,7 @@ describe("SubscriptionService", () => {
     });
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.cancelImmediately).toBe(true);
+    expect(body.cancel_immediately).toBe(true);
   });
 
   it("should pause a subscription", async () => {
@@ -98,7 +98,7 @@ describe("SubscriptionService", () => {
     await flint.subscriptions.pause("sub_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("PauseSubscription");
+    expect(url).toContain("/v1/subscriptions/sub_01ABCDEFGHIJKLMNOPQRSTUV/pause");
   });
 
   it("should resume a subscription", async () => {
@@ -109,7 +109,7 @@ describe("SubscriptionService", () => {
     await flint.subscriptions.resume("sub_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ResumeSubscription");
+    expect(url).toContain("/v1/subscriptions/sub_01ABCDEFGHIJKLMNOPQRSTUV/resume");
   });
 
   it("should list subscriptions", async () => {

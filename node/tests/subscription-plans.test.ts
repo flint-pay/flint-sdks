@@ -53,7 +53,7 @@ describe("SubscriptionPlanService", () => {
     expect(plan.createdAt).toBeInstanceOf(Date);
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CreateSubscriptionPlan");
+    expect(url).toContain("/v1/subscription-plans");
   });
 
   it("should get a subscription plan", async () => {
@@ -64,8 +64,9 @@ describe("SubscriptionPlanService", () => {
     const plan = await flint.subscriptionPlans.get("plan_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(plan.planId).toBe("plan_01ABCDEFGHIJKLMNOPQRSTUV");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.planId).toBe("plan_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/subscription-plans/plan_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(options.body).toBeUndefined();
   });
 
   it("should update a subscription plan", async () => {
@@ -94,13 +95,14 @@ describe("SubscriptionPlanService", () => {
     expect(plan.planId).toBe("plan_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ArchiveSubscriptionPlan");
+    expect(url).toContain("/v1/subscription-plans/plan_01ABCDEFGHIJKLMNOPQRSTUV/archive");
   });
 
   it("should list subscription plans", async () => {
     fetchSpy.mockResolvedValueOnce(
       new Response(
         JSON.stringify({ subscriptionPlans: [MOCK_PLAN], nextPageToken: "" }),
+        
         { status: 200 }
       )
     );

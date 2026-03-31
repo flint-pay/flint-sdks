@@ -57,13 +57,13 @@ export class CouponService extends BaseService {
     return fromRawCoupon(res.coupon);
   }
 
-  async getByCode(code: string): Promise<Coupon> {
-    const res = await this.rpc<Record<string, unknown>, { coupon: Raw }>(
+  async getByCode(couponCode: string): Promise<Coupon | null> {
+    const res = await this.rpc<Record<string, unknown>, { coupon?: Raw }>(
       SERVICE,
       "GetCouponByCode",
-      { couponCode: code }
+      { couponCode }
     );
-    return fromRawCoupon(res.coupon);
+    return res.coupon ? fromRawCoupon(res.coupon) : null;
   }
 
   async update(couponId: string, params: CouponUpdateParams): Promise<Coupon> {

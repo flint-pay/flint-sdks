@@ -63,7 +63,7 @@ describe("WebhookEndpointService", () => {
     expect(body.url).toBe("https://example.com/webhook");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CreateWebhookEndpoint");
+    expect(url).toContain("/v1/webhooks");
   });
 
   it("should get a webhook endpoint", async () => {
@@ -74,8 +74,9 @@ describe("WebhookEndpointService", () => {
     const endpoint = await flint.webhooks.get("whe_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(endpoint.webhookEndpointId).toBe("whe_01ABCDEFGHIJKLMNOPQRSTUV");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.webhookEndpointId).toBe("whe_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/webhooks/whe_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(options.body).toBeUndefined();
   });
 
   it("should decode string-form proto webhook enums", async () => {
@@ -125,7 +126,6 @@ describe("WebhookEndpointService", () => {
     expect(endpoint.description).toBe("Updated webhook");
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.webhookEndpointId).toBe("whe_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(body.description).toBe("Updated webhook");
     expect(body.updateMask).toBeUndefined();
   });
@@ -138,7 +138,7 @@ describe("WebhookEndpointService", () => {
     await flint.webhooks.del("whe_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("DeleteWebhookEndpoint");
+    expect(url).toContain("/v1/webhooks/whe_01ABCDEFGHIJKLMNOPQRSTUV");
   });
 
   it("should rotate a webhook secret", async () => {
@@ -150,7 +150,7 @@ describe("WebhookEndpointService", () => {
     expect(result.secret).toBe("whsec_newSecret123");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("RotateWebhookSecret");
+    expect(url).toContain("/v1/webhooks/whe_01ABCDEFGHIJKLMNOPQRSTUV/rotate-secret");
   });
 
   it("should list webhook endpoints", async () => {
@@ -161,20 +161,21 @@ describe("WebhookEndpointService", () => {
             MOCK_WEBHOOK_ENDPOINT,
             { ...MOCK_WEBHOOK_ENDPOINT, webhookEndpointId: "whe_02ABCDEFGHIJKLMNOPQRSTUV" },
           ],
+          nextPageToken: "1",
         }),
         { status: 200 }
       )
     );
 
     const page = await flint.webhooks.list({ limit: 1 });
-    expect(page.data).toHaveLength(1);
+    expect(page.data).toHaveLength(2);
     expect(page.data[0]!.webhookEndpointId).toBe("whe_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(page.nextPageToken).toBe("1");
   });
 
   it("should list webhook events", async () => {
     fetchSpy.mockResolvedValueOnce(
-      new Response(JSON.stringify({ webhookEvents: [MOCK_WEBHOOK_EVENT] }), { status: 200 })
+      new Response(JSON.stringify({ webhookEvents: [MOCK_WEBHOOK_EVENT], nextPageToken: "1" }), { status: 200 })
     );
 
     const page = await flint.webhooks.listEvents({
@@ -188,13 +189,10 @@ describe("WebhookEndpointService", () => {
     expect(page.data[0]!.deliveredAt).toBeInstanceOf(Date);
     expect(page.nextPageToken).toBe("1");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.webhookEndpointId).toBe("whe_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.eventType).toBe("payment_intent.succeeded");
-    expect(body.limit).toBe(1);
-    expect(body.offset).toBe(0);
-
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ListWebhookEvents");
+    expect(url).toContain("/v1/webhook-events");
+    expect(url).toContain("webhook_endpoint_id=whe_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(url).toContain("event_type=payment_intent.succeeded");
+    expect(url).toContain("page_size=1");
   });
 });

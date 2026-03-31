@@ -85,15 +85,16 @@ describe("OrderService", () => {
     // Verify the request
     expect(fetchSpy).toHaveBeenCalledOnce();
     const [url, options] = fetchSpy.mock.calls[0]!;
-    expect(url).toBe("http://localhost:8080/flint.v1.commerce.OrderService/CreateOrder");
+    expect(url).toBe("http://localhost:8080/v1/orders");
     expect(options.method).toBe("POST");
     expect(options.headers["Authorization"]).toBe("Bearer flint_test_123");
     expect(options.headers["Content-Type"]).toBe("application/json");
+    expect(options.headers["Idempotency-Key"]).toBeDefined();
 
     const body = JSON.parse(options.body);
-    expect(body.lineItems).toHaveLength(1);
-    expect(body.lineItems[0].name).toBe("Coffee");
-    expect(body.idempotencyKey).toBeDefined(); // Auto-generated
+    expect(body.line_items).toHaveLength(1);
+    expect(body.line_items[0].name).toBe("Coffee");
+    expect(body.idempotencyKey).toBeUndefined();
   });
 
   it("should get an order", async () => {
@@ -107,7 +108,7 @@ describe("OrderService", () => {
     expect(order.status).toBe("open");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toBe("http://localhost:8080/flint.v1.commerce.OrderService/GetOrder");
+    expect(url).toBe("http://localhost:8080/v1/orders/ord_01ABCDEFGHIJKLMNOPQRSTUV");
   });
 
   it("should list orders with auto-pagination", async () => {
@@ -203,7 +204,7 @@ describe("OrderService", () => {
     });
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.couponCode).toBe("SUMMER25");
+    expect(body.coupon_code).toBe("SUMMER25");
   });
 
   it("should add tips", async () => {

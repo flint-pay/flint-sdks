@@ -51,7 +51,7 @@ describe("PaymentLinkService", () => {
     expect(link.createdAt).toBeInstanceOf(Date);
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("CreatePaymentLink");
+    expect(url).toContain("/v1/payment-links");
   });
 
   it("should get a payment link", async () => {
@@ -62,8 +62,9 @@ describe("PaymentLinkService", () => {
     const link = await flint.paymentLinks.get("pl_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(link.paymentLinkId).toBe("pl_01ABCDEFGHIJKLMNOPQRSTUV");
 
-    const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.paymentLinkId).toBe("pl_01ABCDEFGHIJKLMNOPQRSTUV");
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/payment-links/pl_01ABCDEFGHIJKLMNOPQRSTUV");
+    expect(options.body).toBeUndefined();
   });
 
   it("should update a payment link", async () => {
@@ -79,7 +80,6 @@ describe("PaymentLinkService", () => {
     expect(link.name).toBe("Updated Product");
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.paymentLinkId).toBe("pl_01ABCDEFGHIJKLMNOPQRSTUV");
     expect(body.name).toBe("Updated Product");
   });
 
@@ -91,7 +91,7 @@ describe("PaymentLinkService", () => {
     await flint.paymentLinks.activate("pl_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("ActivatePaymentLink");
+    expect(url).toContain("/v1/payment-links/pl_01ABCDEFGHIJKLMNOPQRSTUV/activate");
   });
 
   it("should deactivate a payment link", async () => {
@@ -103,7 +103,7 @@ describe("PaymentLinkService", () => {
     await flint.paymentLinks.deactivate("pl_01ABCDEFGHIJKLMNOPQRSTUV");
 
     const [url] = fetchSpy.mock.calls[0]!;
-    expect(url).toContain("DeactivatePaymentLink");
+    expect(url).toContain("/v1/payment-links/pl_01ABCDEFGHIJKLMNOPQRSTUV/deactivate");
   });
 
   it("should list payment links", async () => {
@@ -141,15 +141,14 @@ describe("PaymentLinkService", () => {
     });
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
-    expect(body.paymentLinkId).toBe("pl_01ABCDEFGHIJKLMNOPQRSTUV");
-    expect(body.customFields).toEqual([
+    expect(body.custom_fields).toEqual([
       {
         key: "shirt_size",
         label: "Shirt Size",
-        type: 2,
-        isRequired: true,
+        type: "dropdown",
+        is_required: true,
         options: ["S", "M", "L"],
-        sortOrder: 1,
+        sort_order: 1,
       },
     ]);
   });

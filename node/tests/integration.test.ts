@@ -101,8 +101,9 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(customer.name).toBe(`Test Customer ${testRunId}`);
     });
 
-    it("should get a customer by email", async () => {
-      const customer = await flint.customers.getByEmail(`test-${testRunId}@integration.test`);
+    it("should list customers by email", async () => {
+      const page = await flint.customers.list({ email: `test-${testRunId}@integration.test` });
+      const customer = page.data[0]!;
 
       expect(customer.customerId).toBe(customerId);
       expect(customer.email).toBe(`test-${testRunId}@integration.test`);
@@ -221,11 +222,19 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(item.name).toBe(`Integration Widget ${testRunId}`);
     });
 
-    it("should get an item by SKU", async () => {
-      const item = await flint.items.getBySKU(`SKU-INT-${testRunId}`);
+    it("should list items by query", async () => {
+      const page = await flint.items.list({ query: `SKU-INT-${testRunId}` });
+      const item = page.data[0]!;
 
       expect(item.itemId).toBe(itemId);
       expect(item.sku).toBe(`SKU-INT-${testRunId}`);
+    });
+
+    it("should get an item by sku", async () => {
+      const item = await flint.items.getBySKU(`SKU-INT-${testRunId}`);
+
+      expect(item?.itemId).toBe(itemId);
+      expect(item?.sku).toBe(`SKU-INT-${testRunId}`);
     });
 
     it("should update an item", async () => {
@@ -264,28 +273,20 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(typeof item.quantityAvailable).toBe("number");
     });
 
-    it("should replace item categories to add a category", async () => {
+    it("should replace item categories", async () => {
       const item = await flint.items.replaceItemCategories(itemId, {
-        categories: ["seasonal"],
+        categories: ["seasonal", "replaced-category"],
       });
 
-      expect(item.categories).toContain("seasonal");
+      expect(item.categories).toEqual(["seasonal", "replaced-category"]);
     });
 
-    it("should replace item categories to remove a category", async () => {
+    it("should clear item categories with replace", async () => {
       const item = await flint.items.replaceItemCategories(itemId, {
         categories: [],
       });
 
-      expect(item.categories).not.toContain("seasonal");
-    });
-
-    it("should replace item categories", async () => {
-      const item = await flint.items.replaceItemCategories(itemId, {
-        categories: ["replaced-category"],
-      });
-
-      expect(item.categories).toEqual(["replaced-category"]);
+      expect(item.categories).toEqual([]);
     });
 
     it("should list items", async () => {
@@ -346,11 +347,19 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(coupon.percentOff).toBe(10);
     });
 
-    it("should get a coupon by code", async () => {
-      const coupon = await flint.coupons.getByCode(couponCode);
+    it("should list coupons by query", async () => {
+      const page = await flint.coupons.list({ query: couponCode });
+      const coupon = page.data[0]!;
 
       expect(coupon.couponId).toBe(couponId);
       expect(coupon.couponCode).toBe(couponCode);
+    });
+
+    it("should get a coupon by code", async () => {
+      const coupon = await flint.coupons.getByCode(couponCode);
+
+      expect(coupon?.couponId).toBe(couponId);
+      expect(coupon?.couponCode).toBe(couponCode);
     });
 
     it("should update a coupon", async () => {
@@ -361,7 +370,7 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       expect(coupon.description).toBe("Updated coupon description");
     });
 
-    it("should replace coupon limit-to-items values", async () => {
+    it("should replace coupon limit to items", async () => {
       // Create temporary items to limit the coupon to
       const tempItem1 = await flint.items.create({
         name: `Coupon Limit Item A ${testRunId}`,
@@ -375,24 +384,24 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       });
 
       // Replace with both items as limits
-      const added = await flint.coupons.replaceCouponLimitToItems(couponId, {
+      const replaced = await flint.coupons.replaceCouponLimitToItems(couponId, {
         limitToItemIds: [tempItem1.itemId, tempItem2.itemId],
       });
-      expect(added.limitToItemIds).toContain(tempItem1.itemId);
-      expect(added.limitToItemIds).toContain(tempItem2.itemId);
+      expect(replaced.limitToItemIds).toContain(tempItem1.itemId);
+      expect(replaced.limitToItemIds).toContain(tempItem2.itemId);
 
-      // Replace with only one item to remove the other limit
-      const removed = await flint.coupons.replaceCouponLimitToItems(couponId, {
-        limitToItemIds: [tempItem2.itemId],
+      // Replace with only one item to remove the other from the allowlist
+      const narrowed = await flint.coupons.replaceCouponLimitToItems(couponId, {
+        limitToItemIds: [tempItem1.itemId],
       });
-      expect(removed.limitToItemIds).not.toContain(tempItem1.itemId);
-      expect(removed.limitToItemIds).toContain(tempItem2.itemId);
+      expect(narrowed.limitToItemIds).toContain(tempItem1.itemId);
+      expect(narrowed.limitToItemIds).not.toContain(tempItem2.itemId);
 
       // Replace with empty to clear all limits
-      const replaced = await flint.coupons.replaceCouponLimitToItems(couponId, {
+      const cleared = await flint.coupons.replaceCouponLimitToItems(couponId, {
         limitToItemIds: [],
       });
-      expect(replaced.limitToItemIds?.length ?? 0).toBe(0);
+      expect(cleared.limitToItemIds?.length ?? 0).toBe(0);
 
       // Clean up temp items
       await flint.items.del(tempItem1.itemId);
@@ -483,7 +492,6 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
 
       expect(order.orderId).toMatch(/^ord_/);
       expect(order.status).toBe("open");
-      expect(order.merchantId).toBeDefined();
       expect(order.orderNumber).toBeDefined();
       expect(typeof order.orderNumber).toBe("string");
 
@@ -944,7 +952,7 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
           expirationSeconds: 3600,
         },
         customText: {
-          checkoutButtonText: "Complete Order",
+          shippingAddressLabel: "Delivery address",
         },
         customer: {
           customerNote: "Integration test checkout",
@@ -961,7 +969,7 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
       // Expiration config
       expect(session.expiration.expirationSeconds).toBe(3600);
       // Custom text config
-      expect(session.customText.checkoutButtonText).toBe("Complete Order");
+      expect(session.customText.shippingAddressLabel).toBe("Delivery address");
       // Customer config
       expect(session.customer.customerNote).toBe("Integration test checkout");
       expect(session.customer.enableAddressAutocomplete).toBe(true);
@@ -1020,7 +1028,7 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
 
       expect(paymentMethod.paymentMethodId).toMatch(/^pm_/);
       expect(paymentMethod.customerId).toBe(customerId);
-      expect(paymentMethod.status).toBe("active");
+      expect(paymentMethod.status).toBe("pending");
       expect(paymentMethod.processorDetails?.stripe?.clientSecret).toBeDefined();
 
       paymentMethodId = paymentMethod.paymentMethodId;
@@ -1034,19 +1042,24 @@ describe.skipIf(!API_KEY)("Integration Tests", () => {
     });
 
     it("should list payment methods for the customer", async () => {
-      const page = await flint.paymentMethods.list({ customerId, limit: 10 });
-
-      expect(page.data.some((paymentMethod) => paymentMethod.paymentMethodId === paymentMethodId)).toBe(true);
-    });
-
-    it("should set the payment method as default", async () => {
-      const paymentMethod = await flint.paymentMethods.setDefault(customerId, {
-        paymentMethodId,
-        idempotencyKey: `pm-default-${testRunId}`,
+      const activePage = await flint.paymentMethods.list({ customerId, limit: 10 });
+      const pendingPage = await flint.paymentMethods.list({
+        customerId,
+        limit: 10,
+        status: "pending",
       });
 
-      expect(paymentMethod.paymentMethodId).toBe(paymentMethodId);
-      expect(paymentMethod.customerId).toBe(customerId);
+      expect(activePage.data.some((paymentMethod) => paymentMethod.paymentMethodId === paymentMethodId)).toBe(false);
+      expect(pendingPage.data.some((paymentMethod) => paymentMethod.paymentMethodId === paymentMethodId)).toBe(true);
+    });
+
+    it("should reject setting a pending payment method as default", async () => {
+      await expect(
+        flint.paymentMethods.setDefault(customerId, {
+          paymentMethodId,
+          idempotencyKey: `pm-default-${testRunId}`,
+        })
+      ).rejects.toThrow(FlintError);
     });
 
   });

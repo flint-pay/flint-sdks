@@ -61,13 +61,13 @@ export class ItemService extends BaseService {
     return fromRawItem(res.item);
   }
 
-  async getBySKU(sKU: string): Promise<Item> {
-    const res = await this.rpc<Record<string, unknown>, { item: Raw }>(
+  async getBySKU(sku: string): Promise<Item | null> {
+    const res = await this.rpc<Record<string, unknown>, { item?: Raw }>(
       SERVICE,
       "GetItemBySKU",
-      { sku: sKU }
+      { sku }
     );
-    return fromRawItem(res.item);
+    return res.item ? fromRawItem(res.item) : null;
   }
 
   async update(itemId: string, params: ItemUpdateParams): Promise<Item> {

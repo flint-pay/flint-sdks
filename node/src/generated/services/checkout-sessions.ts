@@ -47,7 +47,6 @@ export class CheckoutSessionService extends BaseService {
       {
         quickPay: params.quickPay,
         orderId: params.orderId,
-        invoiceId: params.invoiceId,
         planId: params.planId,
         theme: params.theme,
         payments: params.payments,
@@ -60,9 +59,7 @@ export class CheckoutSessionService extends BaseService {
         legal: params.legal,
         expiration: params.expiration,
         customText: params.customText,
-        source: params.source ? SOURCE_TO_PROTO[params.source] : undefined,
         coupon: params.coupon,
-        paymentLinkId: params.paymentLinkId,
         idempotencyKey: this.ensureIdempotencyKey(params.idempotencyKey),
       }
     );

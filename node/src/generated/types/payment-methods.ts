@@ -9,18 +9,24 @@ import type { CardBrand, DigitalWallet, PaymentMethodType, ProcessorDetails } fr
 export type PaymentMethodStatus =
   | "active"
   | "expired"
-  | "removed";
+  | "removed"
+  | "pending"
+  | "failed";
 
 export const PAYMENT_METHOD_STATUS_MAP: Record<number, PaymentMethodStatus> = {
   1: "active",
   2: "expired",
   3: "removed",
+  4: "pending",
+  5: "failed",
 };
 
 export const PAYMENT_METHOD_STATUS_TO_PROTO: Record<string, number> = {
   "active": 1,
   "expired": 2,
   "removed": 3,
+  "pending": 4,
+  "failed": 5,
 };
 
 // ============================================================================

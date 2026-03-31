@@ -46,8 +46,9 @@ describe("AnalyticsService", () => {
     expect(overview.range).toBe("last_30_days");
     expect(overview.grossVolume.currentMoney.amount).toBe(1000);
 
-    const [, options] = fetchSpy.mock.calls[0]!;
-    const body = JSON.parse(options.body);
-    expect(body.range).toBe(3);
+    const [url, options] = fetchSpy.mock.calls[0]!;
+    expect(url).toContain("/v1/analytics/overview");
+    expect(url).toContain("range=last_30_days");
+    expect(options.body).toBeUndefined();
   });
 });

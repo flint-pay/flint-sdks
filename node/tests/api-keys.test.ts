@@ -51,7 +51,7 @@ describe("ApiKeyService", () => {
 
     const body = JSON.parse(fetchSpy.mock.calls[0]![1].body);
     expect(body.name).toBe("Production Backend");
-    expect(body.scopes).toEqual([18, 19]);
-    expect(body.keyType).toBe(2);
+    expect(body.scopes).toEqual(["commerce.orders.read", "commerce.orders.write"]);
+    expect(body.keyType).toBeUndefined();
   });
 });

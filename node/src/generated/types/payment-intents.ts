@@ -225,14 +225,11 @@ export type PaymentIntentCreateParams = {
   paymentSourceToken?: string;
   externalReferenceId?: string;
   orderId?: string;
-  invoiceId?: string;
   customerId?: string;
   metadata?: Record<string, string>;
   autoConfirm?: boolean;
   paymentMethodTypes?: PaymentMethodType[];
   digitalWallets?: DigitalWallet[];
-  source?: Source;
-  checkoutSessionId?: string;
   receiptEmail?: string;
   tipMoney?: Money;
   paymentMethodId?: string;
