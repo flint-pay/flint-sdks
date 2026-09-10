@@ -1,0 +1,8 @@
+import { Client, EventStream } from '@flintpay/node';
+const client = new Client({ baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid', allowInsecureHttp: process.env.API_ALLOW_INSECURE_HTTP === '1', authMode: "merchant", credentials: { ["merchant"]: { ["BearerAuth"]: process.env.API_MERCHANT_BEARERAUTH ?? '' } } });
+const result = await client.api.streamWebhookEvents({}, { maxAttempts: 1 });
+console.log(result.meta.requestId);
+if (result.data instanceof EventStream) {
+  for await (const event of result.data) { console.log(event.event, event.id, event.data); break; }
+}
+await client.close();

@@ -1,0 +1,19 @@
+{
+  "name": "@flintpay/sdk-workspace",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "setup": "node scripts/sdk.mjs setup",
+    "diagnose": "node scripts/sdk.mjs diagnose",
+    "preview": "node scripts/sdk.mjs preview",
+    "generate": "node scripts/sdk.mjs generate",
+    "check": "node scripts/sdk.mjs check",
+    "validate": "node scripts/sdk.mjs validate",
+    "test": "node --test tests/*.test.mjs",
+    "release:prepare": "node scripts/sdk.mjs release",
+    "release:publish": "node scripts/sdk.mjs publish"
+  }
+}

@@ -1,0 +1,62 @@
+name: Publish SDKs
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+concurrency:
+  group: sdk-release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Verify release tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          node --input-type=module -e 'import fs from "node:fs"; const p=JSON.parse(fs.readFileSync("spec/profiles/full-common-sdk.json")); if (process.env.RELEASE_TAG !== "v" + p.version) throw new Error("Tag must match SDK version");'
+          git merge-base --is-ancestor HEAD origin/main
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org
+      - name: Verify npm supports trusted publishing
+        run: |
+          node --version
+          npm --version
+          node --input-type=module -e 'import { execFileSync } from "node:child_process"; const [major, minor, patch] = execFileSync("npm", ["--version"], { encoding: "utf8" }).trim().split(".").map(Number); if (!(major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1))))) throw new Error("Trusted publishing requires npm >=11.5.1");'
+      - uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
+        with:
+          php-version: "8.2"
+          extensions: curl, json, zip
+          tools: composer:v2
+          coverage: none
+      - run: npm run setup
+      - run: npm run release:prepare
+      - name: Install and test the prepared archives
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: FLINT_RELEASE_DIRECTORY="releases/${RELEASE_TAG#v}" npm test
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sdk-${{ github.ref_name }}
+          path: releases/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Publish npm archive
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          npm run release:publish -- "releases/$VERSION" --confirm-version "$VERSION"
+      # Packagist indexes this same repository's root composer.json and Git tag.
+      # Enable the Packagist GitHub integration once; no separate PHP repo is used.

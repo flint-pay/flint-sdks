@@ -1,0 +1,53 @@
+{
+  "archive": {
+    "exclude": [
+      "/.git",
+      "/.github",
+      "/.context",
+      "/.tools",
+      "/.generated",
+      "/.gitignore",
+      "/.gitattributes",
+      "/node",
+      "/node_modules",
+      "/vendor",
+      "/composer.lock",
+      "/php/vendor",
+      "/php/composer.lock",
+      "/spec",
+      "/scripts",
+      "/tests",
+      "/releases",
+      "/sdk.json",
+      "/sdk.lock.json",
+      "/sdk-files.json",
+      "/package.json",
+      "/package-lock.json",
+      "/RELEASING.md",
+      "/MIGRATION.md"
+    ]
+  },
+  "autoload": {
+    "classmap": [
+      "php/custom/"
+    ],
+    "files": [
+      "php/src/Runtime.php",
+      "php/src/Client.php"
+    ]
+  },
+  "description": "Flint Public API server SDK",
+  "license": "Apache-2.0",
+  "name": "flintpay/flint",
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*",
+    "php": ">=8.2"
+  },
+  "type": "library",
+  "homepage": "https://developers.withflintpay.com",
+  "support": {
+    "issues": "https://github.com/flint-pay/flint-sdks/issues",
+    "source": "https://github.com/flint-pay/flint-sdks"
+  }
+}

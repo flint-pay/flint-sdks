@@ -1,206 +1,43 @@
-# `@flintpay/node`
+# Flint Public API SDK (node)
 
-Official Node.js and TypeScript SDK for Flint's public API.
+Package 0.2.0-beta.1; generated for API 2026-09-07.
 
-## Install
+Requires Node.js 22+; TypeScript 5.9+. ESM JavaScript and declarations ship together.
 
-```bash
-npm install @flintpay/node
-```
+Install: `npm install @flintpay/node`
 
-Node `>=18` is required.
+Start with [the quickstart](examples/api-addOrderCharge.mjs). Set API_BASE_URL explicitly. Legacy authentication examples use API_TOKEN; composed-mode examples name each required API_MODE_SCHEME credential variable. Examples target a placeholder sandbox and make one attempt. Provider example values must match your sandbox. Run examples from the generated package: for Node use node examples/NAME.mjs; for PHP run composer install in the generated php/ directory, then php examples/NAME.php. When copying a PHP example into an application, point its require statement at that application's vendor/autoload.php.
 
-Use this SDK from your server, worker, or other trusted backend environment. Do not ship your Flint API key in browser or mobile client code.
+## Client and request options
 
-Create an API key in the [Flint dashboard](https://dashboard.withflintpay.com/settings/api-keys), then initialize the client:
+Construct a client with baseUrl and, for legacy authenticated operations, token. Composed clients accept authMode and credentials keyed by mode and scheme; requests can select a mode with request-local credentials. A combined scheme set must be complete. The SDK does not discover credentials or read environment variables; the operation example scripts read API_BASE_URL and their named credential variables explicitly. Pass per-request options as the second method argument: a plain object in Node, or RequestOptions in PHP. Defaults are timeoutMs: 10000 per attempt and deadlineMs: 30000 for the overall duration (not an absolute timestamp). Request values override client defaults. maxAttempts defaults to the operation's declared limit, or one when no retries are declared; overrides cannot exceed that limit. Request headers carry tenant context without shared mutable state.
 
-```ts
-import { Flint } from "@flintpay/node";
+Results expose data, meta and explicit raw response access. JSON raw values are text; PDF data/raw are Uint8Array in Node and binary-safe strings in PHP. SSE data is a closeable iterable carrying event names, IDs, decoded data and rawData. Node metadata uses properties; PHP metadata uses array keys. SdkError exposes kind, outcome, retryAllowed and optional metadata; provider codes use code in Node and errorCode in PHP. outcome is not_sent, response or unknown. Reconcile an unknown mutation outcome with the provider and the original persisted idempotency key before resubmitting.
 
-const flint = new Flint({
-  apiKey: process.env.FLINT_API_KEY!,
-});
-```
+## Behavior and ownership
 
-Set your API key with:
+Optional properties distinguish omission from null. PHP inputs use presence-aware typed input objects constructed from arrays: omit a key to omit it; include a key with null to clear only where permitted. PHP models expose presence through has()/get(); typed getters unwrap nested models and getters for omitted optional fields throw. In object/array alternatives, PHP lists (including []) represent JSON arrays; use (object) [] for an empty JSON object. Numeric enum inputs use exact strings for number/int64/uint64 schemas; membership compares exact values, so equivalent decimal/exponent spellings are accepted. Numeric anyOf branches merge equivalent values exactly and preserve the request token; oneOf still requires exactly one matching branch. Numeric conversions supported only by branches that stop matching fail validation before dispatch. Mutually dependent numeric alternatives use joint matching, limited to 256 combinations per value path; exceeding this limit fails validation. Large integers (int64) and decimals use exact strings, including numeric JSON wire values. When the provider enables explicit numeric unions, ambiguous numeric inputs use new ExactNumber("1.2500") and plain strings retain their JSON string meaning. Integer responses accept integral decimal/exponent notation without rounding. Sparse Node input arrays fail before dispatch. Timestamps remain strings. Unknown response fields, enum members, and tagged variants are retained. PHP response class names include status codes and, for tagged alternatives, branch positions. Adding a status can introduce a new return class even with an identical JSON shape; consult migration notes before upgrading class-based dispatch. Portable digit/word pattern escapes retain their ASCII ECMAScript meaning in both targets, including inside character classes. Full request encoding checks run locally; server business effects require provider tests.
 
-```bash
-FLINT_API_KEY=flint_...
-```
+Retries count total attempts, include jitter and Retry-After, and never exceed the declared policy. Persist an idempotency key across process restarts and submissions within the server's documented retention/scope. Automatic keys cover one SDK call only. Explicit keys from operation inputs, request headers or idempotencyKey are preserved; conflicting values fail before dispatch. A timeout after dispatch can leave the remote outcome unknown; inspect SdkError.outcome. Disable nested transport/application retries to avoid multiplied attempts. 409/412 are distinct conflicts and never automatically overwritten.
 
-## Quick Start
+Timeout is per attempt, including buffered body consumption. For SSE, timeout/deadline bound connection setup; streamIdleTimeoutMs controls idle reads and streamLifetimeMs optionally bounds stream lifetime. Close result.data or the client to release a stream; breaking iteration also closes it. Unknown event names retain raw strings. Reconnect and persist resume cursors explicitly; no yielded event is retried automatically. Deadline covers attempts and waits; pagination and polling share an overall deadline. Cancellation stops local work, not the remote operation. Node uses AbortSignal. PHP uses a Cancellation token checked during cURL progress and between waits; synchronous calls need an external signal handler to cancel while blocked. Pagination is lazy, supports maxPages/maxItems, and does not guarantee a stable snapshot or durable continuation. Generation rejects incompatible continuation/query representations, including an int64/uint64 continuation with an ordinary integer query parameter. Configured money helpers reject whitespace, including trailing newlines, and excess precision when converting exact major-unit strings to minor units.
 
-Amounts use minor currency units. For example, `500` USD means `$5.00`.
+Explicit allowedOrigins govern all destinations, including pagination. HTTPS is required unless allowInsecureHttp is set for local tests. Declared 302/307 responses return Location metadata without following redirects; undeclared redirects are rejected. Authentication is attached only after destination validation. API version headers are pinned when configured; changing them does not update generated types.
 
-```ts
-import { Flint } from "@flintpay/node";
+Clients perform no network I/O at import/construction. Node clients reuse the runtime's fetch connection pool; injected transports remain caller-owned and must honor AbortSignal and disable redirects/retries. PHP owns a reusable cURL handle, released by close()/destruction; a client supports sequential calls within one PHP execution context. Do not concurrently share a PHP client across threads/fibers. Node requests keep headers/context local and support concurrent calls. No SDK telemetry is sent. Requests use the media type selected by the provider profile. Schema validation counts encoded object properties, including explicit nulls, after optional-field omission. Requests identify the selected package name/version and runtime through an overridable User-Agent header.
 
-const flint = new Flint({
-  apiKey: process.env.FLINT_API_KEY!,
-});
+Diagnostics run once per attempted HTTP request, including transport failures, with operation, request ID, status, timing, attempt count and error kind only; hook failures are ignored. Bodies and credentials are excluded. Raw response text/headers and structured error details are privileged explicit access. Binary/stream result inspection omits raw headers and URLs; event inspection omits payloads. Node Model.toJSON() and PHP model accessors return defensive copies. To change an input, edit the Node toJSON() or PHP toInputArray()/toInputValue() copy and construct a new model; the PHP input exports preserve exact numeric kinds. Model debug printing redacts declared sensitive fields and additional field names supplied in ClientOptions.redactFields; printing arbitrary raw values is application responsibility. Injected transports are privileged and see credentials/bodies.
 
-const order = await flint.orders.create({
-  lineItems: [
-    {
-      name: "Coffee",
-      quantity: 1,
-      unitPriceMoney: { amount: 500, currency: "USD" },
-    },
-    {
-      name: "Blueberry Muffin",
-      quantity: 1,
-      unitPriceMoney: { amount: 425, currency: "USD" },
-    },
-  ],
-  buyerNote: "Pickup order",
-});
+## Schema helpers
 
-const paymentIntent = await flint.paymentIntents.create({
-  orderId: order.orderId,
-});
-```
+The package exports serialize(value, schema), new Model(value, schema), and redact(value, schema) for application-supplied schemas. These helpers use the package's local value execution rules and require no generator installation or schema registry service. Generated methods and factories use the codecs included in the package. For a null-only schema, use {"type":"null"}. The legacy form {"type":["null"]} also permits non-null values in Node; PHP rejects them.
 
-Verify the SDK can reach the API:
+## Package upgrades
 
-```ts
-const page = await flint.merchants.list({ limit: 1 });
+Review provider release notes before upgrading. Compatibility checks account for public declarations, required response values and PHP class identities. Complex schema changes can still require manual review.
 
-console.log(page.data[0]?.merchantId);
-```
+## Webhooks and recovery
 
-## Common Flows
+Verification uses the configured HMAC-SHA256 signature format, signed headers and original body bytes, with timestamp tolerance and overlapping secrets. Preserve raw request bytes; never verify reserialized JSON. Verification is not durable deduplication. In one database transaction, insert a unique provider event ID and durable work record before acknowledging. Workers should fetch authoritative current state for out-of-order events; commit business side effects idempotently. Unknown event types must not be treated as known success.
 
-### Create a Customer
-
-```ts
-const customer = await flint.customers.create({
-  name: "Ada Lovelace",
-  email: "ada@example.com",
-  phoneNumber: "+15551234567",
-});
-```
-
-### Create a Payment Link
-
-```ts
-const paymentLink = await flint.paymentLinks.create({
-  name: "Spring Merch Drop",
-  lineItems: [
-    {
-      key: "shirt",
-      name: "Limited Tee",
-      quantity: 1,
-      amountMoney: { amount: 3500, currency: "USD" },
-    },
-  ],
-});
-```
-
-### Create a Checkout Session
-
-```ts
-const session = await flint.checkoutSessions.create({
-  quickPay: {
-    lineItems: [
-      {
-        name: "Event Ticket",
-        quantity: 2,
-        unitPriceMoney: { amount: 2500, currency: "USD" },
-      },
-    ],
-  },
-});
-```
-
-### Create an Invoice
-
-```ts
-const invoice = await flint.invoices.create({
-  quickPay: {
-    lineItems: [
-      {
-        name: "Consulting",
-        quantity: 1,
-        unitPriceMoney: { amount: 25000, currency: "USD" },
-      },
-    ],
-  },
-  recipientEmail: "billing@example.com",
-  reference: "INV-2026-001",
-});
-
-const sent = await flint.invoices.send(invoice.invoiceId);
-```
-
-### Manage Webhooks
-
-```ts
-const endpoint = await flint.webhooks.create({
-  url: "https://example.com/flint/webhooks",
-  subscribedEvents: ["payment_intent.succeeded"],
-  description: "Production webhook endpoint",
-  enabled: true,
-});
-
-const rotated = await flint.webhooks.rotateWebhookSecret(
-  endpoint.webhookEndpointId
-);
-```
-
-## Pagination
-
-List endpoints return a `FlintList` that supports async iteration:
-
-```ts
-for await (const customer of flint.customers.list({ limit: 25 })) {
-  console.log(customer.customerId, customer.email);
-}
-```
-
-## Errors
-
-SDK requests throw `FlintError`:
-
-```ts
-import { FlintError } from "@flintpay/node";
-
-try {
-  await flint.orders.get("ord_does_not_exist");
-} catch (error) {
-  if (error instanceof FlintError) {
-    console.error(error.type, error.code, error.message);
-  }
-}
-```
-
-## Configuration
-
-```ts
-const flint = new Flint({
-  apiKey: process.env.FLINT_API_KEY!,
-  timeoutMs: 10_000,
-  maxRetries: 2,
-});
-```
-
-Defaults:
-
-- `baseUrl`: `https://api.withflintpay.com`
-- `timeoutMs`: `30000`
-- `maxRetries`: `2`
-
-## Docs
-
-- Package: https://www.npmjs.com/package/@flintpay/node
-- Dashboard: https://dashboard.withflintpay.com
-- Developer docs: https://developers.withflintpay.com
-- API reference: https://developers.withflintpay.com/docs/api
-
-## Development
-
-```bash
-pnpm build
-pnpm typecheck
-pnpm test
-pnpm test:contract
-```
+Custom helpers belong in custom/; they survive regeneration. Multi-call helpers are not atomic and must expose partial completion. See [reference](REFERENCE.md).
