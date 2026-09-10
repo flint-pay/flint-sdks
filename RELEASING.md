@@ -97,4 +97,14 @@ GitHub release artifacts expire according to the workflow's retention policy; Gi
 
 If local preparation says `releases/VERSION` already exists, preserve it. Move an unpublished preparation to an ignored backup location before rebuilding from the final committed source. Do not publish an older preparation made before a generator update.
 
+For an initial, unpublished release, an old local `.generated/sdk` record can also cause the SemVer gate to compare the release against an earlier draft with the same version. Keep that record for review and prepare from a fresh detached worktree, matching CI:
+
+```sh
+git worktree add --detach .context/release-check HEAD
+npm run setup --prefix .context/release-check
+npm run release:prepare --prefix .context/release-check
+```
+
+Use a new worktree path if that one already exists. This does not bypass published compatibility history: the scripts still reconstruct earlier release tags. For an already published version, bump the package version instead.
+
 For npm authentication failures, check the exact repository/workflow/environment fields, `id-token: write`, the npm CLI minimum, and direct publishing permission. `npm whoami` does not test OIDC; authentication happens during publication. If Packagist is missing the tag, check its hook status and trigger a manual update before retrying anything on npm.
