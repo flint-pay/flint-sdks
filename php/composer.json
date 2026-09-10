@@ -1,0 +1,29 @@
+{
+  "archive": {
+    "exclude": [
+      "/vendor",
+      "/composer.lock",
+      "/.git",
+      "/*.zip"
+    ]
+  },
+  "autoload": {
+    "classmap": [
+      "custom/"
+    ],
+    "files": [
+      "src/Runtime.php",
+      "src/Client.php"
+    ]
+  },
+  "description": "Flint Public API server SDK",
+  "license": "Apache-2.0",
+  "name": "flintpay/flint",
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*",
+    "php": ">=8.2"
+  },
+  "type": "library",
+  "version": "0.2.0-beta.1"
+}

@@ -1,0 +1,25 @@
+# GitHub/Packagist source archives only need the Composer package.
+/.context export-ignore
+/.github export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/.generated export-ignore
+/.tools export-ignore
+/node export-ignore
+/spec export-ignore
+/scripts export-ignore
+/tests export-ignore
+/sdk.json export-ignore
+/sdk.lock.json export-ignore
+/sdk-files.json export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/RELEASING.md export-ignore
+/MIGRATION.md export-ignore
+/node/** export-ignore
+/spec/** export-ignore
+/.generated/** export-ignore
+**/vendor export-ignore
+**/vendor/** export-ignore
+**/node_modules export-ignore
+**/node_modules/** export-ignore
