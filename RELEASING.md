@@ -75,6 +75,8 @@ composer show --all flintpay/flint 0.2.0-beta.1
 
 Confirm the workflow succeeded, npm's `next` points to the beta, and Packagist shows the expected version and source commit. Test installation from both registries in a fresh consumer. Stable releases use `latest`; prereleases use `next` and must be requested explicitly by Composer consumers.
 
+npm may report a successful publication while the package is still being processed. Registry lookups and installs can return `E404` or `ETARGET` for a few minutes. Wait for processing to finish and retry the lookup; do not republish or change the version solely because of this delay.
+
 ## Local preparation and manual npm publication
 
 ```sh
