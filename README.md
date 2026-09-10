@@ -11,7 +11,7 @@ This repository contains generated SDK distributions. **We do not accept pull re
 | Node.js / TypeScript | `npm install @flintpay/node@next`              | Node.js 22+; ESM; TypeScript 5.9+  |
 | PHP                  | `composer require flintpay/flint:0.2.0-beta.1` | PHP 8.2+, cURL and JSON extensions |
 
-These installation commands target the upcoming `0.2.0-beta.1` release. Generated files in this checkout do not mean that the packages have been published. The previous Node SDK is `0.1.0`; read [the migration guide](MIGRATION.md) before upgrading.
+These installation commands install the `0.2.0-beta.1` prerelease. The previous Node SDK is `0.1.0`; read [the migration guide](MIGRATION.md) before upgrading.
 
 ## Node.js
 
