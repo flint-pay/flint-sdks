@@ -542013,7 +542013,7 @@ const contract = {
     "toleranceSeconds": 300,
     "typeField": "event_type"
   },
-  "userAgent": "flintpay-node/0.2.0-beta.1 (Node.js)"
+  "userAgent": "flintpay-node/0.2.0-beta.2 (Node.js)"
 };
 export class Client {
   #runtime;

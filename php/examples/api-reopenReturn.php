@@ -2,8 +2,18 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, ApiReopenReturnInput};
-$client = new Client(new ClientOptions(baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid', authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']], allowInsecureHttp: getenv('API_ALLOW_INSECURE_HTTP') === '1'));
-$input = new ApiReopenReturnInput((array) json_decode('{"return_id":"example","body":{"reason":"linked_effect_changed"}}', false, 512, JSON_THROW_ON_ERROR));
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']],
+));
+$input = new ApiReopenReturnInput([
+  'return_id' => 'example',
+  'body' => (object) [
+    'reason' => 'linked_effect_changed',
+  ],
+]);
 $result = $client->api->reopenReturn($input, new RequestOptions(maxAttempts: 1));
-echo $result->meta['requestId'] ?? '';
+echo $result->data->data->order_id . PHP_EOL;
+echo $result->data->data->return_id . PHP_EOL;
+echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

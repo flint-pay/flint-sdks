@@ -6385,445 +6385,445 @@ export declare class Client {
     /**
  * Adds a service charge, fee, or surcharge to an order.
  * POST /v1/orders/{order_id}/charges
- * @example client.api.addOrderCharge({"order_id":"example","body":{"charge":{"name":"example","type":"service_fee","amount_money":{"amount":"0","currency":"USD"}}}})
+ * @example client.api.addOrderCharge({order_id: "example", body: {charge: {name: "example", type: "service_fee", amount_money: {amount: "0", currency: "USD"}}}})
  */
     addOrderCharge(input: ApiAddOrderChargeInput, options?: RequestOptions): Promise<Result<ApiAddOrderChargeResponse>>;
     /**
  * Adds one or more line items to an order.
  * POST /v1/orders/{order_id}/line-items
- * @example client.api.addOrderLineItems({"order_id":"example","body":{"line_items":[{"variant_id":"example"}]}})
+ * @example client.api.addOrderLineItems({order_id: "example", body: {line_items: [{variant_id: "example"}]}})
  */
     addOrderLineItems(input: ApiAddOrderLineItemsInput, options?: RequestOptions): Promise<Result<ApiAddOrderLineItemsResponse>>;
     /**
  * Add a line item to a requested Return. The response is the updated Return, not the new line.
  * POST /v1/returns/{return_id}/line-items
- * @example client.api.addReturnLineItem({"return_id":"example","body":{"line_item":{"order_line_item_id":"example","requested_quantity":"100","return_reason_id":"example"}}})
+ * @example client.api.addReturnLineItem({return_id: "example", body: {line_item: {order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}}})
  */
     addReturnLineItem(input: ApiAddReturnLineItemInput, options?: RequestOptions): Promise<Result<ApiAddReturnLineItemResponse>>;
     /**
  * Add risk list items for the authenticated merchant environment.
  * POST /v1/risk-lists/{risk_list_id}/items
- * @example client.api.addRiskListItems({"body":{"values":["sdk-example"]},"risk_list_id":"example"})
+ * @example client.api.addRiskListItems({body: {values: ["sdk-example"]}, risk_list_id: "example"})
  */
     addRiskListItems(input: ApiAddRiskListItemsInput, options?: RequestOptions): Promise<Result<ApiAddRiskListItemsResponse>>;
     /**
  * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements.
  * POST /v1/onboarding/advance
- * @example client.api.advanceOnboarding({"body":{}})
+ * @example client.api.advanceOnboarding({body: {}})
  */
     advanceOnboarding(input: ApiAdvanceOnboardingInput, options?: RequestOptions): Promise<Result<ApiAdvanceOnboardingResponse>>;
     /**
  * Apply a completed physical count to inventory levels.
  * POST /v1/inventory-counts/{inventory_count_id}/apply
- * @example client.api.applyInventoryCount({"Idempotency-Key":"example","inventory_count_id":"example","body":{}})
+ * @example client.api.applyInventoryCount({"Idempotency-Key": "example", inventory_count_id: "example", body: {}})
  */
     applyInventoryCount(input: ApiApplyInventoryCountInput, options?: RequestOptions): Promise<Result<ApiApplyInventoryCountResponse>>;
     /**
  * Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must provide a promotion code; resource IDs and manual discounts require merchant authentication.
  * POST /v1/orders/{order_id}/discounts
- * @example client.api.applyOrderDiscount({"order_id":"example","body":{"promotion":{"promotion_id":"example"}}})
+ * @example client.api.applyOrderDiscount({order_id: "example", body: {promotion: {promotion_id: "example"}}})
  */
     applyOrderDiscount(input: ApiApplyOrderDiscountInput, options?: RequestOptions): Promise<Result<ApiApplyOrderDiscountResponse>>;
     /**
  * Approve a payment review for the authenticated merchant environment.
  * POST /v1/reviews/{review_id}/approve
- * @example client.api.approveReview({"review_id":"example"})
+ * @example client.api.approveReview({review_id: "example"})
  */
     approveReview(input: ApiApproveReviewInput, options?: RequestOptions): Promise<Result<ApiApproveReviewResponse>>;
     /**
  * Assigns this active delivery profile to physical product variants and bundle components that do not have a delivery profile.
  * POST /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured
- * @example client.api.assignToUnconfiguredDeliveryProfile({"delivery_profile_id":"example","body":{}})
+ * @example client.api.assignToUnconfiguredDeliveryProfile({delivery_profile_id: "example", body: {}})
  */
     assignToUnconfiguredDeliveryProfile(input: ApiAssignToUnconfiguredDeliveryProfileInput, options?: RequestOptions): Promise<Result<ApiAssignToUnconfiguredDeliveryProfileResponse>>;
     /**
  * Authenticates the merchant in Flint, validates the requested partner app install, and redirects back to the partner's redirect_uri with an authorization code.
  * GET /v1/oauth/authorize
- * @example client.api.authorizePartnerInstall({"response_type":"code","client_id":"example","redirect_uri":"example","mode":"test","state":"example"})
+ * @example client.api.authorizePartnerInstall({response_type: "code", client_id: "example", redirect_uri: "example", mode: "test", state: "example"})
  */
     authorizePartnerInstall(input: ApiAuthorizePartnerInstallInput, options?: RequestOptions): Promise<Result<ApiAuthorizePartnerInstallResponse>>;
     /**
  * Cancel an open physical count without changing inventory levels.
  * POST /v1/inventory-counts/{inventory_count_id}/cancel
- * @example client.api.cancelInventoryCount({"Idempotency-Key":"example","inventory_count_id":"example","body":{}})
+ * @example client.api.cancelInventoryCount({"Idempotency-Key": "example", inventory_count_id: "example", body: {}})
  */
     cancelInventoryCount(input: ApiCancelInventoryCountInput, options?: RequestOptions): Promise<Result<ApiCancelInventoryCountResponse>>;
     /**
  * Cancels an active invoice payment attempt and its payment intent. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}/cancel
- * @example client.api.cancelInvoicePaymentAttempt({"invoice_id":"example","invoice_payment_attempt_id":"example"})
+ * @example client.api.cancelInvoicePaymentAttempt({invoice_id: "example", invoice_payment_attempt_id: "example"})
  */
     cancelInvoicePaymentAttempt(input: ApiCancelInvoicePaymentAttemptInput, options?: RequestOptions): Promise<Result<ApiCancelInvoicePaymentAttemptResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancel a Return before any merchandise or value work commits. Cancellation is refused once a receipt, inspection, disposition, or resolution exists.
  * POST /v1/me/returns/{return_id}/cancel
- * @example client.api.cancelMeReturn({"return_id":"example","body":{"reason":"buyer_request"}})
+ * @example client.api.cancelMeReturn({return_id: "example", body: {reason: "buyer_request"}})
  */
     cancelMeReturn(input: ApiCancelMeReturnInput, options?: RequestOptions): Promise<Result<ApiCancelMeReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription immediately or at period end. Response may include advisory contract information.
  * POST /v1/me/subscriptions/{subscription_id}/cancel
- * @example client.api.cancelMeSubscription({"subscription_id":"example","body":{}})
+ * @example client.api.cancelMeSubscription({subscription_id: "example", body: {}})
  */
     cancelMeSubscription(input: ApiCancelMeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiCancelMeSubscriptionResponse>>;
     /**
  * Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
  * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/cancel
- * @example client.api.cancelOrderPayment({"order_id":"example","payment_intent_id":"example"})
+ * @example client.api.cancelOrderPayment({order_id: "example", payment_intent_id: "example"})
  */
     cancelOrderPayment(input: ApiCancelOrderPaymentInput, options?: RequestOptions): Promise<Result<ApiCancelOrderPaymentResponse>>;
     /**
  * Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
  * POST /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}/cancel
- * @example client.api.cancelOrderPaymentAttempt({"order_id":"example","payment_attempt_id":"example"})
+ * @example client.api.cancelOrderPaymentAttempt({order_id: "example", payment_attempt_id: "example"})
  */
     cancelOrderPaymentAttempt(input: ApiCancelOrderPaymentAttemptInput, options?: RequestOptions): Promise<Result<ApiCancelOrderPaymentAttemptResponse>>;
     /**
  * Cancels a standalone payment intent before it reaches a terminal settled state. Order-owned payment intents use the attempt-aware order cancellation route.
  * POST /v1/payment-intents/{payment_intent_id}/cancel
- * @example client.api.cancelPaymentIntent({"payment_intent_id":"example","body":{}})
+ * @example client.api.cancelPaymentIntent({payment_intent_id: "example", body: {}})
  */
     cancelPaymentIntent(input: ApiCancelPaymentIntentInput, options?: RequestOptions): Promise<Result<ApiCancelPaymentIntentResponse>>;
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the resulting payout.
  * POST /v1/payouts/{payout_id}/cancel
- * @example client.api.cancelPayout({"payout_id":"example","body":{}})
+ * @example client.api.cancelPayout({payout_id: "example", body: {}})
  */
     cancelPayout(input: ApiCancelPayoutInput, options?: RequestOptions): Promise<Result<ApiCancelPayoutResponse>>;
     /**
  * Cancel a Return before any merchandise or value work commits. Cancellation is refused once a receipt, inspection, disposition, or resolution exists.
  * POST /v1/returns/{return_id}/cancel
- * @example client.api.cancelReturn({"return_id":"example","body":{"reason":"buyer_request"}})
+ * @example client.api.cancelReturn({return_id: "example", body: {reason: "buyer_request"}})
  */
     cancelReturn(input: ApiCancelReturnInput, options?: RequestOptions): Promise<Result<ApiCancelReturnResponse>>;
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the effect is processing.
  * POST /v1/return-dispositions/{return_disposition_id}/cancel
- * @example client.api.cancelReturnDisposition({"return_disposition_id":"example","body":{"reason":"created_in_error"}})
+ * @example client.api.cancelReturnDisposition({return_disposition_id: "example", body: {reason: "created_in_error"}})
  */
     cancelReturnDisposition(input: ApiCancelReturnDispositionInput, options?: RequestOptions): Promise<Result<ApiCancelReturnDispositionResponse>>;
     /**
  * Cancel approved quantity on a Return line item. Quantity already received, inspected, dispositioned, or reserved by a resolution cannot be canceled, and the conflict response names what is blocking it.
  * POST /v1/returns/{return_id}/line-items/{return_line_item_id}/cancel
- * @example client.api.cancelReturnLineItem({"return_id":"example","return_line_item_id":"example","body":{"handback_quantity":"100","quantity":"100","reason":"buyer_request"}})
+ * @example client.api.cancelReturnLineItem({return_id: "example", return_line_item_id: "example", body: {handback_quantity: "100", quantity: "100", reason: "buyer_request"}})
  */
     cancelReturnLineItem(input: ApiCancelReturnLineItemInput, options?: RequestOptions): Promise<Result<ApiCancelReturnLineItemResponse>>;
     /**
  * Cancel a resolution and release the line value it reserved. Effects that already succeeded are undone with a compensating correction instead.
  * POST /v1/return-resolutions/{return_resolution_id}/cancel
- * @example client.api.cancelReturnResolution({"return_resolution_id":"example","body":{"reason":"buyer_request"}})
+ * @example client.api.cancelReturnResolution({return_resolution_id: "example", body: {reason: "buyer_request"}})
  */
     cancelReturnResolution(input: ApiCancelReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiCancelReturnResolutionResponse>>;
     /**
  * Cancels a subscription immediately or at period end. Response may include advisory contract information.
  * POST /v1/subscriptions/{subscription_id}/cancel
- * @example client.api.cancelSubscription({"subscription_id":"example","body":{}})
+ * @example client.api.cancelSubscription({subscription_id: "example", body: {}})
  */
     cancelSubscription(input: ApiCancelSubscriptionInput, options?: RequestOptions): Promise<Result<ApiCancelSubscriptionResponse>>;
     /**
  * Captures an active payment authorization for an order and updates the order payment lifecycle.
  * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/capture
- * @example client.api.captureOrderPayment({"order_id":"example","payment_intent_id":"example"})
+ * @example client.api.captureOrderPayment({order_id: "example", payment_intent_id: "example"})
  */
     captureOrderPayment(input: ApiCaptureOrderPaymentInput, options?: RequestOptions): Promise<Result<ApiCaptureOrderPaymentResponse>>;
     /**
  * Captures an authorized standalone payment intent, including partial captures when supported. Order-owned payment intents use the attempt-aware order capture route.
  * POST /v1/payment-intents/{payment_intent_id}/capture
- * @example client.api.capturePaymentIntent({"payment_intent_id":"example","body":{}})
+ * @example client.api.capturePaymentIntent({payment_intent_id: "example", body: {}})
  */
     capturePaymentIntent(input: ApiCapturePaymentIntentInput, options?: RequestOptions): Promise<Result<ApiCapturePaymentIntentResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the subscription to an active payment method owned by the same customer.
  * POST /v1/me/subscriptions/{subscription_id}/payment-method
- * @example client.api.changeMeSubscriptionPaymentMethod({"subscription_id":"example","body":{"payment_method_id":"example"}})
+ * @example client.api.changeMeSubscriptionPaymentMethod({subscription_id: "example", body: {payment_method_id: "example"}})
  */
     changeMeSubscriptionPaymentMethod(input: ApiChangeMeSubscriptionPaymentMethodInput, options?: RequestOptions): Promise<Result<ApiChangeMeSubscriptionPaymentMethodResponse>>;
     /**
  * Changes the subscription to an active payment method owned by the same customer.
  * POST /v1/subscriptions/{subscription_id}/payment-method
- * @example client.api.changeSubscriptionPaymentMethod({"subscription_id":"example","body":{"payment_method_id":"example"}})
+ * @example client.api.changeSubscriptionPaymentMethod({subscription_id: "example", body: {payment_method_id: "example"}})
  */
     changeSubscriptionPaymentMethod(input: ApiChangeSubscriptionPaymentMethodInput, options?: RequestOptions): Promise<Result<ApiChangeSubscriptionPaymentMethodResponse>>;
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without running a synthetic rate evaluation.
  * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/check-connection
- * @example client.api.checkDeliveryRateCallbackConnection({"delivery_rate_callback_id":"example"})
+ * @example client.api.checkDeliveryRateCallbackConnection({delivery_rate_callback_id: "example"})
  */
     checkDeliveryRateCallbackConnection(input: ApiCheckDeliveryRateCallbackConnectionInput, options?: RequestOptions): Promise<Result<ApiCheckDeliveryRateCallbackConnectionResponse>>;
     /**
  * Closes an open checkout session before it naturally expires.
  * POST /v1/checkout-sessions/{checkout_session_id}/close
- * @example client.api.closeCheckoutSession({"checkout_session_id":"example","body":{}})
+ * @example client.api.closeCheckoutSession({checkout_session_id: "example", body: {}})
  */
     closeCheckoutSession(input: ApiCloseCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiCloseCheckoutSessionResponse>>;
     /**
  * Closes an eligible open, paid, or partially refunded order. Closing cancels pending discounts, releases pending promotion reservations, and recalculates totals from the current surviving pricing economics; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Closing is blocked while payment collection is in progress.
  * POST /v1/orders/{order_id}/close
- * @example client.api.closeOrder({"order_id":"example","body":{}})
+ * @example client.api.closeOrder({order_id: "example", body: {}})
  */
     closeOrder(input: ApiCloseOrderInput, options?: RequestOptions): Promise<Result<ApiCloseOrderResponse>>;
     /**
  * Charges the invoice's saved payment method or the supplied saved payment method. This command requires a caller-chosen Idempotency-Key that is reused for retries of the same collection request.
  * POST /v1/invoices/{invoice_id}/collect
- * @example client.api.collectInvoice({"invoice_id":"example","Idempotency-Key":"example","body":{}})
+ * @example client.api.collectInvoice({invoice_id: "example", "Idempotency-Key": "example", body: {}})
  */
     collectInvoice(input: ApiCollectInvoiceInput, options?: RequestOptions): Promise<Result<ApiCollectInvoiceResponse>>;
     /**
  * Move held quantity to committed. Lines carry cumulative targets, so resending an applied target is a successful no-op.
  * POST /v1/inventory-reservations/{inventory_reservation_id}/commit
- * @example client.api.commitInventoryReservation({"Idempotency-Key":"example","inventory_reservation_id":"example","body":{"lines":[]}})
+ * @example client.api.commitInventoryReservation({"Idempotency-Key": "example", inventory_reservation_id: "example", body: {lines: []}})
  */
     commitInventoryReservation(input: ApiCommitInventoryReservationInput, options?: RequestOptions): Promise<Result<ApiCommitInventoryReservationResponse>>;
     /**
  * Complete a Return whose completion_mode is manual. The call fails while completion_blockers is non-empty. Automatic Returns complete themselves when the final blocker clears.
  * POST /v1/returns/{return_id}/complete
- * @example client.api.completeReturn({"return_id":"example","body":{}})
+ * @example client.api.completeReturn({return_id: "example", body: {}})
  */
     completeReturn(input: ApiCompleteReturnInput, options?: RequestOptions): Promise<Result<ApiCompleteReturnResponse>>;
     /**
  * Confirms possession of the current and new email addresses, then atomically updates the customer account in the selected merchant environment. Omit current_email_code only when current_email_confirmation_required is false.
  * POST /v1/me/email-change-requests/{email_change_request_id}/confirm
- * @example client.api.confirmMeEmailChangeRequest({"email_change_request_id":"example","body":{"new_email_code":"example"}})
+ * @example client.api.confirmMeEmailChangeRequest({email_change_request_id: "example", body: {new_email_code: "example"}})
  */
     confirmMeEmailChangeRequest(input: ApiConfirmMeEmailChangeRequestInput, options?: RequestOptions): Promise<Result<ApiConfirmMeEmailChangeRequestResponse>>;
     /**
  * Confirms a standalone payment intent. Order-owned payment intents reject this route and must be confirmed through POST /v1/orders/{order_id}/pay.
  * POST /v1/payment-intents/{payment_intent_id}/confirm
- * @example client.api.confirmPaymentIntent({"payment_intent_id":"example","body":{}})
+ * @example client.api.confirmPaymentIntent({payment_intent_id: "example", body: {}})
  */
     confirmPaymentIntent(input: ApiConfirmPaymentIntentInput, options?: RequestOptions): Promise<Result<ApiConfirmPaymentIntentResponse>>;
     /**
  * Confirm a proposed resolution and freeze its economic facts. Execution can remain pending behind line-qualified execution blockers.
  * POST /v1/return-resolutions/{return_resolution_id}/confirm
- * @example client.api.confirmReturnResolution({"return_resolution_id":"example","body":{}})
+ * @example client.api.confirmReturnResolution({return_resolution_id: "example", body: {}})
  */
     confirmReturnResolution(input: ApiConfirmReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiConfirmReturnResolutionResponse>>;
     /**
  * Consume committed quantity, permanently removing it from stock. Cumulative targets; consumed quantity is terminal.
  * POST /v1/inventory-reservations/{inventory_reservation_id}/consume
- * @example client.api.consumeInventoryReservation({"Idempotency-Key":"example","inventory_reservation_id":"example","body":{"lines":[],"provenance":{}}})
+ * @example client.api.consumeInventoryReservation({"Idempotency-Key": "example", inventory_reservation_id: "example", body: {lines: [], provenance: {}}})
  */
     consumeInventoryReservation(input: ApiConsumeInventoryReservationInput, options?: RequestOptions): Promise<Result<ApiConsumeInventoryReservationResponse>>;
     /**
  * Creates a merchant-bound external API key. secret_key is returned only in the initial successful response and accepted idempotent replays of the same create request.
  * POST /v1/api-keys
- * @example client.api.createAPIKey({"body":{"name":"example","scopes":[]}})
+ * @example client.api.createAPIKey({body: {name: "example", scopes: []}})
  */
     createAPIKey(input: ApiCreateAPIKeyInput, options?: RequestOptions): Promise<Result<ApiCreateAPIKeyResponse>>;
     /**
  * Create bundle.
  * POST /v1/bundles
- * @example client.api.createBundle({"body":{"name":"example","unit_price_money":{"amount":"0","currency":"USD"}}})
+ * @example client.api.createBundle({body: {name: "example", unit_price_money: {amount: "0", currency: "USD"}}})
  */
     createBundle(input: ApiCreateBundleInput, options?: RequestOptions): Promise<Result<ApiCreateBundleResponse>>;
     /**
  * Creates a reusable category. If handle is omitted, Flint derives it from the name and never changes it on rename.
  * POST /v1/categories
- * @example client.api.createCategory({"body":{"name":"example"}})
+ * @example client.api.createCategory({body: {name: "example"}})
  */
     createCategory(input: ApiCreateCategoryInput, options?: RequestOptions): Promise<Result<ApiCreateCategoryResponse>>;
     /**
  * Creates a hosted or embedded checkout session for an order, quick-pay charge, or subscription plan signup. Creation never implicitly replaces an open order session. To replace one, send order_id with replace_checkout_session_id set to the expected current session; the compare-and-swap replacement and collection-lock transfer commit atomically.
  * POST /v1/checkout-sessions
- * @example client.api.createCheckoutSession({"body":{"order_id":"example"}})
+ * @example client.api.createCheckoutSession({body: {order_id: "example"}})
  */
     createCheckoutSession(input: ApiCreateCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiCreateCheckoutSessionResponse>>;
     /**
  * Creates an exact checkout-bound delivery quote without holding inventory.
  * POST /v1/checkout-sessions/{checkout_session_id}/delivery-quotes
- * @example client.api.createCheckoutSessionDeliveryQuote({"checkout_session_id":"example","body":{"expected_delivery_selection_id":"example"}})
+ * @example client.api.createCheckoutSessionDeliveryQuote({checkout_session_id: "example", body: {expected_delivery_selection_id: "example"}})
  */
     createCheckoutSessionDeliveryQuote(input: ApiCreateCheckoutSessionDeliveryQuoteInput, options?: RequestOptions): Promise<Result<ApiCreateCheckoutSessionDeliveryQuoteResponse>>;
     /**
  * Atomically selects one option per choice group, replaces inventory holds, and recalculates checkout economics.
  * POST /v1/checkout-sessions/{checkout_session_id}/delivery-selections
- * @example client.api.createCheckoutSessionDeliverySelection({"checkout_session_id":"example","body":{"choices":[],"delivery_quote_id":"example","expected_delivery_selection_id":"example"}})
+ * @example client.api.createCheckoutSessionDeliverySelection({checkout_session_id: "example", body: {choices: [], delivery_quote_id: "example", expected_delivery_selection_id: "example"}})
  */
     createCheckoutSessionDeliverySelection(input: ApiCreateCheckoutSessionDeliverySelectionInput, options?: RequestOptions): Promise<Result<ApiCreateCheckoutSessionDeliverySelectionResponse>>;
     /**
  * Creates a draft credit note against an invoice that has been issued and not voided. Include credit_note_lines for initial corrections or omit them for an empty draft. The draft uses the invoice currency and receives a credit note number when issued.
  * POST /v1/credit-notes
- * @example client.api.createCreditNote({"body":{"invoice_id":"example","reason":"returned_goods"}})
+ * @example client.api.createCreditNote({body: {invoice_id: "example", reason: "returned_goods"}})
  */
     createCreditNote(input: ApiCreateCreditNoteInput, options?: RequestOptions): Promise<Result<ApiCreateCreditNoteResponse>>;
     /**
  * Applies credit from an issued credit note to its invoice, reducing outstanding_money. The amount cannot exceed the credit note's unallocated_money or the invoice's outstanding balance. Closing the balance with credit sets the invoice to credited. Returns the allocation, the credit note, and the recomputed invoice together. An Idempotency-Key is required and becomes the allocation's identity.
  * POST /v1/credit-notes/{credit_note_id}/allocations
- * @example client.api.createCreditNoteAllocation({"credit_note_id":"example","Idempotency-Key":"example","body":{"amount_money":{"amount":"0","currency":"USD"}}})
+ * @example client.api.createCreditNoteAllocation({credit_note_id: "example", "Idempotency-Key": "example", body: {amount_money: {amount: "0", currency: "USD"}}})
  */
     createCreditNoteAllocation(input: ApiCreateCreditNoteAllocationInput, options?: RequestOptions): Promise<Result<ApiCreateCreditNoteAllocationResponse>>;
     /**
  * Creates a customer for the authenticated merchant.
  * POST /v1/customers
- * @example client.api.createCustomer({"body":{"email":"example"}})
+ * @example client.api.createCustomer({body: {email: "example"}})
  */
     createCustomer(input: ApiCreateCustomerInput, options?: RequestOptions): Promise<Result<ApiCreateCustomerResponse>>;
     /**
  * Creates a stable saved address. The first address becomes both the billing and shipping default. A saved default becomes the customer's effective address for the corresponding role.
  * POST /v1/customers/{customer_id}/addresses
- * @example client.api.createCustomerAddress({"customer_id":"example","body":{"address":{"city":"example","country":"US","line1":"example","postal_code":"example","state":"example"},"recipient_name":"example"}})
+ * @example client.api.createCustomerAddress({customer_id: "example", body: {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}, recipient_name: "example"}})
  */
     createCustomerAddress(input: ApiCreateCustomerAddressInput, options?: RequestOptions): Promise<Result<ApiCreateCustomerAddressResponse>>;
     /**
  * Creates or returns the pending tracked deletion request. Required commerce records are retained until the deletion workflow resolves their legal retention requirements.
  * POST /v1/customers/{customer_id}/deletion-requests
- * @example client.api.createCustomerDeletionRequest({"customer_id":"example"})
+ * @example client.api.createCustomerDeletionRequest({customer_id: "example"})
  */
     createCustomerDeletionRequest(input: ApiCreateCustomerDeletionRequestInput, options?: RequestOptions): Promise<Result<ApiCreateCustomerDeletionRequestResponse>>;
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer. Secret and refresh_token are returned only in this response. Flint-hosted merchants also receive a separately expiring one-time account_url.
  * POST /v1/customer-sessions
- * @example client.api.createCustomerSession({"body":{"customer_id":"example"}})
+ * @example client.api.createCustomerSession({body: {customer_id: "example"}})
  */
     createCustomerSession(input: ApiCreateCustomerSessionInput, options?: RequestOptions): Promise<Result<ApiCreateCustomerSessionResponse>>;
     /**
  * Delivery location sets pin reusable sets of Locations for allocation or buyer pickup. Creation publishes immutable revision 1. It starts active.
  * POST /v1/delivery-location-sets
- * @example client.api.createDeliveryLocationSet({"body":{"name":"example","configuration":{"location_ids":[]}}})
+ * @example client.api.createDeliveryLocationSet({body: {name: "example", configuration: {location_ids: []}}})
  */
     createDeliveryLocationSet(input: ApiCreateDeliveryLocationSetInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryLocationSetResponse>>;
     /**
  * Delivery methods combine eligibility, pricing, schedules, estimates, tax treatment, and execution behavior. Creation publishes immutable revision 1. Omit status to start inactive.
  * POST /v1/delivery-methods
- * @example client.api.createDeliveryMethod({"body":{"configuration":{"minimum_option_lifetime_seconds":"120","origin":{"location_id":"loc_01K1P6G4M7H2N8Q9R3S5T6V7WX","type":"fixed_location"},"pricing":{"calculated":{},"type":"calculated"}},"name":"Standard shipping","type":"shipment"}})
+ * @example client.api.createDeliveryMethod({body: {configuration: {minimum_option_lifetime_seconds: "120", origin: {location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", type: "fixed_location"}, pricing: {calculated: {}, type: "calculated"}}, name: "Standard shipping", type: "shipment"}})
  */
     createDeliveryMethod(input: ApiCreateDeliveryMethodInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryMethodResponse>>;
     /**
  * Computes exact display-only delivery outcomes without persisting a resource, holding inventory, or granting selection authority.
  * POST /v1/delivery-previews
- * @example client.api.createDeliveryPreview({"body":{"currency":"USD","delivery_method_ids":[],"line_items":[{"variant_id":"example"}]}})
+ * @example client.api.createDeliveryPreview({body: {currency: "USD", delivery_method_ids: [], line_items: [{variant_id: "example"}]}})
  */
     createDeliveryPreview(input: ApiCreateDeliveryPreviewInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryPreviewResponse>>;
     /**
  * Delivery profiles define reusable delivery rules assigned to catalog obligations. Creation publishes immutable revision 1. It starts active.
  * POST /v1/delivery-profiles
- * @example client.api.createDeliveryProfile({"body":{"name":"example","configuration":{"requirement":"none"}}})
+ * @example client.api.createDeliveryProfile({body: {name: "example", configuration: {requirement: "none"}}})
  */
     createDeliveryProfile(input: ApiCreateDeliveryProfileInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryProfileResponse>>;
     /**
  * Delivery callback endpoints pin shared outbound callback transport configuration. Creation publishes immutable revision 1. It starts inactive.
  * POST /v1/delivery-rate-callbacks
- * @example client.api.createDeliveryRateCallback({"body":{"name":"example","configuration":{"url":"example"}}})
+ * @example client.api.createDeliveryRateCallback({body: {name: "example", configuration: {url: "example"}}})
  */
     createDeliveryRateCallback(input: ApiCreateDeliveryRateCallbackInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryRateCallbackResponse>>;
     /**
  * Sends a signed delivery rate callback with synthetic non-PII data and returns a safe result.
  * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/test-deliveries
- * @example client.api.createDeliveryRateCallbackTestDelivery({"delivery_rate_callback_id":"example"})
+ * @example client.api.createDeliveryRateCallbackTestDelivery({delivery_rate_callback_id: "example"})
  */
     createDeliveryRateCallbackTestDelivery(input: ApiCreateDeliveryRateCallbackTestDeliveryInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryRateCallbackTestDeliveryResponse>>;
     /**
  * Delivery zones define versioned geographic eligibility. Creation publishes immutable revision 1. It starts active.
  * POST /v1/delivery-zones
- * @example client.api.createDeliveryZone({"body":{"configuration":{"country":{"values":["example"]}},"name":"Standard delivery"}})
+ * @example client.api.createDeliveryZone({body: {configuration: {country: {values: ["example"]}}, name: "Standard delivery"}})
  */
     createDeliveryZone(input: ApiCreateDeliveryZoneInput, options?: RequestOptions): Promise<Result<ApiCreateDeliveryZoneResponse>>;
     /**
  * Creates a temporary demo sandbox and returns a short-lived test API key. The secret key is displayed only at creation time and for a short idempotent retry window.
  * POST /v1/demo-sessions
- * @example client.api.createDemoSession({"body":{}})
+ * @example client.api.createDemoSession({body: {}})
  */
     createDemoSession(input: ApiCreateDemoSessionInput, options?: RequestOptions): Promise<Result<ApiCreateDemoSessionResponse>>;
     /**
  * Creates a partner app owned by the authenticated merchant. Use a developer setup session during setup or a normal external API key afterward.
  * POST /v1/developer/partner/apps
- * @example client.api.createDeveloperPartnerApp({"body":{"name":"example","permission_manifest":[],"redirect_uris":[]}})
+ * @example client.api.createDeveloperPartnerApp({body: {name: "example", permission_manifest: [], redirect_uris: []}})
  */
     createDeveloperPartnerApp(input: ApiCreateDeveloperPartnerAppInput, options?: RequestOptions): Promise<Result<ApiCreateDeveloperPartnerAppResponse>>;
     /**
  * Creates a new test sandbox for the current merchant. Optionally seeds the new empty sandbox with the merchant's live defaults and issues a sandbox-bound test key as part of creation.
  * POST /v1/developer/sandboxes
- * @example client.api.createDeveloperSandbox({"body":{"name":"example"}})
+ * @example client.api.createDeveloperSandbox({body: {name: "example"}})
  */
     createDeveloperSandbox(input: ApiCreateDeveloperSandboxInput, options?: RequestOptions): Promise<Result<ApiCreateDeveloperSandboxResponse>>;
     /**
  * Creates a device for the authenticated merchant. If hardware_fingerprint matches an existing device, the existing device is returned with 200 OK and data.already_existed=true.
  * POST /v1/devices
- * @example client.api.createDevice({"body":{"name":"example"}})
+ * @example client.api.createDevice({body: {name: "example"}})
  */
     createDevice(input: ApiCreateDeviceInput, options?: RequestOptions): Promise<Result<ApiCreateDeviceResponse>>;
     /**
  * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include only the evidence needed to describe Flint's behavior.
  * POST /v1/feedback-reports
- * @example client.api.createFeedbackReport({"body":{"kind":"rating","surface":"api","sentiment":"positive"}})
+ * @example client.api.createFeedbackReport({body: {kind: "rating", surface: "api", sentiment: "positive"}})
  */
     createFeedbackReport(input: ApiCreateFeedbackReportInput, options?: RequestOptions): Promise<Result<ApiCreateFeedbackReportResponse>>;
     /**
  * Creates an explicit fulfillment for an order.
  * POST /v1/orders/{order_id}/fulfillments
- * @example client.api.createFulfillment({"order_id":"example","body":{"line_items":[{"order_line_item_id":"example","quantity":"100"}],"type":"shipment"}})
+ * @example client.api.createFulfillment({order_id: "example", body: {line_items: [{order_line_item_id: "example", quantity: "100"}], type: "shipment"}})
  */
     createFulfillment(input: ApiCreateFulfillmentInput, options?: RequestOptions): Promise<Result<ApiCreateFulfillmentResponse>>;
     /**
  * Records an observational event for a fulfillment or one of its shipments or packages.
  * POST /v1/fulfillments/{fulfillment_id}/events
- * @example client.api.createFulfillmentEvent({"fulfillment_id":"example","body":{"event_type":"shipped"}})
+ * @example client.api.createFulfillmentEvent({fulfillment_id: "example", body: {event_type: "shipped"}})
  */
     createFulfillmentEvent(input: ApiCreateFulfillmentEventInput, options?: RequestOptions): Promise<Result<ApiCreateFulfillmentEventResponse>>;
     /**
  * Record a physical stock change as signed deltas. Returns the created adjustment, its movement IDs, and the resulting level for every level touched.
  * POST /v1/inventory-adjustments
- * @example client.api.createInventoryAdjustment({"Idempotency-Key":"example","body":{"lines":[],"reason":"received_stock"}})
+ * @example client.api.createInventoryAdjustment({"Idempotency-Key": "example", body: {lines: [], reason: "received_stock"}})
  */
     createInventoryAdjustment(input: ApiCreateInventoryAdjustmentInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryAdjustmentResponse>>;
     /**
  * Create an allocation policy with its routing configuration.
  * POST /v1/inventory-allocation-policies
- * @example client.api.createInventoryAllocationPolicy({"body":{"configuration":{"location_groups":[{"group_priority":1,"location_id":"example"}],"maximum_locations_per_assignment":1,"splitting_behavior":"single_location"},"name":"example"}})
+ * @example client.api.createInventoryAllocationPolicy({body: {configuration: {location_groups: [{group_priority: 1, location_id: "example"}], maximum_locations_per_assignment: 1, splitting_behavior: "single_location"}, name: "example"}})
  */
     createInventoryAllocationPolicy(input: ApiCreateInventoryAllocationPolicyInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryAllocationPolicyResponse>>;
     /**
  * Open a physical count for selected inventory items at one Location.
  * POST /v1/inventory-counts
- * @example client.api.createInventoryCount({"Idempotency-Key":"example","body":{"inventory_item_ids":["example"],"location_id":"example"}})
+ * @example client.api.createInventoryCount({"Idempotency-Key": "example", body: {inventory_item_ids: ["example"], location_id: "example"}})
  */
     createInventoryCount(input: ApiCreateInventoryCountInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryCountResponse>>;
     /**
  * Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not required to be unique.
  * POST /v1/inventory-items
- * @example client.api.createInventoryItem({"body":{"name":"example"}})
+ * @example client.api.createInventoryItem({body: {name: "example"}})
  */
     createInventoryItem(input: ApiCreateInventoryItemInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryItemResponse>>;
     /**
  * Record a completed inventory receipt and disposition. This is a downstream stock effect, not the customer Return lifecycle.
  * POST /v1/inventory-receipts
- * @example client.api.createInventoryReceipt({"Idempotency-Key":"example","body":{"lines":[]}})
+ * @example client.api.createInventoryReceipt({"Idempotency-Key": "example", body: {lines: []}})
  */
     createInventoryReceipt(input: ApiCreateInventoryReceiptInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryReceiptResponse>>;
     /**
  * Route standalone merchant demand and hold stock in one atomic command. A provisional hold lasts at most 15 minutes.
  * POST /v1/inventory-reservations
- * @example client.api.createInventoryReservation({"Idempotency-Key":"example","body":{"demands":[],"inventory_routing_source":{"type":"fixed_location","location_id":"example"},"owner":{"expires_at":"2026-01-01T00:00:00Z","key":"example"}}})
+ * @example client.api.createInventoryReservation({"Idempotency-Key": "example", body: {demands: [], inventory_routing_source: {type: "fixed_location", location_id: "example"}, owner: {expires_at: "2026-01-01T00:00:00Z", key: "example"}}})
  */
     createInventoryReservation(input: ApiCreateInventoryReservationInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryReservationResponse>>;
     /**
  * Create a planned stock transfer between two Locations.
  * POST /v1/inventory-transfers
- * @example client.api.createInventoryTransfer({"Idempotency-Key":"example","body":{"destination_location_id":"example","lines":[{"inventory_item_id":"example","requested_quantity":"1"}],"origin_location_id":"example"}})
+ * @example client.api.createInventoryTransfer({"Idempotency-Key": "example", body: {destination_location_id: "example", lines: [{inventory_item_id: "example", requested_quantity: "1"}], origin_location_id: "example"}})
  */
     createInventoryTransfer(input: ApiCreateInventoryTransferInput, options?: RequestOptions): Promise<Result<ApiCreateInventoryTransferResponse>>;
     /**
  * Creates an invoice draft. Provide exactly one source: order_id for an order-backed draft, or quick_pay for a hidden backing-order draft.
  * POST /v1/invoices
- * @example client.api.createInvoice({"body":{"order_id":"example"}})
+ * @example client.api.createInvoice({body: {order_id: "example"}})
  */
     createInvoice(input: ApiCreateInvoiceInput, options?: RequestOptions): Promise<Result<ApiCreateInvoiceResponse>>;
     /**
  * Create invoice payment term for the authenticated merchant.
  * POST /v1/invoice-payment-terms
- * @example client.api.createInvoicePaymentTerm({"body":{"name":"example","calculation":{"type":"on_receipt"}}})
+ * @example client.api.createInvoicePaymentTerm({body: {name: "example", calculation: {type: "on_receipt"}}})
  */
     createInvoicePaymentTerm(input: ApiCreateInvoicePaymentTermInput, options?: RequestOptions): Promise<Result<ApiCreateInvoicePaymentTermResponse>>;
     /**
  * Create a Location. Including the inventory block also requires commerce.inventory_locations.write.
  * POST /v1/locations
- * @example client.api.createLocation({"body":{"address":{},"name":"example","timezone":"example"}})
+ * @example client.api.createLocation({body: {address: {}, name: "example", timezone: "example"}})
  */
     createLocation(input: ApiCreateLocationInput, options?: RequestOptions): Promise<Result<ApiCreateLocationResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Creates a stable saved address. The first address becomes both the billing and shipping default. A saved default becomes the customer's effective address for the corresponding role.
  * POST /v1/me/addresses
- * @example client.api.createMeAddress({"body":{"address":{"city":"example","country":"US","line1":"example","postal_code":"example","state":"example"},"recipient_name":"example"}})
+ * @example client.api.createMeAddress({body: {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}, recipient_name: "example"}})
  */
     createMeAddress(input: ApiCreateMeAddressInput, options?: RequestOptions): Promise<Result<ApiCreateMeAddressResponse>>;
     /**
@@ -6835,613 +6835,613 @@ export declare class Client {
     /**
  * Sends short-lived confirmation codes to the current and new email addresses. If the account has no current email, only the new address must be confirmed. The customer email does not change until confirmation succeeds.
  * POST /v1/me/email-change-requests
- * @example client.api.createMeEmailChangeRequest({"body":{"new_email":"example"}})
+ * @example client.api.createMeEmailChangeRequest({body: {new_email: "example"}})
  */
     createMeEmailChangeRequest(input: ApiCreateMeEmailChangeRequestInput, options?: RequestOptions): Promise<Result<ApiCreateMeEmailChangeRequestResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection.
  * POST /v1/me/invoices/{invoice_id}/checkout-session
- * @example client.api.createMeInvoiceCheckoutSession({"invoice_id":"example"})
+ * @example client.api.createMeInvoiceCheckoutSession({invoice_id: "example"})
  */
     createMeInvoiceCheckoutSession(input: ApiCreateMeInvoiceCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiCreateMeInvoiceCheckoutSessionResponse>>;
     /**
  * Creates an embedded browser handoff for one or more allowlisted account components.
  * POST /v1/merchant-account-sessions
- * @example client.api.createMerchantAccountSession({"body":{"components":["account_onboarding"]}})
+ * @example client.api.createMerchantAccountSession({body: {components: ["account_onboarding"]}})
  */
     createMerchantAccountSession(input: ApiCreateMerchantAccountSessionInput, options?: RequestOptions): Promise<Result<ApiCreateMerchantAccountSessionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create a requested Return. When no policy matches, the Return remains available for merchant review rather than failing creation.
  * POST /v1/me/returns
- * @example client.api.createMeReturn({"body":{"line_items":[{"order_line_item_id":"example","requested_quantity":"100","return_reason_id":"example"}],"order_id":"example"}})
+ * @example client.api.createMeReturn({body: {line_items: [{order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}], order_id: "example"}})
  */
     createMeReturn(input: ApiCreateMeReturnInput, options?: RequestOptions): Promise<Result<ApiCreateMeReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Preview return eligibility or resolution amounts without creating a Return or reserving quantity. Set mode to eligibility or resolution and send the matching input object.
  * POST /v1/me/return-previews
- * @example client.api.createMeReturnPreview({"body":{"mode":"eligibility","eligibility":{"order_id":"example","selection":{"selection_type":"all_remaining_fulfilled"}}}})
+ * @example client.api.createMeReturnPreview({body: {mode: "eligibility", eligibility: {order_id: "example", selection: {selection_type: "all_remaining_fulfilled"}}}})
  */
     createMeReturnPreview(input: ApiCreateMeReturnPreviewInput, options?: RequestOptions): Promise<Result<ApiCreateMeReturnPreviewResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution.
  * POST /v1/me/return-resolutions/{resolution_id}/checkout-session
- * @example client.api.createMeReturnResolutionCheckoutSession({"resolution_id":"example"})
+ * @example client.api.createMeReturnResolutionCheckoutSession({resolution_id: "example"})
  */
     createMeReturnResolutionCheckoutSession(input: ApiCreateMeReturnResolutionCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiCreateMeReturnResolutionCheckoutSessionResponse>>;
     /**
  * Create modifier group.
  * POST /v1/modifier-groups
- * @example client.api.createModifierGroup({"body":{"name":"example"}})
+ * @example client.api.createModifierGroup({body: {name: "example"}})
  */
     createModifierGroup(input: ApiCreateModifierGroupInput, options?: RequestOptions): Promise<Result<ApiCreateModifierGroupResponse>>;
     /**
  * Create modifier set.
  * POST /v1/modifier-sets
- * @example client.api.createModifierSet({"body":{"name":"example"}})
+ * @example client.api.createModifierSet({body: {name: "example"}})
  */
     createModifierSet(input: ApiCreateModifierSetInput, options?: RequestOptions): Promise<Result<ApiCreateModifierSetResponse>>;
     /**
  * Creates the first long-lived external API key and exits onboarding.
  * POST /v1/onboarding/api-key
- * @example client.api.createOnboardingAPIKey({"body":{"name":"example"}})
+ * @example client.api.createOnboardingAPIKey({body: {name: "example"}})
  */
     createOnboardingAPIKey(input: ApiCreateOnboardingAPIKeyInput, options?: RequestOptions): Promise<Result<ApiCreateOnboardingAPIKeyResponse>>;
     /**
  * Creates an order for the authenticated merchant. For USD orders, an effective requested tip may be up to the larger of $1,000 or 100% of the post-discount merchandise subtotal.
  * POST /v1/orders
- * @example client.api.createOrder({"body":{"line_items":[{"variant_id":"example"}]}})
+ * @example client.api.createOrder({body: {line_items: [{variant_id: "example"}]}})
  */
     createOrder(input: ApiCreateOrderInput, options?: RequestOptions): Promise<Result<ApiCreateOrderResponse>>;
     /**
  * Creates an immutable payment leg owned by the order. Collect a payment source using payment_collection, then submit that source through payOrder. This route requires commerce.orders.write; standalone payment-intent routes require payments.payment_intents.write.
  * POST /v1/orders/{order_id}/payment-intents
- * @example client.api.createOrderPaymentIntent({"order_id":"example","body":{}})
+ * @example client.api.createOrderPaymentIntent({order_id: "example", body: {}})
  */
     createOrderPaymentIntent(input: ApiCreateOrderPaymentIntentInput, options?: RequestOptions): Promise<Result<ApiCreateOrderPaymentIntentResponse>>;
     /**
  * Creates a child organization within the caller's accessible organization hierarchy.
  * POST /v1/organizations
- * @example client.api.createOrganization({"body":{"name":"example"}})
+ * @example client.api.createOrganization({body: {name: "example"}})
  */
     createOrganization(input: ApiCreateOrganizationInput, options?: RequestOptions): Promise<Result<ApiCreateOrganizationResponse>>;
     /**
  * Creates a package record under a shipment. Package status transitions use explicit future status APIs; this endpoint records package-level carrier, tracking, label, measurement, and external correlation fields.
  * POST /v1/shipments/{shipment_id}/packages
- * @example client.api.createPackage({"shipment_id":"example","body":{}})
+ * @example client.api.createPackage({shipment_id: "example", body: {}})
  */
     createPackage(input: ApiCreatePackageInput, options?: RequestOptions): Promise<Result<ApiCreatePackageResponse>>;
     /**
  * Adds an order line quantity to a package. Total active package item quantities cannot exceed the parent fulfillment line-item quantity.
  * POST /v1/packages/{package_id}/items
- * @example client.api.createPackageItem({"package_id":"example","body":{"order_line_item_id":"example","quantity":"100"}})
+ * @example client.api.createPackageItem({package_id: "example", body: {order_line_item_id: "example", quantity: "100"}})
  */
     createPackageItem(input: ApiCreatePackageItemInput, options?: RequestOptions): Promise<Result<ApiCreatePackageItemResponse>>;
     /**
  * Creates a standalone payment intent for the authenticated merchant. Create order-owned payment intents with POST /v1/orders/{order_id}/payment-intents.
  * POST /v1/payment-intents
- * @example client.api.createPaymentIntent({"body":{"amount_money":{"amount":"0","currency":"USD"},"payment_options":["card"]}})
+ * @example client.api.createPaymentIntent({body: {amount_money: {amount: "0", currency: "USD"}, payment_options: ["card"]}})
  */
     createPaymentIntent(input: ApiCreatePaymentIntentInput, options?: RequestOptions): Promise<Result<ApiCreatePaymentIntentResponse>>;
     /**
  * Creates a payment link for the authenticated merchant. Line items may use fixed prices, buyer-adjustable amounts, and buyer-adjustable quantities.
  * POST /v1/payment-links
- * @example client.api.createPaymentLink({"body":{"name":"example"}})
+ * @example client.api.createPaymentLink({body: {name: "example"}})
  */
     createPaymentLink(input: ApiCreatePaymentLinkInput, options?: RequestOptions): Promise<Result<ApiCreatePaymentLinkResponse>>;
     /**
  * Registers one exact domain or subdomain for Apple Pay and Google Pay in the selected Flint environment, then validates its wallet readiness.
  * POST /v1/payment-method-domains
- * @example client.api.createPaymentMethodDomain({"body":{"domain_name":"payments.example.invalid"}})
+ * @example client.api.createPaymentMethodDomain({body: {domain_name: "payments.example.invalid"}})
  */
     createPaymentMethodDomain(input: ApiCreatePaymentMethodDomainInput, options?: RequestOptions): Promise<Result<ApiCreatePaymentMethodDomainResponse>>;
     /**
  * Creates a payout from an available balance to an eligible payout destination. Safe to retry with the same Idempotency-Key.
  * POST /v1/payouts
- * @example client.api.createPayout({"body":{"amount_money":{"amount":"0","currency":"USD"}}})
+ * @example client.api.createPayout({body: {amount_money: {amount: "0", currency: "USD"}}})
  */
     createPayout(input: ApiCreatePayoutInput, options?: RequestOptions): Promise<Result<ApiCreatePayoutResponse>>;
     /**
  * Creates a product for the authenticated merchant.
  * POST /v1/products
- * @example client.api.createProduct({"body":{"name":"example","product_type":"physical","default_variant":{"unit_price_money":{"amount":"0","currency":"USD"}}}})
+ * @example client.api.createProduct({body: {name: "example", product_type: "physical", default_variant: {unit_price_money: {amount: "0", currency: "USD"}}}})
  */
     createProduct(input: ApiCreateProductInput, options?: RequestOptions): Promise<Result<ApiCreateProductResponse>>;
     /**
  * Create product variant.
  * POST /v1/products/{product_id}/variants
- * @example client.api.createProductVariant({"product_id":"example","body":{"variant":{"unit_price_money":{"amount":"0","currency":"USD"}}}})
+ * @example client.api.createProductVariant({product_id: "example", body: {variant: {unit_price_money: {amount: "0", currency: "USD"}}}})
  */
     createProductVariant(input: ApiCreateProductVariantInput, options?: RequestOptions): Promise<Result<ApiCreateProductVariantResponse>>;
     /**
  * Creates a promotion for the authenticated merchant.
  * POST /v1/promotions
- * @example client.api.createPromotion({"body":{"application_method":{"percent_off":"1"},"name":"example"}})
+ * @example client.api.createPromotion({body: {application_method: {percent_off: "1"}, name: "example"}})
  */
     createPromotion(input: ApiCreatePromotionInput, options?: RequestOptions): Promise<Result<ApiCreatePromotionResponse>>;
     /**
  * Creates a code for a code-gated promotion.
  * POST /v1/promotions/{promotion_id}/codes
- * @example client.api.createPromotionCode({"promotion_id":"example","body":{"code":"example"}})
+ * @example client.api.createPromotionCode({promotion_id: "example", body: {code: "example"}})
  */
     createPromotionCode(input: ApiCreatePromotionCodeInput, options?: RequestOptions): Promise<Result<ApiCreatePromotionCodeResponse>>;
     /**
  * Creates a refund for an order or payment intent. This is a financial operation.
  * POST /v1/refunds
- * @example client.api.createRefund({"body":{"order_id":"example"}})
+ * @example client.api.createRefund({body: {order_id: "example"}})
  */
     createRefund(input: ApiCreateRefundInput, options?: RequestOptions): Promise<Result<ApiCreateRefundResponse>>;
     /**
  * Creates an idempotent asynchronous CSV report. Poll the returned report until it succeeds or fails.
  * POST /v1/reports
- * @example client.api.createReport({"body":{"currency":"USD","interval_end_at":"2026-01-01T00:00:00Z","interval_start_at":"2026-01-01T00:00:00Z","report_type":"orders_itemized_v1"}})
+ * @example client.api.createReport({body: {currency: "USD", interval_end_at: "2026-01-01T00:00:00Z", interval_start_at: "2026-01-01T00:00:00Z", report_type: "orders_itemized_v1"}})
  */
     createReport(input: ApiCreateReportInput, options?: RequestOptions): Promise<Result<ApiCreateReportResponse>>;
     /**
  * Create a requested Return. When no policy matches, the Return remains available for merchant review rather than failing creation.
  * POST /v1/returns
- * @example client.api.createReturn({"body":{"line_items":[{"order_line_item_id":"example","requested_quantity":"100","return_reason_id":"example"}],"order_id":"example"}})
+ * @example client.api.createReturn({body: {line_items: [{order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}], order_id: "example"}})
  */
     createReturn(input: ApiCreateReturnInput, options?: RequestOptions): Promise<Result<ApiCreateReturnResponse>>;
     /**
  * Record an auditable merchandise disposition from either a receipt line or an inspection line.
  * POST /v1/returns/{return_id}/dispositions
- * @example client.api.createReturnDisposition({"return_id":"example","body":{"disposition_type":"sellable","occurred_at":"2026-01-01T00:00:00Z","quantity":"100","reason":"inspection_result","return_receipt_line_item_id":"example"}})
+ * @example client.api.createReturnDisposition({return_id: "example", body: {disposition_type: "sellable", occurred_at: "2026-01-01T00:00:00Z", quantity: "100", reason: "inspection_result", return_receipt_line_item_id: "example"}})
  */
     createReturnDisposition(input: ApiCreateReturnDispositionInput, options?: RequestOptions): Promise<Result<ApiCreateReturnDispositionResponse>>;
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead of editing physical history.
  * POST /v1/returns/{return_id}/inspections
- * @example client.api.createReturnInspection({"return_id":"example","body":{"inspected_at":"2026-01-01T00:00:00Z","line_items":[{"acceptance_status":"accepted","condition":"new","quantity":"100","return_receipt_line_item_id":"example"}],"location_id":"example","return_receipt_id":"example"}})
+ * @example client.api.createReturnInspection({return_id: "example", body: {inspected_at: "2026-01-01T00:00:00Z", line_items: [{acceptance_status: "accepted", condition: "new", quantity: "100", return_receipt_line_item_id: "example"}], location_id: "example", return_receipt_id: "example"}})
  */
     createReturnInspection(input: ApiCreateReturnInspectionInput, options?: RequestOptions): Promise<Result<ApiCreateReturnInspectionResponse>>;
     /**
  * Create a Return policy with its first revision. The policy ID is stable across revisions, and each published revision is immutable.
  * POST /v1/return-policies
- * @example client.api.createReturnPolicy({"body":{"name":"example","revision":{"approval_mode":"automatic","eligibility_result":"ineligible","is_merchandise_return_required":true,"priority":1,"scope":{}}}})
+ * @example client.api.createReturnPolicy({body: {name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}})
  */
     createReturnPolicy(input: ApiCreateReturnPolicyInput, options?: RequestOptions): Promise<Result<ApiCreateReturnPolicyResponse>>;
     /**
  * Preview return eligibility or resolution amounts without creating a Return or reserving quantity. Set mode to eligibility or resolution and send the matching input object.
  * POST /v1/return-previews
- * @example client.api.createReturnPreview({"body":{"mode":"eligibility","eligibility":{"order_id":"example","selection":{"selection_type":"all_remaining_fulfilled"}}}})
+ * @example client.api.createReturnPreview({body: {mode: "eligibility", eligibility: {order_id: "example", selection: {selection_type: "all_remaining_fulfilled"}}}})
  */
     createReturnPreview(input: ApiCreateReturnPreviewInput, options?: RequestOptions): Promise<Result<ApiCreateReturnPreviewResponse>>;
     /**
  * Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection findings, decline reasons, and Refund reasons.
  * POST /v1/return-reasons
- * @example client.api.createReturnReason({"body":{"handle":"example","name":"example"}})
+ * @example client.api.createReturnReason({body: {handle: "example", name: "example"}})
  */
     createReturnReason(input: ApiCreateReturnReasonInput, options?: RequestOptions): Promise<Result<ApiCreateReturnReasonResponse>>;
     /**
  * Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt instead of editing physical history.
  * POST /v1/returns/{return_id}/receipts
- * @example client.api.createReturnReceipt({"return_id":"example","body":{"line_items":[{"quantity":"100","return_line_item_id":"example"}],"received_at":"2026-01-01T00:00:00Z","receiving_location_id":"example"}})
+ * @example client.api.createReturnReceipt({return_id: "example", body: {line_items: [{quantity: "100", return_line_item_id: "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id: "example"}})
  */
     createReturnReceipt(input: ApiCreateReturnReceiptInput, options?: RequestOptions): Promise<Result<ApiCreateReturnReceiptResponse>>;
     /**
  * Propose a buyer-value outcome for approved quantity. Creating a resolution reserves line value. Confirmation is what freezes it and starts its effects.
  * POST /v1/returns/{return_id}/resolutions
- * @example client.api.createReturnResolution({"body":{"line_items":[{"quantity":"1","return_line_item_id":"rtli_example"}],"resolution_type":"refund"},"return_id":"example"})
+ * @example client.api.createReturnResolution({body: {line_items: [{quantity: "1", return_line_item_id: "rtli_example"}], resolution_type: "refund"}, return_id: "example"})
  */
     createReturnResolution(input: ApiCreateReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiCreateReturnResolutionResponse>>;
     /**
  * Create a risk list for the authenticated merchant environment.
  * POST /v1/risk-lists
- * @example client.api.createRiskList({"body":{"alias":"example","name":"example","item_type":"card_fingerprint"}})
+ * @example client.api.createRiskList({body: {alias: "example", name: "example", item_type: "card_fingerprint"}})
  */
     createRiskList(input: ApiCreateRiskListInput, options?: RequestOptions): Promise<Result<ApiCreateRiskListResponse>>;
     /**
  * Create a risk preview for the authenticated merchant environment.
  * POST /v1/risk-previews
- * @example client.api.createRiskPreview({"body":{"risk_rule_id":"rr_example"}})
+ * @example client.api.createRiskPreview({body: {risk_rule_id: "rr_example"}})
  */
     createRiskPreview(input: ApiCreateRiskPreviewInput, options?: RequestOptions): Promise<Result<ApiCreateRiskPreviewResponse>>;
     /**
  * Create a risk rule for the authenticated merchant environment.
  * POST /v1/risk-rules
- * @example client.api.createRiskRule({"body":{"action":"review","description":"Synthetic SDK example","predicate":{"attribute":"payment_method_type","operator":"eq","value":"card"}}})
+ * @example client.api.createRiskRule({body: {action: "review", description: "Synthetic SDK example", predicate: {attribute: "payment_method_type", operator: "eq", value: "card"}}})
  */
     createRiskRule(input: ApiCreateRiskRuleInput, options?: RequestOptions): Promise<Result<ApiCreateRiskRuleResponse>>;
     /**
  * Creates a shipment execution record under a shipment-type fulfillment. A shipment groups one carrier leg. Create one package under it for each physical parcel, including single-parcel shipments.
  * POST /v1/fulfillments/{fulfillment_id}/shipments
- * @example client.api.createShipment({"fulfillment_id":"example","body":{}})
+ * @example client.api.createShipment({fulfillment_id: "example", body: {}})
  */
     createShipment(input: ApiCreateShipmentInput, options?: RequestOptions): Promise<Result<ApiCreateShipmentResponse>>;
     /**
  * Creates a subscription for the authenticated merchant.
  * POST /v1/subscriptions
- * @example client.api.createSubscription({"body":{"billing_start":{"type":"immediate"},"customer_id":"example","plan_id":"example","billing_schedule":{"owner":"flint"}}})
+ * @example client.api.createSubscription({body: {billing_start: {type: "immediate"}, customer_id: "example", plan_id: "example", billing_schedule: {owner: "flint"}}})
  */
     createSubscription(input: ApiCreateSubscriptionInput, options?: RequestOptions): Promise<Result<ApiCreateSubscriptionResponse>>;
     /**
  * Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome.
  * POST /v1/subscriptions/{subscription_id}/payment-retries
- * @example client.api.createSubscriptionPaymentRetry({"subscription_id":"example","Idempotency-Key":"example"})
+ * @example client.api.createSubscriptionPaymentRetry({subscription_id: "example", "Idempotency-Key": "example"})
  */
     createSubscriptionPaymentRetry(input: ApiCreateSubscriptionPaymentRetryInput, options?: RequestOptions): Promise<Result<ApiCreateSubscriptionPaymentRetryResponse>>;
     /**
  * Creates a subscription plan for the authenticated merchant.
  * POST /v1/subscription-plans
- * @example client.api.createSubscriptionPlan({"body":{"billing_interval":"daily","billing_interval_count":1,"currency":"USD","name":"example"}})
+ * @example client.api.createSubscriptionPlan({body: {billing_interval: "daily", billing_interval_count: 1, currency: "USD", name: "example"}})
  */
     createSubscriptionPlan(input: ApiCreateSubscriptionPlanInput, options?: RequestOptions): Promise<Result<ApiCreateSubscriptionPlanResponse>>;
     /**
  * Creates a webhook endpoint and returns the signing secret once.
  * POST /v1/webhook-endpoints
- * @example client.api.createWebhookEndpoint({"body":{"url":"example"}})
+ * @example client.api.createWebhookEndpoint({body: {url: "example"}})
  */
     createWebhookEndpoint(input: ApiCreateWebhookEndpointInput, options?: RequestOptions): Promise<Result<ApiCreateWebhookEndpointResponse>>;
     /**
  * Creates and delivers a synthetic test webhook event to one active webhook endpoint. Safe to retry with the same Idempotency-Key.
  * POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events
- * @example client.api.createWebhookTestEvent({"webhook_endpoint_id":"example","body":{"event_type":"balance.updated"}})
+ * @example client.api.createWebhookTestEvent({webhook_endpoint_id: "example", body: {event_type: "balance.updated"}})
  */
     createWebhookTestEvent(input: ApiCreateWebhookTestEventInput, options?: RequestOptions): Promise<Result<ApiCreateWebhookTestEventResponse>>;
     /**
  * Record per-line Return decisions atomically. Each line selects policy_evaluation or explicit decision semantics.
  * POST /v1/returns/{return_id}/decide
- * @example client.api.decideReturn({"return_id":"example","body":{"line_items":[{"approved_quantity":"0","decision_basis":"policy_evaluation","return_line_item_id":"example"}]}})
+ * @example client.api.decideReturn({return_id: "example", body: {line_items: [{approved_quantity: "0", decision_basis: "policy_evaluation", return_line_item_id: "example"}]}})
  */
     decideReturn(input: ApiDecideReturnInput, options?: RequestOptions): Promise<Result<ApiDecideReturnResponse>>;
     /**
  * Record the accept or reject outcome for inspected quantity. Accepted quantity becomes dispositionable and satisfies after_inspection refund timing.
  * POST /v1/return-inspections/{return_inspection_id}/line-items/{return_inspection_line_item_id}/decide
- * @example client.api.decideReturnInspectionLineItem({"return_inspection_id":"example","return_inspection_line_item_id":"example","body":{"acceptance_decision_reason":"inspection_result","acceptance_status":"accepted"}})
+ * @example client.api.decideReturnInspectionLineItem({return_inspection_id: "example", return_inspection_line_item_id: "example", body: {acceptance_decision_reason: "inspection_result", acceptance_status: "accepted"}})
  */
     decideReturnInspectionLineItem(input: ApiDecideReturnInspectionLineItemInput, options?: RequestOptions): Promise<Result<ApiDecideReturnInspectionLineItemResponse>>;
     /**
  * Decline a payment review for the authenticated merchant environment.
  * POST /v1/reviews/{review_id}/decline
- * @example client.api.declineReview({"review_id":"example"})
+ * @example client.api.declineReview({review_id: "example"})
  */
     declineReview(input: ApiDeclineReviewInput, options?: RequestOptions): Promise<Result<ApiDeclineReviewResponse>>;
     /**
  * Archives a bundle and returns its final state.
  * DELETE /v1/bundles/{bundle_id}
- * @example client.api.deleteBundle({"bundle_id":"example"})
+ * @example client.api.deleteBundle({bundle_id: "example"})
  */
     deleteBundle(input: ApiDeleteBundleInput, options?: RequestOptions): Promise<Result<ApiDeleteBundleResponse>>;
     /**
  * Delete category.
  * DELETE /v1/categories/{category_id}
- * @example client.api.deleteCategory({"category_id":"example"})
+ * @example client.api.deleteCategory({category_id: "example"})
  */
     deleteCategory(input: ApiDeleteCategoryInput, options?: RequestOptions): Promise<Result<ApiDeleteCategoryResponse>>;
     /**
  * Atomically clears a provisional selection, releases inventory, removes its charges, and recalculates order economics.
  * DELETE /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current
- * @example client.api.deleteCheckoutSessionCurrentDeliverySelection({"checkout_session_id":"example","expected_delivery_selection_id":"example"})
+ * @example client.api.deleteCheckoutSessionCurrentDeliverySelection({checkout_session_id: "example", expected_delivery_selection_id: "example"})
  */
     deleteCheckoutSessionCurrentDeliverySelection(input: ApiDeleteCheckoutSessionCurrentDeliverySelectionInput, options?: RequestOptions): Promise<Result<ApiDeleteCheckoutSessionCurrentDeliverySelectionResponse>>;
     /**
  * Deletes a saved address and moves any default designation to the newest remaining address.
  * DELETE /v1/customers/{customer_id}/addresses/{customer_address_id}
- * @example client.api.deleteCustomerAddress({"customer_id":"example","customer_address_id":"example"})
+ * @example client.api.deleteCustomerAddress({customer_id: "example", customer_address_id: "example"})
  */
     deleteCustomerAddress(input: ApiDeleteCustomerAddressInput, options?: RequestOptions): Promise<Result<ApiDeleteCustomerAddressResponse>>;
     /**
  * Retires the delivery location set after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-location-sets/{delivery_location_set_id}
- * @example client.api.deleteDeliveryLocationSet({"delivery_location_set_id":"example"})
+ * @example client.api.deleteDeliveryLocationSet({delivery_location_set_id: "example"})
  */
     deleteDeliveryLocationSet(input: ApiDeleteDeliveryLocationSetInput, options?: RequestOptions): Promise<Result<ApiDeleteDeliveryLocationSetResponse>>;
     /**
  * Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-methods/{delivery_method_id}
- * @example client.api.deleteDeliveryMethod({"delivery_method_id":"example"})
+ * @example client.api.deleteDeliveryMethod({delivery_method_id: "example"})
  */
     deleteDeliveryMethod(input: ApiDeleteDeliveryMethodInput, options?: RequestOptions): Promise<Result<ApiDeleteDeliveryMethodResponse>>;
     /**
  * Retires the delivery profile after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-profiles/{delivery_profile_id}
- * @example client.api.deleteDeliveryProfile({"delivery_profile_id":"example"})
+ * @example client.api.deleteDeliveryProfile({delivery_profile_id: "example"})
  */
     deleteDeliveryProfile(input: ApiDeleteDeliveryProfileInput, options?: RequestOptions): Promise<Result<ApiDeleteDeliveryProfileResponse>>;
     /**
  * Retires the delivery rate callback after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
- * @example client.api.deleteDeliveryRateCallback({"delivery_rate_callback_id":"example"})
+ * @example client.api.deleteDeliveryRateCallback({delivery_rate_callback_id: "example"})
  */
     deleteDeliveryRateCallback(input: ApiDeleteDeliveryRateCallbackInput, options?: RequestOptions): Promise<Result<ApiDeleteDeliveryRateCallbackResponse>>;
     /**
  * Retires the delivery zone after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-zones/{delivery_zone_id}
- * @example client.api.deleteDeliveryZone({"delivery_zone_id":"example"})
+ * @example client.api.deleteDeliveryZone({delivery_zone_id: "example"})
  */
     deleteDeliveryZone(input: ApiDeleteDeliveryZoneInput, options?: RequestOptions): Promise<Result<ApiDeleteDeliveryZoneResponse>>;
     /**
  * Retires a non-default sandbox and frees its original name for reuse.
  * DELETE /v1/developer/sandboxes/{sandbox_id}
- * @example client.api.deleteDeveloperSandbox({"sandbox_id":"example"})
+ * @example client.api.deleteDeveloperSandbox({sandbox_id: "example"})
  */
     deleteDeveloperSandbox(input: ApiDeleteDeveloperSandboxInput, options?: RequestOptions): Promise<Result<ApiDeleteDeveloperSandboxResponse>>;
     /**
  * Marks a device as deleted and returns its final state.
  * DELETE /v1/devices/{device_id}
- * @example client.api.deleteDevice({"device_id":"example"})
+ * @example client.api.deleteDevice({device_id: "example"})
  */
     deleteDevice(input: ApiDeleteDeviceInput, options?: RequestOptions): Promise<Result<ApiDeleteDeviceResponse>>;
     /**
  * Retire an allocation policy. keeps the archived resource available in list results.
  * DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
- * @example client.api.deleteInventoryAllocationPolicy({"inventory_allocation_policy_id":"example"})
+ * @example client.api.deleteInventoryAllocationPolicy({inventory_allocation_policy_id: "example"})
  */
     deleteInventoryAllocationPolicy(input: ApiDeleteInventoryAllocationPolicyInput, options?: RequestOptions): Promise<Result<ApiDeleteInventoryAllocationPolicyResponse>>;
     /**
  * Retire an inventory item. keeps the archived resource available in list results.
  * DELETE /v1/inventory-items/{inventory_item_id}
- * @example client.api.deleteInventoryItem({"inventory_item_id":"example"})
+ * @example client.api.deleteInventoryItem({inventory_item_id: "example"})
  */
     deleteInventoryItem(input: ApiDeleteInventoryItemInput, options?: RequestOptions): Promise<Result<ApiDeleteInventoryItemResponse>>;
     /**
  * Retires an invoice payment term by setting its status to archived. A default payment term cannot be retired.
  * DELETE /v1/invoice-payment-terms/{invoice_payment_term_id}
- * @example client.api.deleteInvoicePaymentTerm({"invoice_payment_term_id":"example"})
+ * @example client.api.deleteInvoicePaymentTerm({invoice_payment_term_id: "example"})
  */
     deleteInvoicePaymentTerm(input: ApiDeleteInvoicePaymentTermInput, options?: RequestOptions): Promise<Result<ApiDeleteInvoicePaymentTermResponse>>;
     /**
  * Retire a Location. Preserves the archived resource for direct reads.
  * DELETE /v1/locations/{location_id}
- * @example client.api.deleteLocation({"location_id":"example"})
+ * @example client.api.deleteLocation({location_id: "example"})
  */
     deleteLocation(input: ApiDeleteLocationInput, options?: RequestOptions): Promise<Result<ApiDeleteLocationResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved address and moves any default designation to the newest remaining address.
  * DELETE /v1/me/addresses/{customer_address_id}
- * @example client.api.deleteMeAddress({"customer_address_id":"example"})
+ * @example client.api.deleteMeAddress({customer_address_id: "example"})
  */
     deleteMeAddress(input: ApiDeleteMeAddressInput, options?: RequestOptions): Promise<Result<ApiDeleteMeAddressResponse>>;
     /**
  * Retire modifier group.
  * DELETE /v1/modifier-groups/{modifier_group_id}
- * @example client.api.deleteModifierGroup({"modifier_group_id":"example"})
+ * @example client.api.deleteModifierGroup({modifier_group_id: "example"})
  */
     deleteModifierGroup(input: ApiDeleteModifierGroupInput, options?: RequestOptions): Promise<Result<ApiDeleteModifierGroupResponse>>;
     /**
  * Retire modifier set.
  * DELETE /v1/modifier-sets/{modifier_set_id}
- * @example client.api.deleteModifierSet({"modifier_set_id":"example"})
+ * @example client.api.deleteModifierSet({modifier_set_id: "example"})
  */
     deleteModifierSet(input: ApiDeleteModifierSetInput, options?: RequestOptions): Promise<Result<ApiDeleteModifierSetResponse>>;
     /**
  * Removes a single service charge, fee, or surcharge from an order.
  * DELETE /v1/orders/{order_id}/charges/{order_charge_id}
- * @example client.api.deleteOrderCharge({"order_id":"example","order_charge_id":"example"})
+ * @example client.api.deleteOrderCharge({order_id: "example", order_charge_id: "example"})
  */
     deleteOrderCharge(input: ApiDeleteOrderChargeInput, options?: RequestOptions): Promise<Result<ApiDeleteOrderChargeResponse>>;
     /**
  * Removes a single line item from an order.
  * DELETE /v1/orders/{order_id}/line-items/{order_line_item_id}
- * @example client.api.deleteOrderLineItem({"order_id":"example","order_line_item_id":"example"})
+ * @example client.api.deleteOrderLineItem({order_id: "example", order_line_item_id: "example"})
  */
     deleteOrderLineItem(input: ApiDeleteOrderLineItemInput, options?: RequestOptions): Promise<Result<ApiDeleteOrderLineItemResponse>>;
     /**
  * Soft-deletes an organization when it has no active descendants or merchant links.
  * DELETE /v1/organizations/{organization_id}
- * @example client.api.deleteOrganization({"organization_id":"example"})
+ * @example client.api.deleteOrganization({organization_id: "example"})
  */
     deleteOrganization(input: ApiDeleteOrganizationInput, options?: RequestOptions): Promise<Result<ApiDeleteOrganizationResponse>>;
     /**
  * Removes an order line quantity from a package while the package is still mutable.
  * DELETE /v1/packages/{package_id}/items/{package_item_id}
- * @example client.api.deletePackageItem({"package_id":"example","package_item_id":"example"})
+ * @example client.api.deletePackageItem({package_id: "example", package_item_id: "example"})
  */
     deletePackageItem(input: ApiDeletePackageItemInput, options?: RequestOptions): Promise<Result<ApiDeletePackageItemResponse>>;
     /**
  * Disables an eligible payout destination and returns its final state. Safe to retry with the same Idempotency-Key.
  * DELETE /v1/payout-settings/destinations/{payout_destination_id}
- * @example client.api.deletePayoutDestination({"payout_destination_id":"example","body":{}})
+ * @example client.api.deletePayoutDestination({payout_destination_id: "example", body: {}})
  */
     deletePayoutDestination(input: ApiDeletePayoutDestinationInput, options?: RequestOptions): Promise<Result<ApiDeletePayoutDestinationResponse>>;
     /**
  * Archives a product and returns its final state.
  * DELETE /v1/products/{product_id}
- * @example client.api.deleteProduct({"product_id":"example"})
+ * @example client.api.deleteProduct({product_id: "example"})
  */
     deleteProduct(input: ApiDeleteProductInput, options?: RequestOptions): Promise<Result<ApiDeleteProductResponse>>;
     /**
  * Retire product variant.
  * DELETE /v1/products/{product_id}/variants/{variant_id}
- * @example client.api.deleteProductVariant({"product_id":"example","variant_id":"example"})
+ * @example client.api.deleteProductVariant({product_id: "example", variant_id: "example"})
  */
     deleteProductVariant(input: ApiDeleteProductVariantInput, options?: RequestOptions): Promise<Result<ApiDeleteProductVariantResponse>>;
     /**
  * Archives a promotion and returns its final state.
  * DELETE /v1/promotions/{promotion_id}
- * @example client.api.deletePromotion({"promotion_id":"example"})
+ * @example client.api.deletePromotion({promotion_id: "example"})
  */
     deletePromotion(input: ApiDeletePromotionInput, options?: RequestOptions): Promise<Result<ApiDeletePromotionResponse>>;
     /**
  * Deletes a promotion code.
  * DELETE /v1/promotions/{promotion_id}/codes/{promotion_code_id}
- * @example client.api.deletePromotionCode({"promotion_id":"example","promotion_code_id":"example"})
+ * @example client.api.deletePromotionCode({promotion_id: "example", promotion_code_id: "example"})
  */
     deletePromotionCode(input: ApiDeletePromotionCodeInput, options?: RequestOptions): Promise<Result<ApiDeletePromotionCodeResponse>>;
     /**
  * Remove a line item from a requested Return. The response is the updated Return.
  * DELETE /v1/returns/{return_id}/line-items/{return_line_item_id}
- * @example client.api.deleteReturnLineItem({"return_id":"example","return_line_item_id":"example"})
+ * @example client.api.deleteReturnLineItem({return_id: "example", return_line_item_id: "example"})
  */
     deleteReturnLineItem(input: ApiDeleteReturnLineItemInput, options?: RequestOptions): Promise<Result<ApiDeleteReturnLineItemResponse>>;
     /**
  * Retire a Return policy so it is no longer evaluated and no longer appears as an active choice.
  * DELETE /v1/return-policies/{return_policy_id}
- * @example client.api.deleteReturnPolicy({"return_policy_id":"example"})
+ * @example client.api.deleteReturnPolicy({return_policy_id: "example"})
  */
     deleteReturnPolicy(input: ApiDeleteReturnPolicyInput, options?: RequestOptions): Promise<Result<ApiDeleteReturnPolicyResponse>>;
     /**
  * Retire a Return reason so buyers can no longer select it. Returns that already recorded it keep the frozen reason name.
  * DELETE /v1/return-reasons/{return_reason_id}
- * @example client.api.deleteReturnReason({"return_reason_id":"example"})
+ * @example client.api.deleteReturnReason({return_reason_id: "example"})
  */
     deleteReturnReason(input: ApiDeleteReturnReasonInput, options?: RequestOptions): Promise<Result<ApiDeleteReturnReasonResponse>>;
     /**
  * Retire a risk list for the authenticated merchant environment.
  * DELETE /v1/risk-lists/{risk_list_id}
- * @example client.api.deleteRiskList({"risk_list_id":"example"})
+ * @example client.api.deleteRiskList({risk_list_id: "example"})
  */
     deleteRiskList(input: ApiDeleteRiskListInput, options?: RequestOptions): Promise<Result<ApiDeleteRiskListResponse>>;
     /**
  * Delete a risk list item for the authenticated merchant environment.
  * DELETE /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
- * @example client.api.deleteRiskListItem({"risk_list_id":"example","risk_list_item_id":"example"})
+ * @example client.api.deleteRiskListItem({risk_list_id: "example", risk_list_item_id: "example"})
  */
     deleteRiskListItem(input: ApiDeleteRiskListItemInput, options?: RequestOptions): Promise<Result<ApiDeleteRiskListItemResponse>>;
     /**
  * Retire a risk rule for the authenticated merchant environment.
  * DELETE /v1/risk-rules/{risk_rule_id}
- * @example client.api.deleteRiskRule({"risk_rule_id":"example"})
+ * @example client.api.deleteRiskRule({risk_rule_id: "example"})
  */
     deleteRiskRule(input: ApiDeleteRiskRuleInput, options?: RequestOptions): Promise<Result<ApiDeleteRiskRuleResponse>>;
     /**
  * Retires a subscription plan. Plans with active subscriptions cannot be retired.
  * DELETE /v1/subscription-plans/{plan_id}
- * @example client.api.deleteSubscriptionPlan({"plan_id":"example"})
+ * @example client.api.deleteSubscriptionPlan({plan_id: "example"})
  */
     deleteSubscriptionPlan(input: ApiDeleteSubscriptionPlanInput, options?: RequestOptions): Promise<Result<ApiDeleteSubscriptionPlanResponse>>;
     /**
  * Marks a webhook endpoint as deleted so it no longer receives events.
  * DELETE /v1/webhook-endpoints/{webhook_endpoint_id}
- * @example client.api.deleteWebhookEndpoint({"webhook_endpoint_id":"example"})
+ * @example client.api.deleteWebhookEndpoint({webhook_endpoint_id: "example"})
  */
     deleteWebhookEndpoint(input: ApiDeleteWebhookEndpointInput, options?: RequestOptions): Promise<Result<ApiDeleteWebhookEndpointResponse>>;
     /**
  * Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope.
  * POST /v1/oauth/token
- * @example client.api.exchangePartnerInstallToken({"body":{"client_id":"example","client_secret":"example","grant_type":"example"}})
+ * @example client.api.exchangePartnerInstallToken({body: {client_id: "example", client_secret: "example", grant_type: "example"}})
  */
     exchangePartnerInstallToken(input: ApiExchangePartnerInstallTokenInput, options?: RequestOptions): Promise<Result<ApiExchangePartnerInstallTokenResponse>>;
     /**
  * Returns high-level merchant analytics for the requested time range.
  * GET /v1/analytics/overview
- * @example client.api.getAnalyticsOverview({"range":"today"})
+ * @example client.api.getAnalyticsOverview({range: "today"})
  */
     getAnalyticsOverview(input: ApiGetAnalyticsOverviewInput, options?: RequestOptions): Promise<Result<ApiGetAnalyticsOverviewResponse>>;
     /**
  * Returns external API key metadata. Secrets, internal keys, and demo-session keys are not returned.
  * GET /v1/api-keys/{api_key_id}
- * @example client.api.getAPIKey({"api_key_id":"example"})
+ * @example client.api.getAPIKey({api_key_id: "example"})
  */
     getAPIKey(input: ApiGetAPIKeyInput, options?: RequestOptions): Promise<Result<ApiGetAPIKeyResponse>>;
     /**
  * Returns one balance transaction by ID, with optional related order expansion.
  * GET /v1/balance-transactions/{balance_transaction_id}
- * @example client.api.getBalanceTransaction({"balance_transaction_id":"example"})
+ * @example client.api.getBalanceTransaction({balance_transaction_id: "example"})
  */
     getBalanceTransaction(input: ApiGetBalanceTransactionInput, options?: RequestOptions): Promise<Result<ApiGetBalanceTransactionResponse>>;
     /**
  * Get bundle.
  * GET /v1/bundles/{bundle_id}
- * @example client.api.getBundle({"bundle_id":"example"})
+ * @example client.api.getBundle({bundle_id: "example"})
  */
     getBundle(input: ApiGetBundleInput, options?: RequestOptions): Promise<Result<ApiGetBundleResponse>>;
     /**
  * Get category.
  * GET /v1/categories/{category_id}
- * @example client.api.getCategory({"category_id":"example"})
+ * @example client.api.getCategory({category_id: "example"})
  */
     getCategory(input: ApiGetCategoryInput, options?: RequestOptions): Promise<Result<ApiGetCategoryResponse>>;
     /**
  * Returns a single checkout session by ID.
  * GET /v1/checkout-sessions/{checkout_session_id}
- * @example client.api.getCheckoutSession({"checkout_session_id":"example"})
+ * @example client.api.getCheckoutSession({checkout_session_id: "example"})
  */
     getCheckoutSession(input: ApiGetCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiGetCheckoutSessionResponse>>;
     /**
  * Returns the provisional selection or the order-level committed selection effective for this checkout.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current
- * @example client.api.getCheckoutSessionCurrentDeliverySelection({"checkout_session_id":"example"})
+ * @example client.api.getCheckoutSessionCurrentDeliverySelection({checkout_session_id: "example"})
  */
     getCheckoutSessionCurrentDeliverySelection(input: ApiGetCheckoutSessionCurrentDeliverySelectionInput, options?: RequestOptions): Promise<Result<ApiGetCheckoutSessionCurrentDeliverySelectionResponse>>;
     /**
  * Returns one quote under its checkout authority. Buyer credentials receive the buyer-safe projection.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-quotes/{delivery_quote_id}
- * @example client.api.getCheckoutSessionDeliveryQuote({"checkout_session_id":"example","delivery_quote_id":"example"})
+ * @example client.api.getCheckoutSessionDeliveryQuote({checkout_session_id: "example", delivery_quote_id: "example"})
  */
     getCheckoutSessionDeliveryQuote(input: ApiGetCheckoutSessionDeliveryQuoteInput, options?: RequestOptions): Promise<Result<ApiGetCheckoutSessionDeliveryQuoteResponse>>;
     /**
  * Returns one checkout selection with immutable economics, lifecycle events, and retention-aware private data.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/{delivery_selection_id}
- * @example client.api.getCheckoutSessionDeliverySelectionHistory({"checkout_session_id":"example","delivery_selection_id":"example"})
+ * @example client.api.getCheckoutSessionDeliverySelectionHistory({checkout_session_id: "example", delivery_selection_id: "example"})
  */
     getCheckoutSessionDeliverySelectionHistory(input: ApiGetCheckoutSessionDeliverySelectionHistoryInput, options?: RequestOptions): Promise<Result<ApiGetCheckoutSessionDeliverySelectionHistoryResponse>>;
     /**
  * Returns one credit note with its lines, total, and the credit still available to allocate.
  * GET /v1/credit-notes/{credit_note_id}
- * @example client.api.getCreditNote({"credit_note_id":"example"})
+ * @example client.api.getCreditNote({credit_note_id: "example"})
  */
     getCreditNote(input: ApiGetCreditNoteInput, options?: RequestOptions): Promise<Result<ApiGetCreditNoteResponse>>;
     /**
  * Returns one allocation. A non-null reversed_at means the credit was returned to the credit note and the invoice balance reopened.
  * GET /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}
- * @example client.api.getCreditNoteAllocation({"credit_note_id":"example","credit_note_allocation_id":"example"})
+ * @example client.api.getCreditNoteAllocation({credit_note_id: "example", credit_note_allocation_id: "example"})
  */
     getCreditNoteAllocation(input: ApiGetCreditNoteAllocationInput, options?: RequestOptions): Promise<Result<ApiGetCreditNoteAllocationResponse>>;
     /**
  * Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
  * GET /v1/credit-notes/{credit_note_id}/pdf
- * @example client.api.getCreditNotePDF({"credit_note_id":"example"})
+ * @example client.api.getCreditNotePDF({credit_note_id: "example"})
  */
     getCreditNotePDF(input: ApiGetCreditNotePDFInput, options?: RequestOptions): Promise<Result<ApiGetCreditNotePDFResponse>>;
     /**
  * Returns redacted request log detail for a request generated by the authenticated API key. Detail responses remain current-key scoped and redact headers, query parameters, request bodies, and response bodies before returning them.
  * GET /v1/developer/request-logs/{api_request_log_id}
- * @example client.api.getCurrentAPIKeyRequestLog({"api_request_log_id":"example"})
+ * @example client.api.getCurrentAPIKeyRequestLog({api_request_log_id: "example"})
  */
     getCurrentAPIKeyRequestLog(input: ApiGetCurrentAPIKeyRequestLogInput, options?: RequestOptions): Promise<Result<ApiGetCurrentAPIKeyRequestLogResponse>>;
     /**
  * Returns a single customer by ID.
  * GET /v1/customers/{customer_id}
- * @example client.api.getCustomer({"customer_id":"example"})
+ * @example client.api.getCustomer({customer_id: "example"})
  */
     getCustomer(input: ApiGetCustomerInput, options?: RequestOptions): Promise<Result<ApiGetCustomerResponse>>;
     /**
  * Returns one saved address owned by the customer.
  * GET /v1/customers/{customer_id}/addresses/{customer_address_id}
- * @example client.api.getCustomerAddress({"customer_id":"example","customer_address_id":"example"})
+ * @example client.api.getCustomerAddress({customer_id: "example", customer_address_id: "example"})
  */
     getCustomerAddress(input: ApiGetCustomerAddressInput, options?: RequestOptions): Promise<Result<ApiGetCustomerAddressResponse>>;
     /**
  * Returns the current status of a tracked deletion request.
  * GET /v1/customers/{customer_id}/deletion-requests/{customer_deletion_request_id}
- * @example client.api.getCustomerDeletionRequest({"customer_id":"example","customer_deletion_request_id":"example"})
+ * @example client.api.getCustomerDeletionRequest({customer_id: "example", customer_deletion_request_id: "example"})
  */
     getCustomerDeletionRequest(input: ApiGetCustomerDeletionRequestInput, options?: RequestOptions): Promise<Result<ApiGetCustomerDeletionRequestResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery location set.
  * GET /v1/delivery-location-sets/{delivery_location_set_id}
- * @example client.api.getDeliveryLocationSet({"delivery_location_set_id":"example"})
+ * @example client.api.getDeliveryLocationSet({delivery_location_set_id: "example"})
  */
     getDeliveryLocationSet(input: ApiGetDeliveryLocationSetInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryLocationSetResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery method.
  * GET /v1/delivery-methods/{delivery_method_id}
- * @example client.api.getDeliveryMethod({"delivery_method_id":"example"})
+ * @example client.api.getDeliveryMethod({delivery_method_id: "example"})
  */
     getDeliveryMethod(input: ApiGetDeliveryMethodInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryMethodResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery profile.
  * GET /v1/delivery-profiles/{delivery_profile_id}
- * @example client.api.getDeliveryProfile({"delivery_profile_id":"example"})
+ * @example client.api.getDeliveryProfile({delivery_profile_id: "example"})
  */
     getDeliveryProfile(input: ApiGetDeliveryProfileInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryProfileResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery rate callback.
  * GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
- * @example client.api.getDeliveryRateCallback({"delivery_rate_callback_id":"example"})
+ * @example client.api.getDeliveryRateCallback({delivery_rate_callback_id: "example"})
  */
     getDeliveryRateCallback(input: ApiGetDeliveryRateCallbackInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryRateCallbackResponse>>;
     /**
  * Returns one permanent delivery revocation and its estimated impact at creation time.
  * GET /v1/delivery-revocations/{delivery_revocation_id}
- * @example client.api.getDeliveryRevocation({"delivery_revocation_id":"example"})
+ * @example client.api.getDeliveryRevocation({delivery_revocation_id: "example"})
  */
     getDeliveryRevocation(input: ApiGetDeliveryRevocationInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryRevocationResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery zone.
  * GET /v1/delivery-zones/{delivery_zone_id}
- * @example client.api.getDeliveryZone({"delivery_zone_id":"example"})
+ * @example client.api.getDeliveryZone({delivery_zone_id: "example"})
  */
     getDeliveryZone(input: ApiGetDeliveryZoneInput, options?: RequestOptions): Promise<Result<ApiGetDeliveryZoneResponse>>;
     /**
@@ -7453,31 +7453,31 @@ export declare class Client {
     /**
  * Returns a single partner app owned by the authenticated merchant.
  * GET /v1/developer/partner/apps/{partner_app_id}
- * @example client.api.getDeveloperPartnerApp({"partner_app_id":"example"})
+ * @example client.api.getDeveloperPartnerApp({partner_app_id: "example"})
  */
     getDeveloperPartnerApp(input: ApiGetDeveloperPartnerAppInput, options?: RequestOptions): Promise<Result<ApiGetDeveloperPartnerAppResponse>>;
     /**
  * Returns a single install for a partner app owned by the authenticated merchant.
  * GET /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}
- * @example client.api.getDeveloperPartnerAppInstall({"partner_app_id":"example","partner_app_install_id":"example"})
+ * @example client.api.getDeveloperPartnerAppInstall({partner_app_id: "example", partner_app_install_id: "example"})
  */
     getDeveloperPartnerAppInstall(input: ApiGetDeveloperPartnerAppInstallInput, options?: RequestOptions): Promise<Result<ApiGetDeveloperPartnerAppInstallResponse>>;
     /**
  * Returns a single sandbox by ID.
  * GET /v1/developer/sandboxes/{sandbox_id}
- * @example client.api.getDeveloperSandbox({"sandbox_id":"example"})
+ * @example client.api.getDeveloperSandbox({sandbox_id: "example"})
  */
     getDeveloperSandbox(input: ApiGetDeveloperSandboxInput, options?: RequestOptions): Promise<Result<ApiGetDeveloperSandboxResponse>>;
     /**
  * Returns a single device by ID.
  * GET /v1/devices/{device_id}
- * @example client.api.getDevice({"device_id":"example"})
+ * @example client.api.getDevice({device_id: "example"})
  */
     getDevice(input: ApiGetDeviceInput, options?: RequestOptions): Promise<Result<ApiGetDeviceResponse>>;
     /**
  * Returns one dispute by ID, with optional customer, order, and payment intent expansions.
  * GET /v1/disputes/{dispute_id}
- * @example client.api.getDispute({"dispute_id":"example"})
+ * @example client.api.getDispute({dispute_id: "example"})
  */
     getDispute(input: ApiGetDisputeInput, options?: RequestOptions): Promise<Result<ApiGetDisputeResponse>>;
     /**
@@ -7489,61 +7489,61 @@ export declare class Client {
     /**
  * Returns one immutable feedback report in the credential's merchant and environment.
  * GET /v1/feedback-reports/{feedback_report_id}
- * @example client.api.getFeedbackReport({"feedback_report_id":"example"})
+ * @example client.api.getFeedbackReport({feedback_report_id: "example"})
  */
     getFeedbackReport(input: ApiGetFeedbackReportInput, options?: RequestOptions): Promise<Result<ApiGetFeedbackReportResponse>>;
     /**
  * Get an early fraud warning for the authenticated merchant environment.
  * GET /v1/fraud-warnings/{fraud_warning_id}
- * @example client.api.getFraudWarning({"fraud_warning_id":"example"})
+ * @example client.api.getFraudWarning({fraud_warning_id: "example"})
  */
     getFraudWarning(input: ApiGetFraudWarningInput, options?: RequestOptions): Promise<Result<ApiGetFraudWarningResponse>>;
     /**
  * Retrieves a single fulfillment by ID.
  * GET /v1/fulfillments/{fulfillment_id}
- * @example client.api.getFulfillment({"fulfillment_id":"example"})
+ * @example client.api.getFulfillment({fulfillment_id: "example"})
  */
     getFulfillment(input: ApiGetFulfillmentInput, options?: RequestOptions): Promise<Result<ApiGetFulfillmentResponse>>;
     /**
  * Retrieves one provider-neutral fulfillment event by ID.
  * GET /v1/fulfillment-events/{fulfillment_event_id}
- * @example client.api.getFulfillmentEvent({"fulfillment_event_id":"example"})
+ * @example client.api.getFulfillmentEvent({fulfillment_event_id: "example"})
  */
     getFulfillmentEvent(input: ApiGetFulfillmentEventInput, options?: RequestOptions): Promise<Result<ApiGetFulfillmentEventResponse>>;
     /**
  * Retrieves one fulfillment notification audit record by ID.
  * GET /v1/fulfillment-notifications/{fulfillment_notification_id}
- * @example client.api.getFulfillmentNotification({"fulfillment_notification_id":"example"})
+ * @example client.api.getFulfillmentNotification({fulfillment_notification_id: "example"})
  */
     getFulfillmentNotification(input: ApiGetFulfillmentNotificationInput, options?: RequestOptions): Promise<Result<ApiGetFulfillmentNotificationResponse>>;
     /**
  * Returns a single invoice by ID.
  * GET /v1/invoices/{invoice_id}
- * @example client.api.getInvoice({"invoice_id":"example"})
+ * @example client.api.getInvoice({invoice_id: "example"})
  */
     getInvoice(input: ApiGetInvoiceInput, options?: RequestOptions): Promise<Result<ApiGetInvoiceResponse>>;
     /**
  * Returns one card or ACH collection attempt for the invoice.
  * GET /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}
- * @example client.api.getInvoicePaymentAttempt({"invoice_id":"example","invoice_payment_attempt_id":"example"})
+ * @example client.api.getInvoicePaymentAttempt({invoice_id: "example", invoice_payment_attempt_id: "example"})
  */
     getInvoicePaymentAttempt(input: ApiGetInvoicePaymentAttemptInput, options?: RequestOptions): Promise<Result<ApiGetInvoicePaymentAttemptResponse>>;
     /**
  * Returns one invoice payment term for the authenticated merchant.
  * GET /v1/invoice-payment-terms/{invoice_payment_term_id}
- * @example client.api.getInvoicePaymentTerm({"invoice_payment_term_id":"example"})
+ * @example client.api.getInvoicePaymentTerm({invoice_payment_term_id: "example"})
  */
     getInvoicePaymentTerm(input: ApiGetInvoicePaymentTermInput, options?: RequestOptions): Promise<Result<ApiGetInvoicePaymentTermResponse>>;
     /**
  * Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  * GET /v1/invoices/{invoice_id}/pdf
- * @example client.api.getInvoicePDF({"invoice_id":"example"})
+ * @example client.api.getInvoicePDF({invoice_id: "example"})
  */
     getInvoicePDF(input: ApiGetInvoicePDFInput, options?: RequestOptions): Promise<Result<ApiGetInvoicePDFResponse>>;
     /**
  * Get location.
  * GET /v1/locations/{location_id}
- * @example client.api.getLocation({"location_id":"example"})
+ * @example client.api.getLocation({location_id: "example"})
  */
     getLocation(input: ApiGetLocationInput, options?: RequestOptions): Promise<Result<ApiGetLocationResponse>>;
     /**
@@ -7555,85 +7555,85 @@ export declare class Client {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns one saved address owned by the customer.
  * GET /v1/me/addresses/{customer_address_id}
- * @example client.api.getMeAddress({"customer_address_id":"example"})
+ * @example client.api.getMeAddress({customer_address_id: "example"})
  */
     getMeAddress(input: ApiGetMeAddressInput, options?: RequestOptions): Promise<Result<ApiGetMeAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
  * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}
- * @example client.api.getMeCreditNote({"invoice_id":"example","credit_note_id":"example"})
+ * @example client.api.getMeCreditNote({invoice_id: "example", credit_note_id: "example"})
  */
     getMeCreditNote(input: ApiGetMeCreditNoteInput, options?: RequestOptions): Promise<Result<ApiGetMeCreditNoteResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
  * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf
- * @example client.api.getMeCreditNotePDF({"invoice_id":"example","credit_note_id":"example"})
+ * @example client.api.getMeCreditNotePDF({invoice_id: "example", credit_note_id: "example"})
  */
     getMeCreditNotePDF(input: ApiGetMeCreditNotePDFInput, options?: RequestOptions): Promise<Result<ApiGetMeCreditNotePDFResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current status of a tracked deletion request.
  * GET /v1/me/deletion-requests/{customer_deletion_request_id}
- * @example client.api.getMeDeletionRequest({"customer_deletion_request_id":"example"})
+ * @example client.api.getMeDeletionRequest({customer_deletion_request_id: "example"})
  */
     getMeDeletionRequest(input: ApiGetMeDeletionRequestInput, options?: RequestOptions): Promise<Result<ApiGetMeDeletionRequestResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single invoice by ID.
  * GET /v1/me/invoices/{invoice_id}
- * @example client.api.getMeInvoice({"invoice_id":"example"})
+ * @example client.api.getMeInvoice({invoice_id: "example"})
  */
     getMeInvoice(input: ApiGetMeInvoiceInput, options?: RequestOptions): Promise<Result<ApiGetMeInvoiceResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  * GET /v1/me/invoices/{invoice_id}/pdf
- * @example client.api.getMeInvoicePDF({"invoice_id":"example"})
+ * @example client.api.getMeInvoicePDF({invoice_id: "example"})
  */
     getMeInvoicePDF(input: ApiGetMeInvoicePDFInput, options?: RequestOptions): Promise<Result<ApiGetMeInvoicePDFResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single order by ID.
  * GET /v1/me/orders/{order_id}
- * @example client.api.getMeOrder({"order_id":"example"})
+ * @example client.api.getMeOrder({order_id: "example"})
  */
     getMeOrder(input: ApiGetMeOrderInput, options?: RequestOptions): Promise<Result<ApiGetMeOrderResponse>>;
     /**
  * Returns the authenticated merchant by ID.
  * GET /v1/merchants/{merchant_id}
- * @example client.api.getMerchant({"merchant_id":"example"})
+ * @example client.api.getMerchant({merchant_id: "example"})
  */
     getMerchant(input: ApiGetMerchantInput, options?: RequestOptions): Promise<Result<ApiGetMerchantResponse>>;
     /**
  * Returns what the merchant currently owes Flint and owns as account credit in one currency.
  * GET /v1/merchant-billing-balances/{merchant_billing_balance_id}
- * @example client.api.getMerchantBillingBalance({"merchant_billing_balance_id":"example"})
+ * @example client.api.getMerchantBillingBalance({merchant_billing_balance_id: "example"})
  */
     getMerchantBillingBalance(input: ApiGetMerchantBillingBalanceInput, options?: RequestOptions): Promise<Result<ApiGetMerchantBillingBalanceResponse>>;
     /**
  * Returns one invoice issued by Flint for the authenticated merchant environment.
  * GET /v1/merchant-subscription-invoices/{merchant_subscription_invoice_id}
- * @example client.api.getMerchantSubscriptionInvoice({"merchant_subscription_invoice_id":"example"})
+ * @example client.api.getMerchantSubscriptionInvoice({merchant_subscription_invoice_id: "example"})
  */
     getMerchantSubscriptionInvoice(input: ApiGetMerchantSubscriptionInvoiceInput, options?: RequestOptions): Promise<Result<ApiGetMerchantSubscriptionInvoiceResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Retrieve a Return with its line items, policy evaluation, financial summary, and completion blockers. Supports expand for the order, the customer, and each line item's reason and fulfillment.
  * GET /v1/me/returns/{return_id}
- * @example client.api.getMeReturn({"return_id":"example"})
+ * @example client.api.getMeReturn({return_id: "example"})
  */
     getMeReturn(input: ApiGetMeReturnInput, options?: RequestOptions): Promise<Result<ApiGetMeReturnResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single subscription by ID.
  * GET /v1/me/subscriptions/{subscription_id}
- * @example client.api.getMeSubscription({"subscription_id":"example"})
+ * @example client.api.getMeSubscription({subscription_id: "example"})
  */
     getMeSubscription(input: ApiGetMeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiGetMeSubscriptionResponse>>;
     /**
  * Get modifier group.
  * GET /v1/modifier-groups/{modifier_group_id}
- * @example client.api.getModifierGroup({"modifier_group_id":"example"})
+ * @example client.api.getModifierGroup({modifier_group_id: "example"})
  */
     getModifierGroup(input: ApiGetModifierGroupInput, options?: RequestOptions): Promise<Result<ApiGetModifierGroupResponse>>;
     /**
  * Get modifier set.
  * GET /v1/modifier-sets/{modifier_set_id}
- * @example client.api.getModifierSet({"modifier_set_id":"example"})
+ * @example client.api.getModifierSet({modifier_set_id: "example"})
  */
     getModifierSet(input: ApiGetModifierSetInput, options?: RequestOptions): Promise<Result<ApiGetModifierSetResponse>>;
     /**
@@ -7651,97 +7651,97 @@ export declare class Client {
     /**
  * Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection.
  * POST /v1/invoices/{invoice_id}/checkout-session
- * @example client.api.getOrCreateInvoiceCheckoutSession({"invoice_id":"example"})
+ * @example client.api.getOrCreateInvoiceCheckoutSession({invoice_id: "example"})
  */
     getOrCreateInvoiceCheckoutSession(input: ApiGetOrCreateInvoiceCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiGetOrCreateInvoiceCheckoutSessionResponse>>;
     /**
  * Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution.
  * POST /v1/return-resolutions/{return_resolution_id}/checkout-session
- * @example client.api.getOrCreateReturnResolutionCheckoutSession({"return_resolution_id":"example"})
+ * @example client.api.getOrCreateReturnResolutionCheckoutSession({return_resolution_id: "example"})
  */
     getOrCreateReturnResolutionCheckoutSession(input: ApiGetOrCreateReturnResolutionCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiGetOrCreateReturnResolutionCheckoutSessionResponse>>;
     /**
  * Returns a single order by ID.
  * GET /v1/orders/{order_id}
- * @example client.api.getOrder({"order_id":"example"})
+ * @example client.api.getOrder({order_id: "example"})
  */
     getOrder(input: ApiGetOrderInput, options?: RequestOptions): Promise<Result<ApiGetOrderResponse>>;
     /**
  * Returns the delivery selection committed to an order.
  * GET /v1/orders/{order_id}/delivery-selections/current
- * @example client.api.getOrderCurrentDeliverySelection({"order_id":"example"})
+ * @example client.api.getOrderCurrentDeliverySelection({order_id: "example"})
  */
     getOrderCurrentDeliverySelection(input: ApiGetOrderCurrentDeliverySelectionInput, options?: RequestOptions): Promise<Result<ApiGetOrderCurrentDeliverySelectionResponse>>;
     /**
  * Returns one durable payment attempt for the order. Checkout-session callers can read only attempts created by their own session.
  * GET /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}
- * @example client.api.getOrderPaymentAttempt({"order_id":"example","payment_attempt_id":"example"})
+ * @example client.api.getOrderPaymentAttempt({order_id: "example", payment_attempt_id: "example"})
  */
     getOrderPaymentAttempt(input: ApiGetOrderPaymentAttemptInput, options?: RequestOptions): Promise<Result<ApiGetOrderPaymentAttemptResponse>>;
     /**
  * Returns an accessible organization by ID.
  * GET /v1/organizations/{organization_id}
- * @example client.api.getOrganization({"organization_id":"example"})
+ * @example client.api.getOrganization({organization_id: "example"})
  */
     getOrganization(input: ApiGetOrganizationInput, options?: RequestOptions): Promise<Result<ApiGetOrganizationResponse>>;
     /**
  * Retrieves one package by ID.
  * GET /v1/packages/{package_id}
- * @example client.api.getPackage({"package_id":"example"})
+ * @example client.api.getPackage({package_id: "example"})
  */
     getPackage(input: ApiGetPackageInput, options?: RequestOptions): Promise<Result<ApiGetPackageResponse>>;
     /**
  * Retrieves one package item by ID.
  * GET /v1/packages/{package_id}/items/{package_item_id}
- * @example client.api.getPackageItem({"package_id":"example","package_item_id":"example"})
+ * @example client.api.getPackageItem({package_id: "example", package_item_id: "example"})
  */
     getPackageItem(input: ApiGetPackageItemInput, options?: RequestOptions): Promise<Result<ApiGetPackageItemResponse>>;
     /**
  * Returns a single payment intent by ID.
  * GET /v1/payment-intents/{payment_intent_id}
- * @example client.api.getPaymentIntent({"payment_intent_id":"example"})
+ * @example client.api.getPaymentIntent({payment_intent_id: "example"})
  */
     getPaymentIntent(input: ApiGetPaymentIntentInput, options?: RequestOptions): Promise<Result<ApiGetPaymentIntentResponse>>;
     /**
  * Returns a single payment link by ID.
  * GET /v1/payment-links/{payment_link_id}
- * @example client.api.getPaymentLink({"payment_link_id":"example"})
+ * @example client.api.getPaymentLink({payment_link_id: "example"})
  */
     getPaymentLink(input: ApiGetPaymentLinkInput, options?: RequestOptions): Promise<Result<ApiGetPaymentLinkResponse>>;
     /**
  * Returns the sanitized buyer-facing payment-link snapshot and a private resolution context for this browser operation.
  * GET /v1/payment-links/{payment_link_id}/public
- * @example client.api.getPaymentLinkPublic({"payment_link_id":"example"})
+ * @example client.api.getPaymentLinkPublic({payment_link_id: "example"})
  */
     getPaymentLinkPublic(input: ApiGetPaymentLinkPublicInput, options?: RequestOptions): Promise<Result<ApiGetPaymentLinkPublicResponse>>;
     /**
  * Returns a single payment method by ID.
  * GET /v1/payment-methods/{payment_method_id}
- * @example client.api.getPaymentMethod({"payment_method_id":"example"})
+ * @example client.api.getPaymentMethod({payment_method_id: "example"})
  */
     getPaymentMethod(input: ApiGetPaymentMethodInput, options?: RequestOptions): Promise<Result<ApiGetPaymentMethodResponse>>;
     /**
  * Returns one environment-scoped payment method domain and its Apple Pay and Google Pay readiness.
  * GET /v1/payment-method-domains/{payment_method_domain_id}
- * @example client.api.getPaymentMethodDomain({"payment_method_domain_id":"example"})
+ * @example client.api.getPaymentMethodDomain({payment_method_domain_id: "example"})
  */
     getPaymentMethodDomain(input: ApiGetPaymentMethodDomainInput, options?: RequestOptions): Promise<Result<ApiGetPaymentMethodDomainResponse>>;
     /**
  * Returns merchant payment volume buckets for the requested time range.
  * GET /v1/analytics/payment-volume-timeseries
- * @example client.api.getPaymentVolumeTimeseries({"range":"today"})
+ * @example client.api.getPaymentVolumeTimeseries({range: "today"})
  */
     getPaymentVolumeTimeseries(input: ApiGetPaymentVolumeTimeseriesInput, options?: RequestOptions): Promise<Result<ApiGetPaymentVolumeTimeseriesResponse>>;
     /**
  * Returns one payout by ID, with optional related payout and payout destination expansions.
  * GET /v1/payouts/{payout_id}
- * @example client.api.getPayout({"payout_id":"example"})
+ * @example client.api.getPayout({payout_id: "example"})
  */
     getPayout(input: ApiGetPayoutInput, options?: RequestOptions): Promise<Result<ApiGetPayoutResponse>>;
     /**
  * Returns one payout destination by ID.
  * GET /v1/payout-settings/destinations/{payout_destination_id}
- * @example client.api.getPayoutDestination({"payout_destination_id":"example"})
+ * @example client.api.getPayoutDestination({payout_destination_id: "example"})
  */
     getPayoutDestination(input: ApiGetPayoutDestinationInput, options?: RequestOptions): Promise<Result<ApiGetPayoutDestinationResponse>>;
     /**
@@ -7753,127 +7753,127 @@ export declare class Client {
     /**
  * Returns a single product by ID.
  * GET /v1/products/{product_id}
- * @example client.api.getProduct({"product_id":"example"})
+ * @example client.api.getProduct({product_id: "example"})
  */
     getProduct(input: ApiGetProductInput, options?: RequestOptions): Promise<Result<ApiGetProductResponse>>;
     /**
  * Get product option.
  * GET /v1/products/{product_id}/options/{option_id}
- * @example client.api.getProductOption({"product_id":"example","option_id":"example"})
+ * @example client.api.getProductOption({product_id: "example", option_id: "example"})
  */
     getProductOption(input: ApiGetProductOptionInput, options?: RequestOptions): Promise<Result<ApiGetProductOptionResponse>>;
     /**
  * Get product variant.
  * GET /v1/products/{product_id}/variants/{variant_id}
- * @example client.api.getProductVariant({"product_id":"example","variant_id":"example"})
+ * @example client.api.getProductVariant({product_id: "example", variant_id: "example"})
  */
     getProductVariant(input: ApiGetProductVariantInput, options?: RequestOptions): Promise<Result<ApiGetProductVariantResponse>>;
     /**
  * Returns a single promotion by ID.
  * GET /v1/promotions/{promotion_id}
- * @example client.api.getPromotion({"promotion_id":"example"})
+ * @example client.api.getPromotion({promotion_id: "example"})
  */
     getPromotion(input: ApiGetPromotionInput, options?: RequestOptions): Promise<Result<ApiGetPromotionResponse>>;
     /**
  * Returns a single refund by ID.
  * GET /v1/refunds/{refund_id}
- * @example client.api.getRefund({"refund_id":"example"})
+ * @example client.api.getRefund({refund_id: "example"})
  */
     getRefund(input: ApiGetRefundInput, options?: RequestOptions): Promise<Result<ApiGetRefundResponse>>;
     /**
  * Returns one report and its terminal download or failure details when available.
  * GET /v1/reports/{report_id}
- * @example client.api.getReport({"report_id":"example"})
+ * @example client.api.getReport({report_id: "example"})
  */
     getReport(input: ApiGetReportInput, options?: RequestOptions): Promise<Result<ApiGetReportResponse>>;
     /**
  * Authorizes the stable Flint download URL and redirects to a short-lived private file URL.
  * GET /v1/report-downloads/{report_download_id}
- * @example client.api.getReportDownload({"report_download_id":"example"})
+ * @example client.api.getReportDownload({report_download_id: "example"})
  */
     getReportDownload(input: ApiGetReportDownloadInput, options?: RequestOptions): Promise<Result<ApiGetReportDownloadResponse>>;
     /**
  * Returns summary-only API request, webhook event, and webhook delivery attempt entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type.
  * GET /v1/developer/resource-timelines/{resource_id}
- * @example client.api.getResourceTimeline({"resource_id":"example"})
+ * @example client.api.getResourceTimeline({resource_id: "example"})
  */
     getResourceTimeline(input: ApiGetResourceTimelineInput, options?: RequestOptions): Promise<Result<ApiGetResourceTimelineResponse>>;
     /**
  * Retrieve a Return with its line items, policy evaluation, financial summary, and completion blockers. Supports expand for the order, the customer, and each line item's reason and fulfillment.
  * GET /v1/returns/{return_id}
- * @example client.api.getReturn({"return_id":"example"})
+ * @example client.api.getReturn({return_id: "example"})
  */
     getReturn(input: ApiGetReturnInput, options?: RequestOptions): Promise<Result<ApiGetReturnResponse>>;
     /**
  * Retrieve one disposition with its type, destination, quantity, status, and any linked inventory effect.
  * GET /v1/return-dispositions/{return_disposition_id}
- * @example client.api.getReturnDisposition({"return_disposition_id":"example"})
+ * @example client.api.getReturnDisposition({return_disposition_id: "example"})
  */
     getReturnDisposition(input: ApiGetReturnDispositionInput, options?: RequestOptions): Promise<Result<ApiGetReturnDispositionResponse>>;
     /**
  * Retrieve one inspection with its line items, findings, and current or superseded observation status.
  * GET /v1/return-inspections/{return_inspection_id}
- * @example client.api.getReturnInspection({"return_inspection_id":"example"})
+ * @example client.api.getReturnInspection({return_inspection_id: "example"})
  */
     getReturnInspection(input: ApiGetReturnInspectionInput, options?: RequestOptions): Promise<Result<ApiGetReturnInspectionResponse>>;
     /**
  * Retrieve one Return line item, including its quantity counters and the reason the buyer selected.
  * GET /v1/returns/{return_id}/line-items/{return_line_item_id}
- * @example client.api.getReturnLineItem({"return_id":"example","return_line_item_id":"example"})
+ * @example client.api.getReturnLineItem({return_id: "example", return_line_item_id: "example"})
  */
     getReturnLineItem(input: ApiGetReturnLineItemInput, options?: RequestOptions): Promise<Result<ApiGetReturnLineItemResponse>>;
     /**
  * Retrieve one Return policy. Supports expand for current_revision.
  * GET /v1/return-policies/{return_policy_id}
- * @example client.api.getReturnPolicy({"return_policy_id":"example"})
+ * @example client.api.getReturnPolicy({return_policy_id: "example"})
  */
     getReturnPolicy(input: ApiGetReturnPolicyInput, options?: RequestOptions): Promise<Result<ApiGetReturnPolicyResponse>>;
     /**
  * Retrieve one immutable policy revision, including the exact rules a Return was evaluated against.
  * GET /v1/return-policies/{return_policy_id}/revisions/{return_policy_revision_id}
- * @example client.api.getReturnPolicyRevision({"return_policy_id":"example","return_policy_revision_id":"example"})
+ * @example client.api.getReturnPolicyRevision({return_policy_id: "example", return_policy_revision_id: "example"})
  */
     getReturnPolicyRevision(input: ApiGetReturnPolicyRevisionInput, options?: RequestOptions): Promise<Result<ApiGetReturnPolicyRevisionResponse>>;
     /**
  * Retrieve one Return reason with its handle, category handles, and status.
  * GET /v1/return-reasons/{return_reason_id}
- * @example client.api.getReturnReason({"return_reason_id":"example"})
+ * @example client.api.getReturnReason({return_reason_id: "example"})
  */
     getReturnReason(input: ApiGetReturnReasonInput, options?: RequestOptions): Promise<Result<ApiGetReturnReasonResponse>>;
     /**
  * Retrieve one merchandise receipt with its line items and its current or superseded observation status.
  * GET /v1/return-receipts/{return_receipt_id}
- * @example client.api.getReturnReceipt({"return_receipt_id":"example"})
+ * @example client.api.getReturnReceipt({return_receipt_id: "example"})
  */
     getReturnReceipt(input: ApiGetReturnReceiptInput, options?: RequestOptions): Promise<Result<ApiGetReturnReceiptResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds, payments, and replacement order. Supports expand for those links.
  * GET /v1/return-resolutions/{return_resolution_id}
- * @example client.api.getReturnResolution({"return_resolution_id":"example"})
+ * @example client.api.getReturnResolution({return_resolution_id: "example"})
  */
     getReturnResolution(input: ApiGetReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiGetReturnResolutionResponse>>;
     /**
  * Get a payment review for the authenticated merchant environment.
  * GET /v1/reviews/{review_id}
- * @example client.api.getReview({"review_id":"example"})
+ * @example client.api.getReview({review_id: "example"})
  */
     getReview(input: ApiGetReviewInput, options?: RequestOptions): Promise<Result<ApiGetReviewResponse>>;
     /**
  * Get a risk list for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}
- * @example client.api.getRiskList({"risk_list_id":"example"})
+ * @example client.api.getRiskList({risk_list_id: "example"})
  */
     getRiskList(input: ApiGetRiskListInput, options?: RequestOptions): Promise<Result<ApiGetRiskListResponse>>;
     /**
  * Get a risk list item for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
- * @example client.api.getRiskListItem({"risk_list_id":"example","risk_list_item_id":"example"})
+ * @example client.api.getRiskListItem({risk_list_id: "example", risk_list_item_id: "example"})
  */
     getRiskListItem(input: ApiGetRiskListItemInput, options?: RequestOptions): Promise<Result<ApiGetRiskListItemResponse>>;
     /**
  * Get a risk rule for the authenticated merchant environment.
  * GET /v1/risk-rules/{risk_rule_id}
- * @example client.api.getRiskRule({"risk_rule_id":"example"})
+ * @example client.api.getRiskRule({risk_rule_id: "example"})
  */
     getRiskRule(input: ApiGetRiskRuleInput, options?: RequestOptions): Promise<Result<ApiGetRiskRuleResponse>>;
     /**
@@ -7891,73 +7891,73 @@ export declare class Client {
     /**
  * Retrieves one shipment execution record by ID.
  * GET /v1/shipments/{shipment_id}
- * @example client.api.getShipment({"shipment_id":"example"})
+ * @example client.api.getShipment({shipment_id: "example"})
  */
     getShipment(input: ApiGetShipmentInput, options?: RequestOptions): Promise<Result<ApiGetShipmentResponse>>;
     /**
  * Returns a single subscription by ID.
  * GET /v1/subscriptions/{subscription_id}
- * @example client.api.getSubscription({"subscription_id":"example"})
+ * @example client.api.getSubscription({subscription_id: "example"})
  */
     getSubscription(input: ApiGetSubscriptionInput, options?: RequestOptions): Promise<Result<ApiGetSubscriptionResponse>>;
     /**
  * Returns windowed subscription metrics plus current subscription snapshot metrics.
  * GET /v1/analytics/subscriptions
- * @example client.api.getSubscriptionAnalytics({"range":"today"})
+ * @example client.api.getSubscriptionAnalytics({range: "today"})
  */
     getSubscriptionAnalytics(input: ApiGetSubscriptionAnalyticsInput, options?: RequestOptions): Promise<Result<ApiGetSubscriptionAnalyticsResponse>>;
     /**
  * Returns one durable manual subscription payment retry.
  * GET /v1/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
- * @example client.api.getSubscriptionPaymentRetry({"subscription_id":"example","subscription_payment_retry_id":"example"})
+ * @example client.api.getSubscriptionPaymentRetry({subscription_id: "example", subscription_payment_retry_id: "example"})
  */
     getSubscriptionPaymentRetry(input: ApiGetSubscriptionPaymentRetryInput, options?: RequestOptions): Promise<Result<ApiGetSubscriptionPaymentRetryResponse>>;
     /**
  * Returns a single subscription plan by ID.
  * GET /v1/subscription-plans/{plan_id}
- * @example client.api.getSubscriptionPlan({"plan_id":"example"})
+ * @example client.api.getSubscriptionPlan({plan_id: "example"})
  */
     getSubscriptionPlan(input: ApiGetSubscriptionPlanInput, options?: RequestOptions): Promise<Result<ApiGetSubscriptionPlanResponse>>;
     /**
  * Returns one endpoint delivery and its current retry state.
  * GET /v1/webhook-deliveries/{webhook_delivery_id}
- * @example client.api.getWebhookDelivery({"webhook_delivery_id":"example"})
+ * @example client.api.getWebhookDelivery({webhook_delivery_id: "example"})
  */
     getWebhookDelivery(input: ApiGetWebhookDeliveryInput, options?: RequestOptions): Promise<Result<ApiGetWebhookDeliveryResponse>>;
     /**
  * Returns a single webhook endpoint by ID. The signing secret is omitted after creation.
  * GET /v1/webhook-endpoints/{webhook_endpoint_id}
- * @example client.api.getWebhookEndpoint({"webhook_endpoint_id":"example"})
+ * @example client.api.getWebhookEndpoint({webhook_endpoint_id: "example"})
  */
     getWebhookEndpoint(input: ApiGetWebhookEndpointInput, options?: RequestOptions): Promise<Result<ApiGetWebhookEndpointResponse>>;
     /**
  * Returns a specific webhook event for the authenticated merchant.
  * GET /v1/webhook-events/{webhook_event_id}
- * @example client.api.getWebhookEvent({"webhook_event_id":"example"})
+ * @example client.api.getWebhookEvent({webhook_event_id: "example"})
  */
     getWebhookEvent(input: ApiGetWebhookEventInput, options?: RequestOptions): Promise<Result<ApiGetWebhookEventResponse>>;
     /**
  * Adds or updates a direct organization membership for a user.
  * POST /v1/organizations/{organization_id}/memberships
- * @example client.api.grantOrganizationMembership({"organization_id":"example","body":{"role":"owner","user_id":"example"}})
+ * @example client.api.grantOrganizationMembership({organization_id: "example", body: {role: "owner", user_id: "example"}})
  */
     grantOrganizationMembership(input: ApiGrantOrganizationMembershipInput, options?: RequestOptions): Promise<Result<ApiGrantOrganizationMembershipResponse>>;
     /**
  * Issues a draft credit note. Assigns credit_note_number, freezes the lines, renders the PDF, and sets unallocated_money to the total. The over-credit check runs here rather than on line edits: across every issued credit note, an invoice line cannot be credited past its frozen value. Issuing does not change the invoice; allocating does.
  * POST /v1/credit-notes/{credit_note_id}/issue
- * @example client.api.issueCreditNote({"credit_note_id":"example"})
+ * @example client.api.issueCreditNote({credit_note_id: "example"})
  */
     issueCreditNote(input: ApiIssueCreditNoteInput, options?: RequestOptions): Promise<Result<ApiIssueCreditNoteResponse>>;
     /**
  * Creates a new test API key that is bound to the target sandbox.
  * POST /v1/developer/sandboxes/{sandbox_id}/test-key
- * @example client.api.issueDeveloperSandboxTestKey({"sandbox_id":"example","body":{"name":"example"}})
+ * @example client.api.issueDeveloperSandboxTestKey({sandbox_id: "example", body: {name: "example"}})
  */
     issueDeveloperSandboxTestKey(input: ApiIssueDeveloperSandboxTestKeyInput, options?: RequestOptions): Promise<Result<ApiIssueDeveloperSandboxTestKeyResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
- * @example client.api.issueInvoice({"invoice_id":"example","body":{}})
+ * @example client.api.issueInvoice({invoice_id: "example", body: {}})
  */
     issueInvoice(input: ApiIssueInvoiceInput, options?: RequestOptions): Promise<Result<ApiIssueInvoiceResponse>>;
     /**
@@ -7981,7 +7981,7 @@ export declare class Client {
     /**
  * List bundle components.
  * GET /v1/bundles/{bundle_id}/components
- * @example client.api.listBundleComponents({"bundle_id":"example"})
+ * @example client.api.listBundleComponents({bundle_id: "example"})
  */
     listBundleComponents(input: ApiListBundleComponentsInput, options?: RequestOptions): Promise<Result<ApiListBundleComponentsResponse>>;
     /**
@@ -8011,7 +8011,7 @@ export declare class Client {
     /**
  * Returns every allocation made from a credit note, including reversed ones. Filter by idempotency_key to find the allocation a given request produced.
  * GET /v1/credit-notes/{credit_note_id}/allocations
- * @example client.api.listCreditNoteAllocations({"credit_note_id":"example"})
+ * @example client.api.listCreditNoteAllocations({credit_note_id: "example"})
  */
     listCreditNoteAllocations(input: ApiListCreditNoteAllocationsInput, options?: RequestOptions): Promise<Result<ApiListCreditNoteAllocationsResponse>>;
     /**
@@ -8029,7 +8029,7 @@ export declare class Client {
     /**
  * Lists the customer's saved addresses with billing and shipping default flags.
  * GET /v1/customers/{customer_id}/addresses
- * @example client.api.listCustomerAddresses({"customer_id":"example"})
+ * @example client.api.listCustomerAddresses({customer_id: "example"})
  */
     listCustomerAddresses(input: ApiListCustomerAddressesInput, options?: RequestOptions): Promise<Result<ApiListCustomerAddressesResponse>>;
     /**
@@ -8083,7 +8083,7 @@ export declare class Client {
     /**
  * Returns installs for a partner app owned by the authenticated merchant.
  * GET /v1/developer/partner/apps/{partner_app_id}/installs
- * @example client.api.listDeveloperPartnerAppInstalls({"partner_app_id":"example"})
+ * @example client.api.listDeveloperPartnerAppInstalls({partner_app_id: "example"})
  */
     listDeveloperPartnerAppInstalls(input: ApiListDeveloperPartnerAppInstallsInput, options?: RequestOptions): Promise<Result<ApiListDeveloperPartnerAppInstallsResponse>>;
     /**
@@ -8197,19 +8197,19 @@ export declare class Client {
     /**
  * Returns email delivery attempts for send and reminder actions.
  * GET /v1/invoices/{invoice_id}/delivery-attempts
- * @example client.api.listInvoiceDeliveryAttempts({"invoice_id":"example"})
+ * @example client.api.listInvoiceDeliveryAttempts({invoice_id: "example"})
  */
     listInvoiceDeliveryAttempts(input: ApiListInvoiceDeliveryAttemptsInput, options?: RequestOptions): Promise<Result<ApiListInvoiceDeliveryAttemptsResponse>>;
     /**
  * Returns the audit timeline for an invoice.
  * GET /v1/invoices/{invoice_id}/events
- * @example client.api.listInvoiceEvents({"invoice_id":"example"})
+ * @example client.api.listInvoiceEvents({invoice_id: "example"})
  */
     listInvoiceEvents(input: ApiListInvoiceEventsInput, options?: RequestOptions): Promise<Result<ApiListInvoiceEventsResponse>>;
     /**
  * Lists card and ACH collection attempts for an invoice in reverse chronological order.
  * GET /v1/invoices/{invoice_id}/payment-attempts
- * @example client.api.listInvoicePaymentAttempts({"invoice_id":"example"})
+ * @example client.api.listInvoicePaymentAttempts({invoice_id: "example"})
  */
     listInvoicePaymentAttempts(input: ApiListInvoicePaymentAttemptsInput, options?: RequestOptions): Promise<Result<ApiListInvoicePaymentAttemptsResponse>>;
     /**
@@ -8239,7 +8239,7 @@ export declare class Client {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
  * GET /v1/me/invoices/{invoice_id}/credit-notes
- * @example client.api.listMeCreditNotes({"invoice_id":"example"})
+ * @example client.api.listMeCreditNotes({invoice_id: "example"})
  */
     listMeCreditNotes(input: ApiListMeCreditNotesInput, options?: RequestOptions): Promise<Result<ApiListMeCreditNotesResponse>>;
     /**
@@ -8257,7 +8257,7 @@ export declare class Client {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource.
  * GET /v1/me/orders/{order_id}/activities
- * @example client.api.listMeOrderActivities({"order_id":"example"})
+ * @example client.api.listMeOrderActivities({order_id: "example"})
  */
     listMeOrderActivities(input: ApiListMeOrderActivitiesInput, options?: RequestOptions): Promise<Result<ApiListMeOrderActivitiesResponse>>;
     /**
@@ -8335,13 +8335,13 @@ export declare class Client {
     /**
  * Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource.
  * GET /v1/orders/{order_id}/activities
- * @example client.api.listOrderActivities({"order_id":"example"})
+ * @example client.api.listOrderActivities({order_id: "example"})
  */
     listOrderActivities(input: ApiListOrderActivitiesInput, options?: RequestOptions): Promise<Result<ApiListOrderActivitiesResponse>>;
     /**
  * Returns payment attempts for the order, newest first. Checkout-session callers see only attempts created by their own session.
  * GET /v1/orders/{order_id}/payment-attempts
- * @example client.api.listOrderPaymentAttempts({"order_id":"example"})
+ * @example client.api.listOrderPaymentAttempts({order_id: "example"})
  */
     listOrderPaymentAttempts(input: ApiListOrderPaymentAttemptsInput, options?: RequestOptions): Promise<Result<ApiListOrderPaymentAttemptsResponse>>;
     /**
@@ -8353,7 +8353,7 @@ export declare class Client {
     /**
  * Returns the direct memberships for an organization.
  * GET /v1/organizations/{organization_id}/memberships
- * @example client.api.listOrganizationMemberships({"organization_id":"example"})
+ * @example client.api.listOrganizationMemberships({organization_id: "example"})
  */
     listOrganizationMemberships(input: ApiListOrganizationMembershipsInput, options?: RequestOptions): Promise<Result<ApiListOrganizationMembershipsResponse>>;
     /**
@@ -8365,7 +8365,7 @@ export declare class Client {
     /**
  * Lists order line quantities contained in packages.
  * GET /v1/packages/{package_id}/items
- * @example client.api.listPackageItems({"package_id":"example"})
+ * @example client.api.listPackageItems({package_id: "example"})
  */
     listPackageItems(input: ApiListPackageItemsInput, options?: RequestOptions): Promise<Result<ApiListPackageItemsResponse>>;
     /**
@@ -8407,7 +8407,7 @@ export declare class Client {
     /**
  * Lists the authoritative balance-transaction allocations for a payout in ascending occurrence order. A paid payout returns an unavailable error instead of incomplete or inferred entries.
  * GET /v1/payouts/{payout_id}/entries
- * @example client.api.listPayoutEntries({"payout_id":"example"})
+ * @example client.api.listPayoutEntries({payout_id: "example"})
  */
     listPayoutEntries(input: ApiListPayoutEntriesInput, options?: RequestOptions): Promise<Result<ApiListPayoutEntriesResponse>>;
     /**
@@ -8419,7 +8419,7 @@ export declare class Client {
     /**
  * List product options.
  * GET /v1/products/{product_id}/options
- * @example client.api.listProductOptions({"product_id":"example"})
+ * @example client.api.listProductOptions({product_id: "example"})
  */
     listProductOptions(input: ApiListProductOptionsInput, options?: RequestOptions): Promise<Result<ApiListProductOptionsResponse>>;
     /**
@@ -8431,13 +8431,13 @@ export declare class Client {
     /**
  * List product variants.
  * GET /v1/products/{product_id}/variants
- * @example client.api.listProductVariants({"product_id":"example"})
+ * @example client.api.listProductVariants({product_id: "example"})
  */
     listProductVariants(input: ApiListProductVariantsInput, options?: RequestOptions): Promise<Result<ApiListProductVariantsResponse>>;
     /**
  * Returns a paginated list of codes for a promotion.
  * GET /v1/promotions/{promotion_id}/codes
- * @example client.api.listPromotionCodes({"promotion_id":"example"})
+ * @example client.api.listPromotionCodes({promotion_id: "example"})
  */
     listPromotionCodes(input: ApiListPromotionCodesInput, options?: RequestOptions): Promise<Result<ApiListPromotionCodesResponse>>;
     /**
@@ -8473,7 +8473,7 @@ export declare class Client {
     /**
  * List the line items on a Return with their quantity counters, eligibility, frozen display identity, and return value.
  * GET /v1/returns/{return_id}/line-items
- * @example client.api.listReturnLineItems({"return_id":"example"})
+ * @example client.api.listReturnLineItems({return_id: "example"})
  */
     listReturnLineItems(input: ApiListReturnLineItemsInput, options?: RequestOptions): Promise<Result<ApiListReturnLineItemsResponse>>;
     /**
@@ -8485,7 +8485,7 @@ export declare class Client {
     /**
  * List every published revision of a Return policy.
  * GET /v1/return-policies/{return_policy_id}/revisions
- * @example client.api.listReturnPolicyRevisions({"return_policy_id":"example"})
+ * @example client.api.listReturnPolicyRevisions({return_policy_id: "example"})
  */
     listReturnPolicyRevisions(input: ApiListReturnPolicyRevisionsInput, options?: RequestOptions): Promise<Result<ApiListReturnPolicyRevisionsResponse>>;
     /**
@@ -8521,7 +8521,7 @@ export declare class Client {
     /**
  * List risk list items for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items
- * @example client.api.listRiskListItems({"risk_list_id":"example"})
+ * @example client.api.listRiskListItems({risk_list_id: "example"})
  */
     listRiskListItems(input: ApiListRiskListItemsInput, options?: RequestOptions): Promise<Result<ApiListRiskListItemsResponse>>;
     /**
@@ -8545,7 +8545,7 @@ export declare class Client {
     /**
  * Returns a subscription's manual payment retries, newest first.
  * GET /v1/subscriptions/{subscription_id}/payment-retries
- * @example client.api.listSubscriptionPaymentRetries({"subscription_id":"example"})
+ * @example client.api.listSubscriptionPaymentRetries({subscription_id: "example"})
  */
     listSubscriptionPaymentRetries(input: ApiListSubscriptionPaymentRetriesInput, options?: RequestOptions): Promise<Result<ApiListSubscriptionPaymentRetriesResponse>>;
     /**
@@ -8563,13 +8563,13 @@ export declare class Client {
     /**
  * Returns endpoint deliveries created for one canonical webhook event.
  * GET /v1/webhook-events/{webhook_event_id}/deliveries
- * @example client.api.listWebhookDeliveries({"webhook_event_id":"example"})
+ * @example client.api.listWebhookDeliveries({webhook_event_id: "example"})
  */
     listWebhookDeliveries(input: ApiListWebhookDeliveriesInput, options?: RequestOptions): Promise<Result<ApiListWebhookDeliveriesResponse>>;
     /**
  * Returns the attempts recorded for a specific webhook delivery.
  * GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts
- * @example client.api.listWebhookDeliveryAttempts({"webhook_delivery_id":"example"})
+ * @example client.api.listWebhookDeliveryAttempts({webhook_delivery_id: "example"})
  */
     listWebhookDeliveryAttempts(input: ApiListWebhookDeliveryAttemptsInput, options?: RequestOptions): Promise<Result<ApiListWebhookDeliveryAttemptsResponse>>;
     /**
@@ -8593,355 +8593,355 @@ export declare class Client {
     /**
  * Closes the outstanding balance as a write-off and releases the order's invoice collection authority. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/mark-uncollectible
- * @example client.api.markInvoiceUncollectible({"invoice_id":"example"})
+ * @example client.api.markInvoiceUncollectible({invoice_id: "example"})
  */
     markInvoiceUncollectible(input: ApiMarkInvoiceUncollectibleInput, options?: RequestOptions): Promise<Result<ApiMarkInvoiceUncollectibleResponse>>;
     /**
  * Stops the automatic reminder cadence on a collectible invoice and sets reminders_paused_at. Manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire.
  * POST /v1/invoices/{invoice_id}/pause-reminders
- * @example client.api.pauseInvoiceReminders({"invoice_id":"example"})
+ * @example client.api.pauseInvoiceReminders({invoice_id: "example"})
  */
     pauseInvoiceReminders(input: ApiPauseInvoiceRemindersInput, options?: RequestOptions): Promise<Result<ApiPauseInvoiceRemindersResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately, optionally for a fixed number of billing cycles.
  * POST /v1/me/subscriptions/{subscription_id}/pause
- * @example client.api.pauseMeSubscription({"subscription_id":"example","body":{}})
+ * @example client.api.pauseMeSubscription({subscription_id: "example", body: {}})
  */
     pauseMeSubscription(input: ApiPauseMeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiPauseMeSubscriptionResponse>>;
     /**
  * Pauses a subscription immediately, optionally for a fixed number of billing cycles.
  * POST /v1/subscriptions/{subscription_id}/pause
- * @example client.api.pauseSubscription({"subscription_id":"example","body":{}})
+ * @example client.api.pauseSubscription({subscription_id: "example", body: {}})
  */
     pauseSubscription(input: ApiPauseSubscriptionInput, options?: RequestOptions): Promise<Result<ApiPauseSubscriptionResponse>>;
     /**
  * Starts or resumes a payment attempt on the order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To resume, send action: resume with payment_attempt_id, or replay the exact original request with the same Idempotency-Key while the attempt is open. Payment intents with manual capture return an active authorization instead of settling immediately.
  * POST /v1/orders/{order_id}/pay
- * @example client.api.payOrder({"order_id":"example","body":{"action":"pay"}})
+ * @example client.api.payOrder({order_id: "example", body: {action: "pay"}})
  */
     payOrder(input: ApiPayOrderInput, options?: RequestOptions): Promise<Result<ApiPayOrderResponse>>;
     /**
  * Evaluates promotion outcomes for an order without mutating it. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
  * POST /v1/orders/{order_id}/discounts/preview
- * @example client.api.previewOrderDiscounts({"order_id":"example"})
+ * @example client.api.previewOrderDiscounts({order_id: "example"})
  */
     previewOrderDiscounts(input: ApiPreviewOrderDiscountsInput, options?: RequestOptions): Promise<Result<ApiPreviewOrderDiscountsResponse>>;
     /**
  * Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen.
  * GET /v1/oauth/authorize/preview
- * @example client.api.previewPartnerInstallAuthorization({"client_id":"example","redirect_uri":"example","mode":"test"})
+ * @example client.api.previewPartnerInstallAuthorization({client_id: "example", redirect_uri: "example", mode: "test"})
  */
     previewPartnerInstallAuthorization(input: ApiPreviewPartnerInstallAuthorizationInput, options?: RequestOptions): Promise<Result<ApiPreviewPartnerInstallAuthorizationResponse>>;
     /**
  * Process an existing requested Return atomically at the Flint facts layer. Requires the current Return version and Idempotency-Key. Linked effects remain asynchronous.
  * POST /v1/returns/{return_id}/process
- * @example client.api.processExistingReturn({"return_id":"example","Idempotency-Key":"example","body":{"line_items":[{"return_line_item_id":"example"}]}})
+ * @example client.api.processExistingReturn({return_id: "example", "Idempotency-Key": "example", body: {line_items: [{return_line_item_id: "example"}]}})
  */
     processExistingReturn(input: ApiProcessExistingReturnInput, options?: RequestOptions): Promise<Result<ApiProcessExistingReturnResponse>>;
     /**
  * Publishes the location geography atomically. Supply the complete address and timezone; omitted coordinates are cleared. This PATCH does not merge nested address fields. Requires expected_geography_revision, independently of the location version used for metadata edits.
  * PATCH /v1/locations/{location_id}/geography
- * @example client.api.publishLocationGeography({"location_id":"example","body":{"address":{},"expected_geography_revision":"0","timezone":"example"}})
+ * @example client.api.publishLocationGeography({location_id: "example", body: {address: {}, expected_geography_revision: "0", timezone: "example"}})
  */
     publishLocationGeography(input: ApiPublishLocationGeographyInput, options?: RequestOptions): Promise<Result<ApiPublishLocationGeographyResponse>>;
     /**
  * Publish a new immutable Return policy revision while preserving the stable policy identity.
  * POST /v1/return-policies/{return_policy_id}/revisions
- * @example client.api.publishReturnPolicyRevision({"return_policy_id":"example","body":{"expected_current_return_policy_revision_id":"example","revision":{"approval_mode":"automatic","eligibility_result":"ineligible","is_merchandise_return_required":true,"priority":1,"scope":{}}}})
+ * @example client.api.publishReturnPolicyRevision({return_policy_id: "example", body: {expected_current_return_policy_revision_id: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}})
  */
     publishReturnPolicyRevision(input: ApiPublishReturnPolicyRevisionInput, options?: RequestOptions): Promise<Result<ApiPublishReturnPolicyRevisionResponse>>;
     /**
  * Computes a bounded, non-holding pickup-location projection from current checkout authority and one inventory snapshot. Merchant-authenticated requests include configured Location diagnostics; checkout credentials receive only buyer-safe results.
  * POST /v1/checkout-sessions/{checkout_session_id}/query-pickup-availability
- * @example client.api.queryCheckoutSessionPickupAvailability({"checkout_session_id":"example","body":{}})
+ * @example client.api.queryCheckoutSessionPickupAvailability({checkout_session_id: "example", body: {}})
  */
     queryCheckoutSessionPickupAvailability(input: ApiQueryCheckoutSessionPickupAvailabilityInput, options?: RequestOptions): Promise<Result<ApiQueryCheckoutSessionPickupAvailabilityResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Clears a pending period-end cancellation without changing the current billing period.
  * POST /v1/me/subscriptions/{subscription_id}/reactivate
- * @example client.api.reactivateMeSubscription({"subscription_id":"example"})
+ * @example client.api.reactivateMeSubscription({subscription_id: "example"})
  */
     reactivateMeSubscription(input: ApiReactivateMeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiReactivateMeSubscriptionResponse>>;
     /**
  * Clears a pending period-end cancellation without changing the current billing period.
  * POST /v1/subscriptions/{subscription_id}/reactivate
- * @example client.api.reactivateSubscription({"subscription_id":"example"})
+ * @example client.api.reactivateSubscription({subscription_id: "example"})
  */
     reactivateSubscription(input: ApiReactivateSubscriptionInput, options?: RequestOptions): Promise<Result<ApiReactivateSubscriptionResponse>>;
     /**
  * Applies an offline/manual payment to an issued invoice. Recording is rejected with INVOICE_PAYMENT_RESOLVING while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/manual-payments
- * @example client.api.recordManualInvoicePayment({"invoice_id":"example","body":{"amount_money":{"amount":"0","currency":"USD"}}})
+ * @example client.api.recordManualInvoicePayment({invoice_id: "example", body: {amount_money: {amount: "0", currency: "USD"}}})
  */
     recordManualInvoicePayment(input: ApiRecordManualInvoicePaymentInput, options?: RequestOptions): Promise<Result<ApiRecordManualInvoicePaymentResponse>>;
     /**
  * Rotates a customer session secret and refresh token without a merchant API key. Reusing a rotated refresh token revokes the session family.
  * POST /v1/customer-sessions/refresh
- * @example client.api.refreshCustomerSession({"Idempotency-Key":"example","body":{"refresh_token":"example"}})
+ * @example client.api.refreshCustomerSession({"Idempotency-Key": "example", body: {refresh_token: "example"}})
  */
     refreshCustomerSession(input: ApiRefreshCustomerSessionInput, options?: RequestOptions): Promise<Result<ApiRefreshCustomerSessionResponse>>;
     /**
  * Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant.
  * POST /v1/merchant-account-sessions/refresh
- * @example client.api.refreshMerchantAccountSession({"body":{"launch_token":"example"}})
+ * @example client.api.refreshMerchantAccountSession({body: {launch_token: "example"}})
  */
     refreshMerchantAccountSession(input: ApiRefreshMerchantAccountSessionInput, options?: RequestOptions): Promise<Result<ApiRefreshMerchantAccountSessionResponse>>;
     /**
  * Revokes the current buyer-access link and all checkout credentials derived from it, then returns a new public_url. The current checkout session and its payment lineage are preserved. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/regenerate-public-link
- * @example client.api.regenerateInvoicePublicLink({"invoice_id":"example"})
+ * @example client.api.regenerateInvoicePublicLink({invoice_id: "example"})
  */
     regenerateInvoicePublicLink(input: ApiRegenerateInvoicePublicLinkInput, options?: RequestOptions): Promise<Result<ApiRegenerateInvoicePublicLinkResponse>>;
     /**
  * Release held or committed quantity back to available. Cumulative targets; released quantity is terminal.
  * POST /v1/inventory-reservations/{inventory_reservation_id}/release
- * @example client.api.releaseInventoryReservation({"Idempotency-Key":"example","inventory_reservation_id":"example","body":{"lines":[]}})
+ * @example client.api.releaseInventoryReservation({"Idempotency-Key": "example", inventory_reservation_id: "example", body: {lines: []}})
  */
     releaseInventoryReservation(input: ApiReleaseInventoryReservationInput, options?: RequestOptions): Promise<Result<ApiReleaseInventoryReservationResponse>>;
     /**
  * Release a confirmed resolution that is waiting on a manual release. Available only while action_reason is manual_release.
  * POST /v1/return-resolutions/{return_resolution_id}/release
- * @example client.api.releaseReturnResolution({"return_resolution_id":"example","body":{"reason":"merchant_approved"}})
+ * @example client.api.releaseReturnResolution({return_resolution_id: "example", body: {reason: "merchant_approved"}})
  */
     releaseReturnResolution(input: ApiReleaseReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiReleaseReturnResolutionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Soft-removes a saved payment method so it can no longer be used for future payments.
  * DELETE /v1/me/payment-methods/{payment_method_id}
- * @example client.api.removeMePaymentMethod({"payment_method_id":"example"})
+ * @example client.api.removeMePaymentMethod({payment_method_id: "example"})
  */
     removeMePaymentMethod(input: ApiRemoveMePaymentMethodInput, options?: RequestOptions): Promise<Result<ApiRemoveMePaymentMethodResponse>>;
     /**
  * Removes one or more pending applied discounts from an order. Redeemed or canceled discounts are settlement history and cannot be removed.
  * POST /v1/orders/{order_id}/discounts/remove
- * @example client.api.removeOrderDiscounts({"order_id":"example","body":{"order_discount_ids":[]}})
+ * @example client.api.removeOrderDiscounts({order_id: "example", body: {order_discount_ids: []}})
  */
     removeOrderDiscounts(input: ApiRemoveOrderDiscountsInput, options?: RequestOptions): Promise<Result<ApiRemoveOrderDiscountsResponse>>;
     /**
  * Soft-removes a saved payment method so it can no longer be used for future payments.
  * DELETE /v1/payment-methods/{payment_method_id}
- * @example client.api.removePaymentMethod({"payment_method_id":"example"})
+ * @example client.api.removePaymentMethod({payment_method_id: "example"})
  */
     removePaymentMethod(input: ApiRemovePaymentMethodInput, options?: RequestOptions): Promise<Result<ApiRemovePaymentMethodResponse>>;
     /**
  * Reopen a completed Return to record late compensating facts. Confirmed money movements are never edited backward, so a monetary fix is a new correction resolution.
  * POST /v1/returns/{return_id}/reopen
- * @example client.api.reopenReturn({"return_id":"example","body":{"reason":"linked_effect_changed"}})
+ * @example client.api.reopenReturn({return_id: "example", body: {reason: "linked_effect_changed"}})
  */
     reopenReturn(input: ApiReopenReturnInput, options?: RequestOptions): Promise<Result<ApiReopenReturnResponse>>;
     /**
  * Recalculates pending discounts and automatic promotions for a mutable order.
  * POST /v1/orders/{order_id}/discounts/reprice
- * @example client.api.repriceOrderDiscounts({"order_id":"example"})
+ * @example client.api.repriceOrderDiscounts({order_id: "example"})
  */
     repriceOrderDiscounts(input: ApiRepriceOrderDiscountsInput, options?: RequestOptions): Promise<Result<ApiRepriceOrderDiscountsResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Queues another receipt email for a paid order when Flint manages receipt delivery. The recipient is derived from the order and cannot be supplied by the caller. When the merchant manages receipt delivery, ask the merchant for another copy.
  * POST /v1/me/orders/{order_id}/receipt
- * @example client.api.resendMeOrderReceipt({"order_id":"example"})
+ * @example client.api.resendMeOrderReceipt({order_id: "example"})
  */
     resendMeOrderReceipt(input: ApiResendMeOrderReceiptInput, options?: RequestOptions): Promise<Result<ApiResendMeOrderReceiptResponse>>;
     /**
  * Queues another receipt email for a paid order when Flint manages receipt delivery. The recipient is derived from the order and cannot be supplied by the caller. When the merchant manages receipt delivery, ask the merchant for another copy.
  * POST /v1/orders/{order_id}/receipt
- * @example client.api.resendOrderReceipt({"order_id":"example"})
+ * @example client.api.resendOrderReceipt({order_id: "example"})
  */
     resendOrderReceipt(input: ApiResendOrderReceiptInput, options?: RequestOptions): Promise<Result<ApiResendOrderReceiptResponse>>;
     /**
  * Sends the canonical event payload again to the delivery's current webhook endpoint URL. Safe to retry with the same Idempotency-Key.
  * POST /v1/webhook-deliveries/{webhook_delivery_id}/resend
- * @example client.api.resendWebhookDelivery({"webhook_delivery_id":"example"})
+ * @example client.api.resendWebhookDelivery({webhook_delivery_id: "example"})
  */
     resendWebhookDelivery(input: ApiResendWebhookDeliveryInput, options?: RequestOptions): Promise<Result<ApiResendWebhookDeliveryResponse>>;
     /**
  * Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client daily limit as creation.
  * POST /v1/demo-sessions/reset
- * @example client.api.resetDemoSession({"body":{}})
+ * @example client.api.resetDemoSession({body: {}})
  */
     resetDemoSession(input: ApiResetDemoSessionInput, options?: RequestOptions): Promise<Result<ApiResetDemoSessionResponse>>;
     /**
  * Clears a non-default sandbox and returns its replacement environment. The replacement has a new sandbox ID, retains the stable provider-account lineage, and requires newly issued test keys.
  * POST /v1/developer/sandboxes/{sandbox_id}/reset
- * @example client.api.resetDeveloperSandbox({"sandbox_id":"example"})
+ * @example client.api.resetDeveloperSandbox({sandbox_id: "example"})
  */
     resetDeveloperSandbox(input: ApiResetDeveloperSandboxInput, options?: RequestOptions): Promise<Result<ApiResetDeveloperSandboxResponse>>;
     /**
  * Approves or rejects a pending deletion request. Approval returns processing while account data and buyer credentials are deleted asynchronously. A failed deletion can be approved again but cannot be rejected. Approval is blocked while the customer has non-canceled subscriptions or usable saved payment methods.
  * POST /v1/customer-deletion-requests/{customer_deletion_request_id}/resolve
- * @example client.api.resolveCustomerDeletionRequest({"customer_deletion_request_id":"example","body":{"decision":"approve"}})
+ * @example client.api.resolveCustomerDeletionRequest({customer_deletion_request_id: "example", body: {decision: "approve"}})
  */
     resolveCustomerDeletionRequest(input: ApiResolveCustomerDeletionRequestInput, options?: RequestOptions): Promise<Result<ApiResolveCustomerDeletionRequestResponse>>;
     /**
  * Marks a paid inventory failure as resolved after an operator has completed manual inventory remediation.
  * POST /v1/orders/{order_id}/inventory-exception/resolve
- * @example client.api.resolveOrderInventoryException({"order_id":"example"})
+ * @example client.api.resolveOrderInventoryException({order_id: "example"})
  */
     resolveOrderInventoryException(input: ApiResolveOrderInventoryExceptionInput, options?: RequestOptions): Promise<Result<ApiResolveOrderInventoryExceptionResponse>>;
     /**
  * Creates a buyer checkout session from an active payment link. Catalog-backed modifier availability is frozen onto the checkout session and selected modifiers are resolved onto the backing order.
  * POST /v1/payment-links/{payment_link_id}/resolve
- * @example client.api.resolvePaymentLink({"payment_link_id":"example","Idempotency-Key":"example","body":{"resolution_context":"example"}})
+ * @example client.api.resolvePaymentLink({payment_link_id: "example", "Idempotency-Key": "example", body: {resolution_context: "example"}})
  */
     resolvePaymentLink(input: ApiResolvePaymentLinkInput, options?: RequestOptions): Promise<Result<ApiResolvePaymentLinkResponse>>;
     /**
  * Resolves a buyer-entered promotion code to its promotion code record and parent promotion. This does not evaluate the code against an order or redeem it.
  * GET /v1/promotions/by-code/{code}
- * @example client.api.resolvePromotionCode({"code":"example"})
+ * @example client.api.resolvePromotionCode({code: "example"})
  */
     resolvePromotionCode(input: ApiResolvePromotionCodeInput, options?: RequestOptions): Promise<Result<ApiResolvePromotionCodeResponse>>;
     /**
  * Clears reminders_paused_at so the invoice resumes its reminder cadence. Reminder times that passed while it was paused do not fire retroactively.
  * POST /v1/invoices/{invoice_id}/resume-reminders
- * @example client.api.resumeInvoiceReminders({"invoice_id":"example"})
+ * @example client.api.resumeInvoiceReminders({invoice_id: "example"})
  */
     resumeInvoiceReminders(input: ApiResumeInvoiceRemindersInput, options?: RequestOptions): Promise<Result<ApiResumeInvoiceRemindersResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Resumes a paused subscription.
  * POST /v1/me/subscriptions/{subscription_id}/resume
- * @example client.api.resumeMeSubscription({"subscription_id":"example"})
+ * @example client.api.resumeMeSubscription({subscription_id: "example"})
  */
     resumeMeSubscription(input: ApiResumeMeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiResumeMeSubscriptionResponse>>;
     /**
  * Resumes a paused subscription.
  * POST /v1/subscriptions/{subscription_id}/resume
- * @example client.api.resumeSubscription({"subscription_id":"example"})
+ * @example client.api.resumeSubscription({subscription_id: "example"})
  */
     resumeSubscription(input: ApiResumeSubscriptionInput, options?: RequestOptions): Promise<Result<ApiResumeSubscriptionResponse>>;
     /**
  * Retry a failed disposition with the same immutable intent. Disposition and effect identities are preserved, so a retry does not move stock twice.
  * POST /v1/return-dispositions/{return_disposition_id}/retry
- * @example client.api.retryReturnDisposition({"return_disposition_id":"example","body":{"reason":"dependency_recovered"}})
+ * @example client.api.retryReturnDisposition({return_disposition_id: "example", body: {reason: "dependency_recovered"}})
  */
     retryReturnDisposition(input: ApiRetryReturnDispositionInput, options?: RequestOptions): Promise<Result<ApiRetryReturnDispositionResponse>>;
     /**
  * Retry a failed resolution. A new attempt starts, historical payment and refund IDs stay on the resolution, and a late event from an earlier attempt cannot settle the new attempt.
  * POST /v1/return-resolutions/{return_resolution_id}/retry
- * @example client.api.retryReturnResolution({"return_resolution_id":"example","body":{"reason":"dependency_recovered"}})
+ * @example client.api.retryReturnResolution({return_resolution_id: "example", body: {reason: "dependency_recovered"}})
  */
     retryReturnResolution(input: ApiRetryReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiRetryReturnResolutionResponse>>;
     /**
  * Reverses an allocation and reopens that much of the invoice balance. The original allocation keeps its row and gains reversed_at, so the history stays append-only. Reversing the allocation that closed an invoice moves it from credited back to open or partially_paid.
  * POST /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}/reverse
- * @example client.api.reverseCreditNoteAllocation({"credit_note_id":"example","credit_note_allocation_id":"example"})
+ * @example client.api.reverseCreditNoteAllocation({credit_note_id: "example", credit_note_allocation_id: "example"})
  */
     reverseCreditNoteAllocation(input: ApiReverseCreditNoteAllocationInput, options?: RequestOptions): Promise<Result<ApiReverseCreditNoteAllocationResponse>>;
     /**
  * Reverses previously applied manual/offline payment amount from an invoice. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/manual-payments/reverse
- * @example client.api.reverseManualInvoicePayment({"invoice_id":"example","body":{"amount_money":{"amount":"0","currency":"USD"}}})
+ * @example client.api.reverseManualInvoicePayment({invoice_id: "example", body: {amount_money: {amount: "0", currency: "USD"}}})
  */
     reverseManualInvoicePayment(input: ApiReverseManualInvoicePaymentInput, options?: RequestOptions): Promise<Result<ApiReverseManualInvoicePaymentResponse>>;
     /**
  * Permanently revokes an external API key and returns metadata with status revoked.
  * POST /v1/api-keys/{api_key_id}/revoke
- * @example client.api.revokeAPIKey({"api_key_id":"example"})
+ * @example client.api.revokeAPIKey({api_key_id: "example"})
  */
     revokeAPIKey(input: ApiRevokeAPIKeyInput, options?: RequestOptions): Promise<Result<ApiRevokeAPIKeyResponse>>;
     /**
  * Revokes one customer session. This does not revoke an independent Flint Account buyer session.
  * POST /v1/customer-sessions/{customer_session_id}/revoke
- * @example client.api.revokeCustomerSession({"customer_session_id":"example"})
+ * @example client.api.revokeCustomerSession({customer_session_id: "example"})
  */
     revokeCustomerSession(input: ApiRevokeCustomerSessionInput, options?: RequestOptions): Promise<Result<ApiRevokeCustomerSessionResponse>>;
     /**
  * Revokes every customer session for one customer in the selected merchant environment. Flint Account buyer sessions remain independent.
  * POST /v1/customers/{customer_id}/sessions/revoke
- * @example client.api.revokeCustomerSessions({"customer_id":"example"})
+ * @example client.api.revokeCustomerSessions({customer_id: "example"})
  */
     revokeCustomerSessions(input: ApiRevokeCustomerSessionsInput, options?: RequestOptions): Promise<Result<ApiRevokeCustomerSessionsResponse>>;
     /**
  * Permanently fences one exact method, endpoint, signing key, revision, or Location geography version. Issued quotes are revoked immediately. Current selections are released the next time they are read. Stable method and callback-endpoint targets require expected_version so a concurrent publication cannot broaden the revocation.
  * POST /v1/delivery-revocations
- * @example client.api.revokeDeliveryDependency({"body":{"reason":"unsafe_configuration","target":{"target_type":"location_geography","location_id":"example","location_geography_revision":"100"}}})
+ * @example client.api.revokeDeliveryDependency({body: {reason: "unsafe_configuration", target: {target_type: "location_geography", location_id: "example", location_geography_revision: "100"}}})
  */
     revokeDeliveryDependency(input: ApiRevokeDeliveryDependencyInput, options?: RequestOptions): Promise<Result<ApiRevokeDeliveryDependencyResponse>>;
     /**
  * Revokes a partner app install and all of its environment grants.
  * POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/revoke
- * @example client.api.revokeDeveloperPartnerAppInstall({"partner_app_id":"example","partner_app_install_id":"example"})
+ * @example client.api.revokeDeveloperPartnerAppInstall({partner_app_id: "example", partner_app_install_id: "example"})
  */
     revokeDeveloperPartnerAppInstall(input: ApiRevokeDeveloperPartnerAppInstallInput, options?: RequestOptions): Promise<Result<ApiRevokeDeveloperPartnerAppInstallResponse>>;
     /**
  * Revokes a single test or live environment grant for a partner app install.
  * POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke
- * @example client.api.revokeDeveloperPartnerEnvironmentGrant({"partner_app_id":"example","partner_app_install_id":"example","environment_grant_id":"example"})
+ * @example client.api.revokeDeveloperPartnerEnvironmentGrant({partner_app_id: "example", partner_app_install_id: "example", environment_grant_id: "example"})
  */
     revokeDeveloperPartnerEnvironmentGrant(input: ApiRevokeDeveloperPartnerEnvironmentGrantInput, options?: RequestOptions): Promise<Result<ApiRevokeDeveloperPartnerEnvironmentGrantResponse>>;
     /**
  * Revokes a direct organization membership for a user.
  * DELETE /v1/organizations/{organization_id}/memberships/{user_id}
- * @example client.api.revokeOrganizationMembership({"organization_id":"example","user_id":"example"})
+ * @example client.api.revokeOrganizationMembership({organization_id: "example", user_id: "example"})
  */
     revokeOrganizationMembership(input: ApiRevokeOrganizationMembershipInput, options?: RequestOptions): Promise<Result<ApiRevokeOrganizationMembershipResponse>>;
     /**
  * Rotates the endpoint signing secret, accepts both keys for one hour, and returns the new secret once.
  * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret
- * @example client.api.rotateDeliveryRateCallbackSigningKey({"delivery_rate_callback_id":"example"})
+ * @example client.api.rotateDeliveryRateCallbackSigningKey({delivery_rate_callback_id: "example"})
  */
     rotateDeliveryRateCallbackSigningKey(input: ApiRotateDeliveryRateCallbackSigningKeyInput, options?: RequestOptions): Promise<Result<ApiRotateDeliveryRateCallbackSigningKeyResponse>>;
     /**
  * Rotates the client secret for a partner app owned by the authenticated merchant. The new client_secret is only returned once.
  * POST /v1/developer/partner/apps/{partner_app_id}/rotate-secret
- * @example client.api.rotateDeveloperPartnerAppSecret({"partner_app_id":"example"})
+ * @example client.api.rotateDeveloperPartnerAppSecret({partner_app_id: "example"})
  */
     rotateDeveloperPartnerAppSecret(input: ApiRotateDeveloperPartnerAppSecretInput, options?: RequestOptions): Promise<Result<ApiRotateDeveloperPartnerAppSecretResponse>>;
     /**
  * Rotates the signing secret for a webhook endpoint and returns the new secret once.
  * POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret
- * @example client.api.rotateWebhookSecret({"webhook_endpoint_id":"example"})
+ * @example client.api.rotateWebhookSecret({webhook_endpoint_id: "example"})
  */
     rotateWebhookSecret(input: ApiRotateWebhookSecretInput, options?: RequestOptions): Promise<Result<ApiRotateWebhookSecretResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Initiates saving a payment method and returns the client setup payload needed to complete setup on the frontend.
  * POST /v1/me/payment-methods
- * @example client.api.saveMePaymentMethod({"body":{}})
+ * @example client.api.saveMePaymentMethod({body: {}})
  */
     saveMePaymentMethod(input: ApiSaveMePaymentMethodInput, options?: RequestOptions): Promise<Result<ApiSaveMePaymentMethodResponse>>;
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup on the frontend.
  * POST /v1/payment-methods
- * @example client.api.savePaymentMethod({"body":{"customer_id":"example"}})
+ * @example client.api.savePaymentMethod({body: {customer_id: "example"}})
  */
     savePaymentMethod(input: ApiSavePaymentMethodInput, options?: RequestOptions): Promise<Result<ApiSavePaymentMethodResponse>>;
     /**
  * Attempts a reminder email for an already issued collectible invoice. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/send-reminder
- * @example client.api.sendInvoiceReminder({"invoice_id":"example"})
+ * @example client.api.sendInvoiceReminder({invoice_id: "example"})
  */
     sendInvoiceReminder(input: ApiSendInvoiceReminderInput, options?: RequestOptions): Promise<Result<ApiSendInvoiceReminderResponse>>;
     /**
  * Sets the address as the billing default, shipping default, or both and makes it the customer's effective address for each selected role.
  * POST /v1/customers/{customer_id}/addresses/{customer_address_id}/set-default
- * @example client.api.setDefaultCustomerAddress({"customer_id":"example","customer_address_id":"example","body":{"default_for":"billing"}})
+ * @example client.api.setDefaultCustomerAddress({customer_id: "example", customer_address_id: "example", body: {default_for: "billing"}})
  */
     setDefaultCustomerAddress(input: ApiSetDefaultCustomerAddressInput, options?: RequestOptions): Promise<Result<ApiSetDefaultCustomerAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Sets the address as the billing default, shipping default, or both and makes it the customer's effective address for each selected role.
  * POST /v1/me/addresses/{customer_address_id}/set-default
- * @example client.api.setDefaultMeAddress({"customer_address_id":"example","body":{"default_for":"billing"}})
+ * @example client.api.setDefaultMeAddress({customer_address_id: "example", body: {default_for: "billing"}})
  */
     setDefaultMeAddress(input: ApiSetDefaultMeAddressInput, options?: RequestOptions): Promise<Result<ApiSetDefaultMeAddressResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Sets the default payment method for the payment method's owning customer.
  * POST /v1/me/payment-methods/{payment_method_id}/set-default
- * @example client.api.setDefaultMePaymentMethod({"payment_method_id":"example"})
+ * @example client.api.setDefaultMePaymentMethod({payment_method_id: "example"})
  */
     setDefaultMePaymentMethod(input: ApiSetDefaultMePaymentMethodInput, options?: RequestOptions): Promise<Result<ApiSetDefaultMePaymentMethodResponse>>;
     /**
  * Sets the default payment method for the payment method's owning customer.
  * POST /v1/payment-methods/{payment_method_id}/set-default
- * @example client.api.setDefaultPaymentMethod({"payment_method_id":"example"})
+ * @example client.api.setDefaultPaymentMethod({payment_method_id: "example"})
  */
     setDefaultPaymentMethod(input: ApiSetDefaultPaymentMethodInput, options?: RequestOptions): Promise<Result<ApiSetDefaultPaymentMethodResponse>>;
     /**
  * Moves the next billing date forward by one plan interval without charging the current cycle.
  * POST /v1/subscriptions/{subscription_id}/skip-cycle
- * @example client.api.skipSubscriptionCycle({"subscription_id":"example","body":{}})
+ * @example client.api.skipSubscriptionCycle({subscription_id: "example", body: {}})
  */
     skipSubscriptionCycle(input: ApiSkipSubscriptionCycleInput, options?: RequestOptions): Promise<Result<ApiSkipSubscriptionCycleResponse>>;
     /**
  * Starts the consolidated onboarding flow by emailing a short-lived verification code and returning a temporary verification token.
  * POST /v1/onboarding/start
- * @example client.api.startOnboarding({"body":{"email":"example","first_name":"example","last_name":"example"}})
+ * @example client.api.startOnboarding({body: {email: "example", first_name: "example", last_name: "example"}})
  */
     startOnboarding(input: ApiStartOnboardingInput, options?: RequestOptions): Promise<Result<ApiStartOnboardingResponse>>;
     /**
@@ -8953,415 +8953,415 @@ export declare class Client {
     /**
  * Transfers the organization owner role to another user.
  * POST /v1/organizations/{organization_id}/transfer-ownership
- * @example client.api.transferOrganizationOwnership({"organization_id":"example","body":{"new_owner_user_id":"example"}})
+ * @example client.api.transferOrganizationOwnership({organization_id: "example", body: {new_owner_user_id: "example"}})
  */
     transferOrganizationOwnership(input: ApiTransferOrganizationOwnershipInput, options?: RequestOptions): Promise<Result<ApiTransferOrganizationOwnershipResponse>>;
     /**
  * Performs one action from the fulfillment's supported_actions. Each action accepts only its action-specific fields. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/fulfillments/{fulfillment_id}/transitions
- * @example client.api.transitionFulfillment({"fulfillment_id":"example","body":{"action":"complete"}})
+ * @example client.api.transitionFulfillment({fulfillment_id: "example", body: {action: "complete"}})
  */
     transitionFulfillment(input: ApiTransitionFulfillmentInput, options?: RequestOptions): Promise<Result<ApiTransitionFulfillmentResponse>>;
     /**
  * Run one action from supported_actions using cumulative line targets. Send expected_version to reject the request if the transfer changed after you read it. The response includes the updated transfer and its inventory effects.
  * POST /v1/inventory-transfers/{inventory_transfer_id}/transitions
- * @example client.api.transitionInventoryTransfer({"Idempotency-Key":"example","inventory_transfer_id":"example","body":{"action":"depart","provenance":{},"lines":[{"inventory_transfer_line_id":"example","target_departed_quantity":"0"}]}})
+ * @example client.api.transitionInventoryTransfer({"Idempotency-Key": "example", inventory_transfer_id: "example", body: {action: "depart", provenance: {}, lines: [{inventory_transfer_line_id: "example", target_departed_quantity: "0"}]}})
  */
     transitionInventoryTransfer(input: ApiTransitionInventoryTransferInput, options?: RequestOptions): Promise<Result<ApiTransitionInventoryTransferResponse>>;
     /**
  * Performs one action from the package's supported_actions. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/packages/{package_id}/transitions
- * @example client.api.transitionPackage({"package_id":"example","body":{"action":"mark_delivered"}})
+ * @example client.api.transitionPackage({package_id: "example", body: {action: "mark_delivered"}})
  */
     transitionPackage(input: ApiTransitionPackageInput, options?: RequestOptions): Promise<Result<ApiTransitionPackageResponse>>;
     /**
  * Updates an active external API key's name or complete scope list. API-key-authenticated callers may delegate only scopes already granted to the calling key.
  * PATCH /v1/api-keys/{api_key_id}
- * @example client.api.updateAPIKey({"api_key_id":"example","body":{}})
+ * @example client.api.updateAPIKey({api_key_id: "example", body: {}})
  */
     updateAPIKey(input: ApiUpdateAPIKeyInput, options?: RequestOptions): Promise<Result<ApiUpdateAPIKeyResponse>>;
     /**
  * Update bundle.
  * PATCH /v1/bundles/{bundle_id}
- * @example client.api.updateBundle({"bundle_id":"example","body":{}})
+ * @example client.api.updateBundle({bundle_id: "example", body: {}})
  */
     updateBundle(input: ApiUpdateBundleInput, options?: RequestOptions): Promise<Result<ApiUpdateBundleResponse>>;
     /**
  * Update category.
  * PATCH /v1/categories/{category_id}
- * @example client.api.updateCategory({"category_id":"example","body":{}})
+ * @example client.api.updateCategory({category_id: "example", body: {}})
  */
     updateCategory(input: ApiUpdateCategoryInput, options?: RequestOptions): Promise<Result<ApiUpdateCategoryResponse>>;
     /**
  * Updates mutable checkout session fields. Currently only metadata is mutable.
  * PATCH /v1/checkout-sessions/{checkout_session_id}
- * @example client.api.updateCheckoutSession({"checkout_session_id":"example","body":{}})
+ * @example client.api.updateCheckoutSession({checkout_session_id: "example", body: {}})
  */
     updateCheckoutSession(input: ApiUpdateCheckoutSessionInput, options?: RequestOptions): Promise<Result<ApiUpdateCheckoutSessionResponse>>;
     /**
  * Updates draft credit note fields and corrections atomically. Omitted fields are unchanged, a null memo clears it, and credit_note_lines requires expected_version. Issued and void credit notes are frozen.
  * PATCH /v1/credit-notes/{credit_note_id}
- * @example client.api.updateCreditNote({"credit_note_id":"example","body":{}})
+ * @example client.api.updateCreditNote({credit_note_id: "example", body: {}})
  */
     updateCreditNote(input: ApiUpdateCreditNoteInput, options?: RequestOptions): Promise<Result<ApiUpdateCreditNoteResponse>>;
     /**
  * Applies a sparse update to a customer. Writing billing_address or shipping_address clears the corresponding saved-address default, so that field remains effective until another saved default is selected.
  * PATCH /v1/customers/{customer_id}
- * @example client.api.updateCustomer({"customer_id":"example","body":{}})
+ * @example client.api.updateCustomer({customer_id: "example", body: {}})
  */
     updateCustomer(input: ApiUpdateCustomerInput, options?: RequestOptions): Promise<Result<ApiUpdateCustomerResponse>>;
     /**
  * Applies a sparse update to a saved address. Updating a default address also updates the customer's effective address for that role.
  * PATCH /v1/customers/{customer_id}/addresses/{customer_address_id}
- * @example client.api.updateCustomerAddress({"customer_id":"example","customer_address_id":"example","body":{}})
+ * @example client.api.updateCustomerAddress({customer_id: "example", customer_address_id: "example", body: {}})
  */
     updateCustomerAddress(input: ApiUpdateCustomerAddressInput, options?: RequestOptions): Promise<Result<ApiUpdateCustomerAddressResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-location-sets/{delivery_location_set_id}
- * @example client.api.updateDeliveryLocationSet({"delivery_location_set_id":"example","body":{"name":"example"}})
+ * @example client.api.updateDeliveryLocationSet({delivery_location_set_id: "example", body: {name: "example"}})
  */
     updateDeliveryLocationSet(input: ApiUpdateDeliveryLocationSetInput, options?: RequestOptions): Promise<Result<ApiUpdateDeliveryLocationSetResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-methods/{delivery_method_id}
- * @example client.api.updateDeliveryMethod({"body":{"status":"active"},"delivery_method_id":"example"})
+ * @example client.api.updateDeliveryMethod({body: {status: "active"}, delivery_method_id: "example"})
  */
     updateDeliveryMethod(input: ApiUpdateDeliveryMethodInput, options?: RequestOptions): Promise<Result<ApiUpdateDeliveryMethodResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-profiles/{delivery_profile_id}
- * @example client.api.updateDeliveryProfile({"delivery_profile_id":"example","body":{"name":"example"}})
+ * @example client.api.updateDeliveryProfile({delivery_profile_id: "example", body: {name: "example"}})
  */
     updateDeliveryProfile(input: ApiUpdateDeliveryProfileInput, options?: RequestOptions): Promise<Result<ApiUpdateDeliveryProfileResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
- * @example client.api.updateDeliveryRateCallback({"delivery_rate_callback_id":"example","body":{"name":"example"}})
+ * @example client.api.updateDeliveryRateCallback({delivery_rate_callback_id: "example", body: {name: "example"}})
  */
     updateDeliveryRateCallback(input: ApiUpdateDeliveryRateCallbackInput, options?: RequestOptions): Promise<Result<ApiUpdateDeliveryRateCallbackResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-zones/{delivery_zone_id}
- * @example client.api.updateDeliveryZone({"delivery_zone_id":"example","body":{"name":"example"}})
+ * @example client.api.updateDeliveryZone({delivery_zone_id: "example", body: {name: "example"}})
  */
     updateDeliveryZone(input: ApiUpdateDeliveryZoneInput, options?: RequestOptions): Promise<Result<ApiUpdateDeliveryZoneResponse>>;
     /**
  * Updates the API version for a partner app owned by the authenticated merchant. Any supported version can be selected.
  * PATCH /v1/developer/partner/apps/{partner_app_id}
- * @example client.api.updateDeveloperPartnerApp({"partner_app_id":"example","body":{}})
+ * @example client.api.updateDeveloperPartnerApp({partner_app_id: "example", body: {}})
  */
     updateDeveloperPartnerApp(input: ApiUpdateDeveloperPartnerAppInput, options?: RequestOptions): Promise<Result<ApiUpdateDeveloperPartnerAppResponse>>;
     /**
  * Applies a sparse update to a device. Send location_id=null to unassign a location.
  * PATCH /v1/devices/{device_id}
- * @example client.api.updateDevice({"device_id":"example","body":{}})
+ * @example client.api.updateDevice({device_id: "example", body: {}})
  */
     updateDevice(input: ApiUpdateDeviceInput, options?: RequestOptions): Promise<Result<ApiUpdateDeviceResponse>>;
     /**
  * Updates mutable fulfillment fields and fulfillment-specific details. Fulfillment line item allocation is set when the fulfillment is created. expected_version is optional and rejects a stale resource version when supplied.
  * PATCH /v1/fulfillments/{fulfillment_id}
- * @example client.api.updateFulfillment({"fulfillment_id":"example","body":{}})
+ * @example client.api.updateFulfillment({fulfillment_id: "example", body: {}})
  */
     updateFulfillment(input: ApiUpdateFulfillmentInput, options?: RequestOptions): Promise<Result<ApiUpdateFulfillmentResponse>>;
     /**
  * Update policy fields, availability, or atomically replace its routing configuration. Send expected_version to reject concurrent changes.
  * PATCH /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
- * @example client.api.updateInventoryAllocationPolicy({"inventory_allocation_policy_id":"example","body":{}})
+ * @example client.api.updateInventoryAllocationPolicy({inventory_allocation_policy_id: "example", body: {}})
  */
     updateInventoryAllocationPolicy(input: ApiUpdateInventoryAllocationPolicyInput, options?: RequestOptions): Promise<Result<ApiUpdateInventoryAllocationPolicyResponse>>;
     /**
  * Replace a count's observations atomically. Send expected_version to reject concurrent changes.
  * PATCH /v1/inventory-counts/{inventory_count_id}
- * @example client.api.updateInventoryCount({"body":{"expected_version":"2","observations":[{"counted_damaged_quantity":"0","counted_on_hand_quantity":"12","counted_quality_control_quantity":"0","counted_quarantined_quantity":"0","inventory_item_id":"invi_01K0P7W6A4N9F3J2T8Q5R1C6XM"}],"source_system":{"type":"manual"}},"Idempotency-Key":"example","inventory_count_id":"example"})
+ * @example client.api.updateInventoryCount({body: {expected_version: "2", observations: [{counted_damaged_quantity: "0", counted_on_hand_quantity: "12", counted_quality_control_quantity: "0", counted_quarantined_quantity: "0", inventory_item_id: "invi_01K0P7W6A4N9F3J2T8Q5R1C6XM"}], source_system: {type: "manual"}}, "Idempotency-Key": "example", inventory_count_id: "example"})
  */
     updateInventoryCount(input: ApiUpdateInventoryCountInput, options?: RequestOptions): Promise<Result<ApiUpdateInventoryCountResponse>>;
     /**
  * Update an inventory item. accepts status active or inactive. Send sku or barcode as null to clear.
  * PATCH /v1/inventory-items/{inventory_item_id}
- * @example client.api.updateInventoryItem({"inventory_item_id":"example","body":{}})
+ * @example client.api.updateInventoryItem({inventory_item_id: "example", body: {}})
  */
     updateInventoryItem(input: ApiUpdateInventoryItemInput, options?: RequestOptions): Promise<Result<ApiUpdateInventoryItemResponse>>;
     /**
  * Set one inventory level's safety_stock_quantity. returns the updated level with durable command evidence.
  * PATCH /v1/inventory-levels/{inventory_level_id}
- * @example client.api.updateInventoryLevel({"Idempotency-Key":"example","inventory_level_id":"example","body":{"safety_stock_quantity":"0"}})
+ * @example client.api.updateInventoryLevel({"Idempotency-Key": "example", inventory_level_id: "example", body: {safety_stock_quantity: "0"}})
  */
     updateInventoryLevel(input: ApiUpdateInventoryLevelInput, options?: RequestOptions): Promise<Result<ApiUpdateInventoryLevelResponse>>;
     /**
  * Update an open transfer's planning details.
  * PATCH /v1/inventory-transfers/{inventory_transfer_id}
- * @example client.api.updateInventoryTransfer({"inventory_transfer_id":"example","body":{}})
+ * @example client.api.updateInventoryTransfer({inventory_transfer_id: "example", body: {}})
  */
     updateInventoryTransfer(input: ApiUpdateInventoryTransferInput, options?: RequestOptions): Promise<Result<ApiUpdateInventoryTransferResponse>>;
     /**
  * Updates mutable fields on a draft invoice. Sent invoices are immutable except for delivery-related actions.
  * PATCH /v1/invoices/{invoice_id}
- * @example client.api.updateInvoice({"invoice_id":"example","body":{}})
+ * @example client.api.updateInvoice({invoice_id: "example", body: {}})
  */
     updateInvoice(input: ApiUpdateInvoiceInput, options?: RequestOptions): Promise<Result<ApiUpdateInvoiceResponse>>;
     /**
  * Update invoice payment term for the authenticated merchant.
  * PATCH /v1/invoice-payment-terms/{invoice_payment_term_id}
- * @example client.api.updateInvoicePaymentTerm({"invoice_payment_term_id":"example","body":{"calculation":{"type":"on_receipt"}}})
+ * @example client.api.updateInvoicePaymentTerm({invoice_payment_term_id: "example", body: {calculation: {type: "on_receipt"}}})
  */
     updateInvoicePaymentTerm(input: ApiUpdateInvoicePaymentTermInput, options?: RequestOptions): Promise<Result<ApiUpdateInvoicePaymentTermResponse>>;
     /**
  * Update a Location's profile or availability. Accepts status active or inactive.
  * PATCH /v1/locations/{location_id}
- * @example client.api.updateLocation({"location_id":"example","body":{}})
+ * @example client.api.updateLocation({location_id: "example", body: {}})
  */
     updateLocation(input: ApiUpdateLocationInput, options?: RequestOptions): Promise<Result<ApiUpdateLocationResponse>>;
     /**
  * Enable or disable inventory allocation at a Location. Omit expected_inventory_revision when enabling inventory for the first time; otherwise send the current inventory_revision.
  * PATCH /v1/locations/{location_id}/inventory
- * @example client.api.updateLocationInventory({"location_id":"example","body":{"allocation_status":"active"}})
+ * @example client.api.updateLocationInventory({location_id: "example", body: {allocation_status: "active"}})
  */
     updateLocationInventory(input: ApiUpdateLocationInventoryInput, options?: RequestOptions): Promise<Result<ApiUpdateLocationInventoryResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses.
  * PATCH /v1/me
- * @example client.api.updateMe({"body":{}})
+ * @example client.api.updateMe({body: {}})
  */
     updateMe(input: ApiUpdateMeInput, options?: RequestOptions): Promise<Result<ApiUpdateMeResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Applies a sparse update to a saved address. Updating a default address also updates the customer's effective address for that role.
  * PATCH /v1/me/addresses/{customer_address_id}
- * @example client.api.updateMeAddress({"customer_address_id":"example","body":{}})
+ * @example client.api.updateMeAddress({customer_address_id: "example", body: {}})
  */
     updateMeAddress(input: ApiUpdateMeAddressInput, options?: RequestOptions): Promise<Result<ApiUpdateMeAddressResponse>>;
     /**
  * Applies a sparse update to the authenticated merchant's public business profile fields.
  * PATCH /v1/merchants/{merchant_id}
- * @example client.api.updateMerchant({"merchant_id":"example","body":{}})
+ * @example client.api.updateMerchant({merchant_id: "example", body: {}})
  */
     updateMerchant(input: ApiUpdateMerchantInput, options?: RequestOptions): Promise<Result<ApiUpdateMerchantResponse>>;
     /**
  * Update modifier group.
  * PATCH /v1/modifier-groups/{modifier_group_id}
- * @example client.api.updateModifierGroup({"modifier_group_id":"example","body":{}})
+ * @example client.api.updateModifierGroup({modifier_group_id: "example", body: {}})
  */
     updateModifierGroup(input: ApiUpdateModifierGroupInput, options?: RequestOptions): Promise<Result<ApiUpdateModifierGroupResponse>>;
     /**
  * Update modifier set.
  * PATCH /v1/modifier-sets/{modifier_set_id}
- * @example client.api.updateModifierSet({"modifier_set_id":"example","body":{}})
+ * @example client.api.updateModifierSet({modifier_set_id: "example", body: {}})
  */
     updateModifierSet(input: ApiUpdateModifierSetInput, options?: RequestOptions): Promise<Result<ApiUpdateModifierSetResponse>>;
     /**
  * Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip.
  * PATCH /v1/orders/{order_id}
- * @example client.api.updateOrder({"order_id":"example","body":{"buyer_note":"example"}})
+ * @example client.api.updateOrder({order_id: "example", body: {buyer_note: "example"}})
  */
     updateOrder(input: ApiUpdateOrderInput, options?: RequestOptions): Promise<Result<ApiUpdateOrderResponse>>;
     /**
  * Updates a single service charge, fee, or surcharge on an order.
  * PATCH /v1/orders/{order_id}/charges/{order_charge_id}
- * @example client.api.updateOrderCharge({"order_id":"example","order_charge_id":"example","body":{}})
+ * @example client.api.updateOrderCharge({order_id: "example", order_charge_id: "example", body: {}})
  */
     updateOrderCharge(input: ApiUpdateOrderChargeInput, options?: RequestOptions): Promise<Result<ApiUpdateOrderChargeResponse>>;
     /**
  * Updates a single line item on an order.
  * PATCH /v1/orders/{order_id}/line-items/{order_line_item_id}
- * @example client.api.updateOrderLineItem({"order_id":"example","order_line_item_id":"example","body":{}})
+ * @example client.api.updateOrderLineItem({order_id: "example", order_line_item_id: "example", body: {}})
  */
     updateOrderLineItem(input: ApiUpdateOrderLineItemInput, options?: RequestOptions): Promise<Result<ApiUpdateOrderLineItemResponse>>;
     /**
  * Applies a sparse update to an accessible organization.
  * PATCH /v1/organizations/{organization_id}
- * @example client.api.updateOrganization({"organization_id":"example","body":{}})
+ * @example client.api.updateOrganization({organization_id: "example", body: {}})
  */
     updateOrganization(input: ApiUpdateOrganizationInput, options?: RequestOptions): Promise<Result<ApiUpdateOrganizationResponse>>;
     /**
  * Updates non-lifecycle package fields such as carrier, tracking, label access, measurements, metadata, and caller-owned external references. Package status cannot be patched directly. expected_version is optional and rejects a stale resource version when supplied.
  * PATCH /v1/packages/{package_id}
- * @example client.api.updatePackage({"package_id":"example","body":{}})
+ * @example client.api.updatePackage({package_id: "example", body: {}})
  */
     updatePackage(input: ApiUpdatePackageInput, options?: RequestOptions): Promise<Result<ApiUpdatePackageResponse>>;
     /**
  * Updates a package item quantity or metadata while the package is still mutable.
  * PATCH /v1/packages/{package_id}/items/{package_item_id}
- * @example client.api.updatePackageItem({"package_id":"example","package_item_id":"example","body":{}})
+ * @example client.api.updatePackageItem({package_id: "example", package_item_id: "example", body: {}})
  */
     updatePackageItem(input: ApiUpdatePackageItemInput, options?: RequestOptions): Promise<Result<ApiUpdatePackageItemResponse>>;
     /**
  * Applies a sparse update to a payment intent before it reaches a terminal state.
  * PATCH /v1/payment-intents/{payment_intent_id}
- * @example client.api.updatePaymentIntent({"payment_intent_id":"example","body":{}})
+ * @example client.api.updatePaymentIntent({payment_intent_id: "example", body: {}})
  */
     updatePaymentIntent(input: ApiUpdatePaymentIntentInput, options?: RequestOptions): Promise<Result<ApiUpdatePaymentIntentResponse>>;
     /**
  * Updates a payment link. To replace line items, custom fields, or delivery methods, send the complete array with `expected_version`.
  * PATCH /v1/payment-links/{payment_link_id}
- * @example client.api.updatePaymentLink({"payment_link_id":"example","body":{}})
+ * @example client.api.updatePaymentLink({payment_link_id: "example", body: {}})
  */
     updatePaymentLink(input: ApiUpdatePaymentLinkInput, options?: RequestOptions): Promise<Result<ApiUpdatePaymentLinkResponse>>;
     /**
  * Sets the domain registration status. Activating the domain also validates Apple Pay and Google Pay readiness.
  * PATCH /v1/payment-method-domains/{payment_method_domain_id}
- * @example client.api.updatePaymentMethodDomain({"payment_method_domain_id":"example","body":{"status":"active"}})
+ * @example client.api.updatePaymentMethodDomain({payment_method_domain_id: "example", body: {status: "active"}})
  */
     updatePaymentMethodDomain(input: ApiUpdatePaymentMethodDomainInput, options?: RequestOptions): Promise<Result<ApiUpdatePaymentMethodDomainResponse>>;
     /**
  * Updates mutable metadata and settings for a payout destination. Safe to retry with the same Idempotency-Key.
  * PATCH /v1/payout-settings/destinations/{payout_destination_id}
- * @example client.api.updatePayoutDestination({"payout_destination_id":"example","body":{}})
+ * @example client.api.updatePayoutDestination({payout_destination_id: "example", body: {}})
  */
     updatePayoutDestination(input: ApiUpdatePayoutDestinationInput, options?: RequestOptions): Promise<Result<ApiUpdatePayoutDestinationResponse>>;
     /**
  * Updates mutable payout settings for the authenticated merchant. Safe to retry with the same Idempotency-Key.
  * PATCH /v1/payout-settings
- * @example client.api.updatePayoutSettings({"body":{}})
+ * @example client.api.updatePayoutSettings({body: {}})
  */
     updatePayoutSettings(input: ApiUpdatePayoutSettingsInput, options?: RequestOptions): Promise<Result<ApiUpdatePayoutSettingsResponse>>;
     /**
  * Applies a sparse update to product-parent fields. When categories is present, it replaces the full category list; send an empty array to clear categories. Sellable price, SKU, and inventory live on variants.
  * PATCH /v1/products/{product_id}
- * @example client.api.updateProduct({"product_id":"example","body":{}})
+ * @example client.api.updateProduct({product_id: "example", body: {}})
  */
     updateProduct(input: ApiUpdateProductInput, options?: RequestOptions): Promise<Result<ApiUpdateProductResponse>>;
     /**
  * Update product variant.
  * PATCH /v1/products/{product_id}/variants/{variant_id}
- * @example client.api.updateProductVariant({"product_id":"example","variant_id":"example","body":{}})
+ * @example client.api.updateProductVariant({product_id: "example", variant_id: "example", body: {}})
  */
     updateProductVariant(input: ApiUpdateProductVariantInput, options?: RequestOptions): Promise<Result<ApiUpdateProductVariantResponse>>;
     /**
  * Applies a sparse update to promotion fields.
  * PATCH /v1/promotions/{promotion_id}
- * @example client.api.updatePromotion({"promotion_id":"example","body":{}})
+ * @example client.api.updatePromotion({promotion_id: "example", body: {}})
  */
     updatePromotion(input: ApiUpdatePromotionInput, options?: RequestOptions): Promise<Result<ApiUpdatePromotionResponse>>;
     /**
  * Applies a sparse update to a promotion code.
  * PATCH /v1/promotions/{promotion_id}/codes/{promotion_code_id}
- * @example client.api.updatePromotionCode({"promotion_id":"example","promotion_code_id":"example","body":{}})
+ * @example client.api.updatePromotionCode({promotion_id: "example", promotion_code_id: "example", body: {}})
  */
     updatePromotionCode(input: ApiUpdatePromotionCodeInput, options?: RequestOptions): Promise<Result<ApiUpdatePromotionCodeResponse>>;
     /**
  * Updates refund metadata.
  * PATCH /v1/refunds/{refund_id}
- * @example client.api.updateRefund({"refund_id":"example","body":{}})
+ * @example client.api.updateRefund({refund_id: "example", body: {}})
  */
     updateRefund(input: ApiUpdateRefundInput, options?: RequestOptions): Promise<Result<ApiUpdateRefundResponse>>;
     /**
  * Update caller-owned fields on a Return. Only external_reference_id and metadata are writable; every other change goes through a decision, operation, or resolution command.
  * PATCH /v1/returns/{return_id}
- * @example client.api.updateReturn({"return_id":"example","body":{}})
+ * @example client.api.updateReturn({return_id: "example", body: {}})
  */
     updateReturn(input: ApiUpdateReturnInput, options?: RequestOptions): Promise<Result<ApiUpdateReturnResponse>>;
     /**
  * Update a requested Return line item. Send null to clear buyer_note or requested_resolution_type. The response is the updated Return.
  * PATCH /v1/returns/{return_id}/line-items/{return_line_item_id}
- * @example client.api.updateReturnLineItem({"return_id":"example","return_line_item_id":"example","body":{}})
+ * @example client.api.updateReturnLineItem({return_id: "example", return_line_item_id: "example", body: {}})
  */
     updateReturnLineItem(input: ApiUpdateReturnLineItemInput, options?: RequestOptions): Promise<Result<ApiUpdateReturnLineItemResponse>>;
     /**
  * Update policy identity fields or set status to active or inactive. Rules live on revisions, so changing a window, fee, or scope means publishing a new revision.
  * PATCH /v1/return-policies/{return_policy_id}
- * @example client.api.updateReturnPolicy({"return_policy_id":"example","body":{}})
+ * @example client.api.updateReturnPolicy({return_policy_id: "example", body: {}})
  */
     updateReturnPolicy(input: ApiUpdateReturnPolicyInput, options?: RequestOptions): Promise<Result<ApiUpdateReturnPolicyResponse>>;
     /**
  * Update a Return reason. Send null to clear description. A present category_handles array replaces the existing set.
  * PATCH /v1/return-reasons/{return_reason_id}
- * @example client.api.updateReturnReason({"return_reason_id":"example","body":{}})
+ * @example client.api.updateReturnReason({return_reason_id: "example", body: {}})
  */
     updateReturnReason(input: ApiUpdateReturnReasonInput, options?: RequestOptions): Promise<Result<ApiUpdateReturnReasonResponse>>;
     /**
  * Update a proposed resolution before confirmation. A present line_items or replacement_line_items array replaces that collection and requires expected_version.
  * PATCH /v1/return-resolutions/{return_resolution_id}
- * @example client.api.updateReturnResolution({"return_resolution_id":"example","body":{}})
+ * @example client.api.updateReturnResolution({return_resolution_id: "example", body: {}})
  */
     updateReturnResolution(input: ApiUpdateReturnResolutionInput, options?: RequestOptions): Promise<Result<ApiUpdateReturnResolutionResponse>>;
     /**
  * Update a risk list for the authenticated merchant environment.
  * PATCH /v1/risk-lists/{risk_list_id}
- * @example client.api.updateRiskList({"risk_list_id":"example","body":{"name":"example"}})
+ * @example client.api.updateRiskList({risk_list_id: "example", body: {name: "example"}})
  */
     updateRiskList(input: ApiUpdateRiskListInput, options?: RequestOptions): Promise<Result<ApiUpdateRiskListResponse>>;
     /**
  * Update a risk rule for the authenticated merchant environment.
  * PATCH /v1/risk-rules/{risk_rule_id}
- * @example client.api.updateRiskRule({"risk_rule_id":"example","body":{"action":"allow"}})
+ * @example client.api.updateRiskRule({risk_rule_id: "example", body: {action: "allow"}})
  */
     updateRiskRule(input: ApiUpdateRiskRuleInput, options?: RequestOptions): Promise<Result<ApiUpdateRiskRuleResponse>>;
     /**
  * Applies a sparse patch to merchant-scoped settings. Send catalog by itself because it has its own version fence. Fee and payment limit controls remain internal-only.
  * PATCH /v1/settings
- * @example client.api.updateSettings({"body":{}})
+ * @example client.api.updateSettings({body: {}})
  */
     updateSettings(input: ApiUpdateSettingsInput, options?: RequestOptions): Promise<Result<ApiUpdateSettingsResponse>>;
     /**
  * Updates shipment metadata and caller-owned external references. Shipment status is derived from package statuses and cannot be patched directly. expected_version is optional and rejects a stale resource version when supplied.
  * PATCH /v1/shipments/{shipment_id}
- * @example client.api.updateShipment({"shipment_id":"example","body":{}})
+ * @example client.api.updateShipment({shipment_id: "example", body: {}})
  */
     updateShipment(input: ApiUpdateShipmentInput, options?: RequestOptions): Promise<Result<ApiUpdateShipmentResponse>>;
     /**
  * Updates mutable subscription fields such as payment_method_id and metadata.
  * PATCH /v1/subscriptions/{subscription_id}
- * @example client.api.updateSubscription({"subscription_id":"example","body":{}})
+ * @example client.api.updateSubscription({subscription_id: "example", body: {}})
  */
     updateSubscription(input: ApiUpdateSubscriptionInput, options?: RequestOptions): Promise<Result<ApiUpdateSubscriptionResponse>>;
     /**
  * Sets the next billing date, clears an external schedule while it awaits a date, or transfers schedule ownership. The response carries the updated subscription.
  * PATCH /v1/subscriptions/{subscription_id}/billing-schedule
- * @example client.api.updateSubscriptionBillingSchedule({"subscription_id":"example","body":{"owner":"flint","initiated_by":"buyer","next_billing_at":"2026-01-01T00:00:00Z"}})
+ * @example client.api.updateSubscriptionBillingSchedule({subscription_id: "example", body: {owner: "flint", initiated_by: "buyer", next_billing_at: "2026-01-01T00:00:00Z"}})
  */
     updateSubscriptionBillingSchedule(input: ApiUpdateSubscriptionBillingScheduleInput, options?: RequestOptions): Promise<Result<ApiUpdateSubscriptionBillingScheduleResponse>>;
     /**
  * Applies a sparse update to mutable subscription plan fields. Line items are mutated through the subscription plan line-item endpoints.
  * PATCH /v1/subscription-plans/{plan_id}
- * @example client.api.updateSubscriptionPlan({"plan_id":"example","body":{}})
+ * @example client.api.updateSubscriptionPlan({plan_id: "example", body: {}})
  */
     updateSubscriptionPlan(input: ApiUpdateSubscriptionPlanInput, options?: RequestOptions): Promise<Result<ApiUpdateSubscriptionPlanResponse>>;
     /**
  * Updates the mutable fields on a webhook endpoint.
  * PATCH /v1/webhook-endpoints/{webhook_endpoint_id}
- * @example client.api.updateWebhookEndpoint({"webhook_endpoint_id":"example","body":{}})
+ * @example client.api.updateWebhookEndpoint({webhook_endpoint_id: "example", body: {}})
  */
     updateWebhookEndpoint(input: ApiUpdateWebhookEndpointInput, options?: RequestOptions): Promise<Result<ApiUpdateWebhookEndpointResponse>>;
     /**
  * Verifies the emailed code, provisions the Flint user and merchant if needed, and returns a short-lived session token for the rest of onboarding.
  * POST /v1/onboarding/verify-email
- * @example client.api.verifyOnboardingEmail({"body":{"verification_code":"example","verification_token":"example"}})
+ * @example client.api.verifyOnboardingEmail({body: {verification_code: "example", verification_token: "example"}})
  */
     verifyOnboardingEmail(input: ApiVerifyOnboardingEmailInput, options?: RequestOptions): Promise<Result<ApiVerifyOnboardingEmailResponse>>;
     /**
  * Establish the Return line identity for receipt quantity that arrived without one. Unverified quantity counts toward no line and releases no refund timing gate until it is verified.
  * POST /v1/return-receipts/{return_receipt_id}/line-items/{return_receipt_line_item_id}/verify
- * @example client.api.verifyReturnReceiptLineItem({"return_receipt_id":"example","return_receipt_line_item_id":"example","body":{"return_line_item_id":"example","verification_reason":"order_match_confirmed"}})
+ * @example client.api.verifyReturnReceiptLineItem({return_receipt_id: "example", return_receipt_line_item_id: "example", body: {return_line_item_id: "example", verification_reason: "order_match_confirmed"}})
  */
     verifyReturnReceiptLineItem(input: ApiVerifyReturnReceiptLineItemInput, options?: RequestOptions): Promise<Result<ApiVerifyReturnReceiptLineItemResponse>>;
     /**
  * Voids an issued credit note. Every allocation has to be reversed first. Void is terminal, and an invoice cannot be voided while an issued credit note stands against it.
  * POST /v1/credit-notes/{credit_note_id}/void
- * @example client.api.voidCreditNote({"credit_note_id":"example"})
+ * @example client.api.voidCreditNote({credit_note_id: "example"})
  */
     voidCreditNote(input: ApiVoidCreditNoteInput, options?: RequestOptions): Promise<Result<ApiVoidCreditNoteResponse>>;
     /**
  * Voids an unpaid invoice so the associated order can be edited or collected again. An invoice with an issued credit note against it cannot be voided until that credit note is voided.
  * POST /v1/invoices/{invoice_id}/void
- * @example client.api.voidInvoice({"invoice_id":"example"})
+ * @example client.api.voidInvoice({invoice_id: "example"})
  */
     voidInvoice(input: ApiVoidInvoiceInput, options?: RequestOptions): Promise<Result<ApiVoidInvoiceResponse>>;
     /**
  * Voids a package before carrier handoff and appends a package timeline event. Voided package items no longer count against fulfillment package allocation capacity. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/packages/{package_id}/void
- * @example client.api.voidPackage({"package_id":"example"})
+ * @example client.api.voidPackage({package_id: "example"})
  */
     voidPackage(input: ApiVoidPackageInput, options?: RequestOptions): Promise<Result<ApiVoidPackageResponse>>;
     /**
  * Voids a shipment before carrier handoff and voids all child packages that have not shipped. The action appends timeline events for the shipment and affected packages. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/shipments/{shipment_id}/void
- * @example client.api.voidShipment({"shipment_id":"example"})
+ * @example client.api.voidShipment({shipment_id: "example"})
  */
     voidShipment(input: ApiVoidShipmentInput, options?: RequestOptions): Promise<Result<ApiVoidShipmentResponse>>;
     /**
  * Waive the inspection requirement on a Return line item so received quantity can be dispositioned and resolved without an inspection observation.
  * POST /v1/returns/{return_id}/line-items/{return_line_item_id}/waive-inspection
- * @example client.api.waiveReturnLineInspection({"return_id":"example","return_line_item_id":"example","body":{"reason":"policy_override"}})
+ * @example client.api.waiveReturnLineInspection({return_id: "example", return_line_item_id: "example", body: {reason: "policy_override"}})
  */
     waiveReturnLineInspection(input: ApiWaiveReturnLineInspectionInput, options?: RequestOptions): Promise<Result<ApiWaiveReturnLineInspectionResponse>>;
   };

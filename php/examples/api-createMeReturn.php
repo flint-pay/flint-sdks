@@ -2,8 +2,24 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, ApiCreateMeReturnInput};
-$client = new Client(new ClientOptions(baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid', authMode: 'customer', credentials: ['customer' => ['CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '']], allowInsecureHttp: getenv('API_ALLOW_INSECURE_HTTP') === '1'));
-$input = new ApiCreateMeReturnInput((array) json_decode('{"body":{"line_items":[{"order_line_item_id":"example","requested_quantity":"100","return_reason_id":"example"}],"order_id":"example"}}', false, 512, JSON_THROW_ON_ERROR));
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  authMode: 'customer', credentials: ['customer' => ['CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '']],
+));
+$input = new ApiCreateMeReturnInput([
+  'body' => (object) [
+    'line_items' => [
+      (object) [
+        'order_line_item_id' => 'example',
+        'requested_quantity' => '100',
+        'return_reason_id' => 'example',
+      ],
+    ],
+    'order_id' => 'example',
+  ],
+]);
 $result = $client->api->createMeReturn($input, new RequestOptions(maxAttempts: 1));
-echo $result->meta['requestId'] ?? '';
+echo $result->data->data->order_id . PHP_EOL;
+echo $result->data->data->return_id . PHP_EOL;
+echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

@@ -191,6 +191,7 @@ export interface Config {
     documentation?: {
         overview?: string;
         guides?: Record<string, string>;
+        examples?: string[];
     };
     release?: {
         baseUrl?: string;

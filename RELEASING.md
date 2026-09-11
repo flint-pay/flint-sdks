@@ -26,7 +26,7 @@ Account setup and publication are separate from generation. Verify the npm conne
 
 ## Prepare a release PR
 
-1. Update the package version in `spec/profiles/full-common-sdk.json`. Use a new version for every publication. Start with `0.2.0-beta.1`, which goes to npm's `next` tag. Stable versions go to `latest`.
+1. Update the package version in `spec/profiles/full-common-sdk.json`. Use a new version for every publication. For a documentation fix during the beta, increment the prerelease counter (for example, `0.2.0-beta.1` → `0.2.0-beta.2`). For stable compatible fixes, increment the patch version. Prereleases go to npm's `next` tag; stable versions go to `latest`. Keep the API date unchanged unless the API contract changes.
 2. If needed, update the pinned API or generator revision as described in `spec/README.md`. Use a full Git history with release tags (`git fetch origin --tags`).
 3. Run:
 
@@ -37,7 +37,7 @@ Account setup and publication are separate from generation. Verify the npm conne
    npm test
    ```
 
-4. Review the generated source, public interface, root Composer metadata, examples and migration notes. Run the relevant transaction workflows against the Flint sandbox separately. Commit the configuration, pinned inputs, `node/`, `php/`, `composer.json`, `LICENSE`, and `sdk-files.json` together.
+4. Review the generated source, public interface, root Composer metadata, examples and migration notes. Check both generated READMEs for language-specific installation commands and working developer-doc links. npm displays the published Node README. For this GitHub-hosted package, Packagist displays the root repository README through GitHub; keep that overview language-neutral and link to each generated package guide. Run the relevant transaction workflows against the Flint sandbox separately. Commit the configuration, pinned inputs, `node/`, `php/`, `composer.json`, `LICENSE`, and `sdk-files.json` together.
 5. Merge the PR after the SDK checks pass. The old handwritten 0.1.0 SDK has no compiled compatibility baseline; review that migration explicitly.
 
 Generation preserves its private record under `.generated/sdk/.sdk-generator.json`. On a clean checkout, the scripts reconstruct the previous reachable release tag with that tag's pinned generator and inputs before generating the new version. This preserves compatibility checks across CI runs without committing private generation records or relying on artifact retention. Fetch all release tags; missing history can hide the previous baseline. If reconstructing an existing local output, a private backup is retained under `.generated/`.
@@ -87,7 +87,7 @@ npm run release:publish -- releases/0.2.0-beta.1 --confirm-version 0.2.0-beta.1
 
 The publish command needs an authenticated npm session or the configured GitHub OIDC environment. It uploads to npm. Preparation does not publish or create Git tags. You may prepare uncommitted changes for review, but publication requires a preparation from committed source.
 
-`releases/VERSION/generator/` preserves the generator's archives, checksums, compatibility report, migration notes and documentation site. The top-level public npm archive adds this repository's npm metadata; the public PHP ZIP uses the root Composer layout. `publication-plan.json` checksums those two public archives. The scripts keep the original generator artifacts intact. The generated static site is an optional documentation artifact, not the Packagist distribution source; normal hosting deployment is still required to serve it.
+`releases/VERSION/generator/` preserves the generator's archives, checksums, compatibility report, migration notes and documentation site. The top-level public npm archive adds this repository's npm metadata; the public PHP ZIP uses the root Composer layout. Public package READMEs pin beta installation commands to the exact release version, so Composer accepts the prerelease and npm does not select an older dist-tag. `publication-plan.json` checksums those two public archives. The scripts keep the original generator artifacts intact. The generated static site is an optional documentation artifact, not the Packagist distribution source; normal hosting deployment is still required to serve it.
 
 Public archive installation tests verify npm imports, every outbound operation in both clients, numeric/model scenarios, and the root PHP autoloader. HTTP fixtures validate both generated clients, including alternate credentials, downloads, redirects and streaming scenarios. No live Flint requests are made by CI.
 

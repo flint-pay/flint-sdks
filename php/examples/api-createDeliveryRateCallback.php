@@ -2,8 +2,20 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, ApiCreateDeliveryRateCallbackInput};
-$client = new Client(new ClientOptions(baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid', authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']], allowInsecureHttp: getenv('API_ALLOW_INSECURE_HTTP') === '1'));
-$input = new ApiCreateDeliveryRateCallbackInput((array) json_decode('{"body":{"name":"example","configuration":{"url":"example"}}}', false, 512, JSON_THROW_ON_ERROR));
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']],
+));
+$input = new ApiCreateDeliveryRateCallbackInput([
+  'body' => (object) [
+    'name' => 'example',
+    'configuration' => (object) [
+      'url' => 'example',
+    ],
+  ],
+]);
 $result = $client->api->createDeliveryRateCallback($input, new RequestOptions(maxAttempts: 1));
-echo $result->meta['requestId'] ?? '';
+echo $result->data->data->current_delivery_rate_callback_revision_id . PHP_EOL;
+echo $result->data->data->delivery_rate_callback_id . PHP_EOL;
+echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

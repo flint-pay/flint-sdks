@@ -1,14 +1,20 @@
 import { Client } from '@flintpay/node';
-const client = new Client({ baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid', allowInsecureHttp: process.env.API_ALLOW_INSECURE_HTTP === '1', authMode: "merchant", credentials: { ["merchant"]: { ["BearerAuth"]: process.env.API_MERCHANT_BEARERAUTH ?? '' } } });
-const result = await client.api.createPaymentIntent({
-  "body": {
-    "amount_money": {
-      "amount": "0",
-      "currency": "USD"
+const client = new Client({
+  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  authMode: "merchant", credentials: { ["merchant"]: { ["BearerAuth"]: process.env.API_MERCHANT_BEARERAUTH ?? '' } },
+});
+const result = await client.api.createPaymentIntent(
+  {
+    body: {
+      amount_money: {
+        amount: "0",
+        currency: "USD",
+      },
+      payment_options: ["card"],
     },
-    "payment_options": [
-      "card"
-    ]
-  }
-}, { maxAttempts: 1 });
+  },
+  { maxAttempts: 1 },
+);
+console.log(result.data.data.payment_intent.payment_intent_id);
+console.log(result.data.data.payment_intent.status);
 console.log(result.meta.requestId);

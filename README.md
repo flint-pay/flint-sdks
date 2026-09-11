@@ -6,52 +6,14 @@ Visit [Flint Pay's developer docs](https://developers.withflintpay.com/) for API
 
 This repository contains generated SDK distributions. **We do not accept pull requests here.** Submit SDK fixes and improvements to [flint-pay/sdk-generator](https://github.com/flint-pay/sdk-generator), where changes can be regenerated into both packages. See [Contributing](CONTRIBUTING.md).
 
-| Package              | Install                                        | Runtime                            |
-| -------------------- | ---------------------------------------------- | ---------------------------------- |
-| Node.js / TypeScript | `npm install @flintpay/node@next`              | Node.js 22+; ESM; TypeScript 5.9+  |
-| PHP                  | `composer require flintpay/flint:0.2.0-beta.1` | PHP 8.2+, cURL and JSON extensions |
+## Packages
 
-These installation commands install the `0.2.0-beta.1` prerelease. The previous Node SDK is `0.1.0`; read [the migration guide](MIGRATION.md) before upgrading.
+Both packages are available as `0.2.0-beta.2`:
 
-## Node.js
+- **PHP:** [Packagist](https://packagist.org/packages/flintpay/flint) · [Installation and quickstart](php/README.md) · [API reference](php/REFERENCE.md)
+- **Node.js / TypeScript:** [npm](https://www.npmjs.com/package/@flintpay/node) · [Installation and quickstart](node/README.md) · [API reference](node/REFERENCE.md)
 
-```js
-import { Client } from "@flintpay/node";
-
-const flint = new Client({
-  baseUrl: "https://api.withflintpay.com",
-  credentials: {
-    merchant: { BearerAuth: process.env.FLINT_API_KEY },
-  },
-  authMode: "merchant",
-});
-
-const { data, meta } = await flint.api.getPaymentIntent({
-  payment_intent_id: "pi_replace_with_your_id",
-});
-```
-
-See [Node reference](node/REFERENCE.md) and [examples](node/examples).
-
-## PHP
-
-```php
-<?php
-require __DIR__ . '/vendor/autoload.php';
-
-$flint = new \Flint\Client(new \Flint\ClientOptions(
-    baseUrl: 'https://api.withflintpay.com',
-    credentials: ['merchant' => ['BearerAuth' => getenv('FLINT_API_KEY')]],
-    authMode: 'merchant',
-));
-
-$result = $flint->api->getPaymentIntent(new \Flint\ApiGetPaymentIntentInput([
-    'payment_intent_id' => 'pi_replace_with_your_id',
-]));
-$flint->close();
-```
-
-See [PHP reference](php/REFERENCE.md) and [examples](php/examples). When using an installed package, require your application's `vendor/autoload.php`; generated standalone examples assume installation inside `php/`.
+Each package guide includes its own requirements, installation command and examples. Read [the migration guide](MIGRATION.md) when upgrading from the previous handwritten SDK.
 
 ## Contract and authentication
 

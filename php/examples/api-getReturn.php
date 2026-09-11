@@ -2,8 +2,15 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, ApiGetReturnInput};
-$client = new Client(new ClientOptions(baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid', authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']], allowInsecureHttp: getenv('API_ALLOW_INSECURE_HTTP') === '1'));
-$input = new ApiGetReturnInput((array) json_decode('{"return_id":"example"}', false, 512, JSON_THROW_ON_ERROR));
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  authMode: 'merchant', credentials: ['merchant' => ['BearerAuth' => getenv('API_MERCHANT_BEARERAUTH') ?: '']],
+));
+$input = new ApiGetReturnInput([
+  'return_id' => 'example',
+]);
 $result = $client->api->getReturn($input, new RequestOptions(maxAttempts: 1));
-echo $result->meta['requestId'] ?? '';
+echo $result->data->data->order_id . PHP_EOL;
+echo $result->data->data->return_id . PHP_EOL;
+echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

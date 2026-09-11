@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 0.2.0-beta.1; API 2026-09-07.
+Package 0.2.0-beta.2; API 2026-09-07.
 
 ## api.addOrderCharge
 
