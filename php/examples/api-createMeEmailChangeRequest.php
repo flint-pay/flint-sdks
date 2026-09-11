@@ -2,8 +2,17 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, ApiCreateMeEmailChangeRequestInput};
-$client = new Client(new ClientOptions(baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid', authMode: 'customer', credentials: ['customer' => ['CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '']], allowInsecureHttp: getenv('API_ALLOW_INSECURE_HTTP') === '1'));
-$input = new ApiCreateMeEmailChangeRequestInput((array) json_decode('{"body":{"new_email":"example"}}', false, 512, JSON_THROW_ON_ERROR));
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  authMode: 'customer', credentials: ['customer' => ['CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '']],
+));
+$input = new ApiCreateMeEmailChangeRequestInput([
+  'body' => (object) [
+    'new_email' => 'example',
+  ],
+]);
 $result = $client->api->createMeEmailChangeRequest($input, new RequestOptions(maxAttempts: 1));
-echo $result->meta['requestId'] ?? '';
+echo $result->data->data->customer_id . PHP_EOL;
+echo $result->data->data->email_change_request_id . PHP_EOL;
+echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

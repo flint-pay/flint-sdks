@@ -80,6 +80,9 @@ export function composerManifest(source) {
 export function publishedFiles(output) {
   const result = new Map();
   for (const target of ["node", "php"]) {
+    const manifest = json(
+      join(output, target, target === "node" ? "package.json" : "composer.json"),
+    );
     for (const path of files(join(output, target))) {
       if (
         path.startsWith("vendor/") ||
@@ -87,7 +90,19 @@ export function publishedFiles(output) {
         path === "composer.lock"
       )
         continue;
-      result.set(`${target}/${path}`, readFileSync(join(output, target, path)));
+      let content = readFileSync(join(output, target, path));
+      // A prerelease needs an explicit version, especially with Composer's stable default.
+      if (path === "README.md" && manifest.version.includes("-")) {
+        const command = target === "node" ? "npm install" : "composer require";
+        const separator = target === "node" ? "@" : ":";
+        content = Buffer.from(
+          content.toString("utf8").replace(
+            `\`${command} ${manifest.name}\``,
+            `\`${command} ${manifest.name}${separator}${manifest.version}\``,
+          ),
+        );
+      }
+      result.set(`${target}/${path}`, content);
     }
   }
   result.set(
