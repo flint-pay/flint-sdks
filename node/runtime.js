@@ -1431,6 +1431,21 @@ export class Model {
         return redactCodec(this.value, this.dynamicSchema ? compileCodec(this.dynamicSchema) : this.codec);
     }
 }
+/** Internal input copy for argument adapters; not exported by the SDK entrypoint. */
+export function modelInputValue(model) {
+    // Positional arguments must retain numeric kinds while separating body and
+    // parameter fields. The public toJSON representation deliberately uses strings.
+    const copy = (value) => {
+        if (value instanceof ParsedNumber)
+            return new ExactNumber(value.value);
+        if (Array.isArray(value))
+            return value.map(copy);
+        if (value && typeof value === 'object')
+            return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, copy(child)]));
+        return value;
+    };
+    return copy(modelInputs.get(model) ?? model.toJSON());
+}
 /** Internal factory; does not expand the public Model class method surface. */
 export function modelFromCodec(value, codec) {
     // Reflect invokes the implementation-only third argument on the known Model constructor.
@@ -1570,7 +1585,14 @@ export class Runtime {
         let path = op.path;
         const query = [];
         for (const p of op.parameters) {
-            const value = Object.hasOwn(input, p.name) ? input[p.name] : undefined;
+            let value = Object.hasOwn(input, p.name) ? input[p.name] : undefined;
+            if (value === undefined &&
+                p.in === 'header' &&
+                op.idempotency?.header.toLowerCase() === p.name.toLowerCase()) {
+                value =
+                    options.idempotencyKey ??
+                        Object.entries(options.headers ?? {}).find(([name]) => name.toLowerCase() === p.name.toLowerCase())?.[1];
+            }
             if (value === undefined) {
                 if (p.required)
                     bad(p.name, 'required parameter is missing');
@@ -1601,21 +1623,44 @@ export class Runtime {
             setHeader(k, v);
         if (this.contract.authentication) {
             const permitted = op.authModes ?? [];
-            let modeName = options.authMode ?? (permitted.length ? this.options.authMode : undefined);
+            const shortcutAuth = (value) => {
+                const supplied = Object.entries(this.contract.authShortcuts ?? {}).filter(([key]) => Object.hasOwn(value, key) &&
+                    value[key] !== undefined);
+                if (supplied.length > 1 ||
+                    (supplied.length && (value.authMode !== undefined || value.credentials !== undefined)))
+                    throw new SdkError('authentication', 'Use one authentication shortcut or explicit authMode/credentials, not both');
+                const entry = supplied[0];
+                return entry
+                    ? {
+                        mode: entry[1].mode,
+                        credentials: {
+                            [entry[1].scheme]: value[entry[0]],
+                        },
+                    }
+                    : undefined;
+            };
+            const clientShortcut = shortcutAuth(this.options);
+            const requestShortcut = shortcutAuth(options);
+            const defaultMode = this.options.authMode ?? clientShortcut?.mode;
+            let modeName = requestShortcut?.mode ?? options.authMode ?? (permitted.length ? defaultMode : undefined);
             if (modeName === undefined && op.authenticated && permitted.length === 1)
                 modeName = permitted[0];
             if (modeName === undefined && op.authenticated)
-                throw new SdkError('authentication', 'Select an explicit authentication mode');
+                throw new SdkError('authentication', `Select an explicit authentication mode for ${op.id}; permitted modes: ${permitted.join(', ')}`);
             const selected = modeName === undefined ? undefined : this.contract.authentication[modeName];
             if (modeName !== undefined && (!selected || !permitted.includes(modeName)))
-                throw new SdkError('authentication', 'Authentication mode is not permitted for this operation');
+                throw new SdkError('authentication', `Authentication mode is not permitted for ${op.id}; permitted modes: ${permitted.join(', ')}`);
             const expected = Object.create(null);
             if (selected && modeName !== undefined) {
-                const credentials = options.credentials ?? this.options.credentials?.[modeName];
+                const credentials = requestShortcut?.credentials ??
+                    options.credentials ??
+                    (clientShortcut?.mode === modeName
+                        ? clientShortcut.credentials
+                        : this.options.credentials?.[modeName]);
                 for (const scheme of selected.schemes) {
                     const credential = credentials?.[scheme.name];
                     if (typeof credential !== 'string' || !credential || /[\r\n]/.test(credential))
-                        throw new SdkError('authentication', 'A complete credential set is required for the selected mode');
+                        throw new SdkError('authentication', `Missing or invalid credential ${scheme.name} for authentication mode ${modeName}`);
                     expected[scheme.header.toLowerCase()] =
                         scheme.type === 'bearer' ? 'Bearer ' + credential : credential;
                 }

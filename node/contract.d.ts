@@ -1,3 +1,6 @@
+import { type RequestStyle } from './request-style.js';
+import { type ResponseReturn } from './response-return.js';
+import { Diagnostic } from './diagnostic.js';
 export type Json = null | boolean | number | string | Json[] | {
     [key: string]: Json;
 };
@@ -65,6 +68,8 @@ export interface Retry {
     baseDelayMs: number;
 }
 export interface Capability {
+    request?: RequestStyle;
+    response?: ResponseReturn;
     stream?: {
         events?: Record<string, string>;
         idleTimeoutMs?: number;
@@ -128,6 +133,10 @@ export interface Auth {
     type: 'bearer' | 'apiKey';
     header: string;
 }
+export type AuthShortcuts = Record<string, {
+    mode: string;
+    scheme: string;
+}>;
 export interface AuthenticationMode {
     schemes: (Auth & {
         name: string;
@@ -146,8 +155,12 @@ export interface Webhook {
     typeField: string;
 }
 export interface Config {
+    requests?: RequestStyle;
+    responses?: ResponseReturn;
     profiles?: string[];
+    /** @deprecated Exact-number/string alternatives are supported automatically. */
     numericUnions?: 'explicit';
+    /** @deprecated Named schema sharing is automatic. */
     schemaSharing?: 'named';
     validation?: 'encoding' | 'schema';
     auth?: {
@@ -157,6 +170,7 @@ export interface Config {
             schemes: string[];
             operations?: string[];
         }>;
+        shortcuts?: AuthShortcuts;
     };
     targets?: ('node' | 'php')[];
     version: string;
@@ -208,6 +222,7 @@ export interface Contract {
     modelDependencies?: Record<string, string[]>;
     auth?: Auth;
     authentication?: Record<string, AuthenticationMode>;
+    authShortcuts?: AuthShortcuts;
     config: Config;
     sources: Record<string, string>;
     hash: string;
@@ -223,4 +238,7 @@ export interface IncomingWebhook {
 export { Diagnostic } from './diagnostic.js';
 export { stable } from './canonical.js';
 export declare const hash: (value: string) => string;
-export declare function loadContract(definitionPath: string, configPath: string): Contract;
+export declare function loadContract(definitionPath: string, configPath: string, options?: {
+    collectDiagnostics?: boolean;
+    onWarning?: (warning: Diagnostic) => void;
+}): Contract;

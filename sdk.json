@@ -17,10 +17,16 @@
           "webhook.event": "#/components/schemas/WebhookEvent",
           "withheld": "#/components/schemas/WebhookStreamWithheld"
         }
+      },
+      "response": {
+        "return": "result"
       }
     },
     "exchangePartnerInstallToken": {
-      "requestMediaType": "application/json"
+      "requestMediaType": "application/json",
+      "response": {
+        "payloadPath": null
+      }
     },
     "addRiskListItems": {
       "example": {
@@ -133,6 +139,130 @@
             "type": "manual"
           }
         }
+      }
+    },
+    "getCreditNotePDF": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "getInvoicePDF": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "getMeCreditNotePDF": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "getMeInvoicePDF": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "getOpenAPISpec": {
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "authorizePartnerInstall": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "getReportDownload": {
+      "response": {
+        "return": "result"
+      }
+    },
+    "createPaymentIntent": {
+      "example": {
+        "body": {
+          "amount_money": {
+            "amount": "2500",
+            "currency": "USD"
+          },
+          "payment_options": [
+            "card"
+          ],
+          "capture_method": "automatic",
+          "external_reference_id": "purchase-1001",
+          "receipt_email": "buyer@example.com"
+        }
+      }
+    },
+    "getPaymentIntent": {
+      "example": {
+        "payment_intent_id": "pi_replace_with_your_payment_intent_id"
+      }
+    },
+    "createRefund": {
+      "example": {
+        "body": {
+          "payment_intent_id": "pi_replace_with_your_payment_intent_id",
+          "amount_money": {
+            "amount": "500",
+            "currency": "USD"
+          },
+          "reason": "requested_by_customer",
+          "external_reference_id": "refund-1001"
+        }
+      }
+    },
+    "createCheckoutSession": {
+      "example": {
+        "body": {
+          "order_id": "ord_replace_with_your_order_id",
+          "surface": "hosted",
+          "payments": {
+            "enabled_payment_options": [
+              "card"
+            ]
+          },
+          "redirects": {
+            "success_redirect_url": "https://shop.example.com/checkout/success",
+            "cancel_redirect_url": "https://shop.example.com/cart"
+          }
+        }
+      }
+    },
+    "createOrder": {
+      "example": {
+        "body": {
+          "line_items": [
+            {
+              "name": "Canvas tote bag",
+              "quantity": "1",
+              "unit_price_money": {
+                "amount": "2500",
+                "currency": "USD"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "createOrderPaymentIntent": {
+      "example": {
+        "order_id": "ord_replace_with_your_order_id",
+        "body": {
+          "amount_money": {
+            "amount": "2500",
+            "currency": "USD"
+          },
+          "payment_options": [
+            "card"
+          ]
+        }
+      }
+    }
+  },
+  "auth": {
+    "shortcuts": {
+      "apiKey": {
+        "mode": "merchant",
+        "scheme": "BearerAuth"
       }
     }
   }

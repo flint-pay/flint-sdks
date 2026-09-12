@@ -1498,10 +1498,10 @@
     ],
     "properties": {
       "manual": {
-        "x-sdk-ref": "ManualDiscountInput"
+        "x-sdk-ref": "ManualDiscountRequest"
       },
       "promotion": {
-        "x-sdk-ref": "PromotionRefInput"
+        "x-sdk-ref": "PromotionRefRequest"
       }
     },
     "type": "object"
@@ -3669,7 +3669,7 @@
         "type": "string"
       },
       "input": {
-        "x-sdk-ref": "DeliverySelectionInstructionsInput"
+        "x-sdk-ref": "DeliverySelectionInstructionsRequest"
       },
       "local_delivery": {
         "x-sdk-ref": "DeliveryShipmentDetails"
@@ -6118,7 +6118,7 @@
                 "type": "integer"
               },
               "destination_address": {
-                "x-sdk-ref": "DeliveryAddressInput"
+                "x-sdk-ref": "DeliveryAddressRequest"
               },
               "eligibility_context_revision": {
                 "format": "uint64",
@@ -6680,7 +6680,7 @@
                             "x-sdk-ref": "DeliveryAddressResource"
                           },
                           "coordinate": {
-                            "x-sdk-ref": "DeliveryCoordinateInput"
+                            "x-sdk-ref": "DeliveryCoordinateRequest"
                           },
                           "type": {
                             "enum": [
@@ -7147,7 +7147,7 @@
     },
     "type": "object"
   },
-  "CheckoutQuickPayItemInput": {
+  "CheckoutQuickPayItemRequest": {
     "properties": {
       "amount_money": {
         "x-sdk-ref": "MoneyValue"
@@ -8819,7 +8819,7 @@
     ],
     "type": "object"
   },
-  "CreateBundleComponentInput": {
+  "CreateBundleComponentRequest": {
     "properties": {
       "delivery_profile_id": {
         "type": "string"
@@ -8864,7 +8864,7 @@
       },
       "components": {
         "items": {
-          "x-sdk-ref": "CreateBundleComponentInput"
+          "x-sdk-ref": "CreateBundleComponentRequest"
         },
         "type": "array"
       },
@@ -9000,10 +9000,10 @@
         "type": "string"
       },
       "buyer_location": {
-        "x-sdk-ref": "DeliveryBuyerLocationInput"
+        "x-sdk-ref": "DeliveryBuyerLocationRequest"
       },
       "destination_address": {
-        "x-sdk-ref": "DeliveryAddressInput"
+        "x-sdk-ref": "DeliveryAddressRequest"
       },
       "expected_delivery_selection_id": {
         "description": "Current delivery selection ID used for compare-and-swap. Send null to assert that no selection exists.",
@@ -9202,7 +9202,7 @@
         "x-sdk-ref": "CheckoutPromotionConfig"
       },
       "quick_pay_item": {
-        "x-sdk-ref": "CheckoutQuickPayItemInput"
+        "x-sdk-ref": "CheckoutQuickPayItemRequest"
       },
       "redirects": {
         "x-sdk-ref": "CheckoutRedirectsConfig"
@@ -9831,10 +9831,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -10166,10 +10166,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -10548,10 +10548,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -11249,10 +11249,10 @@
                         "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                       },
                       "callback": {
-                        "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                       },
                       "caller_supplied": {
-                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                       },
                       "fixed": {
                         "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -11747,10 +11747,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -12082,10 +12082,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -12464,10 +12464,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -13165,10 +13165,10 @@
                         "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                       },
                       "callback": {
-                        "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                       },
                       "caller_supplied": {
-                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                       },
                       "fixed": {
                         "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -13657,10 +13657,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -13992,10 +13992,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -14374,10 +14374,10 @@
                                 "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                               },
                               "callback": {
-                                "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                               },
                               "caller_supplied": {
-                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                                "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                               },
                               "fixed": {
                                 "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -15075,10 +15075,10 @@
                         "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                       },
                       "callback": {
-                        "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                       },
                       "caller_supplied": {
-                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                       },
                       "fixed": {
                         "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -15469,7 +15469,7 @@
     ],
     "properties": {
       "configuration": {
-        "x-sdk-ref": "DeliveryMethodConfigurationCreateInput"
+        "x-sdk-ref": "DeliveryMethodConfigurationCreateRequest"
       },
       "description": {
         "type": "string"
@@ -15535,7 +15535,7 @@
     "additionalProperties": false,
     "properties": {
       "buyer_location": {
-        "x-sdk-ref": "DeliveryBuyerLocationInput"
+        "x-sdk-ref": "DeliveryBuyerLocationRequest"
       },
       "currency": {
         "description": "ISO 4217 currency code.",
@@ -15553,7 +15553,7 @@
         "type": "array"
       },
       "destination_address": {
-        "x-sdk-ref": "DeliveryAddressInput"
+        "x-sdk-ref": "DeliveryAddressRequest"
       },
       "inventory_routing_source": {
         "x-sdk-ref": "DeliveryPreviewRoutingSource"
@@ -15643,7 +15643,7 @@
         "type": "string"
       },
       "input": {
-        "x-sdk-ref": "DeliverySelectionInstructionsInput"
+        "x-sdk-ref": "DeliverySelectionInstructionsRequest"
       }
     },
     "required": [
@@ -17283,7 +17283,7 @@
     ],
     "type": "object"
   },
-  "CreateInlineModifierGroupInput": {
+  "CreateInlineModifierGroupRequest": {
     "additionalProperties": false,
     "properties": {
       "allow_quantities": {
@@ -17339,7 +17339,7 @@
       },
       "modifiers": {
         "items": {
-          "x-sdk-ref": "CreateModifierInput"
+          "x-sdk-ref": "CreateModifierRequest"
         },
         "type": "array"
       },
@@ -18206,7 +18206,7 @@
       },
       "modifiers": {
         "items": {
-          "x-sdk-ref": "CreateModifierInput"
+          "x-sdk-ref": "CreateModifierRequest"
         },
         "type": "array"
       },
@@ -18240,7 +18240,7 @@
     ],
     "type": "object"
   },
-  "CreateModifierInput": {
+  "CreateModifierRequest": {
     "additionalProperties": false,
     "properties": {
       "default_quantity": {
@@ -18328,7 +18328,7 @@
     ],
     "type": "object"
   },
-  "CreateModifierSetGroupInput": {
+  "CreateModifierSetGroupRequest": {
     "additionalProperties": false,
     "discriminator": {
       "propertyName": "source"
@@ -18394,7 +18394,7 @@
         "type": "integer"
       },
       "modifier_group": {
-        "x-sdk-ref": "CreateInlineModifierGroupInput"
+        "x-sdk-ref": "CreateInlineModifierGroupRequest"
       },
       "modifier_group_id": {
         "pattern": "^mg_[0-9A-HJKMNP-TV-Z]{26}$",
@@ -18455,7 +18455,7 @@
       },
       "modifier_groups": {
         "items": {
-          "x-sdk-ref": "CreateModifierSetGroupInput"
+          "x-sdk-ref": "CreateModifierSetGroupRequest"
         },
         "type": "array"
       },
@@ -18514,10 +18514,10 @@
     ],
     "properties": {
       "manual": {
-        "x-sdk-ref": "ManualDiscountInput"
+        "x-sdk-ref": "ManualDiscountRequest"
       },
       "promotion": {
-        "x-sdk-ref": "PromotionRefInput"
+        "x-sdk-ref": "PromotionRefRequest"
       }
     },
     "type": "object"
@@ -18652,14 +18652,14 @@
         "type": "string"
       },
       "fulfillment": {
-        "x-sdk-ref": "LineItemFulfillmentInput"
+        "x-sdk-ref": "LineItemFulfillmentRequest"
       },
       "image": {
-        "x-sdk-ref": "ImageReferenceInput"
+        "x-sdk-ref": "ImageReferenceRequest"
       },
       "inventory_demands": {
         "items": {
-          "x-sdk-ref": "OrderDraftLineItemInventoryDemandInput"
+          "x-sdk-ref": "OrderDraftLineItemInventoryDemandRequest"
         },
         "type": "array"
       },
@@ -18729,7 +18729,7 @@
                   "type": "integer"
                 },
                 "text": {
-                  "x-sdk-ref": "TextModifierInput"
+                  "x-sdk-ref": "TextModifierRequest"
                 }
               },
               "type": "object"
@@ -18755,7 +18755,7 @@
         "type": "integer"
       },
       "tax": {
-        "x-sdk-ref": "OrderDraftLineItemTaxInput"
+        "x-sdk-ref": "OrderDraftLineItemTaxRequest"
       },
       "unit_price_money": {
         "x-sdk-ref": "MoneyValue"
@@ -18883,7 +18883,7 @@
         "type": "string"
       },
       "inventory_routing_source": {
-        "x-sdk-ref": "OrderInventoryRoutingSourceInput"
+        "x-sdk-ref": "OrderInventoryRoutingSourceRequest"
       },
       "line_items": {
         "items": {
@@ -19731,7 +19731,7 @@
     },
     "type": "object"
   },
-  "CreateProductOptionInput": {
+  "CreateProductOptionRequest": {
     "properties": {
       "client_option_key": {
         "maxLength": 100,
@@ -19767,7 +19767,7 @@
       },
       "values": {
         "items": {
-          "x-sdk-ref": "CreateProductOptionValueInput"
+          "x-sdk-ref": "CreateProductOptionValueRequest"
         },
         "type": "array"
       }
@@ -19777,7 +19777,7 @@
     ],
     "type": "object"
   },
-  "CreateProductOptionValueInput": {
+  "CreateProductOptionValueRequest": {
     "properties": {
       "client_value_key": {
         "maxLength": 100,
@@ -19905,7 +19905,7 @@
       },
       "options": {
         "items": {
-          "x-sdk-ref": "CreateProductOptionInput"
+          "x-sdk-ref": "CreateProductOptionRequest"
         },
         "minItems": 1,
         "type": "array"
@@ -22693,10 +22693,10 @@
         "type": "integer"
       },
       "billing_schedule": {
-        "x-sdk-ref": "SubscriptionBillingScheduleInput"
+        "x-sdk-ref": "SubscriptionBillingScheduleRequest"
       },
       "billing_start": {
-        "x-sdk-ref": "SubscriptionBillingStartInput"
+        "x-sdk-ref": "SubscriptionBillingStartRequest"
       },
       "customer_id": {
         "type": "string"
@@ -24653,7 +24653,7 @@
         "x-flint-enum": "closed"
       },
       "suggested_address": {
-        "x-sdk-ref": "DeliveryAddressInput"
+        "x-sdk-ref": "DeliveryAddressRequest"
       },
       "verification_state": {
         "enum": [
@@ -24674,7 +24674,7 @@
     ],
     "type": "object"
   },
-  "DeliveryAddressInput": {
+  "DeliveryAddressRequest": {
     "additionalProperties": false,
     "properties": {
       "city": {
@@ -24836,7 +24836,7 @@
     ],
     "type": "object"
   },
-  "DeliveryBuyerLocationInput": {
+  "DeliveryBuyerLocationRequest": {
     "discriminator": {
       "propertyName": "type"
     },
@@ -24882,10 +24882,10 @@
     ],
     "properties": {
       "address": {
-        "x-sdk-ref": "DeliveryAddressInput"
+        "x-sdk-ref": "DeliveryAddressRequest"
       },
       "coordinate": {
-        "x-sdk-ref": "DeliveryCoordinateInput"
+        "x-sdk-ref": "DeliveryCoordinateRequest"
       },
       "type": {
         "enum": [
@@ -24955,7 +24955,7 @@
         "x-sdk-ref": "DeliveryAddressResource"
       },
       "coordinate": {
-        "x-sdk-ref": "DeliveryCoordinateInput"
+        "x-sdk-ref": "DeliveryCoordinateRequest"
       },
       "type": {
         "enum": [
@@ -25047,7 +25047,7 @@
     },
     "type": "object"
   },
-  "DeliveryCallbackPricingStrategyInput": {
+  "DeliveryCallbackPricingStrategyRequest": {
     "additionalProperties": false,
     "properties": {
       "delivery_rate_callback_id": {
@@ -25074,7 +25074,7 @@
     ],
     "type": "object"
   },
-  "DeliveryCallerSuppliedPricingStrategyInput": {
+  "DeliveryCallerSuppliedPricingStrategyRequest": {
     "additionalProperties": false,
     "properties": {
       "maximum_amount": {
@@ -25345,7 +25345,7 @@
     ],
     "type": "object"
   },
-  "DeliveryCoordinateInput": {
+  "DeliveryCoordinateRequest": {
     "additionalProperties": false,
     "properties": {
       "latitude": {
@@ -28536,7 +28536,7 @@
     ],
     "type": "object"
   },
-  "DeliveryMethodConfigurationCreateInput": {
+  "DeliveryMethodConfigurationCreateRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -28813,16 +28813,16 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
                   },
                   "rate_table": {
-                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateInput"
+                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateRequest"
                   },
                   "tiered": {
                     "x-sdk-ref": "DeliveryTieredPricingStrategyRequest"
@@ -29148,16 +29148,16 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
                   },
                   "rate_table": {
-                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateInput"
+                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateRequest"
                   },
                   "tiered": {
                     "x-sdk-ref": "DeliveryTieredPricingStrategyRequest"
@@ -29530,16 +29530,16 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
                   },
                   "rate_table": {
-                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateInput"
+                    "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateRequest"
                   },
                   "tiered": {
                     "x-sdk-ref": "DeliveryTieredPricingStrategyRequest"
@@ -29961,7 +29961,7 @@
         "type": "object"
       },
       "pricing": {
-        "x-sdk-ref": "DeliveryPricingStrategyCreateInput"
+        "x-sdk-ref": "DeliveryPricingStrategyCreateRequest"
       },
       "public_details": {
         "additionalProperties": false,
@@ -30365,10 +30365,10 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -30700,10 +30700,10 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -31082,10 +31082,10 @@
                     "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
                   },
                   "callback": {
-                    "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
                   },
                   "caller_supplied": {
-                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+                    "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
                   },
                   "fixed": {
                     "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -31783,10 +31783,10 @@
             "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
           },
           "callback": {
-            "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+            "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
           },
           "caller_supplied": {
-            "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+            "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
           },
           "fixed": {
             "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -33317,7 +33317,7 @@
     ],
     "type": "object"
   },
-  "DeliveryPricingRateCreateInput": {
+  "DeliveryPricingRateCreateRequest": {
     "additionalProperties": false,
     "properties": {
       "currency_options": {
@@ -33919,7 +33919,7 @@
     ],
     "type": "object"
   },
-  "DeliveryPricingStrategyCreateInput": {
+  "DeliveryPricingStrategyCreateRequest": {
     "additionalProperties": false,
     "discriminator": {
       "propertyName": "type"
@@ -34189,16 +34189,16 @@
         "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
       },
       "callback": {
-        "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+        "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
       },
       "caller_supplied": {
-        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
       },
       "fixed": {
         "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
       },
       "rate_table": {
-        "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateInput"
+        "x-sdk-ref": "DeliveryRateTablePricingStrategyCreateRequest"
       },
       "tiered": {
         "x-sdk-ref": "DeliveryTieredPricingStrategyRequest"
@@ -34499,10 +34499,10 @@
         "x-sdk-ref": "DeliveryCalculatedPricingStrategyRequest"
       },
       "callback": {
-        "x-sdk-ref": "DeliveryCallbackPricingStrategyInput"
+        "x-sdk-ref": "DeliveryCallbackPricingStrategyRequest"
       },
       "caller_supplied": {
-        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyInput"
+        "x-sdk-ref": "DeliveryCallerSuppliedPricingStrategyRequest"
       },
       "fixed": {
         "x-sdk-ref": "DeliveryFixedPricingStrategyRequest"
@@ -35752,7 +35752,7 @@
         "type": "integer"
       },
       "destination_address": {
-        "x-sdk-ref": "DeliveryAddressInput"
+        "x-sdk-ref": "DeliveryAddressRequest"
       },
       "eligibility_context_revision": {
         "format": "uint64",
@@ -36547,12 +36547,12 @@
     ],
     "type": "object"
   },
-  "DeliveryRateTablePricingStrategyCreateInput": {
+  "DeliveryRateTablePricingStrategyCreateRequest": {
     "additionalProperties": false,
     "properties": {
       "rates": {
         "items": {
-          "x-sdk-ref": "DeliveryPricingRateCreateInput"
+          "x-sdk-ref": "DeliveryPricingRateCreateRequest"
         },
         "type": "array"
       },
@@ -37216,7 +37216,7 @@
             "x-sdk-ref": "DeliveryAddressResource"
           },
           "coordinate": {
-            "x-sdk-ref": "DeliveryCoordinateInput"
+            "x-sdk-ref": "DeliveryCoordinateRequest"
           },
           "type": {
             "enum": [
@@ -37453,7 +37453,7 @@
         "x-sdk-ref": "MoneyValue"
       },
       "input": {
-        "x-sdk-ref": "DeliverySelectionInstructionsInput"
+        "x-sdk-ref": "DeliverySelectionInstructionsRequest"
       },
       "local_delivery": {
         "x-sdk-ref": "DeliveryShipmentDetails"
@@ -37527,7 +37527,7 @@
     ],
     "type": "object"
   },
-  "DeliverySelectionInstructionsInput": {
+  "DeliverySelectionInstructionsRequest": {
     "additionalProperties": false,
     "properties": {
       "delivery_window_id": {
@@ -40015,7 +40015,7 @@
                     "x-sdk-ref": "DeliveryAddressResource"
                   },
                   "coordinate": {
-                    "x-sdk-ref": "DeliveryCoordinateInput"
+                    "x-sdk-ref": "DeliveryCoordinateRequest"
                   },
                   "type": {
                     "enum": [
@@ -49978,7 +49978,7 @@
     ],
     "type": "object"
   },
-  "FulfillmentPackagingInput": {
+  "FulfillmentPackagingRequest": {
     "additionalProperties": false,
     "discriminator": {
       "propertyName": "packaging"
@@ -52745,7 +52745,7 @@
     ],
     "type": "object"
   },
-  "ImageReferenceInput": {
+  "ImageReferenceRequest": {
     "additionalProperties": false,
     "properties": {
       "alt": {
@@ -224105,7 +224105,7 @@
       }
     ]
   },
-  "InlineModifierGroupInput": {
+  "InlineModifierGroupRequest": {
     "additionalProperties": false,
     "properties": {
       "allow_quantities": {
@@ -224793,7 +224793,7 @@
     ],
     "type": "object"
   },
-  "InventoryCountObservationInput": {
+  "InventoryCountObservationRequest": {
     "additionalProperties": false,
     "properties": {
       "counted_damaged_quantity": {
@@ -224986,7 +224986,7 @@
     ],
     "type": "object"
   },
-  "InventoryItemCreateInput": {
+  "InventoryItemCreateRequest": {
     "properties": {
       "barcode": {
         "type": "string"
@@ -232919,7 +232919,7 @@
       }
     ]
   },
-  "InventoryTransferProvenanceInput": {
+  "InventoryTransferProvenanceRequest": {
     "additionalProperties": false,
     "properties": {
       "external_actor_id": {
@@ -233049,7 +233049,7 @@
             "type": "array"
           },
           "provenance": {
-            "x-sdk-ref": "InventoryTransferProvenanceInput"
+            "x-sdk-ref": "InventoryTransferProvenanceRequest"
           }
         },
         "required": [
@@ -233164,7 +233164,7 @@
             "type": "array"
           },
           "provenance": {
-            "x-sdk-ref": "InventoryTransferProvenanceInput"
+            "x-sdk-ref": "InventoryTransferProvenanceRequest"
           }
         },
         "required": [
@@ -233219,7 +233219,7 @@
             "type": "array"
           },
           "provenance": {
-            "x-sdk-ref": "InventoryTransferProvenanceInput"
+            "x-sdk-ref": "InventoryTransferProvenanceRequest"
           }
         },
         "required": [
@@ -233274,7 +233274,7 @@
             "type": "array"
           },
           "provenance": {
-            "x-sdk-ref": "InventoryTransferProvenanceInput"
+            "x-sdk-ref": "InventoryTransferProvenanceRequest"
           }
         },
         "required": [
@@ -233329,7 +233329,7 @@
             "type": "array"
           },
           "provenance": {
-            "x-sdk-ref": "InventoryTransferProvenanceInput"
+            "x-sdk-ref": "InventoryTransferProvenanceRequest"
           }
         },
         "required": [
@@ -234144,7 +234144,7 @@
     ],
     "type": "object"
   },
-  "InvoiceCollectionInput": {
+  "InvoiceCollectionRequest": {
     "additionalProperties": false,
     "discriminator": {
       "propertyName": "mode"
@@ -234973,7 +234973,7 @@
     ],
     "type": "object"
   },
-  "InvoicePaymentDueInput": {
+  "InvoicePaymentDueRequest": {
     "additionalProperties": false,
     "discriminator": {
       "propertyName": "type"
@@ -237491,7 +237491,33 @@
     },
     "type": "object"
   },
-  "LineItemFulfillmentInput": {
+  "LineItemFulfillmentOriginRequest": {
+    "additionalProperties": false,
+    "properties": {
+      "location_id": {
+        "type": "string"
+      },
+      "origin_policy_type": {
+        "enum": [
+          "fixed_location",
+          "inventory_routing",
+          "method_origin"
+        ],
+        "type": "string",
+        "x-enum-descriptions": [
+          "Fixed location.",
+          "Inventory routing.",
+          "Method origin."
+        ],
+        "x-flint-enum": "closed"
+      }
+    },
+    "required": [
+      "origin_policy_type"
+    ],
+    "type": "object"
+  },
+  "LineItemFulfillmentRequest": {
     "additionalProperties": false,
     "properties": {
       "allowed_types": {
@@ -237517,10 +237543,10 @@
         "x-flint-enum": "closed"
       },
       "dimensions": {
-        "x-sdk-ref": "LineItemFulfillmentSizeInput"
+        "x-sdk-ref": "LineItemFulfillmentSizeRequest"
       },
       "origin_policy": {
-        "x-sdk-ref": "LineItemFulfillmentOriginInput"
+        "x-sdk-ref": "LineItemFulfillmentOriginRequest"
       },
       "requirement": {
         "enum": [
@@ -237559,7 +237585,7 @@
         "x-flint-enum": "closed"
       },
       "weight": {
-        "x-sdk-ref": "LineItemFulfillmentWeightInput"
+        "x-sdk-ref": "LineItemFulfillmentWeightRequest"
       }
     },
     "required": [
@@ -237567,33 +237593,7 @@
     ],
     "type": "object"
   },
-  "LineItemFulfillmentOriginInput": {
-    "additionalProperties": false,
-    "properties": {
-      "location_id": {
-        "type": "string"
-      },
-      "origin_policy_type": {
-        "enum": [
-          "fixed_location",
-          "inventory_routing",
-          "method_origin"
-        ],
-        "type": "string",
-        "x-enum-descriptions": [
-          "Fixed location.",
-          "Inventory routing.",
-          "Method origin."
-        ],
-        "x-flint-enum": "closed"
-      }
-    },
-    "required": [
-      "origin_policy_type"
-    ],
-    "type": "object"
-  },
-  "LineItemFulfillmentSizeInput": {
+  "LineItemFulfillmentSizeRequest": {
     "additionalProperties": false,
     "properties": {
       "height": {
@@ -237620,7 +237620,7 @@
     ],
     "type": "object"
   },
-  "LineItemFulfillmentWeightInput": {
+  "LineItemFulfillmentWeightRequest": {
     "additionalProperties": false,
     "properties": {
       "unit": {
@@ -238291,7 +238291,7 @@
     ],
     "type": "object"
   },
-  "ManualDiscountInput": {
+  "ManualDiscountRequest": {
     "additionalProperties": false,
     "properties": {
       "amount_money": {
@@ -240567,7 +240567,7 @@
         "type": "integer"
       },
       "modifier_group": {
-        "x-sdk-ref": "InlineModifierGroupInput"
+        "x-sdk-ref": "InlineModifierGroupRequest"
       },
       "modifier_group_id": {
         "pattern": "^mg_[0-9A-HJKMNP-TV-Z]{26}$",
@@ -242808,7 +242808,7 @@
   "OrderCalculatedChargeTax": {
     "properties": {
       "calculation": {
-        "x-sdk-ref": "TaxCalculationInput"
+        "x-sdk-ref": "TaxCalculationRequest"
       },
       "charge_tax_category": {
         "description": "Flint charge tax category.",
@@ -242838,7 +242838,7 @@
   "OrderCalculatedLineItemTax": {
     "properties": {
       "calculation": {
-        "x-sdk-ref": "TaxCalculationInput"
+        "x-sdk-ref": "TaxCalculationRequest"
       },
       "line_item_tax_category": {
         "description": "Flint line-item tax category.",
@@ -243408,7 +243408,7 @@
     ],
     "type": "object"
   },
-  "OrderDraftLineItemInventoryDemandInput": {
+  "OrderDraftLineItemInventoryDemandRequest": {
     "additionalProperties": false,
     "properties": {
       "inventory_item_id": {
@@ -243428,7 +243428,7 @@
     ],
     "type": "object"
   },
-  "OrderDraftLineItemTaxCalculationInput": {
+  "OrderDraftLineItemTaxCalculationRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -243471,7 +243471,7 @@
     "properties": {
       "components": {
         "items": {
-          "x-sdk-ref": "OrderDraftTaxComponentInput"
+          "x-sdk-ref": "OrderDraftTaxComponentRequest"
         },
         "minItems": 1,
         "type": "array"
@@ -243507,11 +243507,11 @@
     ],
     "type": "object"
   },
-  "OrderDraftLineItemTaxInput": {
+  "OrderDraftLineItemTaxRequest": {
     "additionalProperties": false,
     "properties": {
       "calculation": {
-        "x-sdk-ref": "OrderDraftLineItemTaxCalculationInput"
+        "x-sdk-ref": "OrderDraftLineItemTaxCalculationRequest"
       },
       "line_item_tax_category": {
         "description": "Flint line-item tax category.",
@@ -243552,7 +243552,7 @@
     },
     "type": "object"
   },
-  "OrderDraftTaxComponentInput": {
+  "OrderDraftTaxComponentRequest": {
     "additionalProperties": false,
     "not": {
       "required": [
@@ -243575,7 +243575,7 @@
         "x-sdk-ref": "MoneyValue"
       },
       "jurisdiction": {
-        "x-sdk-ref": "OrderDraftTaxJurisdictionInput"
+        "x-sdk-ref": "OrderDraftTaxJurisdictionRequest"
       },
       "percentage": {
         "maximum": 100,
@@ -243603,7 +243603,7 @@
     ],
     "type": "object"
   },
-  "OrderDraftTaxJurisdictionInput": {
+  "OrderDraftTaxJurisdictionRequest": {
     "additionalProperties": false,
     "properties": {
       "code": {
@@ -243650,7 +243650,7 @@
     ],
     "type": "object"
   },
-  "OrderInventoryRoutingSourceInput": {
+  "OrderInventoryRoutingSourceRequest": {
     "additionalProperties": false,
     "properties": {
       "inventory_allocation_policy_id": {
@@ -243855,7 +243855,7 @@
         "type": "string"
       },
       "text": {
-        "x-sdk-ref": "TextModifierInput"
+        "x-sdk-ref": "TextModifierRequest"
       },
       "text_value": {
         "type": "string"
@@ -243937,7 +243937,7 @@
         "type": "integer"
       },
       "text": {
-        "x-sdk-ref": "TextModifierInput"
+        "x-sdk-ref": "TextModifierRequest"
       }
     },
     "type": "object"
@@ -244339,7 +244339,7 @@
     ],
     "type": "object"
   },
-  "OrderTaxCalculationInput": {
+  "OrderTaxCalculationRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -244408,7 +244408,7 @@
         "properties": {
           "components": {
             "items": {
-              "x-sdk-ref": "OrderTaxComponentInput"
+              "x-sdk-ref": "OrderTaxComponentRequest"
             },
             "type": "array"
           },
@@ -244445,7 +244445,7 @@
     "properties": {
       "components": {
         "items": {
-          "x-sdk-ref": "OrderTaxComponentInput"
+          "x-sdk-ref": "OrderTaxComponentRequest"
         },
         "type": "array"
       },
@@ -244480,7 +244480,7 @@
     ],
     "type": "object"
   },
-  "OrderTaxComponentInput": {
+  "OrderTaxComponentRequest": {
     "additionalProperties": false,
     "not": {
       "required": [
@@ -244538,7 +244538,7 @@
         }
       },
       "jurisdiction": {
-        "x-sdk-ref": "OrderTaxJurisdictionInput"
+        "x-sdk-ref": "OrderTaxJurisdictionRequest"
       },
       "percentage": {
         "multipleOf": 0.0001,
@@ -244580,7 +244580,7 @@
     ],
     "type": "object"
   },
-  "OrderTaxJurisdictionInput": {
+  "OrderTaxJurisdictionRequest": {
     "additionalProperties": false,
     "properties": {
       "code": {
@@ -244707,7 +244707,7 @@
     ],
     "type": "object"
   },
-  "OrderTaxLocationFullAddressInput": {
+  "OrderTaxLocationFullAddressRequest": {
     "additionalProperties": false,
     "properties": {
       "city": {
@@ -244767,7 +244767,7 @@
     "additionalProperties": false,
     "properties": {
       "address": {
-        "x-sdk-ref": "OrderTaxLocationFullAddressInput"
+        "x-sdk-ref": "OrderTaxLocationFullAddressRequest"
       },
       "address_source": {
         "default": "provided",
@@ -244805,7 +244805,7 @@
     "additionalProperties": false,
     "properties": {
       "address": {
-        "x-sdk-ref": "OrderTaxLocationFullAddressInput"
+        "x-sdk-ref": "OrderTaxLocationFullAddressRequest"
       },
       "address_source": {
         "default": "provided",
@@ -244828,7 +244828,7 @@
     "additionalProperties": false,
     "properties": {
       "address": {
-        "x-sdk-ref": "OrderTaxLocationPostalAddressInput"
+        "x-sdk-ref": "OrderTaxLocationPostalAddressRequest"
       },
       "address_source": {
         "default": "provided",
@@ -244851,7 +244851,7 @@
     "additionalProperties": false,
     "properties": {
       "address": {
-        "x-sdk-ref": "OrderTaxLocationPostalAddressInput"
+        "x-sdk-ref": "OrderTaxLocationPostalAddressRequest"
       },
       "address_source": {
         "default": "provided",
@@ -244881,7 +244881,7 @@
     ],
     "type": "object"
   },
-  "OrderTaxLocationPostalAddressInput": {
+  "OrderTaxLocationPostalAddressRequest": {
     "additionalProperties": false,
     "properties": {
       "country": {
@@ -244919,7 +244919,7 @@
         "additionalProperties": false,
         "properties": {
           "address": {
-            "x-sdk-ref": "OrderTaxLocationPostalAddressInput"
+            "x-sdk-ref": "OrderTaxLocationPostalAddressRequest"
           },
           "address_source": {
             "default": "provided",
@@ -244953,7 +244953,7 @@
         "additionalProperties": false,
         "properties": {
           "address": {
-            "x-sdk-ref": "OrderTaxLocationFullAddressInput"
+            "x-sdk-ref": "OrderTaxLocationFullAddressRequest"
           },
           "address_source": {
             "default": "provided",
@@ -244991,7 +244991,7 @@
         "additionalProperties": false,
         "properties": {
           "address": {
-            "x-sdk-ref": "OrderTaxLocationPostalAddressInput"
+            "x-sdk-ref": "OrderTaxLocationPostalAddressRequest"
           },
           "address_source": {
             "default": "provided",
@@ -245014,7 +245014,7 @@
         "additionalProperties": false,
         "properties": {
           "address": {
-            "x-sdk-ref": "OrderTaxLocationFullAddressInput"
+            "x-sdk-ref": "OrderTaxLocationFullAddressRequest"
           },
           "address_source": {
             "default": "provided",
@@ -245086,7 +245086,7 @@
     ],
     "properties": {
       "calculation": {
-        "x-sdk-ref": "OrderTaxCalculationInput"
+        "x-sdk-ref": "OrderTaxCalculationRequest"
       },
       "enabled": {
         "default": true,
@@ -249953,7 +249953,7 @@
     ],
     "type": "object"
   },
-  "PaymentLinkCustomFieldPatchInput": {
+  "PaymentLinkCustomFieldPatchRequest": {
     "properties": {
       "custom_field_type": {
         "enum": [
@@ -250314,7 +250314,7 @@
     ],
     "type": "object"
   },
-  "PaymentLinkLineItemPatchInput": {
+  "PaymentLinkLineItemPatchRequest": {
     "oneOf": [
       {
         "not": {
@@ -253579,17 +253579,17 @@
     ],
     "type": "object"
   },
-  "ProcessExistingReturnLineItemInput": {
+  "ProcessExistingReturnLineItemRequest": {
     "additionalProperties": false,
     "properties": {
       "decision": {
         "x-sdk-ref": "ReturnProcessDecision"
       },
       "disposition": {
-        "x-sdk-ref": "ReturnProcessDispositionInput"
+        "x-sdk-ref": "ReturnProcessDispositionRequest"
       },
       "inspection": {
-        "x-sdk-ref": "ReturnProcessInspectionInput"
+        "x-sdk-ref": "ReturnProcessInspectionRequest"
       },
       "received_quantity": {
         "description": "Whole-number quantity; fractional quantities are not supported.",
@@ -253597,7 +253597,7 @@
         "type": "integer"
       },
       "resolution": {
-        "x-sdk-ref": "ReturnProcessResolutionInput"
+        "x-sdk-ref": "ReturnProcessResolutionRequest"
       },
       "return_line_item_id": {
         "type": "string"
@@ -253630,13 +253630,13 @@
       },
       "line_items": {
         "items": {
-          "x-sdk-ref": "ProcessExistingReturnLineItemInput"
+          "x-sdk-ref": "ProcessExistingReturnLineItemRequest"
         },
         "minItems": 1,
         "type": "array"
       },
       "receipt": {
-        "x-sdk-ref": "ReturnProcessReceiptInput"
+        "x-sdk-ref": "ReturnProcessReceiptRequest"
       }
     },
     "required": [
@@ -254760,7 +254760,7 @@
         "type": "array"
       },
       "inventory_item": {
-        "x-sdk-ref": "InventoryItemCreateInput"
+        "x-sdk-ref": "InventoryItemCreateRequest"
       },
       "inventory_item_id": {
         "type": "string"
@@ -254822,7 +254822,7 @@
       },
       "selected_option_values": {
         "items": {
-          "x-sdk-ref": "ProductVariantSelectedOptionInput"
+          "x-sdk-ref": "ProductVariantSelectedOptionRequest"
         },
         "type": "array"
       },
@@ -254870,7 +254870,7 @@
     ],
     "type": "object"
   },
-  "ProductVariantSelectedOptionInput": {
+  "ProductVariantSelectedOptionRequest": {
     "properties": {
       "client_option_key": {
         "type": "string"
@@ -257379,7 +257379,7 @@
     ],
     "type": "object"
   },
-  "PromotionRefInput": {
+  "PromotionRefRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -260473,7 +260473,7 @@
   "QueryDeliveryPickupAvailabilityRequest": {
     "properties": {
       "buyer_location": {
-        "x-sdk-ref": "DeliveryBuyerLocationInput"
+        "x-sdk-ref": "DeliveryBuyerLocationRequest"
       },
       "expected_delivery_selection_id": {
         "type": "string"
@@ -262418,7 +262418,7 @@
     },
     "type": "object"
   },
-  "ResolvePaymentLinkLineItemModifierInput": {
+  "ResolvePaymentLinkLineItemModifierRequest": {
     "properties": {
       "modifier_id": {
         "type": "string"
@@ -262429,7 +262429,7 @@
         "type": "integer"
       },
       "text": {
-        "x-sdk-ref": "ResolvePaymentLinkTextModifierInput"
+        "x-sdk-ref": "ResolvePaymentLinkTextModifierRequest"
       }
     },
     "type": "object"
@@ -262438,7 +262438,7 @@
     "properties": {
       "modifiers": {
         "items": {
-          "x-sdk-ref": "ResolvePaymentLinkLineItemModifierInput"
+          "x-sdk-ref": "ResolvePaymentLinkLineItemModifierRequest"
         },
         "type": "array"
       }
@@ -262500,7 +262500,7 @@
     ],
     "type": "object"
   },
-  "ResolvePaymentLinkTextModifierInput": {
+  "ResolvePaymentLinkTextModifierRequest": {
     "properties": {
       "modifier_group_id": {
         "type": "string"
@@ -267756,7 +267756,7 @@
     ],
     "type": "object"
   },
-  "ReturnProcessDispositionInput": {
+  "ReturnProcessDispositionRequest": {
     "additionalProperties": false,
     "properties": {
       "disposition_type": {
@@ -267838,7 +267838,7 @@
     ],
     "type": "object"
   },
-  "ReturnProcessInspectionInput": {
+  "ReturnProcessInspectionRequest": {
     "additionalProperties": false,
     "properties": {
       "acceptance_status": {
@@ -267930,7 +267930,7 @@
     ],
     "type": "object"
   },
-  "ReturnProcessReceiptInput": {
+  "ReturnProcessReceiptRequest": {
     "additionalProperties": false,
     "properties": {
       "external_actor_id": {
@@ -267960,7 +267960,7 @@
     ],
     "type": "object"
   },
-  "ReturnProcessResolutionInput": {
+  "ReturnProcessResolutionRequest": {
     "additionalProperties": false,
     "properties": {
       "external_reference_id": {
@@ -268570,7 +268570,7 @@
     ],
     "type": "object"
   },
-  "ReturnReplacementLineItemReplacementInput": {
+  "ReturnReplacementLineItemReplacementRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -269467,7 +269467,7 @@
     ],
     "type": "object"
   },
-  "ReturnResolutionLineItemReplacementInput": {
+  "ReturnResolutionLineItemReplacementRequest": {
     "additionalProperties": false,
     "properties": {
       "quantity": {
@@ -273931,7 +273931,7 @@
     ],
     "type": "object"
   },
-  "SubscriptionBillingScheduleInput": {
+  "SubscriptionBillingScheduleRequest": {
     "additionalProperties": false,
     "properties": {
       "owner": {
@@ -273952,7 +273952,7 @@
     ],
     "type": "object"
   },
-  "SubscriptionBillingStartInput": {
+  "SubscriptionBillingStartRequest": {
     "description": "How billing begins. Send exactly one closed tagged-union branch.",
     "discriminator": {
       "propertyName": "type"
@@ -274741,7 +274741,7 @@
                   "type": "integer"
                 },
                 "text": {
-                  "x-sdk-ref": "TextModifierInput"
+                  "x-sdk-ref": "TextModifierRequest"
                 }
               },
               "type": "object"
@@ -275310,7 +275310,7 @@
     ],
     "type": "object"
   },
-  "TaxCalculationInput": {
+  "TaxCalculationRequest": {
     "oneOf": [
       {
         "not": {
@@ -275352,7 +275352,7 @@
     "properties": {
       "components": {
         "items": {
-          "x-sdk-ref": "TaxComponentInput"
+          "x-sdk-ref": "TaxComponentRequest"
         },
         "minItems": 1,
         "type": "array"
@@ -275388,7 +275388,7 @@
     ],
     "type": "object"
   },
-  "TaxComponentInput": {
+  "TaxComponentRequest": {
     "not": {
       "required": [
         "flat_money"
@@ -275599,7 +275599,7 @@
     },
     "type": "object"
   },
-  "TextModifierInput": {
+  "TextModifierRequest": {
     "additionalProperties": false,
     "properties": {
       "modifier_group_id": {
@@ -276004,7 +276004,7 @@
     },
     "type": "object"
   },
-  "UpdateBundleComponentInput": {
+  "UpdateBundleComponentRequest": {
     "properties": {
       "bundle_component_id": {
         "pattern": "^bunc_[0-9A-HJKMNP-TV-Z]{26}$",
@@ -276105,7 +276105,7 @@
       "components": {
         "description": "Replaces all bundle components atomically. Include an existing bundle_component_id to retain a member. Omitted members are removed. Null is not accepted.",
         "items": {
-          "x-sdk-ref": "UpdateBundleComponentInput"
+          "x-sdk-ref": "UpdateBundleComponentRequest"
         },
         "type": "array"
       },
@@ -277853,7 +277853,7 @@
       },
       "observations": {
         "items": {
-          "x-sdk-ref": "InventoryCountObservationInput"
+          "x-sdk-ref": "InventoryCountObservationRequest"
         },
         "maxItems": 100,
         "minItems": 1,
@@ -278233,7 +278233,7 @@
         "type": "array"
       },
       "collection": {
-        "x-sdk-ref": "InvoiceCollectionInput"
+        "x-sdk-ref": "InvoiceCollectionRequest"
       },
       "expected_version": {
         "description": "Invoice version last read. Required when schedule_entries is present.",
@@ -278266,7 +278266,7 @@
         ]
       },
       "payment_due": {
-        "x-sdk-ref": "InvoicePaymentDueInput"
+        "x-sdk-ref": "InvoicePaymentDueRequest"
       },
       "po_number": {
         "type": "string"
@@ -278806,7 +278806,7 @@
         "type": "string"
       },
       "inventory_routing_source": {
-        "x-sdk-ref": "OrderInventoryRoutingSourceInput"
+        "x-sdk-ref": "OrderInventoryRoutingSourceRequest"
       },
       "metadata": {
         "additionalProperties": {
@@ -279272,7 +279272,7 @@
       "custom_fields": {
         "description": "Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null.",
         "items": {
-          "x-sdk-ref": "PaymentLinkCustomFieldPatchInput"
+          "x-sdk-ref": "PaymentLinkCustomFieldPatchRequest"
         },
         "type": "array"
       },
@@ -279428,7 +279428,7 @@
       "line_items": {
         "description": "Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted.",
         "items": {
-          "x-sdk-ref": "PaymentLinkLineItemPatchInput"
+          "x-sdk-ref": "PaymentLinkLineItemPatchRequest"
         },
         "minItems": 1,
         "type": "array"
@@ -279754,7 +279754,7 @@
     },
     "type": "object"
   },
-  "UpdateProductOptionInput": {
+  "UpdateProductOptionRequest": {
     "properties": {
       "metadata": {
         "additionalProperties": {
@@ -279798,7 +279798,7 @@
       },
       "values": {
         "items": {
-          "x-sdk-ref": "UpdateProductOptionValueInput"
+          "x-sdk-ref": "UpdateProductOptionValueRequest"
         },
         "type": "array"
       }
@@ -279808,7 +279808,7 @@
     ],
     "type": "object"
   },
-  "UpdateProductOptionValueInput": {
+  "UpdateProductOptionValueRequest": {
     "properties": {
       "metadata": {
         "additionalProperties": {
@@ -279971,7 +279971,7 @@
       "options": {
         "description": "Replaces all product options and values atomically. Include existing option_id and option_value_id values to retain members. Omitted members are archived. Null is not accepted.",
         "items": {
-          "x-sdk-ref": "UpdateProductOptionInput"
+          "x-sdk-ref": "UpdateProductOptionRequest"
         },
         "type": "array"
       },
@@ -280048,7 +280048,7 @@
         "type": "array"
       },
       "inventory_item": {
-        "x-sdk-ref": "InventoryItemCreateInput"
+        "x-sdk-ref": "InventoryItemCreateRequest"
       },
       "inventory_item_id": {
         "description": "Inventory item tracked by this variant. Send null to stop tracking inventory.",
@@ -281144,7 +281144,7 @@
       },
       "line_items": {
         "items": {
-          "x-sdk-ref": "ReturnResolutionLineItemReplacementInput"
+          "x-sdk-ref": "ReturnResolutionLineItemReplacementRequest"
         },
         "type": "array"
       },
@@ -281177,7 +281177,7 @@
       },
       "replacement_line_items": {
         "items": {
-          "x-sdk-ref": "ReturnReplacementLineItemReplacementInput"
+          "x-sdk-ref": "ReturnReplacementLineItemReplacementRequest"
         },
         "type": "array"
       }
@@ -282088,7 +282088,7 @@
       }
     ]
   },
-  "UpdateSubscriptionPlanLineItemInput": {
+  "UpdateSubscriptionPlanLineItemRequest": {
     "additionalProperties": false,
     "oneOf": [
       {
@@ -282247,7 +282247,7 @@
                   "type": "integer"
                 },
                 "text": {
-                  "x-sdk-ref": "TextModifierInput"
+                  "x-sdk-ref": "TextModifierRequest"
                 }
               },
               "type": "object"
@@ -282359,7 +282359,7 @@
       "line_items": {
         "description": "Replaces all owned plan line items atomically. Requires expected_version. Omission leaves items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id to retain an item; omit it for a new server-generated ID. Omitted members are removed. Existing subscriptions keep their snapshots. Retained catalog items with the same source keep their catalog snapshot; omitted modifiers keep their recorded choices.",
         "items": {
-          "x-sdk-ref": "UpdateSubscriptionPlanLineItemInput"
+          "x-sdk-ref": "UpdateSubscriptionPlanLineItemRequest"
         },
         "minItems": 1,
         "type": "array"

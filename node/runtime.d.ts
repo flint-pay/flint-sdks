@@ -157,6 +157,8 @@ export declare class Model<T = unknown> {
     toJSON(): T;
     [inspect.custom](): unknown;
 }
+/** Internal input copy for argument adapters; not exported by the SDK entrypoint. */
+export declare function modelInputValue(model: Model): unknown;
 /** Internal factory; does not expand the public Model class method surface. */
 export declare function modelFromCodec<T>(value: InputValue<T>, codec: CodecPlan): Model<T>;
 export declare class Runtime {

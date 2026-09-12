@@ -1,0 +1,22 @@
+import { Client } from '@flintpay/node';
+const client = new Client({
+  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  authMode: "customer",
+  credentials: {
+    ["customer"]: {
+      ["CustomerSessionBearer"]: process.env.API_CUSTOMER_CUSTOMERSESSIONBEARER ?? '',
+    },
+  },
+});
+const result = await client.me.createReturnPreview(
+  {
+    mode: "eligibility",
+    eligibility: {
+      order_id: "example",
+      selection: {
+        selection_type: "all_remaining_fulfilled",
+      },
+    },
+  },
+  { maxAttempts: 1 },
+);

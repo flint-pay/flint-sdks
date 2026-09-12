@@ -8,7 +8,7 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
-Both packages are available as `0.2.0-beta.2`:
+Version `0.3.0-beta.1` introduces resource-grouped methods, positional path IDs, flat request params, merchant `apiKey` authentication and direct JSON payload returns; see [migration instructions](MIGRATION.md). Install the Node beta with `npm install @flintpay/node@next` and PHP with `composer require flintpay/flint:0.3.0-beta.1`.
 
 - **PHP:** [Packagist](https://packagist.org/packages/flintpay/flint) · [Installation and quickstart](php/README.md) · [API reference](php/REFERENCE.md)
 - **Node.js / TypeScript:** [npm](https://www.npmjs.com/package/@flintpay/node) · [Installation and quickstart](node/README.md) · [API reference](node/REFERENCE.md)
@@ -17,9 +17,11 @@ Each package guide includes its own requirements, installation command and examp
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages contain all 497 outbound operations and 189 incoming webhook declarations from that export, including PDF downloads, redirects, and an event stream. All outbound methods use `client.api` and the original OpenAPI operation IDs.
+The pinned API version is `2026-09-07`. The packages contain all 497 outbound operations and 189 incoming webhook declarations from that export, including PDF downloads, redirects, and an event stream. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps every original OpenAPI operation ID to its resource and method.
 
 Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
+
+Staging testing identified API/schema nullability mismatches affecting `developer.getAuthContext`, `checkoutSessions.list`, and `deliveryQuotes.list`. Both SDKs reject affected responses with a protocol error. These remain known beta limitations; see [response compatibility notes](MIGRATION.md#known-response-compatibility-limitations).
 
 Full operation coverage does not establish live backend acceptance. Shared HTTP fixtures exercise both clients without network requests; sandbox transaction testing is a separate release check.
 

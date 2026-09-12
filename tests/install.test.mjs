@@ -81,13 +81,24 @@ test(
       );
       const inventory = json(join(root, "tests/full-inventory.json"));
       const cases = json(join(root, "tests/full-model-cases.json"));
+      const config = json(join(root, "sdk.json"));
+      const naming = json(join(root, "spec/profiles/full-common-sdk.json")).operations;
+      const expectedMethods = inventory.operations.flatMap(({ id }) => {
+        const { resource, method } = naming[id];
+        const methods = [[resource, method]];
+        if (config.operations[id]?.response?.return !== "result") methods.push([resource, method + "WithResponse"]);
+        if (naming[id].pagination) methods.push([resource, method + "Items"], [resource, method + "Pages"]);
+        return methods;
+      });
       writeFileSync(
         join(consumer, "check.mjs"),
         `
 import assert from 'node:assert/strict';
 import * as sdk from '@flintpay/node';
 const client = new sdk.Client({ baseUrl: 'https://api.example.invalid' });
-assert.deepEqual(Object.keys(client.api).sort(), ${JSON.stringify(inventory.operations.map((o) => o.id).sort())});
+const expected = ${JSON.stringify(expectedMethods)};
+for (const [resource, method] of expected) assert.equal(typeof client[resource]?.[method], 'function', resource + '.' + method);
+assert.equal(client.api, undefined);
 for (const scenario of ${JSON.stringify(cases)}) {
   const make = () => sdk['make' + scenario.model](scenario.value);
   if (scenario.valid) make(); else assert.throws(make, scenario.name);
@@ -165,9 +176,9 @@ console.log('Installed npm package: all operations and model cases passed.');
         `<?php
 require __DIR__ . '/vendor/autoload.php';
 $client = new \\Flint\\Client(new \\Flint\\ClientOptions(baseUrl: 'https://api.example.invalid'));
-$expected = json_decode('${JSON.stringify(inventory.operations.map((o) => o.id))}', true);
-foreach ($expected as $method) {
-  if (!method_exists($client->api, $method)) throw new \\RuntimeException('Missing operation: ' . $method);
+$expected = json_decode('${JSON.stringify(expectedMethods)}', true);
+foreach ($expected as [$resource, $method]) {
+  if (!method_exists($client->$resource, $method)) throw new \\RuntimeException('Missing operation: ' . $resource . '.' . $method);
 }
 $client->close();
 echo "Installed root Composer package: all operations passed.\\n";
