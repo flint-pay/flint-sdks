@@ -1,4 +1,5 @@
-import type { Operation, Schema, Auth, Webhook, Config, IncomingWebhook, AuthenticationMode } from './contract.js';
+export declare const AUTH_SHORTCUT_RESERVED: Set<string>;
+import type { Operation, Schema, Auth, Webhook, Config, IncomingWebhook, AuthenticationMode, AuthShortcuts } from './contract.js';
 import { CODEC_FORMAT, type CodecPlan } from './codec-plan.js';
 /** Declared success statuses; default remains a runtime fallback, never an implicit redirect. */
 export declare function successStatus(status: string): boolean;
@@ -10,6 +11,7 @@ export interface RuntimeContract {
     definitions?: Record<string, Schema>;
     auth?: Auth;
     authentication?: Record<string, AuthenticationMode>;
+    authShortcuts?: AuthShortcuts;
     apiVersion?: {
         header: string;
         value: string;

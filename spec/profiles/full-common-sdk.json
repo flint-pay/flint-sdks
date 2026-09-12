@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0-beta.2",
+  "version": "0.3.0-beta.1",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -91,8 +91,4324 @@
     "overview": "Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides.\n\nGenerated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generator). Submit fixes and pull requests to the generator; this distribution repository does not accept pull requests.",
     "examples": [
       "createPaymentIntent",
-      "getPaymentIntent",
-      "createRefund"
-    ]
+      "createRefund",
+      "createCheckoutSession"
+    ],
+    "guides": {
+      "pagination-and-retries": "# Pagination and retries\n\n## Iterate through list results\n\nCursor helpers use Flint's `page_token` and `next_page_token`. The SDK follows cursors lazily, retaining your filters. `listItems` yields individual resources; `listPages` yields full SDK Results whose `data` is the original API envelope and whose `meta` contains HTTP metadata. A normal `list` call still fetches only one page and returns its unwrapped payload. Use `listWithResponse` to inspect the original envelope and cursor manually.\n\nNode:\n\n```js\nfor await (const customer of flint.customers.listItems(\n  { page_size: 100 },\n  { maxPages: 10, maxItems: 1000, deadlineMs: 60000 },\n)) {\n  console.log(customer.customer_id);\n}\n```\n\nPHP:\n\n```php\nforeach ($flint->customers->listItems(\n    ['page_size' => 100],\n    new \\Flint\\RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000),\n) as $customer) {\n    echo $customer->customer_id . PHP_EOL;\n}\n```\n\nHelpers stop when the next cursor is absent or empty, or a caller limit is reached. All pages share one deadline. Pagination is not a stable snapshot of a changing collection. Resource timeline helpers iterate `data.entries`.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of one package. Likewise, `riskLists.listItems()` iterates risk lists and `riskLists.listRiskListItems()` lists entries inside one risk list. The nested list operations have their own `Items` and `Pages` companions where pagination is declared.\n\n## Retry policy\n\nAll operations make one attempt by default. Automatic retries are not enabled in this SDK configuration. The generator currently uses the declared retry limit as its default; supporting opt-in retries with a separate one-attempt default requires a generator change. Do not set `maxAttempts` above one in this release.\n\nPagination can make multiple requests to fetch distinct pages; it does not automatically retry a failed request. All pages share the caller's deadline.\n\n## Persist keys before writes\n\nEvery write that declares `Idempotency-Key` in the pinned API contract supports `idempotencyKey` through request options (278 operations). Required-key endpoints accept the key here without duplicating it in the input; they still reject a missing key before dispatch. Supplying a key does not enable automatic retries. Pass `idempotencyKey` in request options, or the identical `Idempotency-Key` input/header. The SDK sends the supplied key and rejects conflicting key sources. Automatic key generation is disabled.\n\nCreate and persist a key when your application decides on the business action. Reuse that saved key and the identical input when resuming after a crash or timeout. A different action or changed request needs a new key. Replay lifetime and semantics follow the endpoint contract. The general window is 24 hours; inventory command keys persist for at least as long as their inventory effects, and merchant account sessions mint fresh secrets on repeated success. Follow each endpoint's documented scope and retention. If the final outcome is unknown, reconcile the action before resubmitting. A deliberate retry must reuse the persisted key and identical request body.\n\nNode:\n\n```js\n// Load the key saved with this refund job before its first attempt.\nconst idempotencyKey = process.env.FLINT_REFUND_IDEMPOTENCY_KEY;\nif (!idempotencyKey) throw new Error('Load the saved refund idempotency key');\nconst refund = await flint.refunds.create({\n  payment_intent_id: 'pi_replace_with_your_payment_intent_id',\n  amount_money: { amount: '500', currency: 'USD' },\n  reason: 'requested_by_customer',\n}, { idempotencyKey });\n```\n\nPHP:\n\n```php\n$idempotencyKey = getenv('FLINT_REFUND_IDEMPOTENCY_KEY');\nif (!$idempotencyKey) throw new \\RuntimeException('Load the saved refund idempotency key');\n$refund = $flint->refunds->create([\n    'payment_intent_id' => 'pi_replace_with_your_payment_intent_id',\n    'amount_money' => ['amount' => '500', 'currency' => 'USD'],\n    'reason' => 'requested_by_customer',\n], new \\Flint\\RequestOptions(idempotencyKey: $idempotencyKey));\n```\n\nSee Flint's [pagination guide](https://developers.withflintpay.com/docs/guides/pagination) and [idempotency contract](https://developers.withflintpay.com/docs/guides/idempotency). Policies were checked against the pinned API export and the published guides on September 11, 2026.\n"
+    }
+  },
+  "responses": {
+    "return": "payload",
+    "payloadPath": "data"
+  },
+  "operations": {
+    "addOrderCharge": {
+      "resource": "orders",
+      "method": "addCharge",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "addOrderLineItems": {
+      "resource": "orders",
+      "method": "addLineItems",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "addReturnLineItem": {
+      "resource": "returns",
+      "method": "addLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "addRiskListItems": {
+      "resource": "riskLists",
+      "method": "addItems",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "advanceOnboarding": {
+      "resource": "onboarding",
+      "method": "advance",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "applyInventoryCount": {
+      "resource": "inventoryCounts",
+      "method": "apply",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "applyOrderDiscount": {
+      "resource": "orders",
+      "method": "applyDiscount",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "approveReview": {
+      "resource": "reviews",
+      "method": "approve",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "assignToUnconfiguredDeliveryProfile": {
+      "resource": "deliveryProfiles",
+      "method": "assignToUnconfigured",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "authorizePartnerInstall": {
+      "resource": "oauth",
+      "method": "authorizePartnerInstall"
+    },
+    "cancelInventoryCount": {
+      "resource": "inventoryCounts",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "cancelInvoicePaymentAttempt": {
+      "resource": "invoices",
+      "method": "cancelPaymentAttempt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelMeReturn": {
+      "resource": "me",
+      "method": "cancelReturn",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelMeSubscription": {
+      "resource": "me",
+      "method": "cancelSubscription",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelOrderPayment": {
+      "resource": "orders",
+      "method": "cancelPayment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelOrderPaymentAttempt": {
+      "resource": "orders",
+      "method": "cancelPaymentAttempt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelPaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelPayout": {
+      "resource": "payouts",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelReturn": {
+      "resource": "returns",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelReturnDisposition": {
+      "resource": "returnDispositions",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelReturnLineItem": {
+      "resource": "returns",
+      "method": "cancelLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "cancelSubscription": {
+      "resource": "subscriptions",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "captureOrderPayment": {
+      "resource": "orders",
+      "method": "capturePayment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "capturePaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "capture",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "changeMeSubscriptionPaymentMethod": {
+      "resource": "me",
+      "method": "changeSubscriptionPaymentMethod",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "changeSubscriptionPaymentMethod": {
+      "resource": "subscriptions",
+      "method": "changePaymentMethod",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "checkDeliveryRateCallbackConnection": {
+      "resource": "deliveryRateCallbacks",
+      "method": "checkConnection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "closeCheckoutSession": {
+      "resource": "checkoutSessions",
+      "method": "closeSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "closeOrder": {
+      "resource": "orders",
+      "method": "closeSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "collectInvoice": {
+      "resource": "invoices",
+      "method": "collect",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Caller-chosen idempotency key. Reuse it for retries of the same collection request.",
+        "auto": false
+      }
+    },
+    "commitInventoryReservation": {
+      "resource": "inventoryReservations",
+      "method": "commit",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "completeReturn": {
+      "resource": "returns",
+      "method": "complete",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "confirmMeEmailChangeRequest": {
+      "resource": "me",
+      "method": "confirmEmailChangeRequest",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "confirmPaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "confirm",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "confirmReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "confirm",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "consumeInventoryReservation": {
+      "resource": "inventoryReservations",
+      "method": "consume",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createAPIKey": {
+      "resource": "apiKeys",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createBundle": {
+      "resource": "bundles",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCategory": {
+      "resource": "categories",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCheckoutSession": {
+      "resource": "checkoutSessions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCheckoutSessionDeliveryQuote": {
+      "resource": "checkoutSessions",
+      "method": "createDeliveryQuote",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCheckoutSessionDeliverySelection": {
+      "resource": "checkoutSessions",
+      "method": "createDeliverySelection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCreditNote": {
+      "resource": "creditNotes",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCreditNoteAllocation": {
+      "resource": "creditNotes",
+      "method": "createAllocation",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same allocation.",
+        "auto": false
+      }
+    },
+    "createCustomer": {
+      "resource": "customers",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCustomerAddress": {
+      "resource": "customers",
+      "method": "createAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCustomerDeletionRequest": {
+      "resource": "customers",
+      "method": "createDeletionRequest",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createCustomerSession": {
+      "resource": "customerSessions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "createDeliveryLocationSet": {
+      "resource": "deliveryLocationSets",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeliveryMethod": {
+      "resource": "deliveryMethods",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeliveryPreview": {
+      "resource": "deliveryPreviews",
+      "method": "create"
+    },
+    "createDeliveryProfile": {
+      "resource": "deliveryProfiles",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeliveryRateCallback": {
+      "resource": "deliveryRateCallbacks",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeliveryRateCallbackTestDelivery": {
+      "resource": "deliveryRateCallbacks",
+      "method": "createTestDelivery",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeliveryZone": {
+      "resource": "deliveryZones",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDemoSession": {
+      "resource": "demoSessions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeveloperPartnerApp": {
+      "resource": "developer",
+      "method": "createPartnerApp",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDeveloperSandbox": {
+      "resource": "developer",
+      "method": "createSandbox",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createDevice": {
+      "resource": "devices",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createFeedbackReport": {
+      "resource": "feedbackReports",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted. Do not include personal information or secrets.",
+        "auto": false
+      }
+    },
+    "createFulfillment": {
+      "resource": "orders",
+      "method": "createFulfillment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createFulfillmentEvent": {
+      "resource": "fulfillments",
+      "method": "createEvent",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createInventoryAdjustment": {
+      "resource": "inventoryAdjustments",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createInventoryAllocationPolicy": {
+      "resource": "inventoryAllocationPolicies",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createInventoryCount": {
+      "resource": "inventoryCounts",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createInventoryItem": {
+      "resource": "inventoryItems",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createInventoryReceipt": {
+      "resource": "inventoryReceipts",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createInventoryReservation": {
+      "resource": "inventoryReservations",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createInventoryTransfer": {
+      "resource": "inventoryTransfers",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "createInvoice": {
+      "resource": "invoices",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createInvoicePaymentTerm": {
+      "resource": "invoicePaymentTerms",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createLocation": {
+      "resource": "locations",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeAddress": {
+      "resource": "me",
+      "method": "createAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeDeletionRequest": {
+      "resource": "me",
+      "method": "createDeletionRequest",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeEmailChangeRequest": {
+      "resource": "me",
+      "method": "createEmailChangeRequest",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeInvoiceCheckoutSession": {
+      "resource": "me",
+      "method": "createInvoiceCheckoutSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeReturn": {
+      "resource": "me",
+      "method": "createReturn",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeReturnPreview": {
+      "resource": "me",
+      "method": "createReturnPreview"
+    },
+    "createMeReturnResolutionCheckoutSession": {
+      "resource": "me",
+      "method": "createReturnResolutionCheckoutSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMerchantAccountSession": {
+      "resource": "merchantAccountSessions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Successful repeated requests mint a fresh launch session; prior client secrets are not replayed.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Completed retries create a fresh launch session instead of replaying a prior client secret.",
+        "auto": false
+      }
+    },
+    "createModifierGroup": {
+      "resource": "modifierGroups",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createModifierSet": {
+      "resource": "modifierSets",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createOnboardingAPIKey": {
+      "resource": "onboarding",
+      "method": "createAPIKey",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createOrder": {
+      "resource": "orders",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createOrderPaymentIntent": {
+      "resource": "orders",
+      "method": "createPaymentIntent",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createOrganization": {
+      "resource": "organizations",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPackage": {
+      "resource": "shipments",
+      "method": "createPackage",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPackageItem": {
+      "resource": "packages",
+      "method": "createItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPaymentLink": {
+      "resource": "paymentLinks",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPaymentMethodDomain": {
+      "resource": "paymentMethodDomains",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "createPayout": {
+      "resource": "payouts",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createProduct": {
+      "resource": "products",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createProductVariant": {
+      "resource": "products",
+      "method": "createVariant",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPromotion": {
+      "resource": "promotions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createPromotionCode": {
+      "resource": "promotions",
+      "method": "createCode",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createRefund": {
+      "resource": "refunds",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReport": {
+      "resource": "reports",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "createReturn": {
+      "resource": "returns",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnDisposition": {
+      "resource": "returns",
+      "method": "createDisposition",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnInspection": {
+      "resource": "returns",
+      "method": "createInspection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnPolicy": {
+      "resource": "returnPolicies",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnPreview": {
+      "resource": "returnPreviews",
+      "method": "create"
+    },
+    "createReturnReason": {
+      "resource": "returnReasons",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnReceipt": {
+      "resource": "returns",
+      "method": "createReceipt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createReturnResolution": {
+      "resource": "returns",
+      "method": "createResolution",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createRiskList": {
+      "resource": "riskLists",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createRiskPreview": {
+      "resource": "riskPreviews",
+      "method": "create"
+    },
+    "createRiskRule": {
+      "resource": "riskRules",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createShipment": {
+      "resource": "fulfillments",
+      "method": "createShipment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createSubscription": {
+      "resource": "subscriptions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createSubscriptionPaymentRetry": {
+      "resource": "subscriptions",
+      "method": "createPaymentRetry",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this retry attempt.",
+        "auto": false
+      }
+    },
+    "createSubscriptionPlan": {
+      "resource": "subscriptionPlans",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createWebhookEndpoint": {
+      "resource": "webhookEndpoints",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createWebhookTestEvent": {
+      "resource": "webhookEndpoints",
+      "method": "createWebhookTestEvent",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "decideReturn": {
+      "resource": "returns",
+      "method": "decide",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "decideReturnInspectionLineItem": {
+      "resource": "returnInspections",
+      "method": "decideLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "declineReview": {
+      "resource": "reviews",
+      "method": "decline",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteBundle": {
+      "resource": "bundles",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteCategory": {
+      "resource": "categories",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteCheckoutSessionCurrentDeliverySelection": {
+      "resource": "checkoutSessions",
+      "method": "deleteCurrentDeliverySelection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteCustomerAddress": {
+      "resource": "customers",
+      "method": "deleteAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeliveryLocationSet": {
+      "resource": "deliveryLocationSets",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeliveryMethod": {
+      "resource": "deliveryMethods",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeliveryProfile": {
+      "resource": "deliveryProfiles",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeliveryRateCallback": {
+      "resource": "deliveryRateCallbacks",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeliveryZone": {
+      "resource": "deliveryZones",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDeveloperSandbox": {
+      "resource": "developer",
+      "method": "deleteSandbox",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteDevice": {
+      "resource": "devices",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteInventoryAllocationPolicy": {
+      "resource": "inventoryAllocationPolicies",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteInventoryItem": {
+      "resource": "inventoryItems",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteInvoicePaymentTerm": {
+      "resource": "invoicePaymentTerms",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteLocation": {
+      "resource": "locations",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteMeAddress": {
+      "resource": "me",
+      "method": "deleteAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteModifierGroup": {
+      "resource": "modifierGroups",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteModifierSet": {
+      "resource": "modifierSets",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteOrderCharge": {
+      "resource": "orders",
+      "method": "deleteCharge",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteOrderLineItem": {
+      "resource": "orders",
+      "method": "deleteLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteOrganization": {
+      "resource": "organizations",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deletePackageItem": {
+      "resource": "packages",
+      "method": "deleteItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deletePayoutDestination": {
+      "resource": "payoutSettings",
+      "method": "deletePayoutDestination",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteProduct": {
+      "resource": "products",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteProductVariant": {
+      "resource": "products",
+      "method": "deleteVariant",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deletePromotion": {
+      "resource": "promotions",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deletePromotionCode": {
+      "resource": "promotions",
+      "method": "deleteCode",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteReturnLineItem": {
+      "resource": "returns",
+      "method": "deleteLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteReturnPolicy": {
+      "resource": "returnPolicies",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteReturnReason": {
+      "resource": "returnReasons",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteRiskList": {
+      "resource": "riskLists",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteRiskListItem": {
+      "resource": "riskLists",
+      "method": "deleteItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteRiskRule": {
+      "resource": "riskRules",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteSubscriptionPlan": {
+      "resource": "subscriptionPlans",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "deleteWebhookEndpoint": {
+      "resource": "webhookEndpoints",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "exchangePartnerInstallToken": {
+      "resource": "oauth",
+      "method": "exchangePartnerInstallToken"
+    },
+    "getAPIKey": {
+      "resource": "apiKeys",
+      "method": "get"
+    },
+    "getAnalyticsOverview": {
+      "resource": "analytics",
+      "method": "getOverview"
+    },
+    "getBalanceTransaction": {
+      "resource": "balanceTransactions",
+      "method": "get"
+    },
+    "getBundle": {
+      "resource": "bundles",
+      "method": "get"
+    },
+    "getCategory": {
+      "resource": "categories",
+      "method": "get"
+    },
+    "getCheckoutSession": {
+      "resource": "checkoutSessions",
+      "method": "get"
+    },
+    "getCheckoutSessionCurrentDeliverySelection": {
+      "resource": "checkoutSessions",
+      "method": "getCurrentDeliverySelection"
+    },
+    "getCheckoutSessionDeliveryQuote": {
+      "resource": "checkoutSessions",
+      "method": "getDeliveryQuote"
+    },
+    "getCheckoutSessionDeliverySelectionHistory": {
+      "resource": "checkoutSessions",
+      "method": "getDeliverySelectionHistory"
+    },
+    "getCreditNote": {
+      "resource": "creditNotes",
+      "method": "get"
+    },
+    "getCreditNoteAllocation": {
+      "resource": "creditNotes",
+      "method": "getAllocation"
+    },
+    "getCreditNotePDF": {
+      "resource": "creditNotes",
+      "method": "getPDF"
+    },
+    "getCurrentAPIKeyRequestLog": {
+      "resource": "developer",
+      "method": "getCurrentAPIKeyRequestLog"
+    },
+    "getCustomer": {
+      "resource": "customers",
+      "method": "get"
+    },
+    "getCustomerAddress": {
+      "resource": "customers",
+      "method": "getAddress"
+    },
+    "getCustomerDeletionRequest": {
+      "resource": "customers",
+      "method": "getDeletionRequest"
+    },
+    "getDeliveryLocationSet": {
+      "resource": "deliveryLocationSets",
+      "method": "get"
+    },
+    "getDeliveryMethod": {
+      "resource": "deliveryMethods",
+      "method": "get"
+    },
+    "getDeliveryProfile": {
+      "resource": "deliveryProfiles",
+      "method": "get"
+    },
+    "getDeliveryRateCallback": {
+      "resource": "deliveryRateCallbacks",
+      "method": "get"
+    },
+    "getDeliveryRevocation": {
+      "resource": "deliveryRevocations",
+      "method": "get"
+    },
+    "getDeliveryZone": {
+      "resource": "deliveryZones",
+      "method": "get"
+    },
+    "getDeveloperAuthContext": {
+      "resource": "developer",
+      "method": "getAuthContext"
+    },
+    "getDeveloperPartnerApp": {
+      "resource": "developer",
+      "method": "getPartnerApp"
+    },
+    "getDeveloperPartnerAppInstall": {
+      "resource": "developer",
+      "method": "getPartnerAppInstall"
+    },
+    "getDeveloperSandbox": {
+      "resource": "developer",
+      "method": "getSandbox"
+    },
+    "getDevice": {
+      "resource": "devices",
+      "method": "get"
+    },
+    "getDispute": {
+      "resource": "disputes",
+      "method": "get"
+    },
+    "getEffectiveSettings": {
+      "resource": "settings",
+      "method": "getEffective"
+    },
+    "getFeedbackReport": {
+      "resource": "feedbackReports",
+      "method": "get"
+    },
+    "getFraudWarning": {
+      "resource": "fraudWarnings",
+      "method": "get"
+    },
+    "getFulfillment": {
+      "resource": "fulfillments",
+      "method": "get"
+    },
+    "getFulfillmentEvent": {
+      "resource": "fulfillmentEvents",
+      "method": "get"
+    },
+    "getFulfillmentNotification": {
+      "resource": "fulfillmentNotifications",
+      "method": "get"
+    },
+    "getInvoice": {
+      "resource": "invoices",
+      "method": "get"
+    },
+    "getInvoicePDF": {
+      "resource": "invoices",
+      "method": "getPDF"
+    },
+    "getInvoicePaymentAttempt": {
+      "resource": "invoices",
+      "method": "getPaymentAttempt"
+    },
+    "getInvoicePaymentTerm": {
+      "resource": "invoicePaymentTerms",
+      "method": "get"
+    },
+    "getLocation": {
+      "resource": "locations",
+      "method": "get"
+    },
+    "getMe": {
+      "resource": "me",
+      "method": "get"
+    },
+    "getMeAddress": {
+      "resource": "me",
+      "method": "getAddress"
+    },
+    "getMeCreditNote": {
+      "resource": "me",
+      "method": "getCreditNote"
+    },
+    "getMeCreditNotePDF": {
+      "resource": "me",
+      "method": "getCreditNotePDF"
+    },
+    "getMeDeletionRequest": {
+      "resource": "me",
+      "method": "getDeletionRequest"
+    },
+    "getMeInvoice": {
+      "resource": "me",
+      "method": "getInvoice"
+    },
+    "getMeInvoicePDF": {
+      "resource": "me",
+      "method": "getInvoicePDF"
+    },
+    "getMeOrder": {
+      "resource": "me",
+      "method": "getOrder"
+    },
+    "getMeReturn": {
+      "resource": "me",
+      "method": "getReturn"
+    },
+    "getMeSubscription": {
+      "resource": "me",
+      "method": "getSubscription"
+    },
+    "getMerchant": {
+      "resource": "merchants",
+      "method": "get"
+    },
+    "getMerchantBillingBalance": {
+      "resource": "merchantBillingBalances",
+      "method": "get"
+    },
+    "getMerchantSubscriptionInvoice": {
+      "resource": "merchantSubscriptionInvoices",
+      "method": "get"
+    },
+    "getModifierGroup": {
+      "resource": "modifierGroups",
+      "method": "get"
+    },
+    "getModifierSet": {
+      "resource": "modifierSets",
+      "method": "get"
+    },
+    "getOnboardingState": {
+      "resource": "onboarding",
+      "method": "getState"
+    },
+    "getOpenAPISpec": {
+      "resource": "specification",
+      "method": "get"
+    },
+    "getOrCreateInvoiceCheckoutSession": {
+      "resource": "invoices",
+      "method": "getOrCreateCheckoutSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "getOrCreateReturnResolutionCheckoutSession": {
+      "resource": "returnResolutions",
+      "method": "getOrCreateCheckoutSession",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "getOrder": {
+      "resource": "orders",
+      "method": "get"
+    },
+    "getOrderCurrentDeliverySelection": {
+      "resource": "orders",
+      "method": "getCurrentDeliverySelection"
+    },
+    "getOrderPaymentAttempt": {
+      "resource": "orders",
+      "method": "getPaymentAttempt"
+    },
+    "getOrganization": {
+      "resource": "organizations",
+      "method": "get"
+    },
+    "getPackage": {
+      "resource": "packages",
+      "method": "get"
+    },
+    "getPackageItem": {
+      "resource": "packages",
+      "method": "getItem"
+    },
+    "getPaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "get"
+    },
+    "getPaymentLink": {
+      "resource": "paymentLinks",
+      "method": "get"
+    },
+    "getPaymentLinkPublic": {
+      "resource": "paymentLinks",
+      "method": "getPublic"
+    },
+    "getPaymentMethod": {
+      "resource": "paymentMethods",
+      "method": "get"
+    },
+    "getPaymentMethodDomain": {
+      "resource": "paymentMethodDomains",
+      "method": "get"
+    },
+    "getPaymentVolumeTimeseries": {
+      "resource": "analytics",
+      "method": "getPaymentVolumeTimeseries"
+    },
+    "getPayout": {
+      "resource": "payouts",
+      "method": "get"
+    },
+    "getPayoutDestination": {
+      "resource": "payoutSettings",
+      "method": "getPayoutDestination"
+    },
+    "getPayoutSettings": {
+      "resource": "payoutSettings",
+      "method": "get"
+    },
+    "getProduct": {
+      "resource": "products",
+      "method": "get"
+    },
+    "getProductOption": {
+      "resource": "products",
+      "method": "getOption"
+    },
+    "getProductVariant": {
+      "resource": "products",
+      "method": "getVariant"
+    },
+    "getPromotion": {
+      "resource": "promotions",
+      "method": "get"
+    },
+    "getRefund": {
+      "resource": "refunds",
+      "method": "get"
+    },
+    "getReport": {
+      "resource": "reports",
+      "method": "get"
+    },
+    "getReportDownload": {
+      "resource": "reportDownloads",
+      "method": "get"
+    },
+    "getResourceTimeline": {
+      "resource": "developer",
+      "method": "getResourceTimeline",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data.entries",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "getReturn": {
+      "resource": "returns",
+      "method": "get"
+    },
+    "getReturnDisposition": {
+      "resource": "returnDispositions",
+      "method": "get"
+    },
+    "getReturnInspection": {
+      "resource": "returnInspections",
+      "method": "get"
+    },
+    "getReturnLineItem": {
+      "resource": "returns",
+      "method": "getLineItem"
+    },
+    "getReturnPolicy": {
+      "resource": "returnPolicies",
+      "method": "get"
+    },
+    "getReturnPolicyRevision": {
+      "resource": "returnPolicies",
+      "method": "getRevision"
+    },
+    "getReturnReason": {
+      "resource": "returnReasons",
+      "method": "get"
+    },
+    "getReturnReceipt": {
+      "resource": "returnReceipts",
+      "method": "get"
+    },
+    "getReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "get"
+    },
+    "getReview": {
+      "resource": "reviews",
+      "method": "get"
+    },
+    "getRiskList": {
+      "resource": "riskLists",
+      "method": "get"
+    },
+    "getRiskListItem": {
+      "resource": "riskLists",
+      "method": "getItem"
+    },
+    "getRiskRule": {
+      "resource": "riskRules",
+      "method": "get"
+    },
+    "getRiskRuleAttributeRegistry": {
+      "resource": "riskRules",
+      "method": "getAttributeRegistry"
+    },
+    "getSettings": {
+      "resource": "settings",
+      "method": "get"
+    },
+    "getShipment": {
+      "resource": "shipments",
+      "method": "get"
+    },
+    "getSubscription": {
+      "resource": "subscriptions",
+      "method": "get"
+    },
+    "getSubscriptionAnalytics": {
+      "resource": "analytics",
+      "method": "getSubscription"
+    },
+    "getSubscriptionPaymentRetry": {
+      "resource": "subscriptions",
+      "method": "getPaymentRetry"
+    },
+    "getSubscriptionPlan": {
+      "resource": "subscriptionPlans",
+      "method": "get"
+    },
+    "getWebhookDelivery": {
+      "resource": "webhookDeliveries",
+      "method": "get"
+    },
+    "getWebhookEndpoint": {
+      "resource": "webhookEndpoints",
+      "method": "get"
+    },
+    "getWebhookEvent": {
+      "resource": "webhookEvents",
+      "method": "get"
+    },
+    "grantOrganizationMembership": {
+      "resource": "organizations",
+      "method": "grantMembership",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "issueCreditNote": {
+      "resource": "creditNotes",
+      "method": "issue",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "issueDeveloperSandboxTestKey": {
+      "resource": "developer",
+      "method": "issueSandboxTestKey",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "issueInvoice": {
+      "resource": "invoices",
+      "method": "issue",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "listAPIKeys": {
+      "resource": "apiKeys",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listBalanceTransactions": {
+      "resource": "balanceTransactions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listBalances": {
+      "resource": "balances",
+      "method": "list"
+    },
+    "listBundleComponents": {
+      "resource": "bundles",
+      "method": "listComponents",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listBundles": {
+      "resource": "bundles",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCapabilities": {
+      "resource": "capabilities",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCategories": {
+      "resource": "categories",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCheckoutSessions": {
+      "resource": "checkoutSessions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCreditNoteAllocations": {
+      "resource": "creditNotes",
+      "method": "listAllocations",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCreditNotes": {
+      "resource": "creditNotes",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCurrentAPIKeyRequestLogs": {
+      "resource": "developer",
+      "method": "listCurrentAPIKeyRequestLogs",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCustomerAddresses": {
+      "resource": "customers",
+      "method": "listAddresses",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCustomerDeletionRequests": {
+      "resource": "customerDeletionRequests",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCustomers": {
+      "resource": "customers",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryLocationSets": {
+      "resource": "deliveryLocationSets",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryMethods": {
+      "resource": "deliveryMethods",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryProfiles": {
+      "resource": "deliveryProfiles",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryQuotes": {
+      "resource": "deliveryQuotes",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryRateCallbacks": {
+      "resource": "deliveryRateCallbacks",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeliveryZones": {
+      "resource": "deliveryZones",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeveloperPartnerAppInstalls": {
+      "resource": "developer",
+      "method": "listPartnerAppInstalls",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeveloperPartnerApps": {
+      "resource": "developer",
+      "method": "listPartnerApps",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDeveloperSandboxes": {
+      "resource": "developer",
+      "method": "listSandboxes",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDevices": {
+      "resource": "devices",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listDisputes": {
+      "resource": "disputes",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listFeedbackReports": {
+      "resource": "feedbackReports",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listFraudWarnings": {
+      "resource": "fraudWarnings",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listFulfillmentEvents": {
+      "resource": "fulfillmentEvents",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listFulfillmentNotifications": {
+      "resource": "fulfillmentNotifications",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listFulfillments": {
+      "resource": "fulfillments",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryAdjustments": {
+      "resource": "inventoryAdjustments",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryAllocationPolicies": {
+      "resource": "inventoryAllocationPolicies",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryCounts": {
+      "resource": "inventoryCounts",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryItems": {
+      "resource": "inventoryItems",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryLevels": {
+      "resource": "inventoryLevels",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryMovements": {
+      "resource": "inventoryMovements",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryReceipts": {
+      "resource": "inventoryReceipts",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryReservations": {
+      "resource": "inventoryReservations",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInventoryTransfers": {
+      "resource": "inventoryTransfers",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInvoiceDeliveryAttempts": {
+      "resource": "invoices",
+      "method": "listDeliveryAttempts",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInvoiceEvents": {
+      "resource": "invoices",
+      "method": "listEvents",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInvoicePaymentAttempts": {
+      "resource": "invoices",
+      "method": "listPaymentAttempts",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInvoicePaymentTerms": {
+      "resource": "invoicePaymentTerms",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listInvoices": {
+      "resource": "invoices",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listLocations": {
+      "resource": "locations",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeAddresses": {
+      "resource": "me",
+      "method": "listAddresses",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeCreditNotes": {
+      "resource": "me",
+      "method": "listCreditNotes",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeFulfillments": {
+      "resource": "me",
+      "method": "listFulfillments",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeInvoices": {
+      "resource": "me",
+      "method": "listInvoices",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeOrderActivities": {
+      "resource": "me",
+      "method": "listOrderActivities",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeOrders": {
+      "resource": "me",
+      "method": "listOrders",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMePackages": {
+      "resource": "me",
+      "method": "listPackages",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMePaymentMethods": {
+      "resource": "me",
+      "method": "listPaymentMethods",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMePayments": {
+      "resource": "me",
+      "method": "listPayments",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeRefunds": {
+      "resource": "me",
+      "method": "listRefunds",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeReturns": {
+      "resource": "me",
+      "method": "listReturns",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeShipments": {
+      "resource": "me",
+      "method": "listShipments",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMeSubscriptions": {
+      "resource": "me",
+      "method": "listSubscriptions",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMerchantBillingBalances": {
+      "resource": "merchantBillingBalances",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listMerchantSubscriptionInvoices": {
+      "resource": "merchantSubscriptionInvoices",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listModifierGroups": {
+      "resource": "modifierGroups",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listModifierSets": {
+      "resource": "modifierSets",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listOrderActivities": {
+      "resource": "orders",
+      "method": "listActivities",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listOrderPaymentAttempts": {
+      "resource": "orders",
+      "method": "listPaymentAttempts",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listOrders": {
+      "resource": "orders",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listOrganizationMemberships": {
+      "resource": "organizations",
+      "method": "listMemberships",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listOrganizations": {
+      "resource": "organizations",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPackageItems": {
+      "resource": "packages",
+      "method": "listPackageItems",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPackages": {
+      "resource": "packages",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPaymentIntents": {
+      "resource": "paymentIntents",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPaymentLinks": {
+      "resource": "paymentLinks",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPaymentMethodDomains": {
+      "resource": "paymentMethodDomains",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPaymentMethods": {
+      "resource": "paymentMethods",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPayoutDestinations": {
+      "resource": "payoutSettings",
+      "method": "listPayoutDestinations",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPayoutEntries": {
+      "resource": "payouts",
+      "method": "listEntries",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPayouts": {
+      "resource": "payouts",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listProductOptions": {
+      "resource": "products",
+      "method": "listOptions",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listProductVariants": {
+      "resource": "products",
+      "method": "listVariants",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listProducts": {
+      "resource": "products",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPromotionCodes": {
+      "resource": "promotions",
+      "method": "listCodes",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listPromotions": {
+      "resource": "promotions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listRefunds": {
+      "resource": "refunds",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReports": {
+      "resource": "reports",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnDispositions": {
+      "resource": "returnDispositions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnInspections": {
+      "resource": "returnInspections",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnLineItems": {
+      "resource": "returns",
+      "method": "listLineItems",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnPolicies": {
+      "resource": "returnPolicies",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnPolicyRevisions": {
+      "resource": "returnPolicies",
+      "method": "listRevisions",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnReasons": {
+      "resource": "returnReasons",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnReceipts": {
+      "resource": "returnReceipts",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturnResolutions": {
+      "resource": "returnResolutions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReturns": {
+      "resource": "returns",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listReviews": {
+      "resource": "reviews",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listRiskListItems": {
+      "resource": "riskLists",
+      "method": "listRiskListItems",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listRiskLists": {
+      "resource": "riskLists",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listRiskRules": {
+      "resource": "riskRules",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listShipments": {
+      "resource": "shipments",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listSubscriptionPaymentRetries": {
+      "resource": "subscriptions",
+      "method": "listPaymentRetries",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listSubscriptionPlans": {
+      "resource": "subscriptionPlans",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listSubscriptions": {
+      "resource": "subscriptions",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listWebhookDeliveries": {
+      "resource": "webhookEvents",
+      "method": "listWebhookDeliveries",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listWebhookDeliveryAttempts": {
+      "resource": "webhookDeliveries",
+      "method": "listAttempts",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listWebhookEndpoints": {
+      "resource": "webhookEndpoints",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listWebhookEventTypes": {
+      "resource": "webhookEventTypes",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listWebhookEvents": {
+      "resource": "webhookEvents",
+      "method": "list",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "markInvoiceUncollectible": {
+      "resource": "invoices",
+      "method": "markUncollectible",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "pauseInvoiceReminders": {
+      "resource": "invoices",
+      "method": "pauseReminders",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "pauseMeSubscription": {
+      "resource": "me",
+      "method": "pauseSubscription",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "pauseSubscription": {
+      "resource": "subscriptions",
+      "method": "pause",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "payOrder": {
+      "resource": "orders",
+      "method": "pay",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "previewOrderDiscounts": {
+      "resource": "orders",
+      "method": "previewDiscounts"
+    },
+    "previewPartnerInstallAuthorization": {
+      "resource": "oauth",
+      "method": "previewPartnerInstallAuthorization"
+    },
+    "processExistingReturn": {
+      "resource": "returns",
+      "method": "processExisting",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required durable command identity. Exact replay returns the original resource graph.",
+        "auto": false
+      }
+    },
+    "publishLocationGeography": {
+      "resource": "locations",
+      "method": "publishGeography",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "publishReturnPolicyRevision": {
+      "resource": "returnPolicies",
+      "method": "publishRevision",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "queryCheckoutSessionPickupAvailability": {
+      "resource": "checkoutSessions",
+      "method": "queryPickupAvailability"
+    },
+    "reactivateMeSubscription": {
+      "resource": "me",
+      "method": "reactivateSubscription",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "reactivateSubscription": {
+      "resource": "subscriptions",
+      "method": "reactivate",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "recordManualInvoicePayment": {
+      "resource": "invoices",
+      "method": "recordManualPayment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "refreshCustomerSession": {
+      "resource": "customerSessions",
+      "method": "refresh",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required durable key for safe refresh retries. Reuse it with the same refresh token until a response is received.",
+        "auto": false
+      }
+    },
+    "refreshMerchantAccountSession": {
+      "resource": "merchantAccountSessions",
+      "method": "refresh",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "regenerateInvoicePublicLink": {
+      "resource": "invoices",
+      "method": "regeneratePublicLink",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "releaseInventoryReservation": {
+      "resource": "inventoryReservations",
+      "method": "release",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "releaseReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "release",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "removeMePaymentMethod": {
+      "resource": "me",
+      "method": "removePaymentMethod",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "removeOrderDiscounts": {
+      "resource": "orders",
+      "method": "removeDiscounts",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "removePaymentMethod": {
+      "resource": "paymentMethods",
+      "method": "remove",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "reopenReturn": {
+      "resource": "returns",
+      "method": "reopen",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "repriceOrderDiscounts": {
+      "resource": "orders",
+      "method": "repriceDiscounts",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resendMeOrderReceipt": {
+      "resource": "me",
+      "method": "resendOrderReceipt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resendOrderReceipt": {
+      "resource": "orders",
+      "method": "resendReceipt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resendWebhookDelivery": {
+      "resource": "webhookDeliveries",
+      "method": "resend",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resetDemoSession": {
+      "resource": "demoSessions",
+      "method": "reset"
+    },
+    "resetDeveloperSandbox": {
+      "resource": "developer",
+      "method": "resetSandbox",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resolveCustomerDeletionRequest": {
+      "resource": "customerDeletionRequests",
+      "method": "resolve",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resolveOrderInventoryException": {
+      "resource": "orders",
+      "method": "resolveInventoryException",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resolvePaymentLink": {
+      "resource": "paymentLinks",
+      "method": "resolve",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required idempotency key. Reuse it with the same resolution_context for uncertain retries.",
+        "auto": false
+      }
+    },
+    "resolvePromotionCode": {
+      "resource": "promotions",
+      "method": "resolveCode"
+    },
+    "resumeInvoiceReminders": {
+      "resource": "invoices",
+      "method": "resumeReminders",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resumeMeSubscription": {
+      "resource": "me",
+      "method": "resumeSubscription",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "resumeSubscription": {
+      "resource": "subscriptions",
+      "method": "resume",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "retryReturnDisposition": {
+      "resource": "returnDispositions",
+      "method": "retry",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "retryReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "retry",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "reverseCreditNoteAllocation": {
+      "resource": "creditNotes",
+      "method": "reverseAllocation",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "reverseManualInvoicePayment": {
+      "resource": "invoices",
+      "method": "reverseManualPayment",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "revokeAPIKey": {
+      "resource": "apiKeys",
+      "method": "revoke",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "revokeCustomerSession": {
+      "resource": "customerSessions",
+      "method": "revoke",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "revokeCustomerSessions": {
+      "resource": "customers",
+      "method": "revokeSessions",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "revokeDeliveryDependency": {
+      "resource": "deliveryRevocations",
+      "method": "revokeDeliveryDependency",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "revokeDeveloperPartnerAppInstall": {
+      "resource": "developer",
+      "method": "revokePartnerAppInstall",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "revokeDeveloperPartnerEnvironmentGrant": {
+      "resource": "developer",
+      "method": "revokePartnerEnvironmentGrant",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "revokeOrganizationMembership": {
+      "resource": "organizations",
+      "method": "revokeMembership",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "rotateDeliveryRateCallbackSigningKey": {
+      "resource": "deliveryRateCallbacks",
+      "method": "rotateSigningKey",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "rotateDeveloperPartnerAppSecret": {
+      "resource": "developer",
+      "method": "rotatePartnerAppSecret",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "rotateWebhookSecret": {
+      "resource": "webhookEndpoints",
+      "method": "rotateWebhookSecret",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "saveMePaymentMethod": {
+      "resource": "me",
+      "method": "savePaymentMethod",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "savePaymentMethod": {
+      "resource": "paymentMethods",
+      "method": "save",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "sendInvoiceReminder": {
+      "resource": "invoices",
+      "method": "sendReminder",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "setDefaultCustomerAddress": {
+      "resource": "customers",
+      "method": "setDefaultAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "setDefaultMeAddress": {
+      "resource": "me",
+      "method": "setDefaultAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "setDefaultMePaymentMethod": {
+      "resource": "me",
+      "method": "setDefaultPaymentMethod",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "setDefaultPaymentMethod": {
+      "resource": "paymentMethods",
+      "method": "setDefault",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "skipSubscriptionCycle": {
+      "resource": "subscriptions",
+      "method": "skipCycle",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "startOnboarding": {
+      "resource": "onboarding",
+      "method": "startFlow",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "streamWebhookEvents": {
+      "resource": "webhookEvents",
+      "method": "stream"
+    },
+    "transferOrganizationOwnership": {
+      "resource": "organizations",
+      "method": "transferOwnership",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "transitionFulfillment": {
+      "resource": "fulfillments",
+      "method": "transition",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "transitionInventoryTransfer": {
+      "resource": "inventoryTransfers",
+      "method": "transition",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "transitionPackage": {
+      "resource": "packages",
+      "method": "transition",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "updateAPIKey": {
+      "resource": "apiKeys",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateBundle": {
+      "resource": "bundles",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateCategory": {
+      "resource": "categories",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateCheckoutSession": {
+      "resource": "checkoutSessions",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateCreditNote": {
+      "resource": "creditNotes",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateCustomer": {
+      "resource": "customers",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateCustomerAddress": {
+      "resource": "customers",
+      "method": "updateAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeliveryLocationSet": {
+      "resource": "deliveryLocationSets",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeliveryMethod": {
+      "resource": "deliveryMethods",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeliveryProfile": {
+      "resource": "deliveryProfiles",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeliveryRateCallback": {
+      "resource": "deliveryRateCallbacks",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeliveryZone": {
+      "resource": "deliveryZones",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDeveloperPartnerApp": {
+      "resource": "developer",
+      "method": "updatePartnerApp",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateDevice": {
+      "resource": "devices",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateFulfillment": {
+      "resource": "fulfillments",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateInventoryAllocationPolicy": {
+      "resource": "inventoryAllocationPolicies",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateInventoryCount": {
+      "resource": "inventoryCounts",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "updateInventoryItem": {
+      "resource": "inventoryItems",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateInventoryLevel": {
+      "resource": "inventoryLevels",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Retained for at least as long as this command's inventory effects.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list.",
+        "auto": false
+      }
+    },
+    "updateInventoryTransfer": {
+      "resource": "inventoryTransfers",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateInvoice": {
+      "resource": "invoices",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateInvoicePaymentTerm": {
+      "resource": "invoicePaymentTerms",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateLocation": {
+      "resource": "locations",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateLocationInventory": {
+      "resource": "locations",
+      "method": "updateInventory",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateMe": {
+      "resource": "me",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateMeAddress": {
+      "resource": "me",
+      "method": "updateAddress",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateMerchant": {
+      "resource": "merchants",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateModifierGroup": {
+      "resource": "modifierGroups",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateModifierSet": {
+      "resource": "modifierSets",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateOrder": {
+      "resource": "orders",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateOrderCharge": {
+      "resource": "orders",
+      "method": "updateCharge",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateOrderLineItem": {
+      "resource": "orders",
+      "method": "updateLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateOrganization": {
+      "resource": "organizations",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePackage": {
+      "resource": "packages",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePackageItem": {
+      "resource": "packages",
+      "method": "updateItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePaymentIntent": {
+      "resource": "paymentIntents",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePaymentLink": {
+      "resource": "paymentLinks",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePaymentMethodDomain": {
+      "resource": "paymentMethodDomains",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted.",
+        "auto": false
+      }
+    },
+    "updatePayoutDestination": {
+      "resource": "payoutSettings",
+      "method": "updatePayoutDestination",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePayoutSettings": {
+      "resource": "payoutSettings",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateProduct": {
+      "resource": "products",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateProductVariant": {
+      "resource": "products",
+      "method": "updateVariant",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePromotion": {
+      "resource": "promotions",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updatePromotionCode": {
+      "resource": "promotions",
+      "method": "updateCode",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateRefund": {
+      "resource": "refunds",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateReturn": {
+      "resource": "returns",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateReturnLineItem": {
+      "resource": "returns",
+      "method": "updateLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateReturnPolicy": {
+      "resource": "returnPolicies",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateReturnReason": {
+      "resource": "returnReasons",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateReturnResolution": {
+      "resource": "returnResolutions",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateRiskList": {
+      "resource": "riskLists",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateRiskRule": {
+      "resource": "riskRules",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateSettings": {
+      "resource": "settings",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateShipment": {
+      "resource": "shipments",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateSubscription": {
+      "resource": "subscriptions",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateSubscriptionBillingSchedule": {
+      "resource": "subscriptions",
+      "method": "updateBillingSchedule",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "updateSubscriptionPlan": {
+      "resource": "subscriptionPlans",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "updateWebhookEndpoint": {
+      "resource": "webhookEndpoints",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "verifyOnboardingEmail": {
+      "resource": "onboarding",
+      "method": "verifyEmailCode",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "verifyReturnReceiptLineItem": {
+      "resource": "returnReceipts",
+      "method": "verifyLineItem",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "voidCreditNote": {
+      "resource": "creditNotes",
+      "method": "voidResource",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "voidInvoice": {
+      "resource": "invoices",
+      "method": "voidResource",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "voidPackage": {
+      "resource": "packages",
+      "method": "voidResource",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "voidShipment": {
+      "resource": "shipments",
+      "method": "voidResource",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "waiveReturnLineInspection": {
+      "resource": "returns",
+      "method": "waiveLineInspection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    }
+  },
+  "requests": {
+    "style": "positional"
   }
 }

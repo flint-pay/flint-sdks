@@ -1,39 +1,40 @@
 {
-  "dependencies": {
-    "@types/node": "22.20.1"
-  },
+  "name": "@flintpay/node",
+  "version": "0.3.0-beta.1",
   "description": "Flint Public API server SDK",
-  "engines": {
-    "node": ">=22"
-  },
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
-      "import": "./index.js",
-      "types": "./index.d.ts"
+      "types": "./index.d.ts",
+      "import": "./index.js"
     },
     "./custom/*": "./custom/*"
   },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@types/node": "22.20.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "license": "Apache-2.0",
   "files": [
     "*.js",
     "*.d.ts",
     "README.md",
     "REFERENCE.md",
+    "MODELS.md",
     "RUNTIME.md",
     "LICENSE",
     "examples/",
     "guides/",
     "custom/"
   ],
-  "license": "Apache-2.0",
-  "main": "./index.js",
-  "name": "@flintpay/node",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "type": "module",
-  "types": "./index.d.ts",
-  "version": "0.2.0-beta.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/flint-pay/flint-sdks.git",

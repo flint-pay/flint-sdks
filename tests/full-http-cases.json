@@ -10,7 +10,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -18,7 +19,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -43,7 +47,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -51,7 +56,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -76,7 +84,8 @@
       "authMode": "customer",
       "credentials": {
         "CustomerSessionBearer": "customer-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -84,7 +93,10 @@
       "headers": {
         "authorization": "Bearer customer-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -110,7 +122,8 @@
       "authMode": "invoice",
       "credentials": {
         "InvoiceAccessTokenBearer": "invoice-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -118,7 +131,10 @@
       "headers": {
         "authorization": "Bearer invoice-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -143,7 +159,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -151,7 +168,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -175,7 +195,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -183,7 +204,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -214,7 +238,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -222,7 +247,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -250,7 +278,8 @@
       "credentials": {
         "CheckoutSessionIDHeader": "cs_test",
         "CheckoutSessionSecretHeader": "checkout-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -259,7 +288,9 @@
         "x-checkout-session-id": "cs_test",
         "x-checkout-session-secret": "checkout-test"
       },
-      "absentHeaders": ["authorization"]
+      "absentHeaders": [
+        "authorization"
+      ]
     },
     "responses": [
       {
@@ -299,7 +330,8 @@
       "credentials": {
         "CheckoutSessionIDHeader": "cs_test",
         "CheckoutSessionSecretHeader": "checkout-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -308,7 +340,9 @@
         "x-checkout-session-id": "cs_test",
         "x-checkout-session-secret": "checkout-test"
       },
-      "absentHeaders": ["authorization"],
+      "absentHeaders": [
+        "authorization"
+      ],
       "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
@@ -424,7 +458,8 @@
       "credentials": {
         "CheckoutSessionIDHeader": "cs_test",
         "CheckoutSessionSecretHeader": "checkout-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -433,7 +468,9 @@
         "x-checkout-session-id": "cs_test",
         "x-checkout-session-secret": "checkout-test"
       },
-      "absentHeaders": ["authorization"]
+      "absentHeaders": [
+        "authorization"
+      ]
     },
     "responses": [
       {
@@ -461,7 +498,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -469,7 +507,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -512,7 +553,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -520,7 +562,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
@@ -643,7 +688,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "GET",
@@ -651,7 +697,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ]
     },
     "responses": [
       {
@@ -681,7 +730,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -689,7 +739,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"accept\"}"
     },
     "responses": [
@@ -718,7 +771,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -726,7 +780,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"cancel\"}"
     },
     "responses": [
@@ -755,7 +812,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -763,7 +821,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"complete\"}"
     },
     "responses": [
@@ -792,7 +853,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -800,7 +862,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"dispatch\"}"
     },
     "responses": [
@@ -830,7 +895,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -838,7 +904,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"fail\",\"release_quantity\":false}"
     },
     "responses": [
@@ -868,7 +937,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -876,7 +946,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"hold\",\"reason\":\"other\"}"
     },
     "responses": [
@@ -906,7 +979,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -914,7 +988,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_no_show\",\"reason\":\"other\"}"
     },
     "responses": [
@@ -943,7 +1020,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -951,7 +1029,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_packed\"}"
     },
     "responses": [
@@ -980,7 +1061,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -988,7 +1070,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_picked\"}"
     },
     "responses": [
@@ -1017,7 +1102,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1025,7 +1111,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_preparing\"}"
     },
     "responses": [
@@ -1054,7 +1143,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1062,7 +1152,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_ready\"}"
     },
     "responses": [
@@ -1093,7 +1186,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1101,7 +1195,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"schedule\",\"scheduled_start_at\":\"2026-01-01T00:00:00Z\",\"scheduled_end_at\":\"2026-01-01T01:00:00Z\"}"
     },
     "responses": [
@@ -1130,7 +1227,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1138,7 +1236,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"start\"}"
     },
     "responses": [
@@ -1166,7 +1267,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1188,7 +1290,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1196,7 +1299,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_delivered\"}"
     },
     "responses": [
@@ -1225,7 +1331,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1233,7 +1340,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_delivery_attempted\"}"
     },
     "responses": [
@@ -1262,7 +1372,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1270,7 +1381,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_exception\"}"
     },
     "responses": [
@@ -1299,7 +1413,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1307,7 +1422,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_in_transit\"}"
     },
     "responses": [
@@ -1336,7 +1454,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1344,7 +1463,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_out_for_delivery\"}"
     },
     "responses": [
@@ -1373,7 +1495,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1381,7 +1504,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_packed\"}"
     },
     "responses": [
@@ -1410,7 +1536,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1418,7 +1545,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_returned\"}"
     },
     "responses": [
@@ -1447,7 +1577,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1455,7 +1586,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"mark_shipped\"}"
     },
     "responses": [
@@ -1483,7 +1617,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1510,7 +1645,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1518,7 +1654,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"confirm_payment_intents\",\"payment_intents\":[{\"payment_intent_id\":\"pi_test\"}]}"
     },
     "responses": [
@@ -1547,7 +1686,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1555,7 +1695,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"pay\"}"
     },
     "responses": [
@@ -1585,7 +1728,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1593,7 +1737,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"resume\",\"payment_attempt_id\":\"pat_test\"}"
     },
     "responses": [
@@ -1625,7 +1772,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
@@ -1633,7 +1781,10 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"action\":\"setup\",\"setup_payment_source\":{\"token\":\"tok_test\"}}"
     },
     "responses": [
@@ -1661,7 +1812,8 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1679,7 +1831,8 @@
       "authMode": "checkout",
       "credentials": {
         "CheckoutSessionSecretHeader": "checkout-test"
-      }
+      },
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1697,7 +1850,8 @@
       "authMode": "checkout",
       "credentials": {
         "CheckoutSessionIDHeader": "cs_test"
-      }
+      },
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1715,14 +1869,18 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["ach_debit"]
+        "payment_options": [
+          "ach_debit"
+        ]
       }
     },
     "options": {
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1741,7 +1899,9 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["ach_debit"],
+        "payment_options": [
+          "ach_debit"
+        ],
         "transaction_purpose": "goods"
       }
     },
@@ -1749,15 +1909,21 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "fixture-persisted-action-key"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"ach_debit\"],\"transaction_purpose\":\"goods\"}"
     },
     "responses": [
@@ -1782,14 +1948,18 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["affirm"]
+        "payment_options": [
+          "affirm"
+        ]
       }
     },
     "options": {
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
@@ -1808,7 +1978,9 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["affirm"],
+        "payment_options": [
+          "affirm"
+        ],
         "payment_return_url": "https://shop.example.invalid/return"
       }
     },
@@ -1816,15 +1988,21 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "fixture-persisted-action-key"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"affirm\"],\"payment_return_url\":\"https://shop.example.invalid/return\"}"
     },
     "responses": [
@@ -1850,22 +2028,30 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["card"]
+        "payment_options": [
+          "card"
+        ]
       }
     },
     "options": {
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "fixture-persisted-action-key"
       },
-      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"card\"]}"
     },
     "responses": [
@@ -1890,7 +2076,9 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": ["card"],
+        "payment_options": [
+          "card"
+        ],
         "transaction_purpose": "goods"
       }
     },
@@ -1898,7 +2086,9 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      }
+      },
+      "idempotencyKey": "fixture-persisted-action-key",
+      "maxAttempts": 1
     },
     "responses": [],
     "error": {
