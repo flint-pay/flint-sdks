@@ -15,6 +15,14 @@ Version `0.3.0-beta.1` introduces resource-grouped methods, positional path IDs,
 
 Each package guide includes its own requirements, installation command and examples. Read [the migration guide](MIGRATION.md) when upgrading from the previous handwritten SDK.
 
+## SDK ↔ API versions
+
+| SDK version (Node and PHP) | API version |
+|---|---|
+| `0.3.0-beta.1` | `2026-09-07` |
+
+The API version identifies the pinned contract used to generate the SDK. The SDK sends this version in the `Flint-Version` request header. SDK versions and API versions are independent: multiple SDK releases can target the same API version. When upgrading, review both the SDK changes and any API-version change.
+
 ## Contract and authentication
 
 The pinned API version is `2026-09-07`. The packages contain all 497 outbound operations and 189 incoming webhook declarations from that export, including PDF downloads, redirects, and an event stream. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps every original OpenAPI operation ID to its resource and method.
