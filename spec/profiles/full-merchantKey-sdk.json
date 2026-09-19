@@ -9,6 +9,7 @@
     "applyInventoryCount",
     "applyOrderDiscount",
     "approveReview",
+    "assessInvoiceLateFee",
     "assignToUnconfiguredDeliveryProfile",
     "cancelInventoryCount",
     "cancelInvoicePaymentAttempt",
@@ -450,6 +451,7 @@
     "voidInvoice",
     "voidPackage",
     "voidShipment",
+    "waiveInvoiceLateFee",
     "waiveReturnLineInspection"
   ],
   "auth": {
@@ -465,6 +467,7 @@
           "applyInventoryCount",
           "applyOrderDiscount",
           "approveReview",
+    "assessInvoiceLateFee",
           "assignToUnconfiguredDeliveryProfile",
           "cancelInventoryCount",
           "cancelInvoicePaymentAttempt",
@@ -896,7 +899,8 @@
           "voidInvoice",
           "voidPackage",
           "voidShipment",
-          "waiveReturnLineInspection"
+          "waiveInvoiceLateFee",
+    "waiveReturnLineInspection"
         ]
       }
     }

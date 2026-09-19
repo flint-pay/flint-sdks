@@ -179,7 +179,7 @@ final class Client {
         $this->webhookEvents = new WebhookEventsResource($this->runtime);
     }
     public function close(): void { $this->runtime->close(); }
-    /** @return array{known: bool, event: WebhookEvent0|WebhookEvent1|WebhookEvent2|WebhookEvent3|WebhookEvent49|WebhookEvent50|WebhookEvent51|WebhookEvent52|WebhookEvent53|WebhookEvent54|WebhookEvent55|WebhookEvent56|WebhookEvent59|WebhookEvent60|WebhookEvent61|WebhookEvent62|WebhookEvent63|WebhookEvent64|WebhookEvent65|WebhookEvent66|WebhookEvent67|WebhookEvent68|WebhookEvent69|WebhookEvent70|WebhookEvent71|WebhookEvent72|WebhookEvent73|WebhookEvent74|WebhookEvent75|WebhookEvent101|WebhookEvent102|WebhookEvent103|WebhookEvent104|WebhookEvent116|WebhookEvent127|WebhookEvent128|WebhookEvent129|WebhookEvent130|WebhookEvent131|WebhookEvent132|WebhookEvent143|WebhookEvent144|WebhookEvent145|WebhookEvent146|WebhookEvent147|WebhookEvent148|WebhookEvent149|WebhookEvent150|WebhookEvent151|WebhookEvent152|WebhookEvent153|\stdClass} */
+    /** @return array{known: bool, event: WebhookEvent0|WebhookEvent1|WebhookEvent2|WebhookEvent3|WebhookEvent49|WebhookEvent50|WebhookEvent51|WebhookEvent52|WebhookEvent53|WebhookEvent54|WebhookEvent55|WebhookEvent56|WebhookEvent59|WebhookEvent60|WebhookEvent61|WebhookEvent62|WebhookEvent63|WebhookEvent64|WebhookEvent65|WebhookEvent66|WebhookEvent67|WebhookEvent68|WebhookEvent69|WebhookEvent70|WebhookEvent71|WebhookEvent72|WebhookEvent73|WebhookEvent74|WebhookEvent75|WebhookEvent103|WebhookEvent104|WebhookEvent105|WebhookEvent106|WebhookEvent118|WebhookEvent129|WebhookEvent130|WebhookEvent131|WebhookEvent132|WebhookEvent133|WebhookEvent134|WebhookEvent145|WebhookEvent146|WebhookEvent147|WebhookEvent148|WebhookEvent149|WebhookEvent150|WebhookEvent151|WebhookEvent152|WebhookEvent153|WebhookEvent154|WebhookEvent155|\stdClass} */
     public function verifyWebhook(string $rawBody, array $headers, array $secrets, ?int $nowSeconds = null): array { return $this->runtime->verifyWebhook($rawBody, $headers, $secrets, $nowSeconds); }
 }
 final class AnalyticsResource {
@@ -355,7 +355,7 @@ final class CategoriesResource {
     public function create(array|Model $params, ?RequestOptions $options = null): mixed { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; return SdkResponse::payload($this->runtime->request('createCategory', $input instanceof CategoriesCreateInput ? $input->toInputArray() : (new CategoriesCreateInput($input))->toInputArray(), $options), ['data']); }
     /** @return SdkResponse<CategoriesCreateResponse201> */
     public function createWithResponse(array|Model $params, ?RequestOptions $options = null): SdkResponse { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; $result = $this->runtime->request('createCategory', $input instanceof CategoriesCreateInput ? $input->toInputArray() : (new CategoriesCreateInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
-    /** Delete category.
+    /** Permanently deletes an unreferenced category and returns it with status deleted. Deleted categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return configuration references before deleting.
      * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return mixed
      */
@@ -1038,7 +1038,7 @@ final class DeveloperResource {
     public function getCurrentAPIKeyRequestLog(string|Model $api_request_log_id, array|Model|null $params = null, ?RequestOptions $options = null): mixed { $input = ['api_request_log_id' => $api_request_log_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } foreach ($rest as $name => $value) { if (array_key_exists($name, $input)) throw new SdkError('validation', 'Path values belong in positional arguments', 'not_sent'); $input[$name] = $value; } return SdkResponse::payload($this->runtime->request('getCurrentAPIKeyRequestLog', $input instanceof DeveloperGetCurrentAPIKeyRequestLogInput ? $input->toInputArray() : (new DeveloperGetCurrentAPIKeyRequestLogInput($input))->toInputArray(), $options), ['data']); }
     /** @return SdkResponse<DeveloperGetCurrentAPIKeyRequestLogResponse200> */
     public function getCurrentAPIKeyRequestLogWithResponse(string|Model $api_request_log_id, array|Model|null $params = null, ?RequestOptions $options = null): SdkResponse { $input = ['api_request_log_id' => $api_request_log_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } foreach ($rest as $name => $value) { if (array_key_exists($name, $input)) throw new SdkError('validation', 'Path values belong in positional arguments', 'not_sent'); $input[$name] = $value; } $result = $this->runtime->request('getCurrentAPIKeyRequestLog', $input instanceof DeveloperGetCurrentAPIKeyRequestLogInput ? $input->toInputArray() : (new DeveloperGetCurrentAPIKeyRequestLogInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
-    /** Returns non-secret metadata for the authenticated API key, including its merchant, environment, sandbox binding, and granted scopes. A valid API key is required, but no additional API scope is required.
+    /** Returns non-secret metadata for an API key or CLI OAuth access token, including its merchant, environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and a stable oauth_grant_id instead of api_key_id. Multi-context tokens also include oauth_session_id, context_id, and the context name. No additional API scope is required.
      * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return mixed
      */
@@ -1677,6 +1677,13 @@ final class InvoicePaymentTermsResource {
 }
 final class InvoicesResource {
     public function __construct(private readonly Runtime $runtime) {}
+    /** Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued document remains unchanged.
+     * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
+     * @return mixed
+     */
+    public function assessLateFee(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null): mixed { $input = ['invoice_id' => $invoice_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; return SdkResponse::payload($this->runtime->request('assessInvoiceLateFee', $input instanceof InvoicesAssessLateFeeInput ? $input->toInputArray() : (new InvoicesAssessLateFeeInput($input))->toInputArray(), $options), ['data']); }
+    /** @return SdkResponse<InvoicesAssessLateFeeResponse200> */
+    public function assessLateFeeWithResponse(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null): SdkResponse { $input = ['invoice_id' => $invoice_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; $result = $this->runtime->request('assessInvoiceLateFee', $input instanceof InvoicesAssessLateFeeInput ? $input->toInputArray() : (new InvoicesAssessLateFeeInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
     /** Cancels an active invoice payment attempt and its payment intent. Safe to retry with the same Idempotency-Key.
      * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return mixed
@@ -1838,6 +1845,13 @@ final class InvoicesResource {
     public function voidResource(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null): mixed { $input = ['invoice_id' => $invoice_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if ($params !== null && (!$params || $rest)) $input['body'] = (object) $rest; return SdkResponse::payload($this->runtime->request('voidInvoice', $input instanceof InvoicesVoidResourceInput ? $input->toInputArray() : (new InvoicesVoidResourceInput($input))->toInputArray(), $options), ['data']); }
     /** @return SdkResponse<InvoicesVoidResourceResponse200> */
     public function voidResourceWithResponse(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null): SdkResponse { $input = ['invoice_id' => $invoice_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if ($params !== null && (!$params || $rest)) $input['body'] = (object) $rest; $result = $this->runtime->request('voidInvoice', $input instanceof InvoicesVoidResourceInput ? $input->toInputArray() : (new InvoicesVoidResourceInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
+    /** Waives the unpaid remainder of an assessed late fee. Collected money is not refunded. The reason is visible only to the merchant.
+     * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
+     * @return mixed
+     */
+    public function waiveLateFee(string|Model $invoice_id, string|Model $invoice_late_fee_id, array|Model $params, ?RequestOptions $options = null): mixed { $input = ['invoice_id' => $invoice_id, 'invoice_late_fee_id' => $invoice_late_fee_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; return SdkResponse::payload($this->runtime->request('waiveInvoiceLateFee', $input instanceof InvoicesWaiveLateFeeInput ? $input->toInputArray() : (new InvoicesWaiveLateFeeInput($input))->toInputArray(), $options), ['data']); }
+    /** @return SdkResponse<InvoicesWaiveLateFeeResponse200> */
+    public function waiveLateFeeWithResponse(string|Model $invoice_id, string|Model $invoice_late_fee_id, array|Model $params, ?RequestOptions $options = null): SdkResponse { $input = ['invoice_id' => $invoice_id, 'invoice_late_fee_id' => $invoice_late_fee_id]; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Idempotency-Key', $rest)) { $input['Idempotency-Key'] = $rest['Idempotency-Key']; unset($rest['Idempotency-Key']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; $result = $this->runtime->request('waiveInvoiceLateFee', $input instanceof InvoicesWaiveLateFeeInput ? $input->toInputArray() : (new InvoicesWaiveLateFeeInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
 }
 final class LocationsResource {
     public function __construct(private readonly Runtime $runtime) {}
@@ -2428,12 +2442,12 @@ final class OauthResource {
      * @return Result<\stdClass>
      */
     public function authorizePartnerInstall(array|Model $params, ?RequestOptions $options = null): Result { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('response_type', $rest)) { $input['response_type'] = $rest['response_type']; unset($rest['response_type']); } if (array_key_exists('client_id', $rest)) { $input['client_id'] = $rest['client_id']; unset($rest['client_id']); } if (array_key_exists('redirect_uri', $rest)) { $input['redirect_uri'] = $rest['redirect_uri']; unset($rest['redirect_uri']); } if (array_key_exists('mode', $rest)) { $input['mode'] = $rest['mode']; unset($rest['mode']); } if (array_key_exists('permission_ids', $rest)) { $input['permission_ids'] = $rest['permission_ids']; unset($rest['permission_ids']); } if (array_key_exists('environment_id', $rest)) { $input['environment_id'] = $rest['environment_id']; unset($rest['environment_id']); } if (array_key_exists('merchant_id', $rest)) { $input['merchant_id'] = $rest['merchant_id']; unset($rest['merchant_id']); } if (array_key_exists('state', $rest)) { $input['state'] = $rest['state']; unset($rest['state']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } foreach ($rest as $name => $value) { if (array_key_exists($name, $input)) throw new SdkError('validation', 'Path values belong in positional arguments', 'not_sent'); $input[$name] = $value; } return $this->runtime->request('authorizePartnerInstall', $input instanceof OauthAuthorizePartnerInstallInput ? $input->toInputArray() : (new OauthAuthorizePartnerInstallInput($input))->toInputArray(), $options); }
-    /** Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope.
+    /** Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope. The public client flint-cli also supports the RFC 8628 device_code grant and rotating refresh tokens using form requests. Pending device requests return authorization_pending; early polling returns slow_down and increases the required interval by five seconds; denial returns access_denied; expired or consumed codes return expired_token. Access tokens last 15 minutes. CLI sessions expire after 30 days idle or 90 days total. Reusing a rotated refresh token revokes its family, including when the previous response was lost. A fresh browser login is then required. With session_mode=contexts at authorization, tokens include oauth_session_id and context_id. Refresh requires an explicitly authorized context_id; invalid_context and context_access_denied do not consume the refresh token. Each access token is limited to one context. Ordinary rotation preserves other unexpired access tokens; removing consent immediately invalidates affected tokens. Legacy sessions retain their original response and authorization semantics.
      * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
-     * @return OauthExchangePartnerInstallTokenResponse200
+     * @return mixed
      */
     public function exchangePartnerInstallToken(array|Model $params, ?RequestOptions $options = null): mixed { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; return SdkResponse::payload($this->runtime->request('exchangePartnerInstallToken', $input instanceof OauthExchangePartnerInstallTokenInput ? $input->toInputArray() : (new OauthExchangePartnerInstallTokenInput($input))->toInputArray(), $options), []); }
-    /** @return SdkResponse<OauthExchangePartnerInstallTokenResponse200> */
+    /** @return SdkResponse<mixed> */
     public function exchangePartnerInstallTokenWithResponse(array|Model $params, ?RequestOptions $options = null): SdkResponse { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } if (true) $input['body'] = (object) $rest; $result = $this->runtime->request('exchangePartnerInstallToken', $input instanceof OauthExchangePartnerInstallTokenInput ? $input->toInputArray() : (new OauthExchangePartnerInstallTokenInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
     /** Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen.
      * @param array|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
@@ -5174,6 +5188,16 @@ final class ApplyDiscountRequestInput extends Model {
     public function hasPromotion(): bool { return $this->has('promotion'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class AssessInvoiceLateFeeRequestInput extends Model {
+    /** @param array{'invoice_schedule_entry_id'?: string} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['AssessInvoiceLateFeeRequest'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoice_schedule_entry_id() or valueOrDefault().
+     */
+    public function getInvoice_schedule_entry_id(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function hasInvoice_schedule_entry_id(): bool { return $this->has('invoice_schedule_entry_id'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class AssignToUnconfiguredDeliveryProfileRequestInput extends Model {
     /** @param array{'expected_catalog_default_version'?: string, 'expected_version'?: string} $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['AssignToUnconfiguredDeliveryProfileRequest'] + ['definitions' => SchemaRegistry::codecs()]); }
@@ -6342,6 +6366,66 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getService_at(): string { return $this->get('service_at'); }
     public function hasService_at(): bool { return $this->has('service_at'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class BuyerInvoiceLateFeeInput extends Model {
+    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy'?: mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'waived_at'?: string, 'waived_money': mixed, 'written_off_money': mixed} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['BuyerInvoiceLateFee'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return mixed
+     * @throws SdkError When amount_money is omitted; use hasAmount_money() or valueOrDefault().
+     */
+    public function getAmount_money(): mixed { return $this->get('amount_money'); }
+    public function hasAmount_money(): bool { return $this->has('amount_money'); }
+    /** @return string
+     * @throws SdkError When assessed_at is omitted; use hasAssessed_at() or valueOrDefault().
+     */
+    public function getAssessed_at(): string { return $this->get('assessed_at'); }
+    public function hasAssessed_at(): bool { return $this->has('assessed_at'); }
+    /** @return mixed
+     * @throws SdkError When base_outstanding_money is omitted; use hasBase_outstanding_money() or valueOrDefault().
+     */
+    public function getBase_outstanding_money(): mixed { return $this->get('base_outstanding_money'); }
+    public function hasBase_outstanding_money(): bool { return $this->has('base_outstanding_money'); }
+    /** @return string
+     * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoice_late_fee_id() or valueOrDefault().
+     */
+    public function getInvoice_late_fee_id(): string { return $this->get('invoice_late_fee_id'); }
+    public function hasInvoice_late_fee_id(): bool { return $this->has('invoice_late_fee_id'); }
+    /** @return string
+     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoice_schedule_entry_id() or valueOrDefault().
+     */
+    public function getInvoice_schedule_entry_id(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function hasInvoice_schedule_entry_id(): bool { return $this->has('invoice_schedule_entry_id'); }
+    /** @return mixed
+     * @throws SdkError When late_fee_policy is omitted; use hasLate_fee_policy() or valueOrDefault().
+     */
+    public function getLate_fee_policy(): mixed { return $this->get('late_fee_policy'); }
+    public function hasLate_fee_policy(): bool { return $this->has('late_fee_policy'); }
+    /** @return mixed
+     * @throws SdkError When outstanding_money is omitted; use hasOutstanding_money() or valueOrDefault().
+     */
+    public function getOutstanding_money(): mixed { return $this->get('outstanding_money'); }
+    public function hasOutstanding_money(): bool { return $this->has('outstanding_money'); }
+    /** @return mixed
+     * @throws SdkError When paid_money is omitted; use hasPaid_money() or valueOrDefault().
+     */
+    public function getPaid_money(): mixed { return $this->get('paid_money'); }
+    public function hasPaid_money(): bool { return $this->has('paid_money'); }
+    /** @return string
+     * @throws SdkError When waived_at is omitted; use hasWaived_at() or valueOrDefault().
+     */
+    public function getWaived_at(): string { return $this->get('waived_at'); }
+    public function hasWaived_at(): bool { return $this->has('waived_at'); }
+    /** @return mixed
+     * @throws SdkError When waived_money is omitted; use hasWaived_money() or valueOrDefault().
+     */
+    public function getWaived_money(): mixed { return $this->get('waived_money'); }
+    public function hasWaived_money(): bool { return $this->has('waived_money'); }
+    /** @return mixed
+     * @throws SdkError When written_off_money is omitted; use hasWritten_off_money() or valueOrDefault().
+     */
+    public function getWritten_off_money(): mixed { return $this->get('written_off_money'); }
+    public function hasWritten_off_money(): bool { return $this->has('written_off_money'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BuyerInvoiceListResponseInput extends Model {
@@ -7897,6 +7981,81 @@ final class CheckoutTipConfigInput extends Model {
      */
     public function getTip_percentages(): array { return $this->get('tip_percentages'); }
     public function hasTip_percentages(): bool { return $this->has('tip_percentages'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class CLITokenRequestInput extends Model {
+    /** @param array{'client_id': string, 'context_id'?: string, 'device_code'?: string, 'grant_type': string, 'refresh_token'?: string, 'scope'?: string} $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['CLITokenRequest'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When client_id is omitted; use hasClient_id() or valueOrDefault().
+     */
+    public function getClient_id(): string { return $this->get('client_id'); }
+    public function hasClient_id(): bool { return $this->has('client_id'); }
+    /** @return string
+     * @throws SdkError When context_id is omitted; use hasContext_id() or valueOrDefault().
+     */
+    public function getContext_id(): string { return $this->get('context_id'); }
+    public function hasContext_id(): bool { return $this->has('context_id'); }
+    /** @return string
+     * @throws SdkError When device_code is omitted; use hasDevice_code() or valueOrDefault().
+     */
+    public function getDevice_code(): string { return $this->get('device_code'); }
+    public function hasDevice_code(): bool { return $this->has('device_code'); }
+    /** @return string
+     * @throws SdkError When grant_type is omitted; use hasGrant_type() or valueOrDefault().
+     */
+    public function getGrant_type(): string { return $this->get('grant_type'); }
+    public function hasGrant_type(): bool { return $this->has('grant_type'); }
+    /** @return string
+     * @throws SdkError When refresh_token is omitted; use hasRefresh_token() or valueOrDefault().
+     */
+    public function getRefresh_token(): string { return $this->get('refresh_token'); }
+    public function hasRefresh_token(): bool { return $this->has('refresh_token'); }
+    /** @return string
+     * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
+     */
+    public function getScope(): string { return $this->get('scope'); }
+    public function hasScope(): bool { return $this->has('scope'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class CLITokenResponseInput extends Model {
+    /** @param array{'access_token': string, 'context_id'?: string, 'expires_in': int, 'oauth_session_id'?: string, 'refresh_token': string, 'scope': string, 'token_type': string} $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['CLITokenResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When access_token is omitted; use hasAccess_token() or valueOrDefault().
+     */
+    public function getAccess_token(): string { return $this->get('access_token'); }
+    public function hasAccess_token(): bool { return $this->has('access_token'); }
+    /** @return string
+     * @throws SdkError When context_id is omitted; use hasContext_id() or valueOrDefault().
+     */
+    public function getContext_id(): string { return $this->get('context_id'); }
+    public function hasContext_id(): bool { return $this->has('context_id'); }
+    /** @return int
+     * @throws SdkError When expires_in is omitted; use hasExpires_in() or valueOrDefault().
+     */
+    public function getExpires_in(): int { return $this->get('expires_in'); }
+    public function hasExpires_in(): bool { return $this->has('expires_in'); }
+    /** @return string
+     * @throws SdkError When oauth_session_id is omitted; use hasOauth_session_id() or valueOrDefault().
+     */
+    public function getOauth_session_id(): string { return $this->get('oauth_session_id'); }
+    public function hasOauth_session_id(): bool { return $this->has('oauth_session_id'); }
+    /** @return string
+     * @throws SdkError When refresh_token is omitted; use hasRefresh_token() or valueOrDefault().
+     */
+    public function getRefresh_token(): string { return $this->get('refresh_token'); }
+    public function hasRefresh_token(): bool { return $this->has('refresh_token'); }
+    /** @return string
+     * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
+     */
+    public function getScope(): string { return $this->get('scope'); }
+    public function hasScope(): bool { return $this->has('scope'); }
+    /** @return string
+     * @throws SdkError When token_type is omitted; use hasToken_type() or valueOrDefault().
+     */
+    public function getToken_type(): string { return $this->get('token_type'); }
+    public function hasToken_type(): bool { return $this->has('token_type'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CloseCheckoutSessionRequestInput extends Model {
@@ -17505,8 +17664,8 @@ final class DemoSessionResponseInput extends Model {
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperAuthContextInput extends Model {
-    /** @param array{'api_key_id': string, 'auth_type': string, 'environment': string, 'expires_at'?: string, 'merchant_id': string, 'name'?: string, 'organization_id'?: string, 'sandbox_id'?: string, 'scopes': array} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['DeveloperAuthContext'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @param array{'api_key_id'?: string, 'auth_type': string, 'context_id'?: string, 'environment': string, 'expires_at'?: string, 'merchant_id': string, 'name'?: string, 'oauth_grant_id'?: string, 'oauth_session_id'?: string, 'organization_id'?: string, 'sandbox_id'?: string, 'scopes': array} $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['DeveloperAuthContext'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When api_key_id is omitted; use hasApi_key_id() or valueOrDefault().
      */
@@ -17517,6 +17676,11 @@ final class DeveloperAuthContextInput extends Model {
      */
     public function getAuth_type(): string { return $this->get('auth_type'); }
     public function hasAuth_type(): bool { return $this->has('auth_type'); }
+    /** @return string
+     * @throws SdkError When context_id is omitted; use hasContext_id() or valueOrDefault().
+     */
+    public function getContext_id(): string { return $this->get('context_id'); }
+    public function hasContext_id(): bool { return $this->has('context_id'); }
     /** @return string
      * @throws SdkError When environment is omitted; use hasEnvironment() or valueOrDefault().
      */
@@ -17537,6 +17701,16 @@ final class DeveloperAuthContextInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** @return string
+     * @throws SdkError When oauth_grant_id is omitted; use hasOauth_grant_id() or valueOrDefault().
+     */
+    public function getOauth_grant_id(): string { return $this->get('oauth_grant_id'); }
+    public function hasOauth_grant_id(): bool { return $this->has('oauth_grant_id'); }
+    /** @return string
+     * @throws SdkError When oauth_session_id is omitted; use hasOauth_session_id() or valueOrDefault().
+     */
+    public function getOauth_session_id(): string { return $this->get('oauth_session_id'); }
+    public function hasOauth_session_id(): bool { return $this->has('oauth_session_id'); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -21724,6 +21898,16 @@ final class IncomingWebhook7253fff5f748PayloadInput extends Model {
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['IncomingWebhook7253fff5f748Payload'] + ['definitions' => SchemaRegistry::codecs()]); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class IncomingWebhook72eec85cad89PayloadInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string}|array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['IncomingWebhook72eec85cad89Payload'] + ['definitions' => SchemaRegistry::codecs()]); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class IncomingWebhook769913a11504PayloadInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string}|array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['IncomingWebhook769913a11504Payload'] + ['definitions' => SchemaRegistry::codecs()]); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class IncomingWebhook7730424c8474PayloadInput extends Model {
     /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string}|array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['IncomingWebhook7730424c8474Payload'] + ['definitions' => SchemaRegistry::codecs()]); }
@@ -24827,6 +25011,71 @@ final class InvoiceEventListResponseInput extends Model {
      */
     public function getRequest_id(): string { return $this->get('request_id'); }
     public function hasRequest_id(): bool { return $this->has('request_id'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class InvoiceLateFeeInput extends Model {
+    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy'?: mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'waived_at'?: string, 'waived_money': mixed, 'waiver_reason'?: string, 'written_off_money': mixed} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['InvoiceLateFee'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return mixed
+     * @throws SdkError When amount_money is omitted; use hasAmount_money() or valueOrDefault().
+     */
+    public function getAmount_money(): mixed { return $this->get('amount_money'); }
+    public function hasAmount_money(): bool { return $this->has('amount_money'); }
+    /** @return string
+     * @throws SdkError When assessed_at is omitted; use hasAssessed_at() or valueOrDefault().
+     */
+    public function getAssessed_at(): string { return $this->get('assessed_at'); }
+    public function hasAssessed_at(): bool { return $this->has('assessed_at'); }
+    /** @return mixed
+     * @throws SdkError When base_outstanding_money is omitted; use hasBase_outstanding_money() or valueOrDefault().
+     */
+    public function getBase_outstanding_money(): mixed { return $this->get('base_outstanding_money'); }
+    public function hasBase_outstanding_money(): bool { return $this->has('base_outstanding_money'); }
+    /** @return string
+     * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoice_late_fee_id() or valueOrDefault().
+     */
+    public function getInvoice_late_fee_id(): string { return $this->get('invoice_late_fee_id'); }
+    public function hasInvoice_late_fee_id(): bool { return $this->has('invoice_late_fee_id'); }
+    /** @return string
+     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoice_schedule_entry_id() or valueOrDefault().
+     */
+    public function getInvoice_schedule_entry_id(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function hasInvoice_schedule_entry_id(): bool { return $this->has('invoice_schedule_entry_id'); }
+    /** @return mixed
+     * @throws SdkError When late_fee_policy is omitted; use hasLate_fee_policy() or valueOrDefault().
+     */
+    public function getLate_fee_policy(): mixed { return $this->get('late_fee_policy'); }
+    public function hasLate_fee_policy(): bool { return $this->has('late_fee_policy'); }
+    /** @return mixed
+     * @throws SdkError When outstanding_money is omitted; use hasOutstanding_money() or valueOrDefault().
+     */
+    public function getOutstanding_money(): mixed { return $this->get('outstanding_money'); }
+    public function hasOutstanding_money(): bool { return $this->has('outstanding_money'); }
+    /** @return mixed
+     * @throws SdkError When paid_money is omitted; use hasPaid_money() or valueOrDefault().
+     */
+    public function getPaid_money(): mixed { return $this->get('paid_money'); }
+    public function hasPaid_money(): bool { return $this->has('paid_money'); }
+    /** @return string
+     * @throws SdkError When waived_at is omitted; use hasWaived_at() or valueOrDefault().
+     */
+    public function getWaived_at(): string { return $this->get('waived_at'); }
+    public function hasWaived_at(): bool { return $this->has('waived_at'); }
+    /** @return mixed
+     * @throws SdkError When waived_money is omitted; use hasWaived_money() or valueOrDefault().
+     */
+    public function getWaived_money(): mixed { return $this->get('waived_money'); }
+    public function hasWaived_money(): bool { return $this->has('waived_money'); }
+    /** @return string
+     * @throws SdkError When waiver_reason is omitted; use hasWaiver_reason() or valueOrDefault().
+     */
+    public function getWaiver_reason(): string { return $this->get('waiver_reason'); }
+    public function hasWaiver_reason(): bool { return $this->has('waiver_reason'); }
+    /** @return mixed
+     * @throws SdkError When written_off_money is omitted; use hasWritten_off_money() or valueOrDefault().
+     */
+    public function getWritten_off_money(): mixed { return $this->get('written_off_money'); }
+    public function hasWritten_off_money(): bool { return $this->has('written_off_money'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceLateFeePolicyInput extends Model {
@@ -44669,6 +44918,16 @@ final class VoidShipmentResultInput extends Model {
     public function hasUnchanged(): bool { return $this->has('unchanged'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class WaiveInvoiceLateFeeRequestInput extends Model {
+    /** @param array{'reason': string} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['WaiveInvoiceLateFeeRequest'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     */
+    public function getReason(): string { return $this->get('reason'); }
+    public function hasReason(): bool { return $this->has('reason'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class WaiveReturnLineInspectionRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'reason': string, 'reason_message'?: string} $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['WaiveReturnLineInspectionRequest'] + ['definitions' => SchemaRegistry::codecs()]); }
@@ -46794,6 +47053,36 @@ final class Webhook_invoice_issued_merchantInput extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_invoice_late_fee_assessed_installed_merchantsInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_assessed_installed_merchants'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return array{'amount_money': mixed, 'collection_mode'?: string, 'customer_id'?: string, 'delivery_mode'?: string, 'environment_grant_id': string, 'environment_id'?: string, 'invoice_id': string, 'invoice_late_fee_id': string, 'invoice_number'?: string, 'invoice_schedule_entry_id'?: string, 'issued_at'?: string, 'merchant_id': string, 'mode': string, 'order_id'?: string, 'outstanding_money': mixed, 'partner_app_install_id': string, 'refund_status'?: string, 'resource_updated_at': string, 'source_type': mixed, 'status': string, 'version': string}
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When event_type is omitted; use hasEvent_type() or valueOrDefault().
+     */
+    public function getEvent_type(): mixed { return $this->get('event_type'); }
+    public function hasEvent_type(): bool { return $this->has('event_type'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_invoice_late_fee_assessed_merchantInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_assessed_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return array{'amount_money': mixed, 'collection_mode'?: string, 'customer_id'?: string, 'delivery_mode'?: string, 'invoice_id': string, 'invoice_late_fee_id': string, 'invoice_number'?: string, 'invoice_schedule_entry_id'?: string, 'issued_at'?: string, 'order_id'?: string, 'outstanding_money': mixed, 'refund_status'?: string, 'resource_updated_at': string, 'status': string, 'version': string}
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When event_type is omitted; use hasEvent_type() or valueOrDefault().
+     */
+    public function getEvent_type(): mixed { return $this->get('event_type'); }
+    public function hasEvent_type(): bool { return $this->has('event_type'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_invoice_late_fee_due_installed_merchantsInput extends Model {
     /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_due_installed_merchants'] + ['definitions' => SchemaRegistry::codecs()]); }
@@ -46813,6 +47102,36 @@ final class Webhook_invoice_late_fee_due_merchantInput extends Model {
     /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_due_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'base_outstanding_money': array{'amount': int, 'currency': string}, 'collection_mode'?: string, 'customer_id'?: string, 'delivery_mode'?: string, 'due_at': string, 'invoice_id': string, 'invoice_number': string, 'invoice_schedule_entry_id'?: string, 'issued_at'?: string, 'late_fee_money': array{'amount': int, 'currency': string}, 'late_fee_policy': mixed, 'order_id'?: string, 'outstanding_money'?: array{'amount': int, 'currency': string}, 'refund_status'?: string, 'resource_updated_at': string, 'status': string, 'version': string}
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When event_type is omitted; use hasEvent_type() or valueOrDefault().
+     */
+    public function getEvent_type(): mixed { return $this->get('event_type'); }
+    public function hasEvent_type(): bool { return $this->has('event_type'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_invoice_late_fee_waived_installed_merchantsInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_waived_installed_merchants'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return array{'amount_money': mixed, 'collection_mode'?: string, 'customer_id'?: string, 'delivery_mode'?: string, 'environment_grant_id': string, 'environment_id'?: string, 'invoice_id': string, 'invoice_late_fee_id': string, 'invoice_number'?: string, 'invoice_schedule_entry_id'?: string, 'issued_at'?: string, 'merchant_id': string, 'mode': string, 'order_id'?: string, 'outstanding_money': mixed, 'partner_app_install_id': string, 'refund_status'?: string, 'resource_updated_at': string, 'source_type': mixed, 'status': string, 'version': string}
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When event_type is omitted; use hasEvent_type() or valueOrDefault().
+     */
+    public function getEvent_type(): mixed { return $this->get('event_type'); }
+    public function hasEvent_type(): bool { return $this->has('event_type'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_invoice_late_fee_waived_merchantInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string, 'data': array{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_invoice_late_fee_waived_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return array{'amount_money': mixed, 'collection_mode'?: string, 'customer_id'?: string, 'delivery_mode'?: string, 'invoice_id': string, 'invoice_late_fee_id': string, 'invoice_number'?: string, 'invoice_schedule_entry_id'?: string, 'issued_at'?: string, 'order_id'?: string, 'outstanding_money': mixed, 'refund_status'?: string, 'resource_updated_at': string, 'status': string, 'version': string}
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }
@@ -50391,7 +50710,7 @@ final class WeightInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersAddChargeInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1205","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1215","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50406,7 +50725,7 @@ final class OrdersAddChargeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersAddLineItemsInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1206","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1216","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50421,7 +50740,7 @@ final class OrdersAddLineItemsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsAddLineItemInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1207","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1217","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -50436,7 +50755,7 @@ final class ReturnsAddLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsAddItemsInput extends Model {
     /** @param array{'risk_list_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1208","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1218","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -50451,7 +50770,7 @@ final class RiskListsAddItemsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingAdvanceInput extends Model {
     /** @param array{'sandbox_id'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1209","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1219","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -50466,7 +50785,7 @@ final class OnboardingAdvanceInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsApplyInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_count_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1210","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1220","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_count_id is omitted; use hasInventory_count_id() or valueOrDefault().
      */
@@ -50481,7 +50800,7 @@ final class InventoryCountsApplyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersApplyDiscountInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1211","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1221","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50496,7 +50815,7 @@ final class OrdersApplyDiscountInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReviewsApproveInput extends Model {
     /** @param array{'review_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1212","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1222","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When review_id is omitted; use hasReview_id() or valueOrDefault().
      */
@@ -50504,9 +50823,24 @@ final class ReviewsApproveInput extends Model {
     public function hasReview_id(): bool { return $this->has('review_id'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class InvoicesAssessLateFeeInput extends Model {
+    /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1223","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
+     */
+    public function getInvoice_id(): string { return $this->get('invoice_id'); }
+    public function hasInvoice_id(): bool { return $this->has('invoice_id'); }
+    /** @return array{'invoice_schedule_entry_id'?: string}
+     * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
+     */
+    public function getBody(): array|object { return $this->get('body'); }
+    public function hasBody(): bool { return $this->has('body'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesAssignToUnconfiguredInput extends Model {
     /** @param array{'delivery_profile_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1213","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1224","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDelivery_profile_id() or valueOrDefault().
      */
@@ -50521,7 +50855,7 @@ final class DeliveryProfilesAssignToUnconfiguredInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OauthAuthorizePartnerInstallInput extends Model {
     /** @param array{'response_type': string, 'client_id': string, 'redirect_uri': string, 'mode': string, 'permission_ids'?: string, 'environment_id'?: string, 'merchant_id'?: string, 'state': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1214","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1225","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When response_type is omitted; use hasResponse_type() or valueOrDefault().
      */
@@ -50566,7 +50900,7 @@ final class OauthAuthorizePartnerInstallInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsCancelInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_count_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1210","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1220","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_count_id is omitted; use hasInventory_count_id() or valueOrDefault().
      */
@@ -50581,7 +50915,7 @@ final class InventoryCountsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCancelPaymentAttemptInput extends Model {
     /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1215","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1226","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -50596,7 +50930,7 @@ final class InvoicesCancelPaymentAttemptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCancelReturnInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1216","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1227","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -50611,7 +50945,7 @@ final class MeCancelReturnInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCancelSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1217","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1228","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -50626,7 +50960,7 @@ final class MeCancelSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCancelPaymentInput extends Model {
     /** @param array{'order_id': string, 'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1218","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1229","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50646,7 +50980,7 @@ final class OrdersCancelPaymentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCancelPaymentAttemptInput extends Model {
     /** @param array{'order_id': string, 'payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1219","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1230","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50666,7 +51000,7 @@ final class OrdersCancelPaymentAttemptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCancelInput extends Model {
     /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1220","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1231","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -50681,7 +51015,7 @@ final class PaymentIntentsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsCancelInput extends Model {
     /** @param array{'payout_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1221","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1232","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_id is omitted; use hasPayout_id() or valueOrDefault().
      */
@@ -50696,7 +51030,7 @@ final class PayoutsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCancelInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1216","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1227","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -50711,7 +51045,7 @@ final class ReturnsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsCancelInput extends Model {
     /** @param array{'return_disposition_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1222","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1233","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturn_disposition_id() or valueOrDefault().
      */
@@ -50726,7 +51060,7 @@ final class ReturnDispositionsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCancelLineItemInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1223","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1234","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -50746,7 +51080,7 @@ final class ReturnsCancelLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsCancelInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1224","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1235","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -50761,7 +51095,7 @@ final class ReturnResolutionsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCancelInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1217","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1228","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -50776,7 +51110,7 @@ final class SubscriptionsCancelInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCapturePaymentInput extends Model {
     /** @param array{'order_id': string, 'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1225","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1236","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50796,7 +51130,7 @@ final class OrdersCapturePaymentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCaptureInput extends Model {
     /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1226","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1237","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -50811,7 +51145,7 @@ final class PaymentIntentsCaptureInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeChangeSubscriptionPaymentMethodInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1227","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1238","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -50826,7 +51160,7 @@ final class MeChangeSubscriptionPaymentMethodInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsChangePaymentMethodInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1227","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1238","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -50841,7 +51175,7 @@ final class SubscriptionsChangePaymentMethodInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksCheckConnectionInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1228","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1239","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -50851,7 +51185,7 @@ final class DeliveryRateCallbacksCheckConnectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCloseSessionInput extends Model {
     /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1229","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1240","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -50866,7 +51200,7 @@ final class CheckoutSessionsCloseSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCloseSessionInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1230","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1241","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -50881,7 +51215,7 @@ final class OrdersCloseSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCollectInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1231","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1242","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -50896,7 +51230,7 @@ final class InvoicesCollectInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsCommitInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_reservation_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1232","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1243","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventory_reservation_id() or valueOrDefault().
      */
@@ -50911,7 +51245,7 @@ final class InventoryReservationsCommitInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCompleteInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1233","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1244","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -50926,7 +51260,7 @@ final class ReturnsCompleteInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeConfirmEmailChangeRequestInput extends Model {
     /** @param array{'email_change_request_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1234","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1245","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When email_change_request_id is omitted; use hasEmail_change_request_id() or valueOrDefault().
      */
@@ -50941,7 +51275,7 @@ final class MeConfirmEmailChangeRequestInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsConfirmInput extends Model {
     /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1235","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1246","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -50956,7 +51290,7 @@ final class PaymentIntentsConfirmInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsConfirmInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1236","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1247","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -50971,7 +51305,7 @@ final class ReturnResolutionsConfirmInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsConsumeInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_reservation_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1237","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1248","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventory_reservation_id() or valueOrDefault().
      */
@@ -50986,7 +51320,7 @@ final class InventoryReservationsConsumeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1238","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1249","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'expires_at'?: string, 'name': string, 'sandbox_id'?: string, 'scopes': list<string>}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -50996,7 +51330,7 @@ final class ApiKeysCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1239","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1250","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'barcode'?: string, 'categories'?: list<string>, 'components'?: list<mixed>, 'description'?: string, 'external_reference_id'?: string, 'images'?: list<mixed>, 'line_item_tax_category'?: string, 'metadata'?: array{}, 'modifier_set_id'?: string|null, 'name': string, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_price_money': mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51006,7 +51340,7 @@ final class BundlesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1240","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1251","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: array{}, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51016,7 +51350,7 @@ final class CategoriesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1241","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1252","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed|mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51026,7 +51360,7 @@ final class CheckoutSessionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCreateDeliveryQuoteInput extends Model {
     /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1242","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1253","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -51041,7 +51375,7 @@ final class CheckoutSessionsCreateDeliveryQuoteInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCreateDeliverySelectionInput extends Model {
     /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1243","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1254","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -51056,7 +51390,7 @@ final class CheckoutSessionsCreateDeliverySelectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1244","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1255","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'credit_note_lines'?: list<mixed>, 'external_reference_id'?: string, 'invoice_id': string, 'memo'?: string, 'reason': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51066,7 +51400,7 @@ final class CreditNotesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesCreateAllocationInput extends Model {
     /** @param array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1245","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1256","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -51081,7 +51415,7 @@ final class CreditNotesCreateAllocationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1246","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1257","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'billing_address'?: mixed, 'default_invoice_payment_term_id'?: string, 'email': string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'metadata'?: array{}, 'name'?: string, 'phone'?: string, 'shipping_address'?: mixed, 'tax_exempt'?: bool}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51091,7 +51425,7 @@ final class CustomersCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersCreateAddressInput extends Model {
     /** @param array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1247","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1258","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -51106,7 +51440,7 @@ final class CustomersCreateAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersCreateDeletionRequestInput extends Model {
     /** @param array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1248","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1259","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -51116,7 +51450,7 @@ final class CustomersCreateDeletionRequestInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1249","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1260","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'account_url_expires_in_seconds'?: string, 'customer_id': string, 'expires_in_seconds'?: string, 'refresh_expires_in_seconds'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51126,7 +51460,7 @@ final class CustomerSessionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1250","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1261","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'configuration': mixed, 'external_reference_id'?: string, 'metadata'?: array{}, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51136,7 +51470,7 @@ final class DeliveryLocationSetsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1251","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1262","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51146,7 +51480,7 @@ final class DeliveryMethodsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPreviewsCreateInput extends Model {
     /** @param array{'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1252","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1263","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'buyer_location'?: mixed, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: mixed, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'pickup_location_id'?: string, 'pricing_context'?: array{}}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51156,7 +51490,7 @@ final class DeliveryPreviewsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1253","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1264","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'configuration': mixed, 'external_reference_id'?: string, 'metadata'?: array{}, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51166,7 +51500,7 @@ final class DeliveryProfilesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1254","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1265","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'configuration': mixed, 'external_reference_id'?: string, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51176,7 +51510,7 @@ final class DeliveryRateCallbacksCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksCreateTestDeliveryInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1228","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1239","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -51186,7 +51520,7 @@ final class DeliveryRateCallbacksCreateTestDeliveryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1255","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1266","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'configuration': mixed|mixed|mixed|mixed|mixed|mixed|mixed, 'external_reference_id'?: string, 'metadata'?: array{}, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51196,7 +51530,7 @@ final class DeliveryZonesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DemoSessionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Turnstile-Token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1256","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1267","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'template'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51206,7 +51540,7 @@ final class DemoSessionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperCreatePartnerAppInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1257","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1268","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'api_version'?: string, 'app_type'?: string, 'default_requested_permissions'?: list<string>, 'name': string, 'permission_manifest': list<mixed>, 'redirect_uris': list<string>, 'visibility'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51216,7 +51550,7 @@ final class DeveloperCreatePartnerAppInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperCreateSandboxInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1258","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1269","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'issue_test_key'?: bool, 'name': string, 'scopes'?: list<string>, 'test_key_name'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51226,7 +51560,7 @@ final class DeveloperCreateSandboxInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DevicesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1259","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1270","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'hardware_fingerprint'?: string, 'location_id'?: string, 'metadata'?: array{}, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51236,7 +51570,7 @@ final class DevicesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FeedbackReportsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1260","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1271","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51246,7 +51580,7 @@ final class FeedbackReportsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateFulfillmentInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1261","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1272","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -51261,7 +51595,7 @@ final class OrdersCreateFulfillmentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsCreateEventInput extends Model {
     /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1262","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1273","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -51276,7 +51610,7 @@ final class FulfillmentsCreateEventInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAdjustmentsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1263","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1274","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_actor_id'?: string, 'lines': list<mixed>, 'note'?: string, 'occurred_at'?: string, 'reason': string, 'source_system'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51286,7 +51620,7 @@ final class InventoryAdjustmentsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAllocationPoliciesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1264","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1275","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'configuration': mixed, 'external_reference_id'?: string, 'metadata'?: array{}, 'name': string, 'status'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51296,7 +51630,7 @@ final class InventoryAllocationPoliciesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1265","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1276","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'inventory_item_ids': list<string>, 'location_id': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51306,7 +51640,7 @@ final class InventoryCountsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1266","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1277","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: array{}, 'name': string, 'sku'?: string, 'status'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51316,7 +51650,7 @@ final class InventoryItemsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1267","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1278","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_actor_id'?: string, 'lines': list<mixed>, 'occurred_at'?: string, 'source_system'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51326,7 +51660,7 @@ final class InventoryReceiptsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1268","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1279","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'assignments'?: list<mixed>, 'demands': list<mixed>, 'destination_fingerprint'?: string, 'inventory_routing_source': mixed, 'owner': mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51336,7 +51670,7 @@ final class InventoryReservationsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransfersCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1269","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1280","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'destination_location_id': string, 'external_reference'?: string, 'lines': list<mixed>, 'note'?: string, 'origin_location_id': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51346,7 +51680,7 @@ final class InventoryTransfersCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1270","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1281","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{}|array{}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51356,7 +51690,7 @@ final class InvoicesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1272","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1283","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'calculation': mixed, 'external_reference_id'?: string, 'late_fee_policy'?: mixed, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51366,7 +51700,7 @@ final class InvoicePaymentTermsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1273","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1284","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory'?: mixed, 'metadata'?: array{}, 'name': string, 'status'?: string, 'timezone': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51376,7 +51710,7 @@ final class LocationsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateAddressInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1274","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1285","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'address': mixed, 'is_default_billing'?: bool, 'is_default_shipping'?: bool, 'label'?: string, 'phone'?: string, 'recipient_name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51386,12 +51720,12 @@ final class MeCreateAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateDeletionRequestInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1275","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1286","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateEmailChangeRequestInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1276","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1287","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'new_email': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51401,7 +51735,7 @@ final class MeCreateEmailChangeRequestInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateInvoiceCheckoutSessionInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1277","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1288","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -51411,7 +51745,7 @@ final class MeCreateInvoiceCheckoutSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantAccountSessionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1278","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1289","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'collection_strategy'?: string, 'components': list<string>, 'future_requirements'?: string, 'sandbox_id'?: string, 'targeted_requirement_ids'?: list<string>}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51421,7 +51755,7 @@ final class MerchantAccountSessionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateReturnInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1279","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1290","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_reference_id'?: string, 'line_items': list<mixed>, 'metadata'?: array{}, 'order_id': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51431,7 +51765,7 @@ final class MeCreateReturnInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateReturnPreviewInput extends Model {
     /** @param array{'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1280","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1291","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51441,7 +51775,7 @@ final class MeCreateReturnPreviewInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateReturnResolutionCheckoutSessionInput extends Model {
     /** @param array{'resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1281","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1292","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When resolution_id is omitted; use hasResolution_id() or valueOrDefault().
      */
@@ -51451,7 +51785,7 @@ final class MeCreateReturnResolutionCheckoutSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1282","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1293","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'allow_quantities'?: bool, 'external_reference_id'?: string, 'max_quantity'?: string, 'max_selected'?: int, 'max_total_quantity'?: string, 'metadata'?: array{}, 'min_quantity'?: string, 'min_selected'?: int, 'modifier_group_type'?: string, 'modifiers'?: list<mixed>, 'name': string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51461,7 +51795,7 @@ final class ModifierGroupsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1283","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1294","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_reference_id'?: string, 'metadata'?: array{}, 'modifier_groups'?: list<mixed>, 'name': string, 'status'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51471,7 +51805,7 @@ final class ModifierSetsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingCreateAPIKeyInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1284","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1295","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'name': string, 'sandbox_id'?: string, 'scopes'?: list<string>}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51481,7 +51815,7 @@ final class OnboardingCreateAPIKeyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1285","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1296","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: array{}, 'requested_tip'?: mixed|mixed, 'tax'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51491,7 +51825,7 @@ final class OrdersCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreatePaymentIntentInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1286","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1297","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -51506,7 +51840,7 @@ final class OrdersCreatePaymentIntentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1287","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1298","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'metadata'?: array{}, 'name': string, 'parent_organization_id'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51516,7 +51850,7 @@ final class OrganizationsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsCreatePackageInput extends Model {
     /** @param array{'shipment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1288","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1299","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -51531,7 +51865,7 @@ final class ShipmentsCreatePackageInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesCreateItemInput extends Model {
     /** @param array{'package_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1289","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1300","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -51546,7 +51880,7 @@ final class PackagesCreateItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1290","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1301","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed&mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51556,7 +51890,7 @@ final class PaymentIntentsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1291","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1302","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'customer_collection'?: mixed, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'expiration'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'metadata'?: array{}, 'name': string, 'payment_link_type'?: string, 'payments'?: mixed, 'plan_id'?: string, 'promotion_config'?: mixed, 'redirects'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51566,7 +51900,7 @@ final class PaymentLinksCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1292","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1303","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'domain_name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51576,7 +51910,7 @@ final class PaymentMethodDomainsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1293","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1304","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'amount_money': mixed, 'balance_source_type'?: string, 'description'?: string, 'external_reference_id'?: string, 'metadata'?: array{}, 'method'?: string, 'payout_destination_id'?: string, 'statement_descriptor'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51586,7 +51920,7 @@ final class PayoutsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1294","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1305","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51596,7 +51930,7 @@ final class ProductsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsCreateVariantInput extends Model {
     /** @param array{'product_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1295","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1306","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -51611,7 +51945,7 @@ final class ProductsCreateVariantInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1296","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1307","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'application_method': mixed, 'codes'?: list<mixed>, 'combines_with'?: mixed, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: list<mixed>|array{'all': list<array{'attribute': string, 'currency_options'?: array{}, 'operator': string, 'values'?: list<mixed>}|mixed>}|array{'any': list<array{'attribute': string, 'currency_options'?: array{}, 'operator': string, 'values'?: list<mixed>}|mixed>}, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'metadata'?: array{}, 'name': string, 'redemption_type'?: string, 'schedule'?: mixed, 'stacking_mode'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51621,7 +51955,7 @@ final class PromotionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsCreateCodeInput extends Model {
     /** @param array{'promotion_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1298","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1309","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -51636,7 +51970,7 @@ final class PromotionsCreateCodeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RefundsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1299","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1310","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51646,7 +51980,7 @@ final class RefundsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReportsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1300","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1311","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'currency': string, 'interval_end_at': string, 'interval_start_at': string, 'report_type': string, 'timezone'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51656,7 +51990,7 @@ final class ReportsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1279","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1290","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_reference_id'?: string, 'line_items': list<mixed>, 'metadata'?: array{}, 'order_id': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51666,7 +52000,7 @@ final class ReturnsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateDispositionInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1301","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1312","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -51681,7 +52015,7 @@ final class ReturnsCreateDispositionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateInspectionInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1302","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1313","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -51696,7 +52030,7 @@ final class ReturnsCreateInspectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1303","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1314","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'external_reference_id'?: string, 'metadata'?: array{}, 'name': string, 'revision': mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51706,7 +52040,7 @@ final class ReturnPoliciesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPreviewsCreateInput extends Model {
     /** @param array{'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1280","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1291","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51716,7 +52050,7 @@ final class ReturnPreviewsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1304","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1315","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'category_handles'?: list<string>, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'is_note_required'?: bool, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51726,7 +52060,7 @@ final class ReturnReasonsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateReceiptInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1305","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1316","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -51741,7 +52075,7 @@ final class ReturnsCreateReceiptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateResolutionInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1306","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1317","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -51756,7 +52090,7 @@ final class ReturnsCreateResolutionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1307","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1318","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'alias': string, 'item_type': string, 'name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51766,7 +52100,7 @@ final class RiskListsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskPreviewsCreateInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1308","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1319","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51776,7 +52110,7 @@ final class RiskPreviewsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1309","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1320","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'action': string, 'description': string, 'enabled'?: bool, 'predicate': array{'all': list<mixed>}|array{'any': list<mixed>}|array{'not': mixed}|array{'attribute': string, 'operator': string, 'value': string|int|bool}|array{'amount_money': mixed, 'attribute': string, 'operator': string}|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|array{'attribute': string, 'list_alias': string, 'operator': string}|array{'attribute': string, 'operator': string}}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51786,7 +52120,7 @@ final class RiskRulesCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsCreateShipmentInput extends Model {
     /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1310","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1321","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -51801,7 +52135,7 @@ final class FulfillmentsCreateShipmentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1311","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1322","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed|mixed|mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51811,7 +52145,7 @@ final class SubscriptionsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCreatePaymentRetryInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1312","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1323","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -51826,7 +52160,7 @@ final class SubscriptionsCreatePaymentRetryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1313","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1324","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'line_items'?: list<mixed>, 'metadata'?: array{}, 'name': string, 'setup_fee_money'?: mixed, 'trial_period_days'?: int}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51836,7 +52170,7 @@ final class SubscriptionPlansCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsCreateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1314","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1325","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'api_version'?: string, 'description'?: string, 'enabled'?: bool, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'mode'?: string, 'partner_app_id'?: string, 'url': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -51846,7 +52180,7 @@ final class WebhookEndpointsCreateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsCreateWebhookTestEventInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1315","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1326","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhook_endpoint_id() or valueOrDefault().
      */
@@ -51861,7 +52195,7 @@ final class WebhookEndpointsCreateWebhookTestEventInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsDecideInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1316","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1327","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -51876,7 +52210,7 @@ final class ReturnsDecideInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionsDecideLineItemInput extends Model {
     /** @param array{'return_inspection_id': string, 'return_inspection_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1317","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1328","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_inspection_id is omitted; use hasReturn_inspection_id() or valueOrDefault().
      */
@@ -51896,7 +52230,7 @@ final class ReturnInspectionsDecideLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReviewsDeclineInput extends Model {
     /** @param array{'review_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1318","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1329","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When review_id is omitted; use hasReview_id() or valueOrDefault().
      */
@@ -51911,7 +52245,7 @@ final class ReviewsDeclineInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesRemoveInput extends Model {
     /** @param array{'bundle_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1319","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1330","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When bundle_id is omitted; use hasBundle_id() or valueOrDefault().
      */
@@ -51926,7 +52260,7 @@ final class BundlesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesRemoveInput extends Model {
     /** @param array{'category_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1320","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1331","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When category_id is omitted; use hasCategory_id() or valueOrDefault().
      */
@@ -51936,7 +52270,7 @@ final class CategoriesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsDeleteCurrentDeliverySelectionInput extends Model {
     /** @param array{'checkout_session_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'expected_delivery_selection_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1321","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1332","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -51951,7 +52285,7 @@ final class CheckoutSessionsDeleteCurrentDeliverySelectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersDeleteAddressInput extends Model {
     /** @param array{'customer_id': string, 'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1322","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1333","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -51966,7 +52300,7 @@ final class CustomersDeleteAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetsRemoveInput extends Model {
     /** @param array{'delivery_location_set_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1323","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1334","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDelivery_location_set_id() or valueOrDefault().
      */
@@ -51981,7 +52315,7 @@ final class DeliveryLocationSetsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsRemoveInput extends Model {
     /** @param array{'delivery_method_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1324","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1335","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDelivery_method_id() or valueOrDefault().
      */
@@ -51996,7 +52330,7 @@ final class DeliveryMethodsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesRemoveInput extends Model {
     /** @param array{'delivery_profile_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1325","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1336","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDelivery_profile_id() or valueOrDefault().
      */
@@ -52011,7 +52345,7 @@ final class DeliveryProfilesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksRemoveInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1326","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1337","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -52026,7 +52360,7 @@ final class DeliveryRateCallbacksRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesRemoveInput extends Model {
     /** @param array{'delivery_zone_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1327","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1338","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDelivery_zone_id() or valueOrDefault().
      */
@@ -52041,7 +52375,7 @@ final class DeliveryZonesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperDeleteSandboxInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1328","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1339","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -52051,7 +52385,7 @@ final class DeveloperDeleteSandboxInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DevicesRemoveInput extends Model {
     /** @param array{'device_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1329","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1340","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When device_id is omitted; use hasDevice_id() or valueOrDefault().
      */
@@ -52061,7 +52395,7 @@ final class DevicesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAllocationPoliciesRemoveInput extends Model {
     /** @param array{'inventory_allocation_policy_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1330","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1341","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventory_allocation_policy_id() or valueOrDefault().
      */
@@ -52076,7 +52410,7 @@ final class InventoryAllocationPoliciesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemsRemoveInput extends Model {
     /** @param array{'inventory_item_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1331","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1342","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventory_item_id() or valueOrDefault().
      */
@@ -52091,7 +52425,7 @@ final class InventoryItemsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsRemoveInput extends Model {
     /** @param array{'invoice_payment_term_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1332","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1343","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoice_payment_term_id() or valueOrDefault().
      */
@@ -52106,7 +52440,7 @@ final class InvoicePaymentTermsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsRemoveInput extends Model {
     /** @param array{'location_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1333","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1344","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -52121,7 +52455,7 @@ final class LocationsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeDeleteAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1334","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1345","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomer_address_id() or valueOrDefault().
      */
@@ -52131,7 +52465,7 @@ final class MeDeleteAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsRemoveInput extends Model {
     /** @param array{'modifier_group_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1335","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1346","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifier_group_id() or valueOrDefault().
      */
@@ -52146,7 +52480,7 @@ final class ModifierGroupsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsRemoveInput extends Model {
     /** @param array{'modifier_set_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1336","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1347","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifier_set_id() or valueOrDefault().
      */
@@ -52161,7 +52495,7 @@ final class ModifierSetsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersDeleteChargeInput extends Model {
     /** @param array{'order_id': string, 'order_charge_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1337","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1348","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -52176,7 +52510,7 @@ final class OrdersDeleteChargeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersDeleteLineItemInput extends Model {
     /** @param array{'order_id': string, 'order_line_item_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1338","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1349","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -52191,7 +52525,7 @@ final class OrdersDeleteLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsRemoveInput extends Model {
     /** @param array{'organization_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1339","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1350","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -52201,7 +52535,7 @@ final class OrganizationsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesDeleteItemInput extends Model {
     /** @param array{'package_id': string, 'package_item_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1340","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1351","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -52216,7 +52550,7 @@ final class PackagesDeleteItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsDeletePayoutDestinationInput extends Model {
     /** @param array{'payout_destination_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1341","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1352","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayout_destination_id() or valueOrDefault().
      */
@@ -52231,7 +52565,7 @@ final class PayoutSettingsDeletePayoutDestinationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsRemoveInput extends Model {
     /** @param array{'product_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1342","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1353","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -52246,7 +52580,7 @@ final class ProductsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsDeleteVariantInput extends Model {
     /** @param array{'product_id': string, 'variant_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1343","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1354","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -52266,7 +52600,7 @@ final class ProductsDeleteVariantInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsRemoveInput extends Model {
     /** @param array{'promotion_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1344","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1355","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -52276,7 +52610,7 @@ final class PromotionsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsDeleteCodeInput extends Model {
     /** @param array{'promotion_id': string, 'promotion_code_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1345","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1356","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -52291,7 +52625,7 @@ final class PromotionsDeleteCodeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsDeleteLineItemInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1346","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1357","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -52306,7 +52640,7 @@ final class ReturnsDeleteLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesRemoveInput extends Model {
     /** @param array{'return_policy_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1347","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1358","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -52321,7 +52655,7 @@ final class ReturnPoliciesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsRemoveInput extends Model {
     /** @param array{'return_reason_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1348","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1359","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturn_reason_id() or valueOrDefault().
      */
@@ -52336,7 +52670,7 @@ final class ReturnReasonsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsRemoveInput extends Model {
     /** @param array{'risk_list_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1349","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1360","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -52346,7 +52680,7 @@ final class RiskListsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsDeleteItemInput extends Model {
     /** @param array{'risk_list_id': string, 'risk_list_item_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1350","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1361","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -52361,7 +52695,7 @@ final class RiskListsDeleteItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesRemoveInput extends Model {
     /** @param array{'risk_rule_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1351","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1362","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_rule_id is omitted; use hasRisk_rule_id() or valueOrDefault().
      */
@@ -52376,7 +52710,7 @@ final class RiskRulesRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansRemoveInput extends Model {
     /** @param array{'plan_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1352","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1363","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When plan_id is omitted; use hasPlan_id() or valueOrDefault().
      */
@@ -52391,7 +52725,7 @@ final class SubscriptionPlansRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsRemoveInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1353","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1364","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhook_endpoint_id() or valueOrDefault().
      */
@@ -52401,7 +52735,7 @@ final class WebhookEndpointsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OauthExchangePartnerInstallTokenInput extends Model {
     /** @param array{'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1354","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1365","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'client_id': string, 'client_secret': string, 'code'?: string, 'grant_type': string, 'redirect_uri'?: string, 'refresh_token'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -52411,7 +52745,7 @@ final class OauthExchangePartnerInstallTokenInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsGetOverviewInput extends Model {
     /** @param array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1355","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1366","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When range is omitted; use hasRange() or valueOrDefault().
      */
@@ -52431,7 +52765,7 @@ final class AnalyticsGetOverviewInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysGetInput extends Model {
     /** @param array{'api_key_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1356","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1367","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When api_key_id is omitted; use hasApi_key_id() or valueOrDefault().
      */
@@ -52441,7 +52775,7 @@ final class ApiKeysGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BalanceTransactionsGetInput extends Model {
     /** @param array{'balance_transaction_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1357","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1368","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalance_transaction_id() or valueOrDefault().
      */
@@ -52456,7 +52790,7 @@ final class BalanceTransactionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesGetInput extends Model {
     /** @param array{'bundle_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1358","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1369","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When bundle_id is omitted; use hasBundle_id() or valueOrDefault().
      */
@@ -52471,7 +52805,7 @@ final class BundlesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesGetInput extends Model {
     /** @param array{'category_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1359","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1370","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When category_id is omitted; use hasCategory_id() or valueOrDefault().
      */
@@ -52481,7 +52815,7 @@ final class CategoriesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsGetInput extends Model {
     /** @param array{'checkout_session_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1360","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1371","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -52496,7 +52830,7 @@ final class CheckoutSessionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsGetCurrentDeliverySelectionInput extends Model {
     /** @param array{'checkout_session_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1361","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1372","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -52506,7 +52840,7 @@ final class CheckoutSessionsGetCurrentDeliverySelectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsGetDeliveryQuoteInput extends Model {
     /** @param array{'checkout_session_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'delivery_quote_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1362","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1373","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -52521,7 +52855,7 @@ final class CheckoutSessionsGetDeliveryQuoteInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsGetDeliverySelectionHistoryInput extends Model {
     /** @param array{'checkout_session_id': string, 'delivery_selection_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1363","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1374","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -52536,7 +52870,7 @@ final class CheckoutSessionsGetDeliverySelectionHistoryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesGetInput extends Model {
     /** @param array{'credit_note_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1364","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1375","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -52546,7 +52880,7 @@ final class CreditNotesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesGetAllocationInput extends Model {
     /** @param array{'credit_note_id': string, 'credit_note_allocation_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1365","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1376","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -52561,7 +52895,7 @@ final class CreditNotesGetAllocationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesGetPDFInput extends Model {
     /** @param array{'credit_note_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1364","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1375","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -52571,7 +52905,7 @@ final class CreditNotesGetPDFInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetCurrentAPIKeyRequestLogInput extends Model {
     /** @param array{'api_request_log_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1366","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1377","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When api_request_log_id is omitted; use hasApi_request_log_id() or valueOrDefault().
      */
@@ -52581,7 +52915,7 @@ final class DeveloperGetCurrentAPIKeyRequestLogInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersGetInput extends Model {
     /** @param array{'customer_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1367","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1378","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -52596,7 +52930,7 @@ final class CustomersGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersGetAddressInput extends Model {
     /** @param array{'customer_id': string, 'customer_address_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1368","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1379","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -52611,7 +52945,7 @@ final class CustomersGetAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersGetDeletionRequestInput extends Model {
     /** @param array{'customer_id': string, 'customer_deletion_request_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1369","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1380","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -52626,7 +52960,7 @@ final class CustomersGetDeletionRequestInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetsGetInput extends Model {
     /** @param array{'delivery_location_set_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1370","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1381","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDelivery_location_set_id() or valueOrDefault().
      */
@@ -52636,7 +52970,7 @@ final class DeliveryLocationSetsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsGetInput extends Model {
     /** @param array{'delivery_method_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1371","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1382","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDelivery_method_id() or valueOrDefault().
      */
@@ -52646,7 +52980,7 @@ final class DeliveryMethodsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesGetInput extends Model {
     /** @param array{'delivery_profile_id': string, 'include_diagnostics'?: bool, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1372","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1383","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDelivery_profile_id() or valueOrDefault().
      */
@@ -52661,7 +52995,7 @@ final class DeliveryProfilesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksGetInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1373","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1384","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -52671,7 +53005,7 @@ final class DeliveryRateCallbacksGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRevocationsGetInput extends Model {
     /** @param array{'delivery_revocation_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1374","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1385","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_revocation_id is omitted; use hasDelivery_revocation_id() or valueOrDefault().
      */
@@ -52681,7 +53015,7 @@ final class DeliveryRevocationsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesGetInput extends Model {
     /** @param array{'delivery_zone_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1375","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1386","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDelivery_zone_id() or valueOrDefault().
      */
@@ -52696,7 +53030,7 @@ final class DeveloperGetAuthContextInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetPartnerAppInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'partner_app_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1376","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1387","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -52706,7 +53040,7 @@ final class DeveloperGetPartnerAppInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetPartnerAppInstallInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1377","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1388","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -52721,7 +53055,7 @@ final class DeveloperGetPartnerAppInstallInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetSandboxInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1328","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1339","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -52731,7 +53065,7 @@ final class DeveloperGetSandboxInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DevicesGetInput extends Model {
     /** @param array{'device_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1378","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1389","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When device_id is omitted; use hasDevice_id() or valueOrDefault().
      */
@@ -52741,7 +53075,7 @@ final class DevicesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DisputesGetInput extends Model {
     /** @param array{'dispute_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1379","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1390","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When dispute_id is omitted; use hasDispute_id() or valueOrDefault().
      */
@@ -52756,7 +53090,7 @@ final class DisputesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SettingsGetEffectiveInput extends Model {
     /** @param array{'location_id'?: string, 'device_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1380","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1391","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -52771,7 +53105,7 @@ final class SettingsGetEffectiveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FeedbackReportsGetInput extends Model {
     /** @param array{'feedback_report_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1381","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1392","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When feedback_report_id is omitted; use hasFeedback_report_id() or valueOrDefault().
      */
@@ -52781,7 +53115,7 @@ final class FeedbackReportsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FraudWarningsGetInput extends Model {
     /** @param array{'fraud_warning_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1382","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1393","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fraud_warning_id is omitted; use hasFraud_warning_id() or valueOrDefault().
      */
@@ -52796,7 +53130,7 @@ final class FraudWarningsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsGetInput extends Model {
     /** @param array{'fulfillment_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1383","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1394","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -52811,7 +53145,7 @@ final class FulfillmentsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentEventsGetInput extends Model {
     /** @param array{'fulfillment_event_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1384","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1395","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_event_id is omitted; use hasFulfillment_event_id() or valueOrDefault().
      */
@@ -52826,7 +53160,7 @@ final class FulfillmentEventsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentNotificationsGetInput extends Model {
     /** @param array{'fulfillment_notification_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1385","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1396","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_notification_id is omitted; use hasFulfillment_notification_id() or valueOrDefault().
      */
@@ -52841,7 +53175,7 @@ final class FulfillmentNotificationsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesGetInput extends Model {
     /** @param array{'invoice_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1386","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1397","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52856,7 +53190,7 @@ final class InvoicesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesGetPaymentAttemptInput extends Model {
     /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1387","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1398","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52871,7 +53205,7 @@ final class InvoicesGetPaymentAttemptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsGetInput extends Model {
     /** @param array{'invoice_payment_term_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1388","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1399","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoice_payment_term_id() or valueOrDefault().
      */
@@ -52881,7 +53215,7 @@ final class InvoicePaymentTermsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesGetPDFInput extends Model {
     /** @param array{'invoice_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1389","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1400","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52891,7 +53225,7 @@ final class InvoicesGetPDFInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsGetInput extends Model {
     /** @param array{'location_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1390","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1401","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -52906,7 +53240,7 @@ final class MeGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1391","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1402","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomer_address_id() or valueOrDefault().
      */
@@ -52916,7 +53250,7 @@ final class MeGetAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetCreditNoteInput extends Model {
     /** @param array{'invoice_id': string, 'credit_note_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1392","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1403","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52931,7 +53265,7 @@ final class MeGetCreditNoteInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetCreditNotePDFInput extends Model {
     /** @param array{'invoice_id': string, 'credit_note_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1392","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1403","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52946,7 +53280,7 @@ final class MeGetCreditNotePDFInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetDeletionRequestInput extends Model {
     /** @param array{'customer_deletion_request_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1393","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1404","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_deletion_request_id is omitted; use hasCustomer_deletion_request_id() or valueOrDefault().
      */
@@ -52956,7 +53290,7 @@ final class MeGetDeletionRequestInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetInvoiceInput extends Model {
     /** @param array{'invoice_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1389","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1400","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52966,7 +53300,7 @@ final class MeGetInvoiceInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetInvoicePDFInput extends Model {
     /** @param array{'invoice_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1389","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1400","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -52976,7 +53310,7 @@ final class MeGetInvoicePDFInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetOrderInput extends Model {
     /** @param array{'order_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1394","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1405","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -52986,7 +53320,7 @@ final class MeGetOrderInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantsGetInput extends Model {
     /** @param array{'merchant_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1395","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1406","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchant_id() or valueOrDefault().
      */
@@ -53001,7 +53335,7 @@ final class MerchantsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantBillingBalancesGetInput extends Model {
     /** @param array{'merchant_billing_balance_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1396","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1407","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When merchant_billing_balance_id is omitted; use hasMerchant_billing_balance_id() or valueOrDefault().
      */
@@ -53011,7 +53345,7 @@ final class MerchantBillingBalancesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantSubscriptionInvoicesGetInput extends Model {
     /** @param array{'merchant_subscription_invoice_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1397","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1408","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When merchant_subscription_invoice_id is omitted; use hasMerchant_subscription_invoice_id() or valueOrDefault().
      */
@@ -53021,7 +53355,7 @@ final class MerchantSubscriptionInvoicesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetReturnInput extends Model {
     /** @param array{'return_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1398","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1409","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -53031,7 +53365,7 @@ final class MeGetReturnInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeGetSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1399","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1410","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -53041,7 +53375,7 @@ final class MeGetSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsGetInput extends Model {
     /** @param array{'modifier_group_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1400","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1411","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifier_group_id() or valueOrDefault().
      */
@@ -53051,7 +53385,7 @@ final class ModifierGroupsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsGetInput extends Model {
     /** @param array{'modifier_set_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1401","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1412","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifier_set_id() or valueOrDefault().
      */
@@ -53061,7 +53395,7 @@ final class ModifierSetsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingGetStateInput extends Model {
     /** @param array{'sandbox_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1402","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1413","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -53071,7 +53405,7 @@ final class OnboardingGetStateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SpecificationGetInput extends Model {
     /** @param array{'version'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1403","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1414","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */
@@ -53081,7 +53415,7 @@ final class SpecificationGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesGetOrCreateCheckoutSessionInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1277","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1288","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -53091,7 +53425,7 @@ final class InvoicesGetOrCreateCheckoutSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsGetOrCreateCheckoutSessionInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1404","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1415","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -53101,7 +53435,7 @@ final class ReturnResolutionsGetOrCreateCheckoutSessionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersGetInput extends Model {
     /** @param array{'order_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1405","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1416","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -53116,7 +53450,7 @@ final class OrdersGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersGetCurrentDeliverySelectionInput extends Model {
     /** @param array{'order_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1406","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1417","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -53126,7 +53460,7 @@ final class OrdersGetCurrentDeliverySelectionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersGetPaymentAttemptInput extends Model {
     /** @param array{'order_id': string, 'payment_attempt_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1407","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1418","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -53141,7 +53475,7 @@ final class OrdersGetPaymentAttemptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsGetInput extends Model {
     /** @param array{'organization_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1408","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1419","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -53156,7 +53490,7 @@ final class OrganizationsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesGetInput extends Model {
     /** @param array{'package_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1409","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1420","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -53171,7 +53505,7 @@ final class PackagesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesGetItemInput extends Model {
     /** @param array{'package_id': string, 'package_item_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1410","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1421","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -53191,7 +53525,7 @@ final class PackagesGetItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsGetInput extends Model {
     /** @param array{'payment_intent_id': string, 'expand'?: array, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1411","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1422","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -53206,7 +53540,7 @@ final class PaymentIntentsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksGetInput extends Model {
     /** @param array{'payment_link_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1412","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1423","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_link_id is omitted; use hasPayment_link_id() or valueOrDefault().
      */
@@ -53221,7 +53555,7 @@ final class PaymentLinksGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksGetPublicInput extends Model {
     /** @param array{'payment_link_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1413","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1424","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_link_id is omitted; use hasPayment_link_id() or valueOrDefault().
      */
@@ -53231,7 +53565,7 @@ final class PaymentLinksGetPublicInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsGetInput extends Model {
     /** @param array{'payment_method_id': string, 'expand'?: array, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1414","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1425","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_id is omitted; use hasPayment_method_id() or valueOrDefault().
      */
@@ -53246,7 +53580,7 @@ final class PaymentMethodsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainsGetInput extends Model {
     /** @param array{'payment_method_domain_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1415","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1426","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_domain_id is omitted; use hasPayment_method_domain_id() or valueOrDefault().
      */
@@ -53256,7 +53590,7 @@ final class PaymentMethodDomainsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
     /** @param array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1355","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1366","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When range is omitted; use hasRange() or valueOrDefault().
      */
@@ -53276,7 +53610,7 @@ final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsGetInput extends Model {
     /** @param array{'payout_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1416","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1427","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_id is omitted; use hasPayout_id() or valueOrDefault().
      */
@@ -53291,7 +53625,7 @@ final class PayoutsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsGetPayoutDestinationInput extends Model {
     /** @param array{'payout_destination_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1417","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1428","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayout_destination_id() or valueOrDefault().
      */
@@ -53301,12 +53635,12 @@ final class PayoutSettingsGetPayoutDestinationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsGetInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1418","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1429","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsGetInput extends Model {
     /** @param array{'product_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1419","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1430","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -53321,7 +53655,7 @@ final class ProductsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsGetOptionInput extends Model {
     /** @param array{'product_id': string, 'option_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1420","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1431","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -53336,7 +53670,7 @@ final class ProductsGetOptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsGetVariantInput extends Model {
     /** @param array{'product_id': string, 'variant_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1421","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1432","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -53356,7 +53690,7 @@ final class ProductsGetVariantInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsGetInput extends Model {
     /** @param array{'promotion_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1422","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1433","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -53366,7 +53700,7 @@ final class PromotionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RefundsGetInput extends Model {
     /** @param array{'refund_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1423","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1434","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When refund_id is omitted; use hasRefund_id() or valueOrDefault().
      */
@@ -53381,7 +53715,7 @@ final class RefundsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReportsGetInput extends Model {
     /** @param array{'report_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1424","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1435","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When report_id is omitted; use hasReport_id() or valueOrDefault().
      */
@@ -53391,7 +53725,7 @@ final class ReportsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReportDownloadsGetInput extends Model {
     /** @param array{'report_download_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1425","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1436","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When report_download_id is omitted; use hasReport_download_id() or valueOrDefault().
      */
@@ -53401,7 +53735,7 @@ final class ReportDownloadsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetResourceTimelineInput extends Model {
     /** @param array{'resource_id': string, 'resource_type'?: string, 'include'?: array, 'page_size'?: int, 'page_token'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1426","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1437","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When resource_id is omitted; use hasResource_id() or valueOrDefault().
      */
@@ -53441,7 +53775,7 @@ final class DeveloperGetResourceTimelineInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsGetInput extends Model {
     /** @param array{'return_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1427","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1438","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -53456,7 +53790,7 @@ final class ReturnsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsGetInput extends Model {
     /** @param array{'return_disposition_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1428","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1439","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturn_disposition_id() or valueOrDefault().
      */
@@ -53466,7 +53800,7 @@ final class ReturnDispositionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionsGetInput extends Model {
     /** @param array{'return_inspection_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1429","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1440","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_inspection_id is omitted; use hasReturn_inspection_id() or valueOrDefault().
      */
@@ -53476,7 +53810,7 @@ final class ReturnInspectionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsGetLineItemInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1430","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1441","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -53491,7 +53825,7 @@ final class ReturnsGetLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesGetInput extends Model {
     /** @param array{'return_policy_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1431","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1442","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -53506,7 +53840,7 @@ final class ReturnPoliciesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesGetRevisionInput extends Model {
     /** @param array{'return_policy_id': string, 'return_policy_revision_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1432","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1443","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -53521,7 +53855,7 @@ final class ReturnPoliciesGetRevisionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsGetInput extends Model {
     /** @param array{'return_reason_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1433","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1444","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturn_reason_id() or valueOrDefault().
      */
@@ -53531,7 +53865,7 @@ final class ReturnReasonsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptsGetInput extends Model {
     /** @param array{'return_receipt_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1434","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1445","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturn_receipt_id() or valueOrDefault().
      */
@@ -53541,7 +53875,7 @@ final class ReturnReceiptsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsGetInput extends Model {
     /** @param array{'return_resolution_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1435","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1446","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -53556,7 +53890,7 @@ final class ReturnResolutionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReviewsGetInput extends Model {
     /** @param array{'review_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1436","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1447","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When review_id is omitted; use hasReview_id() or valueOrDefault().
      */
@@ -53571,7 +53905,7 @@ final class ReviewsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsGetInput extends Model {
     /** @param array{'risk_list_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1437","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1448","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -53581,7 +53915,7 @@ final class RiskListsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsGetItemInput extends Model {
     /** @param array{'risk_list_id': string, 'risk_list_item_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1438","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1449","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -53596,7 +53930,7 @@ final class RiskListsGetItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesGetInput extends Model {
     /** @param array{'risk_rule_id': string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1439","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1450","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_rule_id is omitted; use hasRisk_rule_id() or valueOrDefault().
      */
@@ -53606,7 +53940,7 @@ final class RiskRulesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesGetAttributeRegistryInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1418","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1429","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SettingsGetInput extends Model {
@@ -53616,7 +53950,7 @@ final class SettingsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsGetInput extends Model {
     /** @param array{'shipment_id': string, 'expand'?: array, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1440","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1451","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -53631,7 +53965,7 @@ final class ShipmentsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsGetInput extends Model {
     /** @param array{'subscription_id': string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1441","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1452","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -53646,7 +53980,7 @@ final class SubscriptionsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsGetSubscriptionInput extends Model {
     /** @param array{'range': string, 'timezone'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1442","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1453","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When range is omitted; use hasRange() or valueOrDefault().
      */
@@ -53661,7 +53995,7 @@ final class AnalyticsGetSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsGetPaymentRetryInput extends Model {
     /** @param array{'subscription_id': string, 'subscription_payment_retry_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1443","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1454","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -53676,7 +54010,7 @@ final class SubscriptionsGetPaymentRetryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansGetInput extends Model {
     /** @param array{'plan_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1444","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1455","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When plan_id is omitted; use hasPlan_id() or valueOrDefault().
      */
@@ -53686,7 +54020,7 @@ final class SubscriptionPlansGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveriesGetInput extends Model {
     /** @param array{'webhook_delivery_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1445","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1456","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhook_delivery_id() or valueOrDefault().
      */
@@ -53696,7 +54030,7 @@ final class WebhookDeliveriesGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsGetInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1446","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1457","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhook_endpoint_id() or valueOrDefault().
      */
@@ -53706,7 +54040,7 @@ final class WebhookEndpointsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEventsGetInput extends Model {
     /** @param array{'webhook_event_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1447","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1458","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhook_event_id() or valueOrDefault().
      */
@@ -53716,7 +54050,7 @@ final class WebhookEventsGetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsGrantMembershipInput extends Model {
     /** @param array{'organization_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1448","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1459","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -53731,7 +54065,7 @@ final class OrganizationsGrantMembershipInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesIssueInput extends Model {
     /** @param array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1449","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1460","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -53746,7 +54080,7 @@ final class CreditNotesIssueInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperIssueSandboxTestKeyInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1450","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1461","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -53761,7 +54095,7 @@ final class DeveloperIssueSandboxTestKeyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesIssueInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1451","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1462","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -53776,7 +54110,7 @@ final class InvoicesIssueInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysListInput extends Model {
     /** @param array{'status'?: string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1452","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1463","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -53826,7 +54160,7 @@ final class ApiKeysListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BalancesListInput extends Model {
     /** @param array{'currency'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1453","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1464","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
@@ -53836,7 +54170,7 @@ final class BalancesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BalanceTransactionsListInput extends Model {
     /** @param array{'currency'?: string, 'type'?: string, 'related_object_type'?: string, 'related_object_id'?: string, 'status'?: string, 'created_after'?: string, 'created_before'?: string, 'available_after'?: string, 'available_before'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1454","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1465","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
@@ -53896,7 +54230,7 @@ final class BalanceTransactionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesListComponentsInput extends Model {
     /** @param array{'bundle_id': string, 'page_size'?: int, 'page_token'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1455","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1466","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When bundle_id is omitted; use hasBundle_id() or valueOrDefault().
      */
@@ -53926,7 +54260,7 @@ final class BundlesListComponentsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'sku'?: string, 'query'?: string, 'category_handle'?: string, 'status'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1456","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1467","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -53986,7 +54320,7 @@ final class BundlesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CapabilitiesListInput extends Model {
     /** @param array{'domain'?: string, 'capability'?: string, 'status'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1457","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1468","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When domain is omitted; use hasDomain() or valueOrDefault().
      */
@@ -54016,7 +54350,7 @@ final class CapabilitiesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesListInput extends Model {
     /** @param array{'status'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1458","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1469","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -54046,7 +54380,7 @@ final class CategoriesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'order_id'?: string, 'payment_link_id'?: string, 'customer_id'?: string, 'origin'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'expires_after'?: string, 'expires_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1459","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1470","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54136,7 +54470,7 @@ final class CheckoutSessionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesListAllocationsInput extends Model {
     /** @param array{'credit_note_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1460","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -54161,7 +54495,7 @@ final class CreditNotesListAllocationsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'invoice_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1461","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1472","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54196,7 +54530,7 @@ final class CreditNotesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperListCurrentAPIKeyRequestLogsInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'request_id'?: string, 'http_method'?: string, 'path_query'?: string, 'resource_type'?: string, 'resource_id'?: string, 'status_bucket'?: string, 'created_after'?: string, 'created_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1462","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1473","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54251,7 +54585,7 @@ final class DeveloperListCurrentAPIKeyRequestLogsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersListAddressesInput extends Model {
     /** @param array{'customer_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1463","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1474","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -54271,7 +54605,7 @@ final class CustomersListAddressesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomerDeletionRequestsListInput extends Model {
     /** @param array{'status'?: string, 'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1464","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1475","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -54296,7 +54630,7 @@ final class CustomerDeletionRequestsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'email'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'expand'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1465","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1476","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54361,7 +54695,7 @@ final class CustomersListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'delivery_method_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1466","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1477","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54396,7 +54730,7 @@ final class DeliveryLocationSetsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'type'?: string, 'delivery_zone_id'?: string, 'delivery_location_set_id'?: string, 'delivery_rate_callback_id'?: string, 'location_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1467","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1478","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54451,7 +54785,7 @@ final class DeliveryMethodsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'resolution_mode'?: string, 'include_diagnostics'?: bool, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1468","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1479","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54491,7 +54825,7 @@ final class DeliveryProfilesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryQuotesListInput extends Model {
     /** @param array{'checkout_session_id'?: string, 'order_id'?: string, 'status'?: string, 'evaluation_status'?: string, 'created_after'?: string, 'created_before'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1469","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1480","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -54536,7 +54870,7 @@ final class DeliveryQuotesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'delivery_method_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1466","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1477","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54571,7 +54905,7 @@ final class DeliveryRateCallbacksListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'delivery_method_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1466","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1477","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54606,7 +54940,7 @@ final class DeliveryZonesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperListPartnerAppInstallsInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'partner_app_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1470","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1481","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -54626,7 +54960,7 @@ final class DeveloperListPartnerAppInstallsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperListPartnerAppsInput extends Model {
     /** @param array{'X-Request-Id'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54641,7 +54975,7 @@ final class DeveloperListPartnerAppsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperListSandboxesInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1472","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1483","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54661,7 +54995,7 @@ final class DeveloperListSandboxesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DevicesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'location_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1473","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1484","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54696,7 +55030,7 @@ final class DevicesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DisputesListInput extends Model {
     /** @param array{'payment_intent_id'?: string, 'order_id'?: string, 'customer_id'?: string, 'status'?: string, 'reason'?: string, 'case_type'?: string, 'created_after'?: string, 'created_before'?: string, 'evidence_due_after'?: string, 'evidence_due_before'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1474","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1485","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -54761,7 +55095,7 @@ final class DisputesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FeedbackReportsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -54776,7 +55110,7 @@ final class FeedbackReportsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FraudWarningsListInput extends Model {
     /** @param array{'actionable'?: bool, 'payment_intent_id'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1475","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1486","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return bool
      * @throws SdkError When actionable is omitted; use hasActionable() or valueOrDefault().
      */
@@ -54801,7 +55135,7 @@ final class FraudWarningsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentEventsListInput extends Model {
     /** @param array{'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'event_type'?: string, 'external_system'?: string, 'external_event_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'sort_by'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1476","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1487","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -54866,7 +55200,7 @@ final class FulfillmentEventsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentNotificationsListInput extends Model {
     /** @param array{'fulfillment_id'?: string, 'order_id'?: string, 'fulfillment_event_id'?: string, 'page_size'?: int, 'page_token'?: string, 'channel'?: string, 'status'?: string, 'notification_type'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1477","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1488","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -54911,7 +55245,7 @@ final class FulfillmentNotificationsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsListInput extends Model {
     /** @param array{'expand'?: array, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'type'?: string, 'location_id'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'sort_direction'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1479","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1490","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
@@ -54986,7 +55320,7 @@ final class FulfillmentsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAdjustmentsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'reason'?: string, 'idempotency_key'?: string, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'created_after'?: string, 'created_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1480","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1491","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55056,7 +55390,7 @@ final class InventoryAdjustmentsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAllocationPoliciesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1481","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1492","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55086,7 +55420,7 @@ final class InventoryAllocationPoliciesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'status'?: string, 'idempotency_key'?: string, 'created_after'?: string, 'created_before'?: string, 'applied_after'?: string, 'applied_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1493","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55141,7 +55475,7 @@ final class InventoryCountsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'sku'?: string, 'barcode'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1483","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1494","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55181,7 +55515,7 @@ final class InventoryItemsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'has_available_quantity'?: bool, 'has_unavailable_condition'?: bool, 'has_shortage'?: bool, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1484","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1495","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55231,7 +55565,7 @@ final class InventoryLevelsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryMovementsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'type'?: string, 'reason'?: string, 'idempotency_key'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'created_after'?: string, 'created_before'?: string, 'source_reference_type'?: string, 'source_reference_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1485","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1496","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55326,7 +55660,7 @@ final class InventoryMovementsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'receiving_location_id'?: string, 'inventory_reservation_id'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'idempotency_key'?: string, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'created_after'?: string, 'created_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1486","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1497","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55406,7 +55740,7 @@ final class InventoryReceiptsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'owner_type'?: string, 'owner_key'?: string, 'idempotency_key'?: string, 'has_at_risk_quantity'?: bool, 'closed_reason'?: string, 'owner_expires_after'?: string, 'owner_expires_before'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1487","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1498","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55481,7 +55815,7 @@ final class InventoryReservationsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransfersListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'origin_location_id'?: string, 'destination_location_id'?: string, 'status'?: string, 'idempotency_key'?: string, 'external_reference'?: string, 'query'?: string, 'closed_reason'?: string, 'created_after'?: string, 'created_before'?: string, 'departed_after'?: string, 'departed_before'?: string, 'received_after'?: string, 'received_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1488","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1499","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55566,7 +55900,7 @@ final class InventoryTransfersListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListDeliveryAttemptsInput extends Model {
     /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1489","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1500","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -55586,7 +55920,7 @@ final class InvoicesListDeliveryAttemptsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListEventsInput extends Model {
     /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1489","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1500","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -55606,7 +55940,7 @@ final class InvoicesListEventsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListPaymentAttemptsInput extends Model {
     /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1490","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1501","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -55631,7 +55965,7 @@ final class InvoicesListPaymentAttemptsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1458","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1469","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55661,7 +55995,7 @@ final class InvoicePaymentTermsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'customer_id'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1491","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1502","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55741,7 +56075,7 @@ final class InvoicesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'inventory_allocation_status'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1492","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1503","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55776,7 +56110,7 @@ final class LocationsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListAddressesInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55791,7 +56125,7 @@ final class MeListAddressesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListCreditNotesInput extends Model {
     /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1489","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1500","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -55811,7 +56145,7 @@ final class MeListCreditNotesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListFulfillmentsInput extends Model {
     /** @param array{'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'type'?: string, 'location_id'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'sort_direction'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1493","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1504","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -55881,7 +56215,7 @@ final class MeListFulfillmentsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListInvoicesInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1494","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1505","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -55956,7 +56290,7 @@ final class MeListInvoicesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListOrderActivitiesInput extends Model {
     /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string, 'sort_direction'?: string, 'type'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1495","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1506","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -55986,7 +56320,7 @@ final class MeListOrderActivitiesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListOrdersInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: string, 'fulfillment_status'?: array, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1497","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1508","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56101,7 +56435,7 @@ final class MeListOrdersInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListPackagesInput extends Model {
     /** @param array{'shipment_id'?: string, 'fulfillment_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1498","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1509","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -56146,7 +56480,7 @@ final class MeListPackagesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListPaymentMethodsInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'type'?: string, 'status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1499","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1510","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56171,7 +56505,7 @@ final class MeListPaymentMethodsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListPaymentsInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'invoice_id'?: string, 'status'?: string, 'origin'?: string, 'risk_level'?: array, 'payment_flow'?: array, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'state'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1500","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1511","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56286,7 +56620,7 @@ final class MeListPaymentsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantBillingBalancesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56301,7 +56635,7 @@ final class MerchantBillingBalancesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantSubscriptionInvoicesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56316,7 +56650,7 @@ final class MerchantSubscriptionInvoicesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListRefundsInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'payment_intent_id'?: string, 'status'?: string, 'reason'?: array, 'refund_method'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1501","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1512","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56421,7 +56755,7 @@ final class MeListRefundsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListReturnsInput extends Model {
     /** @param array{'created_after'?: string, 'created_before'?: string, 'decision_status'?: array, 'external_reference_id'?: string, 'merchandise_status'?: array, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: array, 'resolution_type'?: array, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: array, 'updated_after'?: string, 'updated_before'?: string, 'work_type'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1503","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1514","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When created_after is omitted; use hasCreated_after() or valueOrDefault().
      */
@@ -56516,7 +56850,7 @@ final class MeListReturnsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListShipmentsInput extends Model {
     /** @param array{'order_id'?: string, 'fulfillment_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'return_id'?: string, 'handed_off_after'?: string, 'handed_off_before'?: string, 'created_after'?: string, 'created_before'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1505","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1516","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -56581,7 +56915,7 @@ final class MeListShipmentsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeListSubscriptionsInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1506","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1517","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56656,7 +56990,7 @@ final class MeListSubscriptionsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'modifier_group_type'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1507","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1518","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56691,7 +57025,7 @@ final class ModifierGroupsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1508","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1519","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56721,7 +57055,7 @@ final class ModifierSetsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListActivitiesInput extends Model {
     /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string, 'sort_direction'?: string, 'type'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1495","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1506","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -56751,7 +57085,7 @@ final class OrdersListActivitiesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListPaymentAttemptsInput extends Model {
     /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1509","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1520","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -56771,7 +57105,7 @@ final class OrdersListPaymentAttemptsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: string, 'fulfillment_status'?: array, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1510","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1521","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -56891,7 +57225,7 @@ final class OrdersListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsListMembershipsInput extends Model {
     /** @param array{'organization_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1511","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1522","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -56911,7 +57245,7 @@ final class OrganizationsListMembershipsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsListInput extends Model {
     /** @param array{'parent_organization_id'?: string, 'status'?: string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1512","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1523","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When parent_organization_id is omitted; use hasParent_organization_id() or valueOrDefault().
      */
@@ -56966,7 +57300,7 @@ final class OrganizationsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesListPackageItemsInput extends Model {
     /** @param array{'package_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1513","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1524","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -56986,7 +57320,7 @@ final class PackagesListPackageItemsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesListInput extends Model {
     /** @param array{'shipment_id'?: string, 'fulfillment_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1498","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1509","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -57031,7 +57365,7 @@ final class PackagesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'invoice_id'?: string, 'status'?: string, 'origin'?: string, 'risk_level'?: array, 'payment_flow'?: array, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'state'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1514","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1525","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57151,7 +57485,7 @@ final class PaymentIntentsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'payment_link_type'?: string, 'has_plan'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1515","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1526","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57211,7 +57545,7 @@ final class PaymentLinksListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1516","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1527","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57226,7 +57560,7 @@ final class PaymentMethodDomainsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsListInput extends Model {
     /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: string, 'status'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1517","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1528","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -57256,7 +57590,7 @@ final class PaymentMethodsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsListPayoutDestinationsInput extends Model {
     /** @param array{'currency'?: string, 'type'?: string, 'status'?: string, 'available_payout_method'?: string, 'default_for_currency'?: bool, 'include_deleted'?: bool, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1518","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1529","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
@@ -57301,7 +57635,7 @@ final class PayoutSettingsListPayoutDestinationsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsListEntriesInput extends Model {
     /** @param array{'payout_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1519","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1530","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_id is omitted; use hasPayout_id() or valueOrDefault().
      */
@@ -57321,7 +57655,7 @@ final class PayoutsListEntriesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsListInput extends Model {
     /** @param array{'currency'?: string, 'method'?: string, 'balance_source_type'?: string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'created_after'?: string, 'created_before'?: string, 'arrival_after'?: string, 'arrival_before'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1520","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1531","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
@@ -57391,7 +57725,7 @@ final class PayoutsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListOptionsInput extends Model {
     /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1521","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1532","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -57416,7 +57750,7 @@ final class ProductsListOptionsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'product_type'?: string, 'status'?: string, 'category_handle'?: string, 'external_reference_id'?: string, 'sku'?: string, 'query'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1522","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1533","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57501,7 +57835,7 @@ final class ProductsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListVariantsInput extends Model {
     /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1523","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1534","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -57556,7 +57890,7 @@ final class ProductsListVariantsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsListCodesInput extends Model {
     /** @param array{'promotion_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1524","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1535","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -57576,7 +57910,7 @@ final class PromotionsListCodesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'product_id'?: string, 'variant_id'?: string, 'bundle_id'?: string, 'category_handle'?: string, 'redemption_type'?: string, 'discount_class'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1525","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1536","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57666,7 +58000,7 @@ final class PromotionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RefundsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'payment_intent_id'?: string, 'customer_id'?: string, 'status'?: string, 'reason'?: array, 'refund_method'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1526","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1537","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57776,7 +58110,7 @@ final class RefundsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReportsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1471","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1482","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -57791,7 +58125,7 @@ final class ReportsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsListInput extends Model {
     /** @param array{'created_after'?: string, 'created_before'?: string, 'disposition_type'?: string, 'external_reference_id'?: string, 'inventory_location_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'replaces_return_disposition_id'?: string, 'return_id'?: string, 'return_inspection_line_item_id'?: string, 'return_line_item_id'?: string, 'return_receipt_line_item_id'?: string, 'status'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1527","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1538","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When created_after is omitted; use hasCreated_after() or valueOrDefault().
      */
@@ -57886,7 +58220,7 @@ final class ReturnDispositionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionsListInput extends Model {
     /** @param array{'acceptance_status'?: string, 'created_after'?: string, 'created_before'?: string, 'external_reference_id'?: string, 'inspected_after'?: string, 'inspected_before'?: string, 'location_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'source_system_type'?: string, 'status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1528","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1539","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When acceptance_status is omitted; use hasAcceptance_status() or valueOrDefault().
      */
@@ -57966,7 +58300,7 @@ final class ReturnInspectionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsListLineItemsInput extends Model {
     /** @param array{'return_id': string, 'fulfillment_id'?: string, 'merchandise_status'?: array, 'order_line_item_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: array, 'return_reason_id'?: string, 'status'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1529","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1540","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -58016,7 +58350,7 @@ final class ReturnsListLineItemsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesListInput extends Model {
     /** @param array{'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'status'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1530","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1541","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternal_reference_id() or valueOrDefault().
      */
@@ -58046,7 +58380,7 @@ final class ReturnPoliciesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesListRevisionsInput extends Model {
     /** @param array{'return_policy_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1531","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1542","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -58066,7 +58400,7 @@ final class ReturnPoliciesListRevisionsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsListInput extends Model {
     /** @param array{'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'source'?: string, 'status'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1532","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1543","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternal_reference_id() or valueOrDefault().
      */
@@ -58101,7 +58435,7 @@ final class ReturnReasonsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptsListInput extends Model {
     /** @param array{'created_after'?: string, 'created_before'?: string, 'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'received_after'?: string, 'received_before'?: string, 'receiving_location_id'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'shipment_id'?: string, 'source_system_type'?: string, 'status'?: string, 'verification_status'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1533","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1544","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When created_after is omitted; use hasCreated_after() or valueOrDefault().
      */
@@ -58181,7 +58515,7 @@ final class ReturnReceiptsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsListInput extends Model {
     /** @param array{'action_required_by'?: string, 'corrects_return_resolution_id'?: string, 'created_after'?: string, 'created_before'?: string, 'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'resolution_type'?: array, 'return_id'?: string, 'return_line_item_id'?: string, 'return_policy_revision_id'?: string, 'status'?: array, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1534","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1545","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When action_required_by is omitted; use hasAction_required_by() or valueOrDefault().
      */
@@ -58261,7 +58595,7 @@ final class ReturnResolutionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsListInput extends Model {
     /** @param array{'created_after'?: string, 'created_before'?: string, 'customer_id'?: string, 'decision_status'?: array, 'external_reference_id'?: string, 'merchandise_status'?: array, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: array, 'resolution_type'?: array, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: array, 'updated_after'?: string, 'updated_before'?: string, 'work_type'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1535","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1546","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When created_after is omitted; use hasCreated_after() or valueOrDefault().
      */
@@ -58361,7 +58695,7 @@ final class ReturnsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReviewsListInput extends Model {
     /** @param array{'status'?: array, 'risk_level'?: array, 'payment_flow'?: array, 'payment_intent_id'?: string, 'order_id'?: string, 'customer_id'?: string, 'created_after'?: string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1536","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1547","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return list<string>
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -58411,7 +58745,7 @@ final class ReviewsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsListRiskListItemsInput extends Model {
     /** @param array{'risk_list_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1537","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1548","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -58431,7 +58765,7 @@ final class RiskListsListRiskListItemsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsListInput extends Model {
     /** @param array{'include_archived'?: bool, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1538","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1549","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return bool
      * @throws SdkError When include_archived is omitted; use hasInclude_archived() or valueOrDefault().
      */
@@ -58451,7 +58785,7 @@ final class RiskListsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesListInput extends Model {
     /** @param array{'include_archived'?: bool, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1538","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1549","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return bool
      * @throws SdkError When include_archived is omitted; use hasInclude_archived() or valueOrDefault().
      */
@@ -58471,7 +58805,7 @@ final class RiskRulesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsListInput extends Model {
     /** @param array{'order_id'?: string, 'fulfillment_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'return_id'?: string, 'handed_off_after'?: string, 'handed_off_before'?: string, 'created_after'?: string, 'created_before'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1505","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1516","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -58536,7 +58870,7 @@ final class ShipmentsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsListPaymentRetriesInput extends Model {
     /** @param array{'subscription_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1539","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1550","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -58561,7 +58895,7 @@ final class SubscriptionsListPaymentRetriesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1540","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1551","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -58611,7 +58945,7 @@ final class SubscriptionPlansListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'customer_id'?: string, 'plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1541","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1552","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -58701,7 +59035,7 @@ final class SubscriptionsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEventsListWebhookDeliveriesInput extends Model {
     /** @param array{'webhook_event_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1542","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1553","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhook_event_id() or valueOrDefault().
      */
@@ -58721,7 +59055,7 @@ final class WebhookEventsListWebhookDeliveriesInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveriesListAttemptsInput extends Model {
     /** @param array{'webhook_delivery_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1543","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1554","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhook_delivery_id() or valueOrDefault().
      */
@@ -58741,7 +59075,7 @@ final class WebhookDeliveriesListAttemptsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'event_sources'?: array, 'partner_app_id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1544","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1555","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -58766,7 +59100,7 @@ final class WebhookEndpointsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEventsListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'webhook_endpoint_id'?: string, 'delivery_status'?: string, 'event_source'?: array, 'partner_app_id'?: string, 'event_type'?: string, 'resource_type'?: string, 'resource_id'?: string, 'api_request_log_id'?: string, 'request_id'?: string, 'correlation_id'?: string, 'created_after'?: string, 'created_before'?: string, 'include'?: array, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1545","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1556","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -58846,7 +59180,7 @@ final class WebhookEventsListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEventTypesListInput extends Model {
     /** @param array{'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1516","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1527","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPage_size() or valueOrDefault().
      */
@@ -58861,7 +59195,7 @@ final class WebhookEventTypesListInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesMarkUncollectibleInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1546","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1557","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -58876,7 +59210,7 @@ final class InvoicesMarkUncollectibleInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesPauseRemindersInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1547","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1558","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -58891,7 +59225,7 @@ final class InvoicesPauseRemindersInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MePauseSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1548","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1559","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -58906,7 +59240,7 @@ final class MePauseSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsPauseInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1548","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1559","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -58921,7 +59255,7 @@ final class SubscriptionsPauseInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersPayInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1549","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1560","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -58936,7 +59270,7 @@ final class OrdersPayInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersPreviewDiscountsInput extends Model {
     /** @param array{'order_id': string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1550","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1561","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -58951,7 +59285,7 @@ final class OrdersPreviewDiscountsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
     /** @param array{'client_id': string, 'redirect_uri': string, 'mode': string, 'permission_ids'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1551","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1562","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When client_id is omitted; use hasClient_id() or valueOrDefault().
      */
@@ -58976,7 +59310,7 @@ final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsProcessExistingInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1552","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1563","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -58991,7 +59325,7 @@ final class ReturnsProcessExistingInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsPublishGeographyInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'location_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1553","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1564","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -59006,7 +59340,7 @@ final class LocationsPublishGeographyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesPublishRevisionInput extends Model {
     /** @param array{'return_policy_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1554","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1565","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -59021,7 +59355,7 @@ final class ReturnPoliciesPublishRevisionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsQueryPickupAvailabilityInput extends Model {
     /** @param array{'checkout_session_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1555","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1566","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -59036,7 +59370,7 @@ final class CheckoutSessionsQueryPickupAvailabilityInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeReactivateSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1556","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1567","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -59046,7 +59380,7 @@ final class MeReactivateSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsReactivateInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1556","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1567","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -59056,7 +59390,7 @@ final class SubscriptionsReactivateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesRecordManualPaymentInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1557","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1568","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -59071,7 +59405,7 @@ final class InvoicesRecordManualPaymentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionsRefreshInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1558","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1569","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'refresh_token': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59081,7 +59415,7 @@ final class CustomerSessionsRefreshInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantAccountSessionsRefreshInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1559","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1570","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'launch_token': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59091,7 +59425,7 @@ final class MerchantAccountSessionsRefreshInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesRegeneratePublicLinkInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1546","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1557","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -59106,7 +59440,7 @@ final class InvoicesRegeneratePublicLinkInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsReleaseInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_reservation_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1560","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1571","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventory_reservation_id() or valueOrDefault().
      */
@@ -59121,7 +59455,7 @@ final class InventoryReservationsReleaseInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsReleaseInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1561","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1572","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -59136,7 +59470,7 @@ final class ReturnResolutionsReleaseInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeRemovePaymentMethodInput extends Model {
     /** @param array{'payment_method_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1562","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1573","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_id is omitted; use hasPayment_method_id() or valueOrDefault().
      */
@@ -59146,7 +59480,7 @@ final class MeRemovePaymentMethodInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersRemoveDiscountsInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1563","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1574","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -59161,7 +59495,7 @@ final class OrdersRemoveDiscountsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsRemoveInput extends Model {
     /** @param array{'payment_method_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1562","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1573","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_id is omitted; use hasPayment_method_id() or valueOrDefault().
      */
@@ -59171,7 +59505,7 @@ final class PaymentMethodsRemoveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsReopenInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1564","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1575","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -59186,7 +59520,7 @@ final class ReturnsReopenInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersRepriceDiscountsInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1565","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1576","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -59196,7 +59530,7 @@ final class OrdersRepriceDiscountsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeResendOrderReceiptInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1566","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1577","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -59206,7 +59540,7 @@ final class MeResendOrderReceiptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersResendReceiptInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1565","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1576","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -59216,7 +59550,7 @@ final class OrdersResendReceiptInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveriesResendInput extends Model {
     /** @param array{'webhook_delivery_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1567","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1578","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhook_delivery_id() or valueOrDefault().
      */
@@ -59231,7 +59565,7 @@ final class WebhookDeliveriesResendInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DemoSessionsResetInput extends Model {
     /** @param array{'X-Turnstile-Token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1568","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1579","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'template'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59241,7 +59575,7 @@ final class DemoSessionsResetInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperResetSandboxInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1328","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1339","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandbox_id() or valueOrDefault().
      */
@@ -59251,7 +59585,7 @@ final class DeveloperResetSandboxInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomerDeletionRequestsResolveInput extends Model {
     /** @param array{'customer_deletion_request_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1569","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1580","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_deletion_request_id is omitted; use hasCustomer_deletion_request_id() or valueOrDefault().
      */
@@ -59266,7 +59600,7 @@ final class CustomerDeletionRequestsResolveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersResolveInventoryExceptionInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1570","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1581","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -59281,7 +59615,7 @@ final class OrdersResolveInventoryExceptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksResolveInput extends Model {
     /** @param array{'payment_link_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1571","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1582","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_link_id is omitted; use hasPayment_link_id() or valueOrDefault().
      */
@@ -59296,7 +59630,7 @@ final class PaymentLinksResolveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsResolveCodeInput extends Model {
     /** @param array{'code': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1572","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1583","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
@@ -59306,7 +59640,7 @@ final class PromotionsResolveCodeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesResumeRemindersInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1547","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1558","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -59321,7 +59655,7 @@ final class InvoicesResumeRemindersInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeResumeSubscriptionInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1556","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1567","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -59331,7 +59665,7 @@ final class MeResumeSubscriptionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsResumeInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1556","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1567","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -59341,7 +59675,7 @@ final class SubscriptionsResumeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsRetryInput extends Model {
     /** @param array{'return_disposition_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1573","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1584","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturn_disposition_id() or valueOrDefault().
      */
@@ -59356,7 +59690,7 @@ final class ReturnDispositionsRetryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsRetryInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1574","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1585","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -59371,7 +59705,7 @@ final class ReturnResolutionsRetryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesReverseAllocationInput extends Model {
     /** @param array{'credit_note_id': string, 'Idempotency-Key'?: string, 'credit_note_allocation_id': string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1575","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1586","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -59391,7 +59725,7 @@ final class CreditNotesReverseAllocationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesReverseManualPaymentInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1557","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1568","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -59406,7 +59740,7 @@ final class InvoicesReverseManualPaymentInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysRevokeInput extends Model {
     /** @param array{'api_key_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1576","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1587","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When api_key_id is omitted; use hasApi_key_id() or valueOrDefault().
      */
@@ -59416,7 +59750,7 @@ final class ApiKeysRevokeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionsRevokeInput extends Model {
     /** @param array{'customer_session_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1577","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1588","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_session_id is omitted; use hasCustomer_session_id() or valueOrDefault().
      */
@@ -59426,7 +59760,7 @@ final class CustomerSessionsRevokeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersRevokeSessionsInput extends Model {
     /** @param array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1248","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1259","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -59436,7 +59770,7 @@ final class CustomersRevokeSessionsInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRevocationsRevokeDeliveryDependencyInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1578","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1589","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'merchant_note'?: string, 'reason': string, 'target': mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59446,7 +59780,7 @@ final class DeliveryRevocationsRevokeDeliveryDependencyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperRevokePartnerAppInstallInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1579","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1590","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -59461,7 +59795,7 @@ final class DeveloperRevokePartnerAppInstallInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperRevokePartnerEnvironmentGrantInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'environment_grant_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1580","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1591","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -59481,7 +59815,7 @@ final class DeveloperRevokePartnerEnvironmentGrantInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsRevokeMembershipInput extends Model {
     /** @param array{'organization_id': string, 'user_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1581","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1592","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -59496,7 +59830,7 @@ final class OrganizationsRevokeMembershipInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksRotateSigningKeyInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1228","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1239","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -59506,7 +59840,7 @@ final class DeliveryRateCallbacksRotateSigningKeyInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperRotatePartnerAppSecretInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'partner_app_id': string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1582","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1593","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -59516,7 +59850,7 @@ final class DeveloperRotatePartnerAppSecretInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsRotateWebhookSecretInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1353","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1364","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhook_endpoint_id() or valueOrDefault().
      */
@@ -59526,7 +59860,7 @@ final class WebhookEndpointsRotateWebhookSecretInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeSavePaymentMethodInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1583","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1594","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'payment_method_type'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59536,7 +59870,7 @@ final class MeSavePaymentMethodInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsSaveInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1584","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1595","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'customer_id': string, 'type'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59546,7 +59880,7 @@ final class PaymentMethodsSaveInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesSendReminderInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1277","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1288","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -59556,7 +59890,7 @@ final class InvoicesSendReminderInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersSetDefaultAddressInput extends Model {
     /** @param array{'customer_id': string, 'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1585","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1596","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -59576,7 +59910,7 @@ final class CustomersSetDefaultAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeSetDefaultAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1586","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1597","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomer_address_id() or valueOrDefault().
      */
@@ -59591,7 +59925,7 @@ final class MeSetDefaultAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeSetDefaultPaymentMethodInput extends Model {
     /** @param array{'payment_method_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1562","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1573","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_id is omitted; use hasPayment_method_id() or valueOrDefault().
      */
@@ -59601,7 +59935,7 @@ final class MeSetDefaultPaymentMethodInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsSetDefaultInput extends Model {
     /** @param array{'payment_method_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1562","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1573","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_id is omitted; use hasPayment_method_id() or valueOrDefault().
      */
@@ -59611,7 +59945,7 @@ final class PaymentMethodsSetDefaultInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsSkipCycleInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1587","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1598","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -59626,7 +59960,7 @@ final class SubscriptionsSkipCycleInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStartFlowInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1588","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1599","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'email': string, 'first_name': string, 'last_name': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -59636,7 +59970,7 @@ final class OnboardingStartFlowInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEventsStreamInput extends Model {
     /** @param array{'event_type'?: string, 'after_event_id'?: string, 'Last-Event-ID'?: string, 'Flint-Version'?: string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1589","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1600","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When event_type is omitted; use hasEvent_type() or valueOrDefault().
      */
@@ -59651,7 +59985,7 @@ final class WebhookEventsStreamInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsTransferOwnershipInput extends Model {
     /** @param array{'organization_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1591","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1602","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -59666,7 +60000,7 @@ final class OrganizationsTransferOwnershipInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsTransitionInput extends Model {
     /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1592","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1603","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -59681,7 +60015,7 @@ final class FulfillmentsTransitionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransfersTransitionInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_transfer_id': string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1593","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1604","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_transfer_id is omitted; use hasInventory_transfer_id() or valueOrDefault().
      */
@@ -59696,7 +60030,7 @@ final class InventoryTransfersTransitionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesTransitionInput extends Model {
     /** @param array{'package_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1594","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1605","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -59711,7 +60045,7 @@ final class PackagesTransitionInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysUpdateInput extends Model {
     /** @param array{'api_key_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1595","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1606","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When api_key_id is omitted; use hasApi_key_id() or valueOrDefault().
      */
@@ -59726,7 +60060,7 @@ final class ApiKeysUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class BundlesUpdateInput extends Model {
     /** @param array{'bundle_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1596","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1607","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When bundle_id is omitted; use hasBundle_id() or valueOrDefault().
      */
@@ -59741,7 +60075,7 @@ final class BundlesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesUpdateInput extends Model {
     /** @param array{'category_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1597","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1608","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When category_id is omitted; use hasCategory_id() or valueOrDefault().
      */
@@ -59756,7 +60090,7 @@ final class CategoriesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsUpdateInput extends Model {
     /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1598","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1609","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckout_session_id() or valueOrDefault().
      */
@@ -59771,7 +60105,7 @@ final class CheckoutSessionsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesUpdateInput extends Model {
     /** @param array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1599","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1610","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -59786,7 +60120,7 @@ final class CreditNotesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersUpdateInput extends Model {
     /** @param array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1600","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1611","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -59801,7 +60135,7 @@ final class CustomersUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CustomersUpdateAddressInput extends Model {
     /** @param array{'customer_id': string, 'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1601","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1612","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomer_id() or valueOrDefault().
      */
@@ -59821,7 +60155,7 @@ final class CustomersUpdateAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetsUpdateInput extends Model {
     /** @param array{'delivery_location_set_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1602","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1613","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDelivery_location_set_id() or valueOrDefault().
      */
@@ -59836,7 +60170,7 @@ final class DeliveryLocationSetsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsUpdateInput extends Model {
     /** @param array{'delivery_method_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1603","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1614","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDelivery_method_id() or valueOrDefault().
      */
@@ -59851,7 +60185,7 @@ final class DeliveryMethodsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesUpdateInput extends Model {
     /** @param array{'delivery_profile_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1604","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1615","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDelivery_profile_id() or valueOrDefault().
      */
@@ -59866,7 +60200,7 @@ final class DeliveryProfilesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbacksUpdateInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1605","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1616","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDelivery_rate_callback_id() or valueOrDefault().
      */
@@ -59881,7 +60215,7 @@ final class DeliveryRateCallbacksUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesUpdateInput extends Model {
     /** @param array{'delivery_zone_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1606","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1617","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDelivery_zone_id() or valueOrDefault().
      */
@@ -59896,7 +60230,7 @@ final class DeliveryZonesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperUpdatePartnerAppInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'partner_app_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1607","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1618","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
      */
@@ -59911,7 +60245,7 @@ final class DeveloperUpdatePartnerAppInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class DevicesUpdateInput extends Model {
     /** @param array{'device_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1608","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1619","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When device_id is omitted; use hasDevice_id() or valueOrDefault().
      */
@@ -59926,7 +60260,7 @@ final class DevicesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsUpdateInput extends Model {
     /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1609","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1620","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillment_id() or valueOrDefault().
      */
@@ -59941,7 +60275,7 @@ final class FulfillmentsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAllocationPoliciesUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_allocation_policy_id': string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1610","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1621","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventory_allocation_policy_id() or valueOrDefault().
      */
@@ -59956,7 +60290,7 @@ final class InventoryAllocationPoliciesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryCountsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_count_id': string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1611","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1622","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_count_id is omitted; use hasInventory_count_id() or valueOrDefault().
      */
@@ -59971,7 +60305,7 @@ final class InventoryCountsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_item_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1612","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1623","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventory_item_id() or valueOrDefault().
      */
@@ -59986,7 +60320,7 @@ final class InventoryItemsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_level_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1613","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1624","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_level_id is omitted; use hasInventory_level_id() or valueOrDefault().
      */
@@ -60001,7 +60335,7 @@ final class InventoryLevelsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransfersUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'inventory_transfer_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1614","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1625","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When inventory_transfer_id is omitted; use hasInventory_transfer_id() or valueOrDefault().
      */
@@ -60016,7 +60350,7 @@ final class InventoryTransfersUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesUpdateInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1615","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1626","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -60031,7 +60365,7 @@ final class InvoicesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsUpdateInput extends Model {
     /** @param array{'invoice_payment_term_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1616","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1627","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoice_payment_term_id() or valueOrDefault().
      */
@@ -60046,7 +60380,7 @@ final class InvoicePaymentTermsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'location_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1617","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1628","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -60061,7 +60395,7 @@ final class LocationsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class LocationsUpdateInventoryInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'location_id': string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1618","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1629","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocation_id() or valueOrDefault().
      */
@@ -60076,7 +60410,7 @@ final class LocationsUpdateInventoryInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1619","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1630","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'name'?: string, 'phone'?: string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -60086,7 +60420,7 @@ final class MeUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MeUpdateAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1620","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1631","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomer_address_id() or valueOrDefault().
      */
@@ -60101,7 +60435,7 @@ final class MeUpdateAddressInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class MerchantsUpdateInput extends Model {
     /** @param array{'merchant_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1621","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1632","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchant_id() or valueOrDefault().
      */
@@ -60116,7 +60450,7 @@ final class MerchantsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsUpdateInput extends Model {
     /** @param array{'modifier_group_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1622","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1633","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifier_group_id() or valueOrDefault().
      */
@@ -60131,7 +60465,7 @@ final class ModifierGroupsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsUpdateInput extends Model {
     /** @param array{'modifier_set_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1623","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1634","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifier_set_id() or valueOrDefault().
      */
@@ -60146,7 +60480,7 @@ final class ModifierSetsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateInput extends Model {
     /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1624","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1635","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -60161,7 +60495,7 @@ final class OrdersUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateChargeInput extends Model {
     /** @param array{'order_id': string, 'order_charge_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1625","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1636","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -60181,7 +60515,7 @@ final class OrdersUpdateChargeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateLineItemInput extends Model {
     /** @param array{'order_id': string, 'order_line_item_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1626","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1637","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrder_id() or valueOrDefault().
      */
@@ -60201,7 +60535,7 @@ final class OrdersUpdateLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrganizationsUpdateInput extends Model {
     /** @param array{'organization_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1627","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1638","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When organization_id is omitted; use hasOrganization_id() or valueOrDefault().
      */
@@ -60216,7 +60550,7 @@ final class OrganizationsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesUpdateInput extends Model {
     /** @param array{'package_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1628","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1639","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -60231,7 +60565,7 @@ final class PackagesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesUpdateItemInput extends Model {
     /** @param array{'package_id': string, 'package_item_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1629","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1640","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -60251,7 +60585,7 @@ final class PackagesUpdateItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsUpdateInput extends Model {
     /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1630","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1641","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPayment_intent_id() or valueOrDefault().
      */
@@ -60266,7 +60600,7 @@ final class PaymentIntentsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksUpdateInput extends Model {
     /** @param array{'payment_link_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1631","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1642","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_link_id is omitted; use hasPayment_link_id() or valueOrDefault().
      */
@@ -60281,7 +60615,7 @@ final class PaymentLinksUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainsUpdateInput extends Model {
     /** @param array{'payment_method_domain_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1632","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1643","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payment_method_domain_id is omitted; use hasPayment_method_domain_id() or valueOrDefault().
      */
@@ -60296,7 +60630,7 @@ final class PaymentMethodDomainsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsUpdatePayoutDestinationInput extends Model {
     /** @param array{'payout_destination_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1633","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1644","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayout_destination_id() or valueOrDefault().
      */
@@ -60311,7 +60645,7 @@ final class PayoutSettingsUpdatePayoutDestinationInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1634","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1645","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'default_payout_destinations'?: array{}, 'delay_days_override'?: int|null, 'interval'?: string, 'minimum_balance_by_currency'?: array{}, 'monthly_payout_days'?: list<int>, 'statement_descriptor'?: string, 'weekly_payout_days'?: list<string>}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -60321,7 +60655,7 @@ final class PayoutSettingsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsUpdateInput extends Model {
     /** @param array{'product_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1635","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1646","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -60336,7 +60670,7 @@ final class ProductsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ProductsUpdateVariantInput extends Model {
     /** @param array{'product_id': string, 'variant_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1636","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1647","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProduct_id() or valueOrDefault().
      */
@@ -60356,7 +60690,7 @@ final class ProductsUpdateVariantInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsUpdateInput extends Model {
     /** @param array{'promotion_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1637","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1648","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -60371,7 +60705,7 @@ final class PromotionsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PromotionsUpdateCodeInput extends Model {
     /** @param array{'promotion_id': string, 'promotion_code_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1639","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1650","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotion_id() or valueOrDefault().
      */
@@ -60391,7 +60725,7 @@ final class PromotionsUpdateCodeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RefundsUpdateInput extends Model {
     /** @param array{'refund_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1640","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1651","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When refund_id is omitted; use hasRefund_id() or valueOrDefault().
      */
@@ -60406,7 +60740,7 @@ final class RefundsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsUpdateInput extends Model {
     /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1641","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1652","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -60421,7 +60755,7 @@ final class ReturnsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsUpdateLineItemInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1642","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1653","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -60441,7 +60775,7 @@ final class ReturnsUpdateLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesUpdateInput extends Model {
     /** @param array{'return_policy_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1643","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1654","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturn_policy_id() or valueOrDefault().
      */
@@ -60456,7 +60790,7 @@ final class ReturnPoliciesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsUpdateInput extends Model {
     /** @param array{'return_reason_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1644","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1655","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturn_reason_id() or valueOrDefault().
      */
@@ -60471,7 +60805,7 @@ final class ReturnReasonsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsUpdateInput extends Model {
     /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1645","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1656","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturn_resolution_id() or valueOrDefault().
      */
@@ -60486,7 +60820,7 @@ final class ReturnResolutionsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsUpdateInput extends Model {
     /** @param array{'risk_list_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1646","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1657","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_list_id is omitted; use hasRisk_list_id() or valueOrDefault().
      */
@@ -60501,7 +60835,7 @@ final class RiskListsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesUpdateInput extends Model {
     /** @param array{'risk_rule_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1647","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1658","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When risk_rule_id is omitted; use hasRisk_rule_id() or valueOrDefault().
      */
@@ -60516,7 +60850,7 @@ final class RiskRulesUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SettingsUpdateInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1648","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1659","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'branding'?: mixed, 'catalog'?: mixed, 'checkout'?: mixed, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<mixed>, 'show_cost_comparison'?: bool}|null, 'reminder_policy'?: array{'rules': list<mixed>}|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|null, 'legal'?: mixed, 'metadata'?: array|object|null, 'promotions'?: mixed, 'receipts'?: mixed, 'subscriptions'?: mixed, 'tax'?: mixed, 'tipping'?: mixed}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -60526,7 +60860,7 @@ final class SettingsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsUpdateInput extends Model {
     /** @param array{'shipment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1649","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1660","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -60541,7 +60875,7 @@ final class ShipmentsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsUpdateInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1650","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1661","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -60556,7 +60890,7 @@ final class SubscriptionsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsUpdateBillingScheduleInput extends Model {
     /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1651","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1662","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscription_id() or valueOrDefault().
      */
@@ -60571,7 +60905,7 @@ final class SubscriptionsUpdateBillingScheduleInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansUpdateInput extends Model {
     /** @param array{'plan_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1652","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1663","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When plan_id is omitted; use hasPlan_id() or valueOrDefault().
      */
@@ -60586,7 +60920,7 @@ final class SubscriptionPlansUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsUpdateInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1653","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1664","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhook_endpoint_id() or valueOrDefault().
      */
@@ -60601,7 +60935,7 @@ final class WebhookEndpointsUpdateInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingVerifyEmailCodeInput extends Model {
     /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1654","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1665","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return array{'merchant_id'?: string, 'verification_code': string, 'verification_token': string}
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
@@ -60611,7 +60945,7 @@ final class OnboardingVerifyEmailCodeInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptsVerifyLineItemInput extends Model {
     /** @param array{'return_receipt_id': string, 'return_receipt_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1655","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1666","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturn_receipt_id() or valueOrDefault().
      */
@@ -60631,7 +60965,7 @@ final class ReturnReceiptsVerifyLineItemInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesVoidResourceInput extends Model {
     /** @param array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1449","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1460","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCredit_note_id() or valueOrDefault().
      */
@@ -60646,7 +60980,7 @@ final class CreditNotesVoidResourceInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesVoidResourceInput extends Model {
     /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1546","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1557","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
      */
@@ -60661,7 +60995,7 @@ final class InvoicesVoidResourceInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PackagesVoidResourceInput extends Model {
     /** @param array{'package_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1656","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1667","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackage_id() or valueOrDefault().
      */
@@ -60676,7 +61010,7 @@ final class PackagesVoidResourceInput extends Model {
 /** Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentsVoidResourceInput extends Model {
     /** @param array{'shipment_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1657","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1668","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipment_id() or valueOrDefault().
      */
@@ -60689,9 +61023,29 @@ final class ShipmentsVoidResourceInput extends Model {
     public function hasBody(): bool { return $this->has('body'); }
 }
 /** Presence-aware input; omitted fields throw when accessed. */
+final class InvoicesWaiveLateFeeInput extends Model {
+    /** @param array{'invoice_id': string, 'invoice_late_fee_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1669","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoice_id() or valueOrDefault().
+     */
+    public function getInvoice_id(): string { return $this->get('invoice_id'); }
+    public function hasInvoice_id(): bool { return $this->has('invoice_id'); }
+    /** @return string
+     * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoice_late_fee_id() or valueOrDefault().
+     */
+    public function getInvoice_late_fee_id(): string { return $this->get('invoice_late_fee_id'); }
+    public function hasInvoice_late_fee_id(): bool { return $this->has('invoice_late_fee_id'); }
+    /** @return array{'reason': string}
+     * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
+     */
+    public function getBody(): array|object { return $this->get('body'); }
+    public function hasBody(): bool { return $this->has('body'); }
+}
+/** Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsWaiveLineInspectionInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array|object} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1658","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + json_decode('{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1670","objectOnlyAlternative":true}', true, 512, JSON_THROW_ON_ERROR) + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturn_id() or valueOrDefault().
      */
@@ -60872,6 +61226,26 @@ final class OrdersApplyDiscountResponse200 extends Model {
 final class ReviewsApproveResponse200 extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string} $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['ReviewResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return mixed
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): mixed { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().
+     */
+    public function getMeta(): mixed { return $this->get('meta'); }
+    public function hasMeta(): bool { return $this->has('meta'); }
+    /** @return string
+     * @throws SdkError When request_id is omitted; use hasRequest_id() or valueOrDefault().
+     */
+    public function getRequest_id(): string { return $this->get('request_id'); }
+    public function hasRequest_id(): bool { return $this->has('request_id'); }
+}
+/** Presence-aware response; omitted fields throw when accessed. */
+final class InvoicesAssessLateFeeResponse200 extends Model {
+    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['InvoiceResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
@@ -63907,61 +64281,6 @@ final class WebhookEndpointsRemoveResponse200 extends Model {
      */
     public function getRequest_id(): string { return $this->get('request_id'); }
     public function hasRequest_id(): bool { return $this->has('request_id'); }
-}
-/** Presence-aware response; omitted fields throw when accessed. */
-final class OauthExchangePartnerInstallTokenResponse200 extends Model {
-    /** @param array{'access_token': string, 'environment_grant_id': string, 'expires_in': string, 'merchant_id': string, 'mode': string, 'partner_app_id': string, 'partner_app_install_id': string, 'refresh_token'?: string, 'scope'?: string, 'token_type': string} $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['PartnerTokenResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
-    /** @return string
-     * @throws SdkError When access_token is omitted; use hasAccess_token() or valueOrDefault().
-     */
-    public function getAccess_token(): string { return $this->get('access_token'); }
-    public function hasAccess_token(): bool { return $this->has('access_token'); }
-    /** @return string
-     * @throws SdkError When environment_grant_id is omitted; use hasEnvironment_grant_id() or valueOrDefault().
-     */
-    public function getEnvironment_grant_id(): string { return $this->get('environment_grant_id'); }
-    public function hasEnvironment_grant_id(): bool { return $this->has('environment_grant_id'); }
-    /** @return string
-     * @throws SdkError When expires_in is omitted; use hasExpires_in() or valueOrDefault().
-     */
-    public function getExpires_in(): string { return $this->get('expires_in'); }
-    public function hasExpires_in(): bool { return $this->has('expires_in'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchant_id() or valueOrDefault().
-     */
-    public function getMerchant_id(): string { return $this->get('merchant_id'); }
-    public function hasMerchant_id(): bool { return $this->has('merchant_id'); }
-    /** @return string
-     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
-     */
-    public function getMode(): string { return $this->get('mode'); }
-    public function hasMode(): bool { return $this->has('mode'); }
-    /** @return string
-     * @throws SdkError When partner_app_id is omitted; use hasPartner_app_id() or valueOrDefault().
-     */
-    public function getPartner_app_id(): string { return $this->get('partner_app_id'); }
-    public function hasPartner_app_id(): bool { return $this->has('partner_app_id'); }
-    /** @return string
-     * @throws SdkError When partner_app_install_id is omitted; use hasPartner_app_install_id() or valueOrDefault().
-     */
-    public function getPartner_app_install_id(): string { return $this->get('partner_app_install_id'); }
-    public function hasPartner_app_install_id(): bool { return $this->has('partner_app_install_id'); }
-    /** @return string
-     * @throws SdkError When refresh_token is omitted; use hasRefresh_token() or valueOrDefault().
-     */
-    public function getRefresh_token(): string { return $this->get('refresh_token'); }
-    public function hasRefresh_token(): bool { return $this->has('refresh_token'); }
-    /** @return string
-     * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
-     */
-    public function getScope(): string { return $this->get('scope'); }
-    public function hasScope(): bool { return $this->has('scope'); }
-    /** @return string
-     * @throws SdkError When token_type is omitted; use hasToken_type() or valueOrDefault().
-     */
-    public function getToken_type(): string { return $this->get('token_type'); }
-    public function hasToken_type(): bool { return $this->has('token_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
 final class AnalyticsGetOverviewResponse200 extends Model {
@@ -71194,6 +71513,26 @@ final class ShipmentsVoidResourceResponse200 extends Model {
     public function hasRequest_id(): bool { return $this->has('request_id'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
+final class InvoicesWaiveLateFeeResponse200 extends Model {
+    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string} $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['InvoiceResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
+    /** @return mixed
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): mixed { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return mixed
+     * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().
+     */
+    public function getMeta(): mixed { return $this->get('meta'); }
+    public function hasMeta(): bool { return $this->has('meta'); }
+    /** @return string
+     * @throws SdkError When request_id is omitted; use hasRequest_id() or valueOrDefault().
+     */
+    public function getRequest_id(): string { return $this->get('request_id'); }
+    public function hasRequest_id(): bool { return $this->has('request_id'); }
+}
+/** Presence-aware response; omitted fields throw when accessed. */
 final class ReturnsWaiveLineInspectionResponse200 extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string} $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['WaiveReturnLineInspectionResponse'] + ['definitions' => SchemaRegistry::codecs()]); }
@@ -71649,7 +71988,7 @@ final class WebhookEvent75 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent101 extends Model {
+final class WebhookEvent103 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_merchant_billing_balance_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'available_credit_money': object{'amount': int, 'currency': string}, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': object{'amount': int, 'currency': string}}
@@ -71664,7 +72003,7 @@ final class WebhookEvent101 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent102 extends Model {
+final class WebhookEvent104 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_merchant_subscription_invoice_issued_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71679,7 +72018,7 @@ final class WebhookEvent102 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent103 extends Model {
+final class WebhookEvent105 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_merchant_subscription_invoice_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71694,7 +72033,7 @@ final class WebhookEvent103 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent104 extends Model {
+final class WebhookEvent106 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_merchant_readiness_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'business_name'?: string, 'merchant_environment_id': string, 'merchant_id': string, 'observed_at': string, 'payments': object{'next_actions': list<object{'action_type': string, 'expires_at'?: string, 'url'?: string}>, 'status': string, 'status_reason': string|null}, 'payouts': object{'next_actions': list<object{'action_type': string, 'expires_at'?: string, 'url'?: string}>, 'status': string, 'status_reason': string|null}, 'requirements': object{'current_deadline_at'?: string|null, 'currently_due': list<string>, 'disabled_reason': string|null, 'eventually_due': list<string>, 'past_due': list<string>, 'pending_verification': list<string>}}
@@ -71709,7 +72048,7 @@ final class WebhookEvent104 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent116 extends Model {
+final class WebhookEvent118 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_order_inventory_action_required_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'order_id': string}
@@ -71724,7 +72063,7 @@ final class WebhookEvent116 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent127 extends Model {
+final class WebhookEvent129 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_created_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71739,7 +72078,7 @@ final class WebhookEvent127 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent128 extends Model {
+final class WebhookEvent130 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_environment_grant_created_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71754,7 +72093,7 @@ final class WebhookEvent128 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent129 extends Model {
+final class WebhookEvent131 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_environment_grant_revoked_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71769,7 +72108,7 @@ final class WebhookEvent129 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent130 extends Model {
+final class WebhookEvent132 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_permissions_updated_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71784,7 +72123,7 @@ final class WebhookEvent130 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent131 extends Model {
+final class WebhookEvent133 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_revoked_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71799,7 +72138,7 @@ final class WebhookEvent131 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent132 extends Model {
+final class WebhookEvent134 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'partner_app_id': string, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_partner_app_install_updated_partner_app'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return mixed
@@ -71814,7 +72153,7 @@ final class WebhookEvent132 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent143 extends Model {
+final class WebhookEvent145 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_destination_created_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_destination_id': string}
@@ -71829,7 +72168,7 @@ final class WebhookEvent143 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent144 extends Model {
+final class WebhookEvent146 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_destination_deleted_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_destination_id': string}
@@ -71844,7 +72183,7 @@ final class WebhookEvent144 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent145 extends Model {
+final class WebhookEvent147 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_destination_disabled_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_destination_id': string}
@@ -71859,7 +72198,7 @@ final class WebhookEvent145 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent146 extends Model {
+final class WebhookEvent148 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_destination_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_destination_id': string}
@@ -71874,7 +72213,7 @@ final class WebhookEvent146 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent147 extends Model {
+final class WebhookEvent149 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_settings_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_settings_id': string}
@@ -71889,7 +72228,7 @@ final class WebhookEvent147 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent148 extends Model {
+final class WebhookEvent150 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_canceled_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
@@ -71904,7 +72243,7 @@ final class WebhookEvent148 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent149 extends Model {
+final class WebhookEvent151 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_created_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
@@ -71919,7 +72258,7 @@ final class WebhookEvent149 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent150 extends Model {
+final class WebhookEvent152 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_failed_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
@@ -71934,7 +72273,7 @@ final class WebhookEvent150 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent151 extends Model {
+final class WebhookEvent153 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_paid_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
@@ -71949,7 +72288,7 @@ final class WebhookEvent151 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent152 extends Model {
+final class WebhookEvent154 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_reversed_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
@@ -71964,7 +72303,7 @@ final class WebhookEvent152 extends Model {
     public function hasEvent_type(): bool { return $this->has('event_type'); }
 }
 /** Presence-aware response; omitted fields throw when accessed. */
-final class WebhookEvent153 extends Model {
+final class WebhookEvent155 extends Model {
     /** @param object{'api_version': string, 'created_at': string, 'data': object{}, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array|object|null, 'test'?: bool, 'webhook_event_id': string} $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::codecs()['Webhook_payout_updated_merchant'] + ['definitions' => SchemaRegistry::codecs()]); }
     /** @return object{'payout_id': string}
