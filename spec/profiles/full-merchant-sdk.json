@@ -468,7 +468,7 @@
           "applyInventoryCount",
           "applyOrderDiscount",
           "approveReview",
-    "assessInvoiceLateFee",
+          "assessInvoiceLateFee",
           "assignToUnconfiguredDeliveryProfile",
           "authorizePartnerInstall",
           "cancelInventoryCount",
@@ -902,7 +902,7 @@
           "voidPackage",
           "voidShipment",
           "waiveInvoiceLateFee",
-    "waiveReturnLineInspection"
+          "waiveReturnLineInspection"
         ]
       }
     }

@@ -2095,5 +2095,118 @@
       "kind": "validation"
     },
     "attempts": 0
+  },
+  {
+    "name": "Assess invoice late fee",
+    "operation": "assessInvoiceLateFee",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "invoice_id": "inv_test",
+      "Idempotency-Key": "late-fee-fixture",
+      "body": {}
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/invoices/inv_test/late-fees",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "late-fee-fixture"
+      },
+      "body": "{}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+      }
+    ],
+    "error": {
+      "kind": "validation",
+      "code": "SDK_TEST"
+    }
+  },
+  {
+    "name": "Assess installment late fee",
+    "operation": "assessInvoiceLateFee",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "invoice_id": "inv_test",
+      "Idempotency-Key": "late-fee-fixture",
+      "body": {
+        "invoice_schedule_entry_id": "invse_01J00000000000000000000000"
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/invoices/inv_test/late-fees",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "late-fee-fixture"
+      },
+      "body": "{\"invoice_schedule_entry_id\":\"invse_01J00000000000000000000000\"}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+      }
+    ],
+    "error": {
+      "kind": "validation",
+      "code": "SDK_TEST"
+    }
+  },
+  {
+    "name": "Waive unpaid invoice fee",
+    "operation": "waiveInvoiceLateFee",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "invoice_id": "inv_test",
+      "Idempotency-Key": "late-fee-fixture",
+      "body": {
+        "reason": "Courtesy waiver"
+      },
+      "invoice_late_fee_id": "inlf_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/invoices/inv_test/late-fees/inlf_test/waive",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "late-fee-fixture"
+      },
+      "body": "{\"reason\":\"Courtesy waiver\"}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+      }
+    ],
+    "error": {
+      "kind": "validation",
+      "code": "SDK_TEST"
+    }
   }
 ]

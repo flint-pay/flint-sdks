@@ -1549,7 +1549,8 @@ export class Runtime {
             bad('input', 'expected an object');
         if (!options || typeof options !== 'object' || Array.isArray(options))
             bad('options', 'expected an object');
-        const op = this.contract.operations.find((v) => v.id === id);
+        const { operations, apiVersion } = this.contract;
+        const op = operations.find((v) => v.id === id);
         if (!op)
             return bad('operation', 'operation is not included in this SDK');
         const start = performance.now();
@@ -1591,7 +1592,20 @@ export class Runtime {
                 op.idempotency?.header.toLowerCase() === p.name.toLowerCase()) {
                 value =
                     options.idempotencyKey ??
-                        Object.entries(options.headers ?? {}).find(([name]) => name.toLowerCase() === p.name.toLowerCase())?.[1];
+                        Object.entries(options.headers ?? {}).find(([name]) => name.toLowerCase() === p.name.toLowerCase())?.[1] ??
+                        (op.idempotency?.auto ? randomUUID() : undefined);
+            }
+            if (p.in === 'header' &&
+                [op.conditional?.header, apiVersion?.header].some((header) => header?.toLowerCase() === p.name.toLowerCase())) {
+                // Match the final header precedence before validating the wire value.
+                for (const [name, supplied] of Object.entries(options.headers ?? {}))
+                    if (name.toLowerCase() === p.name.toLowerCase())
+                        value = supplied;
+                if (apiVersion?.header.toLowerCase() === p.name.toLowerCase())
+                    value = apiVersion.value;
+                if (op.conditional?.header.toLowerCase() === p.name.toLowerCase() &&
+                    options.ifMatch !== undefined)
+                    value = options.ifMatch;
             }
             if (value === undefined) {
                 if (p.required)
@@ -1679,8 +1693,8 @@ export class Runtime {
                 throw new SdkError('authentication', 'Explicit API credentials are required');
             setHeader(this.contract.auth.header, this.contract.auth.type === 'bearer' ? `Bearer ${this.options.token}` : this.options.token);
         }
-        if (this.contract.apiVersion)
-            setHeader(this.contract.apiVersion.header, this.contract.apiVersion.value);
+        if (apiVersion)
+            setHeader(apiVersion.header, apiVersion.value);
         if (options.ifMatch !== undefined) {
             if (!op.conditional)
                 bad('ifMatch', 'operation does not declare conditional requests');
