@@ -23,5 +23,5 @@ test("every write declaring Idempotency-Key supports the option without automati
       }
     }
   }
-  assert.equal(count, 278);
+  assert.equal(count, 281);
 });

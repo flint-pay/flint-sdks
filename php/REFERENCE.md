@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 0.3.0-beta.1; API 2026-09-07.
+Package 0.4.0-beta.1; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -106,15 +106,16 @@ Call: `getOverview(array|Model $params, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'currency'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `mixed`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `range` | Required | string | Values: "today", "last_7_days", "last_30_days". |
+| `range` | Required | string | Values: "today", "last_7_days", "last_30_days", "last_90_days". |
 | `timezone` | Optional | string |  |
 | `include_previous_period` | Optional | boolean |  |
+| `currency` | Optional | string | ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". |
 | `Flint-Version` | Optional | string | Format: date. |
 
 Returns the payload at `data` directly. Use `getOverviewWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -136,15 +137,16 @@ Call: `getPaymentVolumeTimeseries(array|Model $params, ?RequestOptions $options 
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'currency'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `mixed`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `range` | Required | string | Values: "today", "last_7_days", "last_30_days". |
+| `range` | Required | string | Values: "today", "last_7_days", "last_30_days", "last_90_days". |
 | `timezone` | Optional | string |  |
 | `include_previous_period` | Optional | boolean |  |
+| `currency` | Optional | string | ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". |
 | `Flint-Version` | Optional | string | Format: date. |
 
 Returns the payload at `data` directly. Use `getPaymentVolumeTimeseriesWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -172,7 +174,7 @@ Returned payload: `mixed`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `range` | Required | string | Values: "today", "last_7_days", "last_30_days". |
+| `range` | Required | string | Values: "today", "last_7_days", "last_30_days", "last_90_days". |
 | `timezone` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: date. |
 
@@ -1005,7 +1007,7 @@ $client->close();
 
 ### categories.remove
 
-Delete category.
+Permanently deletes an unreferenced category and returns it with status deleted. Deleted categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return configuration references before deleting.
 
 `DELETE /v1/categories/{category_id}`
 
@@ -1569,6 +1571,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/creditNotes-createAllocation.php)
 
 
+### creditNotes.createRefund
+
+Creates a refund against an issued credit note on a paid invoice. Omit amount_money to refund all available credit. Refunds use the source invoice's original payments and do not reopen its balance. Idempotency-Key is required and retained for the lifetime of the refund command, scoped to merchant, environment, credit note, and key. Reusing it with another request conflicts. Recover a lost response by listing this note's refunds with idempotency_key. A failed remainder can be requested with a new key after its outcome is definitive.
+
+`POST /v1/credit-notes/{credit_note_id}/refunds`
+
+Call: `createRefund(string|Model $credit_note_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `credit_note_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'amount_money'?: mixed, 'expected_version'?: string, 'reason': string, 'reason_message'?: string}}`
+
+Returned payload: `mixed`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `credit_note_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: date. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createRefundWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Request options are the second argument. Default attempts: 1; maximum: 1. For mutation retries, supply a stable idempotency key and reuse it for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same refund..
+
+[Example](examples/creditNotes-createRefund.php)
+
+
 ### creditNotes.get
 
 Returns one credit note with its lines, total, and the credit still available to allocate.
@@ -1654,7 +1688,7 @@ Request options are the second argument. Default attempts: 1; maximum: 1.
 
 ### creditNotes.issue
 
-Issues a draft credit note. Assigns credit_note_number, freezes the lines, renders the PDF, and sets unallocated_money to the total. The over-credit check runs here rather than on line edits: across every issued credit note, an invoice line cannot be credited past its frozen value. Issuing does not change the invoice; allocating does.
+Issues a draft credit note and freezes its PDF. Optionally provide refund to initiate a linked refund on a paid invoice. With refund, Idempotency-Key is required and retained for the lifetime of the refund command, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original result. Use the credit note refunds list filtered by idempotency_key after a lost response. A pending refund is accepted, not completed. Without refund, issuance does not move money.
 
 `POST /v1/credit-notes/{credit_note_id}/issue`
 
@@ -1662,7 +1696,7 @@ Call: `issue(string|Model $credit_note_id, array|Model|null $params = null, ?Req
 
 Path arguments: `path0` = `credit_note_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'expected_version'?: string}}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'credit_note_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'expected_version'?: string, 'refund'?: mixed}}`
 
 Returned payload: `mixed`
 
@@ -1818,6 +1852,75 @@ $client = new Client(new ClientOptions(
   apiKey: getenv('API_KEY') ?: '',
 ));
 foreach ($client->creditNotes->listAllocationsPages('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process this page before requesting the next one.
+}
+$client->close();
+```
+
+
+### creditNotes.listRefunds
+
+Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to recover a refund after a lost response.
+
+`GET /v1/credit-notes/{credit_note_id}/refunds`
+
+Call: `listRefunds(string|Model $credit_note_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `credit_note_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'credit_note_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string, 'Flint-Version'?: string}`
+
+Returned payload: `list<mixed>`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `credit_note_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: 1. maximum: 100. |
+| `page_token` | Optional | string |  |
+| `idempotency_key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: date. |
+
+Returns the payload at `data` directly. Use `listRefundsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Request options are the second argument. Default attempts: 1; maximum: 1. 
+
+[Example](examples/creditNotes-listRefunds.php)
+
+#### creditNotes.listRefundsItems
+
+Iterate individual values across pages. Iteration is lazy; all pages share the deadline.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  apiKey: getenv('API_KEY') ?: '',
+));
+foreach ($client->creditNotes->listRefundsItems('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+  // Process this item before requesting the next one.
+}
+$client->close();
+```
+
+#### creditNotes.listRefundsPages
+
+Iterate page Results, including HTTP metadata. Iteration is lazy; all pages share the deadline.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$client = new Client(new ClientOptions(
+  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  apiKey: getenv('API_KEY') ?: '',
+));
+foreach ($client->creditNotes->listRefundsPages('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
   // Process this page before requesting the next one.
 }
 $client->close();
@@ -2038,7 +2141,7 @@ Call: `create(array|Model $params, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_address'?: mixed, 'default_invoice_payment_term_id'?: string, 'email': string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'metadata'?: array{}, 'name'?: string, 'phone'?: string, 'shipping_address'?: mixed, 'tax_exempt'?: bool}}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_address'?: mixed, 'default_invoice_payment_term_id'?: string, 'email': string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'metadata'?: array{}, 'name'?: string, 'phone'?: string, 'shipping_address'?: mixed, 'tax_exempt'?: bool, 'tax_identity'?: mixed}}`
 
 Returned payload: `mixed`
 
@@ -2469,7 +2572,7 @@ Call: `update(string|Model $customer_id, array|Model $params, ?RequestOptions $o
 
 Path arguments: `path0` = `customer_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_address'?: mixed, 'default_invoice_payment_term_id'?: string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'metadata'?: array|object|null, 'name'?: string, 'phone'?: string, 'shipping_address'?: mixed, 'tax_exempt'?: bool}}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'customer_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed}`
 
 Returned payload: `mixed`
 
@@ -4066,7 +4169,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### developer.getAuthContext
 
-Returns non-secret metadata for the authenticated API key, including its merchant, environment, sandbox binding, and granted scopes. A valid API key is required, but no additional API scope is required.
+Returns non-secret metadata for an API key or CLI OAuth access token, including its merchant, environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and a stable oauth_grant_id instead of api_key_id. Multi-context tokens also include oauth_session_id, context_id, and the context name. No additional API scope is required.
 
 `GET /v1/developer/auth-context`
 
@@ -6409,7 +6512,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### inventoryLevels.list
 
-List inventory levels. Levels are strongly consistent individually, but pages may reflect different committed instants.
+List inventory levels. Send expand=inventory_item to render each level's inventory item inline, so a stock table needs no read per row. Filter by inventory_item_status to see only the levels behind items that can be sold. Levels are strongly consistent individually, but pages may reflect different committed instants.
 
 `GET /v1/inventory-levels`
 
@@ -6417,7 +6520,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'has_available_quantity'?: bool, 'has_unavailable_condition'?: bool, 'has_shortage'?: bool, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'inventory_item_status'?: string, 'has_available_quantity'?: bool, 'has_unavailable_condition'?: bool, 'has_shortage'?: bool, 'query'?: string, 'min_available_quantity'?: string, 'max_available_quantity'?: string, 'updated_after'?: string, 'updated_before'?: string, 'expand'?: list<string>, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -6427,11 +6530,16 @@ Returned payload: `list<mixed>`
 | `page_token` | Optional | string |  |
 | `inventory_item_id` | Optional | string |  |
 | `location_id` | Optional | string |  |
+| `inventory_item_status` | Optional | string | Values: "active", "inactive", "archived". |
 | `has_available_quantity` | Optional | boolean |  |
 | `has_unavailable_condition` | Optional | boolean |  |
 | `has_shortage` | Optional | boolean |  |
+| `query` | Optional | string | maxLength: 255. |
+| `min_available_quantity` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. |
+| `max_available_quantity` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. |
 | `updated_after` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
 | `updated_before` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
+| `expand` | Optional | Array of string |  |
 | `Flint-Version` | Optional | string | Format: date. |
 
 Returns the payload at `data` directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -6517,7 +6625,7 @@ Idempotency header: Idempotency-Key; retention: Retained for at least as long as
 
 ### inventoryMovements.list
 
-List inventory movements. Filter by idempotency_key to recover the movements a command produced.
+List inventory movements, oldest recorded first. Send expand=inventory_item to render each movement's inventory item inline, so a history table needs no read per row. Filter by idempotency_key to recover the movements a command produced. Send order=desc to read the newest movements first.
 
 `GET /v1/inventory-movements`
 
@@ -6525,7 +6633,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'type'?: string, 'reason'?: string, 'idempotency_key'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'created_after'?: string, 'created_before'?: string, 'source_reference_type'?: string, 'source_reference_id'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'type'?: string, 'reason'?: string, 'idempotency_key'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'order'?: string, 'expand'?: list<string>, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string, 'occurred_before'?: string, 'created_after'?: string, 'created_before'?: string, 'source_reference_type'?: string, 'source_reference_id'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -6540,6 +6648,8 @@ Returned payload: `list<mixed>`
 | `idempotency_key` | Optional | string |  |
 | `return_id` | Optional | string |  |
 | `return_disposition_id` | Optional | string |  |
+| `order` | Optional | string | Values: "asc", "desc". |
+| `expand` | Optional | Array of string |  |
 | `source_system_type` | Optional | string | Values: "manual", "pos", "wms", "erp", "flint", "other". |
 | `external_source_id` | Optional | string |  |
 | `external_actor_id` | Optional | string |  |
@@ -7290,6 +7400,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ## Resource: invoices
 
+### invoices.assessLateFee
+
+Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued document remains unchanged.
+
+`POST /v1/invoices/{invoice_id}/late-fees`
+
+Call: `assessLateFee(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'invoice_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'invoice_schedule_entry_id'?: string}}`
+
+Returned payload: `mixed`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: date. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `assessLateFeeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Request options are the second argument. Default attempts: 1; maximum: 1. For mutation retries, supply a stable idempotency key and reuse it for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/invoices-assessLateFee.php)
+
+
 ### invoices.cancelPaymentAttempt
 
 Cancels an active invoice payment attempt and its payment intent. Safe to retry with the same Idempotency-Key.
@@ -7547,7 +7689,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'customer_id'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'customer_id'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -7555,7 +7697,7 @@ Returned payload: `list<mixed>`
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: 1. maximum: 100. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | Values: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". |
+| `status` | Optional | Array of string |  |
 | `customer_id` | Optional | string |  |
 | `order_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
@@ -8114,6 +8256,39 @@ Request options are the second argument. Default attempts: 1; maximum: 1. For mu
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/invoices-voidResource.php)
+
+
+### invoices.waiveLateFee
+
+Waives the unpaid remainder of an assessed late fee. Collected money is not refunded. The reason is visible only to the merchant.
+
+`POST /v1/invoices/{invoice_id}/late-fees/{invoice_late_fee_id}/waive`
+
+Call: `waiveLateFee(string|Model $invoice_id, string|Model $invoice_late_fee_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `invoice_id`, `path1` = `invoice_late_fee_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'invoice_id': string, 'invoice_late_fee_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'reason': string}}`
+
+Returned payload: `mixed`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string |  |
+| `invoice_late_fee_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: date. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `waiveLateFeeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Request options are the second argument. Default attempts: 1; maximum: 1. For mutation retries, supply a stable idempotency key and reuse it for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/invoices-waiveLateFee.php)
 
 
 ## Resource: locations
@@ -9294,7 +9469,7 @@ Call: `listInvoices(array|Model|null $params = null, ?RequestOptions $options = 
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string, 'created_before'?: string, 'due_after'?: string, 'due_before'?: string, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -9302,7 +9477,7 @@ Returned payload: `list<mixed>`
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: 1. maximum: 100. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | Values: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". |
+| `status` | Optional | Array of string |  |
 | `order_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
 | `created_after` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
@@ -9463,7 +9638,7 @@ Call: `listOrders(array|Model|null $params = null, ?RequestOptions $options = nu
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: string, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: list<string>, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -9473,7 +9648,7 @@ Returned payload: `list<mixed>`
 | `page_token` | Optional | string |  |
 | `status` | Optional | string | Values: "open", "closed". |
 | `payment_status` | Optional | string | Values: "unpaid", "partially_paid", "paid". |
-| `refund_status` | Optional | string | Values: "none", "partially_refunded", "refunded". |
+| `refund_status` | Optional | Array of string |  |
 | `fulfillment_status` | Optional | Array of string |  |
 | `order_number` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
@@ -10096,7 +10271,7 @@ Call: `listSubscriptions(array|Model|null $params = null, ?RequestOptions $optio
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'needs_attention'?: bool, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -10104,9 +10279,10 @@ Returned payload: `list<mixed>`
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: 1. maximum: 100. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | Values: "trialing", "active", "paused", "past_due", "canceled", "incomplete". |
+| `status` | Optional | Array of string |  |
 | `billing_schedule_owner` | Optional | string | Values: "flint", "external". |
 | `awaiting_billing_schedule` | Optional | boolean |  |
+| `cancel_at_period_end` | Optional | boolean |  |
 | `plan_id` | Optional | string |  |
 | `sort_by` | Optional | string | Values: "created_at", "updated_at", "next_billing_at". |
 | `sort_direction` | Optional | string | Values: "asc", "desc". |
@@ -10116,6 +10292,7 @@ Returned payload: `list<mixed>`
 | `updated_before` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
 | `next_billing_at_after` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
 | `next_billing_at_before` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
+| `needs_attention` | Optional | boolean |  |
 | `Flint-Version` | Optional | string | Format: date. |
 
 Returns the payload at `data` directly. Use `listSubscriptionsWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -11258,7 +11435,7 @@ Request options are the second argument. Default attempts: 1; maximum: 1.
 
 ### oauth.exchangePartnerInstallToken
 
-Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope.
+Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope. The public client flint-cli also supports the RFC 8628 device_code grant and rotating refresh tokens using form requests. Pending device requests return authorization_pending; early polling returns slow_down and increases the required interval by five seconds; denial returns access_denied; expired or consumed codes return expired_token. Access tokens last 15 minutes. CLI sessions expire after 30 days idle or 90 days total. Reusing a rotated refresh token revokes its family, including when the previous response was lost. A fresh browser login is then required. With session_mode=contexts at authorization, tokens include oauth_session_id and context_id. Refresh requires an explicitly authorized context_id; invalid_context and context_access_denied do not consume the refresh token. Each access token is limited to one context. Ordinary rotation preserves other unexpired access tokens; removing consent immediately invalidates affected tokens. Legacy sessions retain their original response and authorization semantics.
 
 `POST /v1/oauth/token`
 
@@ -11268,7 +11445,7 @@ Path arguments: none. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures): `array{'Flint-Version'?: string, 'body': array{'client_id': string, 'client_secret': string, 'code'?: string, 'grant_type': string, 'redirect_uri'?: string, 'refresh_token'?: string}}`
 
-Returned payload: `OauthExchangePartnerInstallTokenResponse200`
+Returned payload: `mixed`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -11980,7 +12157,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: string, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'status'?: string, 'payment_status'?: string, 'refund_status'?: list<string>, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -11991,7 +12168,7 @@ Returned payload: `list<mixed>`
 | `customer_id` | Optional | string |  |
 | `status` | Optional | string | Values: "open", "closed". |
 | `payment_status` | Optional | string | Values: "unpaid", "partially_paid", "paid". |
-| `refund_status` | Optional | string | Values: "none", "partially_refunded", "refunded". |
+| `refund_status` | Optional | Array of string |  |
 | `fulfillment_status` | Optional | Array of string |  |
 | `order_number` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
@@ -15285,7 +15462,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'product_id'?: string, 'variant_id'?: string, 'bundle_id'?: string, 'category_handle'?: string, 'redemption_type'?: string, 'discount_class'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'external_reference_id'?: string, 'query'?: string, 'product_id'?: string, 'variant_id'?: string, 'bundle_id'?: string, 'category_handle'?: string, 'redemption_type'?: string, 'discount_class'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -15293,7 +15470,7 @@ Returned payload: `list<mixed>`
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: 1. maximum: 100. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | Values: "active", "inactive", "expired", "not_yet_started", "exhausted", "no_active_codes", "archived". |
+| `status` | Optional | Array of string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
 | `query` | Optional | string |  |
 | `product_id` | Optional | string |  |
@@ -18801,7 +18978,7 @@ Call: `update(array|Model $params, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'branding'?: mixed, 'catalog'?: mixed, 'checkout'?: mixed, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<mixed>, 'show_cost_comparison'?: bool}|null, 'reminder_policy'?: array{'rules': list<mixed>}|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|null, 'legal'?: mixed, 'metadata'?: array|object|null, 'promotions'?: mixed, 'receipts'?: mixed, 'subscriptions'?: mixed, 'tax'?: mixed, 'tipping'?: mixed}}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': mixed}`
 
 Returned payload: `mixed`
 
@@ -19465,7 +19642,7 @@ Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'customer_id'?: string, 'plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string, 'created_before'?: string, 'updated_after'?: string, 'updated_before'?: string, 'next_billing_at_after'?: string, 'next_billing_at_before'?: string, 'needs_attention'?: bool, 'expand'?: list<string>, 'Flint-Version'?: string}`
 
 Returned payload: `list<mixed>`
 
@@ -19473,9 +19650,10 @@ Returned payload: `list<mixed>`
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: 1. maximum: 100. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | Values: "trialing", "active", "paused", "past_due", "canceled", "incomplete". |
+| `status` | Optional | Array of string |  |
 | `billing_schedule_owner` | Optional | string | Values: "flint", "external". |
 | `awaiting_billing_schedule` | Optional | boolean |  |
+| `cancel_at_period_end` | Optional | boolean |  |
 | `customer_id` | Optional | string |  |
 | `plan_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: 1. maxLength: 255. |
@@ -19488,6 +19666,8 @@ Returned payload: `list<mixed>`
 | `updated_before` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
 | `next_billing_at_after` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
 | `next_billing_at_before` | Optional | string | Format: date-time. Example: "2026-03-17T14:30:00Z". |
+| `needs_attention` | Optional | boolean |  |
+| `expand` | Optional | Array of string |  |
 | `Flint-Version` | Optional | string | Format: date. |
 
 Returns the payload at `data` directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -20240,7 +20420,7 @@ Returned payload: `list<mixed>`
 | `delivery_status` | Optional | string | Values: "pending", "delivered", "failed", "suppressed". |
 | `event_source` | Optional | Array of string |  |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | string | Values: "balance.updated", "balance_transaction.created", "balance_transaction.updated", "capability.updated", "checkout_session.closed", "checkout_session.completed", "checkout_session.expired", "checkout_session.invalidated", "credit_note.allocation_created", "credit_note.allocation_reversed", "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created", "customer.deletion_completed", "customer.deletion_rejected", "customer.deletion_requested", "customer.updated", "delivery_location_set.activated", "delivery_location_set.archived", "delivery_location_set.created", "delivery_location_set.deactivated", "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated", "delivery_profile.updated", "delivery_rate.archived", "delivery_rate.created", "delivery_rate.updated", "delivery_rate_callback.activated", "delivery_rate_callback.archived", "delivery_rate_callback.created", "delivery_rate_callback.deactivated", "delivery_rate_callback.updated", "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated", "dispute.closed", "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.warning_closed", "dispute.won", "fraud_warning.created", "fraud_warning.updated", "inventory.action_required", "inventory.count.applied", "inventory.level.updated", "inventory.receipt.created", "inventory.reservation.at_risk", "inventory.reservation.closed", "inventory.reservation.committed", "inventory.reservation.consumed", "inventory.reservation.created", "inventory.reservation.hold_expired", "inventory.reservation.released", "inventory.shortage.detected", "inventory.transfer.closed", "inventory.transfer.departed", "inventory.transfer.lost", "inventory.transfer.received", "inventory.transfer.returned", "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created", "invoice.credited", "invoice.delivery_failed", "invoice.delivery_succeeded", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_due", "invoice.manual_payment_recorded", "invoice.manual_payment_reversed", "invoice.marked_uncollectible", "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded", "invoice.payment_attempt_canceled", "invoice.payment_attempt_expired", "invoice.payment_failed", "invoice.payment_processing", "invoice.refunded", "invoice.reminder_due", "invoice.sent", "invoice.updated", "invoice.voided", "merchant.readiness.updated", "merchant_billing_balance.updated", "merchant_subscription_invoice.issued", "merchant_subscription_invoice.updated", "order.closed", "order.created", "order.fulfillment.completed", "order.fulfillment.created", "order.fulfillment.event.created", "order.fulfillment.package.created", "order.fulfillment.package.updated", "order.fulfillment.shipment.created", "order.fulfillment.shipment.updated", "order.fulfillment.status_changed", "order.fulfillment.updated", "order.inventory_action_required", "order.inventory_exception.created", "order.inventory_exception.resolved", "order.paid", "order.partially_paid", "order.payment_authorization_canceled", "order.payment_authorization_expired", "order.payment_authorized", "order.payment_captured", "order.refunded", "order.updated", "partner_app.install.created", "partner_app.install.environment_grant.created", "partner_app.install.environment_grant.revoked", "partner_app.install.permissions_updated", "partner_app.install.revoked", "partner_app.install.updated", "payment_intent.canceled", "payment_intent.fulfillment_hold.updated", "payment_intent.payment_failed", "payment_intent.processing", "payment_intent.requires_action", "payment_intent.requires_capture", "payment_intent.succeeded", "payment_method.failed", "payment_method.removed", "payment_method.saved", "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed", "payout.updated", "payout_destination.created", "payout_destination.deleted", "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated", "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded", "return.canceled", "return.completed", "return.created", "return.decision_recorded", "return.reopened", "return.updated", "return_disposition.created", "return_disposition.updated", "return_inspection.acceptance_decided", "return_inspection.created", "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded", "return_receipt.verified", "return_resolution.created", "return_resolution.updated", "review.closed", "review.opened", "subscription.activated", "subscription.canceled", "subscription.created", "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused", "subscription.payment_failed", "subscription.payment_succeeded", "subscription.renewal_upcoming", "subscription.resumed", "subscription.trial_ending", "subscription.updated". |
+| `event_type` | Optional | string | Values: "balance.updated", "balance_transaction.created", "balance_transaction.updated", "capability.updated", "checkout_session.closed", "checkout_session.completed", "checkout_session.expired", "checkout_session.invalidated", "credit_note.allocation_created", "credit_note.allocation_reversed", "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created", "customer.deletion_completed", "customer.deletion_rejected", "customer.deletion_requested", "customer.updated", "delivery_location_set.activated", "delivery_location_set.archived", "delivery_location_set.created", "delivery_location_set.deactivated", "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated", "delivery_profile.updated", "delivery_rate.archived", "delivery_rate.created", "delivery_rate.updated", "delivery_rate_callback.activated", "delivery_rate_callback.archived", "delivery_rate_callback.created", "delivery_rate_callback.deactivated", "delivery_rate_callback.updated", "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated", "dispute.closed", "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.warning_closed", "dispute.won", "fraud_warning.created", "fraud_warning.updated", "inventory.action_required", "inventory.count.applied", "inventory.level.updated", "inventory.receipt.created", "inventory.reservation.at_risk", "inventory.reservation.closed", "inventory.reservation.committed", "inventory.reservation.consumed", "inventory.reservation.created", "inventory.reservation.hold_expired", "inventory.reservation.released", "inventory.shortage.detected", "inventory.transfer.closed", "inventory.transfer.departed", "inventory.transfer.lost", "inventory.transfer.received", "inventory.transfer.returned", "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created", "invoice.credited", "invoice.delivery_failed", "invoice.delivery_succeeded", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed", "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.manual_payment_recorded", "invoice.manual_payment_reversed", "invoice.marked_uncollectible", "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded", "invoice.payment_attempt_canceled", "invoice.payment_attempt_expired", "invoice.payment_failed", "invoice.payment_processing", "invoice.refunded", "invoice.reminder_due", "invoice.sent", "invoice.updated", "invoice.voided", "merchant.readiness.updated", "merchant_billing_balance.updated", "merchant_subscription_invoice.issued", "merchant_subscription_invoice.updated", "order.closed", "order.created", "order.fulfillment.completed", "order.fulfillment.created", "order.fulfillment.event.created", "order.fulfillment.package.created", "order.fulfillment.package.updated", "order.fulfillment.shipment.created", "order.fulfillment.shipment.updated", "order.fulfillment.status_changed", "order.fulfillment.updated", "order.inventory_action_required", "order.inventory_exception.created", "order.inventory_exception.resolved", "order.paid", "order.partially_paid", "order.payment_authorization_canceled", "order.payment_authorization_expired", "order.payment_authorized", "order.payment_captured", "order.refunded", "order.updated", "partner_app.install.created", "partner_app.install.environment_grant.created", "partner_app.install.environment_grant.revoked", "partner_app.install.permissions_updated", "partner_app.install.revoked", "partner_app.install.updated", "payment_intent.canceled", "payment_intent.fulfillment_hold.updated", "payment_intent.payment_failed", "payment_intent.processing", "payment_intent.requires_action", "payment_intent.requires_capture", "payment_intent.succeeded", "payment_method.failed", "payment_method.removed", "payment_method.saved", "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed", "payout.updated", "payout_destination.created", "payout_destination.deleted", "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated", "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded", "return.canceled", "return.completed", "return.created", "return.decision_recorded", "return.reopened", "return.updated", "return_disposition.created", "return_disposition.updated", "return_inspection.acceptance_decided", "return_inspection.created", "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded", "return_receipt.verified", "return_resolution.created", "return_resolution.updated", "review.closed", "review.opened", "subscription.activated", "subscription.canceled", "subscription.created", "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused", "subscription.payment_failed", "subscription.payment_succeeded", "subscription.renewal_upcoming", "subscription.resumed", "subscription.trial_ending", "subscription.updated". |
 | `resource_type` | Optional | string | Values: "balance", "balance_transaction", "capability", "checkout_session", "customer", "dispute", "fraud_warning", "invoice", "merchant", "inventory_count", "inventory_level", "inventory_reservation", "inventory_reservation_line", "inventory_receipt", "inventory_transfer", "order", "payment_intent", "payment_method", "payout", "payout_destination", "payout_settings", "refund", "return", "return_disposition", "return_inspection", "return_receipt", "return_resolution", "review", "subscription". |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
@@ -20382,7 +20562,7 @@ Response body (inside Result.data): `null`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | string | Values: "balance.updated", "balance_transaction.created", "balance_transaction.updated", "capability.updated", "checkout_session.closed", "checkout_session.completed", "checkout_session.expired", "checkout_session.invalidated", "credit_note.allocation_created", "credit_note.allocation_reversed", "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created", "customer.deletion_completed", "customer.deletion_rejected", "customer.deletion_requested", "customer.updated", "delivery_location_set.activated", "delivery_location_set.archived", "delivery_location_set.created", "delivery_location_set.deactivated", "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated", "delivery_profile.updated", "delivery_rate.archived", "delivery_rate.created", "delivery_rate.updated", "delivery_rate_callback.activated", "delivery_rate_callback.archived", "delivery_rate_callback.created", "delivery_rate_callback.deactivated", "delivery_rate_callback.updated", "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated", "dispute.closed", "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.warning_closed", "dispute.won", "fraud_warning.created", "fraud_warning.updated", "inventory.action_required", "inventory.count.applied", "inventory.level.updated", "inventory.receipt.created", "inventory.reservation.at_risk", "inventory.reservation.closed", "inventory.reservation.committed", "inventory.reservation.consumed", "inventory.reservation.created", "inventory.reservation.hold_expired", "inventory.reservation.released", "inventory.shortage.detected", "inventory.transfer.closed", "inventory.transfer.departed", "inventory.transfer.lost", "inventory.transfer.received", "inventory.transfer.returned", "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created", "invoice.credited", "invoice.delivery_failed", "invoice.delivery_succeeded", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_due", "invoice.manual_payment_recorded", "invoice.manual_payment_reversed", "invoice.marked_uncollectible", "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded", "invoice.payment_attempt_canceled", "invoice.payment_attempt_expired", "invoice.payment_failed", "invoice.payment_processing", "invoice.refunded", "invoice.reminder_due", "invoice.sent", "invoice.updated", "invoice.voided", "merchant.readiness.updated", "merchant_billing_balance.updated", "merchant_subscription_invoice.issued", "merchant_subscription_invoice.updated", "order.closed", "order.created", "order.fulfillment.completed", "order.fulfillment.created", "order.fulfillment.event.created", "order.fulfillment.package.created", "order.fulfillment.package.updated", "order.fulfillment.shipment.created", "order.fulfillment.shipment.updated", "order.fulfillment.status_changed", "order.fulfillment.updated", "order.inventory_action_required", "order.inventory_exception.created", "order.inventory_exception.resolved", "order.paid", "order.partially_paid", "order.payment_authorization_canceled", "order.payment_authorization_expired", "order.payment_authorized", "order.payment_captured", "order.refunded", "order.updated", "payment_intent.canceled", "payment_intent.fulfillment_hold.updated", "payment_intent.payment_failed", "payment_intent.processing", "payment_intent.requires_action", "payment_intent.requires_capture", "payment_intent.succeeded", "payment_method.failed", "payment_method.removed", "payment_method.saved", "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed", "payout.updated", "payout_destination.created", "payout_destination.deleted", "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated", "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded", "return.canceled", "return.completed", "return.created", "return.decision_recorded", "return.reopened", "return.updated", "return_disposition.created", "return_disposition.updated", "return_inspection.acceptance_decided", "return_inspection.created", "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded", "return_receipt.verified", "return_resolution.created", "return_resolution.updated", "review.closed", "review.opened", "subscription.activated", "subscription.canceled", "subscription.created", "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused", "subscription.payment_failed", "subscription.payment_succeeded", "subscription.renewal_upcoming", "subscription.resumed", "subscription.trial_ending", "subscription.updated". |
+| `event_type` | Optional | string | Values: "balance.updated", "balance_transaction.created", "balance_transaction.updated", "capability.updated", "checkout_session.closed", "checkout_session.completed", "checkout_session.expired", "checkout_session.invalidated", "credit_note.allocation_created", "credit_note.allocation_reversed", "credit_note.created", "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created", "customer.deletion_completed", "customer.deletion_rejected", "customer.deletion_requested", "customer.updated", "delivery_location_set.activated", "delivery_location_set.archived", "delivery_location_set.created", "delivery_location_set.deactivated", "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated", "delivery_profile.updated", "delivery_rate.archived", "delivery_rate.created", "delivery_rate.updated", "delivery_rate_callback.activated", "delivery_rate_callback.archived", "delivery_rate_callback.created", "delivery_rate_callback.deactivated", "delivery_rate_callback.updated", "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated", "dispute.closed", "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.warning_closed", "dispute.won", "fraud_warning.created", "fraud_warning.updated", "inventory.action_required", "inventory.count.applied", "inventory.level.updated", "inventory.receipt.created", "inventory.reservation.at_risk", "inventory.reservation.closed", "inventory.reservation.committed", "inventory.reservation.consumed", "inventory.reservation.created", "inventory.reservation.hold_expired", "inventory.reservation.released", "inventory.shortage.detected", "inventory.transfer.closed", "inventory.transfer.departed", "inventory.transfer.lost", "inventory.transfer.received", "inventory.transfer.returned", "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created", "invoice.credited", "invoice.delivery_failed", "invoice.delivery_succeeded", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed", "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.manual_payment_recorded", "invoice.manual_payment_reversed", "invoice.marked_uncollectible", "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded", "invoice.payment_attempt_canceled", "invoice.payment_attempt_expired", "invoice.payment_failed", "invoice.payment_processing", "invoice.refunded", "invoice.reminder_due", "invoice.sent", "invoice.updated", "invoice.voided", "merchant.readiness.updated", "merchant_billing_balance.updated", "merchant_subscription_invoice.issued", "merchant_subscription_invoice.updated", "order.closed", "order.created", "order.fulfillment.completed", "order.fulfillment.created", "order.fulfillment.event.created", "order.fulfillment.package.created", "order.fulfillment.package.updated", "order.fulfillment.shipment.created", "order.fulfillment.shipment.updated", "order.fulfillment.status_changed", "order.fulfillment.updated", "order.inventory_action_required", "order.inventory_exception.created", "order.inventory_exception.resolved", "order.paid", "order.partially_paid", "order.payment_authorization_canceled", "order.payment_authorization_expired", "order.payment_authorized", "order.payment_captured", "order.refunded", "order.updated", "payment_intent.canceled", "payment_intent.fulfillment_hold.updated", "payment_intent.payment_failed", "payment_intent.processing", "payment_intent.requires_action", "payment_intent.requires_capture", "payment_intent.succeeded", "payment_method.failed", "payment_method.removed", "payment_method.saved", "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed", "payout.updated", "payout_destination.created", "payout_destination.deleted", "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated", "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded", "return.canceled", "return.completed", "return.created", "return.decision_recorded", "return.reopened", "return.updated", "return_disposition.created", "return_disposition.updated", "return_inspection.acceptance_decided", "return_inspection.created", "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded", "return_receipt.verified", "return_resolution.created", "return_resolution.updated", "review.closed", "review.opened", "subscription.activated", "subscription.canceled", "subscription.created", "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused", "subscription.payment_failed", "subscription.payment_succeeded", "subscription.renewal_upcoming", "subscription.resumed", "subscription.trial_ending", "subscription.updated". |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: date. |

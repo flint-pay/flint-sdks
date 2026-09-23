@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0-beta.1",
+  "version": "0.4.0-beta.1",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -80,22 +80,15 @@
     "header": "Flint-Version",
     "value": "2026-09-07"
   },
-  "targets": [
-    "node",
-    "php"
-  ],
+  "targets": ["node", "php"],
   "release": {
     "policy": "semver"
   },
   "documentation": {
     "overview": "Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. See the [SDK ↔ API version mapping](https://github.com/flint-pay/flint-sdks#sdk--api-versions) for version history.\n\nGenerated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generator). Submit fixes and pull requests to the generator; this distribution repository does not accept pull requests.",
-    "examples": [
-      "createPaymentIntent",
-      "createRefund",
-      "createCheckoutSession"
-    ],
+    "examples": ["createPaymentIntent", "createRefund", "createCheckoutSession"],
     "guides": {
-      "pagination-and-retries": "# Pagination and retries\n\n## Iterate through list results\n\nCursor helpers use Flint's `page_token` and `next_page_token`. The SDK follows cursors lazily, retaining your filters. `listItems` yields individual resources; `listPages` yields full SDK Results whose `data` is the original API envelope and whose `meta` contains HTTP metadata. A normal `list` call still fetches only one page and returns its unwrapped payload. Use `listWithResponse` to inspect the original envelope and cursor manually.\n\nNode:\n\n```js\nfor await (const customer of flint.customers.listItems(\n  { page_size: 100 },\n  { maxPages: 10, maxItems: 1000, deadlineMs: 60000 },\n)) {\n  console.log(customer.customer_id);\n}\n```\n\nPHP:\n\n```php\nforeach ($flint->customers->listItems(\n    ['page_size' => 100],\n    new \\Flint\\RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000),\n) as $customer) {\n    echo $customer->customer_id . PHP_EOL;\n}\n```\n\nHelpers stop when the next cursor is absent or empty, or a caller limit is reached. All pages share one deadline. Pagination is not a stable snapshot of a changing collection. Resource timeline helpers iterate `data.entries`.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of one package. Likewise, `riskLists.listItems()` iterates risk lists and `riskLists.listRiskListItems()` lists entries inside one risk list. The nested list operations have their own `Items` and `Pages` companions where pagination is declared.\n\n## Retry policy\n\nAll operations make one attempt by default. Automatic retries are not enabled in this SDK configuration. The generator currently uses the declared retry limit as its default; supporting opt-in retries with a separate one-attempt default requires a generator change. Do not set `maxAttempts` above one in this release.\n\nPagination can make multiple requests to fetch distinct pages; it does not automatically retry a failed request. All pages share the caller's deadline.\n\n## Persist keys before writes\n\nEvery write that declares `Idempotency-Key` in the pinned API contract supports `idempotencyKey` through request options (278 operations). Required-key endpoints accept the key here without duplicating it in the input; they still reject a missing key before dispatch. Supplying a key does not enable automatic retries. Pass `idempotencyKey` in request options, or the identical `Idempotency-Key` input/header. The SDK sends the supplied key and rejects conflicting key sources. Automatic key generation is disabled.\n\nCreate and persist a key when your application decides on the business action. Reuse that saved key and the identical input when resuming after a crash or timeout. A different action or changed request needs a new key. Replay lifetime and semantics follow the endpoint contract. The general window is 24 hours; inventory command keys persist for at least as long as their inventory effects, and merchant account sessions mint fresh secrets on repeated success. Follow each endpoint's documented scope and retention. If the final outcome is unknown, reconcile the action before resubmitting. A deliberate retry must reuse the persisted key and identical request body.\n\nNode:\n\n```js\n// Load the key saved with this refund job before its first attempt.\nconst idempotencyKey = process.env.FLINT_REFUND_IDEMPOTENCY_KEY;\nif (!idempotencyKey) throw new Error('Load the saved refund idempotency key');\nconst refund = await flint.refunds.create({\n  payment_intent_id: 'pi_replace_with_your_payment_intent_id',\n  amount_money: { amount: '500', currency: 'USD' },\n  reason: 'requested_by_customer',\n}, { idempotencyKey });\n```\n\nPHP:\n\n```php\n$idempotencyKey = getenv('FLINT_REFUND_IDEMPOTENCY_KEY');\nif (!$idempotencyKey) throw new \\RuntimeException('Load the saved refund idempotency key');\n$refund = $flint->refunds->create([\n    'payment_intent_id' => 'pi_replace_with_your_payment_intent_id',\n    'amount_money' => ['amount' => '500', 'currency' => 'USD'],\n    'reason' => 'requested_by_customer',\n], new \\Flint\\RequestOptions(idempotencyKey: $idempotencyKey));\n```\n\nSee Flint's [pagination guide](https://developers.withflintpay.com/docs/guides/pagination) and [idempotency contract](https://developers.withflintpay.com/docs/guides/idempotency). Policies were checked against the pinned API export and the published guides on September 11, 2026.\n"
+      "pagination-and-retries": "# Pagination and retries\n\n## Iterate through list results\n\nCursor helpers use Flint's `page_token` and `next_page_token`. The SDK follows cursors lazily, retaining your filters. `listItems` yields individual resources; `listPages` yields full SDK Results whose `data` is the original API envelope and whose `meta` contains HTTP metadata. A normal `list` call still fetches only one page and returns its unwrapped payload. Use `listWithResponse` to inspect the original envelope and cursor manually.\n\nNode:\n\n```js\nfor await (const customer of flint.customers.listItems(\n  { page_size: 100 },\n  { maxPages: 10, maxItems: 1000, deadlineMs: 60000 },\n)) {\n  console.log(customer.customer_id);\n}\n```\n\nPHP:\n\n```php\nforeach ($flint->customers->listItems(\n    ['page_size' => 100],\n    new \\Flint\\RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000),\n) as $customer) {\n    echo $customer->customer_id . PHP_EOL;\n}\n```\n\nHelpers stop when the next cursor is absent or empty, or a caller limit is reached. All pages share one deadline. Pagination is not a stable snapshot of a changing collection. Resource timeline helpers iterate `data.entries`.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of one package. Likewise, `riskLists.listItems()` iterates risk lists and `riskLists.listRiskListItems()` lists entries inside one risk list. The nested list operations have their own `Items` and `Pages` companions where pagination is declared.\n\n## Retry policy\n\nAll operations make one attempt by default. Automatic retries are not enabled in this SDK configuration. The generator currently uses the declared retry limit as its default; supporting opt-in retries with a separate one-attempt default requires a generator change. Do not set `maxAttempts` above one in this release.\n\nPagination can make multiple requests to fetch distinct pages; it does not automatically retry a failed request. All pages share the caller's deadline.\n\n## Persist keys before writes\n\nEvery write that declares `Idempotency-Key` in the pinned API contract supports `idempotencyKey` through request options (281 operations). Required-key endpoints accept the key here without duplicating it in the input; they still reject a missing key before dispatch. Supplying a key does not enable automatic retries. Pass `idempotencyKey` in request options, or the identical `Idempotency-Key` input/header. The SDK sends the supplied key and rejects conflicting key sources. Automatic key generation is disabled.\n\nCreate and persist a key when your application decides on the business action. Reuse that saved key and the identical input when resuming after a crash or timeout. A different action or changed request needs a new key. Replay lifetime and semantics follow the endpoint contract. The general window is 24 hours; inventory command keys persist for at least as long as their inventory effects, and merchant account sessions mint fresh secrets on repeated success. Follow each endpoint's documented scope and retention. If the final outcome is unknown, reconcile the action before resubmitting. A deliberate retry must reuse the persisted key and identical request body.\n\nNode:\n\n```js\n// Load the key saved with this refund job before its first attempt.\nconst idempotencyKey = process.env.FLINT_REFUND_IDEMPOTENCY_KEY;\nif (!idempotencyKey) throw new Error('Load the saved refund idempotency key');\nconst refund = await flint.refunds.create({\n  payment_intent_id: 'pi_replace_with_your_payment_intent_id',\n  amount_money: { amount: '500', currency: 'USD' },\n  reason: 'requested_by_customer',\n}, { idempotencyKey });\n```\n\nPHP:\n\n```php\n$idempotencyKey = getenv('FLINT_REFUND_IDEMPOTENCY_KEY');\nif (!$idempotencyKey) throw new \\RuntimeException('Load the saved refund idempotency key');\n$refund = $flint->refunds->create([\n    'payment_intent_id' => 'pi_replace_with_your_payment_intent_id',\n    'amount_money' => ['amount' => '500', 'currency' => 'USD'],\n    'reason' => 'requested_by_customer',\n], new \\Flint\\RequestOptions(idempotencyKey: $idempotencyKey));\n```\n\nSee Flint's [pagination guide](https://developers.withflintpay.com/docs/guides/pagination) and [idempotency contract](https://developers.withflintpay.com/docs/guides/idempotency). Policies were checked against the pinned API export and the published guides on September 11, 2026.\n"
     }
   },
   "responses": {
@@ -179,6 +172,16 @@
     "approveReview": {
       "resource": "reviews",
       "method": "approve",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "assessInvoiceLateFee": {
+      "resource": "invoices",
+      "method": "assessLateFee",
       "idempotency": {
         "header": "Idempotency-Key",
         "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
@@ -547,6 +550,16 @@
         "header": "Idempotency-Key",
         "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
         "scope": "Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same allocation.",
+        "auto": false
+      }
+    },
+    "createCreditNoteRefund": {
+      "resource": "creditNotes",
+      "method": "createRefund",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same refund.",
         "auto": false
       }
     },
@@ -2171,6 +2184,16 @@
     "listCreditNoteAllocations": {
       "resource": "creditNotes",
       "method": "listAllocations",
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "listCreditNoteRefunds": {
+      "resource": "creditNotes",
+      "method": "listRefunds",
       "pagination": {
         "kind": "cursor",
         "items": "data",
@@ -4390,6 +4413,16 @@
     "voidShipment": {
       "resource": "shipments",
       "method": "voidResource",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "waiveInvoiceLateFee": {
+      "resource": "invoices",
+      "method": "waiveLateFee",
       "idempotency": {
         "header": "Idempotency-Key",
         "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",

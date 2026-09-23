@@ -59,11 +59,11 @@
   "apiVersion": "2026-09-07",
   "fullSpec": {
     "repository": "flint-pay/flint",
-    "revision": "039b96023179d960bdce89cb34eea1baf3faeb67",
+    "revision": "5c7ae53a9ee3dd741847e2fba0825ff1c29b420e",
     "source": "web/apps/developers/src/generated/openapi.json",
-    "sourceSha256": "e22e6f13d62b5ad90b79104c2c171731037fb8092981a2139c744701d9344371",
+    "sourceSha256": "5cac6c49ca4b9b789f6a5059e716228ec3e7c267cc0fa4677abbdb6dd1302711",
     "apiVersion": "2026-09-07",
-    "basis": "Unmodified export retained by the 2026-09-09 local source audit; revision recorded in that audit.",
+    "basis": "Unmodified export retained from the pinned upstream main revision for this SDK release.",
     "profileCorrections": {
       "basis": "Full export remains byte-for-byte unchanged; provider-specific names, examples, credentials, and event payload bindings are explicit SDK profiles.",
       "modelNames": {

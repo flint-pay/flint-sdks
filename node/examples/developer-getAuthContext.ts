@@ -7,5 +7,4 @@ const result = await client.developer.getAuthContext(
   {},
   { maxAttempts: 1 },
 );
-console.log(result.api_key_id);
 console.log(result.merchant_id);

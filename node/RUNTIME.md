@@ -1,6 +1,6 @@
 # Flint Public API runtime guide (node)
 
-Package 0.3.0-beta.1; API 2026-09-07.
+Package 0.4.0-beta.1; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API reference](REFERENCE.md)
 
@@ -49,7 +49,7 @@ Portable digit/word pattern escapes retain their ASCII ECMAScript meaning in bot
 
 ## Retries and idempotency
 
-Retries count total attempts, include jitter and Retry-After, and never exceed the declared policy. Persist an idempotency key across process restarts and submissions within the server's documented retention/scope. Automatic keys cover one SDK call only. Explicit keys from operation inputs, request headers or idempotencyKey are preserved; conflicting values fail before dispatch. A timeout after dispatch can leave the remote outcome unknown; inspect SdkError.outcome. Disable nested transport/application retries to avoid multiplied attempts. 409/412 are distinct conflicts and never automatically overwritten.
+Retries count total attempts, include jitter and Retry-After, and never exceed the declared policy. Persist an idempotency key across process restarts and submissions within the server's documented retention/scope. Automatic keys cover one SDK call only and can satisfy required idempotency headers; generated keys must pass the declared header validation. Explicit keys from operation inputs, request headers or idempotencyKey are preserved; conflicting values fail before dispatch. A timeout after dispatch can leave the remote outcome unknown; inspect SdkError.outcome. Disable nested transport/application retries to avoid multiplied attempts. 409/412 are distinct conflicts and never automatically overwritten.
 
 ## Timeouts, streaming and cancellation
 
@@ -63,7 +63,7 @@ Pagination is lazy, supports maxPages/maxItems, and does not guarantee a stable 
 
 ## Destinations and API versions
 
-Explicit allowedOrigins govern all destinations, including pagination. HTTPS is required unless allowInsecureHttp is set for local tests. Declared 302/307 responses return Location metadata without following redirects; undeclared redirects are rejected. Authentication is attached only after destination validation. API version headers are pinned when configured; changing them does not update generated types.
+Explicit allowedOrigins govern all destinations, including pagination. HTTPS is required unless allowInsecureHttp is set for local tests. Declared 302/307 responses return Location metadata without following redirects; undeclared redirects are rejected. Authentication is attached only after destination validation. API version headers are pinned when configured; changing them does not update generated types. Required version headers are supplied by the pin. Required conditional headers may be supplied through ifMatch or request headers without duplicating them in the input. Effective managed header values are validated before dispatch.
 
 ## Client lifecycle and transports
 
