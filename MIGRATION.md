@@ -1,4 +1,12 @@
-# Migrating to 0.3.0-beta.1
+# Migrating to 0.4.0-beta.1
+
+This beta uses the updated `2026-09-07` API export. It adds `creditNotes.listRefunds()`, `creditNotes.createRefund()`, `invoices.assessLateFee()` and `invoices.waiveLateFee()` in Node and PHP. `creditNotes.listRefunds()` also has cursor pagination helpers. `creditNotes.createRefund()` requires a caller-chosen idempotency key; the invoice late fee writes accept one optionally. See each generated operation signature and the release compatibility report before upgrading.
+
+The updated export changes existing interfaces as well. Invoice, order, promotion and subscription list filters that were scalar `status` or `refund_status` values now accept arrays. `exchangePartnerInstallToken()` has a broader response shape. Several exported models have new required fields, including `Customer.version`, and some PHP webhook payload class identities have changed. Update typed callers and response handling before upgrading. The generated release migration report records the full compatibility comparison, including findings that require provider review.
+
+The export also adds four form-only CLI OAuth operations. They are not exposed by this SDK release because the generator does not support form-encoded request bodies. The packages expose 501 of the export's 505 outbound operations.
+
+## Migrating to 0.3.0-beta.1
 
 This release changes method names, request arguments and JSON return values. The API contract and `Flint-Version: 2026-09-07` stay unchanged.
 
@@ -6,13 +14,13 @@ This release changes method names, request arguments and JSON return values. The
 
 All 497 operations now belong to resource groups instead of `client.api`. For example:
 
-| Previous call | New call |
-| --- | --- |
-| `client.api.createPaymentIntent()` | `client.paymentIntents.create()` |
-| `client.api.getPaymentIntent()` | `client.paymentIntents.get()` |
-| `client.api.getOrder()` | `client.orders.get()` |
+| Previous call                           | New call                              |
+| --------------------------------------- | ------------------------------------- |
+| `client.api.createPaymentIntent()`      | `client.paymentIntents.create()`      |
+| `client.api.getPaymentIntent()`         | `client.paymentIntents.get()`         |
+| `client.api.getOrder()`                 | `client.orders.get()`                 |
 | `client.api.createOrderPaymentIntent()` | `client.orders.createPaymentIntent()` |
-| `client.api.createRefund()` | `client.refunds.create()` |
+| `client.api.createRefund()`             | `client.refunds.create()`             |
 
 PHP uses the same resource and method names, for example `$client->paymentIntents->get(...)`. PHP positional methods accept associative arrays for params; generated operation input classes describe canonical inputs and are used with object-style operations. HTTP endpoints and operation coverage stay unchanged. The old `api` group is removed; use the generated reference to migrate other calls.
 
@@ -23,10 +31,18 @@ Path IDs now come first, in URL order, followed by flat params and request optio
 ```js
 await flint.paymentIntents.get(paymentIntentId);
 await flint.refunds.create(
-  { payment_intent_id: paymentIntentId, amount_money: { amount: "500", currency: "USD" }, reason: "requested_by_customer" },
+  {
+    payment_intent_id: paymentIntentId,
+    amount_money: { amount: '500', currency: 'USD' },
+    reason: 'requested_by_customer',
+  },
   { idempotencyKey: savedKey },
 );
-await flint.customers.update(customerId, { email: "buyer@example.com" }, { idempotencyKey: savedKey });
+await flint.customers.update(
+  customerId,
+  { email: 'buyer@example.com' },
+  { idempotencyKey: savedKey },
+);
 ```
 
 PHP follows the same argument order with associative arrays and `new RequestOptions(...)`. Query/header parameters stay in params; the generated signature identifies each argument. If an optional params slot exists, use `undefined` in Node or `null` in PHP when supplying only request options. `WithResponse`, `Items`, and `Pages` companions follow the same ordering. Request examples in configuration and HTTP fixtures retain canonical inputs with a `body` wrapper; the generator translates them into public calls.
@@ -45,7 +61,7 @@ Use the merchant bearer shortcut in Node:
 
 ```js
 const flint = new Client({
-  baseUrl: "https://api.withflintpay.com",
+  baseUrl: 'https://api.withflintpay.com',
   apiKey: process.env.FLINT_API_KEY,
 });
 ```

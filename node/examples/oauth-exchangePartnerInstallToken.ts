@@ -10,5 +10,3 @@ const result = await client.oauth.exchangePartnerInstallToken(
   },
   { maxAttempts: 1 },
 );
-console.log(result.environment_grant_id);
-console.log(result.merchant_id);

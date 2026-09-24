@@ -3,8 +3,8 @@ const client = new Client({
   baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
   apiKey: process.env.API_KEY ?? '',
 });
-const result = await client.developer.getAuthContext(
+const result = await client.creditNotes.listRefunds(
+  "example",
   {},
   { maxAttempts: 1 },
 );
-console.log(result.merchant_id);

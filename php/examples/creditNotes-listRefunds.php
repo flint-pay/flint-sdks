@@ -4,10 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $client = new Client(new ClientOptions(
   baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
+  apiKey: getenv('API_KEY') ?: '',
 ));
-$result = $client->oauth->exchangePartnerInstallToken([
-  'client_id' => 'example',
-  'client_secret' => 'example',
-  'grant_type' => 'example',
-], new RequestOptions(maxAttempts: 1));
+$result = $client->creditNotes->listRefunds('example', [], new RequestOptions(maxAttempts: 1));
 $client->close();
