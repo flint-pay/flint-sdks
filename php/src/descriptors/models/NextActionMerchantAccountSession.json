@@ -1,0 +1,1 @@
+{"shared":"NextActionMerchantAccountSession","phpRepresentation":{"kind":"record","fields":{"collection_strategy":{"kind":"value","type":"string"},"component":{"kind":"value","type":"string"},"future_requirements":{"kind":"value","type":"string"}}},"dependencies":["NextActionMerchantAccountSession"]}

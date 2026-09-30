@@ -1,0 +1,1 @@
+{"shared":"DeliveryOptionProjection","dependencies":["BuyerInstructionsConfig","DeliveryAddressResource","DeliveryArrivalEstimate","DeliveryLocationSummaryResource","DeliveryOptionProjection","DeliveryPickupDetails","DeliveryPlan","DeliveryQuoteExecutionLegResource","DeliveryRecipientRequirement","DeliveryShipmentDetails","DeliveryWindowResource","MoneyValue"]}

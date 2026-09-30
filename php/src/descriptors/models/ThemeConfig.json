@@ -1,0 +1,1 @@
+{"shared":"ThemeConfig","phpRepresentation":{"kind":"record","fields":{"accent_color":{"kind":"value","type":"string"},"primary_color":{"kind":"value","type":"string"},"title":{"kind":"value","type":"string"}}},"dependencies":["ThemeConfig"]}

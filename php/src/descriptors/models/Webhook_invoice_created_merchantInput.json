@@ -1,0 +1,1 @@
+{"shared":"Webhook_invoice_created_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","SharedCodec247","SharedCodec312","Webhook_invoice_created_merchant"]}

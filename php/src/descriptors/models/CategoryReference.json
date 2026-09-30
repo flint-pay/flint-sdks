@@ -1,0 +1,1 @@
+{"shared":"CategoryReference","phpRepresentation":{"kind":"record","fields":{"category_id":{"kind":"value","type":"string"},"handle":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"}}},"dependencies":["CategoryReference"]}

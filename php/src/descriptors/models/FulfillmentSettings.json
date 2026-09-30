@@ -1,0 +1,1 @@
+{"shared":"FulfillmentSettings","phpRepresentation":{"kind":"record","fields":{"approval_required":{"kind":"value","type":"bool"}}},"dependencies":["FulfillmentSettings"]}

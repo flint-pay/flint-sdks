@@ -1,0 +1,1 @@
+{"shared":"PromotionSchedule","phpRepresentation":{"kind":"record","fields":{"ends_at":{"kind":"value","type":"string"},"starts_at":{"kind":"value","type":"string"},"timezone":{"kind":"value","type":"string"}}},"dependencies":["PromotionSchedule"]}

@@ -1,0 +1,1 @@
+{"shared":"PublicIPAddressLocation","phpRepresentation":{"kind":"record","fields":{"city":{"kind":"value","type":"string"},"country":{"kind":"value","type":"string"},"latitude":{"kind":"value","type":"float"},"longitude":{"kind":"value","type":"float"},"region":{"kind":"value","type":"string"}}},"dependencies":["PublicIPAddressLocation"]}

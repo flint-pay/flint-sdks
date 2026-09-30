@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class IncomingWebhook7c5df18e2269PayloadInput extends Model {
+    /** @param array{'data': array{'dunning_end_action': string, 'failed_period_ended_at': string|\DateTimeInterface, 'failed_period_started_at': string|\DateTimeInterface, 'order_id'?: string, 'payment_attempt_id'?: string, 'resource_updated_at': string|\DateTimeInterface, 'scheduled_billing_at': string|\DateTimeInterface, 'status': string, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object|array{'data': array{'dunning_end_action': string, 'environment_grant_id': string, 'environment_id'?: string, 'failed_period_ended_at': string|\DateTimeInterface, 'failed_period_started_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'order_id'?: string, 'partner_app_install_id': string, 'payment_attempt_id'?: string, 'resource_updated_at': string|\DateTimeInterface, 'scheduled_billing_at': string|\DateTimeInterface, 'source_type': mixed, 'status': string, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IncomingWebhook7c5df18e2269PayloadInput')); }
+}

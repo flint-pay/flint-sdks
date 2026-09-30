@@ -1,0 +1,1 @@
+{"shared":"PendingPaymentActionSubject","phpRepresentation":{"kind":"record","fields":{"payment_intent":{"kind":"entity","name":"PendingPaymentActionPaymentIntentSubject"},"setup_payment_source":{"kind":"entity","name":"ChangeSubscriptionPaymentMethodRequest"}}},"dependencies":["PendingPaymentActionSubject"]}

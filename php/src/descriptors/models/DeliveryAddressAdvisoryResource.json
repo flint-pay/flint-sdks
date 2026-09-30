@@ -1,0 +1,1 @@
+{"shared":"DeliveryAddressAdvisoryResource","phpRepresentation":{"kind":"record","fields":{"role":{"kind":"value","type":"string"},"suggested_address":{"kind":"entity","name":"DeliveryAddressRequest"},"verification_state":{"kind":"value","type":"string"}}},"dependencies":["DeliveryAddressAdvisoryResource","DeliveryAddressRequest"]}

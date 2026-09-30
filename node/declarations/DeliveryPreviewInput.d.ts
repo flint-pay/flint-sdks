@@ -1,0 +1,9 @@
+
+import type { CreateOrderLineItemInput } from './CreateOrderLineItemInput.js';
+import type { DeliveryAddressResourceInput } from './DeliveryAddressResourceInput.js';
+import type { DeliveryBuyerLocationResourceInput } from './DeliveryBuyerLocationResourceInput.js';
+import type { DeliveryInputRequirementInput } from './DeliveryInputRequirementInput.js';
+import type { DeliveryMerchantDiagnosticInput } from './DeliveryMerchantDiagnosticInput.js';
+import type { DeliveryPreviewChoiceGroupResourceInput } from './DeliveryPreviewChoiceGroupResourceInput.js';
+
+export type DeliveryPreviewInput = { "buyer_location"?: DeliveryBuyerLocationResourceInput; "choice_groups": Array<DeliveryPreviewChoiceGroupResourceInput>; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; "delivery_method_ids": Array<string>; "destination_address"?: DeliveryAddressResourceInput; /** RFC3339 timestamp. Format: date-time. */ "evaluated_at": string | globalThis.Date; "evaluation_status": "complete" | "incomplete" | "degraded"; /** RFC3339 timestamp. Format: date-time. */ "expires_at": string | globalThis.Date; /** Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids. */ "input_requirements": Array<DeliveryInputRequirementInput>; "line_items": Array<CreateOrderLineItemInput>; "merchant_diagnostics": Array<DeliveryMerchantDiagnosticInput>; "pickup_location_id"?: string; "selection_authority": boolean; };

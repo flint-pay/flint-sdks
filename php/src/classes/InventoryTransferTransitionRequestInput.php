@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class InventoryTransferTransitionRequestInput extends Model {
+    /** @param array{'action': string, 'expected_version'?: string, 'lines': list<array{'inventory_transfer_line_id': string, 'target_departed_quantity': string}|object>, 'provenance': InventoryTransferProvenanceRequestInput|array<array-key, mixed>|\stdClass}|object|array{'action': string, 'expected_version'?: string, 'lines': list<mixed>, 'provenance': InventoryTransferProvenanceRequestInput|array<array-key, mixed>|\stdClass}|object|array{'action': string, 'expected_version'?: string, 'lines': list<array{'inventory_transfer_line_id': string, 'target_returned_quantity': string}|object>, 'provenance': InventoryTransferProvenanceRequestInput|array<array-key, mixed>|\stdClass}|object|array{'action': string, 'expected_version'?: string, 'lines': list<array{'inventory_transfer_line_id': string, 'target_lost_quantity': string}|object>, 'provenance': InventoryTransferProvenanceRequestInput|array<array-key, mixed>|\stdClass}|object|array{'action': string, 'expected_version'?: string, 'lines': list<array{'inventory_transfer_line_id': string, 'target_canceled_quantity': string}|object>, 'provenance': InventoryTransferProvenanceRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferTransitionRequestInput')); }
+}

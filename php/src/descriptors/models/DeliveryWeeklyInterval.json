@@ -1,0 +1,1 @@
+{"shared":"DeliveryWeeklyInterval","phpRepresentation":{"kind":"record","fields":{"end_minute":{"kind":"value","type":"int"},"end_weekday":{"kind":"value","type":"int"},"start_minute":{"kind":"value","type":"int"},"start_weekday":{"kind":"value","type":"int"}}},"dependencies":["DeliveryWeeklyInterval"]}

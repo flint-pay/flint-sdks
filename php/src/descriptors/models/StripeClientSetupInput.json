@@ -1,0 +1,1 @@
+{"shared":"StripeClientSetup","dependencies":["StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}

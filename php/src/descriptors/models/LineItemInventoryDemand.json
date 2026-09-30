@@ -1,0 +1,1 @@
+{"shared":"LineItemInventoryDemand","phpRepresentation":{"kind":"record","fields":{"bundle_component_id":{"kind":"value","type":"string"},"component_snapshot_id":{"kind":"value","type":"string"},"inventory_item_id":{"kind":"value","type":"string"},"quantity_per_line_item_unit":{"kind":"value","type":"string"}}},"dependencies":["LineItemInventoryDemand"]}

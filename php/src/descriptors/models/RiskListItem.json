@@ -1,0 +1,1 @@
+{"shared":"RiskListItem","phpRepresentation":{"kind":"record","fields":{"created_at":{"kind":"value","type":"string"},"created_by":{"kind":"value","type":"string"},"risk_list_id":{"kind":"value","type":"string"},"risk_list_item_id":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["RiskListItem"]}

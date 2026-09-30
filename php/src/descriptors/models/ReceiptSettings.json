@@ -1,0 +1,1 @@
+{"shared":"ReceiptSettings","phpRepresentation":{"kind":"record","fields":{"footer_text":{"kind":"value","type":"string"},"header_text":{"kind":"value","type":"string"},"is_auto_email_enabled":{"kind":"value","type":"bool"},"is_itemized":{"kind":"value","type":"bool"}}},"dependencies":["ReceiptSettings"]}

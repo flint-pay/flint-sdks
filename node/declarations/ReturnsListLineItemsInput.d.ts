@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type ReturnsListLineItemsInput = { "return_id": InputValue<string>; "fulfillment_id"?: InputValue<string>; "merchandise_status"?: InputValue<Array<"not_required" | "awaiting_handoff" | "in_transit" | "partially_received" | "received" | "inspection_required" | "partially_inspected" | "inspection_review_required" | "disposition_required" | "resolved" | "exception">>; "order_line_item_id"?: InputValue<string>; /** Format: int32. minimum: 1. maximum: 100. */ "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>; "return_reason_id"?: InputValue<string>; "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

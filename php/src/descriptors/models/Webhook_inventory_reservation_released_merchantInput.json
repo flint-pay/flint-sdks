@@ -1,0 +1,1 @@
+{"shared":"Webhook_inventory_reservation_released_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","Webhook_inventory_reservation_released_merchant"]}

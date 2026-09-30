@@ -1,0 +1,1 @@
+{"shared":"HoldDetail","phpRepresentation":{"kind":"record","fields":{"held_money":{"kind":"entity","name":"MoneyValue"},"released_money":{"kind":"entity","name":"MoneyValue"},"used_money":{"kind":"entity","name":"MoneyValue"}}},"dependencies":["HoldDetail","MoneyValue"]}

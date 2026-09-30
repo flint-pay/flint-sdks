@@ -1,0 +1,4 @@
+
+import type { DocumentTaxID } from './DocumentTaxID.js';
+
+/** Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. */ export type TaxIdentity = { /** minLength: 1. maxLength: 255. */ "legal_name"?: string | null; "registered_address"?: (({ "city": string; /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". */ "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); /** maxItems: 20. */ "tax_ids": Array<DocumentTaxID>; };

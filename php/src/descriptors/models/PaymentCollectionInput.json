@@ -1,0 +1,1 @@
+{"shared":"PaymentCollection","dependencies":["ErrorRemediation","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentCollection","PaymentCollectionStripe","PaymentCollectionStripeElements","PaymentErrorSummary","SelectableOrderPaymentIntent"]}

@@ -1,0 +1,1 @@
+{"shared":"GetReturnPolicyRevisionResponse","dependencies":["GetReturnPolicyRevisionResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","ReturnPolicyRevision","ReturnPolicyScope","ReturnRestockingFeePolicy","ReturnShippingPolicy","ReturnWindow","SharedCodec523","SharedCodec524"]}

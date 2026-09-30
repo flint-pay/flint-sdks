@@ -1,0 +1,1 @@
+{"shared":"OrderLineItem","dependencies":["BundleComponent","CategoryReference","Image","LineItemInventoryDemand","LineItemInventorySnapshot","MoneyValue","OrderCalculatedLineItemTax","OrderLineItem","OrderLineItemModifier","SelectedProductOption","SharedCodec16","SharedCodec441","SignedMoney","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction","TextModifierRequest"]}

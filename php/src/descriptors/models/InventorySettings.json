@@ -1,0 +1,1 @@
+{"shared":"InventorySettings","phpRepresentation":{"kind":"record","fields":{"low_stock_threshold":{"kind":"value","type":"int"},"origin_policies":{"kind":"map","value":{"kind":"entity","name":"InventoryOriginPolicy"}}}},"dependencies":["InventoryOriginPolicy","InventorySettings"]}

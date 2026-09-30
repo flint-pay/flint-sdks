@@ -1,0 +1,1 @@
+{"shared":"LineItemInventorySnapshot","phpRepresentation":{"kind":"record","fields":{"demands":{"kind":"list","value":{"kind":"entity","name":"LineItemInventoryDemand"}},"inventory_tracking":{"kind":"value","type":"string"}}},"dependencies":["LineItemInventoryDemand","LineItemInventorySnapshot"]}

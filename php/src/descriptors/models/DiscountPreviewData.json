@@ -1,0 +1,1 @@
+{"shared":"DiscountPreviewData","phpRepresentation":{"kind":"record","fields":{"discount_preview":{"kind":"entity","name":"DiscountPreview"}}},"dependencies":["DiscountPreview","DiscountPreviewData","MoneyValue","PromotionCandidate","PromotionCombinesWith","PromotionExclusivity"]}

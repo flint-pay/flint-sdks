@@ -1,0 +1,4 @@
+
+
+
+export type ReturnInspectionLineItemRequest = { "acceptance_status": "accepted" | "rejected" | "review_required" | (string & {}); "condition": "new" | "unopened" | "opened" | "used" | "damaged" | "defective" | "incomplete" | "unknown" | (string & {}); "finding_codes"?: Array<"matches_expected_item" | "wrong_item" | "damaged" | "defective" | "used" | "missing_parts" | "empty_package" | "counterfeit_suspected" | "other" | (string & {})>; "internal_note"?: string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity": string; "return_line_item_id"?: string; "return_receipt_line_item_id": string; "verification_reason"?: "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other" | (string & {}); "verification_reason_message"?: string; };

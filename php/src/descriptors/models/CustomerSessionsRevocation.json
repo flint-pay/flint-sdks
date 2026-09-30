@@ -1,0 +1,1 @@
+{"shared":"CustomerSessionsRevocation","phpRepresentation":{"kind":"record","fields":{"customer_id":{"kind":"value","type":"string"},"revoked_count":{"kind":"value","type":"string"}}},"dependencies":["CustomerSessionsRevocation"]}

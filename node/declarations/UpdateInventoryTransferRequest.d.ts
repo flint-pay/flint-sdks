@@ -1,0 +1,4 @@
+
+
+
+export type UpdateInventoryTransferRequest = { /** Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 1. */ "expected_version"?: string; "external_reference"?: string | null; /** minItems: 1. maxItems: 100. */ "line_changes"?: Array<(({ "inventory_item_id": string; "operation": "add"; "physical_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {}); /** Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "requested_quantity": string; }) | ({ "inventory_transfer_line_id": string; "operation": "update"; /** Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "requested_quantity": string; }) | ({ "inventory_transfer_line_id": string; "operation": "remove"; }) | (object))>; "note"?: string | null; };

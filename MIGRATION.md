@@ -1,3 +1,7 @@
+# SDK 2.0.0
+
+This release refreshes all generated runtimes and types. List methods now return page bodies with `data` and `next_page_token` directly. `listPages()` yields page bodies; use `listPagesWithResponse()` for HTTP metadata. Single-resource methods return the resource payload, while `WithResponse` methods retain the original body and HTTP metadata. Exact integer values remain decimal strings. CLI OAuth methods remain excluded.
+
 # Migrating to 0.4.0-beta.1
 
 This beta uses the updated `2026-09-07` API export. It adds `creditNotes.listRefunds()`, `creditNotes.createRefund()`, `invoices.assessLateFee()` and `invoices.waiveLateFee()` in Node and PHP. `creditNotes.listRefunds()` also has cursor pagination helpers. `creditNotes.createRefund()` requires a caller-chosen idempotency key; the invoice late fee writes accept one optionally. See each generated operation signature and the release compatibility report before upgrading.
@@ -103,11 +107,11 @@ PDF downloads, redirects (`authorizePartnerInstall`, `getReportDownload`) and `s
 
 The updated generator renames 63 additional models whose upstream names end in `Input` to use `Request`. For example, `CheckoutQuickPayItemInput` becomes `CheckoutQuickPayItemRequest`, with `CheckoutQuickPayItemRequestInput` as its input helper and `makeCheckoutQuickPayItemRequest` as its Node factory. Update model imports, factories and PHP class references using the generated reference. Explicit model name overrides remain in effect; wire field names are unchanged.
 
-## Known response compatibility limitations
+## Historical beta response compatibility limitations
 
 Live staging checks on September 12, 2026 identified three API/OpenAPI mismatches affecting both SDKs. `developer.getAuthContext` can return `expires_at: null`, `checkoutSessions.list` can return `delivery_method_ids: null`, and `deliveryQuotes.list` can return null basis IDs and `input_requirements` collections. The declared schemas do not permit those nulls, so affected HTTP 200 responses raise a protocol error during decoding. The hosted OpenAPI export has the same declarations as the pinned contract.
 
-These require API serialization or schema corrections followed by regeneration where applicable. They are unresolved in this beta. The observations were made against staging; production behavior was not tested. Live QA exercised 87 of the 497 operations, including expected management denials for test keys, and does not establish exhaustive compatibility or payment-lifecycle coverage.
+These were observations from the prior beta release; SDK 2.0.0 uses a newer API export and generator with nullable object support. The observations were made against staging; production behavior was not tested. Live QA exercised 87 of the 497 operations, including expected management denials for test keys, and does not establish exhaustive compatibility or payment-lifecycle coverage.
 
 # Migrating from @flintpay/node 0.1.0
 

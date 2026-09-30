@@ -1,0 +1,4 @@
+
+import type { MoneyValueInput } from './MoneyValueInput.js';
+
+export type CreateModifierRequestInput = { /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "default_quantity"?: string; /** Flint line-item tax category. */ "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; "name": string; /** Format: int32. */ "position"?: number; "selected_by_default"?: boolean; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_delta_money"?: MoneyValueInput; };

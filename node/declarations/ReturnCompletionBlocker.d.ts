@@ -1,0 +1,4 @@
+
+
+
+export type ReturnCompletionBlocker = { /** What is still owed before this Return can complete. Each blocker names the Return line it belongs to and, where one exists, the receipt, inspection, disposition, or resolution holding it up. An empty completion_blockers array means nothing is outstanding. */ "code": "decision_pending" | "handoff_pending" | "receipt_pending" | "inspection_pending" | "inspection_review_required" | "disposition_required" | "resolution_not_selected" | "resolution_pending" | "resolution_requires_action" | "resolution_failed" | "merchandise_exception" | (string & {}); "message": string; "return_disposition_id"?: string; "return_inspection_id"?: string; "return_line_item_id"?: string; "return_receipt_id"?: string; "return_resolution_id"?: string; "shipment_id"?: string; };

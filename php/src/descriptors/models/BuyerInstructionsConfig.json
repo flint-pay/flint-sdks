@@ -1,0 +1,1 @@
+{"shared":"BuyerInstructionsConfig","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"},"label":{"kind":"value","type":"string"},"placeholder":{"kind":"value","type":"string"},"required":{"kind":"value","type":"bool"}}},"dependencies":["BuyerInstructionsConfig"]}

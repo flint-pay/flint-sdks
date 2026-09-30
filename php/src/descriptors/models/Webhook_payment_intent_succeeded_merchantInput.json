@@ -1,0 +1,1 @@
+{"shared":"Webhook_payment_intent_succeeded_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","SharedCodec245","SharedCodec246","SharedCodec247","Webhook_payment_intent_succeeded_merchant"]}

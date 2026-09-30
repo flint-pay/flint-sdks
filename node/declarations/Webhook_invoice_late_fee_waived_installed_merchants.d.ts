@@ -1,0 +1,4 @@
+
+import type { Webhook_invoice_late_fee_assessed_installed_merchants } from './Webhook_invoice_late_fee_assessed_installed_merchants.js';
+
+export type Webhook_invoice_late_fee_waived_installed_merchants = Webhook_invoice_late_fee_assessed_installed_merchants;

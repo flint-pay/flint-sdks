@@ -1,0 +1,4 @@
+
+import type { DeliveryPricingTierBandRequest } from './DeliveryPricingTierBandRequest.js';
+
+export type DeliveryTieredPricingStrategy = ({ "bands": Array<DeliveryPricingTierBandRequest>; /** Quantity measured by the tier bands. Money subtotal bases use minor currency units. */ "basis": "choice_group.total_weight" | "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_before_discounts" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "caller.tier_key" | (string & {}); /** Required only for choice_group.total_weight and forbidden for every other basis. */ "unit"?: "gram" | "kilogram" | "ounce" | "pound" | (string & {}); }) & (({ "basis"?: unknown; "unit": unknown; }) | (({ "basis"?: unknown; })) | (object));

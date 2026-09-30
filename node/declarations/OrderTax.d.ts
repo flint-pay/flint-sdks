@@ -1,0 +1,6 @@
+
+import type { OrderTaxExemption } from './OrderTaxExemption.js';
+import type { OrderTaxLocation } from './OrderTaxLocation.js';
+import type { TaxBreakdown } from './TaxBreakdown.js';
+
+export type OrderTax = { /** Identifies which automatic tax behavior applies to this order. connected means the account's tax connection calculated it. standard marks an order calculated before automatic tax required a tax connection. */ "automatic_profile"?: "standard" | "connected" | (string & {}); "available_location_inputs"?: Array<string>; "enabled": boolean; "exemption"?: OrderTaxExemption; /** Normalized reason the most recent tax calculation could not complete. */ "failure_reason"?: "calculation_unavailable" | "location_unsupported" | "rate_unavailable" | (string & {}); "location"?: OrderTaxLocation; "mode": "automatic" | "external" | (string & {}); "status": "not_required" | "requires_location" | "calculated" | "exempt" | "incomplete" | (string & {}); "tax_breakdowns"?: Array<TaxBreakdown>; /** Explains why tax was charged or zero for this order. */ "taxability_reason": "standard_rated" | "not_taxable" | "customer_exempt" | "tax_disabled" | "no_jurisdiction" | "location_required" | (string & {}); };

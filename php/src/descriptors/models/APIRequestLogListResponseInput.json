@@ -1,0 +1,1 @@
+{"shared":"APIRequestLogListResponse","dependencies":["APIRequestLog","APIRequestLogListResponse","ApiRequestLogExpansionShape","ApiRequestLogResponseShapeMetadata","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

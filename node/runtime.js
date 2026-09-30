@@ -1,6 +1,7 @@
+import { DescriptorSource } from './descriptor-source.js';
 import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { inspect } from 'node:util';
-import { compileRuntimePlan, assertRuntimePlan, } from './runtime-plan.js';
+import { compileRuntimePlan, assertRuntimePlan, isBaseUrlSyntax, } from './runtime-plan.js';
 import { compileCodec, ANY_CODEC, exactValue, wireKind } from './codec-plan.js';
 export { directionalSchema } from './codec-plan.js';
 export class SdkError extends Error {
@@ -22,6 +23,9 @@ export class SdkError extends Error {
         this.raw = raw;
         this.name = 'SdkError';
     }
+    get status() {
+        return this.meta?.status;
+    }
     [inspect.custom]() {
         return {
             name: this.name,
@@ -30,9 +34,39 @@ export class SdkError extends Error {
             outcome: this.outcome,
             retryAllowed: this.retryAllowed,
             requestId: this.meta?.requestId,
-            status: this.meta?.status,
+            status: this.status,
+            code: this.code,
+            details: this.details,
+            stack: this.stack,
         };
     }
+}
+const webhookError = (kind, code, message) => {
+    throw new SdkError(kind, message, 'not_sent', false, undefined, 'webhook_' + code);
+};
+function webhookHeaderValues(headers, name) {
+    if (!headers || typeof headers !== 'object' || Array.isArray(headers))
+        return webhookError('validation', 'invalid_input', 'Webhook headers must be Headers or a header record');
+    const values = [];
+    const entries = headers instanceof Headers ? headers.entries() : Object.entries(headers);
+    for (const [key, value] of entries) {
+        if (key.toLowerCase() !== name.toLowerCase() || value === undefined)
+            continue;
+        const parts = Array.isArray(value) ? value : [value];
+        if (!Array.from(parts).every((part) => typeof part === 'string'))
+            return webhookError('validation', 'invalid_input', 'Webhook signing header values must be strings');
+        values.push(...parts);
+    }
+    if (!values.length || values.every((value) => !value.trim()))
+        return webhookError('authentication', 'missing_header', 'Missing webhook signing header: ' + name);
+    return values;
+}
+function webhookScalarHeader(headers, name, timestamp = false) {
+    const values = webhookHeaderValues(headers, name);
+    const value = values[0];
+    if (values.length !== 1 || value === undefined || value.includes(','))
+        return webhookError('authentication', timestamp ? 'invalid_timestamp' : 'invalid_signature', 'Webhook signing header must have exactly one value: ' + name);
+    return value.trim();
 }
 // Node truncates delays above 2^31-1 to one millisecond. Keep the actual
 // monotonic deadline and schedule bounded chunks, including for retry waits.
@@ -207,8 +241,12 @@ export class EventStream {
         }
     }
 }
+const validationFailures = new WeakMap();
 const bad = (path, reason) => {
-    throw new SdkError('validation', `${path}: ${reason}`);
+    const message = `${path}: ${reason}`;
+    const error = new SdkError('validation', message);
+    validationFailures.set(error, message);
+    throw error;
 };
 const exactInteger = /^-?(?:0|[1-9]\d*)$/;
 const exactDecimal = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/;
@@ -332,7 +370,7 @@ function denseArray(value, path) {
 function encode(value, depth = 0) {
     if (depth > 256)
         bad('value', 'value exceeds the supported nesting depth or contains a cycle');
-    if (value instanceof Model)
+    if (value instanceof CompiledModel)
         return encode(value.toJSON(), depth + 1);
     if (value instanceof RawNumber)
         return value.value;
@@ -341,8 +379,8 @@ function encode(value, depth = 0) {
     if (typeof value === 'string' || typeof value === 'boolean')
         return JSON.stringify(value);
     if (typeof value === 'number') {
-        if (!Number.isSafeInteger(value))
-            bad('value', 'use a decimal or integer string for exact numbers');
+        if (!Number.isFinite(value))
+            bad('value', 'expected a finite number');
         return String(value);
     }
     if (Array.isArray(value)) {
@@ -363,6 +401,8 @@ function combine(left, right, path, source) {
     if (left instanceof ParsedNumber || right instanceof ParsedNumber) {
         const token = left instanceof ParsedNumber ? left : right;
         const other = left instanceof ParsedNumber ? right : left;
+        if (typeof other === 'number' && Number.isFinite(other) && other === Number(token.value))
+            return other;
         const text = other instanceof ParsedNumber || other instanceof RawNumber ? other.value : String(other);
         if (!exactDecimal.test(text) || compareDecimal(token.value, text) !== 0)
             bad(path, 'alternatives have incompatible numeric representations');
@@ -371,10 +411,29 @@ function combine(left, right, path, source) {
     if (left instanceof RawNumber || right instanceof RawNumber) {
         const token = left instanceof RawNumber ? left : right;
         const other = left instanceof RawNumber ? right : left;
+        if (source instanceof ParsedNumber &&
+            token.value === source.value &&
+            typeof other === 'number' &&
+            Number.isFinite(other) &&
+            other === Number(source.value))
+            return token;
         const text = other instanceof RawNumber ? other.value : String(other);
         if (!exactDecimal.test(text) || compareDecimal(token.value, text) !== 0)
             bad(path, 'alternatives have incompatible numeric representations');
         return token;
+    }
+    // A matching exact branch retains precision when another branch projects
+    // this same JSON token to a native number. Independent constraints ran first.
+    if (source instanceof ParsedNumber) {
+        const exact = typeof left === 'string' ? left : typeof right === 'string' ? right : undefined;
+        const native = typeof left === 'number' ? left : typeof right === 'number' ? right : undefined;
+        if (exact !== undefined &&
+            native !== undefined &&
+            Number.isFinite(native) &&
+            exactDecimal.test(exact) &&
+            compareDecimal(source.value, exact) === 0 &&
+            native === Number(source.value))
+            return exact;
     }
     // Decoding can unwrap both numeric tokens into SDK strings before a later
     // branch is merged. The shared source view proves these are JSON numbers.
@@ -530,12 +589,18 @@ function codecMode(response, matching) {
         : { mode: response ? 'response' : 'request' };
 }
 /** Keep branch selection identical during numeric interpretation and validation. */
-function selectAlternatives(value, branches, oneOf, tag, context, matches) {
+function selectAlternatives(value, branches, oneOf, tag, nullableAlternative, context, matches) {
     const response = (context.direction ?? context.mode) === 'response';
     const matching = context.mode === 'match';
     const path = context.path ?? 'input';
     let tolerateUnknownFields = context.allowUnknownResponseFields ?? false;
     let selected;
+    if (nullableAlternative !== undefined && response && !matching) {
+        const branch = branches[value === null ? 1 - nullableAlternative : nullableAlternative];
+        if (!branch)
+            throw new Error('Invalid nullable alternative policy');
+        return { selected: [branch], tolerateUnknownFields: true };
+    }
     if (oneOf && tag) {
         if (!value ||
             typeof value !== 'object' ||
@@ -609,7 +674,7 @@ function jointNumericView(value, unions, context) {
             return exactDecimal.test(child);
         if (child instanceof ParsedNumber || child instanceof RawNumber)
             return false;
-        if (child instanceof Model)
+        if (child instanceof CompiledModel)
             child = modelInputs.get(child) ?? child.toJSON();
         return Boolean(child &&
             typeof child === 'object' &&
@@ -681,7 +746,7 @@ function jointNumericView(value, unions, context) {
                     definitions: scope.definitions,
                     depth: (context.depth ?? 0) + 1,
                 };
-                const { selected } = selectAlternatives(candidate, scope.branches, scope.branches === scope.codec.exactlyOne, scope.codec.tag, context, (branch, allowUnknownResponseFields) => {
+                const { selected } = selectAlternatives(candidate, scope.branches, scope.branches === scope.codec.exactlyOne, scope.codec.tag, scope.codec.nullableAlternative, context, (branch, allowUnknownResponseFields) => {
                     try {
                         executeNode(candidate, branch, { ...branchContext, allowUnknownResponseFields });
                         return true;
@@ -723,13 +788,15 @@ function numericViewChanged(before, after, depth = 0) {
 function mergeNumericViews(left, right, depth = 0) {
     if (depth > 256)
         bad('value', 'value exceeds the supported nesting depth (256) or contains a cycle');
+    if (left instanceof Date && typeof right === 'string')
+        return right;
     if (left === right || left instanceof ParsedNumber)
         return left;
     if (right instanceof ParsedNumber)
         return right;
-    if (left instanceof Model)
+    if (left instanceof CompiledModel)
         left = left.toJSON();
-    if (right instanceof Model)
+    if (right instanceof CompiledModel)
         right = right.toJSON();
     if (!left || !right || typeof left !== 'object' || typeof right !== 'object')
         return left;
@@ -774,7 +841,7 @@ function codecShapes(scopes, path, depth, alternatives) {
  * Validate provenance before any encoding, including fields accepted as unknown.
  */
 function assertNumericSources(source, value, scopes, context) {
-    if (source instanceof Model)
+    if (source instanceof CompiledModel)
         source = source.toJSON();
     if (!numericViewChanged(source, value))
         return;
@@ -787,7 +854,7 @@ function assertNumericSources(source, value, scopes, context) {
             ...[codec.exactlyOne, codec.some].flatMap((branches) => {
                 if (!branches)
                     return [];
-                return selectAlternatives(value, branches, branches === codec.exactlyOne, codec.tag, context, (branch, allowUnknownResponseFields) => {
+                return selectAlternatives(value, branches, branches === codec.exactlyOne, codec.tag, codec.nullableAlternative, context, (branch, allowUnknownResponseFields) => {
                     try {
                         executeNode(value, branch, {
                             ...codecMode((context.direction ?? context.mode) === 'response', true),
@@ -808,7 +875,8 @@ function assertNumericSources(source, value, scopes, context) {
         ];
     });
     if (value instanceof ParsedNumber) {
-        if (!shapes.some(({ codec }) => exactValue(codec.value)))
+        if (!shapes.some(({ codec }) => exactValue(codec.value) ||
+            (codec.value.kind === 'native-number' && typeof source === 'number')))
             bad(path, 'numeric interpretation depends on an unmatched alternative');
         return;
     }
@@ -854,9 +922,16 @@ function numericView(value, scopes, context, previous) {
         bad(path, 'numeric interpretation exceeds 256 alternative combinations');
     if (depth > 256)
         bad(path, 'value exceeds the supported nesting depth (256) or contains a cycle');
-    if (value instanceof Model)
+    if (value instanceof CompiledModel)
         value = modelInputs.get(value) ?? value.toJSON();
     const shapes = codecShapes(scopes, path, depth);
+    if (value instanceof Date &&
+        (context.direction ?? context.mode) !== 'response' &&
+        shapes.some(({ codec }) => codec.value.kind === 'date-time')) {
+        if (!Number.isFinite(value.getTime()))
+            bad(path, 'expected a valid Date');
+        value = value.toISOString();
+    }
     if (typeof value === 'string' &&
         shapes.some(({ codec }) => exactValue(codec.value) &&
             codec.numberInput !== 'explicit' &&
@@ -869,7 +944,10 @@ function numericView(value, scopes, context, previous) {
             value = value.map((child, i) => numericView(child, children, { ...context, path: `${path}[${i}]`, depth: depth + 1 }, previousChild(String(i))));
         }
     }
-    else if (value && typeof value === 'object' && !(value instanceof ParsedNumber)) {
+    else if (value &&
+        typeof value === 'object' &&
+        !(value instanceof ParsedNumber) &&
+        !(value instanceof Date)) {
         value = Object.fromEntries(Object.entries(value).map(([key, child]) => {
             // Request omission is decided before a property's union is matched.
             // Required fields are still checked by executeNode on the parent.
@@ -903,7 +981,7 @@ function numericView(value, scopes, context, previous) {
             const { codec, definitions, branches } = scope;
             try {
                 const candidates = new Map();
-                const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, branches === codec.exactlyOne, codec.tag, context, (branch, allowUnknownFields) => {
+                const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, branches === codec.exactlyOne, codec.tag, codec.nullableAlternative, context, (branch, allowUnknownFields) => {
                     try {
                         const branchContext = {
                             ...codecMode((context.direction ?? context.mode) === 'response', true),
@@ -1038,7 +1116,7 @@ function executeNode(value, s, context) {
             allowUnknownResponseFields: allowUnknownResponseFields,
         });
     }
-    if (value instanceof Model)
+    if (value instanceof CompiledModel)
         value = modelInputs.get(value) ?? value.toJSON();
     wireKind(s.value); // Exhaustively reject unknown instruction kinds.
     if (s.every || s.some || s.exactlyOne || s.exclude || s.when) {
@@ -1098,7 +1176,7 @@ function executeNode(value, s, context) {
         ]) {
             if (!branches)
                 continue;
-            const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, keyword === 'oneOf', discriminator, context, matches);
+            const { selected, tolerateUnknownFields } = selectAlternatives(value, branches, keyword === 'oneOf', discriminator, s.nullableAlternative, context, matches);
             for (const branch of selected) {
                 const results = matched.get(branch);
                 result = combine(result, matching && results?.has(tolerateUnknownFields)
@@ -1142,6 +1220,7 @@ function executeNode(value, s, context) {
         exactValue(s.value) &&
         typeof value === 'string')
         return bad(path, `expected ${type}; received a JSON string`);
+    const numberToken = value instanceof ParsedNumber ? value.value : undefined;
     if (value instanceof ParsedNumber) {
         if (type === undefined) {
             const token = value.value;
@@ -1158,17 +1237,18 @@ function executeNode(value, s, context) {
             value = exactValue(s.value) ? token : Number(token);
         }
         else if (type === 'number')
-            value = value.value;
+            value = exactValue(s.value) ? value.value : Number(value.value);
         else
             return bad(path, `expected ${type}; received a JSON number`);
     }
-    const exactEnum = exactValue(s.value);
+    const exactEnum = exactValue(s.value) || s.value.kind === 'native-number';
     if ((!response || matching) &&
         s.members &&
         !(exactEnum
             ? (typeof value === 'string' || typeof value === 'number') &&
                 exactDecimal.test(String(value)) &&
-                s.members.some((member) => typeof member === 'number' && compareDecimal(String(value), String(member)) === 0)
+                s.members.some((member) => typeof member === 'number' &&
+                    compareDecimal(numberToken ?? String(value), String(member)) === 0)
             : s.members.some((member) => member === value)))
         bad(path, 'value is outside the declared enum');
     if (type === 'integer' || type === 'number') {
@@ -1181,6 +1261,13 @@ function executeNode(value, s, context) {
             if (!response || matching)
                 numericConstraints(token, s, path, validateConstraints || matching);
             return response ? token : new RawNumber(token);
+        }
+        if (s.value.kind === 'native-number') {
+            if (typeof value !== 'number' || !Number.isFinite(value))
+                return bad(path, 'expected a finite number');
+            if (!response || matching)
+                numericConstraints(numberToken ?? String(value), s, path, validateConstraints || matching);
+            return value;
         }
         if (typeof value !== 'number' || !Number.isSafeInteger(value))
             return bad(path, 'expected a safe integer; declare int64 for larger values');
@@ -1400,17 +1487,17 @@ export function redactCodec(value, schema, fields = [], definitions = {}, depth 
     return value;
 }
 const modelInputs = new WeakMap();
-export class Model {
+class CompiledModel {
+    dynamicCodec;
     value;
     codec;
-    dynamicSchema;
-    constructor(value, schema, compiled) {
-        this.dynamicSchema = compiled ? undefined : schema;
-        this.codec = compiled ?? compileCodec(schema);
+    constructor(value, codec, dynamicCodec) {
+        this.dynamicCodec = dynamicCodec;
+        this.codec = codec;
         const unwrap = (v, depth = 0) => {
             if (depth > 256)
                 bad('value', 'value exceeds the supported nesting depth or contains a cycle');
-            if (v instanceof Model)
+            if (v instanceof CompiledModel)
                 return unwrap(v.toJSON(), depth + 1);
             if (v instanceof RawNumber)
                 return v.value;
@@ -1428,8 +1515,22 @@ export class Model {
         return structuredClone(this.value);
     }
     [inspect.custom]() {
-        return redactCodec(this.value, this.dynamicSchema ? compileCodec(this.dynamicSchema) : this.codec);
+        return redactCodec(this.value, this.dynamicCodec ? this.dynamicCodec() : this.codec);
     }
+}
+/** Public schema adapter; compiled factories use the same model executor. */
+export class Model extends CompiledModel {
+    constructor(value, schema, compiled) {
+        super(value, compiled ?? compileCodec(schema), compiled ? undefined : () => compileCodec(schema));
+    }
+    static [Symbol.hasInstance](value) {
+        return this === Model
+            ? value instanceof CompiledModel
+            : Function.prototype[Symbol.hasInstance].call(this, value);
+    }
+}
+export function isModel(value) {
+    return value instanceof CompiledModel;
 }
 /** Internal input copy for argument adapters; not exported by the SDK entrypoint. */
 export function modelInputValue(model) {
@@ -1448,8 +1549,7 @@ export function modelInputValue(model) {
 }
 /** Internal factory; does not expand the public Model class method surface. */
 export function modelFromCodec(value, codec) {
-    // Reflect invokes the implementation-only third argument on the known Model constructor.
-    return Reflect.construct(Model, [value, {}, codec]);
+    return new CompiledModel(value, codec);
 }
 const field = (value, path) => path
     .split('.')
@@ -1500,7 +1600,30 @@ async function delay(ms, signal) {
         signal?.addEventListener('abort', cancel, { once: true });
     });
 }
-export class Runtime {
+function clientBaseUrl(baseUrl) {
+    if (baseUrl === undefined)
+        return bad('baseUrl', 'required: pass baseUrl because this SDK has no default server');
+    if (!isBaseUrlSyntax(baseUrl))
+        return bad('baseUrl', 'expected an absolute URL without credentials, whitespace, backslash, query or fragment');
+    try {
+        return new URL(baseUrl.endsWith('/') ? baseUrl : baseUrl + '/');
+    }
+    catch {
+        return bad('baseUrl', 'expected a valid absolute URL');
+    }
+}
+function destinationUrl(value, base) {
+    if (/[\\\x00-\x20]/.test(value))
+        throw new SdkError('destination', 'Invalid destination URL');
+    try {
+        return new URL(value, base);
+    }
+    catch {
+        throw new SdkError('destination', 'Invalid destination URL');
+    }
+}
+class CompiledRuntime {
+    dynamicPlan;
     streams = new Set();
     async close() {
         await Promise.all([...this.streams].map((stream) => stream.close()));
@@ -1509,22 +1632,38 @@ export class Runtime {
     base;
     allowed;
     compiledContract;
-    dynamicContract;
+    descriptors;
+    operation(id) {
+        return this.descriptors
+            ? this.descriptors.operation(id)
+            : this.contract.operations.find((op) => op.id === id);
+    }
+    definitions() {
+        return this.descriptors?.definitions() ?? this.contract.definitions ?? {};
+    }
     get contract() {
         // Public source-taking Runtime construction retains caller-owned schemas.
         // Generated clients always supply compiledContract and never enter this adapter.
-        return this.dynamicContract ? compileRuntimePlan(this.dynamicContract) : this.compiledContract;
+        return this.dynamicPlan ? this.dynamicPlan() : this.compiledContract;
     }
-    constructor(contract, options, compiled) {
-        this.dynamicContract = compiled ? undefined : contract;
-        this.compiledContract = compiled ?? compileRuntimePlan(contract);
-        assertRuntimePlan(this.compiledContract);
+    constructor(compiled, options, dynamicPlan) {
+        this.dynamicPlan = dynamicPlan;
+        this.descriptors = compiled instanceof DescriptorSource ? compiled : undefined;
+        this.compiledContract = compiled instanceof DescriptorSource ? compiled.settings : compiled;
+        if (!this.descriptors)
+            assertRuntimePlan(this.compiledContract);
+        if (!options || typeof options !== 'object' || Array.isArray(options))
+            bad('options', 'expected a client options object');
         this.options = { ...options };
-        if (/[\\\r\n]/.test(options.baseUrl))
-            bad('baseUrl', 'invalid URL');
-        this.base = new URL(options.baseUrl.endsWith('/') ? options.baseUrl : options.baseUrl + '/');
-        if (this.base.search || this.base.hash)
-            bad('baseUrl', 'base URL must not contain a query or fragment');
+        this.base = clientBaseUrl(options.baseUrl === undefined ? this.compiledContract.defaultBaseUrl : options.baseUrl);
+        if (!this.base.hostname || this.base.username || this.base.password)
+            bad('baseUrl', 'expected an absolute URL without embedded credentials');
+        if (this.compiledContract.authentication &&
+            options.token !== undefined &&
+            !this.compiledContract.authShortcuts?.token)
+            throw new SdkError('authentication', `token is not configured for this SDK; use ${Object.keys(this.compiledContract.authShortcuts ?? {})
+                .sort()
+                .join(', ') || 'authMode and credentials'}`);
         this.allowed = new Set(options.allowedOrigins ?? [this.base.origin]);
         this.checkUrl(this.base);
         positive(options.timeoutMs ?? 10000, 'timeoutMs');
@@ -1534,23 +1673,25 @@ export class Runtime {
         return { baseUrl: this.base.origin, credentials: '[REDACTED]' };
     }
     decode(value, codec, context) {
-        return executeCodec(value, codec, { ...context, definitions: this.contract.definitions ?? {} });
+        return executeCodec(value, codec, { ...context, definitions: this.definitions() });
     }
     checkUrl(url) {
-        if (url.username ||
-            url.password ||
-            url.hash ||
-            !['https:', ...(this.options.allowInsecureHttp ? ['http:'] : [])].includes(url.protocol) ||
-            !this.allowed.has(url.origin))
-            throw new SdkError('destination', 'Destination is outside the explicit credential policy');
+        if (!url.hostname || url.username || url.password || url.hash)
+            throw new SdkError('destination', 'Invalid destination: embedded credentials and fragments are not allowed');
+        if (!['https:', 'http:'].includes(url.protocol))
+            throw new SdkError('destination', 'Unsupported destination protocol; use HTTPS');
+        if (url.protocol === 'http:' && !this.options.allowInsecureHttp)
+            throw new SdkError('destination', 'HTTP is disabled; set allowInsecureHttp: true for deliberate local testing');
+        if (!this.allowed.has(url.origin))
+            throw new SdkError('destination', 'Destination origin is not in allowedOrigins');
     }
     async request(id, input = {}, options = {}, continuation) {
         if (!input || typeof input !== 'object' || Array.isArray(input))
             bad('input', 'expected an object');
         if (!options || typeof options !== 'object' || Array.isArray(options))
             bad('options', 'expected an object');
-        const { operations, apiVersion } = this.contract;
-        const op = operations.find((v) => v.id === id);
+        const { apiVersion } = this.contract;
+        const op = this.operation(id);
         if (!op)
             return bad('operation', 'operation is not included in this SDK');
         const start = performance.now();
@@ -1560,10 +1701,11 @@ export class Runtime {
             positive(options.streamIdleTimeoutMs, 'streamIdleTimeoutMs');
         if (options.streamLifetimeMs !== undefined)
             positive(options.streamLifetimeMs, 'streamLifetimeMs');
-        const policy = op.retry ?? { maxAttempts: 1, statuses: [], transport: false, baseDelayMs: 100 };
-        const attempts = options.maxAttempts ?? this.options.maxAttempts ?? policy.maxAttempts;
-        if (!Number.isInteger(attempts) || attempts < 1 || attempts > policy.maxAttempts)
-            bad('maxAttempts', 'must be within the provider-declared retry limit');
+        const policy = op.retry;
+        const budget = options.maxAttempts ?? this.options.maxAttempts ?? policy.maxAttempts;
+        if (!Number.isSafeInteger(budget) || budget < 1)
+            bad('maxAttempts', 'must be a positive safe integer');
+        let attempts = Math.min(budget, policy.maxAttempts);
         const headers = Object.assign(Object.create(null), {
             accept: [
                 ...new Set(Object.values(op.responses)
@@ -1630,8 +1772,8 @@ export class Runtime {
                 setHeader(p.name, values.join(','));
         }
         const url = continuation
-            ? new URL(continuation, this.base)
-            : new URL(this.base.href.replace(/\/$/, '') + path + (query.length ? '?' + query.join('&') : ''));
+            ? destinationUrl(continuation, this.base)
+            : destinationUrl(this.base.href.replace(/\/$/, '') + path + (query.length ? '?' + query.join('&') : ''));
         this.checkUrl(url);
         for (const [k, v] of Object.entries(options.headers ?? {}))
             setHeader(k, v);
@@ -1710,10 +1852,10 @@ export class Runtime {
                 bad('idempotencyKey', 'leading or trailing HTTP whitespace would change the key on the wire');
             setHeader(op.idempotency.header, key);
         }
-        const safe = ['GET', 'HEAD', 'OPTIONS'].includes(op.verb) ||
+        const safe = op.replay === 'safe' ||
             Boolean(op.idempotency && headers[op.idempotency.header.toLowerCase()]);
-        if (attempts > 1 && !safe)
-            bad('idempotencyKey', 'persist and supply an idempotency key before enabling mutation retries');
+        if (!safe)
+            attempts = 1;
         let body;
         if (Object.hasOwn(input, 'body') && input.body !== undefined) {
             if (!op.body)
@@ -1766,7 +1908,11 @@ export class Runtime {
                         : {}),
                 };
                 diagnosticMeta = meta;
-                const declaredResponse = op.responses[String(response.status)] ?? op.responses.default;
+                const declaredResponse = op.responses[String(response.status)] ??
+                    op.responses.default ??
+                    (response.ok && op.successJsonFallback
+                        ? op.responses[op.successJsonFallback]
+                        : undefined);
                 if (response.ok && declaredResponse?.bodyKind === 'sse') {
                     if (response.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !==
                         'text/event-stream' ||
@@ -1839,9 +1985,9 @@ export class Runtime {
                 if (response.status >= 300 && response.status < 400 && response.status !== 304 && !redirect)
                     throw new SdkError('destination', 'Redirects are not followed; explicitly configure an approved endpoint', 'response', false, meta);
                 if (response.ok || response.status === 304 || redirect) {
-                    const declared = op.responses[String(response.status)] ?? op.responses.default;
+                    const declared = declaredResponse;
                     if (!declared)
-                        throw new SdkError('protocol', 'Undeclared success status', 'response', false, meta);
+                        throw new SdkError('protocol', 'Undeclared success status', 'response', false, meta, undefined, undefined, undefined, raw);
                     try {
                         if (redirect) {
                             const location = response.headers.get('location');
@@ -1864,17 +2010,20 @@ export class Runtime {
                             throw new Error('Unexpected body for an empty response');
                     }
                     catch (cause) {
-                        throw new SdkError('protocol', 'Response cannot be represented by the declared schema', 'response', false, meta, undefined, undefined, { cause }, raw);
+                        throw new SdkError('protocol', 'Response cannot be represented by the declared schema' +
+                            (cause instanceof Error && validationFailures.has(cause)
+                                ? ': ' + validationFailures.get(cause)
+                                : ''), 'response', false, meta, undefined, undefined, { cause }, raw);
                     }
                     // Synchronous decoding cannot yield to the abort timer. Check the
                     // overall duration again before reporting a successful response.
                     meta.durationMs = performance.now() - start;
                     if (performance.now() >= deadline)
-                        throw new SdkError('deadline', 'Response decoding exceeded the overall deadline', 'response', false, meta);
+                        throw new SdkError('deadline', 'Response decoding exceeded the overall deadline', 'response', false, meta, undefined, undefined, undefined, raw);
                     const result = { data: data, meta, raw };
                     Object.defineProperty(result, inspect.custom, {
                         value: () => ({
-                            data: redactCodec(data, declared.codec, this.options.redactFields, this.contract.definitions),
+                            data: redactCodec(data, declared.codec, this.options.redactFields, this.definitions()),
                             meta: inspectedMetadata(meta),
                         }),
                     });
@@ -1888,15 +2037,27 @@ export class Runtime {
                             ? 'validation'
                             : [409, 412].includes(response.status)
                                 ? 'conflict'
-                                : 'api';
+                                : response.status === 404
+                                    ? 'not_found'
+                                    : response.status >= 500 && response.status < 600
+                                        ? 'server'
+                                        : 'api';
                 const code = field(data, this.contract.errors?.codePath ?? 'code');
+                const redacted = redactCodec(data, (op.responses[String(response.status)] ?? op.responses.default)?.codec, this.options.redactFields, this.definitions());
+                const publicCode = field(redacted, this.contract.errors?.codePath ?? 'code');
+                const originalMessage = field(data, this.contract.errors?.messagePath ?? 'message');
+                const message = field(redacted, this.contract.errors?.messagePath ?? 'message');
                 const eligible = safe &&
                     (policy.statuses.includes(response.status) ||
                         (typeof code === 'string' &&
                             (policy.errors ?? []).some((rule) => rule.status === response.status && rule.codes.includes(code))));
-                error = new SdkError(kind, `API returned HTTP ${response.status}`, 'response', eligible, meta, typeof code === 'string' ? code : undefined, this.contract.errors?.detailsPath
-                    ? field(redactCodec(data, (op.responses[String(response.status)] ?? op.responses.default)?.codec, this.options.redactFields, this.contract.definitions), this.contract.errors.detailsPath)
-                    : redactCodec(data, (op.responses[String(response.status)] ?? op.responses.default)?.codec, this.options.redactFields, this.contract.definitions), undefined, raw);
+                error = new SdkError(kind, typeof originalMessage === 'string' &&
+                    originalMessage.trim() &&
+                    typeof message === 'string'
+                    ? message
+                    : `API returned HTTP ${response.status}`, 'response', eligible, meta, typeof code === 'string' && typeof publicCode === 'string' ? publicCode : undefined, this.contract.errors?.detailsPath
+                    ? field(redacted, this.contract.errors.detailsPath)
+                    : redacted, undefined, raw);
                 diagnosticError = kind;
                 const instruction = response.headers.get('retry-after');
                 if (instruction) {
@@ -1951,33 +2112,29 @@ export class Runtime {
         throw new Error('Unreachable retry state');
     }
     async *pages(id, input = {}, options = {}) {
-        const op = this.contract.operations.find((v) => v.id === id);
+        const op = this.operation(id);
         if (!op?.pagination)
             return bad('pagination', 'capability is not declared');
         const p = op.pagination;
         let next;
         const request = { ...input };
-        const deadline = performance.now() +
-            positive(options.deadlineMs ?? this.options.deadlineMs ?? 30000, 'deadlineMs');
         const limit = options.maxPages ?? Number.MAX_SAFE_INTEGER;
         if (!Number.isSafeInteger(limit) || limit < 1)
             bad('maxPages', 'must be a positive safe integer');
         for (let page = 0; page < limit; page++) {
             stopped(options.signal);
-            const remaining = deadline - performance.now();
-            if (remaining <= 0)
-                throw new SdkError('deadline', 'Pagination deadline exceeded', 'unknown');
-            const result = await this.request(id, request, { ...options, deadlineMs: remaining }, p.kind === 'link' && typeof next === 'string' ? next : undefined);
+            // Each page owns its request deadline; time spent consuming yields is unbounded.
+            const result = await this.request(id, request, options, p.kind === 'link' && typeof next === 'string' ? next : undefined);
             yield result;
             const sent = p.kind === 'link' ? next : request[p.parameter];
-            const previous = sent instanceof Model ? sent.toJSON() : sent;
+            const previous = sent instanceof CompiledModel ? sent.toJSON() : sent;
             next = field(result.data, p.next);
             if (next === undefined || next === null || next === '')
                 return;
             if (p.kind === 'link' && typeof next !== 'string')
                 throw new SdkError('protocol', 'Expected a pagination URL', 'response');
             if (p.kind === 'link')
-                next = new URL(next, result.meta.url ?? this.base).href;
+                next = destinationUrl(next, result.meta.url ?? this.base).href;
             if (next === previous ||
                 (p.kind === 'offset' && previous !== undefined && String(next) === String(previous)) ||
                 (p.kind === 'link' && next === result.meta.url))
@@ -1987,7 +2144,7 @@ export class Runtime {
         }
     }
     async *items(id, input = {}, options = {}) {
-        const p = this.contract.operations.find((v) => v.id === id)?.pagination;
+        const p = this.operation(id)?.pagination;
         if (!p)
             return bad('pagination', 'capability is not declared');
         const limit = options.maxItems ?? Number.MAX_SAFE_INTEGER;
@@ -2007,7 +2164,7 @@ export class Runtime {
         }
     }
     async wait(id, input, options = {}) {
-        const p = this.contract.operations.find((v) => v.id === id)?.polling;
+        const p = this.operation(id)?.polling;
         if (!p)
             return bad('polling', 'capability is not declared');
         const deadline = performance.now() +
@@ -2028,87 +2185,133 @@ export class Runtime {
         }
     }
     verifyWebhook(rawBody, headers, secrets, nowSeconds = Date.now() / 1000) {
-        const w = this.contract.webhook;
+        const w = this.descriptors ? this.descriptors.webhook() : this.contract.webhook;
         if (!w)
             return bad('webhook', 'capability is not declared');
-        const normalized = Object.fromEntries(Object.entries(headers).map(([k, v]) => [k.toLowerCase(), v]));
-        let timestamp = normalized[w.timestampHeader?.toLowerCase() ?? ''] ?? '';
-        const signature = normalized[w.header.toLowerCase()] ?? '';
+        if (!(rawBody instanceof Uint8Array))
+            return webhookError('validation', 'invalid_input', 'Webhook body must be original Buffer or Uint8Array bytes; capture it before JSON parsing');
+        if (typeof nowSeconds !== 'number' || !Number.isFinite(nowSeconds))
+            return webhookError('validation', 'invalid_input', 'Webhook nowSeconds must be a finite Unix timestamp in seconds');
+        const supplied = typeof secrets === 'string' ? [secrets] : Array.isArray(secrets) ? Array.from(secrets) : [];
+        if (!supplied.length ||
+            !supplied.every((secret) => typeof secret === 'string'))
+            return webhookError('validation', 'invalid_secret', 'Webhook secrets must be a nonempty string or array of strings');
         const format = w.format ?? 'hex';
-        let candidates = [signature];
+        const keys = [];
+        for (const secret of supplied) {
+            if (!secret)
+                continue;
+            if (format !== 'standard-webhooks')
+                keys.push(secret);
+            else if (/^whsec_[A-Za-z0-9+/]{43}=$/.test(secret)) {
+                const key = Buffer.from(secret.slice(6), 'base64');
+                if (key.length === 32 && key.toString('base64') === secret.slice(6))
+                    keys.push(key);
+            }
+        }
+        if (!keys.length)
+            return webhookError('validation', 'invalid_secret', format === 'standard-webhooks'
+                ? 'Webhook secret must be whsec_ followed by canonical base64 encoding of 32 bytes'
+                : 'Provide at least one nonempty webhook signing secret');
+        const signatures = webhookHeaderValues(headers, w.header);
+        let timestamp = '';
+        let candidates = [];
         let prefix = '';
         if (format === 'timestamped-hex') {
-            const parts = signature.split(',').map((part) => part.trim());
+            const parts = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
             const timestamps = parts.filter((part) => part.startsWith('t='));
-            timestamp = timestamps.length === 1 ? timestamps[0].slice(2) : '';
+            const signedTimestamp = timestamps[0];
+            if (timestamps.length !== 1 || signedTimestamp === undefined)
+                return webhookError('authentication', 'invalid_timestamp', 'Webhook signature must contain exactly one t= timestamp');
+            timestamp = signedTimestamp.slice(2);
             candidates = parts.filter((part) => part.startsWith('v1=')).map((part) => part.slice(3));
         }
-        else if (format === 'standard-webhooks') {
-            const id = normalized[w.idHeader.toLowerCase()]?.trim();
-            if (!id)
-                throw new SdkError('authentication', 'Invalid webhook signature or timestamp');
-            prefix = id + '.';
-            candidates = signature
-                .trim()
-                .split(/\s+/)
-                .filter((part) => part.startsWith('v1,'))
-                .map((part) => part.slice(3));
+        else {
+            if (!w.timestampHeader)
+                return bad('webhook', 'timestamp header is not declared');
+            timestamp = webhookScalarHeader(headers, w.timestampHeader, true);
+            if (format === 'standard-webhooks') {
+                if (!w.idHeader)
+                    return bad('webhook', 'ID header is not declared');
+                prefix = webhookScalarHeader(headers, w.idHeader) + '.';
+                // Fetch combines repeated header lines with commas. The comma inside v1,<digest>
+                // belongs to the signature token; commas between versioned tokens delimit values.
+                candidates = signatures
+                    .flatMap((signature) => signature.trim().split(/(?:\s+|,\s*(?=v\d+,))/))
+                    .filter((part) => part.startsWith('v1,'))
+                    .map((part) => part.slice(3));
+            }
+            else
+                candidates = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
         }
-        if (!/^\d+$/.test(timestamp) ||
-            !Number.isSafeInteger(Number(timestamp)) ||
-            !Number.isFinite(nowSeconds) ||
-            Math.abs(nowSeconds - Number(timestamp)) > w.toleranceSeconds ||
-            !secrets.length)
-            throw new SdkError('authentication', 'Invalid webhook signature or timestamp');
+        if (!/^\d+$/.test(timestamp) || !Number.isSafeInteger(Number(timestamp)))
+            return webhookError('authentication', 'invalid_timestamp', 'Webhook timestamp must be an integer Unix timestamp in seconds');
+        if (Math.abs(nowSeconds - Number(timestamp)) > w.toleranceSeconds)
+            return webhookError('authentication', 'timestamp_out_of_tolerance', 'Webhook timestamp is outside the allowed tolerance; check the server clock and delivery age');
         const signed = Buffer.concat([
             Buffer.from(prefix + timestamp + w.separator),
             Buffer.from(rawBody),
         ]);
-        const signatures = candidates
+        const digests = candidates
             .filter((candidate) => format === 'standard-webhooks'
             ? /^[A-Za-z0-9+/]{43}=$/.test(candidate) &&
                 Buffer.from(candidate, 'base64').toString('base64') === candidate
             : /^[a-fA-F0-9]{64}$/.test(candidate))
             .map((candidate) => Buffer.from(candidate, format === 'standard-webhooks' ? 'base64' : 'hex'));
         let valid = false;
-        for (const secret of secrets) {
-            if (!secret)
-                continue;
-            let key = secret;
-            if (format === 'standard-webhooks') {
-                if (!/^whsec_[A-Za-z0-9+/]{43}=$/.test(secret))
-                    continue;
-                key = Buffer.from(secret.slice(6), 'base64');
-                if (key.length !== 32 || key.toString('base64') !== secret.slice(6))
-                    continue;
-            }
+        for (const key of keys) {
             const expected = createHmac('sha256', key).update(signed).digest();
-            for (const actual of signatures)
+            for (const actual of digests)
                 valid = timingSafeEqual(expected, actual) || valid;
         }
         if (!valid)
-            throw new SdkError('authentication', 'Invalid webhook signature or timestamp');
+            return webhookError('authentication', 'invalid_signature', 'Invalid webhook signature; check the signing secret and preserve the original request body bytes without reserializing JSON');
         let event;
         try {
             event = parseJson(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.from(rawBody)), true);
         }
         catch (cause) {
-            throw new SdkError('protocol', 'Invalid webhook JSON', 'response', false, undefined, undefined, undefined, { cause });
+            throw new SdkError('protocol', 'Invalid webhook JSON', 'response', false, undefined, 'webhook_invalid_json', undefined, { cause });
         }
         const eventType = field(event, w.typeField);
         const schema = typeof eventType === 'string' && Object.hasOwn(w.events, eventType)
             ? w.events[eventType]
             : undefined;
-        return {
-            event: plainNumbers(schema
-                ? this.decode(event, schema, {
+        // Decode first: malformed declared payloads remain protocol errors. Matching is
+        // a separate predicate over the original exact JSON values, not decoded strings.
+        let decoded = event;
+        if (schema) {
+            try {
+                decoded = this.decode(event, schema, {
                     mode: 'response',
                     path: 'event',
                     redactFields: this.options.redactFields ?? [],
-                })
-                : event),
-            known: Boolean(schema),
-        };
+                });
+            }
+            catch (cause) {
+                if (!(cause instanceof SdkError) || cause.kind !== 'validation')
+                    throw cause;
+                throw new SdkError('protocol', 'Invalid webhook payload' +
+                    (validationFailures.has(cause) ? ': ' + validationFailures.get(cause) : ''), 'response', false, undefined, undefined, undefined, { cause });
+            }
+        }
+        let known = false;
+        if (schema) {
+            try {
+                this.decode(event, schema, {
+                    mode: 'match',
+                    direction: 'response',
+                    path: 'event',
+                    allowUnknownResponseFields: true,
+                });
+                known = true;
+            }
+            catch (error) {
+                if (!(error instanceof SdkError) || error.kind !== 'validation')
+                    throw error;
+            }
+        }
+        return { event: plainNumbers(decoded), known };
     }
     money(currency, major) {
         const currencies = this.contract.money?.currencies;
@@ -2125,7 +2328,18 @@ export class Runtime {
         return { currency, amount: amount.toString() };
     }
 }
+/** Public dynamic-contract adapter; generated clients never retain this compiler path. */
+export class Runtime extends CompiledRuntime {
+    static [Symbol.hasInstance](value) {
+        return this === Runtime
+            ? value instanceof CompiledRuntime
+            : Function.prototype[Symbol.hasInstance].call(this, value);
+    }
+    constructor(contract, options, compiled) {
+        super(compiled ?? compileRuntimePlan(contract), options, compiled ? undefined : () => compileRuntimePlan(contract));
+    }
+}
 /** Internal factory for generated clients; public Runtime construction remains schema-based. */
 export function runtimeFromPlan(contract, options) {
-    return Reflect.construct(Runtime, [{ operations: [] }, options, contract]);
+    return new CompiledRuntime(contract, options);
 }

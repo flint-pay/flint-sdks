@@ -1,0 +1,9 @@
+import { d546 as c0, d698 as c1, d41 as c2, d729 as c3, d732 as c4, d716 as c5, d741 as c6, d742 as c7, d743 as c8, d744 as c9, d750 as c10, d754 as c11, d758 as c12, d69 as c13, d1646 as c14, d1645 as c15, d1686 as c16, d1840 as c17, d65 as c18, d1843 as c19, d1959 as c20, d1960 as c21, d2110 as c22, d2116 as c23, d714 as c24, d715 as c25, d753 as c26, d91 as c27, d42 as c28, d1666 as c29, d2174 as c30 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d742 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d742;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryFulfillmentDetails"]:c0(),["DigitalFulfillmentDetails"]:c1(),["ExpandedOrderSummary"]:c2(),["ExpandedPackageSummary"]:c3(),["ExpandedShipmentSummary"]:c4(),["Fulfillment"]:c5(),["FulfillmentChargeLink"]:c6(),["FulfillmentCommandResponse"]:c7(),["FulfillmentCommandResult"]:c8(),["FulfillmentEvent"]:c9(),["FulfillmentLineItem"]:c10(),["FulfillmentNotification"]:c11(),["FulfillmentRecipient"]:c12(),["MoneyValue"]:c13(),["NextAction"]:c14(),["NextActionMerchantAccountSession"]:c15(),["OrderLineItemModifier"]:c16(),["PickupFulfillmentDetails"]:c17(),["PostalAddress"]:c18(),["PricingAmounts"]:c19(),["ResponseMeta"]:c20(),["ResponseWarning"]:c21(),["ServiceFulfillmentDetails"]:c22(),["SettlementAmounts"]:c23(),["SharedCodec221"]:c24(),["SharedCodec222"]:c25(),["SharedCodec225"]:c26(),["SharedCodec26"]:c27(),["SharedCodec7"]:c28(),["SignedMoney"]:c29(),["TextModifierRequest"]:c30()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeFulfillmentCommandResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

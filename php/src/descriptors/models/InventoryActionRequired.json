@@ -1,0 +1,1 @@
+{"shared":"InventoryActionRequired","phpRepresentation":{"kind":"record","fields":{"inventory_reservation_line_ids":{"kind":"list","value":{"kind":"value","type":"string"}},"next_actions":{"kind":"list","value":{"kind":"value","type":"string"}},"reason":{"kind":"value","type":"string"}}},"dependencies":["InventoryActionRequired"]}

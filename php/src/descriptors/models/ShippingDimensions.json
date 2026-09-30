@@ -1,0 +1,1 @@
+{"shared":"ShippingDimensions","phpRepresentation":{"kind":"record","fields":{"height":{"kind":"value","type":"float"},"length":{"kind":"value","type":"float"},"unit":{"kind":"value","type":"string"},"width":{"kind":"value","type":"float"}}},"dependencies":["ShippingDimensions"]}

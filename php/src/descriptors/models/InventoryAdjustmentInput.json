@@ -1,0 +1,1 @@
+{"shared":"InventoryAdjustment","dependencies":["AdjustmentLine","InventoryAdjustment","InventorySourceSystem","SharedCodec61"]}

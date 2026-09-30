@@ -1,0 +1,1 @@
+{"shared":"CheckoutSessionRevisionConflictDetail","dependencies":["AvailableModifier","AvailableModifierGroup","AvailableModifierSelection","CheckoutSessionRevisionConflictDetail","MoneyValue","OrderLineItemModifier","SignedMoney","TextModifierConfig","TextModifierRequest"]}

@@ -1,0 +1,1 @@
+{"shared":"CapabilityListResponse","dependencies":["Capability","CapabilityListResponse","CapabilityRequirements","MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

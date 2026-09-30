@@ -1,8 +1,9 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  baseUrl: clientBaseUrl,
 });
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.onboarding.startFlow(
@@ -11,6 +12,5 @@ const result = await client.onboarding.startFlow(
     first_name: "example",
     last_name: "example",
     "Idempotency-Key": idempotencyKey,
-  },
-  { maxAttempts: 1 },
+  }
 );

@@ -1,0 +1,1 @@
+{"shared":"InventoryItemResponse","dependencies":["InventoryItem","InventoryItemResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

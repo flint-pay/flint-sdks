@@ -1,0 +1,1 @@
+{"shared":"CreateLocationRequest","dependencies":["CreateLocationRequest","LocationAddress","LocationCoordinate","LocationInventoryRequest"]}

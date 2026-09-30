@@ -1,0 +1,1 @@
+{"shared":"DeviceListResponse","dependencies":["Device","DeviceListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

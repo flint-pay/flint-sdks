@@ -1,0 +1,9 @@
+import { d152 as c0, d82 as c1, d41 as c2, d704 as c3, d69 as c4, d1646 as c5, d1645 as c6, d1802 as c7, d1803 as c8, d1804 as c9, d1806 as c10, d1843 as c11, d1915 as c12, d1917 as c13, d1920 as c14, d1922 as c15, d1925 as c16, d1927 as c17, d1929 as c18, d1930 as c19, d1959 as c20, d1960 as c21, d2109 as c22, d2116 as c23, d83 as c24, d705 as c25, d91 as c26, d1914 as c27, d1924 as c28, d37 as c29, d1666 as c30 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d1929 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d1929;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["CategoryReference"]:c0(),["ExpandedCustomerSummary"]:c1(),["ExpandedOrderSummary"]:c2(),["ExpandedPaymentIntentSummary"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["PaymentRefund"]:c7(),["PaymentSourceAchDebitSummary"]:c8(),["PaymentSourceCardSummary"]:c9(),["PaymentSourceSummary"]:c10(),["PricingAmounts"]:c11(),["Refund"]:c12(),["RefundAdjustmentReason"]:c13(),["RefundLineItemAdjustment"]:c14(),["RefundLineItemAdjustmentRefund"]:c15(),["RefundLineItemAllocation"]:c16(),["RefundLineItemModifierAllocation"]:c17(),["RefundResponse"]:c18(),["RefundTaxBreakdownRefund"]:c19(),["ResponseMeta"]:c20(),["ResponseWarning"]:c21(),["SelectedProductOption"]:c22(),["SettlementAmounts"]:c23(),["SharedCodec21"]:c24(),["SharedCodec219"]:c25(),["SharedCodec26"]:c26(),["SharedCodec479"]:c27(),["SharedCodec480"]:c28(),["SharedCodec5"]:c29(),["SignedMoney"]:c30()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeRefundResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

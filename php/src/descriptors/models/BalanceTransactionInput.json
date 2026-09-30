@@ -1,0 +1,1 @@
+{"shared":"BalanceTransaction","dependencies":["BalanceTransaction","ExpandedOrderSummary","MoneyValue","PricingAmounts","SettlementAmounts","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec13","SharedCodec14","SharedCodec4","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","SignedMoney"]}

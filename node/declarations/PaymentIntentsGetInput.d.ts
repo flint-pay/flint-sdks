@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type PaymentIntentsGetInput = { "payment_intent_id": InputValue<string>; "expand"?: InputValue<Array<"customer" | "invoice" | "order">>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

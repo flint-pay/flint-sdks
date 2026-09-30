@@ -1,0 +1,1 @@
+{"shared":"Webhook_credit_note_updated_installed_merchants","dependencies":["CreditNoteLine","DocumentTaxID","MoneyValue","PartnerWebhookEnvelope","PostalAddress","SharedCodec17","SharedCodec18","SharedCodec249","SharedCodec280","TaxIdentity","Webhook_credit_note_updated_installed_merchants"]}

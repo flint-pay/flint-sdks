@@ -1,0 +1,1 @@
+{"shared":"CustomerAccountRouteTemplates","phpRepresentation":{"kind":"record","fields":{"order":{"kind":"value","type":"string"},"return":{"kind":"value","type":"string"},"subscription":{"kind":"value","type":"string"}}},"dependencies":["CustomerAccountRouteTemplates"]}

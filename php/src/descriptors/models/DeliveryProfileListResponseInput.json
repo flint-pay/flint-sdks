@@ -1,0 +1,1 @@
+{"shared":"DeliveryProfileListResponse","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileListResponse","DeliveryProfileOriginPolicy","Dimensions","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec191","Weight"]}

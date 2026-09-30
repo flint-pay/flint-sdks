@@ -1,0 +1,1 @@
+{"shared":"DeliveryBlackoutInterval","phpRepresentation":{"kind":"record","fields":{"end_local":{"kind":"value","type":"string"},"start_local":{"kind":"value","type":"string"}}},"dependencies":["DeliveryBlackoutInterval"]}

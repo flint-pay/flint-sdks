@@ -1,0 +1,1 @@
+{"shared":"SelectedProductOption","phpRepresentation":{"kind":"record","fields":{"option_id":{"kind":"value","type":"string"},"option_name":{"kind":"value","type":"string"},"option_value_id":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["SelectedProductOption"]}

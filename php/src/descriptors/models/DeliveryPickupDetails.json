@@ -1,0 +1,1 @@
+{"shared":"DeliveryPickupDetails","phpRepresentation":{"kind":"record","fields":{"location":{"kind":"entity","name":"DeliveryLocationSummaryResource"},"pickup_mode":{"kind":"value","type":"string"}}},"dependencies":["DeliveryAddressResource","DeliveryLocationSummaryResource","DeliveryPickupDetails"]}

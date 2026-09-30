@@ -1,0 +1,1 @@
+{"shared":"ContractInfo","phpRepresentation":{"kind":"record","fields":{"early_termination_fee_money":{"kind":"entity","name":"MoneyValue"},"is_within_contract_term":{"kind":"value","type":"bool"},"remaining_months":{"kind":"value","type":"int"}}},"dependencies":["ContractInfo","MoneyValue"]}

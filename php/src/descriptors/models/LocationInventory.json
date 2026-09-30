@@ -1,0 +1,1 @@
+{"shared":"LocationInventory","phpRepresentation":{"kind":"record","fields":{"allocation_status":{"kind":"value","type":"string"},"created_at":{"kind":"value","type":"string"},"inventory_revision":{"kind":"value","type":"string"},"updated_at":{"kind":"value","type":"string"}}},"dependencies":["LocationInventory"]}

@@ -1,0 +1,9 @@
+import { d60 as c0, d148 as c1, d152 as c2, d82 as c3, d140 as c4, d106 as c5, d811 as c6, d69 as c7, d1646 as c8, d1645 as c9, d1686 as c10, d1687 as c11, d65 as c12, d1959 as c13, d1960 as c14, d2109 as c15, d367 as c16, d366 as c17, d59 as c18, d83 as c19, d107 as c20, d141 as c21, d37 as c22, d2142 as c23, d2143 as c24, d2144 as c25, d2128 as c26, d2135 as c27, d2145 as c28, d2153 as c29, d2154 as c30, d2174 as c31 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d2153 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d2153;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CardDetails"]:c1(),["CategoryReference"]:c2(),["ExpandedCustomerSummary"]:c3(),["ExpandedPaymentMethodSummary"]:c4(),["ExpandedSubscriptionPlanSummary"]:c5(),["Image"]:c6(),["MoneyValue"]:c7(),["NextAction"]:c8(),["NextActionMerchantAccountSession"]:c9(),["OrderLineItemModifier"]:c10(),["OrderLineItemTax"]:c11(),["PostalAddress"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec134"]:c16(),["SharedCodec135"]:c17(),["SharedCodec16"]:c18(),["SharedCodec21"]:c19(),["SharedCodec35"]:c20(),["SharedCodec42"]:c21(),["SharedCodec5"]:c22(),["SharedCodec543"]:c23(),["SharedCodec544"]:c24(),["SharedCodec545"]:c25(),["Subscription"]:c26(),["SubscriptionLineItem"]:c27(),["SubscriptionPlanLineItem"]:c28(),["SubscriptionResponse"]:c29(),["SubscriptionServiceLocation"]:c30(),["TextModifierRequest"]:c31()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeSubscriptionResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

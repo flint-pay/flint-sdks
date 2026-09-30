@@ -1,0 +1,1 @@
+{"shared":"PaymentMethodDomainResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentMethodDomain","PaymentMethodDomainPaymentOption","PaymentMethodDomainResponse","ResponseMeta","ResponseWarning"]}

@@ -1,0 +1,1 @@
+{"shared":"ServiceFulfillmentDetails","phpRepresentation":{"kind":"record","fields":{"completed_at":{"kind":"value","type":"string"},"notes":{"kind":"value","type":"string"},"scheduled_end_at":{"kind":"value","type":"string"},"scheduled_start_at":{"kind":"value","type":"string"},"timezone":{"kind":"value","type":"string"}}},"dependencies":["ServiceFulfillmentDetails"]}

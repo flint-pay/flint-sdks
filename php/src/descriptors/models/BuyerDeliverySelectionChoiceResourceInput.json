@@ -1,0 +1,1 @@
+{"shared":"BuyerDeliverySelectionChoiceResource","dependencies":["BuyerDeliverySelectionChoiceResource","DeliveryAddressResource","DeliveryLocationSummaryResource","DeliveryPickupDetails","DeliveryPlan","DeliverySelectionInstructionsRequest","DeliveryShipmentDetails","MoneyValue"]}

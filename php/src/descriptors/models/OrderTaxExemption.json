@@ -1,0 +1,1 @@
+{"shared":"OrderTaxExemption","phpRepresentation":{"kind":"record","fields":{"customer_id":{"kind":"value","type":"string"},"source":{"kind":"value","type":"string"},"tax_exempt":{"kind":"value","type":"bool"}}},"dependencies":["OrderTaxExemption"]}

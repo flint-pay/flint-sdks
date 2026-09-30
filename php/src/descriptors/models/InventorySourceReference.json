@@ -1,0 +1,1 @@
+{"shared":"InventorySourceReference","phpRepresentation":{"kind":"record","fields":{"source_reference_id":{"kind":"value","type":"string"},"source_reference_type":{"kind":"value","type":"string"}}},"dependencies":["InventorySourceReference"]}

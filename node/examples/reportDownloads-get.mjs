@@ -1,11 +1,14 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  apiKey: process.env.API_KEY ?? '',
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
 });
 const result = await client.reportDownloads.get(
   "example",
-  {},
-  { maxAttempts: 1 },
+  {}
 );
+// Location may be relative or use another origin. The SDK does not follow it.
+// Validate the destination before a separate download; do not forward API credentials.
+console.log(result.meta.status, result.data.location ?? 'No Location header');
 console.log(result.meta.requestId);

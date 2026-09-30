@@ -1,0 +1,1 @@
+{"shared":"FulfillmentChargeLink","phpRepresentation":{"kind":"record","fields":{"order_charge_id":{"kind":"value","type":"string"}}},"dependencies":["FulfillmentChargeLink"]}

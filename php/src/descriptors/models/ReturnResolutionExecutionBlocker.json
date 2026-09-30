@@ -1,0 +1,1 @@
+{"shared":"ReturnResolutionExecutionBlocker","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"linked_resource_id":{"kind":"value","type":"string"},"linked_resource_type":{"kind":"value","type":"string"},"return_line_item_id":{"kind":"value","type":"string"}}},"dependencies":["ReturnResolutionExecutionBlocker"]}

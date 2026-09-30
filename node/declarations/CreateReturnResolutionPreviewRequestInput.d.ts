@@ -1,0 +1,6 @@
+
+import type { ReturnReplacementLineItemRequestInput } from './ReturnReplacementLineItemRequestInput.js';
+import type { ReturnResolutionAdjustmentRequestInput } from './ReturnResolutionAdjustmentRequestInput.js';
+import type { ReturnResolutionLineItemRequestInput } from './ReturnResolutionLineItemRequestInput.js';
+
+export type CreateReturnResolutionPreviewRequestInput = ({ "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>; "corrects_return_resolution_id"?: string; /** Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. */ "expected_version"?: string; "line_items"?: Array<ReturnResolutionLineItemRequestInput>; "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price"; "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>; "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "correction"; "return_id": string; }) & ((({ /** minItems: 1. */ "line_items": unknown; "resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action"; }) & ({ "corrects_return_resolution_id"?: never })) | (({ /** minItems: 1. */ "adjustments": unknown; "resolution_type"?: "correction"; "corrects_return_resolution_id": unknown; }) & (({ "line_items"?: never }) & ({ "replacement_line_items"?: never }) & ({ "pricing_basis"?: never }))));

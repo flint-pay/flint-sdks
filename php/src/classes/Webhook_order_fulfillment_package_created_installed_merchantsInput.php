@@ -1,0 +1,45 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read array{'environment_grant_id': string, 'environment_id'?: string, 'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'state': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'merchant_id': string, 'mode': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string, 'package': array{'carrier'?: string, 'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'package_id': string, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string|\DateTimeInterface, 'weight'?: array{'unit': string, 'value': int|float}|object}|object, 'package_id': string, 'partner_app_install_id': string, 'shipment': array{'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'updated_at': string|\DateTimeInterface}|object, 'shipment_id': string, 'source_type': mixed}|object $data
+ * @property-read string $event_type
+ * @property-read string $api_version
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read string $partner_app_id
+ * @property-read string $webhook_event_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_order_fulfillment_package_created_installed_merchantsInput extends Model {
+    /** @param array{'data': array{'environment_grant_id': string, 'environment_id'?: string, 'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'state': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'merchant_id': string, 'mode': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string, 'package': array{'carrier'?: string, 'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'package_id': string, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string|\DateTimeInterface, 'weight'?: array{'unit': string, 'value': int|float}|object}|object, 'package_id': string, 'partner_app_install_id': string, 'shipment': array{'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'updated_at': string|\DateTimeInterface}|object, 'shipment_id': string, 'source_type': mixed}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_order_fulfillment_package_created_installed_merchantsInput')); }
+    /** @return array{'environment_grant_id': string, 'environment_id'?: string, 'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'state': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'merchant_id': string, 'mode': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string, 'package': array{'carrier'?: string, 'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'package_id': string, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string|\DateTimeInterface, 'weight'?: array{'unit': string, 'value': int|float}|object}|object, 'package_id': string, 'partner_app_install_id': string, 'shipment': array{'created_at': string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'updated_at': string|\DateTimeInterface}|object, 'shipment_id': string, 'source_type': mixed}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** @return string
+     * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
+     */
+    public function getApiVersion(): string { return $this->get('api_version'); }
+    public function hasApiVersion(): bool { return $this->has('api_version'); }
+    /** @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** @return string
+     * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
+     */
+    public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
+    public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
+    /** @return string
+     * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
+     */
+    public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
+    public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }
+}

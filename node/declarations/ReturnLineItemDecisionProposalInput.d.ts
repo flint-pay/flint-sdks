@@ -1,0 +1,4 @@
+
+
+
+export type ReturnLineItemDecisionProposalInput = { "allowed_resolution_types": Array<"refund" | "exchange" | "replacement" | "no_monetary_action">; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "based_on_quantity": string; "is_inspection_required": boolean; "receiving_location_id"?: string; "refund_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual"; "resolution_mode": "automatic" | "manual"; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "return_required_quantity": string; "selected_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action"; };

@@ -1,0 +1,1 @@
+{"shared":"DeliverySelectionInstructionsRequest","phpRepresentation":{"kind":"record","fields":{"delivery_window_id":{"kind":"value","type":"string"},"instructions":{"kind":"value","type":"string"}}},"dependencies":["DeliverySelectionInstructionsRequest"]}

@@ -1,0 +1,4 @@
+
+import type { MoneyValue } from './MoneyValue.js';
+
+export type AppliedDiscount = { "amount_money": MoneyValue; "applied_money": MoneyValue; "customer_facing_name"?: string; "discount_class"?: "order" | "line_item" | "service_charge" | (string & {}); "order_charge_ids"?: Array<string>; /** Identifier for this applied discount, unique within the order and with no prefix. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. */ "order_discount_id": string; "order_id": string; "order_line_item_ids"?: Array<string>; /** Promotion code used to create this discount. Present only when source is promotion and a code was used. */ "promotion_code"?: string; /** Promotion that created this discount. Present only when source is promotion. */ "promotion_id"?: string; "source"?: "manual" | "promotion" | (string & {}); "status": "pending" | "redeemed" | "canceled" | (string & {}); };

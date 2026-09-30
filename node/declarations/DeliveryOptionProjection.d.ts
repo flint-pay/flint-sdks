@@ -1,0 +1,12 @@
+
+import type { BuyerInstructionsConfig } from './BuyerInstructionsConfig.js';
+import type { DeliveryArrivalEstimate } from './DeliveryArrivalEstimate.js';
+import type { DeliveryPickupDetails } from './DeliveryPickupDetails.js';
+import type { DeliveryPlan } from './DeliveryPlan.js';
+import type { DeliveryQuoteExecutionLegResource } from './DeliveryQuoteExecutionLegResource.js';
+import type { DeliveryRecipientRequirement } from './DeliveryRecipientRequirement.js';
+import type { DeliveryShipmentDetails } from './DeliveryShipmentDetails.js';
+import type { DeliveryWindowResource } from './DeliveryWindowResource.js';
+import type { MoneyValue } from './MoneyValue.js';
+
+export type DeliveryOptionProjection = { "amount_money": MoneyValue; "arrival_estimate"?: DeliveryArrivalEstimate; "buyer_instructions": BuyerInstructionsConfig; /** Flint charge tax category. */ "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | (string & {}); "consumed_by_delivery_selection_id"?: string; "delivery_method_id": string; "delivery_method_revision_id"?: string; "delivery_option_id"?: string; "delivery_plan": DeliveryPlan; "description"?: string; /** Format: int32. */ "display_position": number; /** Where this option's items leave from, one leg per origin Location. Under method_origin routing each method uses its own origin, so a pickup option leaves from the chosen store while a shipment option can leave from a warehouse. Selecting the option makes these legs the selection's execution legs. */ "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>; /** RFC3339 timestamp. Format: date-time. */ "expires_at"?: string; "local_delivery"?: DeliveryShipmentDetails; "name": string; "offered_windows"?: Array<DeliveryWindowResource>; "pickup"?: DeliveryPickupDetails; /** Recipient fields this option asks for. A selection can leave out required fields, but payment needs them. */ "recipient_requirements"?: Array<DeliveryRecipientRequirement>; "recommended": boolean; "shipment"?: DeliveryShipmentDetails; "taxable": boolean; /** IANA timezone for displaying window_start_at, window_end_at, and any offered windows. Example: "America/New_York". */ "timezone"?: string; "type": "shipment" | "pickup" | "local_delivery" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "window_end_at"?: string; "window_pricing"?: "uniform" | "varies" | (string & {}); "window_selection": "none" | "offered" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "window_start_at"?: string; };

@@ -178,6 +178,12 @@ export interface Config {
         name: string;
         registry?: string;
         access?: 'public' | 'restricted';
+        homepage?: string;
+        repository?: {
+            type: 'git';
+            url: string;
+            directory?: string;
+        };
     };
     composer: {
         name: string;
@@ -199,6 +205,7 @@ export interface Config {
     license?: string;
     errors?: {
         codePath?: string;
+        messagePath?: string;
         detailsPath?: string;
         requestIdHeader?: string;
     };
@@ -213,6 +220,7 @@ export interface Config {
     };
 }
 export interface Contract {
+    defaultBaseUrl?: string;
     title: string;
     apiVersion: string;
     operations: Operation[];

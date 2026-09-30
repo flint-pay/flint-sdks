@@ -1,0 +1,1 @@
+{"shared":"CardDetails","phpRepresentation":{"kind":"record","fields":{"brand":{"kind":"value","type":"string"},"exp_month":{"kind":"value","type":"int"},"exp_year":{"kind":"value","type":"int"},"last4":{"kind":"value","type":"string"},"wallet":{"kind":"value","type":"string"}}},"dependencies":["CardDetails"]}

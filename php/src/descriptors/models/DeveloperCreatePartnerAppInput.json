@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1291","objectOnlyAlternative":true},"dependencies":["CreatePartnerAppRequest","PartnerAppPermissionManifestEntry","SharedCodec1291"]}

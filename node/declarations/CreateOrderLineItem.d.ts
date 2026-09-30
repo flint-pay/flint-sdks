@@ -1,0 +1,9 @@
+
+import type { ImageReferenceRequest } from './ImageReferenceRequest.js';
+import type { LineItemFulfillmentRequest } from './LineItemFulfillmentRequest.js';
+import type { MoneyValue } from './MoneyValue.js';
+import type { OrderDraftLineItemInventoryDemandRequest } from './OrderDraftLineItemInventoryDemandRequest.js';
+import type { OrderDraftLineItemTaxRequest } from './OrderDraftLineItemTaxRequest.js';
+import type { TextModifierRequest } from './TextModifierRequest.js';
+
+export type CreateOrderLineItem = ({ "bundle_id"?: string; "description"?: string; "fulfillment"?: LineItemFulfillmentRequest; "image"?: ImageReferenceRequest; "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>; "metadata"?: Record<string, string>; "modifiers"?: Array<(({ "metadata"?: Record<string, string>; /** pattern: ^mod_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_id"?: string; /** Existing selection ID to retain during replacement. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. */ "order_line_item_modifier_id"?: string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity"?: string; "text"?: TextModifierRequest; }) & ((({ "modifier_id": unknown; })) | (({ "text": unknown; })) | (object)))>; "name"?: string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity"?: string; "tax"?: OrderDraftLineItemTaxRequest; "unit_price_money"?: MoneyValue; "variant_id"?: string; }) & ((({ "variant_id": unknown; })) | (({ "bundle_id": unknown; })) | (({ "name": unknown; "unit_price_money": unknown; })) | (object));

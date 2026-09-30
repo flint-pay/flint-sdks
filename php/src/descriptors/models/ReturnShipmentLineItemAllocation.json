@@ -1,0 +1,1 @@
+{"shared":"ReturnShipmentLineItemAllocation","phpRepresentation":{"kind":"record","fields":{"quantity":{"kind":"value","type":"string"},"return_line_item_id":{"kind":"value","type":"string"}}},"dependencies":["ReturnShipmentLineItemAllocation"]}

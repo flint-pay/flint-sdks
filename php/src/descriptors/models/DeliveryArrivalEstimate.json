@@ -1,0 +1,1 @@
+{"shared":"DeliveryArrivalEstimate","phpRepresentation":{"kind":"record","fields":{"earliest_date":{"kind":"value","type":"string"},"latest_date":{"kind":"value","type":"string"},"timezone":{"kind":"value","type":"string"}}},"dependencies":["DeliveryArrivalEstimate"]}

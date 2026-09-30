@@ -1,0 +1,1 @@
+{"shared":"WebhookEndpointListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","WebhookEndpoint","WebhookEndpointListResponse"]}

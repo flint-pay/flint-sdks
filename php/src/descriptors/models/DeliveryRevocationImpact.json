@@ -1,0 +1,1 @@
+{"shared":"DeliveryRevocationImpact","phpRepresentation":{"kind":"record","fields":{"active_quote_count":{"kind":"value","type":"string"},"current_selection_count":{"kind":"value","type":"string"}}},"dependencies":["DeliveryRevocationImpact"]}

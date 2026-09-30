@@ -1,0 +1,1 @@
+{"shared":"PromotionCodeResponse","phpRepresentation":{"kind":"record","fields":{"data":{"kind":"entity","name":"PromotionCode"},"meta":{"kind":"entity","name":"ResponseMeta"},"request_id":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PromotionCode","PromotionCodeResponse","ResponseMeta","ResponseWarning"]}

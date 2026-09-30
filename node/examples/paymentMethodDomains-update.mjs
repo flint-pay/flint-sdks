@@ -1,9 +1,10 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  apiKey: process.env.API_KEY ?? '',
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
 });
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentMethodDomains.update(
@@ -11,8 +12,7 @@ const result = await client.paymentMethodDomains.update(
   {
     status: "active",
     "Idempotency-Key": idempotencyKey,
-  },
-  { maxAttempts: 1 },
+  }
 );
 console.log(result.payment_method_domain_id);
 console.log(result.status);

@@ -1,11 +1,11 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  baseUrl: clientBaseUrl,
 });
 const result = await client.paymentLinks.getPublic(
   "example",
-  {},
-  { maxAttempts: 1 },
+  {}
 );
 console.log(result.payment_link.payment_link_id);
 console.log(result.payment_link.status);

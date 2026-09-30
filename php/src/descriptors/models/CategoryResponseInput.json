@@ -1,0 +1,1 @@
+{"shared":"CategoryResponse","dependencies":["Category","CategoryResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

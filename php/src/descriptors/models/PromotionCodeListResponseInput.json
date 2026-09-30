@@ -1,0 +1,1 @@
+{"shared":"PromotionCodeListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PromotionCode","PromotionCodeListResponse","ResponseMeta","ResponseWarning"]}

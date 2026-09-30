@@ -1,0 +1,1 @@
+{"shared":"DeliveryRadiusCondition","dependencies":["DeliveryDistance","DeliveryRadiusCondition","DeliveryRadiusOrigin"]}

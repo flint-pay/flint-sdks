@@ -1,0 +1,1 @@
+{"shared":"Image","phpRepresentation":{"kind":"record","fields":{"alt":{"kind":"value","type":"string"},"external_reference_id":{"kind":"value","type":"string"},"height":{"kind":"value","type":"int"},"url":{"kind":"value","type":"string"},"width":{"kind":"value","type":"int"}}},"dependencies":["Image"]}

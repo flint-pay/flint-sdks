@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec1665","objectOnlyAlternative":true},"dependencies":["MoneyValue","SharedCodec1665","UpdatePaymentIntentRequest"]}

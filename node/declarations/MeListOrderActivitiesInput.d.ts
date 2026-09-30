@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type MeListOrderActivitiesInput = { "order_id": InputValue<string>; /** minimum: 1. maximum: 100. */ "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"created" | "line_item_added" | "line_item_updated" | "line_item_removed" | "discount_applied" | "discount_removed" | "tax_updated" | "requested_tip_added" | "requested_tip_updated" | "requested_tip_removed" | "charge_added" | "charge_updated" | "charge_removed" | "charge_fulfillment_updated" | "order_updated" | "adjustment" | "closed" | "payment" | "payment_failed" | "refund" | "refund_failed" | "checkout_session_created" | "checkout_session_expired" | "checkout_session_invalidated" | "fulfillment_created" | "fulfillment_updated" | "fulfillment_state_changed">>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

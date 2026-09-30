@@ -1,0 +1,1 @@
+{"shared":"InventoryOriginPolicy","phpRepresentation":{"kind":"record","fields":{"post_payment_inventory_failure_action":{"kind":"value","type":"string"},"subscription_inventory_block_action":{"kind":"value","type":"string"}}},"dependencies":["InventoryOriginPolicy"]}

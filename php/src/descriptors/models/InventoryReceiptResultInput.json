@@ -1,0 +1,1 @@
+{"shared":"InventoryReceiptResult","dependencies":["InventoryItem","InventoryLevel","InventoryReceipt","InventoryReceiptLine","InventoryReceiptResult","InventorySourceSystem","SharedCodec61"]}

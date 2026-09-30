@@ -1,0 +1,1 @@
+{"shared":"CatalogSettings","phpRepresentation":{"kind":"record","fields":{"default_delivery_profile_id":{"kind":"value","type":"string"},"updated_at":{"kind":"value","type":"string"},"version":{"kind":"value","type":"string"}}},"dependencies":["CatalogSettings"]}

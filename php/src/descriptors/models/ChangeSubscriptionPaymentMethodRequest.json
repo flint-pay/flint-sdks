@@ -1,0 +1,1 @@
+{"shared":"PendingPaymentActionSetupPaymentSourceSubject","phpRepresentation":{"kind":"record","fields":{"payment_method_id":{"kind":"value","type":"string"}}},"dependencies":["PendingPaymentActionSetupPaymentSourceSubject"]}

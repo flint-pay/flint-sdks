@@ -1,0 +1,1 @@
+{"shared":"StripeClientAuthority","phpRepresentation":{"kind":"record","fields":{"client_secret":{"kind":"value","type":"string"},"stripe_js_call":{"kind":"value","type":"string"}}},"dependencies":["StripeClientAuthority"]}

@@ -1,0 +1,1 @@
+{"shared":"PromotionExclusivity","phpRepresentation":{"kind":"record","fields":{"group":{"kind":"value","type":"string"},"priority":{"kind":"value","type":"int"},"selection":{"kind":"value","type":"string"}}},"dependencies":["PromotionExclusivity"]}

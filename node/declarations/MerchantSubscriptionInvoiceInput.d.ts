@@ -1,0 +1,5 @@
+
+import type { MerchantSubscriptionInvoiceLineInput } from './MerchantSubscriptionInvoiceLineInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
+
+export type MerchantSubscriptionInvoiceInput = { /** RFC3339 timestamp. Format: date-time. */ "created_at": string | globalThis.Date; "credit_money": MoneyValueInput; /** RFC3339 timestamp. Format: date-time. */ "due_at": string | globalThis.Date; "invoice_number": string; /** RFC3339 timestamp. Format: date-time. */ "issued_at"?: string | globalThis.Date; "lines": Array<MerchantSubscriptionInvoiceLineInput>; "merchant_subscription_invoice_id": string; "outstanding_money": MoneyValueInput; /** RFC3339 timestamp. Format: date-time. */ "paid_at"?: string | globalThis.Date; "period_end": string; "period_start": string; "status": "draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off"; "subtotal_money": MoneyValueInput; "total_money": MoneyValueInput; /** RFC3339 timestamp. Format: date-time. */ "updated_at": string | globalThis.Date; /** RFC3339 timestamp. Format: date-time. */ "voided_at"?: string | globalThis.Date; };

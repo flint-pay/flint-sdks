@@ -1,0 +1,1 @@
+{"shared":"ReturnActor","phpRepresentation":{"kind":"record","fields":{"actor_id":{"kind":"value","type":"string"},"actor_type":{"kind":"value","type":"string"}}},"dependencies":["ReturnActor"]}

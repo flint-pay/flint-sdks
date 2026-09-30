@@ -1,0 +1,1 @@
+{"shared":"ReturnReasonSummary","phpRepresentation":{"kind":"record","fields":{"handle":{"kind":"value","type":"string"},"is_note_required":{"kind":"value","type":"bool"},"name":{"kind":"value","type":"string"},"return_reason_id":{"kind":"value","type":"string"}}},"dependencies":["ReturnReasonSummary"]}

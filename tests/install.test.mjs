@@ -71,7 +71,7 @@ test(
         .flatMap(({ id }) => {
           const { resource, method } = naming[id];
           const methods = [[resource, method]];
-          if (config.operations[id]?.response?.return !== 'result')
+          if ((config.operations[id]?.response?.return ?? naming[id].response?.return) !== 'result')
             methods.push([resource, method + 'WithResponse']);
           if (naming[id].pagination)
             methods.push([resource, method + 'Items'], [resource, method + 'Pages']);

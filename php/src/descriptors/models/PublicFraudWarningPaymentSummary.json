@@ -1,0 +1,1 @@
+{"shared":"PublicFraudWarningPaymentSummary","phpRepresentation":{"kind":"record","fields":{"amount_money":{"kind":"entity","name":"MoneyValue"},"email":{"kind":"value","type":"string"},"last4":{"kind":"value","type":"string"},"payment_method_brand":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","PublicFraudWarningPaymentSummary"]}

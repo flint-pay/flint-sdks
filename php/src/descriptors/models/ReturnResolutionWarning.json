@@ -1,0 +1,1 @@
+{"shared":"ReturnResolutionWarning","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"message":{"kind":"value","type":"string"},"return_line_item_ids":{"kind":"list","value":{"kind":"value","type":"string"}}}},"dependencies":["ReturnResolutionWarning"]}

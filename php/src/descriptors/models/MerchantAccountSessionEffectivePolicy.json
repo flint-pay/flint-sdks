@@ -1,0 +1,1 @@
+{"shared":"MerchantAccountSessionEffectivePolicy","phpRepresentation":{"kind":"record","fields":{"collection_strategy":{"kind":"value","type":"string"},"future_requirements":{"kind":"value","type":"string"},"targeting":{"kind":"value","type":"string"}}},"dependencies":["MerchantAccountSessionEffectivePolicy"]}

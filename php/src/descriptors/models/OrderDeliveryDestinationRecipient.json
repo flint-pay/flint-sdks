@@ -1,0 +1,1 @@
+{"shared":"OrderDeliveryDestinationRecipient","phpRepresentation":{"kind":"record","fields":{"name":{"kind":"value","type":"string"},"phone":{"kind":"value","type":"string"}}},"dependencies":["OrderDeliveryDestinationRecipient"]}

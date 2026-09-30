@@ -1,0 +1,6 @@
+
+import type { CreateProductOptionRequestInput } from './CreateProductOptionRequestInput.js';
+import type { ImageRequestInput } from './ImageRequestInput.js';
+import type { ProductVariantRequestInput } from './ProductVariantRequestInput.js';
+
+export type CreateProductRequestInput = ({ /** maxItems: 100. */ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. */ "external_reference_id"?: string; /** The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8. */ "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; /** Attached modifier set. Send null on update to remove it. pattern: ^ms_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_set_id"?: string | null; "name": string; /** minItems: 1. */ "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; /** minItems: 1. */ "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))));

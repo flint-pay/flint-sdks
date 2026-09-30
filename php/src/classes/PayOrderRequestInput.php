@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class PayOrderRequestInput extends Model {
+    /** @param array{'action': string, 'buyer_email'?: string, 'buyer_phone'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_source'?: PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass, 'save_payment_method'?: bool, 'save_payment_method_phone'?: string}|object|array{'action': string, 'buyer_email'?: string, 'buyer_phone'?: string, 'completion_behavior'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_intents': list<OrderPaymentIntentSelectionInput|array<array-key, mixed>|\stdClass>, 'save_payment_method'?: bool, 'save_payment_method_phone'?: string}|object|array{'action': string, 'buyer_email'?: string, 'buyer_phone'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'setup_payment_source': array{'token': string}|object}|object|array{'action': string, 'buyer_email'?: string, 'buyer_phone'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_attempt_id': string}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestInput')); }
+}

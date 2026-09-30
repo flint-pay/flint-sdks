@@ -1,0 +1,1 @@
+{"shared":"CreateInvoicePaymentTermRequest","dependencies":["CreateInvoicePaymentTermRequest","InvoiceLateFeePolicy","InvoicePaymentTermCalculation","MoneyValue","SharedCodec407","SharedCodec408","SharedCodec410","SharedCodec411","SharedCodec412","SharedCodec413","SharedCodec414","SharedCodec415"]}

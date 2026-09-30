@@ -1,0 +1,1 @@
+{"shared":"RefundAdjustmentReason","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"description":{"kind":"value","type":"string"}}},"dependencies":["RefundAdjustmentReason"]}

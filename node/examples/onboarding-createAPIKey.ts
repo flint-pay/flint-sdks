@@ -1,22 +1,17 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  authMode: "onboarding",
-  credentials: {
-    ["onboarding"]: {
-      ["OnboardingSessionBearer"]: process.env.API_ONBOARDING_ONBOARDINGSESSIONBEARER ?? '',
-    },
-  },
+  baseUrl: clientBaseUrl,
+  onboardingToken: process.env.ONBOARDING_TOKEN ?? '',
 });
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.onboarding.createAPIKey(
   {
     name: "example",
     "Idempotency-Key": idempotencyKey,
-  },
-  { maxAttempts: 1 },
+  }
 );
 console.log(result.api_key_id);
 console.log(result.status);

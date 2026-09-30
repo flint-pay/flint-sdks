@@ -1,23 +1,17 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  apiKey: process.env.API_KEY ?? '',
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
 });
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.refunds.create(
   {
-    amount_money: {
-      amount: "500",
-      currency: "USD",
-    },
-    external_reference_id: "refund-1001",
-    payment_intent_id: "pi_replace_with_your_payment_intent_id",
-    reason: "requested_by_customer",
+    order_id: "example",
     "Idempotency-Key": idempotencyKey,
-  },
-  { maxAttempts: 1 },
+  }
 );
 console.log(result.refund_id);
 console.log(result.status);

@@ -1,0 +1,1 @@
+{"shared":"ReturnUnverifiedItem","phpRepresentation":{"kind":"record","fields":{"description":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"sku":{"kind":"value","type":"string"}}},"dependencies":["ReturnUnverifiedItem"]}

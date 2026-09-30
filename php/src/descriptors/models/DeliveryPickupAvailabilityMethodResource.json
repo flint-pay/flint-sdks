@@ -1,0 +1,1 @@
+{"shared":"DeliveryPickupAvailabilityMethodResource","phpRepresentation":{"kind":"record","fields":{"delivery_method_id":{"kind":"value","type":"string"},"delivery_method_revision_id":{"kind":"value","type":"string"}}},"dependencies":["DeliveryPickupAvailabilityMethodResource"]}

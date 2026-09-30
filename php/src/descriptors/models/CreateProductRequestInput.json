@@ -1,0 +1,1 @@
+{"shared":"CreateProductRequest","dependencies":["CreateProductOptionRequest","CreateProductOptionValueRequest","CreateProductRequest","ImageRequest","InventoryItemCreateRequest","MoneyValue","ProductVariantRequest","ProductVariantSelectedOptionRequest","SharedCodec146","SharedCodec147","SharedCodec148"]}

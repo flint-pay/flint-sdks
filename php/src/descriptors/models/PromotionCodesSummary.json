@@ -1,0 +1,1 @@
+{"shared":"PromotionCodesSummary","phpRepresentation":{"kind":"record","fields":{"active_count":{"kind":"value","type":"int"},"newest_active_code":{"kind":"value","type":"string"},"total_count":{"kind":"value","type":"int"}}},"dependencies":["PromotionCodesSummary"]}

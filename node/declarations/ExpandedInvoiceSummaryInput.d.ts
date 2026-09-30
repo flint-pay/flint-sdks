@@ -1,0 +1,4 @@
+
+import type { MoneyValueInput } from './MoneyValueInput.js';
+
+export type ExpandedInvoiceSummaryInput = { "collection_block_status"?: "none" | "inventory_blocked" | "resolved"; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: string | globalThis.Date; "customer_id"?: string; /** RFC3339 timestamp. Format: date-time. */ "due_at"?: string | globalThis.Date; "invoice_id": string; "invoice_number"?: string; "is_overdue": boolean; "order_id"?: string; "outstanding_money": MoneyValueInput; "paid_money": MoneyValueInput; "refund_status"?: "none" | "partially_refunded" | "refunded"; "refunded_money": MoneyValueInput; "status": "draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited"; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: string | globalThis.Date; };

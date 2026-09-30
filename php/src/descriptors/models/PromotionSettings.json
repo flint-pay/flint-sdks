@@ -1,0 +1,1 @@
+{"shared":"PromotionSettings","phpRepresentation":{"kind":"record","fields":{"automatic_enabled":{"kind":"value","type":"bool"},"codes_enabled":{"kind":"value","type":"bool"},"max_promotions_per_order":{"kind":"value","type":"int"}}},"dependencies":["PromotionSettings"]}

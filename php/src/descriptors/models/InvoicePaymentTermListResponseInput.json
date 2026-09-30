@@ -1,0 +1,1 @@
+{"shared":"InvoicePaymentTermListResponse","dependencies":["InvoicePaymentTerm","InvoicePaymentTermListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec407","SharedCodec408","SharedCodec409","SharedCodec410","SharedCodec411","SharedCodec412","SharedCodec413","SharedCodec414","SharedCodec415","SharedCodec416"]}

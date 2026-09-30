@@ -1,0 +1,1 @@
+{"shared":"InvoiceCollectionRequest","dependencies":["InvoiceCollectionRequest","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec111","SharedCodec112","SharedCodec113","SharedCodec114","SharedCodec115"]}

@@ -1,0 +1,4 @@
+
+
+
+export type ReturnReceiptLineItemRequest = ({ /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity": string; /** The expected Return line. Required for matched and explicitly excess merchandise. */ "return_line_item_id"?: string; /** A buyer or catalog identity observation that has not been matched to a Return line. */ "unverified_item"?: { "description"?: string; "name": string; "sku"?: string; }; /** Set to excess only when the merchandise is known to exceed the committed handback quantity for return_line_item_id. Omit for matched or unverified merchandise. */ "verification_status"?: "excess" | (string & {}); }) & ((({ "return_line_item_id": unknown; })) | (({ "unverified_item": unknown; })) | (({ "verification_status": unknown; "return_line_item_id": unknown; })) | (object));

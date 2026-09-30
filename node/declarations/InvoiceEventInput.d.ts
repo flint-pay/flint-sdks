@@ -1,0 +1,4 @@
+
+
+
+export type InvoiceEventInput = { "actor_id"?: string; "actor_type"?: string; "description": string; /** Flint-normalized invoice event type. Unmapped internal values are returned as updated. */ "event_type": "draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited"; "invoice_event_id": string; "metadata"?: Record<string, string>; /** RFC3339 timestamp. Format: date-time. */ "occurred_at"?: string | globalThis.Date; };

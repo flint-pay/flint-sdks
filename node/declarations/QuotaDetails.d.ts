@@ -1,0 +1,4 @@
+
+
+
+export type QuotaDetails = { /** Maximum bytes available for the resource in the authenticated scope. Use an exact numeric string, not a floating-point number. Format: int64. */ "limit_bytes": string; /** RFC 3339 time when the next ready unattached image becomes eligible for cleanup, when known. Format: date-time. */ "next_expiration_at"?: string; /** Stored bytes held by completed images that are not attached to a resource. Use an exact numeric string, not a floating-point number. Format: int64. */ "ready_unattached_bytes": string; /** Bytes reserved by in-progress resource mutations. Use an exact numeric string, not a floating-point number. Format: int64. */ "reserved_bytes": string; /** Stable resource name whose quota was exhausted. */ "resource": string; /** Bytes currently stored for the resource in the authenticated scope. Use an exact numeric string, not a floating-point number. Format: int64. */ "used_bytes": string; };

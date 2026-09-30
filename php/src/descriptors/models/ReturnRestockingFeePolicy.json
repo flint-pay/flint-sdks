@@ -1,0 +1,1 @@
+{"shared":"ReturnRestockingFeePolicy","phpRepresentation":{"kind":"record","fields":{"calculation_type":{"kind":"value","type":"string"},"flat_money":{"kind":"entity","name":"MoneyValue"},"percent":{"kind":"value","type":"float"}}},"dependencies":["MoneyValue","ReturnRestockingFeePolicy"]}

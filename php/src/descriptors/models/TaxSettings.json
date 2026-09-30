@@ -1,0 +1,1 @@
+{"shared":"TaxSettings","phpRepresentation":{"kind":"record","fields":{"default_delivery_tax_category":{"kind":"nullable","value":{"kind":"value","type":"string"}},"default_delivery_taxable":{"kind":"value","type":"bool"},"default_enabled":{"kind":"value","type":"bool"},"default_line_item_tax_category":{"kind":"value","type":"string"}}},"dependencies":["TaxSettings"]}

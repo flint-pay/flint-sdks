@@ -1,0 +1,13 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+final class BalancesResource {
+    public function __construct(private readonly Runtime $runtime) {}
+    /** Returns an unpaginated current balance snapshot grouped by currency and balance source for the authenticated merchant.
+     * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
+     * @return BalancesListResponse200
+     */
+    public function list(array|Model|null $params = null, ?RequestOptions $options = null): BalancesListResponse200 { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('currency', $rest)) { $input['currency'] = $rest['currency']; unset($rest['currency']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } foreach ($rest as $name => $value) { if (array_key_exists($name, $input)) throw new SdkError('validation', 'Path values belong in positional arguments', 'not_sent'); $input[$name] = $value; } return SdkResponse::payload($this->runtime->request('listBalances', $input instanceof BalancesListInput ? $input->toInputArray() : (new BalancesListInput($input))->toInputArray(), $options), []); }
+    /** @return SdkResponse<BalancesListResponse200> */
+    public function listWithResponse(array|Model|null $params = null, ?RequestOptions $options = null): SdkResponse { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw new SdkError('validation', 'Expected associative params', 'not_sent'); if (array_key_exists('currency', $rest)) { $input['currency'] = $rest['currency']; unset($rest['currency']); } if (array_key_exists('X-Request-Id', $rest)) { $input['X-Request-Id'] = $rest['X-Request-Id']; unset($rest['X-Request-Id']); } if (array_key_exists('Flint-Version', $rest)) { $input['Flint-Version'] = $rest['Flint-Version']; unset($rest['Flint-Version']); } foreach ($rest as $name => $value) { if (array_key_exists($name, $input)) throw new SdkError('validation', 'Path values belong in positional arguments', 'not_sent'); $input[$name] = $value; } $result = $this->runtime->request('listBalances', $input instanceof BalancesListInput ? $input->toInputArray() : (new BalancesListInput($input))->toInputArray(), $options); return new SdkResponse($result->data, $result->meta, $result->raw); }
+}

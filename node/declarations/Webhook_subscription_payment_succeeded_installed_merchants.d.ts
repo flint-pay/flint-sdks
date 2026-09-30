@@ -1,0 +1,4 @@
+
+import type { Webhook_subscription_activated_installed_merchants } from './Webhook_subscription_activated_installed_merchants.js';
+
+export type Webhook_subscription_payment_succeeded_installed_merchants = Webhook_subscription_activated_installed_merchants;

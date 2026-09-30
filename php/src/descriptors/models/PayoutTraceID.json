@@ -1,0 +1,1 @@
+{"shared":"PayoutTraceID","phpRepresentation":{"kind":"record","fields":{"status":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["PayoutTraceID"]}

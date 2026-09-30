@@ -1,0 +1,1 @@
+{"shared":"OrderAuthorizationAmounts","phpRepresentation":{"kind":"record","fields":{"authorized_money":{"kind":"entity","name":"MoneyValue"},"capturable_money":{"kind":"entity","name":"MoneyValue"},"expires_at":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","OrderAuthorizationAmounts"]}

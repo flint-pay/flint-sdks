@@ -1,0 +1,4 @@
+
+
+
+export type BalanceInput = { "available_by_source_type"?: never; /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "available_money"?: never; "balance_id"?: never; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency"?: never; "held_by_type"?: never; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "held_money"?: never; "merchant_id"?: never; "payouts_enabled"?: never; "pending_by_source_type"?: never; /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "pending_money"?: never; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "reserve_money"?: never; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "unavailable_money"?: never; };

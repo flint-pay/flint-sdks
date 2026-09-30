@@ -1,0 +1,4 @@
+
+
+
+export type PromotionCodeInput = { "code": string; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: string | globalThis.Date; /** RFC3339 timestamp. Format: date-time. */ "expires_at"?: string | globalThis.Date; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "max_uses"?: string; "merchant_id"?: string; "metadata"?: Record<string, string>; "promotion_code_id": string; "promotion_id": string; /** Read-only, computed from stored active or inactive state, expires_at, and max_uses: active, inactive, expired, or exhausted. Only active and inactive can be set via PATCH. */ "status": "active" | "inactive" | "expired" | "exhausted"; "timezone"?: string; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: string | globalThis.Date; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "uses_count": string; };

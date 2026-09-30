@@ -1,0 +1,1 @@
+{"shared":"DeliveryFixedPricingStrategyRequest","phpRepresentation":{"kind":"record","fields":{"currency_options":{"kind":"map","value":{"kind":"entity","name":"MoneyValue"}}}},"dependencies":["DeliveryFixedPricingStrategyRequest","MoneyValue"]}

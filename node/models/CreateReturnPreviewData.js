@@ -1,0 +1,9 @@
+import { d60 as c0, d425 as c1, d811 as c2, d69 as c3, d1686 as c4, d1965 as c5, d1968 as c6, d1969 as c7, d1972 as c8, d2014 as c9, d2015 as c10, d2016 as c11, d2021 as c12, d2022 as c13, d2023 as c14, d2041 as c15, d2051 as c16, d2060 as c17, d2064 as c18, d2067 as c19, d2068 as c20, d2109 as c21, d423 as c22, d424 as c23, d59 as c24, d1970 as c25, d1971 as c26, d2174 as c27 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d425 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d425;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CreateReturnPreviewData"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["OrderLineItemModifier"]:c4(),["ReturnActor"]:c5(),["ReturnEligibilityCheck"]:c6(),["ReturnEligibilityCheckLineItem"]:c7(),["ReturnEligibilitySelection"]:c8(),["ReturnLineItemDecisionProposal"]:c9(),["ReturnLineItemEligibility"]:c10(),["ReturnLineItemRequest"]:c11(),["ReturnPolicyAdjustmentProposal"]:c12(),["ReturnPolicyEvaluation"]:c13(),["ReturnPolicyEvaluationLineItem"]:c14(),["ReturnReasonSummary"]:c15(),["ReturnReplacementLineItem"]:c16(),["ReturnResolutionAdjustment"]:c17(),["ReturnResolutionLineItem"]:c18(),["ReturnResolutionPreview"]:c19(),["ReturnResolutionWarning"]:c20(),["SelectedProductOption"]:c21(),["SharedCodec154"]:c22(),["SharedCodec155"]:c23(),["SharedCodec16"]:c24(),["SharedCodec483"]:c25(),["SharedCodec484"]:c26(),["TextModifierRequest"]:c27()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeCreateReturnPreviewData(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

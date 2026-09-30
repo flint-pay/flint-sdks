@@ -1,0 +1,1 @@
+{"shared":"CustomerReceivables","phpRepresentation":{"kind":"record","fields":{"balances":{"kind":"list","value":{"kind":"entity","name":"CustomerReceivableBalance"}},"observed_at":{"kind":"value","type":"string"}}},"dependencies":["CustomerReceivableBalance","CustomerReceivables","MoneyValue"]}

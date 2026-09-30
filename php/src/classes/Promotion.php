@@ -1,0 +1,135 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read \stdClass $application_method
+ * @property-read PromotionCodesSummary $codes_summary
+ * @property-read PromotionCombinesWith $combines_with
+ * @property-read string $created_at
+ * @property-read string $description
+ * @property-read string $discount_class
+ * @property-read string $display_name
+ * @property-read mixed $eligibility_rules
+ * @property-read PromotionExclusivity $exclusivity
+ * @property-read string $external_reference_id
+ * @property-read string $max_uses
+ * @property-read string $merchant_id
+ * @property-read array<array-key, string> $metadata
+ * @property-read string $name
+ * @property-read string $promotion_id
+ * @property-read string $redemption_type
+ * @property-read PromotionSchedule $schedule
+ * @property-read string $stacking_mode
+ * @property-read string $status
+ * @property-read string $updated_at
+ * @property-read string $uses_count
+ * Presence-aware response; omitted fields throw when accessed. */
+final class Promotion extends Model {
+    /** @param array{'application_method': mixed, 'codes_summary'?: object{'active_count': int, 'newest_active_code'?: string, 'total_count': int}, 'combines_with'?: mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'stacking_mode': string, 'status': string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Promotion')); }
+    /** @return \stdClass
+     * @throws SdkError When application_method is omitted; use hasApplicationMethod() or valueOrDefault().
+     */
+    public function getApplicationMethod(): \stdClass { return $this->get('application_method'); }
+    public function hasApplicationMethod(): bool { return $this->has('application_method'); }
+    /** @return PromotionCodesSummary
+     * @throws SdkError When codes_summary is omitted; use hasCodesSummary() or valueOrDefault().
+     */
+    public function getCodesSummary(): PromotionCodesSummary { return $this->get('codes_summary'); }
+    public function hasCodesSummary(): bool { return $this->has('codes_summary'); }
+    /** @return PromotionCombinesWith
+     * @throws SdkError When combines_with is omitted; use hasCombinesWith() or valueOrDefault().
+     */
+    public function getCombinesWith(): PromotionCombinesWith { return $this->get('combines_with'); }
+    public function hasCombinesWith(): bool { return $this->has('combines_with'); }
+    /** @return string
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** @return string
+     * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
+     */
+    public function getDescription(): string { return $this->get('description'); }
+    public function hasDescription(): bool { return $this->has('description'); }
+    /** @return string
+     * @throws SdkError When discount_class is omitted; use hasDiscountClass() or valueOrDefault().
+     */
+    public function getDiscountClass(): string { return $this->get('discount_class'); }
+    public function hasDiscountClass(): bool { return $this->has('discount_class'); }
+    /** @return string
+     * @throws SdkError When display_name is omitted; use hasDisplayName() or valueOrDefault().
+     */
+    public function getDisplayName(): string { return $this->get('display_name'); }
+    public function hasDisplayName(): bool { return $this->has('display_name'); }
+    /** @return mixed
+     * @throws SdkError When eligibility_rules is omitted; use hasEligibilityRules() or valueOrDefault().
+     */
+    public function getEligibilityRules(): mixed { return $this->get('eligibility_rules'); }
+    public function hasEligibilityRules(): bool { return $this->has('eligibility_rules'); }
+    /** @return PromotionExclusivity
+     * @throws SdkError When exclusivity is omitted; use hasExclusivity() or valueOrDefault().
+     */
+    public function getExclusivity(): PromotionExclusivity { return $this->get('exclusivity'); }
+    public function hasExclusivity(): bool { return $this->has('exclusivity'); }
+    /** @return string
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** @return string
+     * @throws SdkError When max_uses is omitted; use hasMaxUses() or valueOrDefault().
+     */
+    public function getMaxUses(): string { return $this->get('max_uses'); }
+    public function hasMaxUses(): bool { return $this->has('max_uses'); }
+    /** @return string
+     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+     */
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** @return array<array-key, string>
+     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+     */
+    public function getMetadata(): array { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** @return string
+     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+     */
+    public function getName(): string { return $this->get('name'); }
+    public function hasName(): bool { return $this->has('name'); }
+    /** @return string
+     * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
+     */
+    public function getPromotionId(): string { return $this->get('promotion_id'); }
+    public function hasPromotionId(): bool { return $this->has('promotion_id'); }
+    /** @return string
+     * @throws SdkError When redemption_type is omitted; use hasRedemptionType() or valueOrDefault().
+     */
+    public function getRedemptionType(): string { return $this->get('redemption_type'); }
+    public function hasRedemptionType(): bool { return $this->has('redemption_type'); }
+    /** @return PromotionSchedule
+     * @throws SdkError When schedule is omitted; use hasSchedule() or valueOrDefault().
+     */
+    public function getSchedule(): PromotionSchedule { return $this->get('schedule'); }
+    public function hasSchedule(): bool { return $this->has('schedule'); }
+    /** @return string
+     * @throws SdkError When stacking_mode is omitted; use hasStackingMode() or valueOrDefault().
+     */
+    public function getStackingMode(): string { return $this->get('stacking_mode'); }
+    public function hasStackingMode(): bool { return $this->has('stacking_mode'); }
+    /** @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** @return string
+     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+     */
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** @return string
+     * @throws SdkError When uses_count is omitted; use hasUsesCount() or valueOrDefault().
+     */
+    public function getUsesCount(): string { return $this->get('uses_count'); }
+    public function hasUsesCount(): bool { return $this->has('uses_count'); }
+}

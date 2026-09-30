@@ -1,0 +1,1 @@
+{"shared":"TextModifierRequest","phpRepresentation":{"kind":"record","fields":{"modifier_group_id":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["TextModifierRequest"]}

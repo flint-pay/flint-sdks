@@ -1,0 +1,1 @@
+{"shared":"BuyerCreditNoteListResponse","dependencies":["BuyerCreditNote","BuyerCreditNoteListResponse","CreditNoteLine","DocumentTaxID","MoneyValue","NextAction","NextActionMerchantAccountSession","PostalAddress","ResponseMeta","ResponseWarning","SharedCodec17","SharedCodec18","TaxIdentity"]}

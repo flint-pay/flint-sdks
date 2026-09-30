@@ -1,0 +1,1 @@
+{"shared":"ResolvePaymentLinkRequest","dependencies":["MoneyValue","ResolvePaymentLinkLineItemModifierRequest","ResolvePaymentLinkLineItemModifiers","ResolvePaymentLinkRequest","ResolvePaymentLinkTextModifierRequest"]}

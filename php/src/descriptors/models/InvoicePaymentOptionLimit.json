@@ -1,0 +1,1 @@
+{"shared":"InvoicePaymentOptionLimit","phpRepresentation":{"kind":"record","fields":{"max_total_money":{"kind":"entity","name":"MoneyValue"},"payment_option":{"kind":"value","type":"string"}}},"dependencies":["InvoicePaymentOptionLimit","MoneyValue"]}

@@ -2,9 +2,11 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
 $client = new Client(new ClientOptions(
-  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
-  apiKey: getenv('API_KEY') ?: '',
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
 ));
 $result = $client->returnPreviews->create([
   'mode' => 'eligibility',
@@ -14,5 +16,5 @@ $result = $client->returnPreviews->create([
       'selection_type' => 'all_remaining_fulfilled',
     ],
   ],
-], new RequestOptions(maxAttempts: 1));
+]);
 $client->close();

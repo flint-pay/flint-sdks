@@ -1,0 +1,1 @@
+{"shared":"PublicRiskAttributeRegistry","phpRepresentation":{"kind":"record","fields":{"attributes":{"kind":"list","value":{"kind":"entity","name":"PublicRiskAttribute"}},"version":{"kind":"value","type":"string"}}},"dependencies":["PublicRiskAttribute","PublicRiskAttributeRegistry"]}

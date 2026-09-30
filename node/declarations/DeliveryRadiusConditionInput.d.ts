@@ -1,0 +1,5 @@
+
+import type { DeliveryDistanceInput } from './DeliveryDistanceInput.js';
+import type { DeliveryRadiusOriginInput } from './DeliveryRadiusOriginInput.js';
+
+export type DeliveryRadiusConditionInput = { "maximum_distance": DeliveryDistanceInput; "measurement"?: "straight_line"; "origin": DeliveryRadiusOriginInput; /** Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. */ "subject"?: "destination_address" | "buyer_location"; };

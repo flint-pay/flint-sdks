@@ -1,0 +1,8 @@
+
+import type { BuyerDeliveryInputRequirementResource } from './BuyerDeliveryInputRequirementResource.js';
+import type { BuyerDeliverySelectionChoiceResource } from './BuyerDeliverySelectionChoiceResource.js';
+import type { DeliveryAddressResource } from './DeliveryAddressResource.js';
+import type { DeliveryRecipientResource } from './DeliveryRecipientResource.js';
+import type { MoneyValue } from './MoneyValue.js';
+
+export type BuyerDeliverySelection = { "amount_money": MoneyValue; "choices": Array<BuyerDeliverySelectionChoiceResource>; "delivery_quote_id": string; "delivery_selection_id": string; "destination_address"?: DeliveryAddressResource; /** RFC3339 timestamp. Format: date-time. */ "expires_at": string; /** Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. */ "input_requirements": Array<BuyerDeliveryInputRequirementResource>; "recipient"?: DeliveryRecipientResource; "status": "selected" | "locked_for_payment" | "committed" | "superseded" | "expired" | "released" | (string & {}); };

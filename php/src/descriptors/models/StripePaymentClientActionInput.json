@@ -1,0 +1,1 @@
+{"shared":"StripePaymentClientAction","dependencies":["StripePaymentClientAction","StripeSetupIntentClientAction"]}

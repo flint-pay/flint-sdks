@@ -1,8 +1,9 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  baseUrl: clientBaseUrl,
 });
 const result = await client.specification.get(
-  {},
-  { maxAttempts: 1 },
+  {}
 );
+console.log(result.meta.requestId);

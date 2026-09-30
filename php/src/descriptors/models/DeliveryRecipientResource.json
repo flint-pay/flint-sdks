@@ -1,0 +1,1 @@
+{"shared":"DeliveryRecipientResource","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"phone":{"kind":"value","type":"string"}}},"dependencies":["DeliveryRecipientResource"]}

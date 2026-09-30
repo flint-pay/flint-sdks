@@ -1,0 +1,1 @@
+{"shared":"DeliveryScheduleWindowRule","dependencies":["DeliveryAvailability","DeliveryBlackoutInterval","DeliveryScheduleWindowRule","DeliveryWeeklyInterval"]}

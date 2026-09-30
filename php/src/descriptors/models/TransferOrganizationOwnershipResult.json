@@ -1,0 +1,1 @@
+{"shared":"TransferOrganizationOwnershipResult","phpRepresentation":{"kind":"record","fields":{"membership":{"kind":"entity","name":"OrganizationMembership"},"previous_owner_user_id":{"kind":"value","type":"string"}}},"dependencies":["OrganizationMembership","TransferOrganizationOwnershipResult"]}

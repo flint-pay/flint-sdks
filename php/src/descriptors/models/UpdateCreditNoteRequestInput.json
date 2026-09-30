@@ -1,0 +1,1 @@
+{"shared":"UpdateCreditNoteRequest","dependencies":["CreditNoteCorrectionRequest","CreditNoteLineRequest","MoneyValue","SharedCodec177","SharedCodec178","SharedCodec560","UpdateCreditNoteRequest"]}

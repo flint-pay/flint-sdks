@@ -1,0 +1,1 @@
+{"shared":"DiscountPreviewResponse","dependencies":["DiscountPreview","DiscountPreviewData","DiscountPreviewResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","PromotionCandidate","PromotionCombinesWith","PromotionExclusivity","ResponseMeta","ResponseWarning"]}

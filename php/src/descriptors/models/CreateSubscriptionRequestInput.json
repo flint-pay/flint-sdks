@@ -1,0 +1,1 @@
+{"shared":"CreateSubscriptionRequest","dependencies":["CreateSubscriptionRequest","PostalAddress","SharedCodec172","SharedCodec173","SharedCodec174","SharedCodec175","SharedCodec541","SharedCodec542","SharedCodec550","SharedCodec551","SubscriptionBillingScheduleRequest","SubscriptionBillingStartRequest","SubscriptionServiceLocationRequest"]}

@@ -1,0 +1,4 @@
+
+import type { ErrorRemediationInput } from './ErrorRemediationInput.js';
+
+export type PaymentErrorSummaryInput = { /** Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. */ "code": "card_declined" | "insufficient_funds" | "bank_account_closed" | "bank_account_not_found" | "bank_debit_not_authorized" | "bank_account_restricted" | "bank_debit_limit_exceeded" | "authentication_required" | "payment_blocked" | "expired_card" | "incorrect_cvc" | "processing_error" | "payment_method_unavailable" | "payment_method_declined" | "payment_not_completed" | "payment_action_expired" | "payment_method_temporarily_unavailable" | "payment_failed"; /** RFC3339 timestamp. Format: date-time. */ "failed_at"?: string | globalThis.Date; /** Flint-authored merchant-facing payment failure message. This is stable explanatory text, not raw provider copy. */ "message": string; "remediation"?: ErrorRemediationInput; };

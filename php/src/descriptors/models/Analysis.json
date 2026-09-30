@@ -1,0 +1,1 @@
+{"shared":"Analysis","phpRepresentation":{"kind":"record","fields":{"applicability":{"kind":"value","type":"string"},"attributes_used":{"kind":"list","value":{"kind":"value","type":"string"}},"list_aliases_used":{"kind":"list","value":{"kind":"value","type":"string"}},"stage":{"kind":"value","type":"string"}}},"dependencies":["Analysis"]}

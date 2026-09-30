@@ -1,0 +1,1 @@
+{"shared":"BuyerDeliveryOptionResource","dependencies":["BuyerDeliveryOptionResource","BuyerInstructionsConfig","DeliveryAddressResource","DeliveryArrivalEstimate","DeliveryLocationSummaryResource","DeliveryPickupDetails","DeliveryPlan","DeliveryRecipientRequirement","DeliveryShipmentDetails","DeliveryWindowResource","MoneyValue"]}

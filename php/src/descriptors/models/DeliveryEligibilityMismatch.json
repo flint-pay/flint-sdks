@@ -1,0 +1,1 @@
+{"shared":"DeliveryEligibilityMismatch","phpRepresentation":{"kind":"record","fields":{"condition":{"kind":"value","type":"string"},"expression_path":{"kind":"value","type":"string"},"field":{"kind":"value","type":"string"},"negated":{"kind":"value","type":"bool"}}},"dependencies":["DeliveryEligibilityMismatch"]}

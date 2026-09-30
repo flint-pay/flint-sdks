@@ -1,0 +1,1 @@
+{"shared":"PaymentCollection","phpRepresentation":{"kind":"record","fields":{"stripe":{"kind":"entity","name":"PaymentCollectionStripe"}}},"dependencies":["ErrorRemediation","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentCollection","PaymentCollectionStripe","PaymentCollectionStripeElements","PaymentErrorSummary","SelectableOrderPaymentIntent"]}

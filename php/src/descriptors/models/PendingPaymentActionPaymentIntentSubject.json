@@ -1,0 +1,1 @@
+{"shared":"PendingPaymentActionPaymentIntentSubject","phpRepresentation":{"kind":"record","fields":{"payment_intent_id":{"kind":"value","type":"string"}}},"dependencies":["PendingPaymentActionPaymentIntentSubject"]}

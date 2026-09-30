@@ -1,0 +1,4 @@
+
+
+
+export type PayoutDestinationInput = { "available_payout_methods"?: never; "bank_name"?: never; /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". */ "country"?: never; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: never; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency"?: never; "default_for_currency"?: never; /** RFC3339 timestamp. Format: date-time. */ "disabled_at"?: never; /** Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. */ "disabled_reason"?: never; "last4"?: never; "merchant_id"?: never; "metadata"?: Record<string, string>; "payout_destination_id"?: never; "status"?: never; /** RFC3339 timestamp. Format: date-time. */ "status_updated_at"?: never; "type"?: never; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: never; };

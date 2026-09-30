@@ -1,0 +1,5 @@
+
+import type { MoneyValueInput } from './MoneyValueInput.js';
+import type { PaymentSourceSummaryInput } from './PaymentSourceSummaryInput.js';
+
+export type PaymentRefundInput = { "amount_money": MoneyValueInput; /** Flint-normalized refund failure reason. Unknown provider values are returned as refund_failed. */ "failure_reason"?: never; "payment_intent"?: (({ "amount_money": MoneyValueInput; "capture_method"?: "automatic" | "manual"; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: string | globalThis.Date; "customer_id"?: string; "order_id"?: string; "payment_intent_id": string; "payment_source"?: PaymentSourceSummaryInput; "refund_status"?: "none" | "partially_refunded" | "refunded"; "status": "requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired"; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: string | globalThis.Date; }) | (null)); "payment_intent_id"?: string; "refunded_tip_money": MoneyValueInput; "status": "pending" | "in_transit" | "succeeded" | "failed" | "requires_action" | "canceled" | "partially_succeeded"; };

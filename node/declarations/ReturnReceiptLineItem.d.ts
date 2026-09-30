@@ -1,0 +1,5 @@
+
+import type { ReturnActor } from './ReturnActor.js';
+import type { ReturnUnverifiedItem } from './ReturnUnverifiedItem.js';
+
+export type ReturnReceiptLineItem = { /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "available_disposition_quantity": string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity": string; "return_line_item_id"?: string; "return_receipt_id": string; "return_receipt_line_item_id": string; "supported_actions": Array<string>; "unverified_item"?: ReturnUnverifiedItem; "verification_reason"?: "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other" | (string & {}); "verification_reason_message"?: string; "verification_status": "matched" | "unverified" | "excess" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "verified_at"?: string; "verified_by"?: ReturnActor; };

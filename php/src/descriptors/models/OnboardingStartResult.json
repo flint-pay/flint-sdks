@@ -1,0 +1,1 @@
+{"shared":"OnboardingStartResult","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"value","type":"string"},"verification_started":{"kind":"value","type":"bool"},"verification_token":{"kind":"value","type":"string"}}},"dependencies":["OnboardingStartResult"]}

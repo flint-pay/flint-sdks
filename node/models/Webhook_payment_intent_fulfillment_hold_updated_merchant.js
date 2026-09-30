@@ -1,0 +1,9 @@
+import { d815 as c0, d468 as c1, d814 as c2, d833 as c3, d832 as c4, d834 as c5 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d834 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d834;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec176"]:c1(),["SharedCodec244"]:c2(),["SharedCodec253"]:c3(),["SharedCodec254"]:c4(),["Webhook_payment_intent_fulfillment_hold_updated_merchant"]:c5()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeWebhook_payment_intent_fulfillment_hold_updated_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

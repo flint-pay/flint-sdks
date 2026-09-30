@@ -1,0 +1,1 @@
+{"shared":"PaymentSourceAchDebitSummary","phpRepresentation":{"kind":"record","fields":{"account_type":{"kind":"value","type":"string"},"bank_name":{"kind":"value","type":"string"},"last4":{"kind":"value","type":"string"}}},"dependencies":["PaymentSourceAchDebitSummary"]}

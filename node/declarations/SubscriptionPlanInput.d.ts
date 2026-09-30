@@ -1,0 +1,6 @@
+
+import type { ImageInput } from './ImageInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
+import type { SubscriptionPlanLineItemInput } from './SubscriptionPlanLineItemInput.js';
+
+export type SubscriptionPlanInput = { "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; /** Format: int32. */ "billing_interval_count": number; /** Format: int32. */ "contract_term_months"?: number; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: never; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; "images": Array<ImageInput>; "line_items"?: Array<SubscriptionPlanLineItemInput>; "merchant_id"?: never; "metadata"?: Record<string, string>; "name": string; "plan_id"?: never; "setup_fee_money"?: MoneyValueInput; "status"?: never; /** Format: int32. */ "trial_period_days"?: number; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: never; /** Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 0. */ "version"?: never; };

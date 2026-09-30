@@ -1,0 +1,4 @@
+
+import type { PolicyLocationInput } from './PolicyLocationInput.js';
+
+export type InventoryAllocationPolicyConfigurationInput = { /** Locations ranked into priority groups. Routing prefers the lowest group priority, then the lowest location ID. minItems: 1. maxItems: 25. */ "location_groups": Array<PolicyLocationInput>; /** Upper bound on how many Locations one assignment may use. Format: int32. minimum: 1. maximum: 10. */ "maximum_locations_per_assignment": number; /** single_location fails rather than splitting demand across Locations; split_when_required allows a split when no single Location can serve the whole request. */ "splitting_behavior": "single_location" | "split_when_required"; /** Tie-break inside a priority group. Ascending location ID keeps assignments reproducible. */ "within_group_order"?: "location_id_ascending"; };

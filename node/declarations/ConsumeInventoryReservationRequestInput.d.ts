@@ -1,0 +1,4 @@
+
+import type { InventorySourceSystemRequestInput } from './InventorySourceSystemRequestInput.js';
+
+export type ConsumeInventoryReservationRequestInput = { /** Reservation version the caller last read. Use an exact numeric string, not a floating-point number. Format: int64. */ "expected_version"?: string; "lines": Array<{ /** Line being transitioned. */ "inventory_reservation_line_id": string; /** Cumulative quantity that should be consumed on this line. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. */ "target_consumed_quantity": string; }>; /** When and where the physical handoff happened. Required on consume, rejected on commit and release. */ "provenance": { "external_actor_id"?: string; /** RFC3339 timestamp. Format: date-time. */ "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }; };

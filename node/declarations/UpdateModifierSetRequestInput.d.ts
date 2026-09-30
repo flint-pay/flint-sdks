@@ -1,0 +1,4 @@
+
+import type { ModifierSetGroupRequestInput } from './ModifierSetGroupRequestInput.js';
+
+export type UpdateModifierSetRequestInput = ({ /** Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 1. */ "expected_version"?: string; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. */ "metadata"?: Record<string, string | null> | null; "modifier_groups"?: Array<ModifierSetGroupRequestInput>; "name"?: string; "status"?: "active" | "inactive"; }) & ((({ "modifier_groups"?: never })) | ({ "modifier_groups": unknown; "expected_version": unknown; }));

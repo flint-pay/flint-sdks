@@ -1,0 +1,1 @@
+{"shared":"CheckoutCustomerPrefill","phpRepresentation":{"kind":"record","fields":{"billing_address":{"kind":"entity","name":"Address"},"email":{"kind":"value","type":"string"},"shipping_address":{"kind":"entity","name":"Address"}}},"dependencies":["CheckoutCustomerPrefill","PostalAddress"]}

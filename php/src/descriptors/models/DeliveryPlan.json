@@ -1,0 +1,1 @@
+{"shared":"DeliveryPlan","phpRepresentation":{"kind":"record","fields":{"complete_by_at":{"kind":"value","type":"string"},"first_arrival_at":{"kind":"value","type":"string"},"planned_delivery_count":{"kind":"value","type":"int"},"type":{"kind":"value","type":"string"}}},"dependencies":["DeliveryPlan"]}

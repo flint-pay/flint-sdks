@@ -1,0 +1,6 @@
+
+import type { Image } from './Image.js';
+import type { MoneyValue } from './MoneyValue.js';
+import type { SubscriptionPlanLineItem } from './SubscriptionPlanLineItem.js';
+
+export type SubscriptionPlan = { "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {}); /** Format: int32. */ "billing_interval_count": number; /** Format: int32. */ "contract_term_months"?: number; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: string; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValue; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; "images": Array<Image>; "line_items"?: Array<SubscriptionPlanLineItem>; "merchant_id"?: string; "metadata"?: Record<string, string>; "name": string; "plan_id": string; "setup_fee_money"?: MoneyValue; "status": "active" | "archived" | (string & {}); /** Format: int32. */ "trial_period_days"?: number; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: string; /** Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 0. */ "version": string; };

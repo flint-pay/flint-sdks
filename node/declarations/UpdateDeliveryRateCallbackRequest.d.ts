@@ -1,0 +1,4 @@
+
+import type { DeliveryRateCallbackConfiguration } from './DeliveryRateCallbackConfiguration.js';
+
+export type UpdateDeliveryRateCallbackRequest = ({ "configuration"?: DeliveryRateCallbackConfiguration; /** Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 1. */ "expected_version"?: string; /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. */ "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active" | (string & {}); }) & (((unknown) | ({ "expected_version": unknown; }) | (object))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }) | (object));

@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class IncomingWebhook14d267be17f3PayloadInput extends Model {
+    /** @param array{'data': array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string|\DateTimeInterface, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object|array{'data': array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IncomingWebhook14d267be17f3PayloadInput')); }
+}

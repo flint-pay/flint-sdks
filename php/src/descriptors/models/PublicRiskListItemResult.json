@@ -1,0 +1,1 @@
+{"shared":"PublicRiskListItemResult","phpRepresentation":{"kind":"record","fields":{"risk_list_item":{"kind":"entity","name":"RiskListItem"},"status":{"kind":"value","type":"string"}}},"dependencies":["PublicRiskListItemResult","RiskListItem"]}

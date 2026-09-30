@@ -2,15 +2,16 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
 $client = new Client(new ClientOptions(
-  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
-  authMode: 'customer',
-  credentials: [
-    'customer' => [
-      'CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '',
-    ],
-  ],
+  baseUrl: $baseUrl,
+  customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->getCreditNotePDF('example', 'example', [], new RequestOptions(maxAttempts: 1));
+$result = $client->me->getCreditNotePDF('example', 'example', []);
+// Choose a destination path; PHP strings preserve every PDF byte.
+$resultPath = getenv('API_DOWNLOAD_PATH') ?: 'download.pdf';
+if (file_put_contents($resultPath, $result->data) === false) throw new \RuntimeException('Could not save PDF');
+echo 'Saved ' . strlen($result->data) . ' bytes to ' . $resultPath . PHP_EOL;
 echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

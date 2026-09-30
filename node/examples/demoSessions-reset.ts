@@ -1,10 +1,10 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
+  baseUrl: clientBaseUrl,
 });
 const result = await client.demoSessions.reset(
-  {},
-  { maxAttempts: 1 },
+  {}
 );
 console.log(result.demo_session_id);
 console.log(result.sandbox_id);

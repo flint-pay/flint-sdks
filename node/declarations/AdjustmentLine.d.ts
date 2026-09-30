@@ -1,0 +1,4 @@
+
+
+
+export type AdjustmentLine = { /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "damaged_quantity_delta"?: string; "inventory_item_id": string; "inventory_movement_id": string; "location_id": string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "on_hand_quantity_delta"?: string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quality_control_quantity_delta"?: string; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quarantined_quantity_delta"?: string; };

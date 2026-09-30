@@ -11,6 +11,10 @@ export type ValueInstruction = {
 } | {
     kind: 'string';
 } | {
+    kind: 'date-time';
+} | {
+    kind: 'native-number';
+} | {
     kind: 'safe-integer';
 } | {
     kind: 'exact-integer';
@@ -29,6 +33,8 @@ export interface CodecPlan {
     readonly nullable: boolean;
     /** Unmatched alternatives require objects only for the legacy literal type: 'object' form. */
     readonly objectOnlyAlternative?: boolean;
+    /** Concrete branch of a simple nullable wrapper; response routing is by nullness. */
+    readonly nullableAlternative?: 0 | 1;
     readonly modelObjectInput: boolean;
     readonly requiredInput: readonly string[];
     readonly requiredOutput: readonly string[];
@@ -62,7 +68,7 @@ export interface CodecPlan {
     readonly definitions?: Readonly<Record<string, CodecPlan>>;
 }
 export declare const CODEC_FORMAT = 1;
-export declare const CODEC_SEMANTICS = "3";
+export declare const CODEC_SEMANTICS = "4";
 export declare function valueInstruction(type: string | undefined, format?: string): ValueInstruction;
 export declare function wireKind(value: ValueInstruction): string | undefined;
 export declare function exactValue(value: ValueInstruction): boolean;
@@ -72,6 +78,10 @@ export declare function directionalSchema(schema: Schema, response: boolean): Sc
 export declare function compileCodec(schema: Schema): CodecPlan;
 /** Proven tag routing only. A discriminator hint never creates schema constraints. */
 export declare function discriminatorBindings(schema: Schema): Record<string, number> | undefined;
+/** Nullable wrappers describe one known value, rather than future response variants.
+ * Stay conservative: require one explicitly non-null branch and a plain null branch.
+ */
+export declare function nullableAlternative(schema: Schema): 0 | 1 | undefined;
 export declare const ANY_CODEC: CodecPlan;
 /** Validate serialized instructions at an ingestion boundary, without executing values. */
 export declare function assertCodecPlan(value: unknown, path?: string, depth?: number): asserts value is CodecPlan;

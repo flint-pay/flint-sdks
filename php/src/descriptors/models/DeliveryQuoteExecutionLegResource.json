@@ -1,0 +1,1 @@
+{"shared":"DeliveryQuoteExecutionLegResource","phpRepresentation":{"kind":"record","fields":{"delivery_execution_leg_id":{"kind":"value","type":"string"},"origin_location_id":{"kind":"value","type":"string"}}},"dependencies":["DeliveryQuoteExecutionLegResource"]}

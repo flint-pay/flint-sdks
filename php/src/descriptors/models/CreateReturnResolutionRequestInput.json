@@ -1,0 +1,1 @@
+{"shared":"CreateReturnResolutionRequest","dependencies":["CreateReturnResolutionRequest","MoneyValue","ReturnReplacementLineItemRequest","ReturnResolutionAdjustmentRequest","ReturnResolutionLineItemRequest","SharedCodec135","SharedCodec156","SharedCodec157","SharedCodec158","SharedCodec530","SharedCodec531","SharedCodec532","SharedCodec533","SharedCodec534"]}

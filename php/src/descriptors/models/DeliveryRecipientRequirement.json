@@ -1,0 +1,1 @@
+{"shared":"DeliveryRecipientRequirement","phpRepresentation":{"kind":"record","fields":{"field":{"kind":"value","type":"string"},"format":{"kind":"value","type":"string"},"required":{"kind":"value","type":"bool"}}},"dependencies":["DeliveryRecipientRequirement"]}

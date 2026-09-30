@@ -1,0 +1,4 @@
+
+
+
+/** Details the buyer's checkout can prefill from the customer it acts for. */ export type CheckoutCustomerPrefill = { /** The customer's default billing address. Omitted when the customer has none. */ "billing_address"?: { "city": string; /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". */ "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }; /** The customer's email. */ "email": string; /** The customer's default shipping address. Omitted when the customer has none. */ "shipping_address"?: { "city": string; /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". */ "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }; };

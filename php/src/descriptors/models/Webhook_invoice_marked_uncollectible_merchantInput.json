@@ -1,0 +1,1 @@
+{"shared":"Webhook_invoice_marked_uncollectible_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","SharedCodec247","SharedCodec288","Webhook_invoice_marked_uncollectible_merchant"]}

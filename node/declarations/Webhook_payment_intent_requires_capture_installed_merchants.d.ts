@@ -1,0 +1,4 @@
+
+import type { Webhook_payment_intent_canceled_installed_merchants } from './Webhook_payment_intent_canceled_installed_merchants.js';
+
+export type Webhook_payment_intent_requires_capture_installed_merchants = Webhook_payment_intent_canceled_installed_merchants;

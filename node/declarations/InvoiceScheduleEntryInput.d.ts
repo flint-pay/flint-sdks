@@ -1,0 +1,5 @@
+
+import type { InvoiceScheduleAmountSpecificationInput } from './InvoiceScheduleAmountSpecificationInput.js';
+import type { InvoiceScheduleDueInput } from './InvoiceScheduleDueInput.js';
+
+export type InvoiceScheduleEntryInput = { "amount_specification": InvoiceScheduleAmountSpecificationInput; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "credit_money"?: never; "due": InvoiceScheduleDueInput; "invoice_schedule_entry_id"?: never; "kind": "deposit" | "installment" | "balance"; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "outstanding_money"?: never; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "paid_money"?: never; "status": "pending" | "due" | "partially_satisfied" | "satisfied" | "overdue"; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "total_money"?: never; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "written_off_money"?: never; };

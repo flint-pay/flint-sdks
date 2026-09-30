@@ -1,0 +1,1 @@
+{"shared":"DeliveryTransitTimeRule","phpRepresentation":{"kind":"record","fields":{"handling_days":{"kind":"entity","name":"DeliveryBusinessDayRange"},"transit_days":{"kind":"entity","name":"DeliveryBusinessDayRange"}}},"dependencies":["DeliveryBusinessDayRange","DeliveryTransitTimeRule"]}

@@ -1,0 +1,39 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $audience
+ * @property-read CheckoutSession $checkout_session
+ * @property-read BuyerDeliverySelection $delivery_selection
+ * @property-read DeliveryInventoryReservationSummary $inventory_reservation
+ * @property-read Order $order
+ * Presence-aware response; omitted fields throw when accessed. */
+final class CheckoutSessionsCreateDeliverySelectionResponse201DataBuyer extends Model {
+    /** @param array{'audience': string, 'checkout_session': object{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'buyer_contact'?: object{'email': string|null, 'phone': string|null, 'updated_at': string}, 'checkout_session_id': string, 'closed_reason'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_collection'?: mixed, 'customer_prefill'?: object{'billing_address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}, 'email': string, 'shipping_address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}}, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expiration'?: mixed, 'expires_at'?: string, 'external_reference_id'?: string, 'fulfillment'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'legal'?: mixed, 'merchant_id'?: string, 'merchant_support'?: object{'email'?: string, 'phone'?: string, 'url'?: string}, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'origin'?: string, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_method_save'?: object{'email_confirmation_required': bool, 'expires_at'?: string|null, 'phone_last_digits'?: string, 'saved_with'?: string, 'status': string}, 'payments'?: mixed, 'plan_id'?: string, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_mode': bool, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_offered'?: bool, 'save_payment_method_phone_offered'?: bool, 'save_payment_method_requires_verification'?: bool, 'setup_collection'?: object{'stripe'?: mixed}, 'status': string, 'subscription_terms'?: object{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_id': string, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'trial_period_days'?: int}, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'updated_at'?: string, 'url'?: string}, 'delivery_selection': mixed, 'inventory_reservation'?: object{'expires_at': string, 'inventory_reservation_id': string, 'owner_type': string, 'required_next_action'?: string, 'status': string}, 'order': object{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: object{'authorized_money': mixed, 'capturable_money': mixed, 'expires_at'?: string}, 'buyer_email'?: string, 'buyer_note'?: string, 'buyer_phone'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: object{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string}, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: object{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'plan_id'?: string, 'pricing_amounts': object{'charge_money': mixed, 'discount_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed}, 'purchased_event'?: object{'location'?: string, 'name': string, 'starts_at'?: string, 'timezone'?: string}, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'settlement_amounts': object{'balance_money': mixed, 'credit_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'settled_tip_money': mixed}, 'setup_collection'?: object{'stripe'?: mixed}, 'status': string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'tax': object{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'enabled': bool, 'exemption'?: mixed, 'failure_reason'?: string, 'location'?: mixed, 'mode': string, 'status': string, 'tax_breakdowns'?: list<mixed>, 'taxability_reason': string}, 'tips'?: list<mixed>, 'updated_at'?: string}, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsCreateDeliverySelectionResponse201DataBuyer')); }
+    /** @return string
+     * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
+     */
+    public function getAudience(): string { return $this->get('audience'); }
+    public function hasAudience(): bool { return $this->has('audience'); }
+    /** @return CheckoutSession
+     * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
+     */
+    public function getCheckoutSession(): CheckoutSession { return $this->get('checkout_session'); }
+    public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
+    /** @return BuyerDeliverySelection
+     * @throws SdkError When delivery_selection is omitted; use hasDeliverySelection() or valueOrDefault().
+     */
+    public function getDeliverySelection(): BuyerDeliverySelection { return $this->get('delivery_selection'); }
+    public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
+    /** @return DeliveryInventoryReservationSummary
+     * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
+     */
+    public function getInventoryReservation(): DeliveryInventoryReservationSummary { return $this->get('inventory_reservation'); }
+    public function hasInventoryReservation(): bool { return $this->has('inventory_reservation'); }
+    /** @return Order
+     * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
+     */
+    public function getOrder(): Order { return $this->get('order'); }
+    public function hasOrder(): bool { return $this->has('order'); }
+}

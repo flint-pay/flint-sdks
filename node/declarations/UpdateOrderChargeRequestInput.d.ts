@@ -1,0 +1,5 @@
+
+import type { MoneyValueInput } from './MoneyValueInput.js';
+import type { OrderCalculatedChargeTaxInput } from './OrderCalculatedChargeTaxInput.js';
+
+export type UpdateOrderChargeRequestInput = { "amount_money"?: MoneyValueInput; "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount"; "description"?: string; "fulfillment_id"?: string; /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. */ "metadata"?: Record<string, string | null> | null; "name"?: string; /** multipleOf: 0.0001. */ "percent"?: number; "tax"?: OrderCalculatedChargeTaxInput; "type"?: "service_fee" | "delivery_fee" | "shipping_fee" | "handling_fee" | "packaging_fee" | "small_order_fee" | "service_area_fee" | "setup_fee" | "installation_fee" | "cleaning_fee" | "booking_fee" | "reservation_fee" | "ticket_fee" | "fulfillment_fee" | "restocking_fee" | "rush_fee" | "other"; };

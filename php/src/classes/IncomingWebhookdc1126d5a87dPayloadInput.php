@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class IncomingWebhookdc1126d5a87dPayloadInput extends Model {
+    /** @param array{'data': array{'checkout_session_id': string, 'expired_at'?: string|\DateTimeInterface, 'invoice_id'?: string, 'order_id'?: string, 'payment_link_id'?: string, 'reason': string, 'resource_updated_at': string|\DateTimeInterface, 'status': string, 'superseding_checkout_session_id'?: string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object|array{'data': array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'expired_at'?: string|\DateTimeInterface, 'invoice_id'?: string, 'merchant_id': string, 'mode': string, 'order_id'?: string, 'partner_app_install_id': string, 'payment_link_id'?: string, 'reason': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'status': string, 'superseding_checkout_session_id'?: string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IncomingWebhookdc1126d5a87dPayloadInput')); }
+}

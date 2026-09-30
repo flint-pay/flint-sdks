@@ -1,0 +1,1 @@
+{"shared":"ShippingWeight","phpRepresentation":{"kind":"record","fields":{"unit":{"kind":"value","type":"string"},"value":{"kind":"value","type":"float"}}},"dependencies":["ShippingWeight"]}

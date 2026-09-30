@@ -1,0 +1,4 @@
+
+import type { Webhook_invoice_delivery_failed_installed_merchants } from './Webhook_invoice_delivery_failed_installed_merchants.js';
+
+export type Webhook_invoice_paid_installed_merchants = Webhook_invoice_delivery_failed_installed_merchants;

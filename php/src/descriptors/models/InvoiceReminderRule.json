@@ -1,0 +1,1 @@
+{"shared":"InvoiceReminderRule","phpRepresentation":{"kind":"record","fields":{"days_from_due":{"kind":"value","type":"int"}}},"dependencies":["InvoiceReminderRule"]}

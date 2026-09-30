@@ -1,0 +1,1 @@
+{"shared":"CheckoutBuyerContact","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"nullable","value":{"kind":"value","type":"string"}},"phone":{"kind":"nullable","value":{"kind":"value","type":"string"}},"updated_at":{"kind":"value","type":"string"}}},"dependencies":["CheckoutBuyerContact"]}

@@ -1,0 +1,1 @@
+{"shared":"CreateInventoryAdjustmentRequest","dependencies":["CreateInventoryAdjustmentRequest","InventoryAdjustmentLineRequest","InventorySourceSystemRequest"]}

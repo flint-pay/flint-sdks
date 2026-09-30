@@ -1,0 +1,1 @@
+{"shared":"SubscriptionAnalytics","dependencies":["MoneyValue","SubscriptionAnalytics","SubscriptionSnapshotMetrics","SubscriptionStatusCounts","SubscriptionWindowMetrics"]}

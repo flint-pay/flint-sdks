@@ -1,18 +1,13 @@
 import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  authMode: "customer",
-  credentials: {
-    ["customer"]: {
-      ["CustomerSessionBearer"]: process.env.API_CUSTOMER_CUSTOMERSESSIONBEARER ?? '',
-    },
-  },
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 const result = await client.me.getCreditNote(
   "example",
   "example",
-  {},
-  { maxAttempts: 1 },
+  {}
 );
 console.log(result.credit_note_id);
 console.log(result.invoice_id);

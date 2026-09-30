@@ -1,0 +1,1 @@
+{"shared":"DeliveryRateCallbackSigningKeyRotation","phpRepresentation":{"kind":"record","fields":{"delivery_rate_callback_id":{"kind":"value","type":"string"},"key_id":{"kind":"value","type":"string"},"secret":{"kind":"value","type":"string"}}},"dependencies":["DeliveryRateCallbackSigningKeyRotation"]}

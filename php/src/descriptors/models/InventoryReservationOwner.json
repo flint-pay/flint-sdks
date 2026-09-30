@@ -1,0 +1,1 @@
+{"shared":"InventoryReservationOwner","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"value","type":"string"},"key":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["InventoryReservationOwner"]}

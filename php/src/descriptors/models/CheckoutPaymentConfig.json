@@ -1,0 +1,1 @@
+{"shared":"CheckoutPaymentConfig","phpRepresentation":{"kind":"record","fields":{"enabled_payment_options":{"kind":"list","value":{"kind":"value","type":"string"}},"external_reference_id":{"kind":"value","type":"string"},"payment_note":{"kind":"value","type":"string"}}},"dependencies":["CheckoutPaymentConfig"]}

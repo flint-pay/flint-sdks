@@ -1,0 +1,1 @@
+{"shared":"CountMetric","phpRepresentation":{"kind":"record","fields":{"change_percent":{"kind":"value","type":"float"},"current_count":{"kind":"value","type":"string"},"previous_count":{"kind":"value","type":"string"}}},"dependencies":["CountMetric"]}

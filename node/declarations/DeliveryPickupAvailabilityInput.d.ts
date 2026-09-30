@@ -1,0 +1,6 @@
+
+import type { DeliveryInputRequirementInput } from './DeliveryInputRequirementInput.js';
+import type { DeliveryPickupAvailabilityDiagnosticInput } from './DeliveryPickupAvailabilityDiagnosticInput.js';
+import type { DeliveryPickupAvailabilityLocationResourceInput } from './DeliveryPickupAvailabilityLocationResourceInput.js';
+
+export type DeliveryPickupAvailabilityInput = { "audience": "buyer" | "merchant"; /** RFC3339 timestamp. Format: date-time. */ "evaluated_at": string | globalThis.Date; "evaluation_status": "complete" | "incomplete" | "degraded"; "input_requirements": Array<DeliveryInputRequirementInput>; /** Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: 25. */ "locations": Array<DeliveryPickupAvailabilityLocationResourceInput>; /** Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Present only for merchant-authenticated requests. */ "merchant_diagnostics"?: Array<DeliveryPickupAvailabilityDiagnosticInput>; };

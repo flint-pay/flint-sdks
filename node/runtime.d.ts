@@ -1,3 +1,4 @@
+import { DescriptorSource } from './descriptor-source.js';
 import { inspect } from 'node:util';
 import type { Schema } from './contract.js';
 import { type RuntimeContract, type CompiledRuntimePlan } from './runtime-plan.js';
@@ -5,7 +6,7 @@ export type { RuntimeContract } from './runtime-plan.js';
 export type { Operation, Schema } from './contract.js';
 import { type CodecPlan } from './codec-plan.js';
 export { directionalSchema } from './codec-plan.js';
-export type ErrorKind = 'transport' | 'authentication' | 'validation' | 'rate_limit' | 'api' | 'conflict' | 'protocol' | 'cancelled' | 'deadline' | 'destination';
+export type ErrorKind = 'transport' | 'authentication' | 'validation' | 'rate_limit' | 'not_found' | 'server' | 'api' | 'conflict' | 'protocol' | 'cancelled' | 'deadline' | 'destination';
 export interface Metadata {
     status: number;
     headers: Record<string, string>;
@@ -28,6 +29,7 @@ export declare class SdkError extends Error {
     details?: unknown | undefined;
     raw?: string | undefined;
     constructor(kind: ErrorKind, message: string, outcome?: 'unknown' | 'response' | 'not_sent', retryAllowed?: boolean, meta?: Metadata | undefined, code?: string | undefined, details?: unknown | undefined, options?: ErrorOptions, raw?: string | undefined);
+    get status(): number | undefined;
     [inspect.custom](): {
         name: string;
         kind: ErrorKind;
@@ -36,6 +38,9 @@ export declare class SdkError extends Error {
         retryAllowed: boolean;
         requestId: string | undefined;
         status: number | undefined;
+        code: string | undefined;
+        details: unknown;
+        stack: string | undefined;
     };
 }
 export interface DiagnosticEvent {
@@ -46,6 +51,8 @@ export interface DiagnosticEvent {
     durationMs: number;
     errorKind?: ErrorKind;
 }
+/** Incoming Node/Express headers or Fetch Headers; only signing headers are inspected. */
+export type WebhookHeaders = Headers | Readonly<Record<string, string | readonly string[] | undefined>>;
 export interface RequestOptions {
     streamIdleTimeoutMs?: number;
     streamLifetimeMs?: number;
@@ -62,7 +69,7 @@ export interface RequestOptions {
     maxItems?: number;
 }
 export interface ClientOptions {
-    baseUrl: string;
+    baseUrl?: string;
     token?: string;
     authMode?: string;
     credentials?: Record<string, Record<string, string>>;
@@ -146,31 +153,40 @@ export declare function isKnownCodec(value: unknown, codec: CodecPlan): boolean;
 export declare function redact(value: unknown, schema?: Schema, fields?: string[], definitions?: Record<string, Schema>, depth?: number): unknown;
 export declare function redactCodec(value: unknown, schema?: CodecPlan, fields?: string[], definitions?: Readonly<Record<string, CodecPlan>>, depth?: number): unknown;
 /** Plain inputs and validated model factories may be composed at any depth. */
-export type InputValue<T> = T | Model<T> | (T extends readonly (infer Item)[] ? InputValue<Item>[] : T extends object ? {
+export type InputValue<T> = T | Model<T> | (T extends Date ? never : T extends readonly (infer Item)[] ? InputValue<Item>[] : T extends object ? {
     [Key in keyof T]: InputValue<T[Key]>;
 } : never);
-export declare class Model<T = unknown> {
+declare class CompiledModel<T = unknown> {
+    private readonly dynamicCodec?;
     private readonly value;
     private readonly codec;
-    private readonly dynamicSchema;
-    constructor(value: InputValue<T>, schema: Schema);
+    constructor(value: InputValue<T>, codec: CodecPlan, dynamicCodec?: (() => CodecPlan) | undefined);
     toJSON(): T;
     [inspect.custom](): unknown;
 }
+/** Public schema adapter; compiled factories use the same model executor. */
+export declare class Model<T = unknown> extends CompiledModel<T> {
+    constructor(value: InputValue<T>, schema: Schema);
+    static [Symbol.hasInstance](value: unknown): boolean;
+}
+export declare function isModel(value: unknown): value is Model;
 /** Internal input copy for argument adapters; not exported by the SDK entrypoint. */
 export declare function modelInputValue(model: Model): unknown;
 /** Internal factory; does not expand the public Model class method surface. */
 export declare function modelFromCodec<T>(value: InputValue<T>, codec: CodecPlan): Model<T>;
-export declare class Runtime {
+declare class CompiledRuntime {
+    private readonly dynamicPlan?;
     private readonly streams;
     close(): Promise<void>;
     private readonly options;
     private readonly base;
     private readonly allowed;
     private readonly compiledContract;
-    private readonly dynamicContract;
+    private readonly descriptors;
+    private operation;
+    private definitions;
     private get contract();
-    constructor(contract: RuntimeContract, options: ClientOptions);
+    constructor(compiled: CompiledRuntimePlan | DescriptorSource, options: ClientOptions, dynamicPlan?: (() => CompiledRuntimePlan) | undefined);
     [inspect.custom](): {
         baseUrl: string;
         credentials: string;
@@ -181,7 +197,7 @@ export declare class Runtime {
     pages<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions): AsyncGenerator<Result<T>>;
     items<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions): AsyncGenerator<T>;
     wait<T = unknown>(id: string, input: Record<string, unknown>, options?: RequestOptions): Promise<Result<T>>;
-    verifyWebhook(rawBody: Uint8Array, headers: Record<string, string>, secrets: string[], nowSeconds?: number): {
+    verifyWebhook(rawBody: Uint8Array, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): {
         event: unknown;
         known: boolean;
     };
@@ -190,5 +206,10 @@ export declare class Runtime {
         amount: string;
     };
 }
+/** Public dynamic-contract adapter; generated clients never retain this compiler path. */
+export declare class Runtime extends CompiledRuntime {
+    static [Symbol.hasInstance](value: unknown): boolean;
+    constructor(contract: RuntimeContract, options: ClientOptions);
+}
 /** Internal factory for generated clients; public Runtime construction remains schema-based. */
-export declare function runtimeFromPlan(contract: CompiledRuntimePlan, options: ClientOptions): Runtime;
+export declare function runtimeFromPlan(contract: CompiledRuntimePlan | DescriptorSource, options: ClientOptions): Runtime;

@@ -1,0 +1,9 @@
+import { d726 as c0, d82 as c1, d88 as c2, d41 as c3, d69 as c4, d1646 as c5, d1645 as c6, d1766 as c7, d793 as c8, d1773 as c9, d1774 as c10, d796 as c11, d1803 as c12, d1804 as c13, d790 as c14, d1843 as c15, d1959 as c16, d1960 as c17, d2116 as c18, d83 as c19, d791 as c20, d89 as c21, d792 as c22, d794 as c23, d795 as c24, d797 as c25, d91 as c26, d37 as c27, d1666 as c28, d2126 as c29, d2125 as c30 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d1774 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d1774;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["ErrorRemediation"]:c0(),["ExpandedCustomerSummary"]:c1(),["ExpandedInvoiceSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["PaymentAddOnFee"]:c7(),["PaymentErrorSummary"]:c8(),["PaymentIntent"]:c9(),["PaymentIntentListResponse"]:c10(),["PaymentRisk"]:c11(),["PaymentSourceAchDebitSummary"]:c12(),["PaymentSourceCardSummary"]:c13(),["PendingPaymentActionSubject"]:c14(),["PricingAmounts"]:c15(),["ResponseMeta"]:c16(),["ResponseWarning"]:c17(),["SettlementAmounts"]:c18(),["SharedCodec21"]:c19(),["SharedCodec239"]:c20(),["SharedCodec24"]:c21(),["SharedCodec240"]:c22(),["SharedCodec241"]:c23(),["SharedCodec242"]:c24(),["SharedCodec243"]:c25(),["SharedCodec26"]:c26(),["SharedCodec5"]:c27(),["SignedMoney"]:c28(),["StripePaymentClientAction"]:c29(),["StripeSetupIntentClientAction"]:c30()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makePaymentIntentListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

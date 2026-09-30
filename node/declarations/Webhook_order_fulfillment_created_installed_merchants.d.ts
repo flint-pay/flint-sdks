@@ -1,0 +1,4 @@
+
+import type { Webhook_order_fulfillment_completed_installed_merchants } from './Webhook_order_fulfillment_completed_installed_merchants.js';
+
+export type Webhook_order_fulfillment_created_installed_merchants = Webhook_order_fulfillment_completed_installed_merchants;

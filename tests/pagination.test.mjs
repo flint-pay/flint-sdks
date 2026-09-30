@@ -92,7 +92,7 @@ test('pagination follows cursors and bounds requests; reads and keyed writes sta
     SdkError,
   );
   await assert.rejects(
-    client.customers.list(input, { ...options('node-no-dispatch'), maxAttempts: 2 }),
+    client.customers.list(input, { ...options('node-no-dispatch'), maxAttempts: 0 }),
     SdkError,
   );
 
@@ -133,7 +133,7 @@ try {
   throw new \RuntimeException('Expected required key validation');
 } catch (\Flint\SdkError $e) {}
 try {
-  $client->customers->list($input, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch'], maxAttempts: 2));
+  $client->customers->list($input, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch'], maxAttempts: 0));
   throw new \RuntimeException('Expected attempt limit validation');
 } catch (\Flint\SdkError $e) {}
 $client->close();

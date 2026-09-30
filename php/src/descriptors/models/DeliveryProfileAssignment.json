@@ -1,0 +1,1 @@
+{"shared":"DeliveryProfileAssignment","phpRepresentation":{"kind":"record","fields":{"bundle_components_updated":{"kind":"value","type":"string"},"delivery_profile_id":{"kind":"value","type":"string"},"product_variants_updated":{"kind":"value","type":"string"}}},"dependencies":["DeliveryProfileAssignment"]}

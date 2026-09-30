@@ -8,3 +8,7 @@ composer.lock
 php/vendor/
 php/composer.lock
 .DS_Store
+.sdk-generator.json
+.env
+.env.*
+!.env.example

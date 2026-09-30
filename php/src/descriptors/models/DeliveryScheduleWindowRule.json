@@ -1,0 +1,1 @@
+{"shared":"DeliveryScheduleWindowRule","phpRepresentation":{"kind":"record","fields":{"availability":{"kind":"entity","name":"DeliveryAvailability"},"offer_windows":{"kind":"value","type":"bool"}}},"dependencies":["DeliveryAvailability","DeliveryBlackoutInterval","DeliveryScheduleWindowRule","DeliveryWeeklyInterval"]}

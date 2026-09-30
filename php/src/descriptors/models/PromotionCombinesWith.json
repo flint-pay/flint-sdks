@@ -1,0 +1,1 @@
+{"shared":"PromotionCombinesWith","phpRepresentation":{"kind":"record","fields":{"line_item":{"kind":"value","type":"bool"},"order":{"kind":"value","type":"bool"},"service_charge":{"kind":"value","type":"bool"}}},"dependencies":["PromotionCombinesWith"]}

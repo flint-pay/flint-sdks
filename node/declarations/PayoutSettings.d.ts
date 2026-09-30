@@ -1,0 +1,6 @@
+
+import type { MoneyMovementBlockedReason } from './MoneyMovementBlockedReason.js';
+import type { MoneyValue } from './MoneyValue.js';
+import type { NextAction } from './NextAction.js';
+
+export type PayoutSettings = { "blocked_reasons"?: Array<MoneyMovementBlockedReason>; /** RFC3339 timestamp. Format: date-time. */ "created_at": string; "default_payout_destinations"?: Record<string, string>; /** Format: int32. */ "delay_days": number; /** Format: int32. */ "delay_days_override"?: number; "interval": "manual" | "daily" | "weekly" | "monthly" | (string & {}); "merchant_id": string; "minimum_balance_by_currency"?: Record<string, MoneyValue>; "monthly_payout_days"?: Array<number>; "next_actions"?: Array<NextAction>; "payout_settings_id": string; "statement_descriptor"?: string; "status": "enabled" | "disabled" | "blocked" | "pending" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; "weekly_payout_days"?: Array<string>; };

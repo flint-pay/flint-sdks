@@ -1,0 +1,7 @@
+
+import type { CreditNoteLine } from './CreditNoteLine.js';
+import type { MoneyValue } from './MoneyValue.js';
+import type { Refund } from './Refund.js';
+import type { TaxIdentity } from './TaxIdentity.js';
+
+export type IssuedCreditNote = { "buyer_tax_identity"?: TaxIdentity; /** RFC3339 timestamp. Format: date-time. */ "created_at": string; "credit_note_id": string; "credit_note_lines": Array<CreditNoteLine>; "credit_note_number"?: string; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; "invoice_id": string; /** RFC3339 timestamp. Format: date-time. */ "issued_at"?: string; "latest_refund_status"?: "pending" | "in_transit" | "succeeded" | "failed" | "requires_action" | "canceled" | "partially_succeeded" | (string & {}); "memo"?: string; "merchant_id": string; "pending_refund_money": MoneyValue; "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {}); "refund"?: Refund; "refunded_money": MoneyValue; "seller_tax_identity"?: TaxIdentity; "status": "draft" | "issued" | "void" | (string & {}); "total_money": MoneyValue; "unallocated_money": MoneyValue; /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; /** Current credit note version. Send this as expected_version when updating the draft. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "version": string; /** RFC3339 timestamp. Format: date-time. */ "voided_at"?: string; };

@@ -1,0 +1,1 @@
+{"shared":"DemoSessionAPIKey","phpRepresentation":{"kind":"record","fields":{"scopes":{"kind":"list","value":{"kind":"value","type":"string"}},"secret_key":{"kind":"value","type":"string"}}},"dependencies":["DemoSessionAPIKey","SharedCodec0","SharedCodec1"]}

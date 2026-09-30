@@ -1,0 +1,1 @@
+{"shared":"InventorySourceSystem","phpRepresentation":{"kind":"record","fields":{"external_source_id":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["InventorySourceSystem"]}

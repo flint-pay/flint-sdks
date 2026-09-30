@@ -1,0 +1,5 @@
+
+import type { InlineModifierGroupRequestInput } from './InlineModifierGroupRequestInput.js';
+import type { ModifierOverrideInput } from './ModifierOverrideInput.js';
+
+export type ModifierSetGroupRequestInput = ({ "display_name"?: string; /** Format: int32. */ "max_selected"?: number; /** Format: int32. */ "min_selected"?: number; "modifier_group"?: InlineModifierGroupRequestInput; /** pattern: ^mg_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_group_id"?: string; "modifier_overrides"?: Array<ModifierOverrideInput>; /** pattern: ^msg_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_set_group_id"?: string; /** Format: int32. */ "position"?: number; "required"?: boolean; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; /** Use inline for a modifier group owned by this modifier set, or existing to reference an independent modifier group. */ "source": "existing" | "inline"; }) & ((({ "source": "existing"; "modifier_group_id": unknown; }) & ({ "modifier_group"?: never })) | (({ "source": "inline"; "modifier_group": unknown; }) & ({ "modifier_group_id"?: never })));

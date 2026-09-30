@@ -1,0 +1,9 @@
+import { d82 as c0, d41 as c1, d704 as c2, d1207 as c3, d815 as c4, d69 as c5, d823 as c6, d1803 as c7, d1804 as c8, d1806 as c9, d1843 as c10, d1202 as c11, d1902 as c12, d1906 as c13, d2074 as c14, d2116 as c15, d468 as c16, d703 as c17, d705 as c18, d814 as c19, d822 as c20, d1205 as c21, d1203 as c22, d1204 as c23, d42 as c24, d1666 as c25, d1206 as c26, d1201 as c27 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d1207 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d1207;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedCustomerSummary"]:c0(),["ExpandedOrderSummary"]:c1(),["ExpandedPaymentIntentSummary"]:c2(),["IncomingWebhooka532d2deefcaPayload"]:c3(),["MerchantWebhookEnvelope"]:c4(),["MoneyValue"]:c5(),["PartnerWebhookEnvelope"]:c6(),["PaymentSourceAchDebitSummary"]:c7(),["PaymentSourceCardSummary"]:c8(),["PaymentSourceSummary"]:c9(),["PricingAmounts"]:c10(),["PublicIPAddressLocation"]:c11(),["PublicReviewRisk"]:c12(),["PublicRiskPaymentSummary"]:c13(),["Review"]:c14(),["SettlementAmounts"]:c15(),["SharedCodec176"]:c16(),["SharedCodec218"]:c17(),["SharedCodec219"]:c18(),["SharedCodec244"]:c19(),["SharedCodec249"]:c20(),["SharedCodec330"]:c21(),["SharedCodec331"]:c22(),["SharedCodec332"]:c23(),["SharedCodec7"]:c24(),["SignedMoney"]:c25(),["Webhook_review_closed_installed_merchants"]:c26(),["Webhook_review_closed_merchant"]:c27()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeIncomingWebhooka532d2deefcaPayload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

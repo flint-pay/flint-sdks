@@ -1,0 +1,1 @@
+{"shared":"PaymentSourceSummary","phpRepresentation":{"kind":"record","fields":{"ach_debit":{"kind":"entity","name":"PaymentSourceAchDebitSummary"},"card":{"kind":"entity","name":"PaymentSourceCardSummary"},"type":{"kind":"value","type":"string"}}},"dependencies":["PaymentSourceAchDebitSummary","PaymentSourceCardSummary","PaymentSourceSummary"]}

@@ -909,6 +909,12 @@
           "waiveReturnLineInspection"
         ]
       }
+    },
+    "shortcuts": {
+      "token": {
+        "mode": "merchant",
+        "scheme": "BearerAuth"
+      }
     }
   },
   "operations": {

@@ -1,0 +1,1 @@
+{"shared":"FulfillmentHold","phpRepresentation":{"kind":"record","fields":{"created_at":{"kind":"value","type":"string"},"display_reason":{"kind":"value","type":"string"},"held_by":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"},"reason_notes":{"kind":"value","type":"string"}}},"dependencies":["FulfillmentHold"]}

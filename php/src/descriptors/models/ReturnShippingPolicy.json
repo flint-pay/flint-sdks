@@ -1,0 +1,1 @@
+{"shared":"ReturnShippingPolicy","phpRepresentation":{"kind":"record","fields":{"payer":{"kind":"value","type":"string"}}},"dependencies":["ReturnShippingPolicy"]}

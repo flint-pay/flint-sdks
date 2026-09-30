@@ -1,0 +1,4 @@
+
+import type { RefundTaxBreakdownRefundInput } from './RefundTaxBreakdownRefundInput.js';
+
+export type RefundLineItemAllocationInput = { "adjustment_refunds"?: never; "adjustments"?: never; "automatic_refund"?: never; "bundle_id"?: never; "categories"?: never; "modifiers"?: never; "order_line_item_id": string; "product_id"?: never; /** Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. */ "quantity": string; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "refunded_money"?: never; "selected_options"?: never; "sku"?: never; "source_type"?: never; "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInput>; "tax_refund_mode": "automatic" | "explicit"; "variant_id"?: never; };

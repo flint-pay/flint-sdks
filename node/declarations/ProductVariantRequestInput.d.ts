@@ -1,0 +1,7 @@
+
+import type { ImageRequestInput } from './ImageRequestInput.js';
+import type { InventoryItemCreateRequestInput } from './InventoryItemCreateRequestInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
+import type { ProductVariantSelectedOptionRequestInput } from './ProductVariantSelectedOptionRequestInput.js';
+
+export type ProductVariantRequestInput = { "barcode"?: string; "delivery_profile_id"?: string; /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. */ "external_reference_id"?: string; /** The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8. */ "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string; /** Flint line-item tax category. */ "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; /** Attached modifier set. Send null on update to remove it. pattern: ^ms_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_set_id"?: string | null; "name"?: string; /** Format: int32. */ "position"?: number; "selected_option_values"?: Array<ProductVariantSelectedOptionRequestInput>; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money": MoneyValueInput; };

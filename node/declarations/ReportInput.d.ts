@@ -1,0 +1,4 @@
+
+
+
+export type ReportInput = ({ /** RFC3339 timestamp. Format: date-time. */ "created_at"?: never; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency"?: never; "download"?: never; "failure_reason"?: never; /** RFC3339 timestamp. Format: date-time. */ "interval_end_at"?: never; /** RFC3339 timestamp. Format: date-time. */ "interval_start_at"?: never; /** pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */ "report_id"?: never; /** The generated report contract. tax_transactions_itemized_v1 contains frozen Quaderno-backed collection and successful refund evidence for reconciliation and import, not filing instructions. */ "report_type"?: never; "status"?: never; "timezone"?: never; }) & ((({ "status"?: "pending"; }) & (({ "download"?: never }) & ({ "failure_reason"?: never }))) | (({ "status"?: "succeeded"; }) & ({ "failure_reason"?: never })) | (({ "status"?: "failed"; }) & ({ "download"?: never })));

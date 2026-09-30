@@ -1,0 +1,1 @@
+{"shared":"SubscriptionWindowMetrics","phpRepresentation":{"kind":"record","fields":{"canceled_subscriptions":{"kind":"value","type":"string"},"new_subscriptions":{"kind":"value","type":"string"},"subscription_collected_money_by_currency":{"kind":"list","value":{"kind":"entity","name":"MoneyValue"}}}},"dependencies":["MoneyValue","SubscriptionWindowMetrics"]}

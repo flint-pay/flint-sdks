@@ -2,14 +2,11 @@
 declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
 $client = new Client(new ClientOptions(
-  baseUrl: getenv('API_BASE_URL') ?: 'https://sandbox.example.invalid',
-  authMode: 'customer',
-  credentials: [
-    'customer' => [
-      'CustomerSessionBearer' => getenv('API_CUSTOMER_CUSTOMERSESSIONBEARER') ?: '',
-    ],
-  ],
+  baseUrl: $baseUrl,
+  customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->listAddresses([], new RequestOptions(maxAttempts: 1));
+$result = $client->me->listAddresses([]);
 $client->close();

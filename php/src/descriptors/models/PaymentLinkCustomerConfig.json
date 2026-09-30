@@ -1,0 +1,1 @@
+{"shared":"PaymentLinkCustomerConfig","phpRepresentation":{"kind":"record","fields":{"enable_address_autocomplete":{"kind":"value","type":"bool"},"require_email":{"kind":"value","type":"bool"}}},"dependencies":["PaymentLinkCustomerConfig"]}

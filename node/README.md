@@ -1,6 +1,8 @@
 # Flint Public API SDK (node)
 
-Package 0.4.0-beta.1; generated for API 2026-09-07.
+Package 2.0.0; generated for API 2026-09-07.
+
+Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts.
 
 Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. See the [SDK ↔ API version mapping](https://github.com/flint-pay/flint-sdks#sdk--api-versions) for version history.
 
@@ -10,15 +12,15 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 
 ## Installation
 
-Requires Node.js 22+. TypeScript consumers require TypeScript 5.9+; JavaScript consumers do not need TypeScript. ESM JavaScript and declarations ship together.
+Requires Node.js 22+ for ESM imports, or Node.js 22.12+ for `require()` from CommonJS. ESM JavaScript and declarations ship together. TypeScript consumers require TypeScript 5.9+ with NodeNext module resolution and a compatible `@types/node` version (22.16.0+), installed as a development dependency, for example `npm install --save-dev @types/node@22`. Node types are an optional peer dependency; JavaScript consumers do not need TypeScript or Node types.
 
-Install: `npm install @flintpay/node@0.4.0-beta.1`
+Install: `npm install @flintpay/node`
 
 ## Quickstart
 
-Set `API_BASE_URL` to your API environment and replace the sample IDs below with values from your account. Set the credential environment variables shown below; the [authentication guide](RUNTIME.md#authentication) lists every mode and required credential key. The example scripts read these variables explicitly.
+The default API base URL is `https://api.withflintpay.com`, the first server declared by the API. Set `API_BASE_URL` to override it for another environment. Replace the sample IDs below with values from your account. Set the credential environment variables shown below; the [authentication guide](RUNTIME.md#authentication) lists every mode and required credential key. The example scripts read these variables explicitly.
 
-Copy an example into an ESM application, or run a packaged script with `node examples/RESOURCE-METHOD.mjs`. TypeScript examples are included alongside the JavaScript files. Examples use a placeholder base URL and one request attempt.
+Copy an example into an ESM application, or run a packaged script with `node examples/RESOURCE-METHOD.mjs`. TypeScript examples are included alongside the JavaScript files. Examples use the client and operation defaults.
 
 Payload-mode calls return the decoded payload directly. Use the corresponding WithResponse method for the complete body and HTTP metadata; see the [WithResponse example](RUNTIME.md#response-return-modes). Each invocation makes its own request; choose one form per action. Operations configured for result mode retain `result.data` and `result.meta`. The API reference describes the return mode for each operation.
 
@@ -30,34 +32,31 @@ Creates a standalone payment intent for the authenticated merchant. Create order
 
 ```typescript
 import { SdkError, Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: process.env.API_BASE_URL ?? 'https://sandbox.example.invalid',
-  apiKey: process.env.API_KEY ?? '',
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
 });
 
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
 try {
   const result = await client.paymentIntents.create(
     {
       amount_money: {
-        amount: "2500",
+        amount: "5000",
         currency: "USD",
       },
-      capture_method: "automatic",
-      external_reference_id: "purchase-1001",
       payment_options: ["card"],
-      receipt_email: "buyer@example.com",
       "Idempotency-Key": idempotencyKey,
-    },
-    { maxAttempts: 1 },
+    }
   );
   console.log(result.payment_intent.payment_intent_id);
   console.log(result.payment_intent.status);
 } catch (error) {
   if (!(error instanceof SdkError)) throw error;
-  console.error(error.kind, error.code, error.meta?.requestId);
+  console.error(error.message, error.status, error.kind, error.code, error.meta?.requestId);
   if (error.outcome === 'unknown') {
     // Reconcile with the API before resubmitting this action.
     console.error('The request may have succeeded; check its current state.');
@@ -72,26 +71,34 @@ try {
 
 Reuse the client above. Each recipe represents a separate business action.
 
+### paymentIntents.get
+
+Returns a single payment intent by ID.
+
+```typescript
+const paymentIntentsGetResult = await client.paymentIntents.get(
+  "example",
+  {}
+);
+console.log(paymentIntentsGetResult.payment_intent_id);
+console.log(paymentIntentsGetResult.status);
+```
+
+[Run the standalone example](examples/paymentIntents-get.mjs)
+
 ### refunds.create
 
 Creates a refund for an order or payment intent. This is a financial operation.
 
 ```typescript
-// Reuse this key when retrying the same action.
+// Persist this key with the action before sending; reuse it for every resubmission.
 const refundsCreateIdempotencyKey = crypto.randomUUID();
 
 const refundsCreateResult = await client.refunds.create(
   {
-    amount_money: {
-      amount: "500",
-      currency: "USD",
-    },
-    external_reference_id: "refund-1001",
-    payment_intent_id: "pi_replace_with_your_payment_intent_id",
-    reason: "requested_by_customer",
+    order_id: "example",
     "Idempotency-Key": refundsCreateIdempotencyKey,
-  },
-  { maxAttempts: 1 },
+  }
 );
 console.log(refundsCreateResult.refund_id);
 console.log(refundsCreateResult.status);
@@ -99,38 +106,10 @@ console.log(refundsCreateResult.status);
 
 [Run the standalone example](examples/refunds-create.mjs)
 
-### checkoutSessions.create
-
-Creates a hosted or embedded checkout session for an order, quick-pay charge, or subscription plan signup. Creation never implicitly replaces an open order session. To replace one, send order_id with replace_checkout_session_id set to the expected current session; the compare-and-swap replacement and collection-lock transfer commit atomically.
-
-```typescript
-// Reuse this key when retrying the same action.
-const checkoutSessionsCreateIdempotencyKey = crypto.randomUUID();
-
-const checkoutSessionsCreateResult = await client.checkoutSessions.create(
-  {
-    order_id: "ord_replace_with_your_order_id",
-    payments: {
-      enabled_payment_options: ["card"],
-    },
-    redirects: {
-      cancel_redirect_url: "https://shop.example.com/cart",
-      success_redirect_url: "https://shop.example.com/checkout/success",
-    },
-    surface: "hosted",
-    "Idempotency-Key": checkoutSessionsCreateIdempotencyKey,
-  },
-  { maxAttempts: 1 },
-);
-console.log(checkoutSessionsCreateResult.checkout_session.checkout_session_id);
-console.log(checkoutSessionsCreateResult.checkout_session.status);
-```
-
-[Run the standalone example](examples/checkoutSessions-create.mjs)
-
 Close the client when finished with `await client.close()`. For retry and error details, see the [runtime guide](RUNTIME.md).
 
 ## More documentation
 
 - [API reference and all operation examples](REFERENCE.md)
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks.
+- [verifyWebhook examples and errors](RUNTIME.md#webhooks-and-recovery)

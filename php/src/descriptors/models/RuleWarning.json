@@ -1,0 +1,1 @@
+{"shared":"RuleWarning","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"context":{"kind":"map","value":{"kind":"value","type":"string"}},"message":{"kind":"value","type":"string"},"severity":{"kind":"value","type":"string"}}},"dependencies":["RuleWarning"]}

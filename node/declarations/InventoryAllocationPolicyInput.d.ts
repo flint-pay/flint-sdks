@@ -1,0 +1,4 @@
+
+import type { InventoryAllocationPolicyConfigurationInput } from './InventoryAllocationPolicyConfigurationInput.js';
+
+/** Named, version-fenced rules that decide which Locations serve demand and in what order. */ export type InventoryAllocationPolicyInput = { "configuration": InventoryAllocationPolicyConfigurationInput; /** RFC3339 timestamp. Format: date-time. */ "created_at": string | globalThis.Date; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; "inventory_allocation_policy_id": string; "metadata": Record<string, string>; "name": string; "status": "active" | "inactive" | "archived"; /** RFC3339 timestamp. Format: date-time. */ "updated_at": string | globalThis.Date; /** Use an exact numeric string, not a floating-point number. Format: uint64. minimum: 0. */ "version": string; };

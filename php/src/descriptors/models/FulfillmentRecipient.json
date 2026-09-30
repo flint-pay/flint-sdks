@@ -1,0 +1,1 @@
+{"shared":"FulfillmentRecipient","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"PostalAddress"},"email":{"kind":"value","type":"string"},"instructions":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"phone":{"kind":"value","type":"string"}}},"dependencies":["FulfillmentRecipient","PostalAddress"]}

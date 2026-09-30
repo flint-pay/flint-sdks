@@ -66,16 +66,64 @@ final class SchemaAdapter
         }
         return $result;
     }
+    private static function nullableAlternative(array $schema): ?int
+    {
+        if (isset($schema['oneOf'], $schema['anyOf'])) {
+            return null;
+        }
+        $branches = $schema['oneOf'] ?? ($schema['anyOf'] ?? []);
+        if (count($branches) !== 2) {
+            return null;
+        }
+        foreach ($branches as $nullIndex => $branch) {
+            if (
+                ($branch['type'] ?? null) !== 'null' ||
+                array_diff(array_keys($branch), [
+                    'type',
+                    'description',
+                    'title',
+                    'deprecated',
+                    'readOnly',
+                    'writeOnly',
+                ])
+            ) {
+                continue;
+            }
+            $index = 1 - $nullIndex;
+            $value = $branches[$index];
+            if (
+                isset($value['type']) &&
+                is_string($value['type']) &&
+                in_array(
+                    $value['type'],
+                    ['boolean', 'string', 'number', 'integer', 'object', 'array'],
+                    true,
+                ) &&
+                !isset($value['oneOf']) &&
+                !isset($value['anyOf']) &&
+                !isset($value['x-sdk-ref'])
+            ) {
+                return $index;
+            }
+        }
+        return null;
+    }
     public static function compile(array $schema): array
     {
         return self::node($schema, $schema, 0);
     }
+    private const RETRY_DEFAULTS = '{"safeMethods":["GET","HEAD","OPTIONS"],"read":{"maxAttempts":3,"statuses":[408,429,500,502,503,504],"transport":true,"baseDelayMs":100},"mutation":{"maxAttempts":1,"statuses":[],"transport":false,"baseDelayMs":100}}';
+
     public static function runtimePlan(array $contract): array
     {
         $root = fn($schema) => self::compile(
             $schema + ['x-sdk-validation' => $contract['validation'] ?? 'schema'],
         );
+        $defaults = json_decode(self::RETRY_DEFAULTS, true, 512, JSON_THROW_ON_ERROR);
         foreach ($contract['operations'] as &$op) {
+            $safe = in_array($op['verb'], $defaults['safeMethods'], true);
+            $op['replay'] = $safe ? 'safe' : 'idempotency';
+            $op['retry'] ??= $defaults[$safe ? 'read' : 'mutation'];
             foreach ($op['parameters'] as &$parameter) {
                 $parameter['codec'] = $root($parameter['schema']);
                 unset($parameter['schema']);
@@ -88,13 +136,25 @@ final class SchemaAdapter
                 $op['streamEventCodecs'] = array_map($root, $op['streamEventSchemas']);
                 unset($op['streamEventSchemas']);
             }
-            foreach ($op['responses'] as &$response) {
+            $jsonSuccesses = [];
+            foreach ($op['responses'] as $status => &$response) {
+                $response['bodyKind'] ??= isset($response['schema']) ? 'json' : 'empty';
+                if (
+                    preg_match('/^2[0-9]{2}$/D', (string) $status) &&
+                    $response['bodyKind'] === 'json'
+                ) {
+                    $jsonSuccesses[] = (string) $status;
+                }
                 if (isset($response['schema'])) {
                     $response['codec'] = $root($response['schema']);
                     unset($response['schema']);
                 }
             }
             unset($response);
+            unset($op['successJsonFallback']);
+            if (count($jsonSuccesses) === 1) {
+                $op['successJsonFallback'] = $jsonSuccesses[0];
+            }
         }
         unset($op);
         if (isset($contract['definitions'])) {
@@ -104,7 +164,8 @@ final class SchemaAdapter
             $contract['webhook']['events'] = array_map($root, $contract['webhook']['events']);
         }
         $contract['format'] = 1;
-        $contract['semantics'] = '3';
+        $contract['semantics'] = '4';
+        $contract['retrySemantics'] = 'budgets-1';
         if (isset($contract['incoming'])) {
             foreach ($contract['incoming'] as &$entry) {
                 $entry['codec'] = $root($entry['schema']);
@@ -167,11 +228,12 @@ final class SchemaAdapter
         $format = $input['format'] ?? '';
         $kind = match ($type) {
             null => 'dynamic',
-            'null', 'boolean', 'string', 'object', 'array' => $type,
+            'null', 'boolean', 'object', 'array' => $type,
+            'string' => $format === 'date-time' ? 'date-time' : 'string',
             'integer' => in_array($format, ['int64', 'uint64'], true)
                 ? 'exact-integer'
                 : 'safe-integer',
-            'number' => 'decimal',
+            'number' => $format === 'decimal' ? 'decimal' : 'native-number',
             default => 'opaque',
         };
         if (
@@ -229,6 +291,10 @@ final class SchemaAdapter
                 ]),
             ),
         ];
+        $nullableBranch = self::nullableAlternative($input);
+        if ($nullableBranch !== null) {
+            $plan['nullableAlternative'] = $nullableBranch;
+        }
         if (($input['type'] ?? null) === 'object') {
             $plan['objectOnlyAlternative'] = true;
         }

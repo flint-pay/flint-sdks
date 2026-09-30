@@ -1,0 +1,1 @@
+{"shared":"StripeClientSetup","phpRepresentation":{"kind":"record","fields":{"stripe":{"kind":"entity","name":"StripeClientSetupStripe"}}},"dependencies":["StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}

@@ -1,0 +1,1 @@
+{"shared":"DeliveryDistanceUnitPriceRequest","phpRepresentation":{"kind":"record","fields":{"currency_options":{"kind":"map","value":{"kind":"entity","name":"MoneyValue"}},"unit":{"kind":"value","type":"string"},"unit_quantity":{"kind":"value","type":"string"}}},"dependencies":["DeliveryDistanceUnitPriceRequest","MoneyValue"]}

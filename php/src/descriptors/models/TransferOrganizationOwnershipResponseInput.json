@@ -1,0 +1,1 @@
+{"shared":"TransferOrganizationOwnershipResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","OrganizationMembership","ResponseMeta","ResponseWarning","TransferOrganizationOwnershipResponse","TransferOrganizationOwnershipResult"]}

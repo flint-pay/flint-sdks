@@ -1,0 +1,1 @@
+{"shared":"CheckoutExpirationConfig","phpRepresentation":{"kind":"record","fields":{"expiration_url":{"kind":"value","type":"string"},"expires_in_seconds":{"kind":"value","type":"string"}}},"dependencies":["CheckoutExpirationConfig"]}

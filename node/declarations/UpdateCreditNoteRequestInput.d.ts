@@ -1,0 +1,4 @@
+
+import type { CreditNoteLineRequestInput } from './CreditNoteLineRequestInput.js';
+
+export type UpdateCreditNoteRequestInput = ({ /** Replaces all draft corrections atomically with other edits. Include credit_note_line_id to retain a line, omit it to create a line, and omit a member to remove it. Send [] to clear the draft. Null is not accepted. */ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; /** Credit note version last read. Required when credit_note_lines is present. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "expected_version"?: string; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; /** maxLength: 4096. */ "memo"?: string | null; "reason"?: "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }) & (((({ "credit_note_lines"?: never })) | ({ "expected_version": unknown; })));

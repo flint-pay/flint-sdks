@@ -1,0 +1,1 @@
+{"shared":"DeliveryPickupDetails","dependencies":["DeliveryAddressResource","DeliveryLocationSummaryResource","DeliveryPickupDetails"]}

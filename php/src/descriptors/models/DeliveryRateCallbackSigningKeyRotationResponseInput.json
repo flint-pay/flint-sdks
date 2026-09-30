@@ -1,0 +1,1 @@
+{"shared":"DeliveryRateCallbackSigningKeyRotationResponse","dependencies":["DeliveryRateCallbackSigningKeyRotation","DeliveryRateCallbackSigningKeyRotationResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

@@ -1,0 +1,140 @@
+export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
+import type { InputValue } from '../runtime.js';
+import type { ClientOptions } from '../declarations/ClientOptions.js';
+import type { CreateOrderLineItemInput } from '../declarations/CreateOrderLineItemInput.js';
+import type { DeliveryAddressRequestInput } from '../declarations/DeliveryAddressRequestInput.js';
+import type { DeliveryBuyerLocationRequestInput } from '../declarations/DeliveryBuyerLocationRequestInput.js';
+import type { DeliveryPreviewResponse } from '../declarations/DeliveryPreviewResponse.js';
+import type { DeliveryPreviewRoutingSourceInput } from '../declarations/DeliveryPreviewRoutingSourceInput.js';
+import type { DeliveryPreviewsCreateInput } from '../declarations/DeliveryPreviewsCreateInput.js';
+import type { DeliveryPreviewsCreateResponse } from '../declarations/DeliveryPreviewsCreateResponse.js';
+import type { RequestOptions } from '../declarations/RequestOptions.js';
+import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export interface DeliveryPreviewsResource {
+    /**
+ * Computes exact display-only delivery outcomes without persisting a resource, holding inventory, or granting selection authority.
+ * POST /v1/delivery-previews
+ * @example
+ * client.deliveryPreviews.create({currency: "USD", delivery_method_ids: [], line_items: [{variant_id: "example"}]})
+ */
+    create(params: (InputValue<{ "buyer_location"?: DeliveryBuyerLocationRequestInput; "currency": string; "delivery_method_ids": Array<string>; "destination_address"?: DeliveryAddressRequestInput; "inventory_routing_source"?: DeliveryPreviewRoutingSourceInput; "line_items": Array<CreateOrderLineItemInput>; "pickup_location_id"?: string; "pricing_context"?: Record<string, string>; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryPreviewResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createWithResponse(params: (InputValue<{ "buyer_location"?: DeliveryBuyerLocationRequestInput; "currency": string; "delivery_method_ids": Array<string>; "destination_address"?: DeliveryAddressRequestInput; "inventory_routing_source"?: DeliveryPreviewRoutingSourceInput; "line_items": Array<CreateOrderLineItemInput>; "pickup_location_id"?: string; "pricing_context"?: Record<string, string>; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryPreviewsCreateResponse>>;
+  }
+export declare class Client {
+
+  constructor(options?: ClientOptions);
+
+  close(): Promise<void>;
+readonly deliveryPreviews: DeliveryPreviewsResource;
+}
+export type { DeliveryBuyerLocationRequestInput } from '../declarations/DeliveryBuyerLocationRequestInput.js';
+export type { DeliveryAddressRequestInput } from '../declarations/DeliveryAddressRequestInput.js';
+export type { DeliveryPreviewRoutingSourceInput } from '../declarations/DeliveryPreviewRoutingSourceInput.js';
+export type { CreateOrderLineItemInput } from '../declarations/CreateOrderLineItemInput.js';
+export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { RequestOptions } from '../declarations/RequestOptions.js';
+export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+export type { DeliveryPreviewResponse } from '../declarations/DeliveryPreviewResponse.js';
+export type { SdkResponse } from '../declarations/SdkResponse.js';
+export type { DeliveryPreviewsCreateResponse } from '../declarations/DeliveryPreviewsCreateResponse.js';
+export type { DeliveryPreviewsCreateInput } from '../declarations/DeliveryPreviewsCreateInput.js';
+export type { ClientOptions } from '../declarations/ClientOptions.js';
+export type { DeliveryCoordinateRequestInput } from '../declarations/DeliveryCoordinateRequestInput.js';
+export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFulfillmentRequestInput.js';
+export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
+export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
+export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
+export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
+export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
+export type { OrderDraftLineItemTaxRequestInput } from '../declarations/OrderDraftLineItemTaxRequestInput.js';
+export type { OrderDraftLineItemTaxCalculationRequestInput } from '../declarations/OrderDraftLineItemTaxCalculationRequestInput.js';
+export type { OrderDraftTaxComponentRequestInput } from '../declarations/OrderDraftTaxComponentRequestInput.js';
+export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
+export type { OrderDraftTaxJurisdictionRequestInput } from '../declarations/OrderDraftTaxJurisdictionRequestInput.js';
+export type { AuthMode } from '../declarations/AuthMode.js';
+export type { Credentials } from '../declarations/Credentials.js';
+export type { DeliveryPreview } from '../declarations/DeliveryPreview.js';
+export type { DeliveryBuyerLocationResource } from '../declarations/DeliveryBuyerLocationResource.js';
+export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
+export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
+export type { DeliveryPreviewChoiceGroupResource } from '../declarations/DeliveryPreviewChoiceGroupResource.js';
+export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
+export type { DeliveryAddressAdvisoryResource } from '../declarations/DeliveryAddressAdvisoryResource.js';
+export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequest.js';
+export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
+export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
+export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { DeliveryOptionProjection } from '../declarations/DeliveryOptionProjection.js';
+export type { DeliveryArrivalEstimate } from '../declarations/DeliveryArrivalEstimate.js';
+export type { BuyerInstructionsConfig } from '../declarations/BuyerInstructionsConfig.js';
+export type { DeliveryPlan } from '../declarations/DeliveryPlan.js';
+export type { DeliveryQuoteExecutionLegResource } from '../declarations/DeliveryQuoteExecutionLegResource.js';
+export type { DeliveryShipmentDetails } from '../declarations/DeliveryShipmentDetails.js';
+export type { DeliveryPickupDetails } from '../declarations/DeliveryPickupDetails.js';
+export type { DeliveryLocationSummaryResource } from '../declarations/DeliveryLocationSummaryResource.js';
+export type { DeliveryRecipientRequirement } from '../declarations/DeliveryRecipientRequirement.js';
+export type { DeliveryQuoteLineItemResource } from '../declarations/DeliveryQuoteLineItemResource.js';
+export type { CreateOrderLineItem } from '../declarations/CreateOrderLineItem.js';
+export type { LineItemFulfillmentRequest } from '../declarations/LineItemFulfillmentRequest.js';
+export type { LineItemFulfillmentSizeRequest } from '../declarations/LineItemFulfillmentSizeRequest.js';
+export type { LineItemFulfillmentOriginRequest } from '../declarations/LineItemFulfillmentOriginRequest.js';
+export type { LineItemFulfillmentWeightRequest } from '../declarations/LineItemFulfillmentWeightRequest.js';
+export type { ImageReferenceRequest } from '../declarations/ImageReferenceRequest.js';
+export type { OrderDraftLineItemInventoryDemandRequest } from '../declarations/OrderDraftLineItemInventoryDemandRequest.js';
+export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
+export type { OrderDraftLineItemTaxRequest } from '../declarations/OrderDraftLineItemTaxRequest.js';
+export type { OrderDraftLineItemTaxCalculationRequest } from '../declarations/OrderDraftLineItemTaxCalculationRequest.js';
+export type { OrderDraftTaxComponentRequest } from '../declarations/OrderDraftTaxComponentRequest.js';
+export type { OrderDraftTaxJurisdictionRequest } from '../declarations/OrderDraftTaxJurisdictionRequest.js';
+export type { DeliveryMerchantDiagnostic } from '../declarations/DeliveryMerchantDiagnostic.js';
+export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligibilityMismatch.js';
+export type { ResponseMeta } from '../declarations/ResponseMeta.js';
+export type { ResponseWarning } from '../declarations/ResponseWarning.js';
+export type { NextAction } from '../declarations/NextAction.js';
+export type { CreateDeliveryPreviewRequestInput } from '../declarations/CreateDeliveryPreviewRequestInput.js';
+export { makeDeliveryPreviewResponse } from '../declarations/makeDeliveryPreviewResponse.js';
+export { makeDeliveryPreview } from '../declarations/makeDeliveryPreview.js';
+export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
+export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
+export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
+export { makeDeliveryPreviewChoiceGroupResource } from '../declarations/makeDeliveryPreviewChoiceGroupResource.js';
+export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
+export { makeDeliveryAddressAdvisoryResource } from '../declarations/makeDeliveryAddressAdvisoryResource.js';
+export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressRequest.js';
+export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
+export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
+export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeDeliveryOptionProjection } from '../declarations/makeDeliveryOptionProjection.js';
+export { makeDeliveryArrivalEstimate } from '../declarations/makeDeliveryArrivalEstimate.js';
+export { makeBuyerInstructionsConfig } from '../declarations/makeBuyerInstructionsConfig.js';
+export { makeDeliveryPlan } from '../declarations/makeDeliveryPlan.js';
+export { makeDeliveryQuoteExecutionLegResource } from '../declarations/makeDeliveryQuoteExecutionLegResource.js';
+export { makeDeliveryShipmentDetails } from '../declarations/makeDeliveryShipmentDetails.js';
+export { makeDeliveryPickupDetails } from '../declarations/makeDeliveryPickupDetails.js';
+export { makeDeliveryLocationSummaryResource } from '../declarations/makeDeliveryLocationSummaryResource.js';
+export { makeDeliveryRecipientRequirement } from '../declarations/makeDeliveryRecipientRequirement.js';
+export { makeDeliveryQuoteLineItemResource } from '../declarations/makeDeliveryQuoteLineItemResource.js';
+export { makeCreateOrderLineItem } from '../declarations/makeCreateOrderLineItem.js';
+export { makeLineItemFulfillmentRequest } from '../declarations/makeLineItemFulfillmentRequest.js';
+export { makeLineItemFulfillmentSizeRequest } from '../declarations/makeLineItemFulfillmentSizeRequest.js';
+export { makeLineItemFulfillmentOriginRequest } from '../declarations/makeLineItemFulfillmentOriginRequest.js';
+export { makeLineItemFulfillmentWeightRequest } from '../declarations/makeLineItemFulfillmentWeightRequest.js';
+export { makeImageReferenceRequest } from '../declarations/makeImageReferenceRequest.js';
+export { makeOrderDraftLineItemInventoryDemandRequest } from '../declarations/makeOrderDraftLineItemInventoryDemandRequest.js';
+export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
+export { makeOrderDraftLineItemTaxRequest } from '../declarations/makeOrderDraftLineItemTaxRequest.js';
+export { makeOrderDraftLineItemTaxCalculationRequest } from '../declarations/makeOrderDraftLineItemTaxCalculationRequest.js';
+export { makeOrderDraftTaxComponentRequest } from '../declarations/makeOrderDraftTaxComponentRequest.js';
+export { makeOrderDraftTaxJurisdictionRequest } from '../declarations/makeOrderDraftTaxJurisdictionRequest.js';
+export { makeDeliveryMerchantDiagnostic } from '../declarations/makeDeliveryMerchantDiagnostic.js';
+export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEligibilityMismatch.js';
+export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
+export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
+export { makeNextAction } from '../declarations/makeNextAction.js';

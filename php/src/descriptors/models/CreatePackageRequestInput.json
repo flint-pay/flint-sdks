@@ -1,0 +1,1 @@
+{"shared":"CreatePackageRequest","dependencies":["CreatePackageRequest","ReturnShipmentLineItemAllocation","ShippingDimensions","ShippingWeight"]}

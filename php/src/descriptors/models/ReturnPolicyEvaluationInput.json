@@ -1,0 +1,1 @@
+{"shared":"ReturnPolicyEvaluation","dependencies":["BundleComponent","Image","MoneyValue","OrderLineItemModifier","ReturnPolicyAdjustmentProposal","ReturnPolicyEvaluation","ReturnPolicyEvaluationLineItem","SelectedProductOption","SharedCodec16","TextModifierRequest"]}

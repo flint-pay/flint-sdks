@@ -1,0 +1,1 @@
+{"shared":"DeliveryProfileOriginPolicy","phpRepresentation":{"kind":"record","fields":{"location_id":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["DeliveryProfileOriginPolicy"]}

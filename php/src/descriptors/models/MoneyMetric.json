@@ -1,0 +1,1 @@
+{"shared":"MoneyMetric","phpRepresentation":{"kind":"record","fields":{"change_percent":{"kind":"value","type":"float"},"current_money":{"kind":"entity","name":"SignedMoney"},"previous_money":{"kind":"entity","name":"SignedMoney"}}},"dependencies":["MoneyMetric","SignedMoney"]}

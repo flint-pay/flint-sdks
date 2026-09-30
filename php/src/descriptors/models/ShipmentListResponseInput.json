@@ -1,0 +1,1 @@
+{"shared":"ShipmentListResponse","dependencies":["ExpandedOrderSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","PricingAmounts","ResponseMeta","ResponseWarning","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec26","Shipment","ShipmentListResponse","SignedMoney"]}

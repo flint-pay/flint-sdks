@@ -1,0 +1,4 @@
+
+
+
+export type ReleaseInventoryReservationRequest = { /** Reservation version the caller last read. Use an exact numeric string, not a floating-point number. Format: int64. */ "expected_version"?: string; "lines": Array<{ /** Line being transitioned. */ "inventory_reservation_line_id": string; /** Cumulative quantity released from the committed bucket. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. */ "target_released_from_committed_quantity"?: string; /** Cumulative quantity released from the held bucket. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. */ "target_released_from_held_quantity"?: string; }>; };

@@ -1,0 +1,1 @@
+{"shared":"RequestedTip","phpRepresentation":{"kind":"record","fields":{"amount_money":{"kind":"entity","name":"MoneyValue"},"description":{"kind":"value","type":"string"},"metadata":{"kind":"map","value":{"kind":"value","type":"string"}},"name":{"kind":"value","type":"string"},"percent":{"kind":"value","type":"float"}}},"dependencies":["MoneyValue","RequestedTip"]}

@@ -1,0 +1,1 @@
+{"shared":"InvoiceAutopayRetryPolicy","phpRepresentation":{"kind":"record","fields":{"retry_day_offsets":{"kind":"list","value":{"kind":"value","type":"int"}}}},"dependencies":["InvoiceAutopayRetryPolicy"]}

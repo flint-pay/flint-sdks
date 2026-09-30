@@ -29,12 +29,12 @@
   },
   "autoload": {
     "classmap": [
+      "php/src/SchemaAdapter.php",
       "php/custom/"
     ],
-    "files": [
-      "php/src/Runtime.php",
-      "php/src/Client.php"
-    ]
+    "psr-4": {
+      "Flint\\": "php/src/classes/"
+    }
   },
   "description": "Flint Public API server SDK",
   "license": "Apache-2.0",

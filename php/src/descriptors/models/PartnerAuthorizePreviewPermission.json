@@ -1,0 +1,1 @@
+{"shared":"PartnerAuthorizePreviewPermission","phpRepresentation":{"kind":"record","fields":{"description":{"kind":"value","type":"string"},"optional":{"kind":"value","type":"bool"},"permission_id":{"kind":"value","type":"string"},"title":{"kind":"value","type":"string"}}},"dependencies":["PartnerAuthorizePreviewPermission"]}

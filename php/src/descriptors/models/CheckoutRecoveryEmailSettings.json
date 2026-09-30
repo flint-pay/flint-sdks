@@ -1,0 +1,1 @@
+{"shared":"CheckoutRecoveryEmailSettings","phpRepresentation":{"kind":"record","fields":{"delay_minutes":{"kind":"value","type":"int"},"enabled":{"kind":"value","type":"bool"}}},"dependencies":["CheckoutRecoveryEmailSettings"]}

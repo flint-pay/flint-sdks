@@ -1,0 +1,4 @@
+
+import type { CheckoutCustomerVerificationConfirmationResponse } from './CheckoutCustomerVerificationConfirmationResponse.js';
+
+export type CheckoutSessionsConfirmCustomerVerificationResponse = CheckoutCustomerVerificationConfirmationResponse;

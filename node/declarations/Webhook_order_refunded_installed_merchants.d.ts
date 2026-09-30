@@ -1,0 +1,4 @@
+
+import type { Webhook_order_payment_authorization_canceled_installed_merchants } from './Webhook_order_payment_authorization_canceled_installed_merchants.js';
+
+export type Webhook_order_refunded_installed_merchants = Webhook_order_payment_authorization_canceled_installed_merchants;

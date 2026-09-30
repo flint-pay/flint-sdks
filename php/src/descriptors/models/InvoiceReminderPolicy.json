@@ -1,0 +1,1 @@
+{"shared":"InvoiceReminderPolicy","phpRepresentation":{"kind":"record","fields":{"rules":{"kind":"list","value":{"kind":"entity","name":"InvoiceReminderRule"}}}},"dependencies":["InvoiceReminderPolicy","InvoiceReminderRule"]}

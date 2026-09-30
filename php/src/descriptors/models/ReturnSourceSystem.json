@@ -1,0 +1,1 @@
+{"shared":"ReturnSourceSystem","phpRepresentation":{"kind":"record","fields":{"external_source_id":{"kind":"value","type":"string"},"source_system_type":{"kind":"value","type":"string"}}},"dependencies":["ReturnSourceSystem"]}

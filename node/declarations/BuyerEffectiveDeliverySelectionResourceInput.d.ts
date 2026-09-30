@@ -1,0 +1,8 @@
+
+import type { BuyerDeliveryInputRequirementResourceInput } from './BuyerDeliveryInputRequirementResourceInput.js';
+import type { BuyerDeliverySelectionChoiceResourceInput } from './BuyerDeliverySelectionChoiceResourceInput.js';
+import type { DeliveryAddressResourceInput } from './DeliveryAddressResourceInput.js';
+import type { DeliveryRecipientResourceInput } from './DeliveryRecipientResourceInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
+
+export type BuyerEffectiveDeliverySelectionResourceInput = { "audience": ("buyer") & ("buyer"); "delivery_selection"?: (({ "amount_money": MoneyValueInput; "choices": Array<BuyerDeliverySelectionChoiceResourceInput>; "delivery_quote_id": string; "delivery_selection_id": string; "destination_address"?: DeliveryAddressResourceInput; /** RFC3339 timestamp. Format: date-time. */ "expires_at": string | globalThis.Date; /** Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. */ "input_requirements": Array<BuyerDeliveryInputRequirementResourceInput>; "recipient"?: DeliveryRecipientResourceInput; "status": "selected" | "locked_for_payment" | "committed" | "superseded" | "expired" | "released"; }) | (null)); "mutable": boolean; "source": "none" | "provisional" | "committed"; };

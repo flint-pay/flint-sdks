@@ -1,0 +1,1 @@
+{"shared":"StripeClientSetupStripe","phpRepresentation":{"kind":"record","fields":{"account_id":{"kind":"value","type":"string"},"publishable_key":{"kind":"value","type":"string"},"setup_intent":{"kind":"entity","name":"StripeClientAuthority"}}},"dependencies":["StripeClientAuthority","StripeClientSetupStripe"]}

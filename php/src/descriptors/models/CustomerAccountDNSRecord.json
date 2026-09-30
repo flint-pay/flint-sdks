@@ -1,0 +1,1 @@
+{"shared":"CustomerAccountDNSRecord","phpRepresentation":{"kind":"record","fields":{"dns_record_type":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["CustomerAccountDNSRecord"]}

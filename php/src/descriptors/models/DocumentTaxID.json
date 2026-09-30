@@ -1,0 +1,1 @@
+{"shared":"DocumentTaxID","phpRepresentation":{"kind":"record","fields":{"country":{"kind":"value","type":"string"},"document_tax_id":{"kind":"value","type":"string"},"identifier_type":{"kind":"value","type":"string"},"region":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["DocumentTaxID"]}

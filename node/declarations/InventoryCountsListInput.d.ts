@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type InventoryCountsListInput = { /** minimum: 1. maximum: 100. */ "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; /** Format: date-time. Example: "2026-03-17T14:30:00Z". */ "created_after"?: InputValue<string | globalThis.Date>; /** Format: date-time. Example: "2026-03-17T14:30:00Z". */ "created_before"?: InputValue<string | globalThis.Date>; /** Format: date-time. Example: "2026-03-17T14:30:00Z". */ "applied_after"?: InputValue<string | globalThis.Date>; /** Format: date-time. Example: "2026-03-17T14:30:00Z". */ "applied_before"?: InputValue<string | globalThis.Date>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

@@ -1,0 +1,4 @@
+
+
+
+export type ReturnPolicyScope = ({ "category_handles"?: Array<string>; "channel_types"?: Array<string>; "location_ids"?: Array<string>; "match_type"?: "all" | "include" | (string & {}); "product_ids"?: Array<string>; "variant_ids"?: Array<string>; }) & (({ /** maxItems: 0. */ "category_handles"?: unknown; /** maxItems: 0. */ "channel_types"?: unknown; /** maxItems: 0. */ "location_ids"?: unknown; "match_type"?: unknown; /** maxItems: 0. */ "product_ids"?: unknown; /** maxItems: 0. */ "variant_ids"?: unknown; }) | (({ "match_type"?: unknown; }) & (({ /** minItems: 1. */ "product_ids": unknown; }) | ({ /** minItems: 1. */ "variant_ids": unknown; }) | ({ /** minItems: 1. */ "category_handles": unknown; }) | ({ /** minItems: 1. */ "location_ids": unknown; }) | ({ /** minItems: 1. */ "channel_types": unknown; }) | (object))) | (object));

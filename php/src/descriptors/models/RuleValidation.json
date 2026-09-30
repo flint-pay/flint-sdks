@@ -1,0 +1,1 @@
+{"shared":"RuleValidation","phpRepresentation":{"kind":"record","fields":{"analysis":{"kind":"entity","name":"Analysis"},"warnings":{"kind":"list","value":{"kind":"entity","name":"RuleWarning"}}}},"dependencies":["Analysis","RuleValidation","RuleWarning"]}

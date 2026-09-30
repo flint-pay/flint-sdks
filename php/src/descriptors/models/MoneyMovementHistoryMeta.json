@@ -1,0 +1,1 @@
+{"shared":"MoneyMovementHistoryMeta","phpRepresentation":{"kind":"record","fields":{"earliest_available_at":{"kind":"value","type":"string"},"latest_reconciled_at":{"kind":"value","type":"string"},"status":{"kind":"value","type":"string"}}},"dependencies":["MoneyMovementHistoryMeta"]}

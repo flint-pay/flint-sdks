@@ -1,0 +1,1 @@
+{"shared":"InventoryAdjustmentListResponse","dependencies":["AdjustmentLine","InventoryAdjustment","InventoryAdjustmentListResponse","InventorySourceSystem","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec61"]}

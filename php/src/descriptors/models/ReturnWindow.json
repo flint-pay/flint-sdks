@@ -1,0 +1,1 @@
+{"shared":"ReturnWindow","phpRepresentation":{"kind":"record","fields":{"duration_seconds":{"kind":"value","type":"string"},"starts_at_event":{"kind":"value","type":"string"}}},"dependencies":["ReturnWindow"]}

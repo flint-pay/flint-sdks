@@ -1,0 +1,4 @@
+
+
+
+export type DeliveryMethodOriginSelector = ({ "delivery_location_set_id"?: string; "delivery_location_set_revision_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection" | (string & {}); }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; })) | (({ /** minItems: 1. maxItems: 25. */ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; }) | (object))) | (({ /** minItems: 1. maxItems: 1000. */ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; }) | (object))) | (object));

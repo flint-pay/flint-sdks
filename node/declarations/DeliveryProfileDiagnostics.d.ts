@@ -1,0 +1,4 @@
+
+
+
+export type DeliveryProfileDiagnostics = { /** Number of active delivery methods whose type is allowed by this profile. minimum: 0. */ "active_method_definitions_count": number; /** True when this is the physical catalog default and every active physical catalog obligation uses it. */ "covers_all_items": boolean; /** Number of active Locations that no active delivery method compatible with this profile can use as an origin. minimum: 0. */ "locations_without_rates_count": number; /** Up to 20 active Location IDs that no compatible active delivery method can use as an origin. Use locations_without_rates_count for the complete count. */ "unassigned_locations": Array<string>; /** True when more matching Locations exist than are returned in unassigned_locations. */ "unassigned_locations_truncated": boolean; /** Number of distinct countries explicitly named by zones referenced from compatible active delivery methods. minimum: 0. */ "zone_country_count": number; };

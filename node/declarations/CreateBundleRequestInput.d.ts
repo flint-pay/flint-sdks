@@ -1,0 +1,6 @@
+
+import type { CreateBundleComponentRequestInput } from './CreateBundleComponentRequestInput.js';
+import type { ImageRequestInput } from './ImageRequestInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
+
+export type CreateBundleRequestInput = { "barcode"?: string; /** maxItems: 100. */ "categories"?: Array<string>; "components"?: Array<CreateBundleComponentRequestInput>; "description"?: string; /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. */ "external_reference_id"?: string; /** The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8. */ "images"?: Array<ImageRequestInput>; /** Flint line-item tax category. */ "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; /** Attached modifier set. Send null on update to remove it. pattern: ^ms_[0-9A-HJKMNP-TV-Z]{26}$. */ "modifier_set_id"?: string | null; "name": string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money": MoneyValueInput; };

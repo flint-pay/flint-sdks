@@ -1,0 +1,4 @@
+
+import type { DeliveryInputConstraint } from './DeliveryInputConstraint.js';
+
+export type DeliveryInputRequirement = { "constraint": DeliveryInputConstraint; "delivery_choice_group_ids"?: Array<string>; "delivery_input_requirement_id": string; "delivery_method_ids"?: Array<string>; "delivery_option_ids"?: Array<string>; "field_path": "destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.country" | "destination_address.state" | "destination_address.postal_code" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.country" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.coordinate" | "recipient.name" | "recipient.email" | "recipient.phone" | "choices[].input.delivery_window_id" | "caller_supplied_rates" | (string & {}); "purpose": "quote" | "selection" | "pickup_availability" | (string & {}); };

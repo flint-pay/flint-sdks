@@ -1,0 +1,1 @@
+{"shared":"PaymentMethodDomainPaymentOption","phpRepresentation":{"kind":"record","fields":{"payment_option":{"kind":"value","type":"string"},"status":{"kind":"value","type":"string"}}},"dependencies":["PaymentMethodDomainPaymentOption"]}

@@ -1,0 +1,1 @@
+{"shared":"ReturnHandoffDestination","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"PostalAddress"},"destination_type":{"kind":"value","type":"string"},"location_id":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"}}},"dependencies":["PostalAddress","ReturnHandoffDestination"]}

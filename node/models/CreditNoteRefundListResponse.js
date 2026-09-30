@@ -1,0 +1,9 @@
+import { d152 as c0, d482 as c1, d82 as c2, d41 as c3, d704 as c4, d69 as c5, d1646 as c6, d1645 as c7, d1802 as c8, d1803 as c9, d1804 as c10, d1806 as c11, d1843 as c12, d1915 as c13, d1917 as c14, d1920 as c15, d1922 as c16, d1925 as c17, d1927 as c18, d1928 as c19, d1930 as c20, d1959 as c21, d1960 as c22, d2109 as c23, d2116 as c24, d83 as c25, d705 as c26, d91 as c27, d1914 as c28, d1924 as c29, d37 as c30, d1666 as c31 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d482 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d482;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["CategoryReference"]:c0(),["CreditNoteRefundListResponse"]:c1(),["ExpandedCustomerSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["ExpandedPaymentIntentSummary"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["PaymentRefund"]:c8(),["PaymentSourceAchDebitSummary"]:c9(),["PaymentSourceCardSummary"]:c10(),["PaymentSourceSummary"]:c11(),["PricingAmounts"]:c12(),["Refund"]:c13(),["RefundAdjustmentReason"]:c14(),["RefundLineItemAdjustment"]:c15(),["RefundLineItemAdjustmentRefund"]:c16(),["RefundLineItemAllocation"]:c17(),["RefundLineItemModifierAllocation"]:c18(),["RefundListResponse"]:c19(),["RefundTaxBreakdownRefund"]:c20(),["ResponseMeta"]:c21(),["ResponseWarning"]:c22(),["SelectedProductOption"]:c23(),["SettlementAmounts"]:c24(),["SharedCodec21"]:c25(),["SharedCodec219"]:c26(),["SharedCodec26"]:c27(),["SharedCodec479"]:c28(),["SharedCodec480"]:c29(),["SharedCodec5"]:c30(),["SignedMoney"]:c31()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeCreditNoteRefundListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

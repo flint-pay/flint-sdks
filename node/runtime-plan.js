@@ -1,10 +1,60 @@
+import { assertPhpRepresentation } from './php-value-plan.js';
 export const AUTH_SHORTCUT_RESERVED = new Set('baseUrl token authMode credentials headers idempotencyKey ifMatch timeoutMs deadlineMs maxAttempts signal cancellation maxPages maxItems streamIdleTimeoutMs streamLifetimeMs allowedOrigins allowInsecureHttp transport diagnostics redactFields constructor prototype __proto__ withDeadline this'
     .toLowerCase()
     .split(' '));
+/** token reuses the legacy client field, but may explicitly select a composed mode. */
+export function isAuthShortcutName(name) {
+    return (/^[a-z][a-zA-Z0-9]*$/.test(name) &&
+        (name === 'token' || !AUTH_SHORTCUT_RESERVED.has(name.toLowerCase())));
+}
+/** Reject malformed authorities before URL parsers can repair them. */
+export function isBaseUrlSyntax(value) {
+    return (typeof value === 'string' &&
+        /^[a-z][a-z0-9+.-]*:\/\/[^/@]+(?:\/|$)/i.test(value) &&
+        !/[\\\s\x00-\x1f\x7f{}?#]/.test(value));
+}
+/** Static server defaults must be usable without an input-document origin or variables. */
+export function isDefaultBaseUrl(value) {
+    if (!isBaseUrlSyntax(value) || !/^https?:/i.test(value))
+        return false;
+    try {
+        const url = new URL(value);
+        return Boolean(url.hostname) && !url.username && !url.password;
+    }
+    catch {
+        return false;
+    }
+}
 import { compileCodec, assertCodecPlan, CODEC_FORMAT, CODEC_SEMANTICS, } from './codec-plan.js';
 /** Declared success statuses; default remains a runtime fallback, never an implicit redirect. */
 export function successStatus(status) {
     return /^2\d\d$/.test(status) || ['302', '307', '304'].includes(status);
+}
+/** Shared defaults also rendered into the PHP dynamic-contract adapter. */
+export const RETRY_DEFAULTS = {
+    safeMethods: ['GET', 'HEAD', 'OPTIONS'],
+    read: {
+        maxAttempts: 3,
+        statuses: [408, 429, 500, 502, 503, 504],
+        transport: true,
+        baseDelayMs: 100,
+    },
+    mutation: { maxAttempts: 1, statuses: [], transport: false, baseDelayMs: 100 },
+};
+export const RETRY_SEMANTICS = 'budgets-1';
+export function compileRetry(op) {
+    const safe = RETRY_DEFAULTS.safeMethods.includes(op.verb);
+    const policy = op.retry ?? (safe ? RETRY_DEFAULTS.read : RETRY_DEFAULTS.mutation);
+    return {
+        replay: safe ? 'safe' : 'idempotency',
+        retry: {
+            ...policy,
+            statuses: [...policy.statuses],
+            ...(policy.errors
+                ? { errors: policy.errors.map((rule) => ({ ...rule, codes: [...rule.codes] })) }
+                : {}),
+        },
+    };
 }
 /** Provider policy is resolved here; transports receive only explicit operation descriptors. */
 export function compileRuntimePlan(contract) {
@@ -17,6 +67,7 @@ export function compileRuntimePlan(contract) {
         ...settings,
         format: CODEC_FORMAT,
         semantics: CODEC_SEMANTICS,
+        retrySemantics: RETRY_SEMANTICS,
         ...(incoming
             ? {
                 incoming: incoming.map(({ schema, ...declaration }) => ({
@@ -27,8 +78,14 @@ export function compileRuntimePlan(contract) {
             : {}),
         operations: operations.map((op) => {
             const { parameters, body, responses, streamEventSchemas, ...operation } = op;
+            const jsonSuccesses = Object.entries(responses).filter(([status, response]) => status.length === 3 &&
+                /^2\d\d$/.test(status) &&
+                (response.bodyKind ?? (response.schema ? 'json' : 'empty')) === 'json');
+            const successJsonFallback = jsonSuccesses.length === 1 ? jsonSuccesses[0]?.[0] : undefined;
             return {
                 ...operation,
+                ...compileRetry(op),
+                ...(successJsonFallback === undefined ? {} : { successJsonFallback }),
                 ...(streamEventSchemas
                     ? {
                         streamEventCodecs: Object.fromEntries(Object.entries(streamEventSchemas).map(([name, schema]) => [name, root(schema)])),
@@ -70,15 +127,20 @@ export function compileRuntimePlan(contract) {
             : {}),
     };
 }
-export function assertRuntimePlan(value) {
+export function assertRuntimePlan(value, historical = false) {
     function record(value, path) {
         if (!value || typeof value !== 'object' || Array.isArray(value))
             throw new Error(path + ': invalid compiled runtime record');
         return value;
     }
     const plan = record(value, 'runtime');
+    if (plan.defaultBaseUrl !== undefined && !isDefaultBaseUrl(plan.defaultBaseUrl))
+        throw new Error('Invalid defaultBaseUrl in compiled runtime');
     if (plan.format !== CODEC_FORMAT || typeof plan.semantics !== 'string')
         throw new Error('Unsupported compiled runtime format');
+    const legacyRetry = historical && plan.retrySemantics === undefined;
+    if (!legacyRetry && plan.retrySemantics !== RETRY_SEMANTICS)
+        throw new Error('Unsupported compiled retry semantics');
     if (!Array.isArray(plan.operations))
         throw new Error('Missing compiled operations');
     if (plan.authentication !== undefined)
@@ -105,8 +167,7 @@ export function assertRuntimePlan(value) {
             const modes = record(plan.authentication, 'authentication');
             const mode = typeof shortcut.mode === 'string' ? modes[shortcut.mode] : undefined;
             const schemes = mode && record(mode, 'authentication mode').schemes;
-            if (!/^[a-z][a-zA-Z0-9]*$/.test(name) ||
-                AUTH_SHORTCUT_RESERVED.has(name.toLowerCase()) ||
+            if (!isAuthShortcutName(name) ||
                 typeof shortcut.scheme !== 'string' ||
                 !Array.isArray(schemes) ||
                 schemes.length !== 1 ||
@@ -140,6 +201,40 @@ export function assertRuntimePlan(value) {
             typeof op.verb !== 'string' ||
             !Array.isArray(op.parameters))
             throw new Error('Invalid compiled operation');
+        if (!legacyRetry || op.retry !== undefined) {
+            const retry = record(op.retry, `${op.id}.retry`);
+            if ((!legacyRetry && op.replay !== 'safe' && op.replay !== 'idempotency') ||
+                !Number.isInteger(retry.maxAttempts) ||
+                Number(retry.maxAttempts) < 1 ||
+                Number(retry.maxAttempts) > 10 ||
+                !Array.isArray(retry.statuses) ||
+                retry.statuses.some((status) => !Number.isInteger(status) ||
+                    status < 400 ||
+                    status > 599 ||
+                    [409, 412].includes(status)) ||
+                typeof retry.transport !== 'boolean' ||
+                typeof retry.baseDelayMs !== 'number' ||
+                !Number.isFinite(retry.baseDelayMs) ||
+                retry.baseDelayMs < 0 ||
+                (op.replay === 'idempotency' && Number(retry.maxAttempts) > 1 && !op.idempotency))
+                throw new Error(`${op.id}: invalid compiled retry policy`);
+            if (retry.errors !== undefined) {
+                if (!Array.isArray(retry.errors))
+                    throw new Error('Invalid compiled retry errors');
+                for (const item of retry.errors) {
+                    const rule = record(item, 'retry.errors');
+                    if (!Number.isInteger(rule.status) ||
+                        Number(rule.status) < 400 ||
+                        Number(rule.status) > 599 ||
+                        rule.status === 412 ||
+                        !Array.isArray(rule.codes) ||
+                        !rule.codes.length ||
+                        rule.codes.some((code) => typeof code !== 'string' || !code.trim()) ||
+                        (rule.status === 409 && (!op.idempotency || op.conditional)))
+                        throw new Error('Invalid compiled retry errors');
+                }
+            }
+        }
         for (const parameter of op.parameters) {
             const field = record(parameter, `${op.id}.parameter`);
             if (typeof field.name !== 'string' ||
@@ -162,7 +257,15 @@ export function assertRuntimePlan(value) {
                     (!Number.isSafeInteger(stream[key]) || Number(stream[key]) <= 0))
                     throw new Error('Invalid stream limits');
         }
-        for (const [status, response] of Object.entries(record(op.responses, `${op.id}.responses`))) {
+        const responses = record(op.responses, `${op.id}.responses`);
+        if (op.successJsonFallback !== undefined) {
+            const candidates = Object.entries(responses).filter(([status, response]) => status.length === 3 &&
+                /^2\d\d$/.test(status) &&
+                record(response, 'response').bodyKind === 'json');
+            if (candidates.length !== 1 || candidates[0]?.[0] !== op.successJsonFallback)
+                throw new Error('Invalid JSON success fallback');
+        }
+        for (const [status, response] of Object.entries(responses)) {
             const result = record(response, `${op.id}.responses.${status}`);
             if (result.bodyKind !== undefined &&
                 !['empty', 'json', 'binary', 'sse'].includes(String(result.bodyKind)))
@@ -186,6 +289,8 @@ export function assertRuntimePlan(value) {
                 assertCodecPlan(result.codec, `${op.id}.responses.${status}`);
             if (result.schema !== undefined)
                 throw new Error('Raw schema in compiled response');
+            if (result.phpRepresentation !== undefined)
+                assertPhpRepresentation(result.phpRepresentation);
             for (const key of ['model', 'mediaType'])
                 if (result[key] !== undefined && typeof result[key] !== 'string')
                     throw new Error(`${op.id}.responses.${status}: invalid ${key}`);

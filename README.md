@@ -8,7 +8,9 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
-Version `0.4.0-beta.1` adds credit note refunds and invoice late fee methods and updates existing types for the current API export. Version `0.3.0-beta.1` introduced resource-grouped methods, positional path IDs, flat request params, merchant `apiKey` authentication and direct JSON payload returns; see [migration instructions](MIGRATION.md). Install the Node beta with `npm install @flintpay/node@next` and PHP with `composer require flintpay/flint:0.4.0-beta.1`.
+Version `2.0.0` refreshes the generated runtimes, response typing and documentation. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^2.0`. List methods return `{ data, next_page_token }`; `listItems()` iterates resources and `listPages()` yields those page bodies. Full HTTP results remain available through `WithResponse` methods.
+
+Version `0.4.0-beta.1` adds credit note refunds and invoice late fee methods and updates existing types for the current API export. Version `0.3.0-beta.1` introduced resource-grouped methods, positional path IDs, flat request params, merchant `apiKey` authentication and direct JSON payload returns; see [migration instructions](MIGRATION.md). Those prereleases remain available for historical compatibility.
 
 - **PHP:** [Packagist](https://packagist.org/packages/flintpay/flint) · [Installation and quickstart](php/README.md) · [API reference](php/REFERENCE.md)
 - **Node.js / TypeScript:** [npm](https://www.npmjs.com/package/@flintpay/node) · [Installation and quickstart](node/README.md) · [API reference](node/REFERENCE.md)
@@ -19,6 +21,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `2.0.0`                  | `2026-09-07` |
 | `0.4.0-beta.1`             | `2026-09-07` |
 | `0.3.0-beta.1`             | `2026-09-07` |
 
@@ -26,11 +29,11 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The export contains 505 outbound operations and 189 incoming webhook declarations. The packages currently expose 501 operations, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
+The pinned API version is `2026-09-07`. The export contains 507 outbound operations and 189 incoming webhook declarations. The packages currently expose 503 operations, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
 
 Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 
-Staging testing identified API/schema nullability mismatches affecting `developer.getAuthContext`, `checkoutSessions.list`, and `deliveryQuotes.list`. Both SDKs reject affected responses with a protocol error. These remain known beta limitations; see [response compatibility notes](MIGRATION.md#known-response-compatibility-limitations).
+The refreshed generator supports nullable response fields, including nested resources. Generated response validation preserves the pinned API schema; live compatibility is checked separately before publication.
 
 Generated operation coverage does not establish live backend acceptance. Shared HTTP fixtures exercise both clients without network requests; sandbox transaction testing is a separate release check.
 

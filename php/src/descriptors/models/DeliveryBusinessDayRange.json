@@ -1,0 +1,1 @@
+{"shared":"DeliveryBusinessDayRange","phpRepresentation":{"kind":"record","fields":{"maximum":{"kind":"value","type":"int"},"minimum":{"kind":"value","type":"int"}}},"dependencies":["DeliveryBusinessDayRange"]}

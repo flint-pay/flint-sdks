@@ -1,0 +1,1 @@
+{"shared":"DeliveryLocationSetConfiguration","phpRepresentation":{"kind":"record","fields":{"location_ids":{"kind":"list","value":{"kind":"value","type":"string"}}}},"dependencies":["DeliveryLocationSetConfiguration"]}

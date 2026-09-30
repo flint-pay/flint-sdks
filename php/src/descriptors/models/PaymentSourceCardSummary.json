@@ -1,0 +1,1 @@
+{"shared":"PaymentSourceCardSummary","phpRepresentation":{"kind":"record","fields":{"brand":{"kind":"value","type":"string"},"last4":{"kind":"value","type":"string"},"payment_method_id":{"kind":"value","type":"string"}}},"dependencies":["PaymentSourceCardSummary"]}

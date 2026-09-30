@@ -1,0 +1,9 @@
+import { d376 as c0, d69 as c1, d1675 as c2, d1677 as c3, d372 as c4, d1684 as c5, d1702 as c6, d1703 as c7, d1705 as c8, d1707 as c9, d1708 as c10, d1709 as c11, d1710 as c12, d1711 as c13, d1712 as c14, d1713 as c15, d1716 as c16, d373 as c17, d374 as c18, d375 as c19, d1699 as c20, d1701 as c21, d1700 as c22, d1715 as c23, d1714 as c24, d2248 as c25, d2249 as c26, d2250 as c27 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d2250 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d2250;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["CreateOrderTip"]:c0(),["MoneyValue"]:c1(),["OrderDeliveryDestinationAddressRequest"]:c2(),["OrderDeliveryDestinationRecipientRequest"]:c3(),["OrderDeliveryDestinationRequest"]:c4(),["OrderInventoryRoutingSourceRequest"]:c5(),["OrderTaxCalculationRequest"]:c6(),["OrderTaxComponentRequest"]:c7(),["OrderTaxJurisdictionRequest"]:c8(),["OrderTaxLocationFullAddressRequest"]:c9(),["OrderTaxLocationInputFullAddress"]:c10(),["OrderTaxLocationInputInferredFullAddress"]:c11(),["OrderTaxLocationInputInferredPostalCode"]:c12(),["OrderTaxLocationInputPostalCode"]:c13(),["OrderTaxLocationPostalAddressRequest"]:c14(),["OrderTaxLocationRequest"]:c15(),["OrderTaxRequest"]:c16(),["SharedCodec136"]:c17(),["SharedCodec137"]:c18(),["SharedCodec138"]:c19(),["SharedCodec442"]:c20(),["SharedCodec443"]:c21(),["SharedCodec444"]:c22(),["SharedCodec445"]:c23(),["SharedCodec446"]:c24(),["SharedCodec586"]:c25(),["SharedCodec587"]:c26(),["UpdateOrderRequest"]:c27()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeUpdateOrderRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

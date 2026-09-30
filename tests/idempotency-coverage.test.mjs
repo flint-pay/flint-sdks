@@ -15,7 +15,11 @@ test("every write declaring Idempotency-Key supports the option without automati
       const header = (operation.parameters ?? []).find(p => p.in === "header" && p.name.toLowerCase() === "idempotency-key");
       const supported = ["post", "put", "patch", "delete"].includes(verb) && !!header;
       assert.equal(!!config.idempotency, supported, operation.operationId);
-      assert.equal(config.retry, undefined, operation.operationId);
+      if (["get", "head", "options"].includes(verb)) {
+        assert.equal(config.retry.maxAttempts, 1, operation.operationId);
+        assert.deepEqual(config.retry.statuses, [], operation.operationId);
+        assert.equal(config.retry.transport, false, operation.operationId);
+      } else assert.equal(config.retry, undefined, operation.operationId);
       if (supported) {
         count++;
         assert.equal(config.idempotency.header, header.name);
@@ -23,5 +27,5 @@ test("every write declaring Idempotency-Key supports the option without automati
       }
     }
   }
-  assert.equal(count, 281);
+  assert.equal(count, 283);
 });

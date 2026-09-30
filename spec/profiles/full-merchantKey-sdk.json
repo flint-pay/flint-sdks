@@ -1,5 +1,7 @@
 {
-  "profiles": ["full-common-sdk.json"],
+  "profiles": [
+    "full-common-sdk.json"
+  ],
   "include": [
     "addOrderCharge",
     "addOrderLineItems",
@@ -459,7 +461,9 @@
   "auth": {
     "modes": {
       "merchantKey": {
-        "schemes": ["ApiKeyHeader"],
+        "schemes": [
+          "ApiKeyHeader"
+        ],
         "operations": [
           "addOrderCharge",
           "addOrderLineItems",
@@ -907,6 +911,12 @@
           "waiveReturnLineInspection"
         ]
       }
+    },
+    "shortcuts": {
+      "apiKey": {
+        "mode": "merchant",
+        "scheme": "BearerAuth"
+      }
     }
   },
   "operations": {
@@ -928,7 +938,9 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": ["sdk-example"]
+          "values": [
+            "sdk-example"
+          ]
         }
       }
     },
@@ -997,7 +1009,9 @@
         "body": {
           "configuration": {
             "country": {
-              "values": ["example"]
+              "values": [
+                "example"
+              ]
             }
           },
           "name": "Standard delivery"

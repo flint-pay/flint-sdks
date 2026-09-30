@@ -1,0 +1,1 @@
+{"shared":"ProductVariantMatch","phpRepresentation":{"kind":"record","fields":{"name":{"kind":"value","type":"string"},"sku":{"kind":"value","type":"string"},"variant_id":{"kind":"value","type":"string"}}},"dependencies":["ProductVariantMatch"]}

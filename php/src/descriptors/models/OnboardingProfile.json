@@ -1,0 +1,1 @@
+{"shared":"OnboardingProfile","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"value","type":"string"},"support_email":{"kind":"value","type":"string"},"support_phone":{"kind":"value","type":"string"},"support_url":{"kind":"value","type":"string"},"website_url":{"kind":"value","type":"string"}}},"dependencies":["OnboardingProfile"]}
