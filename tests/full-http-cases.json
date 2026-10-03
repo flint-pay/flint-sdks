@@ -2744,5 +2744,35 @@
     ],
     "status": 200,
     "baseUrl": "https://api.example.invalid"
+  },
+  {
+    "name": "merchant gift card history accepts null external reference",
+    "operation": "listGiftCardTransactions",
+    "input": {
+      "gift_card_id": "gc_01J00000000000000000000001"
+    },
+    "options": {
+      "authMode": "merchantKey",
+      "credentials": {
+        "ApiKeyHeader": "synthetic-merchant-key"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/gift-card-transactions?gift_card_id=gc_01J00000000000000000000001",
+      "headers": {
+        "x-api-key": "synthetic-merchant-key",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "body": "{\"data\":[{\"gift_card_transaction_id\":\"gct_01J00000000000000000000001\",\"gift_card_id\":\"gc_01J00000000000000000000001\",\"external_reference_id\":null,\"sequence\":1,\"merchant_sequence\":1,\"transaction_type\":\"import\",\"amount_money\":{\"amount\":1000,\"currency\":\"USD\"},\"balance_before_money\":{\"amount\":0,\"currency\":\"USD\"},\"balance_after_money\":{\"amount\":1000,\"currency\":\"USD\"},\"source_type\":\"gift_card_load\",\"source_id\":\"gcl_01J00000000000000000000001\",\"reason\":\"\",\"idempotency_key\":\"synthetic-command\",\"posted_at\":\"2026-10-03T00:00:00Z\"}]}"
+      }
+    ],
+    "status": 200,
+    "baseUrl": "https://api.example.invalid"
   }
 ]
