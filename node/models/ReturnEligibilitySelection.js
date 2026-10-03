@@ -1,7 +1,7 @@
-import { d2131 as c0, d2175 as c1, d2129 as c2, d2130 as c3 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2131 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d2134 as c0, d2178 as c1, d2132 as c2, d2133 as c3 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d2134 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2131;
+const read = d2134;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ReturnEligibilitySelection"]:c0(),["ReturnLineItemRequest"]:c1(),["SharedCodec532"]:c2(),["SharedCodec533"]:c3()}); }
 export { codec as _validate };

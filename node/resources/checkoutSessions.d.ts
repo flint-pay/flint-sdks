@@ -400,6 +400,7 @@ export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryD
 export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
+export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
 export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
@@ -546,6 +547,7 @@ export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInvento
 export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
 export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';

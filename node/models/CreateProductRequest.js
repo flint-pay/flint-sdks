@@ -1,7 +1,7 @@
-import { d445 as c0, d446 as c1, d450 as c2, d861 as c3, d883 as c4, d907 as c5, d1584 as c6, d74 as c7, d2011 as c8, d2013 as c9, d401 as c10, d448 as c11, d447 as c12, d449 as c13 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d450 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d447 as c0, d448 as c1, d452 as c2, d863 as c3, d885 as c4, d909 as c5, d1586 as c6, d74 as c7, d2014 as c8, d2016 as c9, d403 as c10, d450 as c11, d449 as c12, d451 as c13 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d452 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d450;
+const read = d452;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateProductOptionRequest"]:c0(),["CreateProductOptionValueRequest"]:c1(),["CreateProductRequest"]:c2(),["GiftCardCustomAmountBounds"]:c3(),["GiftCardProductConfiguration"]:c4(),["ImageRequest"]:c5(),["InventoryItemCreateRequest"]:c6(),["MoneyValue"]:c7(),["ProductVariantRequest"]:c8(),["ProductVariantSelectedOptionRequest"]:c9(),["SharedCodec146"]:c10(),["SharedCodec167"]:c11(),["SharedCodec168"]:c12(),["SharedCodec169"]:c13()}); }
 export { codec as _validate };

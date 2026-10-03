@@ -1,7 +1,7 @@
-import { d1080 as c0, d1764 as c1, d1765 as c2, d909 as c3, d74 as c4, d515 as c5, d908 as c6, d2520 as c7 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1080 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1082 as c0, d1766 as c1, d1767 as c2, d911 as c3, d74 as c4, d517 as c5, d910 as c6, d2523 as c7 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d1082 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1080;
+const read = d1082;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhook3b80f4a3f54aPayload"]:c0(),["MerchantSubscriptionInvoice"]:c1(),["MerchantSubscriptionInvoiceLine"]:c2(),["MerchantWebhookEnvelope"]:c3(),["MoneyValue"]:c4(),["SharedCodec197"]:c5(),["SharedCodec275"]:c6(),["Webhook_merchant_subscription_invoice_issued_merchant"]:c7()}); }
 export { codec as _validate };

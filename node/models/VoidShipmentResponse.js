@@ -1,7 +1,7 @@
-import { d42 as c0, d792 as c1, d802 as c2, d74 as c3, d1784 as c4, d1783 as c5, d766 as c6, d1993 as c7, d2118 as c8, d2119 as c9, d2230 as c10, d2280 as c11, d801 as c12, d96 as c13, d43 as c14, d765 as c15, d2283 as c16, d2284 as c17, d1804 as c18, d2484 as c19, d2485 as c20 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2484 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d42 as c0, d794 as c1, d804 as c2, d74 as c3, d1786 as c4, d1785 as c5, d768 as c6, d1996 as c7, d2121 as c8, d2122 as c9, d2233 as c10, d2283 as c11, d803 as c12, d96 as c13, d43 as c14, d767 as c15, d2286 as c16, d2287 as c17, d1806 as c18, d2487 as c19, d2488 as c20 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d2487 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2484;
+const read = d2487;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentEvent"]:c1(),["FulfillmentNotification"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["Package"]:c6(),["PricingAmounts"]:c7(),["ResponseMeta"]:c8(),["ResponseWarning"]:c9(),["ReturnShipmentLineItemAllocation"]:c10(),["SettlementAmounts"]:c11(),["SharedCodec246"]:c12(),["SharedCodec26"]:c13(),["SharedCodec7"]:c14(),["Shipment"]:c15(),["ShippingDimensions"]:c16(),["ShippingWeight"]:c17(),["SignedMoney"]:c18(),["VoidShipmentResponse"]:c19(),["VoidShipmentResult"]:c20()}); }
 export { codec as _validate };

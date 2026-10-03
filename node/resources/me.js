@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/me.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -134,6 +134,20 @@ this.me = Object.freeze({
   "resolution_id"
 ], [resolution_id], [
   "Idempotency-Key",
+  "Flint-Version"
+], true, false, params), options).then(_sdkResponse),
+      createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createSubscriptionPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
@@ -275,6 +289,18 @@ this.me = Object.freeze({
       getSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getSubscriptionPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id",
+  "subscription_payment_retry_id"
+], [subscription_id, subscription_payment_retry_id], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getSubscriptionPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id",
+  "subscription_payment_retry_id"
+], [subscription_id, subscription_payment_retry_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       listAddresses: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
@@ -1586,6 +1612,7 @@ export { makeCustomerDeletionRequestResponse } from '../models/CustomerDeletionR
 export { makeInvoiceCheckoutSessionResponse } from '../models/InvoiceCheckoutSessionResponse.js';
 export { makeCreateReturnPreviewResponse } from '../models/CreateReturnPreviewResponse.js';
 export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
+export { makeBuyerSubscriptionPaymentRetryResponse } from '../models/BuyerSubscriptionPaymentRetryResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeCustomerResponse } from '../models/CustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../models/BuyerCreditNoteResponse.js';
@@ -1761,6 +1788,8 @@ export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineIt
 export { makeReturnResolutionWarning } from '../models/ReturnResolutionWarning.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
+export { makeBuyerSubscriptionPaymentRetry } from '../models/BuyerSubscriptionPaymentRetry.js';
+export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeCustomer } from '../models/Customer.js';
 export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
@@ -1792,6 +1821,7 @@ export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.j
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
 export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
 export { makeTaxBreakdown } from '../models/TaxBreakdown.js';

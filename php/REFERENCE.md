@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261003024310; API 2026-09-07.
+Package 3.0.0-beta.20261003185520; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -13940,6 +13940,39 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-createReturnResolutionCheckoutSession.php)
 
 
+### me.createSubscriptionPaymentRetry
+
+Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
+
+`POST /v1/me/subscriptions/{subscription_id}/payment-retries`
+
+Call: `createSubscriptionPaymentRetry(string|Model $subscription_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body'?: array{}|object}`
+
+Returned payload: `BuyerSubscriptionPaymentRetry`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
+
+Returns the payload at `data` directly. Use `createSubscriptionPaymentRetryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
+
+[Example](examples/me-createSubscriptionPaymentRetry.php)
+
+
 ### me.deleteAddress
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved address and moves any default designation to the newest remaining address.
@@ -14336,6 +14369,35 @@ Authentication modes: `customer`. See [credential setup](RUNTIME.md#authenticati
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
 
 [Example](examples/me-getSubscription.php)
+
+
+### me.getSubscriptionPaymentRetry
+
+Uses the customer identity fixed by the customer session. Returns one durable manual subscription payment retry.
+
+`GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}`
+
+Call: `getSubscriptionPaymentRetry(string|Model $subscription_id, string|Model $subscription_payment_retry_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_payment_retry_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'subscription_payment_retry_id': string, 'Flint-Version'?: string}`
+
+Returned payload: `BuyerSubscriptionPaymentRetry`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `subscription_payment_retry_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getSubscriptionPaymentRetryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-getSubscriptionPaymentRetry.php)
 
 
 ### me.listAddresses

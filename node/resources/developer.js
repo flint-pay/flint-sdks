@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/developer.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/developer.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeveloperPartnerApp"]:r0,["createDeveloperSandbox"]:r0,["deleteDeveloperSandbox"]:r0,["getCurrentAPIKeyRequestLog"]:r0,["getDeveloperAuthContext"]:r0,["getDeveloperPartnerApp"]:r0,["getDeveloperPartnerAppInstall"]:r0,["getDeveloperSandbox"]:r0,["getResourceTimeline"]:r0,["issueDeveloperSandboxTestKey"]:r0,["listCurrentAPIKeyRequestLogs"]:r0,["listDeveloperPartnerAppInstalls"]:r0,["listDeveloperPartnerApps"]:r0,["listDeveloperSandboxes"]:r0,["resetDeveloperSandbox"]:r0,["revokeDeveloperPartnerAppInstall"]:r0,["revokeDeveloperPartnerEnvironmentGrant"]:r0,["rotateDeveloperPartnerAppSecret"]:r0,["updateDeveloperPartnerApp"]:r0});
 export class Client {

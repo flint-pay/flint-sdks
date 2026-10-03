@@ -1,7 +1,7 @@
-import { d861 as c0, d883 as c1, d907 as c2, d1584 as c3, d74 as c4, d2011 as c5, d2013 as c6, d401 as c7 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2011 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d863 as c0, d885 as c1, d909 as c2, d1586 as c3, d74 as c4, d2014 as c5, d2016 as c6, d403 as c7 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d2014 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2011;
+const read = d2014;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["GiftCardCustomAmountBounds"]:c0(),["GiftCardProductConfiguration"]:c1(),["ImageRequest"]:c2(),["InventoryItemCreateRequest"]:c3(),["MoneyValue"]:c4(),["ProductVariantRequest"]:c5(),["ProductVariantSelectedOptionRequest"]:c6(),["SharedCodec146"]:c7()}); }
 export { codec as _validate };
