@@ -1,6 +1,6 @@
 # Flint Public API runtime guide (node)
 
-Package 3.0.0-beta.20261003024310; API 2026-09-07.
+Package 3.0.0-beta.20261003180312; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API reference](REFERENCE.md)
 

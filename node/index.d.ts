@@ -3131,6 +3131,9 @@ export { makeOrderPaymentSourceSelection } from './declarations/makeOrderPayment
 export { OrderResponse } from './declarations/OrderResponse.js';
 export { OrderResponseInput } from './declarations/OrderResponseInput.js';
 export { makeOrderResponse } from './declarations/makeOrderResponse.js';
+export { OrderReturnCreditSettlement } from './declarations/OrderReturnCreditSettlement.js';
+export { OrderReturnCreditSettlementInput } from './declarations/OrderReturnCreditSettlementInput.js';
+export { makeOrderReturnCreditSettlement } from './declarations/makeOrderReturnCreditSettlement.js';
 export { OrderTax } from './declarations/OrderTax.js';
 export { OrderTaxInput } from './declarations/OrderTaxInput.js';
 export { makeOrderTax } from './declarations/makeOrderTax.js';

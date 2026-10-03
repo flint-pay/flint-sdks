@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/me.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
 export class Client {
@@ -1792,6 +1792,7 @@ export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.j
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
 export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
 export { makeTaxBreakdown } from '../models/TaxBreakdown.js';

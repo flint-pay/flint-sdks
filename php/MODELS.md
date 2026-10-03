@@ -1924,7 +1924,7 @@ Checkout reminder email settings. On update, an omitted field keeps its value.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cancel_redirect_url` | Optional | string |  |
-| `on_load_redirect_url` | Optional | string |  |
+| `on_load_redirect_url` | Optional | string | Deprecated. Hosted checkout sends the buyer to this URL whenever an open checkout first loads, so a checkout that sets it cannot be paid on Flint's page. On a payment link with max_completions, the buyer's Continue creates the checkout and counts it toward the cap before the redirect. There is no direct replacement: send buyers to your own page before you create the checkout. |
 | `success_redirect_url` | Optional | string |  |
 
 ## CheckoutSavedPaymentDetailsSettings
@@ -2140,7 +2140,7 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `default_smart_tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `default_tip_percentage` | Optional | number |  |
+| `default_tip_percentage` | Optional | number | minimum: `1`. maximum: `100`. |
 | `enabled` | Optional | boolean |  |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
@@ -2871,6 +2871,7 @@ Variants: any, any, any, any, any.
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | object | Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `shipment_id` | Optional | string |  |
@@ -15947,6 +15948,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | object | Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
@@ -16593,6 +16595,17 @@ Variants: any, any.
 | `data` | Required | [Order](MODELS.md#order) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
+
+## OrderReturnCreditSettlement
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `return_id` | Required | string | Response only. |
+| `return_resolution_id` | Required | string | Response only. |
 
 ## OrderTax
 
@@ -22471,7 +22484,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Required | Alternative shapes (see declared variants) | The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. |
-| `default_tip_percentage` | Required | number or null | The preselected percentage, from 0.01 through 100. It must match one of the effective tip_percentages. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percentage` | Required | number or null | The preselected percentage, from 1 through 100. It must match one of the effective tip_percentages. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `1`. maximum: `100`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
@@ -22485,7 +22498,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Optional | Alternative shapes (see declared variants) | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. |
-| `default_tip_percentage` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percentage` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `1`. maximum: `100`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |

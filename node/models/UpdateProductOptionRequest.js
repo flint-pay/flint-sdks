@@ -1,7 +1,7 @@
-import { d2441 as c0, d2442 as c1 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2441 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d2442 as c0, d2443 as c1 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
+import { d2442 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2441;
+const read = d2442;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["UpdateProductOptionRequest"]:c0(),["UpdateProductOptionValueRequest"]:c1()}); }
 export { codec as _validate };

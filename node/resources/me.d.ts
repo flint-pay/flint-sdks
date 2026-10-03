@@ -1192,6 +1192,7 @@ export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryD
 export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
+export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
 export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
 export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
@@ -1464,6 +1465,7 @@ export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInvento
 export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';
 export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
 export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
