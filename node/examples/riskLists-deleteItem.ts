@@ -10,9 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.riskLists.deleteItem(
   "example",
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_list_id);
 console.log(result.risk_list_item_id);

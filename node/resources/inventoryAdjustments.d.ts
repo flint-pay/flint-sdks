@@ -22,7 +22,7 @@ export interface InventoryAdjustmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryAdjustments.create({lines: [], reason: "received_stock", "Idempotency-Key": idempotencyKey})
+ * client.inventoryAdjustments.create({lines: [], reason: "received_stock"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "external_actor_id"?: string; "lines": Array<InventoryAdjustmentLineRequestInput>; "note"?: string; "occurred_at"?: string | globalThis.Date; "reason": "received_stock" | "damage" | "condition_changed" | "theft" | "loss" | "manual_correction" | "other"; "source_system"?: InventorySourceSystemRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAdjustmentResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -31,7 +31,7 @@ export interface InventoryAdjustmentsResource {
  * List inventory adjustments.
  * GET /v1/inventory-adjustments
  * @example
- * client.inventoryAdjustments.list({})
+ * client.inventoryAdjustments.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "reason"?: InputValue<"received_stock" | "damage" | "condition_changed" | "theft" | "loss" | "manual_correction" | "other">; "idempotency_key"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAdjustmentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

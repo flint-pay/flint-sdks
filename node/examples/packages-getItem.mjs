@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.packages.getItem(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

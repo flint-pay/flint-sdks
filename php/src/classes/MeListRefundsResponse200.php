@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<Refund> $data
+ * @property-read list<BuyerRefund> $data
  * @property-read ResponseMeta $meta
  * @property-read string $next_page_token
  * @property-read string $request_id
@@ -10,7 +10,7 @@ namespace Flint;
 final class MeListRefundsResponse200 extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListRefundsResponse200')); }
-    /** @return list<Refund>
+    /** @return list<BuyerRefund>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array { return $this->get('data'); }

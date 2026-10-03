@@ -13,8 +13,8 @@ const result = await client.locations.publishGeography(
     address: {},
     expected_geography_revision: "0",
     timezone: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.location_id);
 console.log(result.status);

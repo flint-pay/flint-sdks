@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string $barcode
  * @property-read string $delivery_profile_id
  * @property-read string $external_reference_id
+ * @property-read array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': array{'amount': string, 'currency': string}|object, 'price_mode': string, ...}|object $gift_card_configuration
  * @property-read list<ImageInput|array<array-key, mixed>|\stdClass> $images
  * @property-read string $inventory_item_id
  * @property-read string $line_item_tax_category
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantInput extends Model {
-    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'images': list<ImageInput|array<array-key, mixed>|\stdClass>, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': array{'amount': string, 'currency': string}|object, 'price_mode': string, ...}|object, 'images': list<ImageInput|array<array-key, mixed>|\stdClass>, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantInput')); }
     /** @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
@@ -35,6 +36,11 @@ final class ProductVariantInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** @return array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': array{'amount': string, 'currency': string}|object, 'price_mode': string, ...}|object
+     * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
+     */
+    public function getGiftCardConfiguration(): array|object { return $this->get('gift_card_configuration'); }
+    public function hasGiftCardConfiguration(): bool { return $this->has('gift_card_configuration'); }
     /** @return list<ImageInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().
      */

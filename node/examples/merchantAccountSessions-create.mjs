@@ -10,6 +10,6 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.merchantAccountSessions.create(
   {
     components: ["account_onboarding"],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

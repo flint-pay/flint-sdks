@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.categories.create(
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.category_id);
 console.log(result.status);

@@ -1,0 +1,1 @@
+{"shared":"BuyerAction","phpRepresentation":{"kind":"record","fields":{"due_at":{"kind":"value","type":"string"},"is_available":{"kind":"value","type":"bool"},"is_required":{"kind":"value","type":"bool"},"kind":{"kind":"value","type":"string"},"unavailable_reason":{"kind":"value","type":"string"}}},"dependencies":["BuyerAction"]}

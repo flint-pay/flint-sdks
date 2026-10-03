@@ -15,9 +15,10 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $settled_amount_money
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
+ * @property-read list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass> $value_settlement_allocations
  * Presence-aware input; omitted fields throw when accessed. */
 final class TipInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'effective_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations'?: list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'effective_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations'?: list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'value_settlement_allocations'?: list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipInput')); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -84,4 +85,9 @@ final class TipInput extends Model {
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** @return list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When value_settlement_allocations is omitted; use hasValueSettlementAllocations() or valueOrDefault().
+     */
+    public function getValueSettlementAllocations(): array { return $this->get('value_settlement_allocations'); }
+    public function hasValueSettlementAllocations(): bool { return $this->has('value_settlement_allocations'); }
 }

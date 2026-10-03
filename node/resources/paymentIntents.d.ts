@@ -33,7 +33,7 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.cancel("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentIntents.cancel("example", {}, { idempotencyKey: idempotencyKey })
  */
     cancel(payment_intent_id: InputValue<string>, params: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -44,7 +44,7 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.capture("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentIntents.capture("example", {}, { idempotencyKey: idempotencyKey })
  */
     capture(payment_intent_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -55,18 +55,18 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.confirm("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentIntents.confirm("example", {}, { idempotencyKey: idempotencyKey })
  */
-    confirm(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentIntentResponse, ["data"]>>;
+    confirm(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Buyer-Device"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    confirmWithResponse(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentsConfirmResponse>>;
+    confirmWithResponse(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Buyer-Device"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentsConfirmResponse>>;
     /**
  * Creates a standalone payment intent for the authenticated merchant. Create order-owned payment intents with POST /v1/orders/{order_id}/payment-intents.
  * POST /v1/payment-intents
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.create({amount_money: {amount: "5000", currency: "USD"}, payment_options: ["card"], "Idempotency-Key": idempotencyKey})
+ * client.paymentIntents.create({amount_money: {amount: "5000", currency: "USD"}, payment_options: ["card"]}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<({ "amount_money": MoneyValueInput; "capture_method"?: "automatic" | "manual"; "customer_id"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_return_url"?: string; "receipt_email"?: string; "tip_money"?: MoneyValueInput; "transaction_purpose"?: "goods" | "services" | "other"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateOrderPaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -75,7 +75,7 @@ export interface PaymentIntentsResource {
  * Returns a single payment intent by ID.
  * GET /v1/payment-intents/{payment_intent_id}
  * @example
- * client.paymentIntents.get("example", {})
+ * client.paymentIntents.get("example")
  */
     get(payment_intent_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "invoice" | "order">>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetPaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -84,7 +84,7 @@ export interface PaymentIntentsResource {
  * Returns a paginated list of payment intents for the authenticated merchant.
  * GET /v1/payment-intents
  * @example
- * client.paymentIntents.list({})
+ * client.paymentIntents.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "invoice_id"?: InputValue<string>; "status"?: InputValue<"requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired">; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "external_reference_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "query"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "state"?: InputValue<"with_refunds" | "fully_refunded" | "disputed" | "needs_action">; "sort_by"?: InputValue<"created_at" | "updated_at" | "amount">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentIntentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -98,7 +98,7 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentIntents.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(payment_intent_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; "customer_id"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "receipt_email"?: string; "tip_money"?: MoneyValueInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentIntentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

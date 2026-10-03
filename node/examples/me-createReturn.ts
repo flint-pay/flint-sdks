@@ -17,8 +17,8 @@ const result = await client.me.createReturn(
       },
     ],
     order_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.return_id);

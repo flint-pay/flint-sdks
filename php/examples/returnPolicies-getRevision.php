@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->returnPolicies->getRevision('example', 'example', []);
+$result = $client->returnPolicies->getRevision('example', 'example');
 echo $result->return_policy_id . PHP_EOL;
 echo $result->return_policy_revision_id . PHP_EOL;
 $client->close();

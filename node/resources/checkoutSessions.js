@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["queryCheckoutSessionPickupAvailability"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
@@ -334,6 +334,7 @@ export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeCheckoutCustomerVerificationConfirmation } from '../models/CheckoutCustomerVerificationConfirmation.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
@@ -401,6 +402,7 @@ export { makeDeliverySelectionLifecycleEventResource } from '../models/DeliveryS
 export { makeDeliveryInventoryReservationSummary } from '../models/DeliveryInventoryReservationSummary.js';
 export { makeOrder } from '../models/Order.js';
 export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
+export { makeBuyerAction } from '../models/BuyerAction.js';
 export { makeOrderCharge } from '../models/OrderCharge.js';
 export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
 export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
@@ -420,13 +422,21 @@ export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
+export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
+export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
 export { makeOrderLineItem } from '../models/OrderLineItem.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeImage } from '../models/Image.js';
 export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
@@ -436,6 +446,7 @@ export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
 export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
 export { makeTip } from '../models/Tip.js';
 export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
 export { makeBuyerDeliverySelection } from '../models/BuyerDeliverySelection.js';
 export { makeBuyerDeliverySelectionChoiceResource } from '../models/BuyerDeliverySelectionChoiceResource.js';
 export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';

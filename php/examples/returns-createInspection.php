@@ -23,8 +23,7 @@ $result = $client->returns->createInspection('example', [
   ],
   'location_id' => 'example',
   'return_receipt_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->location_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

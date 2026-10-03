@@ -11,8 +11,8 @@ const result = await client.me.cancelReturn(
   "example",
   {
     reason: "buyer_request",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.return_id);

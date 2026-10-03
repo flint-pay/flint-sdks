@@ -10,6 +10,6 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.merchantAccountSessions.refresh(
   {
     launch_token: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

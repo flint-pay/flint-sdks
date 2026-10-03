@@ -1553,7 +1553,13 @@ export function modelFromCodec(value, codec) {
 }
 const field = (value, path) => path
     .split('.')
-    .reduce((v, key) => (v != null && Object.hasOwn(v, key) ? v[key] : undefined), value);
+    .reduce((v, key) => v !== null &&
+    typeof v === 'object' &&
+    !(v instanceof ParsedNumber) &&
+    (!Array.isArray(v) || /^(?:0|[1-9]\d*)$/.test(key)) &&
+    Object.hasOwn(v, key)
+    ? v[key]
+    : undefined, value);
 const encoded = (s) => encodeURIComponent(s).replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
 function scalar(v) {
     return v instanceof RawNumber ? v.value : String(v);
@@ -1975,8 +1981,7 @@ class CompiledRuntime {
                 let data;
                 try {
                     raw = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
-                    data =
-                        raw && !redirect ? parseJson(raw, response.ok || response.status === 304) : undefined;
+                    data = raw && !redirect ? parseJson(raw, true) : undefined;
                 }
                 catch (cause) {
                     if (response.ok)
@@ -2043,9 +2048,10 @@ class CompiledRuntime {
                                         ? 'server'
                                         : 'api';
                 const code = field(data, this.contract.errors?.codePath ?? 'code');
-                const redacted = redactCodec(data, (op.responses[String(response.status)] ?? op.responses.default)?.codec, this.options.redactFields, this.definitions());
-                const publicCode = field(redacted, this.contract.errors?.codePath ?? 'code');
                 const originalMessage = field(data, this.contract.errors?.messagePath ?? 'message');
+                // Text fields use their wire kinds; public details keep exact numeric tokens as strings.
+                const redacted = redactCodec(plainNumbers(data), (op.responses[String(response.status)] ?? op.responses.default)?.codec, this.options.redactFields, this.definitions());
+                const publicCode = field(redacted, this.contract.errors?.codePath ?? 'code');
                 const message = field(redacted, this.contract.errors?.messagePath ?? 'message');
                 const eligible = safe &&
                     (policy.statuses.includes(response.status) ||

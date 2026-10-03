@@ -11,8 +11,8 @@ const result = await client.inventoryCounts.create(
   {
     inventory_item_ids: ["example"],
     location_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_count_id);
 console.log(result.location_id);

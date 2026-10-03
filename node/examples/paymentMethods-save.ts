@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.paymentMethods.save(
   {
     customer_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_method.customer_id);
 console.log(result.payment_method.payment_method_id);

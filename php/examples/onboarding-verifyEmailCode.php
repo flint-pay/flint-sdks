@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->onboarding->verifyEmailCode([
   'verification_code' => 'example',
   'verification_token' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant->merchant_id . PHP_EOL;
 echo $result->merchant->payments->status . PHP_EOL;
 $client->close();

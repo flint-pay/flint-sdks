@@ -13,8 +13,8 @@ const result = await client.returnReceipts.verifyLineItem(
   {
     return_line_item_id: "example",
     verification_reason: "order_match_confirmed",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.receiving_location_id);
 console.log(result.return_id);

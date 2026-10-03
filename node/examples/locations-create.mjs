@@ -12,8 +12,8 @@ const result = await client.locations.create(
     address: {},
     name: "example",
     timezone: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.location_id);
 console.log(result.status);

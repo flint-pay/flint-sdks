@@ -13,7 +13,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customers->create([
   'email' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
 $client->close();

@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.checkoutSessions.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.checkout_session_id);
 console.log(result.status);

@@ -56,7 +56,7 @@ export interface OnboardingResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.advance({body: {}, "Idempotency-Key": idempotencyKey})
+ * client.onboarding.advance({body: {}}, { idempotencyKey: idempotencyKey })
  */
     advance(input: OnboardingAdvanceInput, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<OnboardingStateResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -67,7 +67,7 @@ export interface OnboardingResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.createAPIKey({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.onboarding.createAPIKey({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     createAPIKey(params: (InputValue<{ "name": string; "sandbox_id"?: string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"onboarding">): Promise<_SdkPayloadAt<CreateAPIKeyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -76,7 +76,7 @@ export interface OnboardingResource {
  * Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only.
  * GET /v1/onboarding/state
  * @example
- * client.onboarding.getState({})
+ * client.onboarding.getState()
  */
     getState(params?: { "sandbox_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<OnboardingStateResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -87,7 +87,7 @@ export interface OnboardingResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.startFlow({email: "example", first_name: "example", last_name: "example", "Idempotency-Key": idempotencyKey})
+ * client.onboarding.startFlow({email: "example", first_name: "example", last_name: "example"}, { idempotencyKey: idempotencyKey })
  */
     startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingStartResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -98,7 +98,7 @@ export interface OnboardingResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.verifyEmailCode({verification_code: "example", verification_token: "example", "Idempotency-Key": idempotencyKey})
+ * client.onboarding.verifyEmailCode({verification_code: "example", verification_token: "example"}, { idempotencyKey: idempotencyKey })
  */
     verifyEmailCode(params: (InputValue<{ "merchant_id"?: string; "verification_code": string; "verification_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingVerifyEmailResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

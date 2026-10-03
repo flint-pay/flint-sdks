@@ -13,8 +13,8 @@ const result = await client.reports.create(
     interval_end_at: "2026-01-02T00:00:00Z",
     interval_start_at: "2026-01-01T00:00:00Z",
     report_type: "orders_itemized_v1",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.report_id);
 console.log(result.status);

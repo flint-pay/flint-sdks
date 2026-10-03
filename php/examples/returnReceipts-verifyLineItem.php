@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->returnReceipts->verifyLineItem('example', 'example', [
   'return_line_item_id' => 'example',
   'verification_reason' => 'order_match_confirmed',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->receiving_location_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

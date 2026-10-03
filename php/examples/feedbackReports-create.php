@@ -15,7 +15,6 @@ $result = $client->feedbackReports->create([
   'kind' => 'rating',
   'surface' => 'api',
   'sentiment' => 'positive',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->feedback_report_id . PHP_EOL;
 $client->close();

@@ -17,8 +17,8 @@ const result = await client.inventoryTransfers.create(
       },
     ],
     origin_location_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.destination_location_id);
 console.log(result.inventory_transfer_id);

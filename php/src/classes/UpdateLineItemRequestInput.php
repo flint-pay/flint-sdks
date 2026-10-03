@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read string $description
  * @property-read string $expected_version
+ * @property-read array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object|null $gift_card_recipient
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read list<OrderLineItemModifierRequestInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
@@ -24,6 +25,11 @@ final class UpdateLineItemRequestInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** @return array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object|null
+     * @throws SdkError When gift_card_recipient is omitted; use hasGiftCardRecipient() or valueOrDefault().
+     */
+    public function getGiftCardRecipient(): mixed { return $this->get('gift_card_recipient'); }
+    public function hasGiftCardRecipient(): bool { return $this->has('gift_card_recipient'); }
     /** @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */

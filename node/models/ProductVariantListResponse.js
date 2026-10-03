@@ -1,9 +1,9 @@
-import { d811 as c0, d1630 as c1, d1631 as c2, d1634 as c3, d56 as c4, d1637 as c5, d69 as c6, d1646 as c7, d1645 as c8, d1858 as c9, d1859 as c10, d1959 as c11, d1960 as c12, d2109 as c13, d353 as c14, d57 as c15, d1636 as c16, d2172 as c17 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d1859 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d861 as c0, d883 as c1, d905 as c2, d1768 as c3, d1769 as c4, d1772 as c5, d57 as c6, d1775 as c7, d74 as c8, d1784 as c9, d1783 as c10, d2008 as c11, d2009 as c12, d2118 as c13, d2119 as c14, d2272 as c15, d397 as c16, d401 as c17, d58 as c18, d1774 as c19, d2337 as c20 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2009 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1859;
+const read = d2009;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Image"]:c0(),["Modifier"]:c1(),["ModifierGroup"]:c2(),["ModifierOverride"]:c3(),["ModifierSet"]:c4(),["ModifierSetGroup"]:c5(),["MoneyValue"]:c6(),["NextAction"]:c7(),["NextActionMerchantAccountSession"]:c8(),["ProductVariant"]:c9(),["ProductVariantListResponse"]:c10(),["ResponseMeta"]:c11(),["ResponseWarning"]:c12(),["SelectedProductOption"]:c13(),["SharedCodec125"]:c14(),["SharedCodec15"]:c15(),["SharedCodec437"]:c16(),["TextModifierConfig"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardCustomAmountBounds"]:c0(),["GiftCardProductConfiguration"]:c1(),["Image"]:c2(),["Modifier"]:c3(),["ModifierGroup"]:c4(),["ModifierOverride"]:c5(),["ModifierSet"]:c6(),["ModifierSetGroup"]:c7(),["MoneyValue"]:c8(),["NextAction"]:c9(),["NextActionMerchantAccountSession"]:c10(),["ProductVariant"]:c11(),["ProductVariantListResponse"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec145"]:c16(),["SharedCodec146"]:c17(),["SharedCodec15"]:c18(),["SharedCodec478"]:c19(),["TextModifierConfig"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeProductVariantListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

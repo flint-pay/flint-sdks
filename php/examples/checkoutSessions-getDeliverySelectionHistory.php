@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->checkoutSessions->getDeliverySelectionHistory('example', 'example', []);
+$result = $client->checkoutSessions->getDeliverySelectionHistory('example', 'example');
 echo $result->checkout_session_id . PHP_EOL;
 echo $result->delivery_quote_id . PHP_EOL;
 $client->close();

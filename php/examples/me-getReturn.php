@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->getReturn('example', []);
+$result = $client->me->getReturn('example');
 echo $result->order_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

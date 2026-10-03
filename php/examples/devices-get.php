@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->devices->get('example', []);
+$result = $client->devices->get('example');
 echo $result->device_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

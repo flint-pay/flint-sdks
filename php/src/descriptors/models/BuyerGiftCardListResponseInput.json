@@ -1,0 +1,1 @@
+{"shared":"BuyerGiftCardListResponse","dependencies":["BuyerGiftCard","BuyerGiftCardListResponse","GiftCardMoney","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

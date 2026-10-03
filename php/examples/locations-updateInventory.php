@@ -13,6 +13,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->locations->updateInventory('example', [
   'allocation_status' => 'active',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

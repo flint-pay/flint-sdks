@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->developer->getResourceTimeline('example', []);
+$result = $client->developer->getResourceTimeline('example');
 echo $result->resource_id . PHP_EOL;
 $client->close();

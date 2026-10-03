@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_outstanding_money
  * @property-read string $failure_code
  * @property-read string $failure_message
+ * @property-read list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass> $gift_card_redemptions
  * @property-read bool $is_resumable
  * @property-read string $mode
  * @property-read string $payment_attempt_id
@@ -15,7 +16,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderPaymentAttemptInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_code'?: string, 'failure_message'?: string, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'pending_actions'?: list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'pending_actions'?: list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttemptInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -37,6 +38,11 @@ final class OrderPaymentAttemptInput extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
+    /** @return list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When gift_card_redemptions is omitted; use hasGiftCardRedemptions() or valueOrDefault().
+     */
+    public function getGiftCardRedemptions(): array { return $this->get('gift_card_redemptions'); }
+    public function hasGiftCardRedemptions(): bool { return $this->has('gift_card_redemptions'); }
     /** @return bool
      * @throws SdkError When is_resumable is omitted; use hasIsResumable() or valueOrDefault().
      */

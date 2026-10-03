@@ -1,9 +1,9 @@
-import { d65 as c0, d2155 as c1, d2156 as c2, d2157 as c3 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d2157 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d70 as c0, d2320 as c1, d2321 as c2, d2322 as c3 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2322 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2157;
+const read = d2322;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PostalAddress"]:c0(),["SharedCodec550"]:c1(),["SharedCodec551"]:c2(),["SubscriptionServiceLocationRequest"]:c3()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PostalAddress"]:c0(),["SharedCodec601"]:c1(),["SharedCodec602"]:c2(),["SubscriptionServiceLocationRequest"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionServiceLocationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

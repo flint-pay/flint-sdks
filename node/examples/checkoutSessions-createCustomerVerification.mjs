@@ -16,11 +16,11 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.checkoutSessions.createCustomerVerification(
   "example",
   {
-    purpose: "save_payment_method",
+    purpose: "gift_card_purchase",
     "X-Checkout-Session-ID": "example",
     "X-Checkout-Session-Secret": "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session_id);
 console.log(result.customer_verification_id);

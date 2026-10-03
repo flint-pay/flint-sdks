@@ -24,7 +24,7 @@ export interface ReturnDispositionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.cancel("example", {reason: "created_in_error", "Idempotency-Key": idempotencyKey})
+ * client.returnDispositions.cancel("example", {reason: "created_in_error"}, { idempotencyKey: idempotencyKey })
  */
     cancel(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -33,7 +33,7 @@ export interface ReturnDispositionsResource {
  * Retrieve one disposition with its type, destination, quantity, status, and any linked inventory effect.
  * GET /v1/return-dispositions/{return_disposition_id}
  * @example
- * client.returnDispositions.get("example", {})
+ * client.returnDispositions.get("example")
  */
     get(return_disposition_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CancelReturnDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface ReturnDispositionsResource {
  * List merchandise dispositions. Omitting return_id lists dispositions across every Return for the merchant.
  * GET /v1/return-dispositions
  * @example
- * client.returnDispositions.list({})
+ * client.returnDispositions.list()
  */
     list(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnDispositionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -56,7 +56,7 @@ export interface ReturnDispositionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.retry("example", {reason: "dependency_recovered", "Idempotency-Key": idempotencyKey})
+ * client.returnDispositions.retry("example", {reason: "dependency_recovered"}, { idempotencyKey: idempotencyKey })
  */
     retry(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "dependency_recovered" | "mapping_corrected" | "operator_retry" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

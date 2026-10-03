@@ -5,8 +5,7 @@ const client = new Client({
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 const result = await client.me.getOrder(
-  "example",
-  {}
+  "example"
 );
 console.log(result.order_id);
 console.log(result.status);

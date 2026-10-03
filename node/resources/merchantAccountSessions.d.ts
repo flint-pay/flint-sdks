@@ -17,7 +17,7 @@ export interface MerchantAccountSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.merchantAccountSessions.create({components: ["account_onboarding"], "Idempotency-Key": idempotencyKey})
+ * client.merchantAccountSessions.create({components: ["account_onboarding"]}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -28,7 +28,7 @@ export interface MerchantAccountSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.merchantAccountSessions.refresh({launch_token: "example", "Idempotency-Key": idempotencyKey})
+ * client.merchantAccountSessions.refresh({launch_token: "example"}, { idempotencyKey: idempotencyKey })
  */
     refresh(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

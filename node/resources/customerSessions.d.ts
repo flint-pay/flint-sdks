@@ -24,7 +24,7 @@ export interface CustomerSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerSessions.create({customer_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.customerSessions.create({customer_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "account_url_expires_in_seconds"?: string; "customer_id": string; "expires_in_seconds"?: string; "refresh_expires_in_seconds"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -35,7 +35,7 @@ export interface CustomerSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerSessions.refresh({refresh_token: "example", "Idempotency-Key": idempotencyKey})
+ * client.customerSessions.refresh({refresh_token: "example"}, { idempotencyKey: idempotencyKey })
  */
     refresh(params: (InputValue<{ "refresh_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -46,7 +46,7 @@ export interface CustomerSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerSessions.revoke("example", {"Idempotency-Key": idempotencyKey})
+ * client.customerSessions.revoke("example", {}, { idempotencyKey: idempotencyKey })
  */
     revoke(customer_session_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionRevocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

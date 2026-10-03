@@ -1,0 +1,1 @@
+{"shared":"GiftCardMoney","phpRepresentation":{"kind":"record","fields":{"amount":{"kind":"value","type":"string"},"currency":{"kind":"value","type":"string"}}},"dependencies":["GiftCardMoney"]}

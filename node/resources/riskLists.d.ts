@@ -38,7 +38,7 @@ export interface RiskListsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.addItems("example", {values: ["sdk-example"], "Idempotency-Key": idempotencyKey})
+ * client.riskLists.addItems("example", {values: ["sdk-example"]}, { idempotencyKey: idempotencyKey })
  */
     addItems(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResultsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -49,7 +49,7 @@ export interface RiskListsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint", "Idempotency-Key": idempotencyKey})
+ * client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -60,7 +60,7 @@ export interface RiskListsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.riskLists.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -71,7 +71,7 @@ export interface RiskListsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.deleteItem("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.riskLists.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -80,7 +80,7 @@ export interface RiskListsResource {
  * Get a risk list for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}
  * @example
- * client.riskLists.get("example", {})
+ * client.riskLists.get("example")
  */
     get(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -89,7 +89,7 @@ export interface RiskListsResource {
  * Get a risk list item for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
  * @example
- * client.riskLists.getItem("example", "example", {})
+ * client.riskLists.getItem("example", "example")
  */
     getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -98,7 +98,7 @@ export interface RiskListsResource {
  * List risk list items for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items
  * @example
- * client.riskLists.listRiskListItems("example", {})
+ * client.riskLists.listRiskListItems("example")
  */
     listRiskListItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -110,7 +110,7 @@ export interface RiskListsResource {
  * List risk lists for the authenticated merchant environment.
  * GET /v1/risk-lists
  * @example
- * client.riskLists.list({})
+ * client.riskLists.list()
  */
     list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -124,7 +124,7 @@ export interface RiskListsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.update("example", {name: "example", "Idempotency-Key": idempotencyKey})
+ * client.riskLists.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
     update(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read MoneyValue $expected_outstanding_money
  * @property-read string $failure_code
  * @property-read string $failure_message
+ * @property-read list<PaymentAttemptGiftCardRedemption> $gift_card_redemptions
  * @property-read bool $is_resumable
  * @property-read string $mode
  * @property-read string $payment_attempt_id
@@ -15,7 +16,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderPaymentAttempt extends Model {
-    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttempt')); }
     /** @return string
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -37,6 +38,11 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
+    /** @return list<PaymentAttemptGiftCardRedemption>
+     * @throws SdkError When gift_card_redemptions is omitted; use hasGiftCardRedemptions() or valueOrDefault().
+     */
+    public function getGiftCardRedemptions(): array { return $this->get('gift_card_redemptions'); }
+    public function hasGiftCardRedemptions(): bool { return $this->has('gift_card_redemptions'); }
     /** @return bool
      * @throws SdkError When is_resumable is omitted; use hasIsResumable() or valueOrDefault().
      */

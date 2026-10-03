@@ -26,7 +26,7 @@ export interface CategoriesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.categories.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.categories.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -37,7 +37,7 @@ export interface CategoriesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.categories.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.categories.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -46,7 +46,7 @@ export interface CategoriesResource {
  * Get category.
  * GET /v1/categories/{category_id}
  * @example
- * client.categories.get("example", {})
+ * client.categories.get("example")
  */
     get(category_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -55,7 +55,7 @@ export interface CategoriesResource {
  * List categories.
  * GET /v1/categories
  * @example
- * client.categories.list({})
+ * client.categories.list()
  */
     list(params?: { "status"?: InputValue<"active" | "archived">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -69,7 +69,7 @@ export interface CategoriesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.categories.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.categories.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

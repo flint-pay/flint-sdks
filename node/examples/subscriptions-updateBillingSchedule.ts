@@ -15,8 +15,8 @@ const result = await client.subscriptions.updateBillingSchedule(
       initiated_by: "buyer",
       next_billing_at: "2026-01-01T00:00:00Z",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
 console.log(result.payment_method_id);

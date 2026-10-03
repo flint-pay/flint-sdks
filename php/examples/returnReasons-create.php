@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->returnReasons->create([
   'handle' => 'example',
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_reason_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

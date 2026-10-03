@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
+import type { MeGetEmailPreferencesInput } from './MeGetEmailPreferencesInput.js';
 
-
-export type PayoutSettingsGetInput = { "X-Request-Id"?: InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };
+export type PayoutSettingsGetInput = MeGetEmailPreferencesInput;

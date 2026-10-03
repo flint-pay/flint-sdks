@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.invoices.create(
   {
     order_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_id);
 console.log(result.merchant_id);

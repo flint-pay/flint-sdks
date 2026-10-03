@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.inventoryItems.create(
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_item_id);
 console.log(result.status);

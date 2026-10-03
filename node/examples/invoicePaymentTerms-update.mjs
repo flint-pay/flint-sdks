@@ -13,8 +13,8 @@ const result = await client.invoicePaymentTerms.update(
     calculation: {
       type: "on_receipt",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_payment_term_id);
 console.log(result.merchant_id);

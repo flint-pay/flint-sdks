@@ -18,7 +18,7 @@ export interface InventoryLevelsResource {
  * List inventory levels. Send expand=inventory_item to render each level's inventory item inline, so a stock table needs no read per row. Filter by inventory_item_status to see only the levels behind items that can be sold. Levels are strongly consistent individually, but pages may reflect different committed instants.
  * GET /v1/inventory-levels
  * @example
- * client.inventoryLevels.list({})
+ * client.inventoryLevels.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevelListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -32,7 +32,7 @@ export interface InventoryLevelsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryLevels.update("example", {safety_stock_quantity: "0", "Idempotency-Key": idempotencyKey})
+ * client.inventoryLevels.update("example", {safety_stock_quantity: "0"}, { idempotencyKey: idempotencyKey })
  */
     update(inventory_level_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "safety_stock_quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryLevelUpdateResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

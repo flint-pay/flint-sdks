@@ -23,7 +23,7 @@ export interface FeedbackReportsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.feedbackReports.create({kind: "rating", surface: "api", sentiment: "positive", "Idempotency-Key": idempotencyKey})
+ * client.feedbackReports.create({kind: "rating", surface: "api", sentiment: "positive"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<({ "actual_behavior"?: string; "canonical_command"?: string; "code_location"?: string; "component"?: string; "description"?: string; "expected_behavior"?: string; "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other"; "related_request_id"?: string; "related_resource_ids"?: Array<string>; "reporter_kind"?: "human" | "ai_agent"; "reporting_client"?: FeedbackReportingClientInput; "reproduction_steps"?: Array<string>; "sentiment"?: "positive" | "negative" | "neutral"; "summary"?: string; "surface": "api" | "cli" | "mcp" | "sdk" | "docs" | "dashboard" | "checkout" | "payment_links" | "webhooks" | "onboarding" | "mobile" | "other"; "surface_route"?: string; }) & (({ "kind": "rating"; "surface": unknown; "sentiment": unknown; }) | ({ "kind": "papercut" | "bug" | "feature_request" | "praise" | "other"; "surface": unknown; "summary": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FeedbackReportResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -32,7 +32,7 @@ export interface FeedbackReportsResource {
  * Returns one immutable feedback report in the credential's merchant and environment.
  * GET /v1/feedback-reports/{feedback_report_id}
  * @example
- * client.feedbackReports.get("example", {})
+ * client.feedbackReports.get("example")
  */
     get(feedback_report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FeedbackReportResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -41,7 +41,7 @@ export interface FeedbackReportsResource {
  * Lists feedback reports in descending creation order for the credential's merchant and environment.
  * GET /v1/feedback-reports
  * @example
- * client.feedbackReports.list({})
+ * client.feedbackReports.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReportListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

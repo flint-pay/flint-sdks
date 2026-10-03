@@ -1,0 +1,9 @@
+import { d547 as c0 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d547 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d547;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["CustomerEmailPreferences"]:c0()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeCustomerEmailPreferences(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -17,8 +17,7 @@ $result = $client->returns->addLineItem('example', [
     'requested_quantity' => '100',
     'return_reason_id' => 'example',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

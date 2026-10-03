@@ -13,9 +13,8 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $input = [
   'body' => (object) [],
-  'Idempotency-Key' => $idempotencyKey,
 ];
-$result = $client->onboarding->advance($input);
+$result = $client->onboarding->advance($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

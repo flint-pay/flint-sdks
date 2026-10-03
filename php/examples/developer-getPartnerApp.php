@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->developer->getPartnerApp('example', []);
+$result = $client->developer->getPartnerApp('example');
 echo $result->client_id . PHP_EOL;
 echo $result->partner_app_id . PHP_EOL;
 $client->close();

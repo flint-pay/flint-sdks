@@ -11,8 +11,8 @@ const result = await client.returns.reopen(
   "example",
   {
     reason: "linked_effect_changed",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.return_id);

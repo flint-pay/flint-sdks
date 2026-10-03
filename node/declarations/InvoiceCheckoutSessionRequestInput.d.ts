@@ -1,4 +1,4 @@
 
-import type { AssessInvoiceLateFeeRequest } from './AssessInvoiceLateFeeRequest.js';
+import type { InvoiceCheckoutSessionRequest } from './InvoiceCheckoutSessionRequest.js';
 
-export type InvoiceCheckoutSessionRequestInput = AssessInvoiceLateFeeRequest;
+export type InvoiceCheckoutSessionRequestInput = InvoiceCheckoutSessionRequest;

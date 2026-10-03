@@ -1,9 +1,9 @@
-import { d815 as c0, d468 as c1, d814 as c2, d817 as c3, d1394 as c4, d1393 as c5, d1386 as c6, d1385 as c7, d1388 as c8, d1387 as c9, d1390 as c10, d1389 as c11, d1392 as c12, d1391 as c13, d1406 as c14, d1407 as c15 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d1407 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d909 as c0, d515 as c1, d908 as c2, d911 as c3, d1531 as c4, d1530 as c5, d1523 as c6, d1522 as c7, d1525 as c8, d1524 as c9, d1527 as c10, d1526 as c11, d1529 as c12, d1528 as c13, d1543 as c14, d1544 as c15 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d1544 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1407;
+const read = d1544;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec176"]:c1(),["SharedCodec244"]:c2(),["SharedCodec247"]:c3(),["SharedCodec369"]:c4(),["SharedCodec370"]:c5(),["SharedCodec371"]:c6(),["SharedCodec372"]:c7(),["SharedCodec373"]:c8(),["SharedCodec374"]:c9(),["SharedCodec375"]:c10(),["SharedCodec376"]:c11(),["SharedCodec377"]:c12(),["SharedCodec378"]:c13(),["SharedCodec380"]:c14(),["Webhook_order_paid_merchant"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec197"]:c1(),["SharedCodec275"]:c2(),["SharedCodec278"]:c3(),["SharedCodec410"]:c4(),["SharedCodec411"]:c5(),["SharedCodec412"]:c6(),["SharedCodec413"]:c7(),["SharedCodec414"]:c8(),["SharedCodec415"]:c9(),["SharedCodec416"]:c10(),["SharedCodec417"]:c11(),["SharedCodec418"]:c12(),["SharedCodec419"]:c13(),["SharedCodec421"]:c14(),["Webhook_order_paid_merchant"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_paid_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

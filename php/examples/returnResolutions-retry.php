@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnResolutions->retry('example', [
   'reason' => 'dependency_recovered',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_id . PHP_EOL;
 echo $result->return_resolution_id . PHP_EOL;
 $client->close();

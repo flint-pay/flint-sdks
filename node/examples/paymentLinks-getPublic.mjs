@@ -4,8 +4,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
 });
 const result = await client.paymentLinks.getPublic(
-  "example",
-  {}
+  "example"
 );
 console.log(result.payment_link.payment_link_id);
 console.log(result.payment_link.status);

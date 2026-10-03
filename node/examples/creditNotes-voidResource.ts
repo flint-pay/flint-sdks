@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.creditNotes.voidResource(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.credit_note_id);
 console.log(result.invoice_id);

@@ -11,8 +11,8 @@ const result = await client.inventoryReservations.commit(
   "example",
   {
     lines: [],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_reservation.inventory_reservation_id);
 console.log(result.inventory_reservation.status);

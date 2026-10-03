@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.developer.getPartnerAppInstall(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.merchant_id);
 console.log(result.partner_app_install_id);

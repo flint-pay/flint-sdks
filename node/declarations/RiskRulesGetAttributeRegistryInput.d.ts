@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
-import type { PayoutSettingsGetInput } from './PayoutSettingsGetInput.js';
+import type { MeGetEmailPreferencesInput } from './MeGetEmailPreferencesInput.js';
 
-export type RiskRulesGetAttributeRegistryInput = PayoutSettingsGetInput;
+export type RiskRulesGetAttributeRegistryInput = MeGetEmailPreferencesInput;

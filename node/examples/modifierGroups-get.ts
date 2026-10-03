@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.modifierGroups.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.modifier_group_id);
 console.log(result.status);

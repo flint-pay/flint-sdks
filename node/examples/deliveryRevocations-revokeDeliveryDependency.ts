@@ -15,7 +15,7 @@ const result = await client.deliveryRevocations.revokeDeliveryDependency(
       location_id: "example",
       location_geography_revision: "100",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_revocation_id);

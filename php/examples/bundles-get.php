@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->bundles->get('example', []);
+$result = $client->bundles->get('example');
 echo $result->bundle_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

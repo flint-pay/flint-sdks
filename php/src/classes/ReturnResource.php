@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<BuyerAction> $buyer_actions
  * @property-read string $canceled_at
  * @property-read string $completed_at
  * @property-read ReturnActor $completed_by
@@ -36,8 +37,13 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class ReturnResource extends Model {
-    /** @param array{'canceled_at'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'disposition_count': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'inspection_count': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'receipt_count': string, 'resolution_count': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'shipment_count'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'disposition_count': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'inspection_count': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'receipt_count': string, 'resolution_count': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'shipment_count'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResource')); }
+    /** @return list<BuyerAction>
+     * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
+     */
+    public function getBuyerActions(): array { return $this->get('buyer_actions'); }
+    public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
     /** @return string
      * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
      */

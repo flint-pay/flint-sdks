@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.resolveInventoryException(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.status);

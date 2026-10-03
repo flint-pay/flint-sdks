@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.onboarding.advance(
   {
     body: {},
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant_id);
 console.log(result.status);

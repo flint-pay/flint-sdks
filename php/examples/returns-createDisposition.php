@@ -17,8 +17,7 @@ $result = $client->returns->createDisposition('example', [
   'quantity' => '100',
   'reason' => 'inspection_result',
   'return_receipt_line_item_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_disposition_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

@@ -18,7 +18,7 @@ export interface FulfillmentNotificationsResource {
  * Retrieves one fulfillment notification audit record by ID.
  * GET /v1/fulfillment-notifications/{fulfillment_notification_id}
  * @example
- * client.fulfillmentNotifications.get("example", {})
+ * client.fulfillmentNotifications.get("example")
  */
     get(fulfillment_notification_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FulfillmentNotificationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface FulfillmentNotificationsResource {
  * Returns persisted fulfillment notification audit records. Results default to newest created first.
  * GET /v1/fulfillment-notifications
  * @example
- * client.fulfillmentNotifications.list({})
+ * client.fulfillmentNotifications.list()
  */
     list(params?: { "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "fulfillment_event_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "channel"?: InputValue<"email">; "status"?: InputValue<"pending" | "sent" | "failed" | "suppressed">; "notification_type"?: InputValue<"fulfillment_canceled" | "fulfillment_completed" | "fulfillment_delivered" | "fulfillment_delivery_attempted" | "fulfillment_dispatched" | "fulfillment_exception" | "fulfillment_failed" | "fulfillment_in_transit" | "fulfillment_no_show" | "fulfillment_out_for_delivery" | "fulfillment_ready" | "fulfillment_returned" | "fulfillment_shipped" | "shipment_delivered" | "shipment_delivery_attempted" | "shipment_exception" | "shipment_in_transit" | "shipment_out_for_delivery" | "shipment_returned" | "shipment_shipped" | "tracking_updated">; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FulfillmentNotificationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

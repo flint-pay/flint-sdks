@@ -5,7 +5,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.webhookEvents.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.webhook_event_id);

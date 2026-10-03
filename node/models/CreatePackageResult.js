@@ -1,9 +1,9 @@
-import { d382 as c0, d41 as c1, d744 as c2, d754 as c3, d69 as c4, d718 as c5, d1843 as c6, d2071 as c7, d2116 as c8, d753 as c9, d91 as c10, d42 as c11, d2119 as c12, d2120 as c13, d1666 as c14 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d382 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d428 as c0, d42 as c1, d792 as c2, d802 as c3, d74 as c4, d766 as c5, d1993 as c6, d2230 as c7, d2280 as c8, d801 as c9, d96 as c10, d43 as c11, d2283 as c12, d2284 as c13, d1804 as c14 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d428 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d382;
+const read = d428;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreatePackageResult"]:c0(),["ExpandedOrderSummary"]:c1(),["FulfillmentEvent"]:c2(),["FulfillmentNotification"]:c3(),["MoneyValue"]:c4(),["Package"]:c5(),["PricingAmounts"]:c6(),["ReturnShipmentLineItemAllocation"]:c7(),["SettlementAmounts"]:c8(),["SharedCodec225"]:c9(),["SharedCodec26"]:c10(),["SharedCodec7"]:c11(),["ShippingDimensions"]:c12(),["ShippingWeight"]:c13(),["SignedMoney"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreatePackageResult"]:c0(),["ExpandedOrderSummary"]:c1(),["FulfillmentEvent"]:c2(),["FulfillmentNotification"]:c3(),["MoneyValue"]:c4(),["Package"]:c5(),["PricingAmounts"]:c6(),["ReturnShipmentLineItemAllocation"]:c7(),["SettlementAmounts"]:c8(),["SharedCodec246"]:c9(),["SharedCodec26"]:c10(),["SharedCodec7"]:c11(),["ShippingDimensions"]:c12(),["ShippingWeight"]:c13(),["SignedMoney"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreatePackageResult(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

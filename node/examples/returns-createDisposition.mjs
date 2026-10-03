@@ -15,8 +15,8 @@ const result = await client.returns.createDisposition(
     quantity: "100",
     reason: "inspection_result",
     return_receipt_line_item_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_disposition_id);
 console.log(result.return_id);

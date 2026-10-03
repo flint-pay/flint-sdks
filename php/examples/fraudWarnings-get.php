@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->fraudWarnings->get('example', []);
+$result = $client->fraudWarnings->get('example');
 echo $result->fraud_warning_id . PHP_EOL;
 echo $result->payment_intent_id . PHP_EOL;
 $client->close();

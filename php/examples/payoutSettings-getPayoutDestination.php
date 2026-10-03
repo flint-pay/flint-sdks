@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->payoutSettings->getPayoutDestination('example', []);
+$result = $client->payoutSettings->getPayoutDestination('example');
 echo $result->merchant_id . PHP_EOL;
 echo $result->payout_destination_id . PHP_EOL;
 $client->close();

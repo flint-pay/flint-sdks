@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->promotions->createCode('example', [
   'code' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->promotion_code_id . PHP_EOL;
 echo $result->promotion_id . PHP_EOL;
 $client->close();

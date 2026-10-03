@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryMethods->get('example', []);
+$result = $client->deliveryMethods->get('example');
 echo $result->current_delivery_method_revision_id . PHP_EOL;
 echo $result->delivery_method_id . PHP_EOL;
 $client->close();

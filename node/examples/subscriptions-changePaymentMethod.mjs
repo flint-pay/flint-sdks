@@ -11,8 +11,8 @@ const result = await client.subscriptions.changePaymentMethod(
   "example",
   {
     payment_method_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
 console.log(result.payment_method_id);

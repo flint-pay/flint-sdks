@@ -26,7 +26,7 @@ export interface InventoryTransfersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryTransfers.create({destination_location_id: "example", lines: [{inventory_item_id: "example", requested_quantity: "1"}], origin_location_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.inventoryTransfers.create({destination_location_id: "example", lines: [{inventory_item_id: "example", requested_quantity: "1"}], origin_location_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "destination_location_id": string; "external_reference"?: string; "lines": Array<InventoryTransferLineRequestInput>; "note"?: string; "origin_location_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryTransferResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -35,7 +35,7 @@ export interface InventoryTransfersResource {
  * List inventory transfers.
  * GET /v1/inventory-transfers
  * @example
- * client.inventoryTransfers.list({})
+ * client.inventoryTransfers.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "origin_location_id"?: InputValue<string>; "destination_location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "in_transit" | "partially_resolved" | "closed">; "idempotency_key"?: InputValue<string>; "external_reference"?: InputValue<string>; "query"?: InputValue<string>; "closed_reason"?: InputValue<"received" | "canceled" | "received_with_cancellation" | "returned" | "lost" | "mixed">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "departed_after"?: InputValue<string | globalThis.Date>; "departed_before"?: InputValue<string | globalThis.Date>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryTransferListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -49,7 +49,7 @@ export interface InventoryTransfersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryTransfers.transition({inventory_transfer_id: "example", body: {action: "depart", provenance: {}, lines: [{inventory_transfer_line_id: "example", target_departed_quantity: "0"}]}, "Idempotency-Key": idempotencyKey})
+ * client.inventoryTransfers.transition({inventory_transfer_id: "example", body: {action: "depart", provenance: {}, lines: [{inventory_transfer_line_id: "example", target_departed_quantity: "0"}]}}, { idempotencyKey: idempotencyKey })
  */
     transition(input: InventoryTransfersTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryTransferResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -60,7 +60,7 @@ export interface InventoryTransfersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryTransfers.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.inventoryTransfers.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(inventory_transfer_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference"?: string | null; "line_changes"?: Array<(({ "inventory_item_id": string; "operation": "add"; "physical_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined"; "requested_quantity": string; }) | ({ "inventory_transfer_line_id": string; "operation": "update"; "requested_quantity": string; }) | ({ "inventory_transfer_line_id": string; "operation": "remove"; }))>; "note"?: string | null; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryTransferResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

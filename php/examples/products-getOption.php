@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->products->getOption('example', 'example', []);
+$result = $client->products->getOption('example', 'example');
 echo $result->option_id . PHP_EOL;
 echo $result->product_id . PHP_EOL;
 $client->close();

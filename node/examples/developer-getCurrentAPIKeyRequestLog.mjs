@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.developer.getCurrentAPIKeyRequestLog(
-  "example",
-  {}
+  "example"
 );
 console.log(result.api_request_log_id);
 console.log(result.request_id);

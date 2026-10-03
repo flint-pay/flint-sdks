@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.products.getOption(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.option_id);
 console.log(result.product_id);

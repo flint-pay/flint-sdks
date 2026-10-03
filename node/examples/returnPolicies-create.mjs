@@ -17,8 +17,8 @@ const result = await client.returnPolicies.create(
       priority: 1,
       scope: {},
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.current_return_policy_revision_id);
 console.log(result.return_policy_id);

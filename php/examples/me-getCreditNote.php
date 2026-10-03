@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->getCreditNote('example', 'example', []);
+$result = $client->me->getCreditNote('example', 'example');
 echo $result->credit_note_id . PHP_EOL;
 echo $result->invoice_id . PHP_EOL;
 $client->close();

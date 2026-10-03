@@ -11,8 +11,8 @@ const result = await client.webhookEndpoints.createWebhookTestEvent(
   "example",
   {
     event_type: "balance.updated",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.webhook_delivery_attempt_id);
 console.log(result.webhook_delivery_id);

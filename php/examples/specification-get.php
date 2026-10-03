@@ -7,6 +7,6 @@ if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
 ));
-$result = $client->specification->get([]);
+$result = $client->specification->get();
 echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

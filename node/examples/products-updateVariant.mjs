@@ -10,9 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.products.updateVariant(
   "example",
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.product_id);
 console.log(result.status);

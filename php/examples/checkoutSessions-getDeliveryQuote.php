@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->checkoutSessions->getDeliveryQuote('example', 'example', []);
+$result = $client->checkoutSessions->getDeliveryQuote('example', 'example');
 $client->close();

@@ -14,8 +14,8 @@ const result = await client.paymentIntents.create(
       currency: "USD",
     },
     payment_options: ["card"],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_intent.payment_intent_id);
 console.log(result.payment_intent.status);

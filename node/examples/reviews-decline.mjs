@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.reviews.decline(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_intent_id);
 console.log(result.review_id);

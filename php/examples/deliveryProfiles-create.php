@@ -16,8 +16,7 @@ $result = $client->deliveryProfiles->create([
   'configuration' => (object) [
     'requirement' => 'none',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_profile_revision_id . PHP_EOL;
 echo $result->delivery_profile_id . PHP_EOL;
 $client->close();

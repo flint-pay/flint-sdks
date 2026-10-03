@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.customers.getAddress(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.customer_address_id);
 console.log(result.customer_id);

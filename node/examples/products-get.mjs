@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.products.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.product_id);
 console.log(result.status);

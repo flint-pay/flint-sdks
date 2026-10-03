@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.products.getVariant(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.product_id);
 console.log(result.status);

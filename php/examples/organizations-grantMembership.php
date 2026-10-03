@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->organizations->grantMembership('example', [
   'role' => 'owner',
   'user_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->organization_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.me.getCreditNote(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.credit_note_id);
 console.log(result.invoice_id);

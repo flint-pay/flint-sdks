@@ -13,7 +13,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->webhookEndpoints->create([
   'url' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->webhook_endpoint_id . PHP_EOL;
 $client->close();

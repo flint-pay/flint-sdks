@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.merchants.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.merchant_id);
 console.log(result.payments.status);

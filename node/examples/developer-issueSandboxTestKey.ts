@@ -11,8 +11,8 @@ const result = await client.developer.issueSandboxTestKey(
   "example",
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.api_key_id);
 console.log(result.status);

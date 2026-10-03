@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->getCreditNotePDF('example', 'example', []);
+$result = $client->me->getCreditNotePDF('example', 'example');
 // Choose a destination path; PHP strings preserve every PDF byte.
 $resultPath = getenv('API_DOWNLOAD_PATH') ?: 'download.pdf';
 if (file_put_contents($resultPath, $result->data) === false) throw new \RuntimeException('Could not save PDF');

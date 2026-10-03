@@ -9,7 +9,6 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.deleteAddress(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );

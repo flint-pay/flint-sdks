@@ -24,7 +24,7 @@ export interface ReviewsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.reviews.approve("example", {"Idempotency-Key": idempotencyKey})
+ * client.reviews.approve("example", {}, { idempotencyKey: idempotencyKey })
  */
     approve(review_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -35,7 +35,7 @@ export interface ReviewsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.reviews.decline("example", undefined)
+ * client.reviews.decline("example", undefined, { idempotencyKey: idempotencyKey })
  */
     decline(review_id: InputValue<string>, params?: (InputValue<{ "add_to_block_list"?: boolean; }> | { "add_to_block_list"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -44,7 +44,7 @@ export interface ReviewsResource {
  * Get a payment review for the authenticated merchant environment.
  * GET /v1/reviews/{review_id}
  * @example
- * client.reviews.get("example", {})
+ * client.reviews.get("example")
  */
     get(review_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -53,7 +53,7 @@ export interface ReviewsResource {
  * List payment reviews for the authenticated merchant environment.
  * GET /v1/reviews
  * @example
- * client.reviews.list({})
+ * client.reviews.list()
  */
     list(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReviewListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

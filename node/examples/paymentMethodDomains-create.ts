@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.paymentMethodDomains.create(
   {
     domain_name: "payments.example.invalid",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_method_domain_id);
 console.log(result.status);

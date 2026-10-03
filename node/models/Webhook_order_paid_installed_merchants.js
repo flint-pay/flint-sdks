@@ -1,9 +1,9 @@
-import { d823 as c0, d817 as c1, d822 as c2, d1394 as c3, d1393 as c4, d1386 as c5, d1385 as c6, d1388 as c7, d1387 as c8, d1390 as c9, d1389 as c10, d1392 as c11, d1391 as c12, d1408 as c13, d1409 as c14 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d1409 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d917 as c0, d911 as c1, d916 as c2, d1531 as c3, d1530 as c4, d1523 as c5, d1522 as c6, d1525 as c7, d1524 as c8, d1527 as c9, d1526 as c10, d1529 as c11, d1528 as c12, d1545 as c13, d1546 as c14 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d1546 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1409;
+const read = d1546;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec247"]:c1(),["SharedCodec249"]:c2(),["SharedCodec369"]:c3(),["SharedCodec370"]:c4(),["SharedCodec371"]:c5(),["SharedCodec372"]:c6(),["SharedCodec373"]:c7(),["SharedCodec374"]:c8(),["SharedCodec375"]:c9(),["SharedCodec376"]:c10(),["SharedCodec377"]:c11(),["SharedCodec378"]:c12(),["SharedCodec381"]:c13(),["Webhook_order_paid_installed_merchants"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec278"]:c1(),["SharedCodec280"]:c2(),["SharedCodec410"]:c3(),["SharedCodec411"]:c4(),["SharedCodec412"]:c5(),["SharedCodec413"]:c6(),["SharedCodec414"]:c7(),["SharedCodec415"]:c8(),["SharedCodec416"]:c9(),["SharedCodec417"]:c10(),["SharedCodec418"]:c11(),["SharedCodec419"]:c12(),["SharedCodec422"]:c13(),["Webhook_order_paid_installed_merchants"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_paid_installed_merchants(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->fulfillments->createEvent('example', [
   'event_type' => 'shipped',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->fulfillment_event->fulfillment_event_id . PHP_EOL;
 echo $result->fulfillment_event->fulfillment_id . PHP_EOL;
 $client->close();

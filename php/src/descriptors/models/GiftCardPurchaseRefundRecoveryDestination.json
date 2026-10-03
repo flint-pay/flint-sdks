@@ -1,0 +1,1 @@
+{"shared":"GiftCardPurchaseRefundRecoveryDestination","phpRepresentation":{"kind":"record","fields":{"gift_card_id":{"kind":"value","type":"string"},"gift_card_load_id":{"kind":"value","type":"string"},"value_money":{"kind":"entity","name":"GiftCardMoney"}}},"dependencies":["GiftCardPurchaseRefundRecoveryDestination","SharedCodec265"]}

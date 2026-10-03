@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->riskRules->get('example', []);
+$result = $client->riskRules->get('example');
 echo $result->risk_rule_id . PHP_EOL;
 $client->close();

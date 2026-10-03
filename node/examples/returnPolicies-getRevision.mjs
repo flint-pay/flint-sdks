@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.returnPolicies.getRevision(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.return_policy_id);
 console.log(result.return_policy_revision_id);

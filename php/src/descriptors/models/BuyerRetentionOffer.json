@@ -1,0 +1,1 @@
+{"shared":"BuyerRetentionOffer","phpRepresentation":{"kind":"record","fields":{"kind":{"kind":"value","type":"string"},"pause_cycles":{"kind":"value","type":"int"}}},"dependencies":["BuyerRetentionOffer"]}

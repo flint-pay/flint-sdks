@@ -1,0 +1,1 @@
+{"shared":"GiftCardPurchaseRefundValueAllocation","phpRepresentation":{"kind":"record","fields":{"amount":{"kind":"value","type":"string"},"gift_card_id":{"kind":"value","type":"string"},"gift_card_load_id":{"kind":"value","type":"string"}}},"dependencies":["GiftCardPurchaseRefundValueAllocation"]}

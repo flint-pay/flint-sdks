@@ -39,7 +39,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.organizations.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -50,7 +50,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.organizations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -59,7 +59,7 @@ export interface OrganizationsResource {
  * Returns an accessible organization by ID.
  * GET /v1/organizations/{organization_id}
  * @example
- * client.organizations.get("example", {})
+ * client.organizations.get("example")
  */
     get(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -70,7 +70,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.grantMembership("example", {role: "owner", user_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.organizations.grantMembership("example", {role: "owner", user_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     grantMembership(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationMembershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -79,7 +79,7 @@ export interface OrganizationsResource {
  * Returns the direct memberships for an organization.
  * GET /v1/organizations/{organization_id}/memberships
  * @example
- * client.organizations.listMemberships("example", {})
+ * client.organizations.listMemberships("example")
  */
     listMemberships(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationMembershipListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -91,7 +91,7 @@ export interface OrganizationsResource {
  * Returns the organizations accessible to the caller, filtered to the authenticated merchant's organization subtree for external API keys.
  * GET /v1/organizations
  * @example
- * client.organizations.list({})
+ * client.organizations.list()
  */
     list(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -105,7 +105,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.revokeMembership("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.organizations.revokeMembership("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     revokeMembership(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RevokeOrganizationMembershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -116,7 +116,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.transferOwnership("example", {new_owner_user_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.organizations.transferOwnership("example", {new_owner_user_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     transferOwnership(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<TransferOrganizationOwnershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -127,7 +127,7 @@ export interface OrganizationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.organizations.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

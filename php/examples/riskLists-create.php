@@ -15,7 +15,6 @@ $result = $client->riskLists->create([
   'alias' => 'example',
   'name' => 'example',
   'item_type' => 'card_fingerprint',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->risk_list_id . PHP_EOL;
 $client->close();

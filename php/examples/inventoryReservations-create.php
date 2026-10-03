@@ -21,8 +21,7 @@ $result = $client->inventoryReservations->create([
     'expires_at' => '2026-01-01T00:00:00Z',
     'key' => 'example',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_reservation->inventory_reservation_id . PHP_EOL;
 echo $result->inventory_reservation->status . PHP_EOL;
 $client->close();

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->creditNotes->get('example', []);
+$result = $client->creditNotes->get('example');
 echo $result->credit_note_id . PHP_EOL;
 echo $result->invoice_id . PHP_EOL;
 $client->close();

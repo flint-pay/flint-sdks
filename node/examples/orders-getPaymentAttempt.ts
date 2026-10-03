@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.orders.getPaymentAttempt(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.payment_attempt_id);
 console.log(result.status);

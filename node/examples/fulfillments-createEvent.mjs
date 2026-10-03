@@ -11,8 +11,8 @@ const result = await client.fulfillments.createEvent(
   "example",
   {
     event_type: "shipped",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.fulfillment_event.fulfillment_event_id);
 console.log(result.fulfillment_event.fulfillment_id);

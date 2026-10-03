@@ -10,9 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.orders.deleteLineItem(
   "example",
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.status);

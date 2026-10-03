@@ -1,0 +1,4 @@
+
+
+
+/** The cancellation request behind a scheduled or completed cancellation. */ export type SubscriptionCancellationDetailsInput = { /** What the requester wrote. Only merchant credentials read it; buyers never receive it. Omitted when none was given, and cleared when the customer is deleted. maxLength: 500. */ "comment"?: string; /** The reason the requester chose. Omitted when none was given. */ "reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; /** When the cancellation was requested. Format: date-time. */ "requested_at": string | globalThis.Date; /** buyer: the buyer, in Flint's buyer account or with a customer session. merchant: a merchant credential, such as an API key or the dashboard. */ "requested_by": "buyer" | "merchant"; };

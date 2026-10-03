@@ -19,7 +19,6 @@ $result = $client->riskRules->create([
     'operator' => 'eq',
     'value' => 'card',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->risk_rule_id . PHP_EOL;
 $client->close();

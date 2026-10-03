@@ -19,8 +19,7 @@ $result = $client->paymentIntents->create([
   'payment_options' => [
     'card',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_intent->payment_intent_id . PHP_EOL;
 echo $result->payment_intent->status . PHP_EOL;
 $client->close();

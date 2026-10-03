@@ -1,9 +1,9 @@
-import { d813 as c0, d69 as c1, d359 as c2, d1687 as c3, d361 as c4, d360 as c5, d358 as c6, d357 as c7, d367 as c8, d366 as c9, d2147 as c10, d2146 as c11, d2149 as c12, d2148 as c13, d2188 as c14, d2261 as c15, d2174 as c16, d2301 as c17, d2302 as c18 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d2302 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d907 as c0, d74 as c1, d405 as c2, d1834 as c3, d407 as c4, d406 as c5, d404 as c6, d403 as c7, d1936 as c8, d1935 as c9, d2312 as c10, d2311 as c11, d2314 as c12, d2313 as c13, d2356 as c14, d2433 as c15, d2339 as c16, d2473 as c17, d2474 as c18 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2474 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2302;
+const read = d2474;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["MoneyValue"]:c1(),["OrderLineItemModifierRequest"]:c2(),["OrderLineItemTax"]:c3(),["SharedCodec126"]:c4(),["SharedCodec127"]:c5(),["SharedCodec128"]:c6(),["SharedCodec129"]:c7(),["SharedCodec134"]:c8(),["SharedCodec135"]:c9(),["SharedCodec546"]:c10(),["SharedCodec547"]:c11(),["SharedCodec548"]:c12(),["SharedCodec549"]:c13(),["SharedCodec559"]:c14(),["SharedCodec591"]:c15(),["TextModifierRequest"]:c16(),["UpdateSubscriptionPlanLineItemRequest"]:c17(),["UpdateSubscriptionPlanRequest"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["MoneyValue"]:c1(),["OrderLineItemModifierRequest"]:c2(),["OrderLineItemTax"]:c3(),["SharedCodec147"]:c4(),["SharedCodec148"]:c5(),["SharedCodec149"]:c6(),["SharedCodec150"]:c7(),["SharedCodec503"]:c8(),["SharedCodec504"]:c9(),["SharedCodec597"]:c10(),["SharedCodec598"]:c11(),["SharedCodec599"]:c12(),["SharedCodec600"]:c13(),["SharedCodec611"]:c14(),["SharedCodec645"]:c15(),["TextModifierRequest"]:c16(),["UpdateSubscriptionPlanLineItemRequest"]:c17(),["UpdateSubscriptionPlanRequest"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateSubscriptionPlanRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -14,8 +14,8 @@ const result = await client.returns.cancelLineItem(
     handback_quantity: "100",
     quantity: "100",
     reason: "buyer_request",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.return_id);

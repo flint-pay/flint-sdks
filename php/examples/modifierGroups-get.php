@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->modifierGroups->get('example', []);
+$result = $client->modifierGroups->get('example');
 echo $result->modifier_group_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

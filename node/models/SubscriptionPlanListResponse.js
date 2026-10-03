@@ -1,9 +1,9 @@
-import { d60 as c0, d152 as c1, d811 as c2, d69 as c3, d1646 as c4, d1645 as c5, d1686 as c6, d1687 as c7, d1959 as c8, d1960 as c9, d2109 as c10, d367 as c11, d366 as c12, d59 as c13, d2142 as c14, d2143 as c15, d2144 as c16, d2141 as c17, d2145 as c18, d2151 as c19, d2174 as c20 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d2151 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d61 as c0, d169 as c1, d905 as c2, d74 as c3, d1784 as c4, d1783 as c5, d1833 as c6, d1834 as c7, d2118 as c8, d2119 as c9, d2272 as c10, d60 as c11, d1936 as c12, d1935 as c13, d2307 as c14, d2308 as c15, d2309 as c16, d2306 as c17, d2310 as c18, d2316 as c19, d2339 as c20 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2316 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2151;
+const read = d2316;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CategoryReference"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["OrderLineItemModifier"]:c6(),["OrderLineItemTax"]:c7(),["ResponseMeta"]:c8(),["ResponseWarning"]:c9(),["SelectedProductOption"]:c10(),["SharedCodec134"]:c11(),["SharedCodec135"]:c12(),["SharedCodec16"]:c13(),["SharedCodec543"]:c14(),["SharedCodec544"]:c15(),["SharedCodec545"]:c16(),["SubscriptionPlan"]:c17(),["SubscriptionPlanLineItem"]:c18(),["SubscriptionPlanListResponse"]:c19(),["TextModifierRequest"]:c20()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CategoryReference"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["OrderLineItemModifier"]:c6(),["OrderLineItemTax"]:c7(),["ResponseMeta"]:c8(),["ResponseWarning"]:c9(),["SelectedProductOption"]:c10(),["SharedCodec16"]:c11(),["SharedCodec503"]:c12(),["SharedCodec504"]:c13(),["SharedCodec594"]:c14(),["SharedCodec595"]:c15(),["SharedCodec596"]:c16(),["SubscriptionPlan"]:c17(),["SubscriptionPlanLineItem"]:c18(),["SubscriptionPlanListResponse"]:c19(),["TextModifierRequest"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionPlanListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

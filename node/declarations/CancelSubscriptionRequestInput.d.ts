@@ -1,4 +1,4 @@
 
-import type { CancelSubscriptionRequest } from './CancelSubscriptionRequest.js';
 
-export type CancelSubscriptionRequestInput = CancelSubscriptionRequest;
+
+export type CancelSubscriptionRequestInput = { /** When true, ends the subscription now instead of at the end of the billing period. A buyer, in Flint's buyer account or with a customer session, may send it only when the store's customer_account.buyer_capabilities.cancellation_timing is buyer_chooses; otherwise the request returns CANCEL_IMMEDIATELY_NOT_ALLOWED. A trialing, paused, or incomplete subscription, or one whose first paid period never started, ends now either way. */ "cancel_immediately"?: boolean; /** Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed. Recorded in cancellation_details.comment, which only merchant credentials read. maxLength: 500. */ "cancellation_comment"?: string; /** Optional. Why the subscription is being canceled. When the store lists customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one of them; merchant credentials may send any code. Recorded in cancellation_details.reason_code. */ "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; };

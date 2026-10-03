@@ -11,7 +11,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->creditNotes->reverseAllocation('example', 'example', null);
+$result = $client->creditNotes->reverseAllocation('example', 'example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->credit_note->credit_note_id . PHP_EOL;
 echo $result->credit_note->invoice_id . PHP_EOL;
 $client->close();

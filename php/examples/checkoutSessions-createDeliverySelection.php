@@ -15,6 +15,5 @@ $result = $client->checkoutSessions->createDeliverySelection('example', [
   'choices' => [],
   'delivery_quote_id' => 'example',
   'expected_delivery_selection_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

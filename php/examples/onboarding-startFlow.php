@@ -14,6 +14,5 @@ $result = $client->onboarding->startFlow([
   'email' => 'example',
   'first_name' => 'example',
   'last_name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

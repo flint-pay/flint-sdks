@@ -11,7 +11,7 @@ const result = await client.riskRules.update(
   "example",
   {
     action: "allow",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_rule_id);

@@ -31,7 +31,7 @@ export interface DeliveryZonesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryZones.create({configuration: {country: {values: ["example"]}}, name: "Standard delivery", "Idempotency-Key": idempotencyKey})
+ * client.deliveryZones.create({configuration: {country: {values: ["example"]}}, name: "Standard delivery"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "configuration": ({ "all"?: Array<DeliveryZoneConfigurationInput>; "any"?: Array<DeliveryZoneConfigurationInput>; "country"?: DeliveryCountryConditionInput; "not"?: DeliveryZoneConfigurationInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; })); "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface DeliveryZonesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryZones.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryZones.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(delivery_zone_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -51,7 +51,7 @@ export interface DeliveryZonesResource {
  * Returns the current revision and lifecycle state for one delivery zone.
  * GET /v1/delivery-zones/{delivery_zone_id}
  * @example
- * client.deliveryZones.get("example", {})
+ * client.deliveryZones.get("example")
  */
     get(delivery_zone_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -60,7 +60,7 @@ export interface DeliveryZonesResource {
  * Returns delivery zones in a stable, cursor-paginated order.
  * GET /v1/delivery-zones
  * @example
- * client.deliveryZones.list({})
+ * client.deliveryZones.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "delivery_method_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryZoneListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -74,7 +74,7 @@ export interface DeliveryZonesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryZones.update("example", {name: "example", "Idempotency-Key": idempotencyKey})
+ * client.deliveryZones.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
     update(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: ({ "all"?: Array<DeliveryZoneConfigurationInput>; "any"?: Array<DeliveryZoneConfigurationInput>; "country"?: DeliveryCountryConditionInput; "not"?: DeliveryZoneConfigurationInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; })); "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -1,4 +1,4 @@
 
-import type { RefundResponse } from './RefundResponse.js';
+import type { CreateRefundResponse } from './CreateRefundResponse.js';
 
-export type RefundsCreateResponse = RefundResponse;
+export type RefundsCreateResponse = CreateRefundResponse;

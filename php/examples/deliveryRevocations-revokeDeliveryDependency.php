@@ -18,7 +18,6 @@ $result = $client->deliveryRevocations->revokeDeliveryDependency([
     'location_id' => 'example',
     'location_geography_revision' => '100',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->delivery_revocation_id . PHP_EOL;
 $client->close();

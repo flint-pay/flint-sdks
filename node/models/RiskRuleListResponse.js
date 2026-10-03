@@ -1,9 +1,9 @@
-import { d69 as c0, d1646 as c1, d1645 as c2, d1959 as c3, d1960 as c4, d2092 as c5, d2093 as c6, d2095 as c7, d450 as c8, d441 as c9, d442 as c10, d444 as c11, d443 as c12, d445 as c13, d447 as c14, d446 as c15, d448 as c16, d449 as c17, d2089 as c18, d2088 as c19, d2090 as c20, d2091 as c21 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d2095 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d74 as c0, d1784 as c1, d1783 as c2, d2118 as c3, d2119 as c4, d2251 as c5, d2252 as c6, d2254 as c7, d497 as c8, d488 as c9, d489 as c10, d491 as c11, d490 as c12, d492 as c13, d494 as c14, d493 as c15, d495 as c16, d496 as c17, d2248 as c18, d2247 as c19, d2249 as c20, d2250 as c21 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2254 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2095;
+const read = d2254;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["RiskPredicateNode"]:c5(),["RiskRule"]:c6(),["RiskRuleListResponse"]:c7(),["SharedCodec159"]:c8(),["SharedCodec160"]:c9(),["SharedCodec161"]:c10(),["SharedCodec162"]:c11(),["SharedCodec163"]:c12(),["SharedCodec164"]:c13(),["SharedCodec165"]:c14(),["SharedCodec166"]:c15(),["SharedCodec167"]:c16(),["SharedCodec168"]:c17(),["SharedCodec535"]:c18(),["SharedCodec536"]:c19(),["SharedCodec537"]:c20(),["SharedCodec538"]:c21()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["RiskPredicateNode"]:c5(),["RiskRule"]:c6(),["RiskRuleListResponse"]:c7(),["SharedCodec180"]:c8(),["SharedCodec181"]:c9(),["SharedCodec182"]:c10(),["SharedCodec183"]:c11(),["SharedCodec184"]:c12(),["SharedCodec185"]:c13(),["SharedCodec186"]:c14(),["SharedCodec187"]:c15(),["SharedCodec188"]:c16(),["SharedCodec189"]:c17(),["SharedCodec584"]:c18(),["SharedCodec585"]:c19(),["SharedCodec586"]:c20(),["SharedCodec587"]:c21()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeRiskRuleListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -13,7 +13,7 @@ export interface BalancesResource {
  * Returns an unpaginated current balance snapshot grouped by currency and balance source for the authenticated merchant.
  * GET /v1/balances
  * @example
- * client.balances.list({})
+ * client.balances.list()
  */
     list(params?: { "currency"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

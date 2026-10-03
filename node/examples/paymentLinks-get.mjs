@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.paymentLinks.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.payment_link_id);
 console.log(result.status);

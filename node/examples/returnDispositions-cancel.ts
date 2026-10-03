@@ -11,8 +11,8 @@ const result = await client.returnDispositions.cancel(
   "example",
   {
     reason: "created_in_error",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_disposition_id);
 console.log(result.return_id);

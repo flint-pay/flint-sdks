@@ -11,7 +11,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->reviews->decline('example', null);
+$result = $client->reviews->decline('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_intent_id . PHP_EOL;
 echo $result->review_id . PHP_EOL;
 $client->close();

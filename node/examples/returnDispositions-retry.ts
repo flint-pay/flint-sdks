@@ -11,8 +11,8 @@ const result = await client.returnDispositions.retry(
   "example",
   {
     reason: "dependency_recovered",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_disposition_id);
 console.log(result.return_id);

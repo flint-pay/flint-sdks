@@ -11,7 +11,7 @@ export interface ReportDownloadsResource {
  * Authorizes the stable Flint download URL and redirects to a short-lived private file URL.
  * GET /v1/report-downloads/{report_download_id}
  * @example
- * client.reportDownloads.get("example", {})
+ * client.reportDownloads.get("example")
  */
     get(report_download_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<ReportDownloadsGetResponse>>;
   }

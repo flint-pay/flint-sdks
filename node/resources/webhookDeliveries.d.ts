@@ -21,7 +21,7 @@ export interface WebhookDeliveriesResource {
  * Returns one endpoint delivery and its current retry state.
  * GET /v1/webhook-deliveries/{webhook_delivery_id}
  * @example
- * client.webhookDeliveries.get("example", {})
+ * client.webhookDeliveries.get("example")
  */
     get(webhook_delivery_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<WebhookDeliveryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -30,7 +30,7 @@ export interface WebhookDeliveriesResource {
  * Returns the attempts recorded for a specific webhook delivery.
  * GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts
  * @example
- * client.webhookDeliveries.listAttempts("example", {})
+ * client.webhookDeliveries.listAttempts("example")
  */
     listAttempts(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDeliveryAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -44,7 +44,7 @@ export interface WebhookDeliveriesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.webhookDeliveries.resend("example", undefined)
+ * client.webhookDeliveries.resend("example", undefined, { idempotencyKey: idempotencyKey })
  */
     resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<WebhookDeliveryActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

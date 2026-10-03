@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.customers.getDeletionRequest(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.customer_deletion_request_id);
 console.log(result.customer_id);

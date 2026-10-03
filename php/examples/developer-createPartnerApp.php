@@ -15,8 +15,7 @@ $result = $client->developer->createPartnerApp([
   'name' => 'example',
   'permission_manifest' => [],
   'redirect_uris' => [],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->client_id . PHP_EOL;
 echo $result->partner_app_id . PHP_EOL;
 $client->close();

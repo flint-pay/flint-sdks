@@ -7,7 +7,7 @@ if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
 ));
-$result = $client->paymentLinks->getPublic('example', []);
+$result = $client->paymentLinks->getPublic('example');
 echo $result->payment_link->payment_link_id . PHP_EOL;
 echo $result->payment_link->status . PHP_EOL;
 $client->close();

@@ -18,7 +18,7 @@ export interface MerchantBillingBalancesResource {
  * Returns what the merchant currently owes Flint and owns as account credit in one currency.
  * GET /v1/merchant-billing-balances/{merchant_billing_balance_id}
  * @example
- * client.merchantBillingBalances.get("example", {})
+ * client.merchantBillingBalances.get("example")
  */
     get(merchant_billing_balance_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantBillingBalanceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface MerchantBillingBalancesResource {
  * Returns what the merchant currently owes Flint and owns as account credit by currency.
  * GET /v1/merchant-billing-balances
  * @example
- * client.merchantBillingBalances.list({})
+ * client.merchantBillingBalances.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingBalanceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

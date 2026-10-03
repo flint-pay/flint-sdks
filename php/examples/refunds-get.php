@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->refunds->get('example', []);
+$result = $client->refunds->get('example');
 echo $result->refund_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

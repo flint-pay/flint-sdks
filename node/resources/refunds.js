@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/refunds.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/refunds.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRefund"]:r0,["getRefund"]:r0,["listRefunds"]:r0,["updateRefund"]:r0});
 export class Client {
@@ -172,9 +172,11 @@ this.refunds = Object.freeze({
 }
 close() { return this.#runtime.close(); }
 }
+export { makeCreateRefundResponse } from '../models/CreateRefundResponse.js';
 export { makeRefundResponse } from '../models/RefundResponse.js';
 export { makeCreditNoteRefundListResponse } from '../models/CreditNoteRefundListResponse.js';
 export { makeRefund } from '../models/Refund.js';
+export { makeRefundGiftCardCode } from '../models/RefundGiftCardCode.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
@@ -194,3 +196,6 @@ export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
 export { makePaymentRefund } from '../models/PaymentRefund.js';
+export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
+export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';

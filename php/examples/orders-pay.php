@@ -16,9 +16,8 @@ $input = [
   'body' => (object) [
     'action' => 'pay',
   ],
-  'Idempotency-Key' => $idempotencyKey,
 ];
-$result = $client->orders->pay($input);
+$result = $client->orders->pay($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order->order_id . PHP_EOL;
 echo $result->order->status . PHP_EOL;
 $client->close();

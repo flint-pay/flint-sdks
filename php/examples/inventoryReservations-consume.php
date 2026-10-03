@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->inventoryReservations->consume('example', [
   'lines' => [],
   'provenance' => (object) [],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_reservation->inventory_reservation_id . PHP_EOL;
 echo $result->inventory_reservation->status . PHP_EOL;
 $client->close();

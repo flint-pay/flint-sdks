@@ -74,7 +74,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.addLineItem("example", {line_item: {order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}, "Idempotency-Key": idempotencyKey})
+ * client.returns.addLineItem("example", {line_item: {order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}}, { idempotencyKey: idempotencyKey })
  */
     addLineItem(return_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "line_item": ReturnLineItemRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -85,7 +85,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.cancel("example", {reason: "buyer_request", "Idempotency-Key": idempotencyKey})
+ * client.returns.cancel("example", {reason: "buyer_request"}, { idempotencyKey: idempotencyKey })
  */
     cancel(return_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "buyer_request" | "merchant_request" | "duplicate" | "expired" | "created_in_error" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -96,7 +96,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.cancelLineItem("example", "example", {handback_quantity: "100", quantity: "100", reason: "buyer_request", "Idempotency-Key": idempotencyKey})
+ * client.returns.cancelLineItem("example", "example", {handback_quantity: "100", quantity: "100", reason: "buyer_request"}, { idempotencyKey: idempotencyKey })
  */
     cancelLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "handback_quantity": string; "quantity": string; "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -107,7 +107,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.complete("example", {"Idempotency-Key": idempotencyKey})
+ * client.returns.complete("example", {}, { idempotencyKey: idempotencyKey })
  */
     complete(return_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason"?: "manual_completion" | "exception_waived" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -118,7 +118,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.create({line_items: [{order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}], order_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.returns.create({line_items: [{order_line_item_id: "example", requested_quantity: "100", return_reason_id: "example"}], order_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "external_reference_id"?: string; "line_items": Array<ReturnLineItemRequestInput>; "metadata"?: Record<string, string>; "order_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -129,7 +129,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createDisposition("example", {disposition_type: "sellable", occurred_at: "2026-01-01T00:00:00Z", quantity: "100", reason: "inspection_result", return_receipt_line_item_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.returns.createDisposition("example", {disposition_type: "sellable", occurred_at: "2026-01-01T00:00:00Z", quantity: "100", reason: "inspection_result", return_receipt_line_item_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     createDisposition(return_id: InputValue<string>, params: (InputValue<({ "disposition_type": "sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost"; "external_reference_id"?: string; "inventory_location_id"?: string; "metadata"?: Record<string, string>; "occurred_at": string | globalThis.Date; "quantity": string; "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other"; "reason_message"?: string; "replaces_return_disposition_id"?: string; "return_inspection_line_item_id"?: string; "return_receipt_line_item_id"?: string; }) & ((({ "return_receipt_line_item_id": unknown; }) & ({ "return_inspection_line_item_id"?: never })) | (({ "return_inspection_line_item_id": unknown; }) & ({ "return_receipt_line_item_id"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -140,7 +140,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createInspection("example", {inspected_at: "2026-01-01T00:00:00Z", line_items: [{acceptance_status: "accepted", condition: "new", quantity: "100", return_receipt_line_item_id: "example"}], location_id: "example", return_receipt_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.returns.createInspection("example", {inspected_at: "2026-01-01T00:00:00Z", line_items: [{acceptance_status: "accepted", condition: "new", quantity: "100", return_receipt_line_item_id: "example"}], location_id: "example", return_receipt_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     createInspection(return_id: InputValue<string>, params: (InputValue<{ "correction_reason"?: "entry_error" | "duplicate_observation" | "source_correction" | "reconciliation_correction" | "other"; "correction_reason_message"?: string; "external_actor_id"?: string; "external_reference_id"?: string; "inspected_at": string | globalThis.Date; "line_items": Array<ReturnInspectionLineItemRequestInput>; "location_id": string; "return_receipt_id": string; "source_system"?: ReturnSourceSystemInput; "supersedes_return_inspection_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnInspectionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -151,7 +151,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createReceipt("example", {line_items: [{quantity: "100", return_line_item_id: "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.returns.createReceipt("example", {line_items: [{quantity: "100", return_line_item_id: "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     createReceipt(return_id: InputValue<string>, params: (InputValue<{ "correction_reason"?: "entry_error" | "duplicate_observation" | "source_correction" | "reconciliation_correction" | "other"; "correction_reason_message"?: string; "external_actor_id"?: string; "external_reference_id"?: string; "line_items": Array<ReturnReceiptLineItemRequestInput>; "received_at": string | globalThis.Date; "receiving_location_id": string; "shipment_id"?: string; "source_system"?: ReturnSourceSystemInput; "supersedes_return_receipt_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReceiptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -162,7 +162,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createResolution("example", {line_items: [{quantity: "1", return_line_item_id: "rtli_example"}], resolution_type: "refund", "Idempotency-Key": idempotencyKey})
+ * client.returns.createResolution("example", {line_items: [{quantity: "1", return_line_item_id: "rtli_example"}], resolution_type: "refund"}, { idempotencyKey: idempotencyKey })
  */
     createResolution(return_id: InputValue<string>, params: (InputValue<({ "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>; "corrects_return_resolution_id"?: string; "expected_version"?: string; "external_reference_id"?: string; "line_items"?: Array<ReturnResolutionLineItemRequestInput>; "metadata"?: Record<string, string>; "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price"; "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>; "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "correction"; }) & ((({ "line_items": unknown; "resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action"; }) & ({ "corrects_return_resolution_id"?: never })) | (({ "adjustments": unknown; "resolution_type"?: "correction"; "corrects_return_resolution_id": unknown; }) & (({ "line_items"?: never }) & ({ "replacement_line_items"?: never }) & ({ "pricing_basis"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -173,7 +173,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.decide("example", {line_items: [{approved_quantity: "0", decision_basis: "policy_evaluation", return_line_item_id: "example"}], "Idempotency-Key": idempotencyKey})
+ * client.returns.decide("example", {line_items: [{approved_quantity: "0", decision_basis: "policy_evaluation", return_line_item_id: "example"}]}, { idempotencyKey: idempotencyKey })
  */
     decide(return_id: InputValue<string>, params: (InputValue<{ "completion_mode"?: "manual" | "automatic"; "expected_version"?: string; "line_items": Array<ReturnLineDecisionInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -184,7 +184,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.deleteLineItem("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.returns.deleteLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     deleteLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -193,7 +193,7 @@ export interface ReturnsResource {
  * Retrieve a Return with its line items, policy evaluation, financial summary, and completion blockers. Supports expand for the order, the customer, and each line item's reason and fulfillment.
  * GET /v1/returns/{return_id}
  * @example
- * client.returns.get("example", {})
+ * client.returns.get("example")
  */
     get(return_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "line_items.fulfillment" | "line_items.return_reason" | "order">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -202,7 +202,7 @@ export interface ReturnsResource {
  * Retrieve one Return line item, including its quantity counters and the reason the buyer selected.
  * GET /v1/returns/{return_id}/line-items/{return_line_item_id}
  * @example
- * client.returns.getLineItem("example", "example", {})
+ * client.returns.getLineItem("example", "example")
  */
     getLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -211,7 +211,7 @@ export interface ReturnsResource {
  * List the line items on a Return with their quantity counters, eligibility, frozen display identity, and return value.
  * GET /v1/returns/{return_id}/line-items
  * @example
- * client.returns.listLineItems("example", {})
+ * client.returns.listLineItems("example")
  */
     listLineItems(return_id: InputValue<string>, params?: { "fulfillment_id"?: InputValue<string>; "merchandise_status"?: InputValue<Array<"not_required" | "awaiting_handoff" | "in_transit" | "partially_received" | "received" | "inspection_required" | "partially_inspected" | "inspection_review_required" | "disposition_required" | "resolved" | "exception">>; "order_line_item_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>; "return_reason_id"?: InputValue<string>; "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnLineItemsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -223,7 +223,7 @@ export interface ReturnsResource {
  * List Returns for the merchant, filtered by order, customer, status, decision, merchandise, resolution, or creation window. Filter by idempotency_key to recover a create whose response never arrived.
  * GET /v1/returns
  * @example
- * client.returns.list({})
+ * client.returns.list()
  */
     list(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "customer_id"?: InputValue<string>; "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>; "external_reference_id"?: InputValue<string>; "merchandise_status"?: InputValue<Array<"not_required" | "awaiting_handoff" | "in_transit" | "partially_received" | "received" | "inspection_required" | "partially_inspected" | "inspection_review_required" | "disposition_required" | "resolved" | "exception">>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "receiving_location_id"?: InputValue<string>; "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>; "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "correction">>; "return_number"?: InputValue<string>; "return_reason_id"?: InputValue<string>; "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -237,7 +237,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.processExisting("example", {line_items: [{return_line_item_id: "example"}], "Idempotency-Key": idempotencyKey})
+ * client.returns.processExisting("example", {line_items: [{return_line_item_id: "example"}]}, { idempotencyKey: idempotencyKey })
  */
     processExisting(return_id: InputValue<string>, params: (InputValue<{ "completion_behavior"?: "complete_when_ready" | "leave_open"; "expected_version"?: string; "line_items": Array<ProcessExistingReturnLineItemRequestInput>; "receipt"?: ReturnProcessReceiptRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProcessExistingReturnResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -248,7 +248,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.reopen("example", {reason: "linked_effect_changed", "Idempotency-Key": idempotencyKey})
+ * client.returns.reopen("example", {reason: "linked_effect_changed"}, { idempotencyKey: idempotencyKey })
  */
     reopen(return_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "linked_effect_changed" | "correction_required" | "additional_merchandise_received" | "merchant_request" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -259,7 +259,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.returns.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(return_id: InputValue<string>, params: (InputValue<{ "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -270,7 +270,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.updateLineItem("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.returns.updateLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     updateLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<{ "buyer_note"?: string | null; "expected_version"?: string; "requested_quantity"?: string; "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null; "return_reason_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -281,7 +281,7 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.waiveLineInspection("example", "example", {reason: "policy_override", "Idempotency-Key": idempotencyKey})
+ * client.returns.waiveLineInspection("example", "example", {reason: "policy_override"}, { idempotencyKey: idempotencyKey })
  */
     waiveLineInspection(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -395,6 +395,9 @@ export type { PricingAmounts } from '../declarations/PricingAmounts.js';
 export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
 export type { SignedMoney } from '../declarations/SignedMoney.js';
 export type { PaymentRefund } from '../declarations/PaymentRefund.js';
+export type { RefundTenderAllocation } from '../declarations/RefundTenderAllocation.js';
+export type { RefundGiftCardDestination } from '../declarations/RefundGiftCardDestination.js';
+export type { RefundUnissuedGiftCardRecovery } from '../declarations/RefundUnissuedGiftCardRecovery.js';
 export type { ReturnReplacementLineItem } from '../declarations/ReturnReplacementLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { ReturnLineItemEligibility } from '../declarations/ReturnLineItemEligibility.js';
@@ -414,6 +417,7 @@ export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillme
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
 export type { Image } from '../declarations/Image.js';
 export type { ReturnLineItemValue } from '../declarations/ReturnLineItemValue.js';
+export type { BuyerAction } from '../declarations/BuyerAction.js';
 export type { ReturnCompletionBlocker } from '../declarations/ReturnCompletionBlocker.js';
 export type { ReturnFinancialSummary } from '../declarations/ReturnFinancialSummary.js';
 export type { ReturnHandoffRequirement } from '../declarations/ReturnHandoffRequirement.js';
@@ -484,6 +488,9 @@ export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
 export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js';
 export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
 export { makePaymentRefund } from '../declarations/makePaymentRefund.js';
+export { makeRefundTenderAllocation } from '../declarations/makeRefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../declarations/makeRefundGiftCardDestination.js';
+export { makeRefundUnissuedGiftCardRecovery } from '../declarations/makeRefundUnissuedGiftCardRecovery.js';
 export { makeReturnReplacementLineItem } from '../declarations/makeReturnReplacementLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeReturnLineItemEligibility } from '../declarations/makeReturnLineItemEligibility.js';
@@ -503,6 +510,7 @@ export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfil
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeImage } from '../declarations/makeImage.js';
 export { makeReturnLineItemValue } from '../declarations/makeReturnLineItemValue.js';
+export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
 export { makeReturnCompletionBlocker } from '../declarations/makeReturnCompletionBlocker.js';
 export { makeReturnFinancialSummary } from '../declarations/makeReturnFinancialSummary.js';
 export { makeReturnHandoffRequirement } from '../declarations/makeReturnHandoffRequirement.js';

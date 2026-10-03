@@ -20,8 +20,7 @@ $result = $client->returnPolicies->create([
     'priority' => 1,
     'scope' => (object) [],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_return_policy_revision_id . PHP_EOL;
 echo $result->return_policy_id . PHP_EOL;
 $client->close();

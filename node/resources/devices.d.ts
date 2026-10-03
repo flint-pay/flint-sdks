@@ -27,7 +27,7 @@ export interface DevicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.devices.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "hardware_fingerprint"?: string; "location_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateDeviceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -38,7 +38,7 @@ export interface DevicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.devices.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(device_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -47,7 +47,7 @@ export interface DevicesResource {
  * Returns a single device by ID.
  * GET /v1/devices/{device_id}
  * @example
- * client.devices.get("example", {})
+ * client.devices.get("example")
  */
     get(device_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -56,7 +56,7 @@ export interface DevicesResource {
  * Returns a paginated list of devices for the authenticated merchant.
  * GET /v1/devices
  * @example
- * client.devices.list({})
+ * client.devices.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeviceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -70,7 +70,7 @@ export interface DevicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.devices.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(device_id: InputValue<string>, params: (InputValue<{ "location_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

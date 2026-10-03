@@ -5,7 +5,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.riskRules.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.risk_rule_id);

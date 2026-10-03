@@ -1,0 +1,1 @@
+{"shared":"OrderGiftCardSelection","phpRepresentation":{"kind":"record","fields":{"available_money":{"kind":"entity","name":"GiftCardMoney"},"gift_card_id":{"kind":"value","type":"string"},"last_characters":{"kind":"value","type":"string"},"requires_authorization":{"kind":"value","type":"bool"}}},"dependencies":["GiftCardMoney","OrderGiftCardSelection"]}

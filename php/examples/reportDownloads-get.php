@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->reportDownloads->get('example', []);
+$result = $client->reportDownloads->get('example');
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.
 echo $result->meta['status'] . ' ' . ($result->data->location ?? 'No Location header') . PHP_EOL;

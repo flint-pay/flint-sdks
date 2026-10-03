@@ -13,8 +13,8 @@ const result = await client.payouts.create(
       amount: "0",
       currency: "USD",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant_id);
 console.log(result.payout_id);

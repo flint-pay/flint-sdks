@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.deliveryMethods.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.current_delivery_method_revision_id);
 console.log(result.delivery_method_id);

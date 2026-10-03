@@ -11,8 +11,8 @@ const result = await client.paymentMethodDomains.update(
   "example",
   {
     status: "active",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_method_domain_id);
 console.log(result.status);

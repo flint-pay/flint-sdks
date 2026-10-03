@@ -1,1 +1,1 @@
-{"shared":"Webhook_partner_app_install_revoked_partner_app","dependencies":["PartnerInstallEventPayload","PartnerWebhookEnvelope","SharedCodec249","Webhook_partner_app_install_revoked_partner_app"]}
+{"shared":"Webhook_partner_app_install_revoked_partner_app","dependencies":["PartnerInstallEventPayload","PartnerWebhookEnvelope","SharedCodec280","Webhook_partner_app_install_revoked_partner_app"]}

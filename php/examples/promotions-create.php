@@ -16,8 +16,7 @@ $result = $client->promotions->create([
     'percent_off' => 1,
   ],
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->promotion_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

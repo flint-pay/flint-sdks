@@ -23,8 +23,8 @@ const result = await client.inventoryCounts.update(
     source_system: {
       type: "manual",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_count_id);
 console.log(result.location_id);

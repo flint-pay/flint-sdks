@@ -16,8 +16,7 @@ $result = $client->inventoryCounts->create([
     'example',
   ],
   'location_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_count_id . PHP_EOL;
 echo $result->location_id . PHP_EOL;
 $client->close();

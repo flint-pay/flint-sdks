@@ -1,4 +1,4 @@
 
-import type { CreditNoteRefundListResponse } from './CreditNoteRefundListResponse.js';
+import type { BuyerRefundListResponse } from './BuyerRefundListResponse.js';
 
-export type MeListRefundsResponse = CreditNoteRefundListResponse;
+export type MeListRefundsResponse = BuyerRefundListResponse;

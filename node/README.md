@@ -1,6 +1,6 @@
 # Flint Public API SDK (node)
 
-Package 2.0.0; generated for API 2026-09-07.
+Package 3.0.0-beta.20261003024310; generated for API 2026-09-07.
 
 Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts.
 
@@ -14,7 +14,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 
 Requires Node.js 22+ for ESM imports, or Node.js 22.12+ for `require()` from CommonJS. ESM JavaScript and declarations ship together. TypeScript consumers require TypeScript 5.9+ with NodeNext module resolution and a compatible `@types/node` version (22.16.0+), installed as a development dependency, for example `npm install --save-dev @types/node@22`. Node types are an optional peer dependency; JavaScript consumers do not need TypeScript or Node types.
 
-Install: `npm install @flintpay/node`
+Install: `npm install @flintpay/node@3.0.0-beta.20261003024310`
 
 ## Quickstart
 
@@ -49,8 +49,8 @@ try {
         currency: "USD",
       },
       payment_options: ["card"],
-      "Idempotency-Key": idempotencyKey,
-    }
+    },
+    { idempotencyKey: idempotencyKey },
   );
   console.log(result.payment_intent.payment_intent_id);
   console.log(result.payment_intent.status);
@@ -77,8 +77,7 @@ Returns a single payment intent by ID.
 
 ```typescript
 const paymentIntentsGetResult = await client.paymentIntents.get(
-  "example",
-  {}
+  "example"
 );
 console.log(paymentIntentsGetResult.payment_intent_id);
 console.log(paymentIntentsGetResult.status);
@@ -97,8 +96,8 @@ const refundsCreateIdempotencyKey = crypto.randomUUID();
 const refundsCreateResult = await client.refunds.create(
   {
     order_id: "example",
-    "Idempotency-Key": refundsCreateIdempotencyKey,
-  }
+  },
+  { idempotencyKey: refundsCreateIdempotencyKey },
 );
 console.log(refundsCreateResult.refund_id);
 console.log(refundsCreateResult.status);

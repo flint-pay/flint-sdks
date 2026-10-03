@@ -15,9 +15,10 @@ namespace Flint;
  * @property-read MoneyValue $settled_amount_money
  * @property-read string $status
  * @property-read string $updated_at
+ * @property-read list<TipValueSettlementAllocation> $value_settlement_allocations
  * Presence-aware response; omitted fields throw when accessed. */
 final class Tip extends Model {
-    /** @param array{'amount_money'?: mixed, 'created_at'?: string, 'description'?: string, 'effective_amount_money': mixed, 'metadata'?: \stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations'?: list<mixed>, 'percent'?: float, 'refunded_money': mixed, 'settled_amount_money': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'created_at'?: string, 'description'?: string, 'effective_amount_money': mixed, 'metadata'?: \stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations'?: list<mixed>, 'percent'?: float, 'refunded_money': mixed, 'settled_amount_money': mixed, 'status': string, 'updated_at'?: string, 'value_settlement_allocations'?: list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Tip')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -84,4 +85,9 @@ final class Tip extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** @return list<TipValueSettlementAllocation>
+     * @throws SdkError When value_settlement_allocations is omitted; use hasValueSettlementAllocations() or valueOrDefault().
+     */
+    public function getValueSettlementAllocations(): array { return $this->get('value_settlement_allocations'); }
+    public function hasValueSettlementAllocations(): bool { return $this->has('value_settlement_allocations'); }
 }

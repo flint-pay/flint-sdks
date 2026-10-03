@@ -16,8 +16,7 @@ $result = $client->invoices->reverseManualPayment('example', [
     'amount' => '0',
     'currency' => 'USD',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();

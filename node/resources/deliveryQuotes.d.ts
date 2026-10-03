@@ -14,7 +14,7 @@ export interface DeliveryQuotesResource {
  * Returns persisted delivery quote diagnostics in stable creation order.
  * GET /v1/delivery-quotes
  * @example
- * client.deliveryQuotes.list({})
+ * client.deliveryQuotes.list()
  */
     list(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

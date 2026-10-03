@@ -1,1 +1,1 @@
-{"shared":"ProductVariantRequest","dependencies":["ImageRequest","InventoryItemCreateRequest","MoneyValue","ProductVariantRequest","ProductVariantSelectedOptionRequest"]}
+{"shared":"ProductVariantRequest","dependencies":["GiftCardCustomAmountBounds","GiftCardProductConfiguration","ImageRequest","InventoryItemCreateRequest","MoneyValue","ProductVariantRequest","ProductVariantSelectedOptionRequest","SharedCodec146"]}

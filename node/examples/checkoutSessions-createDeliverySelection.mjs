@@ -13,6 +13,6 @@ const result = await client.checkoutSessions.createDeliverySelection(
     choices: [],
     delivery_quote_id: "example",
     expected_delivery_selection_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

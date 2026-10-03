@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.developer.getPartnerApp(
-  "example",
-  {}
+  "example"
 );
 console.log(result.client_id);
 console.log(result.partner_app_id);

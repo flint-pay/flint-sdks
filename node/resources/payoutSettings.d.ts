@@ -32,7 +32,7 @@ export interface PayoutSettingsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payoutSettings.deletePayoutDestination("example", {"Idempotency-Key": idempotencyKey})
+ * client.payoutSettings.deletePayoutDestination("example", {}, { idempotencyKey: idempotencyKey })
  */
     deletePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -41,7 +41,7 @@ export interface PayoutSettingsResource {
  * Returns one payout destination by ID.
  * GET /v1/payout-settings/destinations/{payout_destination_id}
  * @example
- * client.payoutSettings.getPayoutDestination("example", {})
+ * client.payoutSettings.getPayoutDestination("example")
  */
     getPayoutDestination(payout_destination_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -50,7 +50,7 @@ export interface PayoutSettingsResource {
  * Returns payout settings that control default payout behavior for the authenticated merchant.
  * GET /v1/payout-settings
  * @example
- * client.payoutSettings.get({})
+ * client.payoutSettings.get()
  */
     get(params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -59,7 +59,7 @@ export interface PayoutSettingsResource {
  * Returns a paginated list of payout destinations available to the authenticated merchant.
  * GET /v1/payout-settings/destinations
  * @example
- * client.payoutSettings.listPayoutDestinations({})
+ * client.payoutSettings.listPayoutDestinations()
  */
     listPayoutDestinations(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutDestinationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -73,7 +73,7 @@ export interface PayoutSettingsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payoutSettings.updatePayoutDestination("example", {"Idempotency-Key": idempotencyKey})
+ * client.payoutSettings.updatePayoutDestination("example", {}, { idempotencyKey: idempotencyKey })
  */
     updatePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -84,7 +84,7 @@ export interface PayoutSettingsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payoutSettings.update({"Idempotency-Key": idempotencyKey})
+ * client.payoutSettings.update({}, { idempotencyKey: idempotencyKey })
  */
     update(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

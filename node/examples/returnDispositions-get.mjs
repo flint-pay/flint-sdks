@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.returnDispositions.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.return_disposition_id);
 console.log(result.return_id);

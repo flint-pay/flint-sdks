@@ -11,7 +11,7 @@ const result = await client.inventoryAdjustments.create(
   {
     lines: [],
     reason: "received_stock",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_adjustment.inventory_adjustment_id);

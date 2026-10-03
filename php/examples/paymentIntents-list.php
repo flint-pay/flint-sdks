@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->paymentIntents->list([]);
+$result = $client->paymentIntents->list();
 $client->close();

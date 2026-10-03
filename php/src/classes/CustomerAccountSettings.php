@@ -2,14 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read BuyerCapabilities $buyer_capabilities
  * @property-read string $merchant_account_url
  * @property-read string $mode
  * @property-read CustomerAccountPresentation $presentation
  * @property-read CustomerAccountRouteTemplates $route_templates
  * Presence-aware response; omitted fields throw when accessed. */
 final class CustomerAccountSettings extends Model {
-    /** @param array{'merchant_account_url'?: string, 'mode'?: string, 'presentation'?: mixed, 'route_templates'?: mixed, ...}|object $values */
+    /** @param array{'buyer_capabilities'?: object{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: object{'enabled'?: bool, 'max_cycles'?: int}, 'retention_offer'?: object{'kind'?: string, 'pause_cycles'?: int}}, 'merchant_account_url'?: string, 'mode'?: string, 'presentation'?: mixed, 'route_templates'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountSettings')); }
+    /** @return BuyerCapabilities
+     * @throws SdkError When buyer_capabilities is omitted; use hasBuyerCapabilities() or valueOrDefault().
+     */
+    public function getBuyerCapabilities(): BuyerCapabilities { return $this->get('buyer_capabilities'); }
+    public function hasBuyerCapabilities(): bool { return $this->has('buyer_capabilities'); }
     /** @return string
      * @throws SdkError When merchant_account_url is omitted; use hasMerchantAccountUrl() or valueOrDefault().
      */

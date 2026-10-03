@@ -15,8 +15,7 @@ $result = $client->invoicePaymentTerms->update('example', [
   'calculation' => (object) [
     'type' => 'on_receipt',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_payment_term_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.webhookDeliveries.resend(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.webhook_delivery_attempt_id);
 console.log(result.webhook_delivery_id);

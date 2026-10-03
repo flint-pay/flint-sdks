@@ -11,8 +11,6 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryProfiles->assignToUnconfigured('example', [
-  'Idempotency-Key' => $idempotencyKey,
-]);
+$result = $client->deliveryProfiles->assignToUnconfigured('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->delivery_profile_id . PHP_EOL;
 $client->close();

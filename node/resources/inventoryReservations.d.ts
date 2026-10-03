@@ -31,7 +31,7 @@ export interface InventoryReservationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReservations.commit("example", {lines: [], "Idempotency-Key": idempotencyKey})
+ * client.inventoryReservations.commit("example", {lines: []}, { idempotencyKey: idempotencyKey })
  */
     commit(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_committed_quantity": string; }>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface InventoryReservationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReservations.consume("example", {lines: [], provenance: {}, "Idempotency-Key": idempotencyKey})
+ * client.inventoryReservations.consume("example", {lines: [], provenance: {}}, { idempotencyKey: idempotencyKey })
  */
     consume(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": { "external_actor_id"?: string; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -53,7 +53,7 @@ export interface InventoryReservationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReservations.create({demands: [], inventory_routing_source: {type: "fixed_location", location_id: "example"}, owner: {expires_at: "2026-01-01T00:00:00Z", key: "example"}, "Idempotency-Key": idempotencyKey})
+ * client.inventoryReservations.create({demands: [], inventory_routing_source: {type: "fixed_location", location_id: "example"}, owner: {expires_at: "2026-01-01T00:00:00Z", key: "example"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "assignments"?: Array<InventoryAssignmentInput>; "demands": Array<InventoryRoutingDemandInput>; "destination_fingerprint"?: string; "inventory_routing_source": InventoryRoutingSourceRequestInput; "owner": InventoryReservationOwnerInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -62,7 +62,7 @@ export interface InventoryReservationsResource {
  * List inventory reservations.
  * GET /v1/inventory-reservations
  * @example
- * client.inventoryReservations.list({})
+ * client.inventoryReservations.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed">; "owner_type"?: InputValue<"merchant">; "owner_key"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "has_at_risk_quantity"?: InputValue<boolean>; "closed_reason"?: InputValue<"consumed" | "released" | "expired" | "reallocated" | "mixed">; "owner_expires_after"?: InputValue<string | globalThis.Date>; "owner_expires_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryReservationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -76,7 +76,7 @@ export interface InventoryReservationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReservations.release("example", {lines: [], "Idempotency-Key": idempotencyKey})
+ * client.inventoryReservations.release("example", {lines: []}, { idempotencyKey: idempotencyKey })
  */
     release(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_released_from_committed_quantity"?: string; "target_released_from_held_quantity"?: string; }>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

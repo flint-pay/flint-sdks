@@ -15,8 +15,7 @@ $result = $client->locations->publishGeography('example', [
   'address' => (object) [],
   'expected_geography_revision' => '0',
   'timezone' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->location_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

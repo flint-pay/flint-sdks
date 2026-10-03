@@ -20,8 +20,8 @@ const result = await client.checkoutSessions.confirmCustomerVerification(
     code: "123456",
     "X-Checkout-Session-ID": "cs_example",
     "X-Checkout-Session-Secret": "checkout_secret_example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session.checkout_session_id);
 console.log(result.checkout_session.status);

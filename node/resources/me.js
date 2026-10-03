@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/me.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeFulfillments"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -129,13 +129,13 @@ this.me = Object.freeze({
 ], [resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createReturnResolutionCheckoutSessionWithResponse: async (resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "resolution_id"
 ], [resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
@@ -198,6 +198,26 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getGiftCard: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       getInvoice: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -225,6 +245,16 @@ this.me = Object.freeze({
 ], [order_id], [
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       getReturn: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
@@ -312,6 +342,41 @@ this.me = Object.freeze({
   "page_token",
   "Flint-Version"
 ], false, false, params), options),
+      listDeletionRequests: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listDeletionRequestsWithResponse: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listDeletionRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options), []),
+      listDeletionRequestsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options)),
+      listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options),
       listFulfillments: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
   "page_size",
@@ -395,6 +460,76 @@ this.me = Object.freeze({
   "updated_before",
   "sort_direction",
   "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options),
+      listGiftCards: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listGiftCardsWithResponse: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listGiftCardsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options), []),
+      listGiftCardsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options)),
+      listGiftCardsItems: (params, options) => this.#runtime.items("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options),
+      listGiftCardTransactions: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listGiftCardTransactionsWithResponse: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listGiftCardTransactionsPages: (gift_card_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options), []),
+      listGiftCardTransactionsPagesWithResponse: (gift_card_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options)),
+      listGiftCardTransactionsItems: (gift_card_id, params, options) => this.#runtime.items("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
   "Flint-Version"
 ], false, false, params), options),
       listInvoices: async (params, options) => this.#runtime.request("listMeInvoices", _sdkRequestInput([], [], [
@@ -1300,6 +1435,20 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      removeGiftCard: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      removeGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       removePaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
@@ -1342,6 +1491,16 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      saveGiftCard: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      saveGiftCardWithResponse: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       savePaymentMethod: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
@@ -1404,6 +1563,16 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      updateEmailPreferences: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      updateEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
@@ -1420,14 +1589,23 @@ export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaun
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeCustomerResponse } from '../models/CustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../models/BuyerCreditNoteResponse.js';
+export { makeCustomerEmailPreferencesResponse } from '../models/CustomerEmailPreferencesResponse.js';
+export { makeBuyerGiftCardResponse } from '../models/BuyerGiftCardResponse.js';
 export { makeBuyerInvoiceResponse } from '../models/BuyerInvoiceResponse.js';
 export { makeOrderResponse } from '../models/OrderResponse.js';
+export { makePaymentMethodResponse } from '../models/PaymentMethodResponse.js';
 export { makeCustomerAddressListResponse } from '../models/CustomerAddressListResponse.js';
 export { makeCustomerAddress } from '../models/CustomerAddress.js';
 export { makeBuyerCreditNoteListResponse } from '../models/BuyerCreditNoteListResponse.js';
 export { makeBuyerCreditNote } from '../models/BuyerCreditNote.js';
+export { makeCustomerDeletionRequestListResponse } from '../models/CustomerDeletionRequestListResponse.js';
+export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
 export { makeFulfillmentListResponse } from '../models/FulfillmentListResponse.js';
 export { makeFulfillment } from '../models/Fulfillment.js';
+export { makeBuyerGiftCardListResponse } from '../models/BuyerGiftCardListResponse.js';
+export { makeBuyerGiftCard } from '../models/BuyerGiftCard.js';
+export { makeBuyerGiftCardTransactionListResponse } from '../models/BuyerGiftCardTransactionListResponse.js';
+export { makeBuyerGiftCardTransaction } from '../models/BuyerGiftCardTransaction.js';
 export { makeBuyerInvoiceListResponse } from '../models/BuyerInvoiceListResponse.js';
 export { makeBuyerInvoice } from '../models/BuyerInvoice.js';
 export { makeOrderActivityListResponse } from '../models/OrderActivityListResponse.js';
@@ -1440,8 +1618,8 @@ export { makePaymentMethodListResponse } from '../models/PaymentMethodListRespon
 export { makePaymentMethod } from '../models/PaymentMethod.js';
 export { makePaymentIntentListResponse } from '../models/PaymentIntentListResponse.js';
 export { makePaymentIntent } from '../models/PaymentIntent.js';
-export { makeCreditNoteRefundListResponse } from '../models/CreditNoteRefundListResponse.js';
-export { makeRefund } from '../models/Refund.js';
+export { makeBuyerRefundListResponse } from '../models/BuyerRefundListResponse.js';
+export { makeBuyerRefund } from '../models/BuyerRefund.js';
 export { makeListReturnsResponse } from '../models/ListReturnsResponse.js';
 export { makeReturnResource } from '../models/ReturnResource.js';
 export { makeShipmentListResponse } from '../models/ShipmentListResponse.js';
@@ -1449,7 +1627,6 @@ export { makeShipment } from '../models/Shipment.js';
 export { makeSubscriptionListResponse } from '../models/SubscriptionListResponse.js';
 export { makeSubscription } from '../models/Subscription.js';
 export { makeSavePaymentMethodResponse } from '../models/SavePaymentMethodResponse.js';
-export { makePaymentMethodResponse } from '../models/PaymentMethodResponse.js';
 export { makeMerchant } from '../models/Merchant.js';
 export { makeMerchantAccountSession } from '../models/MerchantAccountSession.js';
 export { makeMerchantAccountSessionCreateRequest } from '../models/MerchantAccountSessionCreateRequest.js';
@@ -1476,6 +1653,7 @@ export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeCancelSubscriptionResult } from '../models/CancelSubscriptionResult.js';
+export { makeBuyerAction } from '../models/BuyerAction.js';
 export { makeContractInfo } from '../models/ContractInfo.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
@@ -1491,9 +1669,9 @@ export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeEmailChangeRequest } from '../models/EmailChangeRequest.js';
-export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
 export { makeInvoiceCheckoutSessionResult } from '../models/InvoiceCheckoutSessionResult.js';
 export { makeCheckoutSession } from '../models/CheckoutSession.js';
+export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
@@ -1586,6 +1764,7 @@ export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeCustomer } from '../models/Customer.js';
 export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
+export { makeCustomerEmailPreferences } from '../models/CustomerEmailPreferences.js';
 export { makeCreditNoteLine } from '../models/CreditNoteLine.js';
 export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
@@ -1596,13 +1775,21 @@ export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
+export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
 export { makeBuyerInvoiceLateFee } from '../models/BuyerInvoiceLateFee.js';
 export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
 export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
 export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
+export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
 export { makeOrderLineItem } from '../models/OrderLineItem.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
@@ -1610,6 +1797,7 @@ export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
 export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
 export { makeTip } from '../models/Tip.js';
 export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
 export { makeShippingDimensions } from '../models/ShippingDimensions.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
 export { makeShippingWeight } from '../models/ShippingWeight.js';
@@ -1621,6 +1809,8 @@ export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js'
 export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
 export { makeRefundTaxBreakdownRefund } from '../models/RefundTaxBreakdownRefund.js';
 export { makePaymentRefund } from '../models/PaymentRefund.js';
+export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
 export { makeReturnCompletionBlocker } from '../models/ReturnCompletionBlocker.js';
 export { makeReturnFinancialSummary } from '../models/ReturnFinancialSummary.js';
 export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement.js';

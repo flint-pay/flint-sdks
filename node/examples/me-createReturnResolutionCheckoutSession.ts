@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.createReturnResolutionCheckoutSession(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session.checkout_session_id);
 console.log(result.checkout_session.status);

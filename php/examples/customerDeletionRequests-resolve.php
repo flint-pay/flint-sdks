@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerDeletionRequests->resolve('example', [
   'decision' => 'approve',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_deletion_request_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

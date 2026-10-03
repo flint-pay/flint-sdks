@@ -5,6 +5,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.settings.getEffective(
-  {}
+
 );
 console.log(result.settings_id);

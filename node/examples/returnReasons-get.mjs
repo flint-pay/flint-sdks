@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.returnReasons.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.return_reason_id);
 console.log(result.status);

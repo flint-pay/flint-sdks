@@ -42,7 +42,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.createItem("example", {order_line_item_id: "example", quantity: "100", "Idempotency-Key": idempotencyKey})
+ * client.packages.createItem("example", {order_line_item_id: "example", quantity: "100"}, { idempotencyKey: idempotencyKey })
  */
     createItem(package_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string>; "order_line_item_id": string; "quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -53,7 +53,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.deleteItem("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.packages.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     deleteItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -62,7 +62,7 @@ export interface PackagesResource {
  * Retrieves one package by ID.
  * GET /v1/packages/{package_id}
  * @example
- * client.packages.get("example", {})
+ * client.packages.get("example")
  */
     get(package_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -71,7 +71,7 @@ export interface PackagesResource {
  * Retrieves one package item by ID.
  * GET /v1/packages/{package_id}/items/{package_item_id}
  * @example
- * client.packages.getItem("example", "example", {})
+ * client.packages.getItem("example", "example")
  */
     getItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -80,7 +80,7 @@ export interface PackagesResource {
  * Lists order line quantities contained in packages.
  * GET /v1/packages/{package_id}/items
  * @example
- * client.packages.listPackageItems("example", {})
+ * client.packages.listPackageItems("example")
  */
     listPackageItems(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -92,7 +92,7 @@ export interface PackagesResource {
  * Lists package records, newest created first.
  * GET /v1/packages
  * @example
- * client.packages.list({})
+ * client.packages.list()
  */
     list(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -106,7 +106,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.transition({package_id: "example", body: {action: "mark_delivered"}, "Idempotency-Key": idempotencyKey})
+ * client.packages.transition({package_id: "example", body: {action: "mark_delivered"}}, { idempotencyKey: idempotencyKey })
  */
     transition(input: PackagesTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageStatusUpdateResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -117,7 +117,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.packages.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(package_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string | null; "dimensions"?: (({ "height": number; "length": number; "unit": string; "width": number; }) | (null)); "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "label_url"?: string | null; "metadata"?: Record<string, string | null> | null; "service_code"?: string | null; "status_reason"?: string | null; "tracking_number"?: string | null; "tracking_url"?: string | null; "weight"?: (({ "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": number; }) | (null)); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdatePackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -128,7 +128,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.updateItem("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.packages.updateItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     updateItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "quantity"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -139,7 +139,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.voidResource("example", undefined)
+ * client.packages.voidResource("example", undefined, { idempotencyKey: idempotencyKey })
  */
     voidResource(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<VoidPackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

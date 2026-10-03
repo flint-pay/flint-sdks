@@ -11,7 +11,7 @@ export interface SpecificationResource {
  * Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation.
  * GET /v1/openapi.json
  * @example
- * client.specification.get({})
+ * client.specification.get()
  */
     get(params?: { "version"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<Result<SpecificationGetResponse>>;
   }

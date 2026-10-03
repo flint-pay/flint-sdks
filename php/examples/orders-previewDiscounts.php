@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->orders->previewDiscounts('example', null);
+$result = $client->orders->previewDiscounts('example');
 $client->close();

@@ -1,1 +1,1 @@
-{"shared":"SavePaymentMethodResult","dependencies":["ExpandedCustomerSummary","PaymentMethod","SavePaymentMethodResult","SharedCodec21","SharedCodec459","StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}
+{"shared":"SavePaymentMethodResult","dependencies":["ExpandedCustomerSummary","PaymentMethod","SavePaymentMethodResult","SharedCodec21","SharedCodec506","StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}

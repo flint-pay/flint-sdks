@@ -49,7 +49,7 @@ export interface PaymentLinksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentLinks.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.paymentLinks.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: CheckoutPaymentConfigInput; "plan_id"?: string; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -58,7 +58,7 @@ export interface PaymentLinksResource {
  * Returns a single payment link by ID.
  * GET /v1/payment-links/{payment_link_id}
  * @example
- * client.paymentLinks.get("example", {})
+ * client.paymentLinks.get("example")
  */
     get(payment_link_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -67,7 +67,7 @@ export interface PaymentLinksResource {
  * Returns the sanitized buyer-facing payment-link snapshot and a private resolution context for this browser operation.
  * GET /v1/payment-links/{payment_link_id}/public
  * @example
- * client.paymentLinks.getPublic("example", {})
+ * client.paymentLinks.getPublic("example")
  */
     getPublic(payment_link_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<PublicPaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -76,7 +76,7 @@ export interface PaymentLinksResource {
  * Returns a paginated list of payment links for the authenticated merchant.
  * GET /v1/payment-links
  * @example
- * client.paymentLinks.list({})
+ * client.paymentLinks.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentLinkListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -90,7 +90,7 @@ export interface PaymentLinksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentLinks.resolve("example", {resolution_context: "example", "Idempotency-Key": idempotencyKey})
+ * client.paymentLinks.resolve("example", {resolution_context: "example"}, { idempotencyKey: idempotencyKey })
  */
     resolve(payment_link_id: InputValue<string>, params: (InputValue<{ "custom_field_values"?: Record<string, string>; "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>; "quantity_overrides"?: Record<string, number>; "resolution_context": string; "unit_price_overrides"?: Record<string, MoneyValueInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -101,7 +101,7 @@ export interface PaymentLinksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentLinks.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentLinks.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(payment_link_id: InputValue<string>, params: (InputValue<({ "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_min_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expected_version"?: string; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string | null> | null; "name"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "status"?: "active" | "inactive"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "custom_fields"?: never })) | ({ "expected_version": unknown; }))) & (((({ "delivery_method_ids"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -197,6 +197,7 @@ export type { ResolvePaymentLinkTextModifierRequestInput } from '../declarations
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
@@ -286,6 +287,7 @@ export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js'
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';

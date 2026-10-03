@@ -15,8 +15,8 @@ const result = await client.returns.processExisting(
         return_line_item_id: "example",
       },
     ],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return.order_id);
 console.log(result.return.return_id);

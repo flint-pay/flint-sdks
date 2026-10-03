@@ -2,7 +2,7 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from './request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from './runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from './runtime.js';
-import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 const r0 = () => resource("analytics");
 const r1 = () => resource("apiKeys");
 const r2 = () => resource("balanceTransactions");
@@ -32,66 +32,74 @@ const r25 = () => resource("fraudWarnings");
 const r26 = () => resource("fulfillmentEvents");
 const r27 = () => resource("fulfillmentNotifications");
 const r28 = () => resource("fulfillments");
-const r29 = () => resource("inventoryAdjustments");
-const r30 = () => resource("inventoryAllocationPolicies");
-const r31 = () => resource("inventoryCounts");
-const r32 = () => resource("inventoryItems");
-const r33 = () => resource("inventoryLevels");
-const r34 = () => resource("inventoryMovements");
-const r35 = () => resource("inventoryReceipts");
-const r36 = () => resource("inventoryReservations");
-const r37 = () => resource("inventoryTransfers");
-const r38 = () => resource("invoicePaymentTerms");
-const r39 = () => resource("invoices");
-const r40 = () => resource("locations");
-const r41 = () => resource("me");
-const r42 = () => resource("merchantAccountSessions");
-const r43 = () => resource("merchantBillingBalances");
-const r44 = () => resource("merchantSubscriptionInvoices");
-const r45 = () => resource("merchants");
-const r46 = () => resource("modifierGroups");
-const r47 = () => resource("modifierSets");
-const r48 = () => resource("oauth");
-const r49 = () => resource("onboarding");
-const r50 = () => resource("orders");
-const r51 = () => resource("organizations");
-const r52 = () => resource("packages");
-const r53 = () => resource("paymentIntents");
-const r54 = () => resource("paymentLinks");
-const r55 = () => resource("paymentMethodDomains");
-const r56 = () => resource("paymentMethods");
-const r57 = () => resource("payoutSettings");
-const r58 = () => resource("payouts");
-const r59 = () => resource("products");
-const r60 = () => resource("promotions");
-const r61 = () => resource("refunds");
-const r62 = () => resource("reportDownloads");
-const r63 = () => resource("reports");
-const r64 = () => resource("returnDispositions");
-const r65 = () => resource("returnInspections");
-const r66 = () => resource("returnPolicies");
-const r67 = () => resource("returnPreviews");
-const r68 = () => resource("returnReasons");
-const r69 = () => resource("returnReceipts");
-const r70 = () => resource("returnResolutions");
-const r71 = () => resource("returns");
-const r72 = () => resource("reviews");
-const r73 = () => resource("riskLists");
-const r74 = () => resource("riskPreviews");
-const r75 = () => resource("riskRules");
-const r76 = () => resource("settings");
-const r77 = () => resource("shipments");
-const r78 = () => resource("specification");
-const r79 = () => resource("subscriptionPlans");
-const r80 = () => resource("subscriptions");
-const r81 = () => resource("webhookDeliveries");
-const r82 = () => resource("webhookEndpoints");
-const r83 = () => resource("webhookEventTypes");
-const r84 = () => resource("webhookEvents");
+const r29 = () => resource("giftCardAdjustments");
+const r30 = () => resource("giftCardCashOuts");
+const r31 = () => resource("giftCardFundingDisputes");
+const r32 = () => resource("giftCardLoads");
+const r33 = () => resource("giftCardNotifications");
+const r34 = () => resource("giftCardRedemptions");
+const r35 = () => resource("giftCardTransactions");
+const r36 = () => resource("giftCards");
+const r37 = () => resource("inventoryAdjustments");
+const r38 = () => resource("inventoryAllocationPolicies");
+const r39 = () => resource("inventoryCounts");
+const r40 = () => resource("inventoryItems");
+const r41 = () => resource("inventoryLevels");
+const r42 = () => resource("inventoryMovements");
+const r43 = () => resource("inventoryReceipts");
+const r44 = () => resource("inventoryReservations");
+const r45 = () => resource("inventoryTransfers");
+const r46 = () => resource("invoicePaymentTerms");
+const r47 = () => resource("invoices");
+const r48 = () => resource("locations");
+const r49 = () => resource("me");
+const r50 = () => resource("merchantAccountSessions");
+const r51 = () => resource("merchantBillingBalances");
+const r52 = () => resource("merchantSubscriptionInvoices");
+const r53 = () => resource("merchants");
+const r54 = () => resource("modifierGroups");
+const r55 = () => resource("modifierSets");
+const r56 = () => resource("oauth");
+const r57 = () => resource("onboarding");
+const r58 = () => resource("orders");
+const r59 = () => resource("organizations");
+const r60 = () => resource("packages");
+const r61 = () => resource("paymentIntents");
+const r62 = () => resource("paymentLinks");
+const r63 = () => resource("paymentMethodDomains");
+const r64 = () => resource("paymentMethods");
+const r65 = () => resource("payoutSettings");
+const r66 = () => resource("payouts");
+const r67 = () => resource("products");
+const r68 = () => resource("promotions");
+const r69 = () => resource("refunds");
+const r70 = () => resource("reportDownloads");
+const r71 = () => resource("reports");
+const r72 = () => resource("returnDispositions");
+const r73 = () => resource("returnInspections");
+const r74 = () => resource("returnPolicies");
+const r75 = () => resource("returnPreviews");
+const r76 = () => resource("returnReasons");
+const r77 = () => resource("returnReceipts");
+const r78 = () => resource("returnResolutions");
+const r79 = () => resource("returns");
+const r80 = () => resource("reviews");
+const r81 = () => resource("riskLists");
+const r82 = () => resource("riskPreviews");
+const r83 = () => resource("riskRules");
+const r84 = () => resource("settings");
+const r85 = () => resource("shipments");
+const r86 = () => resource("specification");
+const r87 = () => resource("subscriptionPlans");
+const r88 = () => resource("subscriptions");
+const r89 = () => resource("webhookDeliveries");
+const r90 = () => resource("webhookEndpoints");
+const r91 = () => resource("webhookEventTypes");
+const r92 = () => resource("webhookEvents");
 import { DescriptorSource } from './descriptor-source.js';
-import settings from './descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from './descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getBalanceTransaction"]:r2,["listBalanceTransactions"]:r2,["listBalances"]:r3,["createBundle"]:r4,["deleteBundle"]:r4,["getBundle"]:r4,["listBundleComponents"]:r4,["listBundles"]:r4,["updateBundle"]:r4,["listCapabilities"]:r5,["createCategory"]:r6,["deleteCategory"]:r6,["getCategory"]:r6,["listCategories"]:r6,["updateCategory"]:r6,["closeCheckoutSession"]:r7,["confirmCheckoutSessionCustomerVerification"]:r7,["createCheckoutSession"]:r7,["createCheckoutSessionCustomerVerification"]:r7,["createCheckoutSessionDeliveryQuote"]:r7,["createCheckoutSessionDeliverySelection"]:r7,["deleteCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSession"]:r7,["getCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSessionDeliveryQuote"]:r7,["getCheckoutSessionDeliverySelectionHistory"]:r7,["listCheckoutSessions"]:r7,["queryCheckoutSessionPickupAvailability"]:r7,["updateCheckoutSession"]:r7,["createCreditNote"]:r8,["createCreditNoteAllocation"]:r8,["createCreditNoteRefund"]:r8,["getCreditNote"]:r8,["getCreditNoteAllocation"]:r8,["getCreditNotePDF"]:r8,["issueCreditNote"]:r8,["listCreditNoteAllocations"]:r8,["listCreditNoteRefunds"]:r8,["listCreditNotes"]:r8,["reverseCreditNoteAllocation"]:r8,["updateCreditNote"]:r8,["voidCreditNote"]:r8,["listCustomerDeletionRequests"]:r9,["resolveCustomerDeletionRequest"]:r9,["createCustomerSession"]:r10,["refreshCustomerSession"]:r10,["revokeCustomerSession"]:r10,["createCustomer"]:r11,["createCustomerAddress"]:r11,["createCustomerDeletionRequest"]:r11,["deleteCustomerAddress"]:r11,["getCustomer"]:r11,["getCustomerAddress"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerAddresses"]:r11,["listCustomers"]:r11,["revokeCustomerSessions"]:r11,["setDefaultCustomerAddress"]:r11,["updateCustomer"]:r11,["updateCustomerAddress"]:r11,["createDeliveryLocationSet"]:r12,["deleteDeliveryLocationSet"]:r12,["getDeliveryLocationSet"]:r12,["listDeliveryLocationSets"]:r12,["updateDeliveryLocationSet"]:r12,["createDeliveryMethod"]:r13,["deleteDeliveryMethod"]:r13,["getDeliveryMethod"]:r13,["listDeliveryMethods"]:r13,["updateDeliveryMethod"]:r13,["createDeliveryPreview"]:r14,["assignToUnconfiguredDeliveryProfile"]:r15,["createDeliveryProfile"]:r15,["deleteDeliveryProfile"]:r15,["getDeliveryProfile"]:r15,["listDeliveryProfiles"]:r15,["updateDeliveryProfile"]:r15,["listDeliveryQuotes"]:r16,["checkDeliveryRateCallbackConnection"]:r17,["createDeliveryRateCallback"]:r17,["createDeliveryRateCallbackTestDelivery"]:r17,["deleteDeliveryRateCallback"]:r17,["getDeliveryRateCallback"]:r17,["listDeliveryRateCallbacks"]:r17,["rotateDeliveryRateCallbackSigningKey"]:r17,["updateDeliveryRateCallback"]:r17,["getDeliveryRevocation"]:r18,["revokeDeliveryDependency"]:r18,["createDeliveryZone"]:r19,["deleteDeliveryZone"]:r19,["getDeliveryZone"]:r19,["listDeliveryZones"]:r19,["updateDeliveryZone"]:r19,["createDemoSession"]:r20,["resetDemoSession"]:r20,["createDeveloperPartnerApp"]:r21,["createDeveloperSandbox"]:r21,["deleteDeveloperSandbox"]:r21,["getCurrentAPIKeyRequestLog"]:r21,["getDeveloperAuthContext"]:r21,["getDeveloperPartnerApp"]:r21,["getDeveloperPartnerAppInstall"]:r21,["getDeveloperSandbox"]:r21,["getResourceTimeline"]:r21,["issueDeveloperSandboxTestKey"]:r21,["listCurrentAPIKeyRequestLogs"]:r21,["listDeveloperPartnerAppInstalls"]:r21,["listDeveloperPartnerApps"]:r21,["listDeveloperSandboxes"]:r21,["resetDeveloperSandbox"]:r21,["revokeDeveloperPartnerAppInstall"]:r21,["revokeDeveloperPartnerEnvironmentGrant"]:r21,["rotateDeveloperPartnerAppSecret"]:r21,["updateDeveloperPartnerApp"]:r21,["createDevice"]:r22,["deleteDevice"]:r22,["getDevice"]:r22,["listDevices"]:r22,["updateDevice"]:r22,["getDispute"]:r23,["listDisputes"]:r23,["createFeedbackReport"]:r24,["getFeedbackReport"]:r24,["listFeedbackReports"]:r24,["getFraudWarning"]:r25,["listFraudWarnings"]:r25,["getFulfillmentEvent"]:r26,["listFulfillmentEvents"]:r26,["getFulfillmentNotification"]:r27,["listFulfillmentNotifications"]:r27,["createFulfillmentEvent"]:r28,["createShipment"]:r28,["getFulfillment"]:r28,["listFulfillments"]:r28,["transitionFulfillment"]:r28,["updateFulfillment"]:r28,["createInventoryAdjustment"]:r29,["listInventoryAdjustments"]:r29,["createInventoryAllocationPolicy"]:r30,["deleteInventoryAllocationPolicy"]:r30,["listInventoryAllocationPolicies"]:r30,["updateInventoryAllocationPolicy"]:r30,["applyInventoryCount"]:r31,["cancelInventoryCount"]:r31,["createInventoryCount"]:r31,["listInventoryCounts"]:r31,["updateInventoryCount"]:r31,["createInventoryItem"]:r32,["deleteInventoryItem"]:r32,["listInventoryItems"]:r32,["updateInventoryItem"]:r32,["listInventoryLevels"]:r33,["updateInventoryLevel"]:r33,["listInventoryMovements"]:r34,["createInventoryReceipt"]:r35,["listInventoryReceipts"]:r35,["commitInventoryReservation"]:r36,["consumeInventoryReservation"]:r36,["createInventoryReservation"]:r36,["listInventoryReservations"]:r36,["releaseInventoryReservation"]:r36,["createInventoryTransfer"]:r37,["listInventoryTransfers"]:r37,["transitionInventoryTransfer"]:r37,["updateInventoryTransfer"]:r37,["createInvoicePaymentTerm"]:r38,["deleteInvoicePaymentTerm"]:r38,["getInvoicePaymentTerm"]:r38,["listInvoicePaymentTerms"]:r38,["updateInvoicePaymentTerm"]:r38,["assessInvoiceLateFee"]:r39,["cancelInvoicePaymentAttempt"]:r39,["collectInvoice"]:r39,["createInvoice"]:r39,["getInvoice"]:r39,["getInvoicePaymentAttempt"]:r39,["getInvoicePDF"]:r39,["getOrCreateInvoiceCheckoutSession"]:r39,["issueInvoice"]:r39,["listInvoiceDeliveryAttempts"]:r39,["listInvoiceEvents"]:r39,["listInvoicePaymentAttempts"]:r39,["listInvoices"]:r39,["markInvoiceUncollectible"]:r39,["pauseInvoiceReminders"]:r39,["recordManualInvoicePayment"]:r39,["regenerateInvoicePublicLink"]:r39,["resumeInvoiceReminders"]:r39,["reverseManualInvoicePayment"]:r39,["sendInvoiceReminder"]:r39,["updateInvoice"]:r39,["voidInvoice"]:r39,["waiveInvoiceLateFee"]:r39,["createLocation"]:r40,["deleteLocation"]:r40,["getLocation"]:r40,["listLocations"]:r40,["publishLocationGeography"]:r40,["updateLocation"]:r40,["updateLocationInventory"]:r40,["cancelMeReturn"]:r41,["cancelMeSubscription"]:r41,["changeMeSubscriptionPaymentMethod"]:r41,["confirmMeEmailChangeRequest"]:r41,["createMeAddress"]:r41,["createMeDeletionRequest"]:r41,["createMeEmailChangeRequest"]:r41,["createMeInvoiceCheckoutSession"]:r41,["createMeReturn"]:r41,["createMeReturnPreview"]:r41,["createMeReturnResolutionCheckoutSession"]:r41,["deleteMeAddress"]:r41,["getMe"]:r41,["getMeAddress"]:r41,["getMeCreditNote"]:r41,["getMeCreditNotePDF"]:r41,["getMeDeletionRequest"]:r41,["getMeInvoice"]:r41,["getMeInvoicePDF"]:r41,["getMeOrder"]:r41,["getMeReturn"]:r41,["getMeSubscription"]:r41,["listMeAddresses"]:r41,["listMeCreditNotes"]:r41,["listMeFulfillments"]:r41,["listMeInvoices"]:r41,["listMeOrderActivities"]:r41,["listMeOrders"]:r41,["listMePackages"]:r41,["listMePaymentMethods"]:r41,["listMePayments"]:r41,["listMeRefunds"]:r41,["listMeReturns"]:r41,["listMeShipments"]:r41,["listMeSubscriptions"]:r41,["pauseMeSubscription"]:r41,["reactivateMeSubscription"]:r41,["removeMePaymentMethod"]:r41,["resendMeOrderReceipt"]:r41,["resumeMeSubscription"]:r41,["saveMePaymentMethod"]:r41,["setDefaultMeAddress"]:r41,["setDefaultMePaymentMethod"]:r41,["updateMe"]:r41,["updateMeAddress"]:r41,["createMerchantAccountSession"]:r42,["refreshMerchantAccountSession"]:r42,["getMerchantBillingBalance"]:r43,["listMerchantBillingBalances"]:r43,["getMerchantSubscriptionInvoice"]:r44,["listMerchantSubscriptionInvoices"]:r44,["getMerchant"]:r45,["updateMerchant"]:r45,["createModifierGroup"]:r46,["deleteModifierGroup"]:r46,["getModifierGroup"]:r46,["listModifierGroups"]:r46,["updateModifierGroup"]:r46,["createModifierSet"]:r47,["deleteModifierSet"]:r47,["getModifierSet"]:r47,["listModifierSets"]:r47,["updateModifierSet"]:r47,["authorizePartnerInstall"]:r48,["exchangePartnerInstallToken"]:r48,["previewPartnerInstallAuthorization"]:r48,["advanceOnboarding"]:r49,["createOnboardingAPIKey"]:r49,["getOnboardingState"]:r49,["startOnboarding"]:r49,["verifyOnboardingEmail"]:r49,["addOrderCharge"]:r50,["addOrderLineItems"]:r50,["applyOrderDiscount"]:r50,["cancelOrderPayment"]:r50,["cancelOrderPaymentAttempt"]:r50,["captureOrderPayment"]:r50,["closeOrder"]:r50,["createFulfillment"]:r50,["createOrder"]:r50,["createOrderPaymentIntent"]:r50,["deleteOrderCharge"]:r50,["deleteOrderLineItem"]:r50,["getOrder"]:r50,["getOrderCurrentDeliverySelection"]:r50,["getOrderPaymentAttempt"]:r50,["listOrderActivities"]:r50,["listOrderPaymentAttempts"]:r50,["listOrders"]:r50,["payOrder"]:r50,["previewOrderDiscounts"]:r50,["removeOrderDiscounts"]:r50,["repriceOrderDiscounts"]:r50,["resendOrderReceipt"]:r50,["resolveOrderInventoryException"]:r50,["updateOrder"]:r50,["updateOrderCharge"]:r50,["updateOrderLineItem"]:r50,["createOrganization"]:r51,["deleteOrganization"]:r51,["getOrganization"]:r51,["grantOrganizationMembership"]:r51,["listOrganizationMemberships"]:r51,["listOrganizations"]:r51,["revokeOrganizationMembership"]:r51,["transferOrganizationOwnership"]:r51,["updateOrganization"]:r51,["createPackageItem"]:r52,["deletePackageItem"]:r52,["getPackage"]:r52,["getPackageItem"]:r52,["listPackageItems"]:r52,["listPackages"]:r52,["transitionPackage"]:r52,["updatePackage"]:r52,["updatePackageItem"]:r52,["voidPackage"]:r52,["cancelPaymentIntent"]:r53,["capturePaymentIntent"]:r53,["confirmPaymentIntent"]:r53,["createPaymentIntent"]:r53,["getPaymentIntent"]:r53,["listPaymentIntents"]:r53,["updatePaymentIntent"]:r53,["createPaymentLink"]:r54,["getPaymentLink"]:r54,["getPaymentLinkPublic"]:r54,["listPaymentLinks"]:r54,["resolvePaymentLink"]:r54,["updatePaymentLink"]:r54,["createPaymentMethodDomain"]:r55,["getPaymentMethodDomain"]:r55,["listPaymentMethodDomains"]:r55,["updatePaymentMethodDomain"]:r55,["getPaymentMethod"]:r56,["listPaymentMethods"]:r56,["removePaymentMethod"]:r56,["savePaymentMethod"]:r56,["setDefaultPaymentMethod"]:r56,["deletePayoutDestination"]:r57,["getPayoutDestination"]:r57,["getPayoutSettings"]:r57,["listPayoutDestinations"]:r57,["updatePayoutDestination"]:r57,["updatePayoutSettings"]:r57,["cancelPayout"]:r58,["createPayout"]:r58,["getPayout"]:r58,["listPayoutEntries"]:r58,["listPayouts"]:r58,["createProduct"]:r59,["createProductVariant"]:r59,["deleteProduct"]:r59,["deleteProductVariant"]:r59,["getProduct"]:r59,["getProductOption"]:r59,["getProductVariant"]:r59,["listProductOptions"]:r59,["listProducts"]:r59,["listProductVariants"]:r59,["updateProduct"]:r59,["updateProductVariant"]:r59,["createPromotion"]:r60,["createPromotionCode"]:r60,["deletePromotion"]:r60,["deletePromotionCode"]:r60,["getPromotion"]:r60,["listPromotionCodes"]:r60,["listPromotions"]:r60,["resolvePromotionCode"]:r60,["updatePromotion"]:r60,["updatePromotionCode"]:r60,["createRefund"]:r61,["getRefund"]:r61,["listRefunds"]:r61,["updateRefund"]:r61,["getReportDownload"]:r62,["createReport"]:r63,["getReport"]:r63,["listReports"]:r63,["cancelReturnDisposition"]:r64,["getReturnDisposition"]:r64,["listReturnDispositions"]:r64,["retryReturnDisposition"]:r64,["decideReturnInspectionLineItem"]:r65,["getReturnInspection"]:r65,["listReturnInspections"]:r65,["createReturnPolicy"]:r66,["deleteReturnPolicy"]:r66,["getReturnPolicy"]:r66,["getReturnPolicyRevision"]:r66,["listReturnPolicies"]:r66,["listReturnPolicyRevisions"]:r66,["publishReturnPolicyRevision"]:r66,["updateReturnPolicy"]:r66,["createReturnPreview"]:r67,["createReturnReason"]:r68,["deleteReturnReason"]:r68,["getReturnReason"]:r68,["listReturnReasons"]:r68,["updateReturnReason"]:r68,["getReturnReceipt"]:r69,["listReturnReceipts"]:r69,["verifyReturnReceiptLineItem"]:r69,["cancelReturnResolution"]:r70,["confirmReturnResolution"]:r70,["getOrCreateReturnResolutionCheckoutSession"]:r70,["getReturnResolution"]:r70,["listReturnResolutions"]:r70,["releaseReturnResolution"]:r70,["retryReturnResolution"]:r70,["updateReturnResolution"]:r70,["addReturnLineItem"]:r71,["cancelReturn"]:r71,["cancelReturnLineItem"]:r71,["completeReturn"]:r71,["createReturn"]:r71,["createReturnDisposition"]:r71,["createReturnInspection"]:r71,["createReturnReceipt"]:r71,["createReturnResolution"]:r71,["decideReturn"]:r71,["deleteReturnLineItem"]:r71,["getReturn"]:r71,["getReturnLineItem"]:r71,["listReturnLineItems"]:r71,["listReturns"]:r71,["processExistingReturn"]:r71,["reopenReturn"]:r71,["updateReturn"]:r71,["updateReturnLineItem"]:r71,["waiveReturnLineInspection"]:r71,["approveReview"]:r72,["declineReview"]:r72,["getReview"]:r72,["listReviews"]:r72,["addRiskListItems"]:r73,["createRiskList"]:r73,["deleteRiskList"]:r73,["deleteRiskListItem"]:r73,["getRiskList"]:r73,["getRiskListItem"]:r73,["listRiskListItems"]:r73,["listRiskLists"]:r73,["updateRiskList"]:r73,["createRiskPreview"]:r74,["createRiskRule"]:r75,["deleteRiskRule"]:r75,["getRiskRule"]:r75,["getRiskRuleAttributeRegistry"]:r75,["listRiskRules"]:r75,["updateRiskRule"]:r75,["getEffectiveSettings"]:r76,["getSettings"]:r76,["updateSettings"]:r76,["createPackage"]:r77,["getShipment"]:r77,["listShipments"]:r77,["updateShipment"]:r77,["voidShipment"]:r77,["getOpenAPISpec"]:r78,["createSubscriptionPlan"]:r79,["deleteSubscriptionPlan"]:r79,["getSubscriptionPlan"]:r79,["listSubscriptionPlans"]:r79,["updateSubscriptionPlan"]:r79,["cancelSubscription"]:r80,["changeSubscriptionPaymentMethod"]:r80,["createSubscription"]:r80,["createSubscriptionPaymentRetry"]:r80,["getSubscription"]:r80,["getSubscriptionPaymentRetry"]:r80,["listSubscriptionPaymentRetries"]:r80,["listSubscriptions"]:r80,["pauseSubscription"]:r80,["reactivateSubscription"]:r80,["resumeSubscription"]:r80,["skipSubscriptionCycle"]:r80,["updateSubscription"]:r80,["updateSubscriptionBillingSchedule"]:r80,["getWebhookDelivery"]:r81,["listWebhookDeliveryAttempts"]:r81,["resendWebhookDelivery"]:r81,["createWebhookEndpoint"]:r82,["createWebhookTestEvent"]:r82,["deleteWebhookEndpoint"]:r82,["getWebhookEndpoint"]:r82,["listWebhookEndpoints"]:r82,["rotateWebhookSecret"]:r82,["updateWebhookEndpoint"]:r82,["listWebhookEventTypes"]:r83,["getWebhookEvent"]:r84,["listWebhookDeliveries"]:r84,["listWebhookEvents"]:r84,["streamWebhookEvents"]:r84}, webhook);
+const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getBalanceTransaction"]:r2,["listBalanceTransactions"]:r2,["listBalances"]:r3,["createBundle"]:r4,["deleteBundle"]:r4,["getBundle"]:r4,["listBundleComponents"]:r4,["listBundles"]:r4,["updateBundle"]:r4,["listCapabilities"]:r5,["createCategory"]:r6,["deleteCategory"]:r6,["getCategory"]:r6,["listCategories"]:r6,["updateCategory"]:r6,["closeCheckoutSession"]:r7,["confirmCheckoutSessionCustomerVerification"]:r7,["createCheckoutSession"]:r7,["createCheckoutSessionCustomerVerification"]:r7,["createCheckoutSessionDeliveryQuote"]:r7,["createCheckoutSessionDeliverySelection"]:r7,["deleteCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSession"]:r7,["getCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSessionDeliveryQuote"]:r7,["getCheckoutSessionDeliverySelectionHistory"]:r7,["listCheckoutSessions"]:r7,["queryCheckoutSessionPickupAvailability"]:r7,["updateCheckoutSession"]:r7,["createCreditNote"]:r8,["createCreditNoteAllocation"]:r8,["createCreditNoteRefund"]:r8,["getCreditNote"]:r8,["getCreditNoteAllocation"]:r8,["getCreditNotePDF"]:r8,["issueCreditNote"]:r8,["listCreditNoteAllocations"]:r8,["listCreditNoteRefunds"]:r8,["listCreditNotes"]:r8,["reverseCreditNoteAllocation"]:r8,["updateCreditNote"]:r8,["voidCreditNote"]:r8,["listCustomerDeletionRequests"]:r9,["resolveCustomerDeletionRequest"]:r9,["createCustomerSession"]:r10,["refreshCustomerSession"]:r10,["revokeCustomerSession"]:r10,["createCustomer"]:r11,["createCustomerAddress"]:r11,["createCustomerDeletionRequest"]:r11,["deleteCustomerAddress"]:r11,["getCustomer"]:r11,["getCustomerAddress"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerAddresses"]:r11,["listCustomers"]:r11,["revokeCustomerSessions"]:r11,["setDefaultCustomerAddress"]:r11,["updateCustomer"]:r11,["updateCustomerAddress"]:r11,["createDeliveryLocationSet"]:r12,["deleteDeliveryLocationSet"]:r12,["getDeliveryLocationSet"]:r12,["listDeliveryLocationSets"]:r12,["updateDeliveryLocationSet"]:r12,["createDeliveryMethod"]:r13,["deleteDeliveryMethod"]:r13,["getDeliveryMethod"]:r13,["listDeliveryMethods"]:r13,["updateDeliveryMethod"]:r13,["createDeliveryPreview"]:r14,["assignToUnconfiguredDeliveryProfile"]:r15,["createDeliveryProfile"]:r15,["deleteDeliveryProfile"]:r15,["getDeliveryProfile"]:r15,["listDeliveryProfiles"]:r15,["updateDeliveryProfile"]:r15,["listDeliveryQuotes"]:r16,["checkDeliveryRateCallbackConnection"]:r17,["createDeliveryRateCallback"]:r17,["createDeliveryRateCallbackTestDelivery"]:r17,["deleteDeliveryRateCallback"]:r17,["getDeliveryRateCallback"]:r17,["listDeliveryRateCallbacks"]:r17,["rotateDeliveryRateCallbackSigningKey"]:r17,["updateDeliveryRateCallback"]:r17,["getDeliveryRevocation"]:r18,["revokeDeliveryDependency"]:r18,["createDeliveryZone"]:r19,["deleteDeliveryZone"]:r19,["getDeliveryZone"]:r19,["listDeliveryZones"]:r19,["updateDeliveryZone"]:r19,["createDemoSession"]:r20,["resetDemoSession"]:r20,["createDeveloperPartnerApp"]:r21,["createDeveloperSandbox"]:r21,["deleteDeveloperSandbox"]:r21,["getCurrentAPIKeyRequestLog"]:r21,["getDeveloperAuthContext"]:r21,["getDeveloperPartnerApp"]:r21,["getDeveloperPartnerAppInstall"]:r21,["getDeveloperSandbox"]:r21,["getResourceTimeline"]:r21,["issueDeveloperSandboxTestKey"]:r21,["listCurrentAPIKeyRequestLogs"]:r21,["listDeveloperPartnerAppInstalls"]:r21,["listDeveloperPartnerApps"]:r21,["listDeveloperSandboxes"]:r21,["resetDeveloperSandbox"]:r21,["revokeDeveloperPartnerAppInstall"]:r21,["revokeDeveloperPartnerEnvironmentGrant"]:r21,["rotateDeveloperPartnerAppSecret"]:r21,["updateDeveloperPartnerApp"]:r21,["createDevice"]:r22,["deleteDevice"]:r22,["getDevice"]:r22,["listDevices"]:r22,["updateDevice"]:r22,["getDispute"]:r23,["listDisputes"]:r23,["createFeedbackReport"]:r24,["getFeedbackReport"]:r24,["listFeedbackReports"]:r24,["getFraudWarning"]:r25,["listFraudWarnings"]:r25,["getFulfillmentEvent"]:r26,["listFulfillmentEvents"]:r26,["getFulfillmentNotification"]:r27,["listFulfillmentNotifications"]:r27,["createFulfillmentEvent"]:r28,["createShipment"]:r28,["getFulfillment"]:r28,["listFulfillments"]:r28,["transitionFulfillment"]:r28,["updateFulfillment"]:r28,["createGiftCardAdjustment"]:r29,["createGiftCardCashOut"]:r30,["honorGiftCardFundingLoss"]:r31,["createGiftCardLoad"]:r32,["getGiftCardLoad"]:r32,["listGiftCardLoads"]:r32,["cancelGiftCardNotification"]:r33,["createGiftCardNotification"]:r33,["getGiftCardNotification"]:r33,["listGiftCardNotifications"]:r33,["cancelGiftCardRedemption"]:r34,["captureGiftCardRedemption"]:r34,["createGiftCardRedemption"]:r34,["getGiftCardRedemption"]:r34,["listGiftCardRedemptions"]:r34,["listGiftCardTransactions"]:r35,["createGiftCard"]:r36,["getGiftCard"]:r36,["listGiftCards"]:r36,["lookupGiftCard"]:r36,["rotateGiftCardCode"]:r36,["transitionGiftCard"]:r36,["updateGiftCard"]:r36,["createInventoryAdjustment"]:r37,["listInventoryAdjustments"]:r37,["createInventoryAllocationPolicy"]:r38,["deleteInventoryAllocationPolicy"]:r38,["listInventoryAllocationPolicies"]:r38,["updateInventoryAllocationPolicy"]:r38,["applyInventoryCount"]:r39,["cancelInventoryCount"]:r39,["createInventoryCount"]:r39,["listInventoryCounts"]:r39,["updateInventoryCount"]:r39,["createInventoryItem"]:r40,["deleteInventoryItem"]:r40,["listInventoryItems"]:r40,["updateInventoryItem"]:r40,["listInventoryLevels"]:r41,["updateInventoryLevel"]:r41,["listInventoryMovements"]:r42,["createInventoryReceipt"]:r43,["listInventoryReceipts"]:r43,["commitInventoryReservation"]:r44,["consumeInventoryReservation"]:r44,["createInventoryReservation"]:r44,["listInventoryReservations"]:r44,["releaseInventoryReservation"]:r44,["createInventoryTransfer"]:r45,["listInventoryTransfers"]:r45,["transitionInventoryTransfer"]:r45,["updateInventoryTransfer"]:r45,["createInvoicePaymentTerm"]:r46,["deleteInvoicePaymentTerm"]:r46,["getInvoicePaymentTerm"]:r46,["listInvoicePaymentTerms"]:r46,["updateInvoicePaymentTerm"]:r46,["assessInvoiceLateFee"]:r47,["cancelInvoicePaymentAttempt"]:r47,["collectInvoice"]:r47,["createInvoice"]:r47,["getInvoice"]:r47,["getInvoicePaymentAttempt"]:r47,["getInvoicePDF"]:r47,["getOrCreateInvoiceCheckoutSession"]:r47,["issueInvoice"]:r47,["listInvoiceDeliveryAttempts"]:r47,["listInvoiceEvents"]:r47,["listInvoicePaymentAttempts"]:r47,["listInvoices"]:r47,["markInvoiceUncollectible"]:r47,["pauseInvoiceReminders"]:r47,["recordManualInvoicePayment"]:r47,["regenerateInvoicePublicLink"]:r47,["resumeInvoiceReminders"]:r47,["reverseManualInvoicePayment"]:r47,["sendInvoiceReminder"]:r47,["updateInvoice"]:r47,["voidInvoice"]:r47,["waiveInvoiceLateFee"]:r47,["createLocation"]:r48,["deleteLocation"]:r48,["getLocation"]:r48,["listLocations"]:r48,["publishLocationGeography"]:r48,["updateLocation"]:r48,["updateLocationInventory"]:r48,["cancelMeReturn"]:r49,["cancelMeSubscription"]:r49,["changeMeSubscriptionPaymentMethod"]:r49,["confirmMeEmailChangeRequest"]:r49,["createMeAddress"]:r49,["createMeDeletionRequest"]:r49,["createMeEmailChangeRequest"]:r49,["createMeInvoiceCheckoutSession"]:r49,["createMeReturn"]:r49,["createMeReturnPreview"]:r49,["createMeReturnResolutionCheckoutSession"]:r49,["deleteMeAddress"]:r49,["getMe"]:r49,["getMeAddress"]:r49,["getMeCreditNote"]:r49,["getMeCreditNotePDF"]:r49,["getMeDeletionRequest"]:r49,["getMeEmailPreferences"]:r49,["getMeGiftCard"]:r49,["getMeInvoice"]:r49,["getMeInvoicePDF"]:r49,["getMeOrder"]:r49,["getMePaymentMethod"]:r49,["getMeReturn"]:r49,["getMeSubscription"]:r49,["listMeAddresses"]:r49,["listMeCreditNotes"]:r49,["listMeDeletionRequests"]:r49,["listMeFulfillments"]:r49,["listMeGiftCards"]:r49,["listMeGiftCardTransactions"]:r49,["listMeInvoices"]:r49,["listMeOrderActivities"]:r49,["listMeOrders"]:r49,["listMePackages"]:r49,["listMePaymentMethods"]:r49,["listMePayments"]:r49,["listMeRefunds"]:r49,["listMeReturns"]:r49,["listMeShipments"]:r49,["listMeSubscriptions"]:r49,["pauseMeSubscription"]:r49,["reactivateMeSubscription"]:r49,["removeMeGiftCard"]:r49,["removeMePaymentMethod"]:r49,["resendMeOrderReceipt"]:r49,["resumeMeSubscription"]:r49,["saveMeGiftCard"]:r49,["saveMePaymentMethod"]:r49,["setDefaultMeAddress"]:r49,["setDefaultMePaymentMethod"]:r49,["updateMe"]:r49,["updateMeAddress"]:r49,["updateMeEmailPreferences"]:r49,["createMerchantAccountSession"]:r50,["refreshMerchantAccountSession"]:r50,["getMerchantBillingBalance"]:r51,["listMerchantBillingBalances"]:r51,["getMerchantSubscriptionInvoice"]:r52,["listMerchantSubscriptionInvoices"]:r52,["getMerchant"]:r53,["updateMerchant"]:r53,["createModifierGroup"]:r54,["deleteModifierGroup"]:r54,["getModifierGroup"]:r54,["listModifierGroups"]:r54,["updateModifierGroup"]:r54,["createModifierSet"]:r55,["deleteModifierSet"]:r55,["getModifierSet"]:r55,["listModifierSets"]:r55,["updateModifierSet"]:r55,["authorizePartnerInstall"]:r56,["exchangePartnerInstallToken"]:r56,["previewPartnerInstallAuthorization"]:r56,["advanceOnboarding"]:r57,["createOnboardingAPIKey"]:r57,["getOnboardingState"]:r57,["startOnboarding"]:r57,["verifyOnboardingEmail"]:r57,["addOrderCharge"]:r58,["addOrderLineItems"]:r58,["applyOrderDiscount"]:r58,["applyOrderGiftCard"]:r58,["cancelOrderPayment"]:r58,["cancelOrderPaymentAttempt"]:r58,["captureOrderPayment"]:r58,["closeOrder"]:r58,["createFulfillment"]:r58,["createOrder"]:r58,["createOrderPaymentIntent"]:r58,["deleteOrderCharge"]:r58,["deleteOrderLineItem"]:r58,["getOrder"]:r58,["getOrderCurrentDeliverySelection"]:r58,["getOrderPaymentAttempt"]:r58,["listOrderActivities"]:r58,["listOrderPaymentAttempts"]:r58,["listOrders"]:r58,["payOrder"]:r58,["previewOrderDiscounts"]:r58,["removeOrderDiscounts"]:r58,["removeOrderGiftCard"]:r58,["repriceOrderDiscounts"]:r58,["resendOrderReceipt"]:r58,["resolveOrderInventoryException"]:r58,["sendOrderReceipt"]:r58,["updateOrder"]:r58,["updateOrderCharge"]:r58,["updateOrderLineItem"]:r58,["createOrganization"]:r59,["deleteOrganization"]:r59,["getOrganization"]:r59,["grantOrganizationMembership"]:r59,["listOrganizationMemberships"]:r59,["listOrganizations"]:r59,["revokeOrganizationMembership"]:r59,["transferOrganizationOwnership"]:r59,["updateOrganization"]:r59,["createPackageItem"]:r60,["deletePackageItem"]:r60,["getPackage"]:r60,["getPackageItem"]:r60,["listPackageItems"]:r60,["listPackages"]:r60,["transitionPackage"]:r60,["updatePackage"]:r60,["updatePackageItem"]:r60,["voidPackage"]:r60,["cancelPaymentIntent"]:r61,["capturePaymentIntent"]:r61,["confirmPaymentIntent"]:r61,["createPaymentIntent"]:r61,["getPaymentIntent"]:r61,["listPaymentIntents"]:r61,["updatePaymentIntent"]:r61,["createPaymentLink"]:r62,["getPaymentLink"]:r62,["getPaymentLinkPublic"]:r62,["listPaymentLinks"]:r62,["resolvePaymentLink"]:r62,["updatePaymentLink"]:r62,["createPaymentMethodDomain"]:r63,["getPaymentMethodDomain"]:r63,["listPaymentMethodDomains"]:r63,["updatePaymentMethodDomain"]:r63,["getPaymentMethod"]:r64,["listPaymentMethods"]:r64,["removePaymentMethod"]:r64,["savePaymentMethod"]:r64,["setDefaultPaymentMethod"]:r64,["deletePayoutDestination"]:r65,["getPayoutDestination"]:r65,["getPayoutSettings"]:r65,["listPayoutDestinations"]:r65,["updatePayoutDestination"]:r65,["updatePayoutSettings"]:r65,["cancelPayout"]:r66,["createPayout"]:r66,["getPayout"]:r66,["listPayoutEntries"]:r66,["listPayouts"]:r66,["createProduct"]:r67,["createProductVariant"]:r67,["deleteProduct"]:r67,["deleteProductVariant"]:r67,["getProduct"]:r67,["getProductOption"]:r67,["getProductVariant"]:r67,["listProductOptions"]:r67,["listProducts"]:r67,["listProductVariants"]:r67,["updateProduct"]:r67,["updateProductVariant"]:r67,["createPromotion"]:r68,["createPromotionCode"]:r68,["deletePromotion"]:r68,["deletePromotionCode"]:r68,["getPromotion"]:r68,["listPromotionCodes"]:r68,["listPromotions"]:r68,["resolvePromotionCode"]:r68,["updatePromotion"]:r68,["updatePromotionCode"]:r68,["createRefund"]:r69,["getRefund"]:r69,["listRefunds"]:r69,["updateRefund"]:r69,["getReportDownload"]:r70,["createReport"]:r71,["getReport"]:r71,["listReports"]:r71,["cancelReturnDisposition"]:r72,["getReturnDisposition"]:r72,["listReturnDispositions"]:r72,["retryReturnDisposition"]:r72,["decideReturnInspectionLineItem"]:r73,["getReturnInspection"]:r73,["listReturnInspections"]:r73,["createReturnPolicy"]:r74,["deleteReturnPolicy"]:r74,["getReturnPolicy"]:r74,["getReturnPolicyRevision"]:r74,["listReturnPolicies"]:r74,["listReturnPolicyRevisions"]:r74,["publishReturnPolicyRevision"]:r74,["updateReturnPolicy"]:r74,["createReturnPreview"]:r75,["createReturnReason"]:r76,["deleteReturnReason"]:r76,["getReturnReason"]:r76,["listReturnReasons"]:r76,["updateReturnReason"]:r76,["getReturnReceipt"]:r77,["listReturnReceipts"]:r77,["verifyReturnReceiptLineItem"]:r77,["cancelReturnResolution"]:r78,["confirmReturnResolution"]:r78,["getOrCreateReturnResolutionCheckoutSession"]:r78,["getReturnResolution"]:r78,["listReturnResolutions"]:r78,["releaseReturnResolution"]:r78,["retryReturnResolution"]:r78,["updateReturnResolution"]:r78,["addReturnLineItem"]:r79,["cancelReturn"]:r79,["cancelReturnLineItem"]:r79,["completeReturn"]:r79,["createReturn"]:r79,["createReturnDisposition"]:r79,["createReturnInspection"]:r79,["createReturnReceipt"]:r79,["createReturnResolution"]:r79,["decideReturn"]:r79,["deleteReturnLineItem"]:r79,["getReturn"]:r79,["getReturnLineItem"]:r79,["listReturnLineItems"]:r79,["listReturns"]:r79,["processExistingReturn"]:r79,["reopenReturn"]:r79,["updateReturn"]:r79,["updateReturnLineItem"]:r79,["waiveReturnLineInspection"]:r79,["approveReview"]:r80,["declineReview"]:r80,["getReview"]:r80,["listReviews"]:r80,["addRiskListItems"]:r81,["createRiskList"]:r81,["deleteRiskList"]:r81,["deleteRiskListItem"]:r81,["getRiskList"]:r81,["getRiskListItem"]:r81,["listRiskListItems"]:r81,["listRiskLists"]:r81,["updateRiskList"]:r81,["createRiskPreview"]:r82,["createRiskRule"]:r83,["deleteRiskRule"]:r83,["getRiskRule"]:r83,["getRiskRuleAttributeRegistry"]:r83,["listRiskRules"]:r83,["updateRiskRule"]:r83,["getEffectiveSettings"]:r84,["getSettings"]:r84,["updateSettings"]:r84,["createPackage"]:r85,["getShipment"]:r85,["listShipments"]:r85,["updateShipment"]:r85,["voidShipment"]:r85,["getOpenAPISpec"]:r86,["createSubscriptionPlan"]:r87,["deleteSubscriptionPlan"]:r87,["getSubscriptionPlan"]:r87,["listSubscriptionPlans"]:r87,["updateSubscriptionPlan"]:r87,["cancelSubscription"]:r88,["changeSubscriptionPaymentMethod"]:r88,["createSubscription"]:r88,["createSubscriptionPaymentRetry"]:r88,["getSubscription"]:r88,["getSubscriptionPaymentRetry"]:r88,["listSubscriptionPaymentRetries"]:r88,["listSubscriptions"]:r88,["pauseSubscription"]:r88,["reactivateSubscription"]:r88,["resumeSubscription"]:r88,["skipSubscriptionCycle"]:r88,["updateSubscription"]:r88,["updateSubscriptionBillingSchedule"]:r88,["getWebhookDelivery"]:r89,["listWebhookDeliveryAttempts"]:r89,["resendWebhookDelivery"]:r89,["createWebhookEndpoint"]:r90,["createWebhookTestEvent"]:r90,["deleteWebhookEndpoint"]:r90,["getWebhookEndpoint"]:r90,["listWebhookEndpoints"]:r90,["rotateWebhookSecret"]:r90,["updateWebhookEndpoint"]:r90,["listWebhookEventTypes"]:r91,["getWebhookEvent"]:r92,["listWebhookDeliveries"]:r92,["listWebhookEvents"]:r92,["streamWebhookEvents"]:r92}, webhook);
 
 export class Client {
   #runtime;
@@ -3184,6 +3192,558 @@ export class Client {
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
     });
+    this.giftCardAdjustments = Object.freeze({
+      create: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardAdjustment", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardAdjustment", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+    });
+    this.giftCardCashOuts = Object.freeze({
+      create: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardCashOut", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardCashOut", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+    });
+    this.giftCardFundingDisputes = Object.freeze({
+      honorValue: async (dispute_id, params, options) => this.#runtime.request("honorGiftCardFundingLoss", _sdkRequestInput([
+  "dispute_id"
+], [dispute_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      honorValueWithResponse: async (dispute_id, params, options) => this.#runtime.request("honorGiftCardFundingLoss", _sdkRequestInput([
+  "dispute_id"
+], [dispute_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+    });
+    this.giftCardLoads = Object.freeze({
+      create: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardLoad", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardLoad", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      get: async (gift_card_load_id, params, options) => this.#runtime.request("getGiftCardLoad", _sdkRequestInput([
+  "gift_card_load_id"
+], [gift_card_load_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (gift_card_load_id, params, options) => this.#runtime.request("getGiftCardLoad", _sdkRequestInput([
+  "gift_card_load_id"
+], [gift_card_load_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listGiftCardLoads", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCardLoads", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardLoads", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options), []),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardLoads", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCardLoads", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options),
+    });
+    this.giftCardNotifications = Object.freeze({
+      cancel: async (gift_card_notification_id, params, options) => this.#runtime.request("cancelGiftCardNotification", _sdkRequestInput([
+  "gift_card_notification_id"
+], [gift_card_notification_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      cancelWithResponse: async (gift_card_notification_id, params, options) => this.#runtime.request("cancelGiftCardNotification", _sdkRequestInput([
+  "gift_card_notification_id"
+], [gift_card_notification_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createGiftCardNotification", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (params, options) => this.#runtime.request("createGiftCardNotification", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      get: async (gift_card_notification_id, params, options) => this.#runtime.request("getGiftCardNotification", _sdkRequestInput([
+  "gift_card_notification_id"
+], [gift_card_notification_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (gift_card_notification_id, params, options) => this.#runtime.request("getGiftCardNotification", _sdkRequestInput([
+  "gift_card_notification_id"
+], [gift_card_notification_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options), []),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCardNotifications", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options),
+    });
+    this.giftCardRedemptions = Object.freeze({
+      cancel: async (gift_card_redemption_id, params, options) => this.#runtime.request("cancelGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      cancelWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("cancelGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      capture: async (gift_card_redemption_id, params, options) => this.#runtime.request("captureGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      captureWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("captureGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createGiftCardRedemption", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (params, options) => this.#runtime.request("createGiftCardRedemption", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      get: async (gift_card_redemption_id, params, options) => this.#runtime.request("getGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("getGiftCardRedemption", _sdkRequestInput([
+  "gift_card_redemption_id"
+], [gift_card_redemption_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listGiftCardRedemptions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_type",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCardRedemptions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_type",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardRedemptions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_type",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options), []),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardRedemptions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_type",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCardRedemptions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_type",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options),
+    });
+    this.giftCardTransactions = Object.freeze({
+      list: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options), []),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCardTransactions", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "idempotency_key",
+  "order_id",
+  "page_size",
+  "page_token",
+  "source_id",
+  "source_type",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options),
+    });
+    this.giftCards = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      get: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options), []),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "external_reference_id",
+  "from_at",
+  "gift_card_id",
+  "page_size",
+  "page_token",
+  "status",
+  "until_at",
+  "Flint-Version"
+], false, false, params), options),
+      lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      lookupWithResponse: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      rotateCode: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      rotateCodeWithResponse: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      transition: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      transitionWithResponse: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      update: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      updateWithResponse: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+    });
     this.inventoryAdjustments = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryAdjustment", _sdkRequestInput([], [], [
   "Idempotency-Key",
@@ -4879,13 +5439,13 @@ export class Client {
 ], [resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createReturnResolutionCheckoutSessionWithResponse: async (resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "resolution_id"
 ], [resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
@@ -4948,6 +5508,26 @@ export class Client {
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getGiftCard: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       getInvoice: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -4975,6 +5555,16 @@ export class Client {
 ], [order_id], [
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       getReturn: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
@@ -5062,6 +5652,41 @@ export class Client {
   "page_token",
   "Flint-Version"
 ], false, false, params), options),
+      listDeletionRequests: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listDeletionRequestsWithResponse: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listDeletionRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options), []),
+      listDeletionRequestsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options)),
+      listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options),
       listFulfillments: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
   "page_size",
@@ -5145,6 +5770,76 @@ export class Client {
   "updated_before",
   "sort_direction",
   "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options),
+      listGiftCards: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listGiftCardsWithResponse: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listGiftCardsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options), []),
+      listGiftCardsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options)),
+      listGiftCardsItems: (params, options) => this.#runtime.items("listMeGiftCards", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options),
+      listGiftCardTransactions: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listGiftCardTransactionsWithResponse: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listGiftCardTransactionsPages: (gift_card_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options), []),
+      listGiftCardTransactionsPagesWithResponse: (gift_card_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options)),
+      listGiftCardTransactionsItems: (gift_card_id, params, options) => this.#runtime.items("listMeGiftCardTransactions", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "page_size",
+  "page_token",
   "Flint-Version"
 ], false, false, params), options),
       listInvoices: async (params, options) => this.#runtime.request("listMeInvoices", _sdkRequestInput([], [], [
@@ -6050,6 +6745,20 @@ export class Client {
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      removeGiftCard: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      removeGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       removePaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
@@ -6092,6 +6801,16 @@ export class Client {
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      saveGiftCard: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      saveGiftCardWithResponse: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       savePaymentMethod: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
@@ -6150,6 +6869,16 @@ export class Client {
       updateAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("updateMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      updateEmailPreferences: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      updateEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"
@@ -6595,6 +7324,26 @@ export class Client {
 ], [order_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      applyGiftCard: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Gift-Card-Challenge",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      applyGiftCardWithResponse: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "Flint-Gift-Card-Challenge",
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
@@ -7045,6 +7794,26 @@ export class Client {
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      removeGiftCard: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
+  "order_id",
+  "gift_card_id"
+], [order_id, gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      removeGiftCardWithResponse: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
+  "order_id",
+  "gift_card_id"
+], [order_id, gift_card_id], [
+  "X-Request-Id",
+  "Idempotency-Key",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       repriceDiscounts: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -7095,6 +7864,24 @@ export class Client {
   "X-Request-Id",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
+      sendReceipt: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      sendReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       update: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -7588,6 +8375,7 @@ export class Client {
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "Flint-Buyer-Device",
   "Flint-Version"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
@@ -7595,6 +8383,7 @@ export class Client {
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "Flint-Buyer-Device",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [
@@ -9814,13 +10603,13 @@ export class Client {
 ], [return_resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -11704,6 +12493,7 @@ export function makeAPIRequestLogReproduction(value) { return modelFromCodec(val
 export function makeApiRequestLogResponseShapeMetadata(value) { return modelFromCodec(value, {..._sdkModelCodec("ApiRequestLogResponseShapeMetadata"), constraints: true}); }
 export function makeAppliedDiscount(value) { return modelFromCodec(value, {..._sdkModelCodec("AppliedDiscount"), constraints: true}); }
 export function makeApplyDiscountRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ApplyDiscountRequest"), constraints: true}); }
+export function makeApplyOrderGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ApplyOrderGiftCardRequest"), constraints: true}); }
 export function makeAssessInvoiceLateFeeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("AssessInvoiceLateFeeRequest"), constraints: true}); }
 export function makeAssignToUnconfiguredDeliveryProfileRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("AssignToUnconfiguredDeliveryProfileRequest"), constraints: true}); }
 export function makeAvailableModifier(value) { return modelFromCodec(value, {..._sdkModelCodec("AvailableModifier"), constraints: true}); }
@@ -11724,6 +12514,8 @@ export function makeBundleComponentListResponse(value) { return modelFromCodec(v
 export function makeBundleComponentVariantSummary(value) { return modelFromCodec(value, {..._sdkModelCodec("BundleComponentVariantSummary"), constraints: true}); }
 export function makeBundleListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BundleListResponse"), constraints: true}); }
 export function makeBundleResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BundleResponse"), constraints: true}); }
+export function makeBuyerAction(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerAction"), constraints: true}); }
+export function makeBuyerCapabilities(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerCapabilities"), constraints: true}); }
 export function makeBuyerCreditNote(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerCreditNote"), constraints: true}); }
 export function makeBuyerCreditNoteListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerCreditNoteListResponse"), constraints: true}); }
 export function makeBuyerCreditNoteResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerCreditNoteResponse"), constraints: true}); }
@@ -11735,13 +12527,23 @@ export function makeBuyerDeliverySelection(value) { return modelFromCodec(value,
 export function makeBuyerDeliverySelectionChoiceResource(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerDeliverySelectionChoiceResource"), constraints: true}); }
 export function makeBuyerDeliverySelectionResult(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerDeliverySelectionResult"), constraints: true}); }
 export function makeBuyerEffectiveDeliverySelectionResource(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerEffectiveDeliverySelectionResource"), constraints: true}); }
+export function makeBuyerGiftCard(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerGiftCard"), constraints: true}); }
+export function makeBuyerGiftCardListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerGiftCardListResponse"), constraints: true}); }
+export function makeBuyerGiftCardResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerGiftCardResponse"), constraints: true}); }
+export function makeBuyerGiftCardTransaction(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerGiftCardTransaction"), constraints: true}); }
+export function makeBuyerGiftCardTransactionListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerGiftCardTransactionListResponse"), constraints: true}); }
 export function makeBuyerInstructionsConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerInstructionsConfig"), constraints: true}); }
 export function makeBuyerInvoice(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerInvoice"), constraints: true}); }
 export function makeBuyerInvoiceLateFee(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerInvoiceLateFee"), constraints: true}); }
 export function makeBuyerInvoiceListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerInvoiceListResponse"), constraints: true}); }
 export function makeBuyerInvoiceResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerInvoiceResponse"), constraints: true}); }
+export function makeBuyerPauseCapability(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerPauseCapability"), constraints: true}); }
+export function makeBuyerRefund(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerRefund"), constraints: true}); }
+export function makeBuyerRefundListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerRefundListResponse"), constraints: true}); }
+export function makeBuyerRetentionOffer(value) { return modelFromCodec(value, {..._sdkModelCodec("BuyerRetentionOffer"), constraints: true}); }
 export function makeCallerSuppliedDeliveryMethodResultRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CallerSuppliedDeliveryMethodResultRequest"), constraints: true}); }
 export function makeCallerSuppliedDeliveryOutcomeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CallerSuppliedDeliveryOutcomeRequest"), constraints: true}); }
+export function makeCancelGiftCardNotificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelGiftCardNotificationRequest"), constraints: true}); }
 export function makeCancelOrderPaymentAttemptRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelOrderPaymentAttemptRequest"), constraints: true}); }
 export function makeCancelOrderPaymentAttemptResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelOrderPaymentAttemptResponse"), constraints: true}); }
 export function makeCancelOrderPaymentAttemptResult(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelOrderPaymentAttemptResult"), constraints: true}); }
@@ -11864,6 +12666,12 @@ export function makeCreateFulfillmentEventRequest(value) { return modelFromCodec
 export function makeCreateFulfillmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateFulfillmentRequest"), constraints: true}); }
 export function makeCreateFulfillmentResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateFulfillmentResponse"), constraints: true}); }
 export function makeCreateFulfillmentResult(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateFulfillmentResult"), constraints: true}); }
+export function makeCreateGiftCardAdjustmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardAdjustmentRequest"), constraints: true}); }
+export function makeCreateGiftCardCashOutRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardCashOutRequest"), constraints: true}); }
+export function makeCreateGiftCardLoadRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardLoadRequest"), constraints: true}); }
+export function makeCreateGiftCardNotificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardNotificationRequest"), constraints: true}); }
+export function makeCreateGiftCardRedemptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardRedemptionRequest"), constraints: true}); }
+export function makeCreateGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateGiftCardRequest"), constraints: true}); }
 export function makeCreateInlineModifierGroupRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateInlineModifierGroupRequest"), constraints: true}); }
 export function makeCreateInventoryAdjustmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateInventoryAdjustmentRequest"), constraints: true}); }
 export function makeCreateInventoryAllocationPolicyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateInventoryAllocationPolicyRequest"), constraints: true}); }
@@ -11908,6 +12716,7 @@ export function makeCreateProductVariantRequest(value) { return modelFromCodec(v
 export function makeCreatePromotionCodeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePromotionCodeRequest"), constraints: true}); }
 export function makeCreatePromotionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePromotionRequest"), constraints: true}); }
 export function makeCreateRefundRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundRequest"), constraints: true}); }
+export function makeCreateRefundResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundResponse"), constraints: true}); }
 export function makeCreateReportRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReportRequest"), constraints: true}); }
 export function makeCreateReturnDispositionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReturnDispositionRequest"), constraints: true}); }
 export function makeCreateReturnDispositionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReturnDispositionResponse"), constraints: true}); }
@@ -11966,6 +12775,8 @@ export function makeCustomerDeletionRequest(value) { return modelFromCodec(value
 export function makeCustomerDeletionRequestListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerDeletionRequestListResponse"), constraints: true}); }
 export function makeCustomerDeletionRequestResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerDeletionRequestResponse"), constraints: true}); }
 export function makeCustomerEmailDeliverySettings(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerEmailDeliverySettings"), constraints: true}); }
+export function makeCustomerEmailPreferences(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerEmailPreferences"), constraints: true}); }
+export function makeCustomerEmailPreferencesResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerEmailPreferencesResponse"), constraints: true}); }
 export function makeCustomerListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerListResponse"), constraints: true}); }
 export function makeCustomerReceivableBalance(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerReceivableBalance"), constraints: true}); }
 export function makeCustomerReceivables(value) { return modelFromCodec(value, {..._sdkModelCodec("CustomerReceivables"), constraints: true}); }
@@ -12207,6 +13018,7 @@ export function makeFulfillmentTransitionRequestMarkPreparing(value) { return mo
 export function makeFulfillmentTransitionRequestMarkReady(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentTransitionRequestMarkReady"), constraints: true}); }
 export function makeFulfillmentTransitionRequestSchedule(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentTransitionRequestSchedule"), constraints: true}); }
 export function makeFulfillmentTransitionRequestStart(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentTransitionRequestStart"), constraints: true}); }
+export function makeGetOrCreateReturnResolutionCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GetOrCreateReturnResolutionCheckoutSessionRequest"), constraints: true}); }
 export function makeGetOrCreateReturnResolutionCheckoutSessionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetOrCreateReturnResolutionCheckoutSessionResponse"), constraints: true}); }
 export function makeGetPaymentIntentResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetPaymentIntentResponse"), constraints: true}); }
 export function makeGetPaymentIntentResult(value) { return modelFromCodec(value, {..._sdkModelCodec("GetPaymentIntentResult"), constraints: true}); }
@@ -12219,8 +13031,47 @@ export function makeGetReturnReasonResponse(value) { return modelFromCodec(value
 export function makeGetReturnReceiptResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnReceiptResponse"), constraints: true}); }
 export function makeGetReturnResolutionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnResolutionResponse"), constraints: true}); }
 export function makeGetReturnResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnResponse"), constraints: true}); }
+export function makeGiftCard(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCard"), constraints: true}); }
+export function makeGiftCardCommandResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardCommandResponse"), constraints: true}); }
+export function makeGiftCardCommandResult(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardCommandResult"), constraints: true}); }
+export function makeGiftCardCustomAmountBounds(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardCustomAmountBounds"), constraints: true}); }
+export function makeGiftCardFundingDispute(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingDispute"), constraints: true}); }
+export function makeGiftCardFundingLossDisposition(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingLossDisposition"), constraints: true}); }
+export function makeGiftCardFundingLossResolution(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingLossResolution"), constraints: true}); }
+export function makeGiftCardFundingSource(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingSource"), constraints: true}); }
+export function makeGiftCardListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardListResponse"), constraints: true}); }
+export function makeGiftCardLoad(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardLoad"), constraints: true}); }
+export function makeGiftCardLoadListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardLoadListResponse"), constraints: true}); }
+export function makeGiftCardLoadResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardLoadResponse"), constraints: true}); }
+export function makeGiftCardMoney(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardMoney"), constraints: true}); }
+export function makeGiftCardNotification(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotification"), constraints: true}); }
+export function makeGiftCardNotificationDelivery(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationDelivery"), constraints: true}); }
+export function makeGiftCardNotificationDeliveryAttempt(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationDeliveryAttempt"), constraints: true}); }
+export function makeGiftCardNotificationListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationListResponse"), constraints: true}); }
+export function makeGiftCardNotificationProviderOutcome(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationProviderOutcome"), constraints: true}); }
+export function makeGiftCardNotificationRecipient(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationRecipient"), constraints: true}); }
+export function makeGiftCardNotificationResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardNotificationResponse"), constraints: true}); }
+export function makeGiftCardProductConfiguration(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardProductConfiguration"), constraints: true}); }
+export function makeGiftCardPurchaseRecipient(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRecipient"), constraints: true}); }
+export function makeGiftCardPurchaseRefundAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRefundAllocation"), constraints: true}); }
+export function makeGiftCardPurchaseRefundRecovery(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRefundRecovery"), constraints: true}); }
+export function makeGiftCardPurchaseRefundRecoveryDestination(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRefundRecoveryDestination"), constraints: true}); }
+export function makeGiftCardPurchaseRefundValueAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRefundValueAllocation"), constraints: true}); }
+export function makeGiftCardPurchaseRefundValueHold(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRefundValueHold"), constraints: true}); }
+export function makeGiftCardPurchaseRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRequest"), constraints: true}); }
+export function makeGiftCardPurchaseRestoration(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseRestoration"), constraints: true}); }
+export function makeGiftCardPurchaseSnapshot(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardPurchaseSnapshot"), constraints: true}); }
+export function makeGiftCardRedemption(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardRedemption"), constraints: true}); }
+export function makeGiftCardRedemptionListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardRedemptionListResponse"), constraints: true}); }
+export function makeGiftCardRedemptionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardRedemptionResponse"), constraints: true}); }
+export function makeGiftCardRefundProvenance(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardRefundProvenance"), constraints: true}); }
+export function makeGiftCardResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardResponse"), constraints: true}); }
+export function makeGiftCardTransaction(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardTransaction"), constraints: true}); }
+export function makeGiftCardTransactionListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardTransactionListResponse"), constraints: true}); }
+export function makeGiftCardVersionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardVersionRequest"), constraints: true}); }
 export function makeGrantOrganizationMembershipRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GrantOrganizationMembershipRequest"), constraints: true}); }
 export function makeHoldDetail(value) { return modelFromCodec(value, {..._sdkModelCodec("HoldDetail"), constraints: true}); }
+export function makeHonorGiftCardFundingLossRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("HonorGiftCardFundingLossRequest"), constraints: true}); }
 export function makeHostedCheckout(value) { return modelFromCodec(value, {..._sdkModelCodec("HostedCheckout"), constraints: true}); }
 export function makeImage(value) { return modelFromCodec(value, {..._sdkModelCodec("Image"), constraints: true}); }
 export function makeImageReferenceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ImageReferenceRequest"), constraints: true}); }
@@ -12228,11 +13079,13 @@ export function makeImageRequest(value) { return modelFromCodec(value, {..._sdkM
 export function makeIncomingWebhook04494e8bd1b3Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook04494e8bd1b3Payload"), constraints: true}); }
 export function makeIncomingWebhook0480be55a902Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0480be55a902Payload"), constraints: true}); }
 export function makeIncomingWebhook05810405f7d2Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook05810405f7d2Payload"), constraints: true}); }
+export function makeIncomingWebhook067bab7c655aPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook067bab7c655aPayload"), constraints: true}); }
 export function makeIncomingWebhook06baf65fb878Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook06baf65fb878Payload"), constraints: true}); }
 export function makeIncomingWebhook0b04bd9d63dbPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0b04bd9d63dbPayload"), constraints: true}); }
 export function makeIncomingWebhook0caa82ed1aafPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0caa82ed1aafPayload"), constraints: true}); }
 export function makeIncomingWebhook0d891c599afbPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0d891c599afbPayload"), constraints: true}); }
 export function makeIncomingWebhook0d9fec82cba8Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0d9fec82cba8Payload"), constraints: true}); }
+export function makeIncomingWebhook0ed7a866163aPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook0ed7a866163aPayload"), constraints: true}); }
 export function makeIncomingWebhook10de2029f92ePayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook10de2029f92ePayload"), constraints: true}); }
 export function makeIncomingWebhook1255f92e9f23Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook1255f92e9f23Payload"), constraints: true}); }
 export function makeIncomingWebhook13640c439e38Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook13640c439e38Payload"), constraints: true}); }
@@ -12278,8 +13131,12 @@ export function makeIncomingWebhook3bed705c5a7fPayload(value) { return modelFrom
 export function makeIncomingWebhook3dbc0a577678Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook3dbc0a577678Payload"), constraints: true}); }
 export function makeIncomingWebhook3e1e165872bePayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook3e1e165872bePayload"), constraints: true}); }
 export function makeIncomingWebhook3e2b96ab23f9Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook3e2b96ab23f9Payload"), constraints: true}); }
+export function makeIncomingWebhook42d1750d6349Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook42d1750d6349Payload"), constraints: true}); }
+export function makeIncomingWebhook42dd85c73d6bPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook42dd85c73d6bPayload"), constraints: true}); }
 export function makeIncomingWebhook43a17bfb8144Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook43a17bfb8144Payload"), constraints: true}); }
+export function makeIncomingWebhook44764240a51fPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook44764240a51fPayload"), constraints: true}); }
 export function makeIncomingWebhook44e6923a1369Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook44e6923a1369Payload"), constraints: true}); }
+export function makeIncomingWebhook45be12e0c91dPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook45be12e0c91dPayload"), constraints: true}); }
 export function makeIncomingWebhook46209f173440Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook46209f173440Payload"), constraints: true}); }
 export function makeIncomingWebhook498370f9652cPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook498370f9652cPayload"), constraints: true}); }
 export function makeIncomingWebhook4cf95bc872d3Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook4cf95bc872d3Payload"), constraints: true}); }
@@ -12289,8 +13146,10 @@ export function makeIncomingWebhook54f564ce918cPayload(value) { return modelFrom
 export function makeIncomingWebhook5552ddfae579Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook5552ddfae579Payload"), constraints: true}); }
 export function makeIncomingWebhook566155358f70Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook566155358f70Payload"), constraints: true}); }
 export function makeIncomingWebhook587b04e915e2Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook587b04e915e2Payload"), constraints: true}); }
+export function makeIncomingWebhook588d0bbca380Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook588d0bbca380Payload"), constraints: true}); }
 export function makeIncomingWebhook58b33e47adbePayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook58b33e47adbePayload"), constraints: true}); }
 export function makeIncomingWebhook5bf59a0e8b86Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook5bf59a0e8b86Payload"), constraints: true}); }
+export function makeIncomingWebhook5de06b12da29Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook5de06b12da29Payload"), constraints: true}); }
 export function makeIncomingWebhook60391de8320bPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook60391de8320bPayload"), constraints: true}); }
 export function makeIncomingWebhook607f05b24d65Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook607f05b24d65Payload"), constraints: true}); }
 export function makeIncomingWebhook622846acc8b6Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook622846acc8b6Payload"), constraints: true}); }
@@ -12343,6 +13202,7 @@ export function makeIncomingWebhook993ba0d279b8Payload(value) { return modelFrom
 export function makeIncomingWebhook9a3120a73ba6Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9a3120a73ba6Payload"), constraints: true}); }
 export function makeIncomingWebhook9ae0cd21c3dbPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9ae0cd21c3dbPayload"), constraints: true}); }
 export function makeIncomingWebhook9b7963c3e444Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9b7963c3e444Payload"), constraints: true}); }
+export function makeIncomingWebhook9d6f9adeef1cPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9d6f9adeef1cPayload"), constraints: true}); }
 export function makeIncomingWebhook9f2c64cbfcafPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9f2c64cbfcafPayload"), constraints: true}); }
 export function makeIncomingWebhook9f970012f914Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhook9f970012f914Payload"), constraints: true}); }
 export function makeIncomingWebhooka1881a33c0d8Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhooka1881a33c0d8Payload"), constraints: true}); }
@@ -12371,6 +13231,7 @@ export function makeIncomingWebhookc04d32fcb4e2Payload(value) { return modelFrom
 export function makeIncomingWebhookc3ebf1cf7ec9Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc3ebf1cf7ec9Payload"), constraints: true}); }
 export function makeIncomingWebhookc6907837bb30Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc6907837bb30Payload"), constraints: true}); }
 export function makeIncomingWebhookc71d9380e0c9Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc71d9380e0c9Payload"), constraints: true}); }
+export function makeIncomingWebhookc7c9c518e9d3Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc7c9c518e9d3Payload"), constraints: true}); }
 export function makeIncomingWebhookc823e4336c4aPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc823e4336c4aPayload"), constraints: true}); }
 export function makeIncomingWebhookc82943441c1dPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc82943441c1dPayload"), constraints: true}); }
 export function makeIncomingWebhookc8cb35576c0fPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookc8cb35576c0fPayload"), constraints: true}); }
@@ -12380,6 +13241,7 @@ export function makeIncomingWebhookce317e37a514Payload(value) { return modelFrom
 export function makeIncomingWebhookcf769e4fa54cPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookcf769e4fa54cPayload"), constraints: true}); }
 export function makeIncomingWebhookcfa0fc3e7b61Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookcfa0fc3e7b61Payload"), constraints: true}); }
 export function makeIncomingWebhookcff5d1339489Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookcff5d1339489Payload"), constraints: true}); }
+export function makeIncomingWebhookd299182c6639Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookd299182c6639Payload"), constraints: true}); }
 export function makeIncomingWebhookd2d184df8ba4Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookd2d184df8ba4Payload"), constraints: true}); }
 export function makeIncomingWebhookd429a10e7388Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookd429a10e7388Payload"), constraints: true}); }
 export function makeIncomingWebhookd5308faf7210Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookd5308faf7210Payload"), constraints: true}); }
@@ -12416,6 +13278,7 @@ export function makeIncomingWebhookfce7e0c4eba0Payload(value) { return modelFrom
 export function makeIncomingWebhookfcf5fa4b1850Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookfcf5fa4b1850Payload"), constraints: true}); }
 export function makeIncomingWebhookfd258d9a47caPayload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookfd258d9a47caPayload"), constraints: true}); }
 export function makeIncomingWebhookff9afffd27c6Payload(value) { return modelFromCodec(value, {..._sdkModelCodec("IncomingWebhookff9afffd27c6Payload"), constraints: true}); }
+export function makeInitialGiftCardFunding(value) { return modelFromCodec(value, {..._sdkModelCodec("InitialGiftCardFunding"), constraints: true}); }
 export function makeInlineModifierGroupRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("InlineModifierGroupRequest"), constraints: true}); }
 export function makeInventoryActionRequired(value) { return modelFromCodec(value, {..._sdkModelCodec("InventoryActionRequired"), constraints: true}); }
 export function makeInventoryAdjustment(value) { return modelFromCodec(value, {..._sdkModelCodec("InventoryAdjustment"), constraints: true}); }
@@ -12549,6 +13412,7 @@ export function makeLocationInventoryRequest(value) { return modelFromCodec(valu
 export function makeLocationInventoryResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("LocationInventoryResponse"), constraints: true}); }
 export function makeLocationListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("LocationListResponse"), constraints: true}); }
 export function makeLocationResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("LocationResponse"), constraints: true}); }
+export function makeLookupGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("LookupGiftCardRequest"), constraints: true}); }
 export function makeManualDiscountRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ManualDiscountRequest"), constraints: true}); }
 export function makeMerchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Merchant"), constraints: true}); }
 export function makeMerchantAccountSession(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantAccountSession"), constraints: true}); }
@@ -12625,6 +13489,11 @@ export function makeOrderDraftLineItemTaxCalculationRequest(value) { return mode
 export function makeOrderDraftLineItemTaxRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftLineItemTaxRequest"), constraints: true}); }
 export function makeOrderDraftTaxComponentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftTaxComponentRequest"), constraints: true}); }
 export function makeOrderDraftTaxJurisdictionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftTaxJurisdictionRequest"), constraints: true}); }
+export function makeOrderGiftCardAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardAllocation"), constraints: true}); }
+export function makeOrderGiftCardAllocationAcceptance(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardAllocationAcceptance"), constraints: true}); }
+export function makeOrderGiftCardEstimate(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardEstimate"), constraints: true}); }
+export function makeOrderGiftCardSelection(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardSelection"), constraints: true}); }
+export function makeOrderGiftCardSettlement(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardSettlement"), constraints: true}); }
 export function makeOrderInventoryRoutingSourceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderInventoryRoutingSourceRequest"), constraints: true}); }
 export function makeOrderLineItem(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItem"), constraints: true}); }
 export function makeOrderLineItemModifier(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifier"), constraints: true}); }
@@ -12699,6 +13568,7 @@ export function makePartnerTokenResponse(value) { return modelFromCodec(value, {
 export function makePartnerWebhookEnvelope(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerWebhookEnvelope"), constraints: true}); }
 export function makePauseSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PauseSubscriptionRequest"), constraints: true}); }
 export function makePaymentAddOnFee(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentAddOnFee"), constraints: true}); }
+export function makePaymentAttemptGiftCardRedemption(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentAttemptGiftCardRedemption"), constraints: true}); }
 export function makePaymentAttemptPaymentIntent(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentAttemptPaymentIntent"), constraints: true}); }
 export function makePaymentClientAction(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentClientAction"), constraints: true}); }
 export function makePaymentCollection(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentCollection"), constraints: true}); }
@@ -12823,6 +13693,7 @@ export function makePublishLocationGeographyRequest(value) { return modelFromCod
 export function makePublishReturnPolicyRevisionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PublishReturnPolicyRevisionRequest"), constraints: true}); }
 export function makePublishReturnPolicyRevisionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PublishReturnPolicyRevisionResponse"), constraints: true}); }
 export function makePurchasedEvent(value) { return modelFromCodec(value, {..._sdkModelCodec("PurchasedEvent"), constraints: true}); }
+export function makePurchasedGiftCard(value) { return modelFromCodec(value, {..._sdkModelCodec("PurchasedGiftCard"), constraints: true}); }
 export function makeQueryDeliveryPickupAvailabilityRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("QueryDeliveryPickupAvailabilityRequest"), constraints: true}); }
 export function makeQuotaDetails(value) { return modelFromCodec(value, {..._sdkModelCodec("QuotaDetails"), constraints: true}); }
 export function makeReceiptSettings(value) { return modelFromCodec(value, {..._sdkModelCodec("ReceiptSettings"), constraints: true}); }
@@ -12831,6 +13702,8 @@ export function makeRefund(value) { return modelFromCodec(value, {..._sdkModelCo
 export function makeRefundAdjustmentAudit(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundAdjustmentAudit"), constraints: true}); }
 export function makeRefundAdjustmentReason(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundAdjustmentReason"), constraints: true}); }
 export function makeRefundCharge(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundCharge"), constraints: true}); }
+export function makeRefundGiftCardCode(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundGiftCardCode"), constraints: true}); }
+export function makeRefundGiftCardDestination(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundGiftCardDestination"), constraints: true}); }
 export function makeRefundLineItem(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundLineItem"), constraints: true}); }
 export function makeRefundLineItemAdjustment(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundLineItemAdjustment"), constraints: true}); }
 export function makeRefundLineItemAdjustmentIn(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundLineItemAdjustmentIn"), constraints: true}); }
@@ -12843,12 +13716,16 @@ export function makeRefundListResponse(value) { return modelFromCodec(value, {..
 export function makeRefundResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundResponse"), constraints: true}); }
 export function makeRefundTaxBreakdownRefund(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundTaxBreakdownRefund"), constraints: true}); }
 export function makeRefundTaxBreakdownRefundIn(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundTaxBreakdownRefundIn"), constraints: true}); }
+export function makeRefundTenderAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundTenderAllocation"), constraints: true}); }
+export function makeRefundTenderAllocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundTenderAllocationRequest"), constraints: true}); }
+export function makeRefundUnissuedGiftCardRecovery(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundUnissuedGiftCardRecovery"), constraints: true}); }
 export function makeRegenerateInvoiceLinkResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RegenerateInvoiceLinkResponse"), constraints: true}); }
 export function makeRegenerateInvoiceLinkResult(value) { return modelFromCodec(value, {..._sdkModelCodec("RegenerateInvoiceLinkResult"), constraints: true}); }
 export function makeReleaseInventoryReservationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseInventoryReservationRequest"), constraints: true}); }
 export function makeReleaseReturnResolutionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseReturnResolutionRequest"), constraints: true}); }
 export function makeReleaseReturnResolutionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseReturnResolutionResponse"), constraints: true}); }
 export function makeRemoveDiscountsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveDiscountsRequest"), constraints: true}); }
+export function makeRemoveOrderGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveOrderGiftCardRequest"), constraints: true}); }
 export function makeReopenReturnRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReopenReturnRequest"), constraints: true}); }
 export function makeReopenReturnResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("ReopenReturnResponse"), constraints: true}); }
 export function makeReport(value) { return modelFromCodec(value, {..._sdkModelCodec("Report"), constraints: true}); }
@@ -12951,12 +13828,14 @@ export function makeRiskRuleAttributeRegistryResponse(value) { return modelFromC
 export function makeRiskRuleListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RiskRuleListResponse"), constraints: true}); }
 export function makeRiskRuleResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RiskRuleResponse"), constraints: true}); }
 export function makeRiskRuleValidationResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RiskRuleValidationResponse"), constraints: true}); }
+export function makeRotateGiftCardCodeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RotateGiftCardCodeRequest"), constraints: true}); }
 export function makeRotatePartnerAppSecretResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("RotatePartnerAppSecretResponse"), constraints: true}); }
 export function makeRuleValidation(value) { return modelFromCodec(value, {..._sdkModelCodec("RuleValidation"), constraints: true}); }
 export function makeRuleWarning(value) { return modelFromCodec(value, {..._sdkModelCodec("RuleWarning"), constraints: true}); }
 export function makeSandboxListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SandboxListResponse"), constraints: true}); }
 export function makeSandboxResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SandboxResponse"), constraints: true}); }
 export function makeSandboxWithAPIKeyResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SandboxWithAPIKeyResponse"), constraints: true}); }
+export function makeSaveMeGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SaveMeGiftCardRequest"), constraints: true}); }
 export function makeSaveMePaymentMethodRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SaveMePaymentMethodRequest"), constraints: true}); }
 export function makeSavePaymentMethodRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SavePaymentMethodRequest"), constraints: true}); }
 export function makeSavePaymentMethodResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SavePaymentMethodResponse"), constraints: true}); }
@@ -12964,6 +13843,7 @@ export function makeSavePaymentMethodResult(value) { return modelFromCodec(value
 export function makeScopeRequirement(value) { return modelFromCodec(value, {..._sdkModelCodec("ScopeRequirement"), constraints: true}); }
 export function makeSelectableOrderPaymentIntent(value) { return modelFromCodec(value, {..._sdkModelCodec("SelectableOrderPaymentIntent"), constraints: true}); }
 export function makeSelectedProductOption(value) { return modelFromCodec(value, {..._sdkModelCodec("SelectedProductOption"), constraints: true}); }
+export function makeSendOrderReceiptRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SendOrderReceiptRequest"), constraints: true}); }
 export function makeServiceFulfillmentDetails(value) { return modelFromCodec(value, {..._sdkModelCodec("ServiceFulfillmentDetails"), constraints: true}); }
 export function makeSetDefaultCustomerAddressRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SetDefaultCustomerAddressRequest"), constraints: true}); }
 export function makeSettings(value) { return modelFromCodec(value, {..._sdkModelCodec("Settings"), constraints: true}); }
@@ -12987,6 +13867,7 @@ export function makeSubscriptionAnalytics(value) { return modelFromCodec(value, 
 export function makeSubscriptionAnalyticsResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionAnalyticsResponse"), constraints: true}); }
 export function makeSubscriptionBillingScheduleRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionBillingScheduleRequest"), constraints: true}); }
 export function makeSubscriptionBillingStartRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionBillingStartRequest"), constraints: true}); }
+export function makeSubscriptionCancellationDetails(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionCancellationDetails"), constraints: true}); }
 export function makeSubscriptionLineItem(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionLineItem"), constraints: true}); }
 export function makeSubscriptionListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionListResponse"), constraints: true}); }
 export function makeSubscriptionPaymentRetry(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionPaymentRetry"), constraints: true}); }
@@ -13021,9 +13902,11 @@ export function makeTip(value) { return modelFromCodec(value, {..._sdkModelCodec
 export function makeTipPaymentIntentAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("TipPaymentIntentAllocation"), constraints: true}); }
 export function makeTippingSettings(value) { return modelFromCodec(value, {..._sdkModelCodec("TippingSettings"), constraints: true}); }
 export function makeTippingSettingsPatch(value) { return modelFromCodec(value, {..._sdkModelCodec("TippingSettingsPatch"), constraints: true}); }
+export function makeTipValueSettlementAllocation(value) { return modelFromCodec(value, {..._sdkModelCodec("TipValueSettlementAllocation"), constraints: true}); }
 export function makeTransferOrganizationOwnershipRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TransferOrganizationOwnershipRequest"), constraints: true}); }
 export function makeTransferOrganizationOwnershipResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("TransferOrganizationOwnershipResponse"), constraints: true}); }
 export function makeTransferOrganizationOwnershipResult(value) { return modelFromCodec(value, {..._sdkModelCodec("TransferOrganizationOwnershipResult"), constraints: true}); }
+export function makeTransitionGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TransitionGiftCardRequest"), constraints: true}); }
 export function makeUpdateAPIKeyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateAPIKeyRequest"), constraints: true}); }
 export function makeUpdateBundleComponentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateBundleComponentRequest"), constraints: true}); }
 export function makeUpdateBundleRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateBundleRequest"), constraints: true}); }
@@ -13032,6 +13915,7 @@ export function makeUpdateCategoryRequest(value) { return modelFromCodec(value, 
 export function makeUpdateCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateCheckoutSessionRequest"), constraints: true}); }
 export function makeUpdateCreditNoteRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateCreditNoteRequest"), constraints: true}); }
 export function makeUpdateCustomerAddressRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateCustomerAddressRequest"), constraints: true}); }
+export function makeUpdateCustomerEmailPreferencesRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateCustomerEmailPreferencesRequest"), constraints: true}); }
 export function makeUpdateCustomerRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateCustomerRequest"), constraints: true}); }
 export function makeUpdateDeliveryFulfillmentDetails(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateDeliveryFulfillmentDetails"), constraints: true}); }
 export function makeUpdateDeliveryLocationSetRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateDeliveryLocationSetRequest"), constraints: true}); }
@@ -13042,6 +13926,7 @@ export function makeUpdateDeliveryZoneRequest(value) { return modelFromCodec(val
 export function makeUpdateDeviceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateDeviceRequest"), constraints: true}); }
 export function makeUpdateDigitalFulfillmentDetails(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateDigitalFulfillmentDetails"), constraints: true}); }
 export function makeUpdateFulfillmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateFulfillmentRequest"), constraints: true}); }
+export function makeUpdateGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateGiftCardRequest"), constraints: true}); }
 export function makeUpdateInventoryAllocationPolicyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateInventoryAllocationPolicyRequest"), constraints: true}); }
 export function makeUpdateInventoryCountRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateInventoryCountRequest"), constraints: true}); }
 export function makeUpdateInventoryItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateInventoryItemRequest"), constraints: true}); }
@@ -13217,6 +14102,24 @@ export function makeWebhook_fraud_warning_created_installed_merchants(value) { r
 export function makeWebhook_fraud_warning_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_fraud_warning_created_merchant"), constraints: true}); }
 export function makeWebhook_fraud_warning_updated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_fraud_warning_updated_installed_merchants"), constraints: true}); }
 export function makeWebhook_fraud_warning_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_fraud_warning_updated_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_created_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_created_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_load_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_load_created_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_load_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_load_created_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_load_updated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_load_updated_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_load_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_load_updated_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_notification_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_notification_created_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_notification_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_notification_created_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_notification_updated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_notification_updated_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_notification_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_notification_updated_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_redemption_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_redemption_created_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_redemption_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_redemption_created_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_redemption_updated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_redemption_updated_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_redemption_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_redemption_updated_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_transaction_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_transaction_created_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_transaction_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_transaction_created_merchant"), constraints: true}); }
+export function makeWebhook_gift_card_updated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_updated_installed_merchants"), constraints: true}); }
+export function makeWebhook_gift_card_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_gift_card_updated_merchant"), constraints: true}); }
 export function makeWebhook_inventory_action_required_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_inventory_action_required_merchant"), constraints: true}); }
 export function makeWebhook_inventory_count_applied_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_inventory_count_applied_merchant"), constraints: true}); }
 export function makeWebhook_inventory_level_updated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_inventory_level_updated_merchant"), constraints: true}); }
@@ -13422,6 +14325,8 @@ export function makeWebhook_subscription_activated_installed_merchants(value) { 
 export function makeWebhook_subscription_activated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_activated_merchant"), constraints: true}); }
 export function makeWebhook_subscription_canceled_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_canceled_installed_merchants"), constraints: true}); }
 export function makeWebhook_subscription_canceled_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_canceled_merchant"), constraints: true}); }
+export function makeWebhook_subscription_cancellation_scheduled_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_cancellation_scheduled_installed_merchants"), constraints: true}); }
+export function makeWebhook_subscription_cancellation_scheduled_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_cancellation_scheduled_merchant"), constraints: true}); }
 export function makeWebhook_subscription_created_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_created_installed_merchants"), constraints: true}); }
 export function makeWebhook_subscription_created_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_created_merchant"), constraints: true}); }
 export function makeWebhook_subscription_dunning_exhausted_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_dunning_exhausted_installed_merchants"), constraints: true}); }
@@ -13434,6 +14339,8 @@ export function makeWebhook_subscription_payment_failed_installed_merchants(valu
 export function makeWebhook_subscription_payment_failed_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_payment_failed_merchant"), constraints: true}); }
 export function makeWebhook_subscription_payment_succeeded_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_payment_succeeded_installed_merchants"), constraints: true}); }
 export function makeWebhook_subscription_payment_succeeded_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_payment_succeeded_merchant"), constraints: true}); }
+export function makeWebhook_subscription_reactivated_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_reactivated_installed_merchants"), constraints: true}); }
+export function makeWebhook_subscription_reactivated_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_reactivated_merchant"), constraints: true}); }
 export function makeWebhook_subscription_renewal_upcoming_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_renewal_upcoming_installed_merchants"), constraints: true}); }
 export function makeWebhook_subscription_renewal_upcoming_merchant(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_renewal_upcoming_merchant"), constraints: true}); }
 export function makeWebhook_subscription_resumed_installed_merchants(value) { return modelFromCodec(value, {..._sdkModelCodec("Webhook_subscription_resumed_installed_merchants"), constraints: true}); }

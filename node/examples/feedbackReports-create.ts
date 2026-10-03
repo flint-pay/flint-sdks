@@ -12,7 +12,7 @@ const result = await client.feedbackReports.create(
     kind: "rating",
     surface: "api",
     sentiment: "positive",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.feedback_report_id);

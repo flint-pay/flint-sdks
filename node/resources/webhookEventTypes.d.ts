@@ -14,7 +14,7 @@ export interface WebhookEventTypesResource {
  * Returns the webhook event types that can be used in enabled_events and event_type filters, grouped by the event source each type is valid for.
  * GET /v1/webhook-event-types
  * @example
- * client.webhookEventTypes.list({})
+ * client.webhookEventTypes.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEventTypeListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

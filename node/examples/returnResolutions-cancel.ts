@@ -11,8 +11,8 @@ const result = await client.returnResolutions.cancel(
   "example",
   {
     reason: "buyer_request",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_id);
 console.log(result.return_resolution_id);

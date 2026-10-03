@@ -20,8 +20,7 @@ $result = $client->inventoryTransfers->create([
     ],
   ],
   'origin_location_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->destination_location_id . PHP_EOL;
 echo $result->inventory_transfer_id . PHP_EOL;
 $client->close();

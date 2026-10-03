@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->riskLists->getItem('example', 'example', []);
+$result = $client->riskLists->getItem('example', 'example');
 echo $result->risk_list_id . PHP_EOL;
 echo $result->risk_list_item_id . PHP_EOL;
 $client->close();

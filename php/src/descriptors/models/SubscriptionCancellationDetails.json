@@ -1,0 +1,1 @@
+{"shared":"SubscriptionCancellationDetails","phpRepresentation":{"kind":"record","fields":{"comment":{"kind":"value","type":"string"},"reason_code":{"kind":"value","type":"string"},"requested_at":{"kind":"value","type":"string"},"requested_by":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionCancellationDetails"]}

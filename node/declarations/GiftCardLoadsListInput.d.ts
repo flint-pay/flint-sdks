@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type GiftCardLoadsListInput = { "X-Request-Id"?: InputValue<string>; /** Format: date-time. */ "from_at"?: InputValue<string | globalThis.Date>; /** maxLength: 255. */ "gift_card_id"?: InputValue<string>; /** maxLength: 255. */ "idempotency_key"?: InputValue<string>; /** maxLength: 255. */ "order_id"?: InputValue<string>; /** minimum: 1. maximum: 100. */ "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; /** maxLength: 255. */ "source_id"?: InputValue<string>; /** maxLength: 255. */ "source_type"?: InputValue<"adjustment" | "external_payment" | "flint_manual_payment" | "flint_payment" | "gift_card_purchase_refund_recovery" | "gift_card_refund" | "import">; /** Format: date-time. */ "until_at"?: InputValue<string | globalThis.Date>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

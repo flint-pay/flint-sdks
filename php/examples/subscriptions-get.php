@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->subscriptions->get('example', []);
+$result = $client->subscriptions->get('example');
 echo $result->customer_id . PHP_EOL;
 echo $result->payment_method_id . PHP_EOL;
 $client->close();

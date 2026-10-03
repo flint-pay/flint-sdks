@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->payoutSettings->listPayoutDestinations([]);
+$result = $client->payoutSettings->listPayoutDestinations();
 $client->close();

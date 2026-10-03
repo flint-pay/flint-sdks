@@ -18,8 +18,8 @@ const result = await client.inventoryReservations.create(
       expires_at: "2026-01-01T00:00:00Z",
       key: "example",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_reservation.inventory_reservation_id);
 console.log(result.inventory_reservation.status);

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->paymentIntents->get('example', []);
+$result = $client->paymentIntents->get('example');
 echo $result->payment_intent_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

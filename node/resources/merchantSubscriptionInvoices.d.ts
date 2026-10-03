@@ -18,7 +18,7 @@ export interface MerchantSubscriptionInvoicesResource {
  * Returns one invoice issued by Flint for the authenticated merchant environment.
  * GET /v1/merchant-subscription-invoices/{merchant_subscription_invoice_id}
  * @example
- * client.merchantSubscriptionInvoices.get("example", {})
+ * client.merchantSubscriptionInvoices.get("example")
  */
     get(merchant_subscription_invoice_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantSubscriptionInvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface MerchantSubscriptionInvoicesResource {
  * Returns invoices issued by Flint for the authenticated merchant environment.
  * GET /v1/merchant-subscription-invoices
  * @example
- * client.merchantSubscriptionInvoices.list({})
+ * client.merchantSubscriptionInvoices.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantSubscriptionInvoiceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

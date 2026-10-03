@@ -16,8 +16,7 @@ $result = $client->deliveryLocationSets->create([
   'configuration' => (object) [
     'location_ids' => [],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_location_set_revision_id . PHP_EOL;
 echo $result->delivery_location_set_id . PHP_EOL;
 $client->close();

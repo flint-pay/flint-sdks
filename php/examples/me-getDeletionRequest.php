@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->getDeletionRequest('example', []);
+$result = $client->me->getDeletionRequest('example');
 echo $result->customer_deletion_request_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

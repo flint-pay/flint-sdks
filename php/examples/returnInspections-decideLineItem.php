@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->returnInspections->decideLineItem('example', 'example', [
   'acceptance_decision_reason' => 'inspection_result',
   'acceptance_status' => 'accepted',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->location_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

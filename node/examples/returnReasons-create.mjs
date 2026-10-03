@@ -11,8 +11,8 @@ const result = await client.returnReasons.create(
   {
     handle: "example",
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_reason_id);
 console.log(result.status);

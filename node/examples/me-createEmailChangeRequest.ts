@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.me.createEmailChangeRequest(
   {
     new_email: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
 console.log(result.email_change_request_id);

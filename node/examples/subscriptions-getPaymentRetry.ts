@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.subscriptions.getPaymentRetry(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.status);
 console.log(result.subscription_id);

@@ -80,7 +80,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.assessLateFee("example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.assessLateFee("example", {}, { idempotencyKey: idempotencyKey })
  */
     assessLateFee(invoice_id: InputValue<string>, params: (InputValue<{ "invoice_schedule_entry_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -91,7 +91,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.cancelPaymentAttempt("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.cancelPaymentAttempt("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     cancelPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentAttemptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -102,7 +102,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.collect("example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.collect("example", {}, { idempotencyKey: idempotencyKey })
  */
     collect(invoice_id: InputValue<string>, params: (InputValue<{ "invoice_schedule_entry_id"?: string; "payment_method_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CollectInvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -113,7 +113,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.create({order_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.invoices.create({order_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: ({ "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external"; "payment_method_id"?: string; "payment_policy"?: InvoicePaymentPolicyInput; }) & ((({ "mode"?: "merchant_default"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never }))) | (({ "mode"?: "buyer_initiated"; }) & (({ "payment_method_id"?: never }))) | (({ "mode"?: "automatic"; }) & (({ "payment_policy"?: never }))) | (({ "mode"?: "external"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never })))); "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: ({ "due_at"?: string | globalThis.Date; "invoice_payment_term_id"?: string; "type": "none" | "absolute" | "payment_terms" | "customer_default" | "merchant_default"; }) & ((({ "type"?: "none"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "absolute"; "due_at": unknown; }) & ({ "invoice_payment_term_id"?: never })) | (({ "type"?: "payment_terms"; "invoice_payment_term_id": unknown; }) & ({ "due_at"?: never })) | (({ "type"?: "customer_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "merchant_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never })))); "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -122,7 +122,7 @@ export interface InvoicesResource {
  * Returns a single invoice by ID.
  * GET /v1/invoices/{invoice_id}
  * @example
- * client.invoices.get("example", {})
+ * client.invoices.get("example")
  */
     get(invoice_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -131,7 +131,7 @@ export interface InvoicesResource {
  * Returns one card or ACH collection attempt for the invoice.
  * GET /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}
  * @example
- * client.invoices.getPaymentAttempt("example", "example", {})
+ * client.invoices.getPaymentAttempt("example", "example")
  */
     getPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InvoicePaymentAttemptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -140,27 +140,27 @@ export interface InvoicesResource {
  * Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  * GET /v1/invoices/{invoice_id}/pdf
  * @example
- * client.invoices.getPDF("example", {})
+ * client.invoices.getPDF("example")
  */
     getPDF(invoice_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<InvoicesGetPDFResponse>>;
     /**
- * Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item.
+ * Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
  * POST /v1/invoices/{invoice_id}/checkout-session
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.getOrCreateCheckoutSession("example", undefined)
+ * client.invoices.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; }> | { "invoice_schedule_entry_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
+    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; }> | { "invoice_schedule_entry_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.issue("example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.issue("example", {}, { idempotencyKey: idempotencyKey })
  */
     issue(invoice_id: InputValue<string>, params: (InputValue<{ "delivery_mode"?: "merchant_default" | "email" | "caller_managed"; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<IssueInvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -169,7 +169,7 @@ export interface InvoicesResource {
  * Returns email delivery attempts for send and reminder actions.
  * GET /v1/invoices/{invoice_id}/delivery-attempts
  * @example
- * client.invoices.listDeliveryAttempts("example", {})
+ * client.invoices.listDeliveryAttempts("example")
  */
     listDeliveryAttempts(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceDeliveryAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -181,7 +181,7 @@ export interface InvoicesResource {
  * Returns the audit timeline for an invoice.
  * GET /v1/invoices/{invoice_id}/events
  * @example
- * client.invoices.listEvents("example", {})
+ * client.invoices.listEvents("example")
  */
     listEvents(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceEventListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -193,7 +193,7 @@ export interface InvoicesResource {
  * Lists card and ACH collection attempts for an invoice in reverse chronological order.
  * GET /v1/invoices/{invoice_id}/payment-attempts
  * @example
- * client.invoices.listPaymentAttempts("example", {})
+ * client.invoices.listPaymentAttempts("example")
  */
     listPaymentAttempts(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -205,7 +205,7 @@ export interface InvoicesResource {
  * Returns a paginated list of invoices for the authenticated merchant.
  * GET /v1/invoices
  * @example
- * client.invoices.list({})
+ * client.invoices.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>; "customer_id"?: InputValue<string>; "order_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "due_after"?: InputValue<string | globalThis.Date>; "due_before"?: InputValue<string | globalThis.Date>; "is_overdue"?: InputValue<boolean>; "has_amount_due"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">; "sort_direction"?: InputValue<"asc" | "desc">; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -219,7 +219,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.markUncollectible("example", undefined)
+ * client.invoices.markUncollectible("example", undefined, { idempotencyKey: idempotencyKey })
  */
     markUncollectible(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -230,7 +230,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.pauseReminders("example", undefined)
+ * client.invoices.pauseReminders("example", undefined, { idempotencyKey: idempotencyKey })
  */
     pauseReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -241,7 +241,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.recordManualPayment("example", {amount_money: {amount: "0", currency: "USD"}, "Idempotency-Key": idempotencyKey})
+ * client.invoices.recordManualPayment("example", {amount_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
     recordManualPayment(invoice_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "note"?: string; "received_at"?: string | globalThis.Date; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -252,7 +252,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.regeneratePublicLink("example", undefined)
+ * client.invoices.regeneratePublicLink("example", undefined, { idempotencyKey: idempotencyKey })
  */
     regeneratePublicLink(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RegenerateInvoiceLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -263,7 +263,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.resumeReminders("example", undefined)
+ * client.invoices.resumeReminders("example", undefined, { idempotencyKey: idempotencyKey })
  */
     resumeReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -274,7 +274,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.reverseManualPayment("example", {amount_money: {amount: "0", currency: "USD"}, "Idempotency-Key": idempotencyKey})
+ * client.invoices.reverseManualPayment("example", {amount_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
     reverseManualPayment(invoice_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "note"?: string; "received_at"?: string | globalThis.Date; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -285,7 +285,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.sendReminder("example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.sendReminder("example", {}, { idempotencyKey: idempotencyKey })
  */
     sendReminder(invoice_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<IssueInvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -296,7 +296,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.invoices.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -307,7 +307,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.voidResource("example", undefined)
+ * client.invoices.voidResource("example", undefined, { idempotencyKey: idempotencyKey })
  */
     voidResource(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -318,7 +318,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.waiveLateFee("example", "example", {reason: "example", "Idempotency-Key": idempotencyKey})
+ * client.invoices.waiveLateFee("example", "example", {reason: "example"}, { idempotencyKey: idempotencyKey })
  */
     waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -418,6 +418,7 @@ export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFu
 export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
 export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
 export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPurchaseRecipientInput.js';
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
 export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
@@ -431,6 +432,7 @@ export type { InvoiceScheduleDueInput } from '../declarations/InvoiceScheduleDue
 export type { InvoiceCheckoutSessionResult } from '../declarations/InvoiceCheckoutSessionResult.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
@@ -510,6 +512,7 @@ export type { InvoiceTip } from '../declarations/InvoiceTip.js';
 export type { RegenerateInvoiceLinkResult } from '../declarations/RegenerateInvoiceLinkResult.js';
 export type { AssessInvoiceLateFeeRequestInput } from '../declarations/AssessInvoiceLateFeeRequestInput.js';
 export type { CollectInvoiceRequestInput } from '../declarations/CollectInvoiceRequestInput.js';
+export type { InvoiceCheckoutSessionRequestInput } from '../declarations/InvoiceCheckoutSessionRequestInput.js';
 export type { IssueInvoiceRequestInput } from '../declarations/IssueInvoiceRequestInput.js';
 export type { ResourceVersionRequestInput } from '../declarations/ResourceVersionRequestInput.js';
 export type { InvoiceManualPaymentRequestInput } from '../declarations/InvoiceManualPaymentRequestInput.js';
@@ -536,6 +539,7 @@ export { makeCollectInvoiceResult } from '../declarations/makeCollectInvoiceResu
 export { makeInvoiceCheckoutSessionResult } from '../declarations/makeInvoiceCheckoutSessionResult.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->merchantSubscriptionInvoices->get('example', []);
+$result = $client->merchantSubscriptionInvoices->get('example');
 echo $result->merchant_subscription_invoice_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

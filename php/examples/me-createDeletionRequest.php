@@ -11,9 +11,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createDeletionRequest([
-  'Idempotency-Key' => $idempotencyKey,
-]);
+$result = $client->me->createDeletionRequest([], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_deletion_request_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

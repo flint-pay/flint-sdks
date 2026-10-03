@@ -14,7 +14,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->inventoryAdjustments->create([
   'lines' => [],
   'reason' => 'received_stock',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_adjustment->inventory_adjustment_id . PHP_EOL;
 $client->close();

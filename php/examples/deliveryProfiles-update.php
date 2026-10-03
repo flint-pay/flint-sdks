@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryProfiles->update('example', [
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_profile_revision_id . PHP_EOL;
 echo $result->delivery_profile_id . PHP_EOL;
 $client->close();

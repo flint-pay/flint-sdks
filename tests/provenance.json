@@ -28,7 +28,9 @@
   },
   "riskOverride": {
     "pointer": "/components/schemas/AddRiskListItemsRequest/required",
-    "original": ["values"],
+    "original": [
+      "values"
+    ],
     "replacement": [],
     "reason": "The exported required list contradicts its oneOf. The handler accepts exactly one of value or values; the profile removes only the redundant required list."
   },
@@ -59,11 +61,11 @@
   "apiVersion": "2026-09-07",
   "fullSpec": {
     "repository": "flint-pay/flint",
-    "revision": "5c7ae53a9ee3dd741847e2fba0825ff1c29b420e",
+    "revision": "7371f839471a98516461709ea17e1625b4da636a",
     "source": "web/apps/developers/src/generated/openapi.json",
-    "sourceSha256": "5cac6c49ca4b9b789f6a5059e716228ec3e7c267cc0fa4677abbdb6dd1302711",
+    "sourceSha256": "c50ad61fe29c534f56794be4c63c263021059614308d03d02d21b73a17b7e50e",
     "apiVersion": "2026-09-07",
-    "basis": "Unmodified export retained from the pinned upstream main revision for this SDK release.",
+    "basis": "Public API export from the committed buyer gift card implementation combined with current main; the source hash pins the exact bytes.",
     "profileCorrections": {
       "basis": "Full export remains byte-for-byte unchanged; provider-specific names, examples, credentials, and event payload bindings are explicit SDK profiles.",
       "modelNames": {

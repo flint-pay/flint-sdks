@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnResolutions->release('example', [
   'reason' => 'merchant_approved',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_id . PHP_EOL;
 echo $result->return_resolution_id . PHP_EOL;
 $client->close();

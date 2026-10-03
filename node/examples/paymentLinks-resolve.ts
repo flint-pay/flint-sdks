@@ -10,8 +10,8 @@ const result = await client.paymentLinks.resolve(
   "example",
   {
     resolution_context: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session.checkout_session_id);
 console.log(result.checkout_session.status);

@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->customers->get('example', []);
+$result = $client->customers->get('example');
 echo $result->customer_id . PHP_EOL;
 $client->close();

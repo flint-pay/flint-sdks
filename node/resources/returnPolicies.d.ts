@@ -36,7 +36,7 @@ export interface ReturnPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}, "Idempotency-Key": idempotencyKey})
+ * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -47,7 +47,7 @@ export interface ReturnPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnPolicies.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -56,7 +56,7 @@ export interface ReturnPoliciesResource {
  * Retrieve one Return policy. Supports expand for current_revision.
  * GET /v1/return-policies/{return_policy_id}
  * @example
- * client.returnPolicies.get("example", {})
+ * client.returnPolicies.get("example")
  */
     get(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -65,7 +65,7 @@ export interface ReturnPoliciesResource {
  * Retrieve one immutable policy revision, including the exact rules a Return was evaluated against.
  * GET /v1/return-policies/{return_policy_id}/revisions/{return_policy_revision_id}
  * @example
- * client.returnPolicies.getRevision("example", "example", {})
+ * client.returnPolicies.getRevision("example", "example")
  */
     getRevision(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyRevisionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -74,7 +74,7 @@ export interface ReturnPoliciesResource {
  * List Return policies with their status and current revision.
  * GET /v1/return-policies
  * @example
- * client.returnPolicies.list({})
+ * client.returnPolicies.list()
  */
     list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPoliciesResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -86,7 +86,7 @@ export interface ReturnPoliciesResource {
  * List every published revision of a Return policy.
  * GET /v1/return-policies/{return_policy_id}/revisions
  * @example
- * client.returnPolicies.listRevisions("example", {})
+ * client.returnPolicies.listRevisions("example")
  */
     listRevisions(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPolicyRevisionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -100,7 +100,7 @@ export interface ReturnPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.publishRevision("example", {expected_current_return_policy_revision_id: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}, "Idempotency-Key": idempotencyKey})
+ * client.returnPolicies.publishRevision("example", {expected_current_return_policy_revision_id: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
  */
     publishRevision(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -111,7 +111,7 @@ export interface ReturnPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnPolicies.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

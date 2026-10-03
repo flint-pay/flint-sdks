@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/returns.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
 export class Client {
@@ -454,6 +454,9 @@ export { makePricingAmounts } from '../models/PricingAmounts.js';
 export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
 export { makeSignedMoney } from '../models/SignedMoney.js';
 export { makePaymentRefund } from '../models/PaymentRefund.js';
+export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
+export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
 export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
 export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
@@ -473,6 +476,7 @@ export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetai
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeImage } from '../models/Image.js';
 export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
+export { makeBuyerAction } from '../models/BuyerAction.js';
 export { makeReturnCompletionBlocker } from '../models/ReturnCompletionBlocker.js';
 export { makeReturnFinancialSummary } from '../models/ReturnFinancialSummary.js';
 export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement.js';

@@ -34,7 +34,7 @@ export interface BundlesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.create({name: "example", unit_price_money: {amount: "0", currency: "USD"}, "Idempotency-Key": idempotencyKey})
+ * client.bundles.create({name: "example", unit_price_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<CreateBundleComponentRequestInput>; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money": MoneyValueInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -45,7 +45,7 @@ export interface BundlesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.bundles.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(bundle_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -54,7 +54,7 @@ export interface BundlesResource {
  * Get bundle.
  * GET /v1/bundles/{bundle_id}
  * @example
- * client.bundles.get("example", {})
+ * client.bundles.get("example")
  */
     get(bundle_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"modifier_set">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -63,7 +63,7 @@ export interface BundlesResource {
  * List bundle components.
  * GET /v1/bundles/{bundle_id}/components
  * @example
- * client.bundles.listComponents("example", {})
+ * client.bundles.listComponents("example")
  */
     listComponents(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleComponentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -75,7 +75,7 @@ export interface BundlesResource {
  * List bundles.
  * GET /v1/bundles
  * @example
- * client.bundles.list({})
+ * client.bundles.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -89,7 +89,7 @@ export interface BundlesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.bundles.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(bundle_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<UpdateBundleComponentRequestInput>; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "components"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

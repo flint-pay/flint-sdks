@@ -17,8 +17,8 @@ const result = await client.subscriptions.create(
     billing_schedule: {
       owner: "flint",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
 console.log(result.payment_method_id);

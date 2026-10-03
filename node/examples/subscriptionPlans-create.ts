@@ -13,8 +13,8 @@ const result = await client.subscriptionPlans.create(
     billing_interval_count: 1,
     currency: "USD",
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.plan_id);
 console.log(result.status);
