@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
+import type { MeGetSubscriptionPaymentRetryInput } from './MeGetSubscriptionPaymentRetryInput.js';
 
-
-export type SubscriptionsGetPaymentRetryInput = { "subscription_id": InputValue<string>; "subscription_payment_retry_id": InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };
+export type SubscriptionsGetPaymentRetryInput = MeGetSubscriptionPaymentRetryInput;

@@ -16,6 +16,7 @@ import type { BuyerInvoiceListResponse } from '../declarations/BuyerInvoiceListR
 import type { BuyerInvoiceResponse } from '../declarations/BuyerInvoiceResponse.js';
 import type { BuyerRefund } from '../declarations/BuyerRefund.js';
 import type { BuyerRefundListResponse } from '../declarations/BuyerRefundListResponse.js';
+import type { BuyerSubscriptionPaymentRetryResponse } from '../declarations/BuyerSubscriptionPaymentRetryResponse.js';
 import type { CancelSubscriptionResponse } from '../declarations/CancelSubscriptionResponse.js';
 import type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSessionLaunchResponse.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -84,6 +85,8 @@ import type { MeGetResponse } from '../declarations/MeGetResponse.js';
 import type { MeGetReturnInput } from '../declarations/MeGetReturnInput.js';
 import type { MeGetReturnResponse } from '../declarations/MeGetReturnResponse.js';
 import type { MeGetSubscriptionInput } from '../declarations/MeGetSubscriptionInput.js';
+import type { MeGetSubscriptionPaymentRetryInput } from '../declarations/MeGetSubscriptionPaymentRetryInput.js';
+import type { MeGetSubscriptionPaymentRetryResponse } from '../declarations/MeGetSubscriptionPaymentRetryResponse.js';
 import type { MeGetSubscriptionResponse } from '../declarations/MeGetSubscriptionResponse.js';
 import type { MeListAddressesInput } from '../declarations/MeListAddressesInput.js';
 import type { MeListAddressesResponse } from '../declarations/MeListAddressesResponse.js';
@@ -129,6 +132,8 @@ import type { MeResendOrderReceiptInput } from '../declarations/MeResendOrderRec
 import type { MeResendOrderReceiptResponse } from '../declarations/MeResendOrderReceiptResponse.js';
 import type { MeResumeSubscriptionInput } from '../declarations/MeResumeSubscriptionInput.js';
 import type { MeResumeSubscriptionResponse } from '../declarations/MeResumeSubscriptionResponse.js';
+import type { MeRetrySubscriptionPaymentInput } from '../declarations/MeRetrySubscriptionPaymentInput.js';
+import type { MeRetrySubscriptionPaymentResponse } from '../declarations/MeRetrySubscriptionPaymentResponse.js';
 import type { MeSaveGiftCardInput } from '../declarations/MeSaveGiftCardInput.js';
 import type { MeSaveGiftCardResponse } from '../declarations/MeSaveGiftCardResponse.js';
 import type { MeSavePaymentMethodInput } from '../declarations/MeSavePaymentMethodInput.js';
@@ -349,6 +354,17 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createReturnResolutionCheckoutSessionWithResponse(resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCreateReturnResolutionCheckoutSessionResponse>>;
     /**
+ * Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
+ * POST /v1/me/subscriptions/{subscription_id}/payment-retries
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.retrySubscriptionPayment("example", undefined, { idempotencyKey: idempotencyKey })
+ */
+    retrySubscriptionPayment(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<BuyerSubscriptionPaymentRetryResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    retrySubscriptionPaymentWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeRetrySubscriptionPaymentResponse>>;
+    /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved address and moves any default designation to the newest remaining address.
  * DELETE /v1/me/addresses/{customer_address_id}
  * @example
@@ -472,6 +488,15 @@ export interface MeResource {
     getSubscription(subscription_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getSubscriptionWithResponse(subscription_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetSubscriptionResponse>>;
+    /**
+ * Uses the customer identity fixed by the customer session. Returns one durable manual subscription payment retry.
+ * GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
+ * @example
+ * client.me.getSubscriptionPaymentRetry("example", "example")
+ */
+    getSubscriptionPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<BuyerSubscriptionPaymentRetryResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    getSubscriptionPaymentRetryWithResponse(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetSubscriptionPaymentRetryResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the customer's saved addresses with billing and shipping default flags.
  * GET /v1/me/addresses
@@ -843,6 +868,8 @@ export type { CreateReturnPreviewResponse } from '../declarations/CreateReturnPr
 export type { MeCreateReturnPreviewResponse } from '../declarations/MeCreateReturnPreviewResponse.js';
 export type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSessionLaunchResponse.js';
 export type { MeCreateReturnResolutionCheckoutSessionResponse } from '../declarations/MeCreateReturnResolutionCheckoutSessionResponse.js';
+export type { BuyerSubscriptionPaymentRetryResponse } from '../declarations/BuyerSubscriptionPaymentRetryResponse.js';
+export type { MeRetrySubscriptionPaymentResponse } from '../declarations/MeRetrySubscriptionPaymentResponse.js';
 export type { ActionResponse } from '../declarations/ActionResponse.js';
 export type { MeDeleteAddressResponse } from '../declarations/MeDeleteAddressResponse.js';
 export type { CustomerResponse } from '../declarations/CustomerResponse.js';
@@ -865,6 +892,7 @@ export type { PaymentMethodResponse } from '../declarations/PaymentMethodRespons
 export type { MeGetPaymentMethodResponse } from '../declarations/MeGetPaymentMethodResponse.js';
 export type { MeGetReturnResponse } from '../declarations/MeGetReturnResponse.js';
 export type { MeGetSubscriptionResponse } from '../declarations/MeGetSubscriptionResponse.js';
+export type { MeGetSubscriptionPaymentRetryResponse } from '../declarations/MeGetSubscriptionPaymentRetryResponse.js';
 export type { CustomerAddressListResponse } from '../declarations/CustomerAddressListResponse.js';
 export type { MeListAddressesResponse } from '../declarations/MeListAddressesResponse.js';
 export type { CustomerAddress } from '../declarations/CustomerAddress.js';
@@ -984,6 +1012,7 @@ export type { MerchantAccountSessionsCreateResponse } from '../declarations/Merc
 export type { MeCreateReturnInput } from '../declarations/MeCreateReturnInput.js';
 export type { MeCreateReturnPreviewInput } from '../declarations/MeCreateReturnPreviewInput.js';
 export type { MeCreateReturnResolutionCheckoutSessionInput } from '../declarations/MeCreateReturnResolutionCheckoutSessionInput.js';
+export type { MeRetrySubscriptionPaymentInput } from '../declarations/MeRetrySubscriptionPaymentInput.js';
 export type { MeDeleteAddressInput } from '../declarations/MeDeleteAddressInput.js';
 export type { MeGetInput } from '../declarations/MeGetInput.js';
 export type { MeGetAddressInput } from '../declarations/MeGetAddressInput.js';
@@ -1004,6 +1033,7 @@ export type { MerchantSubscriptionInvoicesGetInput } from '../declarations/Merch
 export type { MerchantSubscriptionInvoicesGetResponse } from '../declarations/MerchantSubscriptionInvoicesGetResponse.js';
 export type { MeGetReturnInput } from '../declarations/MeGetReturnInput.js';
 export type { MeGetSubscriptionInput } from '../declarations/MeGetSubscriptionInput.js';
+export type { MeGetSubscriptionPaymentRetryInput } from '../declarations/MeGetSubscriptionPaymentRetryInput.js';
 export type { MeListAddressesInput } from '../declarations/MeListAddressesInput.js';
 export type { MeListCreditNotesInput } from '../declarations/MeListCreditNotesInput.js';
 export type { MeListDeletionRequestsInput } from '../declarations/MeListDeletionRequestsInput.js';
@@ -1161,6 +1191,8 @@ export type { ReturnReplacementLineItem } from '../declarations/ReturnReplacemen
 export type { ReturnResolutionWarning } from '../declarations/ReturnResolutionWarning.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
+export type { BuyerSubscriptionPaymentRetry } from '../declarations/BuyerSubscriptionPaymentRetry.js';
+export type { SubscriptionPaymentRetryFailure } from '../declarations/SubscriptionPaymentRetryFailure.js';
 export type { ActionResult } from '../declarations/ActionResult.js';
 export type { Customer } from '../declarations/Customer.js';
 export type { CustomerReceivableBalance } from '../declarations/CustomerReceivableBalance.js';
@@ -1259,6 +1291,7 @@ export { makeCustomerDeletionRequestResponse } from '../declarations/makeCustome
 export { makeInvoiceCheckoutSessionResponse } from '../declarations/makeInvoiceCheckoutSessionResponse.js';
 export { makeCreateReturnPreviewResponse } from '../declarations/makeCreateReturnPreviewResponse.js';
 export { makeCheckoutSessionLaunchResponse } from '../declarations/makeCheckoutSessionLaunchResponse.js';
+export { makeBuyerSubscriptionPaymentRetryResponse } from '../declarations/makeBuyerSubscriptionPaymentRetryResponse.js';
 export { makeActionResponse } from '../declarations/makeActionResponse.js';
 export { makeCustomerResponse } from '../declarations/makeCustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../declarations/makeBuyerCreditNoteResponse.js';
@@ -1434,6 +1467,8 @@ export { makeReturnReplacementLineItem } from '../declarations/makeReturnReplace
 export { makeReturnResolutionWarning } from '../declarations/makeReturnResolutionWarning.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
+export { makeBuyerSubscriptionPaymentRetry } from '../declarations/makeBuyerSubscriptionPaymentRetry.js';
+export { makeSubscriptionPaymentRetryFailure } from '../declarations/makeSubscriptionPaymentRetryFailure.js';
 export { makeActionResult } from '../declarations/makeActionResult.js';
 export { makeCustomer } from '../declarations/makeCustomer.js';
 export { makeCustomerReceivableBalance } from '../declarations/makeCustomerReceivableBalance.js';

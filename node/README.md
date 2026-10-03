@@ -1,6 +1,6 @@
 # Flint Public API SDK (node)
 
-Package 3.0.0-beta.20261003180312; generated for API 2026-09-07.
+Package 3.0.0-beta.20261003201615; generated for API 2026-09-07.
 
 Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts.
 
@@ -14,7 +14,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 
 Requires Node.js 22+ for ESM imports, or Node.js 22.12+ for `require()` from CommonJS. ESM JavaScript and declarations ship together. TypeScript consumers require TypeScript 5.9+ with NodeNext module resolution and a compatible `@types/node` version (22.16.0+), installed as a development dependency, for example `npm install --save-dev @types/node@22`. Node types are an optional peer dependency; JavaScript consumers do not need TypeScript or Node types.
 
-Install: `npm install @flintpay/node@3.0.0-beta.20261003180312`
+Install: `npm install @flintpay/node@3.0.0-beta.20261003201615`
 
 ## Quickstart
 

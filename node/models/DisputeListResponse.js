@@ -1,7 +1,7 @@
-import { d754 as c0, d755 as c1, d87 as c2, d42 as c3, d132 as c4, d74 as c5, d1784 as c6, d1783 as c7, d1954 as c8, d1955 as c9, d1957 as c10, d1994 as c11, d2119 as c12, d2120 as c13, d2281 as c14, d752 as c15, d753 as c16, d43 as c17, d1804 as c18 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
-import { d755 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
+import { d756 as c0, d757 as c1, d87 as c2, d42 as c3, d132 as c4, d74 as c5, d1786 as c6, d1785 as c7, d1956 as c8, d1957 as c9, d1959 as c10, d1996 as c11, d2121 as c12, d2122 as c13, d2283 as c14, d754 as c15, d755 as c16, d43 as c17, d1806 as c18 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d757 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d755;
+const read = d757;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["Dispute"]:c0(),["DisputeListResponse"]:c1(),["ExpandedCustomerSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["ExpandedPaymentIntentSummary"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["PaymentSourceAchDebitSummary"]:c8(),["PaymentSourceCardSummary"]:c9(),["PaymentSourceSummary"]:c10(),["PricingAmounts"]:c11(),["ResponseMeta"]:c12(),["ResponseWarning"]:c13(),["SettlementAmounts"]:c14(),["SharedCodec239"]:c15(),["SharedCodec240"]:c16(),["SharedCodec7"]:c17(),["SignedMoney"]:c18()}); }
 export { codec as _validate };

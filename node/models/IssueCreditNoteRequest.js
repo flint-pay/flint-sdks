@@ -1,7 +1,7 @@
-import { d530 as c0, d1712 as c1, d74 as c2 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
-import { d1712 } from '../descriptors/data.js?sdk=41ea09ad124ffa3bdfba4a8208bd0391cd6fb609c70d062a00cb64936b55a83b';
+import { d532 as c0, d1714 as c1, d74 as c2 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d1714 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1712;
+const read = d1714;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreditNoteRefundRequest"]:c0(),["IssueCreditNoteRequest"]:c1(),["MoneyValue"]:c2()}); }
 export { codec as _validate };
