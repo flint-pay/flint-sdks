@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->categories->get('example', []);
+$result = $client->categories->get('example');
 echo $result->category_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -1,7 +1,7 @@
-import { d1427 as c0, d1463 as c1, d1464 as c2, d1465 as c3, d100 as c4, d69 as c5, d1646 as c6, d1645 as c7, d1947 as c8, d1959 as c9, d1960 as c10 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d1464 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d1564 as c0, d1600 as c1, d1601 as c2, d1602 as c3, d106 as c4, d74 as c5, d1784 as c6, d1783 as c7, d2106 as c8, d2118 as c9, d2119 as c10 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d1601 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1464;
+const read = d1601;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InventoryActionRequired"]:c0(),["InventoryReservation"]:c1(),["InventoryReservationListResponse"]:c2(),["InventoryReservationOwner"]:c3(),["InventoryRoutingSource"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["ReservationLine"]:c8(),["ResponseMeta"]:c9(),["ResponseWarning"]:c10()}); }
 export { codec as _validate };

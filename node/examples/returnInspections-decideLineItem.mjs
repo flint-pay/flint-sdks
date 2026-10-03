@@ -13,8 +13,8 @@ const result = await client.returnInspections.decideLineItem(
   {
     acceptance_decision_reason: "inspection_result",
     acceptance_status: "accepted",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.location_id);
 console.log(result.return_id);

@@ -13,7 +13,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->inventoryReceipts->create([
   'lines' => [],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_receipt->inventory_receipt_id . PHP_EOL;
 $client->close();

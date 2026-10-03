@@ -1,1 +1,1 @@
-{"shared":"CustomerAccountSettings","dependencies":["CustomerAccountPresentation","CustomerAccountRouteTemplates","CustomerAccountSettings"]}
+{"shared":"CustomerAccountSettings","dependencies":["BuyerCapabilities","BuyerPauseCapability","BuyerRetentionOffer","CustomerAccountPresentation","CustomerAccountRouteTemplates","CustomerAccountSettings"]}

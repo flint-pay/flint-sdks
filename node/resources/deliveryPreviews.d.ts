@@ -48,6 +48,7 @@ export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFu
 export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
 export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
 export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPurchaseRecipientInput.js';
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
 export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
@@ -85,6 +86,7 @@ export type { LineItemFulfillmentRequest } from '../declarations/LineItemFulfill
 export type { LineItemFulfillmentSizeRequest } from '../declarations/LineItemFulfillmentSizeRequest.js';
 export type { LineItemFulfillmentOriginRequest } from '../declarations/LineItemFulfillmentOriginRequest.js';
 export type { LineItemFulfillmentWeightRequest } from '../declarations/LineItemFulfillmentWeightRequest.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
 export type { ImageReferenceRequest } from '../declarations/ImageReferenceRequest.js';
 export type { OrderDraftLineItemInventoryDemandRequest } from '../declarations/OrderDraftLineItemInventoryDemandRequest.js';
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
@@ -126,6 +128,7 @@ export { makeLineItemFulfillmentRequest } from '../declarations/makeLineItemFulf
 export { makeLineItemFulfillmentSizeRequest } from '../declarations/makeLineItemFulfillmentSizeRequest.js';
 export { makeLineItemFulfillmentOriginRequest } from '../declarations/makeLineItemFulfillmentOriginRequest.js';
 export { makeLineItemFulfillmentWeightRequest } from '../declarations/makeLineItemFulfillmentWeightRequest.js';
+export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
 export { makeImageReferenceRequest } from '../declarations/makeImageReferenceRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../declarations/makeOrderDraftLineItemInventoryDemandRequest.js';
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';

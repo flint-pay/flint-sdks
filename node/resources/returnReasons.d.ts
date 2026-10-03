@@ -26,7 +26,7 @@ export interface ReturnReasonsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnReasons.create({handle: "example", name: "example", "Idempotency-Key": idempotencyKey})
+ * client.returnReasons.create({handle: "example", name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "category_handles"?: Array<string>; "description"?: string; "external_reference_id"?: string; "handle": string; "is_note_required"?: boolean; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -37,7 +37,7 @@ export interface ReturnReasonsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnReasons.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnReasons.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(return_reason_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -46,7 +46,7 @@ export interface ReturnReasonsResource {
  * Retrieve one Return reason with its handle, category handles, and status.
  * GET /v1/return-reasons/{return_reason_id}
  * @example
- * client.returnReasons.get("example", {})
+ * client.returnReasons.get("example")
  */
     get(return_reason_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -55,7 +55,7 @@ export interface ReturnReasonsResource {
  * List Return reasons, including Flint-provided defaults and merchant-defined reasons.
  * GET /v1/return-reasons
  * @example
- * client.returnReasons.list({})
+ * client.returnReasons.list()
  */
     list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReasonsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -69,7 +69,7 @@ export interface ReturnReasonsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnReasons.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnReasons.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(return_reason_id: InputValue<string>, params: (InputValue<({ "category_handles"?: Array<string>; "description"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "is_note_required"?: boolean; "name"?: string; }) & (((({ "category_handles"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->orders->getPaymentAttempt('example', 'example', []);
+$result = $client->orders->getPaymentAttempt('example', 'example');
 echo $result->payment_attempt_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -4,6 +4,6 @@ const client = new Client({
   baseUrl: clientBaseUrl,
 });
 const result = await client.specification.get(
-  {}
+
 );
 console.log(result.meta.requestId);

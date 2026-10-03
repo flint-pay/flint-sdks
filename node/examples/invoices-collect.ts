@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.collect(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice.invoice_id);
 console.log(result.invoice.merchant_id);

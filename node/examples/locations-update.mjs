@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.locations.update(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.location_id);
 console.log(result.status);

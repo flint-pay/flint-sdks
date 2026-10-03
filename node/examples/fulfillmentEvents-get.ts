@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.fulfillmentEvents.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.fulfillment_event_id);
 console.log(result.fulfillment_id);

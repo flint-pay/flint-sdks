@@ -17,8 +17,8 @@ const result = await client.me.createAddress(
       state: "example",
     },
     recipient_name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_address_id);
 console.log(result.customer_id);

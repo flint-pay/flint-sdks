@@ -23,9 +23,8 @@ $input = [
       ],
     ],
   ],
-  'Idempotency-Key' => $idempotencyKey,
 ];
-$result = $client->inventoryTransfers->transition($input);
+$result = $client->inventoryTransfers->transition($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_transfer->destination_location_id . PHP_EOL;
 echo $result->inventory_transfer->inventory_transfer_id . PHP_EOL;
 $client->close();

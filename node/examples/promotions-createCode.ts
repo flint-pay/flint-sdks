@@ -11,8 +11,8 @@ const result = await client.promotions.createCode(
   "example",
   {
     code: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.promotion_code_id);
 console.log(result.promotion_id);

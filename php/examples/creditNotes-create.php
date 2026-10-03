@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->creditNotes->create([
   'invoice_id' => 'example',
   'reason' => 'returned_goods',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->credit_note_id . PHP_EOL;
 echo $result->invoice_id . PHP_EOL;
 $client->close();

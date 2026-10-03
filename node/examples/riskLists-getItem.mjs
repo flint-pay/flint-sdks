@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.riskLists.getItem(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.risk_list_id);
 console.log(result.risk_list_item_id);

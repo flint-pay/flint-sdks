@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->creditNotes->getAllocation('example', 'example', []);
+$result = $client->creditNotes->getAllocation('example', 'example');
 echo $result->credit_note_allocation_id . PHP_EOL;
 echo $result->credit_note_id . PHP_EOL;
 $client->close();

@@ -18,7 +18,7 @@ export interface DisputesResource {
  * Returns one dispute by ID, with optional customer, order, and payment intent expansions.
  * GET /v1/disputes/{dispute_id}
  * @example
- * client.disputes.get("example", {})
+ * client.disputes.get("example")
  */
     get(dispute_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DisputeResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface DisputesResource {
  * Returns a paginated list of disputes for the authenticated merchant with optional payment, customer, status, reason, case type, and timing filters.
  * GET /v1/disputes
  * @example
- * client.disputes.list({})
+ * client.disputes.list()
  */
     list(params?: { "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"warning_needs_response" | "warning_under_review" | "warning_closed" | "needs_response" | "under_review" | "won" | "lost" | "prevented">; "reason"?: InputValue<"bank_cannot_process" | "check_returned" | "credit_not_processed" | "customer_initiated" | "debit_not_authorized" | "duplicate" | "fraudulent" | "general" | "incorrect_account_details" | "insufficient_funds" | "noncompliant" | "product_not_received" | "product_unacceptable" | "subscription_canceled" | "unrecognized" | "bank_account_closed" | "bank_account_not_found" | "bank_debit_not_authorized" | "bank_account_restricted" | "other">; "case_type"?: InputValue<"inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "evidence_due_after"?: InputValue<string | globalThis.Date>; "evidence_due_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DisputeListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

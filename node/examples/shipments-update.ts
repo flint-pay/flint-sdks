@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.shipments.update(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.shipment.fulfillment_id);
 console.log(result.shipment.order_id);

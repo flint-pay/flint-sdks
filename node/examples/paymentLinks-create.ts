@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.paymentLinks.create(
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_link_id);
 console.log(result.status);

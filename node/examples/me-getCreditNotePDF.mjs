@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.me.getCreditNotePDF(
   "example",
-  "example",
-  {}
+  "example"
 );
 // Choose a destination path; PDF bytes must not be decoded as text.
 const resultPath = process.env.API_DOWNLOAD_PATH ?? 'download.pdf';

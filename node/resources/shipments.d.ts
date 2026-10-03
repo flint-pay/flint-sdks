@@ -32,7 +32,7 @@ export interface ShipmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.shipments.createPackage("example", {"Idempotency-Key": idempotencyKey})
+ * client.shipments.createPackage("example", {}, { idempotencyKey: idempotencyKey })
  */
     createPackage(shipment_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string; "dimensions"?: ShippingDimensionsInput; "external_reference_id"?: string; "external_system"?: string; "label_url"?: string; "metadata"?: Record<string, string>; "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>; "service_code"?: string; "status_reason"?: string; "tracking_number"?: string; "tracking_url"?: string; "weight"?: ShippingWeightInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreatePackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -41,7 +41,7 @@ export interface ShipmentsResource {
  * Retrieves one shipment execution record by ID.
  * GET /v1/shipments/{shipment_id}
  * @example
- * client.shipments.get("example", {})
+ * client.shipments.get("example")
  */
     get(shipment_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ShipmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -50,7 +50,7 @@ export interface ShipmentsResource {
  * Lists shipment execution records, newest created first.
  * GET /v1/shipments
  * @example
- * client.shipments.list({})
+ * client.shipments.list()
  */
     list(params?: { "order_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "handed_off_after"?: InputValue<string | globalThis.Date>; "handed_off_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ShipmentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -64,7 +64,7 @@ export interface ShipmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.shipments.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.shipments.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(shipment_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdateShipmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -75,7 +75,7 @@ export interface ShipmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.shipments.voidResource("example", undefined)
+ * client.shipments.voidResource("example", undefined, { idempotencyKey: idempotencyKey })
  */
     voidResource(shipment_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<VoidShipmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

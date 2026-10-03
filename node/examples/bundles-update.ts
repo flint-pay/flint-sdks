@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.bundles.update(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.bundle_id);
 console.log(result.status);

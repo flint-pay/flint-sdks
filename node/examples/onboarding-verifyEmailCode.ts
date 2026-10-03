@@ -10,8 +10,8 @@ const result = await client.onboarding.verifyEmailCode(
   {
     verification_code: "example",
     verification_token: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant.merchant_id);
 console.log(result.merchant.payments.status);

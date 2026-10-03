@@ -13,8 +13,8 @@ const result = await client.deliveryProfiles.create(
     configuration: {
       requirement: "none",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.current_delivery_profile_revision_id);
 console.log(result.delivery_profile_id);

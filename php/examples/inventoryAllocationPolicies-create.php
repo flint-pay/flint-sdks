@@ -23,8 +23,7 @@ $result = $client->inventoryAllocationPolicies->create([
     'splitting_behavior' => 'single_location',
   ],
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_allocation_policy_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

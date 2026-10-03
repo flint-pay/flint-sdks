@@ -1,1 +1,1 @@
-{"shared":"PaymentMethodResponse","dependencies":["ExpandedCustomerSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentMethod","PaymentMethodResponse","ResponseMeta","ResponseWarning","SharedCodec21","SharedCodec459"]}
+{"shared":"PaymentMethodResponse","dependencies":["ExpandedCustomerSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentMethod","PaymentMethodResponse","ResponseMeta","ResponseWarning","SharedCodec21","SharedCodec506"]}

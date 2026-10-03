@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.deliveryLocationSets.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.current_delivery_location_set_revision_id);
 console.log(result.delivery_location_set_id);

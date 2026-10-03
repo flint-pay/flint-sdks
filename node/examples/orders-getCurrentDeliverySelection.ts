@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.orders.getCurrentDeliverySelection(
-  "example",
-  {}
+  "example"
 );
 console.log(result.checkout_session_id);
 console.log(result.delivery_quote_id);

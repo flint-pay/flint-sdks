@@ -11,8 +11,8 @@ const result = await client.inventoryLevels.update(
   "example",
   {
     safety_stock_quantity: "0",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_level.inventory_item_id);
 console.log(result.inventory_level.inventory_level_id);

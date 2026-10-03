@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->paymentMethods->save([
   'customer_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_method->customer_id . PHP_EOL;
 echo $result->payment_method->payment_method_id . PHP_EOL;
 $client->close();

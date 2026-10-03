@@ -34,7 +34,7 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.create({address: {}, name: "example", timezone: "example", "Idempotency-Key": idempotencyKey})
+ * client.locations.create({address: {}, name: "example", timezone: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "external_reference_id"?: string; "inventory"?: LocationInventoryRequestInput; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -45,7 +45,7 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.locations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(location_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -54,7 +54,7 @@ export interface LocationsResource {
  * Get location.
  * GET /v1/locations/{location_id}
  * @example
- * client.locations.get("example", {})
+ * client.locations.get("example")
  */
     get(location_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -63,7 +63,7 @@ export interface LocationsResource {
  * List Locations. Filtering by inventory_allocation_status requires commerce.inventory.read; the inventory block is omitted entirely when the caller lacks inventory read authority.
  * GET /v1/locations
  * @example
- * client.locations.list({})
+ * client.locations.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<LocationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -77,7 +77,7 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.publishGeography("example", {address: {}, expected_geography_revision: "0", timezone: "example", "Idempotency-Key": idempotencyKey})
+ * client.locations.publishGeography("example", {address: {}, expected_geography_revision: "0", timezone: "example"}, { idempotencyKey: idempotencyKey })
  */
     publishGeography(location_id: InputValue<string>, params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "expected_geography_revision": string; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -88,7 +88,7 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.locations.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(location_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -99,7 +99,7 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.updateInventory("example", {allocation_status: "active", "Idempotency-Key": idempotencyKey})
+ * client.locations.updateInventory("example", {allocation_status: "active"}, { idempotencyKey: idempotencyKey })
  */
     updateInventory(location_id: InputValue<string>, params: (InputValue<{ "allocation_status": "active" | "inactive"; "expected_inventory_revision"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationInventoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

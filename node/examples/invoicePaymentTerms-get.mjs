@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.invoicePaymentTerms.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.invoice_payment_term_id);
 console.log(result.merchant_id);

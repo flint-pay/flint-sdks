@@ -18,7 +18,7 @@ export interface CustomerDeletionRequestsResource {
  * Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests.
  * GET /v1/customer-deletion-requests
  * @example
- * client.customerDeletionRequests.list({})
+ * client.customerDeletionRequests.list()
  */
     list(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -32,7 +32,7 @@ export interface CustomerDeletionRequestsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerDeletionRequests.resolve("example", {decision: "approve", "Idempotency-Key": idempotencyKey})
+ * client.customerDeletionRequests.resolve("example", {decision: "approve"}, { idempotencyKey: idempotencyKey })
  */
     resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

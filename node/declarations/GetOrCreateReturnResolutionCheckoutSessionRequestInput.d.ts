@@ -1,0 +1,4 @@
+
+import type { GetOrCreateReturnResolutionCheckoutSessionRequest } from './GetOrCreateReturnResolutionCheckoutSessionRequest.js';
+
+export type GetOrCreateReturnResolutionCheckoutSessionRequestInput = GetOrCreateReturnResolutionCheckoutSessionRequest;

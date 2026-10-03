@@ -11,6 +11,6 @@ const result = await client.riskLists.addItems(
   "example",
   {
     values: ["sdk-example"],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

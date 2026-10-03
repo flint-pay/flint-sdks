@@ -1,9 +1,9 @@
-import { d58 as c0, d60 as c1, d64 as c2, d152 as c3, d811 as c4, d1630 as c5, d1631 as c6, d1634 as c7, d56 as c8, d1637 as c9, d69 as c10, d1646 as c11, d1645 as c12, d1959 as c13, d1960 as c14, d2109 as c15, d353 as c16, d57 as c17, d59 as c18, d1636 as c19, d2172 as c20 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d64 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d59 as c0, d61 as c1, d65 as c2, d169 as c3, d905 as c4, d1768 as c5, d1769 as c6, d1772 as c7, d57 as c8, d1775 as c9, d74 as c10, d1784 as c11, d1783 as c12, d2118 as c13, d2119 as c14, d2272 as c15, d397 as c16, d58 as c17, d60 as c18, d1774 as c19, d2337 as c20 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d65 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d64;
+const read = d65;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["BundleResponse"]:c2(),["CategoryReference"]:c3(),["Image"]:c4(),["Modifier"]:c5(),["ModifierGroup"]:c6(),["ModifierOverride"]:c7(),["ModifierSet"]:c8(),["ModifierSetGroup"]:c9(),["MoneyValue"]:c10(),["NextAction"]:c11(),["NextActionMerchantAccountSession"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec125"]:c16(),["SharedCodec15"]:c17(),["SharedCodec16"]:c18(),["SharedCodec437"]:c19(),["TextModifierConfig"]:c20()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["BundleResponse"]:c2(),["CategoryReference"]:c3(),["Image"]:c4(),["Modifier"]:c5(),["ModifierGroup"]:c6(),["ModifierOverride"]:c7(),["ModifierSet"]:c8(),["ModifierSetGroup"]:c9(),["MoneyValue"]:c10(),["NextAction"]:c11(),["NextActionMerchantAccountSession"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec145"]:c16(),["SharedCodec15"]:c17(),["SharedCodec16"]:c18(),["SharedCodec478"]:c19(),["TextModifierConfig"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeBundleResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

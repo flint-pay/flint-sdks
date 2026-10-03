@@ -1,1 +1,1 @@
-{"shared":"QueryDeliveryPickupAvailabilityRequest","dependencies":["DeliveryAddressRequest","DeliveryBuyerLocationRequest","DeliveryCoordinateRequest","DeliveryPickupAvailabilityMaximumDistanceRequest","QueryDeliveryPickupAvailabilityRequest","SharedCodec52","SharedCodec53"]}
+{"shared":"QueryDeliveryPickupAvailabilityRequest","dependencies":["DeliveryAddressRequest","DeliveryBuyerLocationRequest","DeliveryCoordinateRequest","DeliveryPickupAvailabilityMaximumDistanceRequest","QueryDeliveryPickupAvailabilityRequest","SharedCodec55","SharedCodec56"]}

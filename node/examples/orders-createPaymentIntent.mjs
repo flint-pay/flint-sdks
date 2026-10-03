@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.createPaymentIntent(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.payment_intent.payment_intent_id);
 console.log(result.payment_intent.status);

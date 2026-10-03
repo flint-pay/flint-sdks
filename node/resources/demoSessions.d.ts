@@ -18,7 +18,7 @@ export interface DemoSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.demoSessions.create({"Idempotency-Key": idempotencyKey})
+ * client.demoSessions.create({}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

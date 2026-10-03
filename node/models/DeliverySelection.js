@@ -1,9 +1,9 @@
-import { d521 as c0, d176 as c1, d532 as c2, d547 as c3, d549 as c4, d556 as c5, d585 as c6, d586 as c7, d178 as c8, d179 as c9, d658 as c10, d659 as c11, d660 as c12, d664 as c13, d674 as c14, d177 as c15, d69 as c16, d548 as c17, d174 as c18, d175 as c19 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d179 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d570 as c0, d193 as c1, d581 as c2, d596 as c3, d598 as c4, d605 as c5, d634 as c6, d635 as c7, d195 as c8, d196 as c9, d707 as c10, d708 as c11, d709 as c12, d713 as c13, d723 as c14, d194 as c15, d74 as c16, d597 as c17, d191 as c18, d192 as c19 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d196 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d179;
+const read = d196;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryAddressResource"]:c0(),["DeliveryBuyerLocationResource"]:c1(),["DeliveryCoordinateRequest"]:c2(),["DeliveryInputConstraint"]:c3(),["DeliveryInputRequirement"]:c4(),["DeliveryLocationSummaryResource"]:c5(),["DeliveryPickupDetails"]:c6(),["DeliveryPlan"]:c7(),["DeliveryRecipientResource"]:c8(),["DeliverySelection"]:c9(),["DeliverySelectionChoiceResource"]:c10(),["DeliverySelectionInstructionsRequest"]:c11(),["DeliverySelectionLifecycleEventResource"]:c12(),["DeliveryShipmentDetails"]:c13(),["DeliveryWindowResource"]:c14(),["LocationAddress"]:c15(),["MoneyValue"]:c16(),["SharedCodec182"]:c17(),["SharedCodec52"]:c18(),["SharedCodec53"]:c19()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryAddressResource"]:c0(),["DeliveryBuyerLocationResource"]:c1(),["DeliveryCoordinateRequest"]:c2(),["DeliveryInputConstraint"]:c3(),["DeliveryInputRequirement"]:c4(),["DeliveryLocationSummaryResource"]:c5(),["DeliveryPickupDetails"]:c6(),["DeliveryPlan"]:c7(),["DeliveryRecipientResource"]:c8(),["DeliverySelection"]:c9(),["DeliverySelectionChoiceResource"]:c10(),["DeliverySelectionInstructionsRequest"]:c11(),["DeliverySelectionLifecycleEventResource"]:c12(),["DeliveryShipmentDetails"]:c13(),["DeliveryWindowResource"]:c14(),["LocationAddress"]:c15(),["MoneyValue"]:c16(),["SharedCodec203"]:c17(),["SharedCodec55"]:c18(),["SharedCodec56"]:c19()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliverySelection(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

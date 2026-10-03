@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.creditNotes.getAllocation(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.credit_note_allocation_id);
 console.log(result.credit_note_id);

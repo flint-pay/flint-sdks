@@ -27,7 +27,7 @@ export interface DeliveryLocationSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryLocationSets.create({name: "example", configuration: {location_ids: []}, "Idempotency-Key": idempotencyKey})
+ * client.deliveryLocationSets.create({name: "example", configuration: {location_ids: []}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "configuration": DeliveryLocationSetConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -38,7 +38,7 @@ export interface DeliveryLocationSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryLocationSets.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryLocationSets.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(delivery_location_set_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -47,7 +47,7 @@ export interface DeliveryLocationSetsResource {
  * Returns the current revision and lifecycle state for one delivery location set.
  * GET /v1/delivery-location-sets/{delivery_location_set_id}
  * @example
- * client.deliveryLocationSets.get("example", {})
+ * client.deliveryLocationSets.get("example")
  */
     get(delivery_location_set_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -56,7 +56,7 @@ export interface DeliveryLocationSetsResource {
  * Returns delivery location sets in a stable, cursor-paginated order.
  * GET /v1/delivery-location-sets
  * @example
- * client.deliveryLocationSets.list({})
+ * client.deliveryLocationSets.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "delivery_method_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryLocationSetListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -70,7 +70,7 @@ export interface DeliveryLocationSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryLocationSets.update("example", {name: "example", "Idempotency-Key": idempotencyKey})
+ * client.deliveryLocationSets.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
     update(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryLocationSetConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

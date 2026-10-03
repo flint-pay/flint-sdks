@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.voidResource(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_id);
 console.log(result.merchant_id);

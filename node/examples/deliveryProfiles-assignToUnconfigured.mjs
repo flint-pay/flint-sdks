@@ -9,8 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryProfiles.assignToUnconfigured(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_profile_id);

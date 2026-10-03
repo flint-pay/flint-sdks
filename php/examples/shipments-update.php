@@ -11,9 +11,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->shipments->update('example', [
-  'Idempotency-Key' => $idempotencyKey,
-]);
+$result = $client->shipments->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->shipment->fulfillment_id . PHP_EOL;
 echo $result->shipment->order_id . PHP_EOL;
 $client->close();

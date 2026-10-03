@@ -1,0 +1,1 @@
+{"shared":"CustomerEmailPreferencesResponse","dependencies":["CustomerEmailPreferences","CustomerEmailPreferencesResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}

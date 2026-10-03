@@ -17,8 +17,7 @@ $result = $client->returns->processExisting('example', [
       'return_line_item_id' => 'example',
     ],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return->order_id . PHP_EOL;
 echo $result->return->return_id . PHP_EOL;
 $client->close();

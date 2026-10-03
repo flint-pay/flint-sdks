@@ -25,7 +25,7 @@ export interface InventoryAllocationPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryAllocationPolicies.create({configuration: {location_groups: [{group_priority: 1, location_id: "example"}], maximum_locations_per_assignment: 1, splitting_behavior: "single_location"}, name: "example", "Idempotency-Key": idempotencyKey})
+ * client.inventoryAllocationPolicies.create({configuration: {location_groups: [{group_priority: 1, location_id: "example"}], maximum_locations_per_assignment: 1, splitting_behavior: "single_location"}, name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -36,7 +36,7 @@ export interface InventoryAllocationPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryAllocationPolicies.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.inventoryAllocationPolicies.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -45,7 +45,7 @@ export interface InventoryAllocationPoliciesResource {
  * List inventory allocation policies.
  * GET /v1/inventory-allocation-policies
  * @example
- * client.inventoryAllocationPolicies.list({})
+ * client.inventoryAllocationPolicies.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAllocationPolicyListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -59,7 +59,7 @@ export interface InventoryAllocationPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryAllocationPolicies.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.inventoryAllocationPolicies.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(inventory_allocation_policy_id: InputValue<string>, params: (InputValue<({ "configuration"?: InventoryAllocationPolicyConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

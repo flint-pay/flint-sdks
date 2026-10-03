@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->returnResolutions->get('example', []);
+$result = $client->returnResolutions->get('example');
 echo $result->return_id . PHP_EOL;
 echo $result->return_resolution_id . PHP_EOL;
 $client->close();

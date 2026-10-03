@@ -11,8 +11,8 @@ const result = await client.creditNotes.create(
   {
     invoice_id: "example",
     reason: "returned_goods",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.credit_note_id);
 console.log(result.invoice_id);

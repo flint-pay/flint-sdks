@@ -1,0 +1,4 @@
+
+import type { GiftCardMoney } from './GiftCardMoney.js';
+
+export type BuyerGiftCard = { "available_money": GiftCardMoney; "balance_money": GiftCardMoney; /** RFC3339 timestamp. Format: date-time. */ "created_at": string; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; "gift_card_id": string; "last_characters": string; /** RFC3339 timestamp. Format: date-time. */ "last_loaded_at": string | null; /** RFC3339 timestamp. Format: date-time. */ "last_redeemed_at": string | null; "merchant_id": string; "reserved_money": GiftCardMoney; "status": "pending" | "active" | "frozen" | "closed" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "version": string; };

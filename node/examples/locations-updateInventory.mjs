@@ -11,6 +11,6 @@ const result = await client.locations.updateInventory(
   "example",
   {
     allocation_status: "active",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

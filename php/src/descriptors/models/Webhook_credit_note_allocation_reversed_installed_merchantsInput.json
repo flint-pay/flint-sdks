@@ -1,1 +1,1 @@
-{"shared":"Webhook_credit_note_allocation_reversed_installed_merchants","dependencies":["MoneyValue","PartnerWebhookEnvelope","SharedCodec249","SharedCodec270","Webhook_credit_note_allocation_reversed_installed_merchants"]}
+{"shared":"Webhook_credit_note_allocation_reversed_installed_merchants","dependencies":["MoneyValue","PartnerWebhookEnvelope","SharedCodec280","SharedCodec303","Webhook_credit_note_allocation_reversed_installed_merchants"]}

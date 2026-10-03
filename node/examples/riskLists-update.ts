@@ -11,7 +11,7 @@ const result = await client.riskLists.update(
   "example",
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_list_id);

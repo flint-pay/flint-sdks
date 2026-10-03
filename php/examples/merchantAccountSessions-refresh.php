@@ -13,6 +13,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->merchantAccountSessions->refresh([
   'launch_token' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

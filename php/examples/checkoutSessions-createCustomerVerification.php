@@ -18,11 +18,10 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->checkoutSessions->createCustomerVerification('example', [
-  'purpose' => 'save_payment_method',
+  'purpose' => 'gift_card_purchase',
   'X-Checkout-Session-ID' => 'example',
   'X-Checkout-Session-Secret' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->checkout_session_id . PHP_EOL;
 echo $result->customer_verification_id . PHP_EOL;
 $client->close();

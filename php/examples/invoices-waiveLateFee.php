@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->waiveLateFee('example', 'example', [
   'reason' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -20,8 +20,7 @@ $result = $client->me->createAddress([
     'state' => 'example',
   ],
   'recipient_name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_address_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

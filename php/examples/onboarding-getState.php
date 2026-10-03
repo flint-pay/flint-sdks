@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->onboarding->getState([]);
+$result = $client->onboarding->getState();
 echo $result->merchant_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

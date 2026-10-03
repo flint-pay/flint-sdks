@@ -13,6 +13,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->checkoutSessions->deleteCurrentDeliverySelection('example', [
   'expected_delivery_selection_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

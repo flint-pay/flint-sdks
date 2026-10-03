@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryMethods->update('example', [
   'status' => 'active',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_method_revision_id . PHP_EOL;
 echo $result->delivery_method_id . PHP_EOL;
 $client->close();

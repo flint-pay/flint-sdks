@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["getOrCreateReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
@@ -41,13 +41,13 @@ this.returnResolutions = Object.freeze({
 ], [return_resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -201,6 +201,7 @@ export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunch
 export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
 export { makeCheckoutSession } from '../models/CheckoutSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
@@ -268,4 +269,7 @@ export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemMo
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeRefundTaxBreakdownRefund } from '../models/RefundTaxBreakdownRefund.js';
 export { makePaymentRefund } from '../models/PaymentRefund.js';
+export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
+export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
 export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';

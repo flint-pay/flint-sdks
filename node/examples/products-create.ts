@@ -17,8 +17,8 @@ const result = await client.products.create(
         currency: "USD",
       },
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.product_id);
 console.log(result.status);

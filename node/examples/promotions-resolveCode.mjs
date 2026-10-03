@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.promotions.resolveCode(
-  "example",
-  {}
+  "example"
 );
 console.log(result.promotion.promotion_id);
 console.log(result.promotion.status);

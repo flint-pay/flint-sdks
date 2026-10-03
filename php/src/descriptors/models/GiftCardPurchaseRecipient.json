@@ -1,0 +1,1 @@
+{"shared":"GiftCardPurchaseRecipient","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"value","type":"string"},"message":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"send_at":{"kind":"value","type":"string"}}},"dependencies":["GiftCardPurchaseRecipient"]}

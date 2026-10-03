@@ -7,9 +7,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.demoSessions.create(
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.demo_session_id);
 console.log(result.sandbox_id);

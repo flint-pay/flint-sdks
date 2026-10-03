@@ -9,7 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.regeneratePublicLink(
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice.invoice_id);
 console.log(result.invoice.merchant_id);

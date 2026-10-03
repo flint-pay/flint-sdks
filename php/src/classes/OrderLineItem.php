@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read list<CategoryReference> $categories
  * @property-read string $description
  * @property-read MoneyValue $discount_money
+ * @property-read GiftCardPurchaseSnapshot $gift_card_purchase
  * @property-read Image $image
  * @property-read LineItemInventorySnapshot $inventory_snapshot
  * @property-read array<array-key, string> $metadata
@@ -16,6 +17,7 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $order_line_item_id
  * @property-read string $product_id
+ * @property-read list<PurchasedGiftCard> $purchased_gift_cards
  * @property-read string $quantity
  * @property-read MoneyValue $refunded_money
  * @property-read string $refunded_quantity
@@ -31,7 +33,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, 'version': string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'gift_card_purchase'?: object{'configuration'?: mixed, 'consideration_money': object{'amount': string, 'currency': string}, 'face_value_money': object{'amount': string, 'currency': string}, 'recipient'?: mixed, 'reference_price_money': object{'amount': string, 'currency': string}}, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards'?: list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItem')); }
     /** @return MoneyValue
      * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
@@ -63,6 +65,11 @@ final class OrderLineItem extends Model {
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
+    /** @return GiftCardPurchaseSnapshot
+     * @throws SdkError When gift_card_purchase is omitted; use hasGiftCardPurchase() or valueOrDefault().
+     */
+    public function getGiftCardPurchase(): GiftCardPurchaseSnapshot { return $this->get('gift_card_purchase'); }
+    public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
     /** @return Image
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
@@ -103,6 +110,11 @@ final class OrderLineItem extends Model {
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** @return list<PurchasedGiftCard>
+     * @throws SdkError When purchased_gift_cards is omitted; use hasPurchasedGiftCards() or valueOrDefault().
+     */
+    public function getPurchasedGiftCards(): array { return $this->get('purchased_gift_cards'); }
+    public function hasPurchasedGiftCards(): bool { return $this->has('purchased_gift_cards'); }
     /** @return string
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

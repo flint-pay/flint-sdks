@@ -1,6 +1,6 @@
 # Flint Public API SDK (php)
 
-Package 2.0.0; generated for API 2026-09-07.
+Package 3.0.0-beta.20261003024310; generated for API 2026-09-07.
 
 Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts.
 
@@ -14,7 +14,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 
 Requires PHP 8.2+, ext-json and ext-curl; framework independent. PHPDoc types target PHPStan 2.2+ (development tooling only).
 
-Install: `composer require flintpay/flint`
+Install: `composer require flintpay/flint:3.0.0-beta.20261003024310`
 
 ## Quickstart
 
@@ -54,8 +54,7 @@ try {
     'payment_options' => [
       'card',
     ],
-    'Idempotency-Key' => $idempotencyKey,
-  ]);
+  ], new RequestOptions(idempotencyKey: $idempotencyKey));
   echo $result->payment_intent->payment_intent_id . PHP_EOL;
   echo $result->payment_intent->status . PHP_EOL;
 } catch (SdkError $error) {
@@ -79,7 +78,7 @@ Reuse the client above. Each recipe represents a separate business action.
 Returns a single payment intent by ID.
 
 ```php
-$result = $client->paymentIntents->get('example', []);
+$result = $client->paymentIntents->get('example');
 echo $result->payment_intent_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 ```
@@ -96,8 +95,7 @@ $refundsCreateIdempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->refunds->create([
   'order_id' => 'example',
-  'Idempotency-Key' => $refundsCreateIdempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $refundsCreateIdempotencyKey));
 echo $result->refund_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 ```

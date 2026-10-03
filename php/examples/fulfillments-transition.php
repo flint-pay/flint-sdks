@@ -16,9 +16,8 @@ $input = [
   'body' => (object) [
     'action' => 'complete',
   ],
-  'Idempotency-Key' => $idempotencyKey,
 ];
-$result = $client->fulfillments->transition($input);
+$result = $client->fulfillments->transition($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->fulfillment->fulfillment_id . PHP_EOL;
 echo $result->fulfillment->order_id . PHP_EOL;
 $client->close();

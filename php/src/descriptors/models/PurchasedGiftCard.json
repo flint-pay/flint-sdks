@@ -1,0 +1,1 @@
+{"shared":"PurchasedGiftCard","phpRepresentation":{"kind":"record","fields":{"gift_card_id":{"kind":"value","type":"string"},"last_characters":{"kind":"value","type":"string"},"original_gift_card_id":{"kind":"value","type":"string"},"restoration_reason":{"kind":"value","type":"string"},"unit_ordinal":{"kind":"value","type":"string"}}},"dependencies":["PurchasedGiftCard"]}

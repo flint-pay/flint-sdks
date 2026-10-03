@@ -16,8 +16,7 @@ $result = $client->reports->create([
   'interval_end_at' => '2026-01-02T00:00:00Z',
   'interval_start_at' => '2026-01-01T00:00:00Z',
   'report_type' => 'orders_itemized_v1',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->report_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

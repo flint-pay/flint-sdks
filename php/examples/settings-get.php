@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->settings->get([]);
+$result = $client->settings->get();
 echo $result->settings_id . PHP_EOL;
 $client->close();

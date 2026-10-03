@@ -15,8 +15,8 @@ const result = await client.deliveryZones.create(
       },
     },
     name: "Standard delivery",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.current_delivery_zone_revision_id);
 console.log(result.delivery_zone_id);

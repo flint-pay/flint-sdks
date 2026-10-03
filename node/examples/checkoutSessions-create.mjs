@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.checkoutSessions.create(
   {
     order_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session.checkout_session_id);
 console.log(result.checkout_session.status);

@@ -24,7 +24,7 @@ export interface InventoryItemsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryItems.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.inventoryItems.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -35,7 +35,7 @@ export interface InventoryItemsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryItems.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.inventoryItems.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -44,7 +44,7 @@ export interface InventoryItemsResource {
  * List inventory items.
  * GET /v1/inventory-items
  * @example
- * client.inventoryItems.list({})
+ * client.inventoryItems.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -58,7 +58,7 @@ export interface InventoryItemsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryItems.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.inventoryItems.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(inventory_item_id: InputValue<string>, params: (InputValue<{ "barcode"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "sku"?: string | null; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

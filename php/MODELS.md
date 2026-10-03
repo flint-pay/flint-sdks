@@ -398,6 +398,15 @@ Variants: any, any.
 
 Variants: any, any.
 
+## ApplyOrderGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_code` | Required | string | minLength: `1`. maxLength: `64`. Input only. |
+| `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+
 ## AssessInvoiceLateFeeRequest
 
 
@@ -721,6 +730,43 @@ Variants: object, object, object, object, object, object.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## BuyerAction
+
+One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. |
+| `is_available` | Required | boolean | Whether this session can take the action now. |
+| `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [11 declared values](#buyeraction-kind-values). |
+| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`. |
+
+#### BuyerAction kind values
+
+- `"start_return"`
+- `"resend_receipt"`
+- `"cancel"`
+- `"pause"`
+- `"resume"`
+- `"reactivate"`
+- `"update_payment_method"`
+- `"pay"`
+- `"withdraw"`
+- `"ship_items"`
+- `"pay_balance"`
+
+## BuyerCapabilities
+
+What a store lets buyers do to their own subscriptions. Send at least one field; each field you omit takes its default.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `cancellation_reasons` | Optional | Array of string | Reasons a buyer is asked to choose from when canceling, in the order shown. Empty: the buyer is not asked. When the list is not empty, a buyer's cancellation_reason_code must be one of them. maxItems: `8`. |
+| `cancellation_timing` | Optional | string | When a subscription a buyer cancels ends. end_of_period: when the current billing period ends. buyer_chooses: the buyer picks the end of the period or right away. A trialing, paused, or incomplete subscription, or one whose first paid period never started, ends right away either way. Values: `"end_of_period"`, `"buyer_chooses"`. |
+| `pause` | Optional | object | Whether buyers may pause, and for how long. Omit it to let buyers pause with no limit. |
+| `retention_offer` | Optional | object | The offer a buyer sees before canceling. The buyer can always decline it and cancel. Omit it for no offer. |
+
 ## BuyerCreditNote
 
 The buyer-visible view of a credit note. Drafts are never returned, and how much credit is left to allocate is omitted.
@@ -908,6 +954,87 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `mutable` | Required | boolean |  |
 | `source` | Required | string | Values: `"none"`, `"provisional"`, `"committed"`. |
 
+## BuyerGiftCard
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `available_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `balance_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `gift_card_id` | Required | string |  |
+| `last_characters` | Required | string |  |
+| `last_loaded_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
+| `last_redeemed_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `reserved_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+
+## BuyerGiftCardListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [BuyerGiftCard](MODELS.md#buyergiftcard) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## BuyerGiftCardResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [BuyerGiftCard](MODELS.md#buyergiftcard) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## BuyerGiftCardTransaction
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `balance_after_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `balance_before_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `gift_card_id` | Required | string |  |
+| `gift_card_transaction_id` | Required | string |  |
+| `posted_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `sequence` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `transaction_type` | Required | string | Values: [11 declared values](#buyergiftcardtransaction-transaction_type-values). |
+
+#### BuyerGiftCardTransaction transaction_type values
+
+- `"load"`
+- `"import"`
+- `"redeem"`
+- `"refund"`
+- `"refund_transfer"`
+- `"adjustment"`
+- `"cash_out"`
+- `"purchase_reversal"`
+- `"funding_loss_accepted"`
+- `"purchase_refund_recovery"`
+- `"purchase_refund_recovery_transfer"`
+
+## BuyerGiftCardTransactionListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [BuyerGiftCardTransaction](MODELS.md#buyergiftcardtransaction) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
 ## BuyerInstructionsConfig
 
 Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
@@ -925,6 +1052,7 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required, due by due_at or by the due date of the installment it collects. Response only. |
 | `cc_emails` | Optional | Array of string |  |
 | `closed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `collection_block_status` | Required | string | Values: `"none"`, `"inventory_blocked"`, `"resolved"`. Response only. |
@@ -1004,6 +1132,99 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## BuyerPauseCapability
+
+Whether buyers may pause their own subscriptions. Send at least one field.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `enabled` | Optional | boolean | Whether buyers may pause. When false, a buyer's pause returns PAUSE_NOT_ALLOWED. |
+| `max_cycles` | Optional | integer | The longest pause a buyer may choose, in billing periods. When set, a buyer's pause must send pause_duration_cycles from 1 to this value. Omit it for no limit, which also lets a buyer pause until they resume. Format: `int32`. minimum: `1`. maximum: `12`. |
+
+## BuyerRefund
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `credit_note_id` | Optional | string | Response only. |
+| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `customer_id` | Optional | string | Response only. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `failure_reason` | Optional | string | Flint-normalized refund failure reason. Unknown provider values are returned as refund_failed. Values: [10 declared values](#buyerrefund-failure_reason-values). Response only. |
+| `idempotency_key` | Optional | string | Response only. |
+| `invoice_id` | Optional | string | Response only. |
+| `line_item_allocations` | Optional | Array of [RefundLineItemAllocation](MODELS.md#refundlineitemallocation) | Response only. |
+| `merchant_id` | Optional | string | Response only. |
+| `metadata` | Optional | object |  |
+| `order` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `order_id` | Optional | string |  |
+| `payment_intent` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `payment_intent_id` | Optional | string |  |
+| `payment_refunds` | Optional | Array of [PaymentRefund](MODELS.md#paymentrefund) | Response only. |
+| `reason` | Optional | string | Values: [12 declared values](#buyerrefund-reason-values). |
+| `reason_message` | Optional | string |  |
+| `refund_id` | Required | string | Response only. |
+| `refund_method` | Optional | string | Values: `"original_payment"`. |
+| `refunded_tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `return_id` | Optional | string | Response only. |
+| `return_resolution_id` | Optional | string | Response only. |
+| `review_id` | Optional | string | Response only. |
+| `status` | Required | string | Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"requires_action"`, `"canceled"`, `"partially_succeeded"`. Response only. |
+| `tax_breakdown_refunds` | Optional | Array of [RefundTaxBreakdownRefund](MODELS.md#refundtaxbreakdownrefund) |  |
+| `tender_allocations` | Optional | Array of [RefundTenderAllocation](MODELS.md#refundtenderallocation) | Response only. |
+| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+#### BuyerRefund failure_reason values
+
+- `"expired_or_canceled_card"`
+- `"lost_or_stolen_card"`
+- `"insufficient_funds"`
+- `"insufficient_available_balance"`
+- `"declined"`
+- `"merchant_request"`
+- `"payment_disputed"`
+- `"payment_refund_failed"`
+- `"payment_refund_not_attempted"`
+- `"refund_failed"`
+
+#### BuyerRefund reason values
+
+- `"duplicate"`
+- `"fraudulent"`
+- `"requested_by_customer"`
+- `"defective_product"`
+- `"wrong_item_shipped"`
+- `"never_received"`
+- `"not_as_described"`
+- `"arrived_too_late"`
+- `"customer_changed_mind"`
+- `"better_price_found"`
+- `"accidental_order"`
+- `"other"`
+
+## BuyerRefundListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [BuyerRefund](MODELS.md#buyerrefund) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## BuyerRetentionOffer
+
+The offer a buyer sees before canceling. Send at least one field.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `kind` | Optional | string | none: no offer. pause_instead: offer to pause for pause_cycles billing periods instead of canceling. pause_instead needs pausing turned on. Values: `"none"`, `"pause_instead"`. |
+| `pause_cycles` | Optional | integer | Billing periods the offered pause lasts. Required when kind is pause_instead, and at most pause.max_cycles when that is set. Not allowed with kind none. Format: `int32`. minimum: `1`. maximum: `12`. |
+
 ## CallerSuppliedDeliveryMethodResultRequest
 
 
@@ -1057,6 +1278,10 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 - `"inventory_unavailable"`
 
 Variants: any, any, any.
+
+## CancelGiftCardNotificationRequest
+
+
 
 ## CancelOrderPaymentAttemptRequest
 
@@ -1194,7 +1419,9 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cancel_immediately` | Optional | boolean |  |
+| `cancel_immediately` | Optional | boolean | When true, ends the subscription now instead of at the end of the billing period. A buyer, in Flint's buyer account or with a customer session, may send it only when the store's customer_account.buyer_capabilities.cancellation_timing is buyer_chooses; otherwise the request returns CANCEL_IMMEDIATELY_NOT_ALLOWED. A trialing, paused, or incomplete subscription, or one whose first paid period never started, ends now either way. |
+| `cancellation_comment` | Optional | string | Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed. Recorded in cancellation_details.comment, which only merchant credentials read. maxLength: `500`. |
+| `cancellation_reason_code` | Optional | string | Optional. Why the subscription is being canceled. When the store lists customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one of them; merchant credentials may send any code. Recorded in cancellation_details.reason_code. Values: `"too_expensive"`, `"missing_features"`, `"switched_service"`, `"unused"`, `"customer_service"`, `"too_complex"`, `"low_quality"`, `"other"`. |
 
 ## CancelSubscriptionResponse
 
@@ -1218,8 +1445,10 @@ Variants: any, any, any.
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
 | `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean |  |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
 | `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `contract_info` | Optional | [ContractInfo](MODELS.md#contractinfo) |  |
 | `contract_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -1458,7 +1687,7 @@ Details the buyer's checkout can prefill from the customer it acts for.
 
 ## CheckoutCustomerVerification
 
-A request for a checkout verification code. An emailed code's request reads the same whether or not Flint sent a code.
+A request for a checkout verification code. A request with channel email reads the same whether or not Flint sent a code.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -1469,7 +1698,7 @@ A request for a checkout verification code. An emailed code's request reads the 
 | `email` | Optional | string | The address the code is for, lowercased: the email the buyer typed, or for an emailed confirm_saved_payment_method code, the customer's email masked to its first character and domain, such as a•••@example.com. Omitted for a texted confirm_saved_payment_method code. Response only. |
 | `expires_at` | Required | string | When the code stops working: 15 minutes after the request for an emailed code, and 10 minutes after the text provider first sent a texted code, which a new request within them texts again. Format: `date-time`. Response only. |
 | `phone_last_digits` | Optional | string | Last two digits of the number a texted code went to, so the buyer knows which phone to check. Set only for channel sms. Response only. |
-| `purpose` | Required | string | Why the buyer asked for the code, as sent in the request. Values: `"save_payment_method"`, `"use_saved_payment_methods"`, `"confirm_saved_payment_method"`. Response only. |
+| `purpose` | Required | string | Why the buyer asked for the code, as sent in the request. Values: `"gift_card_purchase"`, `"save_payment_method"`, `"use_saved_payment_methods"`, `"confirm_saved_payment_method"`. Response only. |
 
 ## CheckoutCustomerVerificationConfirmation
 
@@ -2192,9 +2421,9 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `channel` | Optional | string | How the code reaches the buyer. email, the default for save_payment_method and use_saved_payment_methods, emails it. sms texts it: for use_saved_payment_methods, to the mobile phone number saved with the email's details; for confirm_saved_payment_method, to the number given with the payment. Required for confirm_saved_payment_method, and save_payment_method takes only email. Values: `"email"`, `"sms"`. |
-| `email` | Optional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Required for save_payment_method and use_saved_payment_methods, and not allowed for confirm_saved_payment_method. Format: `email`. maxLength: `255`. |
-| `purpose` | Required | string | save_payment_method: the buyer asked to save the card they are paying with; Flint emails a code to any valid address. use_saved_payment_methods: the buyer asked to use details they saved at this merchant before. By email, Flint sends a code only when a customer with this email has saved details, an active card saved by email or with a mobile phone number, and the response is the same either way. By sms, Flint texts the number saved with the email's details. confirm_saved_payment_method: after a payment that sent save_payment_method_phone, the buyer confirms the card it saved. Values: `"save_payment_method"`, `"use_saved_payment_methods"`, `"confirm_saved_payment_method"`. |
+| `channel` | Optional | string | How the code reaches the buyer. Omit it to use the purpose's default: auto for use_saved_payment_methods, and email for gift_card_purchase and save_payment_method. email emails the code. With use_saved_payment_methods, it answers the same whether or not the email has saved details. sms texts it: for use_saved_payment_methods, to the mobile phone number saved with the email's details; for confirm_saved_payment_method, to the number given with the payment. auto, for use_saved_payment_methods only, lets Flint pick from the email's saved details: it texts the number they carry, or, when they carry none, emails the code when the email has cards saved by email, and sends nothing otherwise, returning CUSTOMER_VERIFICATION_NOT_SENT. The response's channel says which. Required for confirm_saved_payment_method, which takes sms or email, and gift_card_purchase and save_payment_method take only email. Values: `"email"`, `"sms"`, `"auto"`. |
+| `email` | Optional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Required for gift_card_purchase, save_payment_method, and use_saved_payment_methods, and not allowed for confirm_saved_payment_method. Format: `email`. maxLength: `255`. |
+| `purpose` | Required | string | gift_card_purchase: the buyer confirms their email before funding a gift card purchase; Flint emails a code without saving a payment method. save_payment_method: the buyer asked to save the card they are paying with; Flint emails a code to any valid address. use_saved_payment_methods: the buyer asked to use details they saved at this merchant before. By auto, the default, Flint texts or emails a code the way the email's details were saved, and sends nothing when it has none. By email, Flint sends a code only when a customer with this email has saved details, an active card saved by email or with a mobile phone number, and the response is the same either way. By sms, Flint texts the number saved with the email's details. confirm_saved_payment_method: after a payment that sent save_payment_method_phone, the buyer confirms the card it saved. Values: `"gift_card_purchase"`, `"save_payment_method"`, `"use_saved_payment_methods"`, `"confirm_saved_payment_method"`. |
 
 ## CreateCheckoutDeliveryQuoteRequest
 
@@ -2600,6 +2829,7 @@ Variants: any, any, any, any, any.
 | `active_payment_attempt` | Optional | object | Response only. |
 | `applied_discounts` | Optional | Array of [AppliedDiscount](MODELS.md#applieddiscount) | Response only. |
 | `authorization_amounts` | Optional | object | Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Example: `[]`. Response only. |
 | `buyer_email` | Optional | string | Response only. |
 | `buyer_note` | Optional | string |  |
 | `buyer_phone` | Optional | string | Phone the buyer gave when payment started, in E.164 format: the pay request's buyer_phone, or the phone saved on the paying checkout session. It does not change the linked customer. Response only. |
@@ -2614,6 +2844,10 @@ Variants: any, any, any, any, any.
 | `fulfillment_id` | Required | string |  |
 | `fulfillment_status` | Optional | string | Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Response only. |
 | `fulfillments` | Optional | Array of [Fulfillment](MODELS.md#fulfillment) | Response only. |
+| `gift_card_estimate` | Optional | object | Response only. |
+| `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlement](MODELS.md#ordergiftcardsettlement) | Response only. |
+| `gift_card_tender_enabled` | Optional | boolean | Response only. |
+| `gift_cards` | Optional | Array of [OrderGiftCardSelection](MODELS.md#ordergiftcardselection) | Response only. |
 | `internal_note` | Optional | string |  |
 | `inventory_exception_status` | Optional | string | Values: `"paid_inventory_failed"`, `"resolved"`. Response only. |
 | `inventory_reservation_id` | Optional | string | The reservation holding stock for this order, when one exists. Response only. |
@@ -2623,6 +2857,7 @@ Variants: any, any, any, any, any.
 | `metadata` | Optional | object |  |
 | `order_id` | Required | string | Response only. |
 | `order_number` | Optional | string | Response only. |
+| `order_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
 | `package_id` | Optional | string |  |
 | `package_items` | Required | Array of [PackageItem](MODELS.md#packageitem) | Canonical package items created with this fulfillment. Empty when shipment was omitted. Subsequent edits use the package item routes. |
@@ -2646,6 +2881,77 @@ Variants: any, any, any, any, any.
 | `tax` | Required | object | Response only. |
 | `tips` | Optional | Array of [Tip](MODELS.md#tip) | Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+## CreateGiftCardAdjustmentRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `reason` | Required | string | Values: `"complimentary"`, `"balance_accidentally_decreased"`, `"support_issue"`, `"suspicious_activity"`, `"balance_accidentally_increased"`. |
+
+## CreateGiftCardCashOutRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+
+## CreateGiftCardLoadRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `consideration_money` | Optional | Alternative shapes (see declared variants) |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `source` | Required | any |  |
+| `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `value_money` | Required | any |  |
+
+Variants: any, any.
+
+## CreateGiftCardNotificationRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_id` | Required | string |  |
+| `recipient` | Required | [GiftCardNotificationRecipient](MODELS.md#giftcardnotificationrecipient) |  |
+| `resend_of_notification_id` | Optional | string |  |
+
+## CreateGiftCardRedemptionRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | any |  |
+| `capture_mode` | Required | string | Values: `"automatic"`, `"manual"`. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `gift_card_id` | Required | string |  |
+
+Variants: any, any.
+
+## CreateGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. |
+| `customer_id` | Optional | string |  |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `funding` | Optional | Alternative shapes (see declared variants) |  |
+| `notification` | Optional | object | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.recipients.write in addition to issuance authority. |
 
 ## CreateInlineModifierGroupRequest
 
@@ -2923,6 +3229,7 @@ Variants: any, any.
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `fulfillment` | Optional | [LineItemFulfillmentRequest](MODELS.md#lineitemfulfillmentrequest) |  |
+| `gift_card_purchase` | Optional | object | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. |
 | `image` | Optional | [ImageReferenceRequest](MODELS.md#imagereferencerequest) |  |
 | `inventory_demands` | Optional | Array of [OrderDraftLineItemInventoryDemandRequest](MODELS.md#orderdraftlineiteminventorydemandrequest) |  |
 | `metadata` | Optional | object |  |
@@ -3238,7 +3545,7 @@ Variants: any, any.
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. pattern: `^ms_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `name` | Required | string |  |
 | `options` | Optional | Array of [CreateProductOptionRequest](MODELS.md#createproductoptionrequest) | minItems: `1`. |
-| `product_type` | Required | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
+| `product_type` | Required | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `variants` | Optional | Array of [ProductVariantRequest](MODELS.md#productvariantrequest) | minItems: `1`. |
 
@@ -3295,6 +3602,7 @@ Variants: any, any.
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `charges` | Optional | Array of [RefundCharge](MODELS.md#refundcharge) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `gift_card_load_id` | Optional | string | Original standalone gift card funding load paid by a Flint payment. Refunds its paid consideration and removes the corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with order, line item, charge, tax or tender targets. pattern: `^gcl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `line_items` | Optional | Array of [RefundLineItem](MODELS.md#refundlineitem) |  |
 | `metadata` | Optional | object |  |
 | `order_id` | Optional | string |  |
@@ -3303,6 +3611,7 @@ Variants: any, any.
 | `reason_message` | Optional | string |  |
 | `refund_method` | Optional | string | Values: `"original_payment"`. |
 | `tax_breakdown_refunds` | Optional | Array of [RefundTaxBreakdownRefundIn](MODELS.md#refundtaxbreakdownrefundin) |  |
+| `tender_allocations` | Optional | Array of [RefundTenderAllocationRequest](MODELS.md#refundtenderallocationrequest) | Exhaustive allocations to original tenders. Amounts sum to amount_money when supplied; otherwise their sum determines the refund. Selected line-item, charge and flat-tax components must be covered by their original tenders. Additional untargeted value follows the default tender order. Gift card destinations default to original. Select replacement when the original card is closed or cannot accept the full credit within its balance cap. minItems: `1`. maxItems: `21`. |
 
 #### CreateRefundRequest reason values
 
@@ -3319,7 +3628,18 @@ Variants: any, any.
 - `"accidental_order"`
 - `"other"`
 
-Variants: any, any.
+Variants: any, any, any, any.
+
+## CreateRefundResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [Refund](MODELS.md#refund) |  |
+| `gift_card_codes` | Optional | Array of [RefundGiftCardCode](MODELS.md#refundgiftcardcode) | Replacement card codes recovered from the original command for 24 hours. Omitted after the recovery window and never returned by ordinary refund reads or events. Response only. |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
 
 ## CreateReportRequest
 
@@ -3330,12 +3650,14 @@ Variants: any, any.
 | `currency` | Required | string | Three-letter ISO 4217 currency. Reports never combine currencies. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `interval_end_at` | Required | string | Exclusive report interval end instant. Format: `date-time`. |
 | `interval_start_at` | Required | string | Inclusive report interval start instant. Format: `date-time`. |
-| `report_type` | Required | string | Choose tax_transactions_itemized_v1 for frozen Quaderno-backed collection and successful refund evidence. This export supports reconciliation and import. It is not a tax return, nexus decision, or filing instruction. Values: [8 declared values](#createreportrequest-report_type-values). |
+| `report_type` | Required | string | Choose tax_transactions_itemized_v1 for frozen Quaderno-backed collection and successful refund evidence. This export supports reconciliation and import. It is not a tax return, nexus decision, or filing instruction. Values: [10 declared values](#createreportrequest-report_type-values). |
 | `timezone` | Optional | string | IANA timezone used for date bucketing. Defaults to UTC. |
 
 #### CreateReportRequest report_type values
 
+- `"gift_card_liability_v1"`
 - `"orders_itemized_v1"`
+- `"orders_itemized_v2"`
 - `"payments_itemized_v1"`
 - `"balance_transactions_itemized_v1"`
 - `"payouts_itemized_v1"`
@@ -3729,7 +4051,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [185 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Values: [196 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -3762,6 +4084,15 @@ Variants: any, any, any.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"delivery_rate_callback.archived"`
 - `"delivery_rate_callback.created"`
 - `"delivery_rate_callback.deactivated"`
@@ -3908,12 +4239,14 @@ Variants: any, any, any.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.resumed"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.trial_ending"`
@@ -4170,6 +4503,7 @@ One credited invoice line, with the discount and tax share Flint derived from th
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `buyer_capabilities` | Optional | object | What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. |
 | `merchant_account_url` | Optional | string |  |
 | `mode` | Optional | string | Values: `"flint_hosted"`, `"merchant_hosted"`. |
 | `presentation` | Optional | [CustomerAccountPresentation](MODELS.md#customeraccountpresentation) |  |
@@ -4259,6 +4593,26 @@ One credited invoice line, with the discount and tax share Flint derived from th
 | `order_receipts` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
 | `returns` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
 | `subscription_lifecycle` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
+
+## CustomerEmailPreferences
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `checkout_reminders` | Required | boolean | A reminder after leaving checkout without paying. |
+| `customer_id` | Required | string | Flint customer ID fixed by the customer session. |
+| `shipping_updates` | Required | boolean | Emails about shipments and deliveries, such as shipped, out for delivery, and delivered. |
+
+## CustomerEmailPreferencesResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [CustomerEmailPreferences](MODELS.md#customeremailpreferences) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
 
 ## CustomerListResponse
 
@@ -6711,7 +7065,7 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1128 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
 | `conflicting_fields` | Optional | Array of string |  |
 | `current_checkout_session_id` | Optional | string |  |
@@ -6815,6 +7169,11 @@ Variants: any, any, any, any, any, any, any.
 - `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
 - `"BUYER_INVOICE_CREDENTIAL_INVALID"`
 - `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CANCELLATION_COMMENT_TOO_LONG"`
+- `"CANCELLATION_REASON_DUPLICATE"`
+- `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
+- `"CANCELLATION_REASON_NOT_OFFERED"`
+- `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
 - `"CANNOT_PAUSE"`
 - `"CANNOT_RESUME"`
 - `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
@@ -6911,6 +7270,7 @@ Variants: any, any, any, any, any, any, any.
 - `"CUSTOMER_DELETION_BLOCKED"`
 - `"CUSTOMER_DELETION_PROCESSING"`
 - `"CUSTOMER_EMAIL_ALREADY_USED"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
 - `"CUSTOMER_SESSIONS_UNAVAILABLE"`
 - `"CUSTOMER_SESSION_EXPIRED"`
 - `"CUSTOMER_SESSION_NOT_FOUND"`
@@ -6921,6 +7281,7 @@ Variants: any, any, any, any, any, any, any.
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
+- `"CUSTOMER_VERIFICATION_NOT_SENT"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
@@ -7079,6 +7440,37 @@ Variants: any, any, any, any, any, any, any.
 - `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
 - `"FULFILLMENT_TERMINAL"`
 - `"FULFILLMENT_TYPE_REQUIRED"`
+- `"GIFT_CARDS_UNAVAILABLE"`
+- `"GIFT_CARD_ALLOCATION_CHANGED"`
+- `"GIFT_CARD_ALLOCATION_REQUIRED"`
+- `"GIFT_CARD_BUNDLE_NOT_SUPPORTED"`
+- `"GIFT_CARD_BUYER_DEVICE_REQUIRED"`
+- `"GIFT_CARD_BUYER_REQUIRED"`
+- `"GIFT_CARD_CATALOG_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CHALLENGE_REQUIRED"`
+- `"GIFT_CARD_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CONFIGURATION_NOT_APPLICABLE"`
+- `"GIFT_CARD_CURRENCY_NOT_SUPPORTED"`
+- `"GIFT_CARD_CURRENCY_UNSUPPORTED"`
+- `"GIFT_CARD_INSUFFICIENT_VALUE"`
+- `"GIFT_CARD_INVENTORY_NOT_SUPPORTED"`
+- `"GIFT_CARD_MODIFIERS_NOT_SUPPORTED"`
+- `"GIFT_CARD_NOT_FOUND"`
+- `"GIFT_CARD_PRODUCT_TYPE_IMMUTABLE"`
+- `"GIFT_CARD_PURCHASE_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_INVALID"`
+- `"GIFT_CARD_PURCHASE_LIMIT_EXCEEDED"`
+- `"GIFT_CARD_PURCHASE_NOT_APPLICABLE"`
+- `"GIFT_CARD_PURCHASE_REFUND_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_SOURCE_REQUIRED"`
+- `"GIFT_CARD_PURCHASE_VERIFICATION_UNAVAILABLE"`
+- `"GIFT_CARD_RECIPIENT_VERIFICATION_REQUIRED"`
+- `"GIFT_CARD_REFUND_DESTINATION_REQUIRED"`
+- `"GIFT_CARD_STATE_CONFLICT"`
+- `"GIFT_CARD_SUBSCRIPTION_NOT_SUPPORTED"`
+- `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
+- `"GIFT_CARD_TAX_NOT_SUPPORTED"`
+- `"GIFT_CARD_UNAVAILABLE"`
 - `"HOSTED_INSTALL_UNAVAILABLE"`
 - `"IDEMPOTENCY_CLEAR_FAILED"`
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
@@ -7144,8 +7536,11 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BOOTSTRAP_SCOPES"`
 - `"INVALID_BUNDLE_STATUS"`
 - `"INVALID_BUSINESS_NAME"`
+- `"INVALID_BUYER_CANCELLATION_TIMING"`
+- `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
+- `"INVALID_CANCELLATION_REASON_CODE"`
 - `"INVALID_CAPABILITY"`
 - `"INVALID_CAPTURE_AMOUNT"`
 - `"INVALID_CAPTURE_METHOD"`
@@ -7221,6 +7616,10 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_FULFILLMENT_SHIPMENT_STATUS"`
 - `"INVALID_FULFILLMENT_STATUS"`
 - `"INVALID_FULFILLMENT_TYPE"`
+- `"INVALID_GIFT_CARD_CODE"`
+- `"INVALID_GIFT_CARD_PURCHASE_REFUND"`
+- `"INVALID_GIFT_CARD_REQUEST"`
+- `"INVALID_GIFT_CARD_SELECTION"`
 - `"INVALID_HAS_PLAN"`
 - `"INVALID_ID"`
 - `"INVALID_IDEMPOTENCY_KEY"`
@@ -7309,6 +7708,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_REFUND_METHOD"`
 - `"INVALID_REFUND_REASON"`
 - `"INVALID_REFUND_STATUS"`
+- `"INVALID_REFUND_TENDER_ALLOCATION"`
 - `"INVALID_RELATED_OBJECT_ID"`
 - `"INVALID_RELATED_OBJECT_TYPE"`
 - `"INVALID_RELATED_REQUEST_ID"`
@@ -7319,6 +7719,9 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_REQUEST_BODY"`
 - `"INVALID_RESOURCE_ID"`
 - `"INVALID_RESOURCE_TYPE"`
+- `"INVALID_RETENTION_OFFER_KIND"`
+- `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
+- `"INVALID_RETURN_URL"`
 - `"INVALID_REWARD_SELECTION"`
 - `"INVALID_ROLE"`
 - `"INVALID_RULE_GROUP"`
@@ -7594,6 +7997,8 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
 - `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
 - `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
+- `"ORDER_REQUIRED_FOR_TENDER_REFUND"`
+- `"ORDER_REVISION_REQUIRED"`
 - `"ORDER_STATUS_NOT_CLOSABLE"`
 - `"ORDER_TAX_CALCULATION_FAILED"`
 - `"ORDER_TAX_LOCATION_INVALID"`
@@ -7615,6 +8020,9 @@ Variants: any, any, any, any, any, any, any.
 - `"PARTNER_APP_NOT_FOUND"`
 - `"PARTNER_AUTH_UNSUPPORTED"`
 - `"PARTNER_TOKEN_VALIDATION_FAILED"`
+- `"PAUSE_DURATION_REQUIRED"`
+- `"PAUSE_DURATION_TOO_LONG"`
+- `"PAUSE_NOT_ALLOWED"`
 - `"PAYMENT_ACTION_EXPIRED"`
 - `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
 - `"PAYMENT_ATTEMPT_FROZEN"`
@@ -7724,6 +8132,8 @@ Variants: any, any, any, any, any, any, any.
 - `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
 - `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TENDER_CAPACITY_CONFLICT"`
+- `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
@@ -7740,6 +8150,10 @@ Variants: any, any, any, any, any, any, any.
 - `"RESOURCE_LIMIT_EXCEEDED"`
 - `"RESOURCE_NOT_FOUND"`
 - `"RESOURCE_TIMELINE_TOKEN_INVALID"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_NOT_ALLOWED"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_REQUIRED"`
+- `"RETENTION_OFFER_PAUSE_TOO_LONG"`
+- `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
@@ -8811,6 +9225,14 @@ Variants: object, object, object, object, object, object, object, object, object
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `reason` | Optional | string | maxLength: `500`. |
 
+## GetOrCreateReturnResolutionCheckoutSessionRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the Return's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
+
 ## GetOrCreateReturnResolutionCheckoutSessionResponse
 
 
@@ -8983,6 +9405,544 @@ Variants: object, object, object, object, object, object, object, object, object
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## GiftCard
+
+Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `available_money` | Required | object | Response only. |
+| `balance_money` | Required | object | Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. Response only. |
+| `customer_id` | Required | string or null | Response only. |
+| `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `last_characters` | Required | string | Response only. |
+| `last_loaded_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `last_redeemed_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `merchant_id` | Required | string | Response only. |
+| `reserved_money` | Required | object | Response only. |
+| `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. Response only. |
+| `supported_actions` | Required | Array of string | Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardCommandResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardCommandResult](MODELS.md#giftcardcommandresult) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardCommandResult
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Optional | string |  |
+| `funding_loss_disposition` | Optional | [GiftCardFundingLossDisposition](MODELS.md#giftcardfundinglossdisposition) |  |
+| `gift_card` | Optional | [GiftCard](MODELS.md#giftcard) |  |
+| `gift_card_load` | Optional | [GiftCardLoad](MODELS.md#giftcardload) |  |
+| `gift_card_notification` | Optional | [GiftCardNotification](MODELS.md#giftcardnotification) |  |
+| `gift_card_redemption` | Optional | [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
+| `gift_card_transaction_ids` | Required | Array of string |  |
+| `gift_cards` | Optional | Array of [GiftCard](MODELS.md#giftcard) |  |
+| `secret_recovery_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+
+## GiftCardCustomAmountBounds
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_money` | Required | object |  |
+| `minimum_money` | Required | object |  |
+
+## GiftCardFundingDispute
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `dispute_id` | Required | string | Response only. |
+| `requires_resolution` | Required | boolean | Response only. |
+| `resolution` | Optional | object | Response only. |
+| `status` | Required | string | Values: `"open"`, `"won"`, `"lost"`. Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardFundingLossDisposition
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `disposition` | Required | string | Values: `"honor_value"`. Response only. |
+| `dispute_amount_money` | Required | object | The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Response only. |
+| `dispute_id` | Required | string | Response only. |
+| `gift_card_funding_disposition_id` | Required | string | Response only. |
+| `gift_card_ids` | Required | Array of string | Response only. |
+| `honored_value_money` | Required | object | Response only. |
+| `original_gift_card_consideration_money` | Required | object | Response only. |
+| `payment_intent_id` | Required | string | Response only. |
+| `preserved_reserved_value_money` | Required | object | Response only. |
+| `reason` | Required | string | Response only. |
+
+## GiftCardFundingLossResolution
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `disposition` | Required | string | Values: `"honor_value"`. Response only. |
+| `gift_card_funding_disposition_id` | Required | string | Response only. |
+| `reason` | Required | string | Response only. |
+
+## GiftCardFundingSource
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `funding_source_type` | Required | string | Values: [7 declared values](#giftcardfundingsource-funding_source_type-values). |
+| `order_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `order_manual_payment_id` | Optional | string | minLength: `1`. maxLength: `255`. Response only. |
+| `payment_intent_id` | Optional | string | For standalone funding, use a captured payment intent without an order_id. Order-linked payments fund purchased cards through their original order. minLength: `1`. maxLength: `255`. |
+| `reference_id` | Required | string | minLength: `1`. maxLength: `255`. |
+
+#### GiftCardFundingSource funding_source_type values
+
+- `"external_payment"`
+- `"flint_payment"`
+- `"flint_manual_payment"`
+- `"import"`
+- `"adjustment"`
+- `"gift_card_refund"`
+- `"gift_card_purchase_refund_recovery"`
+
+Variants: any, any, any, any, any, any, any.
+
+## GiftCardListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [GiftCard](MODELS.md#giftcard) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardLoad
+
+Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `consideration_money` | Required | Alternative shapes (see declared variants) | Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `funding_disputes` | Required | Array of [GiftCardFundingDispute](MODELS.md#giftcardfundingdispute) | Restrictions tied to original funding, including replacement refund lots. A win clears only its own restriction. A loss remains frozen and requires an explicit value and loss disposition. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_load_id` | Required | string | Response only. |
+| `idempotency_key` | Required | string | Response only. |
+| `purchase_refund_value_holds` | Optional | Array of [GiftCardPurchaseRefundValueHold](MODELS.md#giftcardpurchaserefundvaluehold) | Pending original cash refunds holding unspent value on this descendant funding lot. Unknown provider outcomes retain these holds. Response only. |
+| `purchase_refunds` | Required | Array of [GiftCardPurchaseRefundAllocation](MODELS.md#giftcardpurchaserefundallocation) | Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. Response only. |
+| `purchase_restoration` | Optional | object | Response only. |
+| `refund_provenance` | Optional | object | Response only. |
+| `refund_transferred_money` | Optional | object | Response only. |
+| `remaining_money` | Required | object | Response only. |
+| `reversed_money` | Required | object | Response only. |
+| `source` | Required | Alternative shapes (see declared variants) | Response only. |
+| `source_created_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `value_money` | Required | object | Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardLoadListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [GiftCardLoad](MODELS.md#giftcardload) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardLoadResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardLoad](MODELS.md#giftcardload) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardMoney
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. |
+
+## GiftCardNotification
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `delivery` | Optional | object | Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unknown. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_notification_id` | Required | string | Response only. |
+| `recipient` | Required | object | Response only. |
+| `resend_of_notification_id` | Optional | string | Response only. |
+| `sent_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `status` | Required | string | Values: `"scheduled"`, `"queued"`, `"sending"`, `"sent"`, `"failed"`, `"unknown"`, `"bounced"`, `"canceled"`. Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardNotificationDelivery
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `attempts` | Required | Array of [GiftCardNotificationDeliveryAttempt](MODELS.md#giftcardnotificationdeliveryattempt) | maxItems: `20`. Response only. |
+| `has_more_attempts` | Required | boolean | Response only. |
+| `has_more_provider_outcomes` | Required | boolean | Response only. |
+| `provider_outcomes` | Required | Array of [GiftCardNotificationProviderOutcome](MODELS.md#giftcardnotificationprovideroutcome) | maxItems: `50`. Response only. |
+
+## GiftCardNotificationDeliveryAttempt
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `attempt_number` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `delivery_attempt_id` | Required | string | Response only. |
+| `provider_status_code` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `status` | Required | string | Values: `"started"`, `"sent"`, `"failed"`, `"abandoned"`. Response only. |
+
+## GiftCardNotificationListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [GiftCardNotification](MODELS.md#giftcardnotification) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardNotificationProviderOutcome
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_attempt_id` | Required | string | Response only. |
+| `kind` | Required | string | Values: `"processed"`, `"delivered"`, `"bounce"`, `"dropped"`. Response only. |
+| `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `received_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+## GiftCardNotificationRecipient
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Required | string | Format: `email`. maxLength: `254`. |
+| `message` | Optional | string | maxLength: `200`. |
+| `name` | Optional | string | maxLength: `255`. |
+| `send_at` | Optional | string | Optional whole-second send time between now and 90 days from now. Format: `date-time`. |
+
+## GiftCardNotificationResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardNotification](MODELS.md#giftcardnotification) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardProductConfiguration
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `custom_amount_bounds` | Optional | [GiftCardCustomAmountBounds](MODELS.md#giftcardcustomamountbounds) |  |
+| `face_value_money` | Required | object |  |
+| `price_mode` | Required | string | Values: `"face_value"`, `"discounted"`. |
+
+## GiftCardPurchaseRecipient
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Required | string | Format: `email`. minLength: `1`. maxLength: `254`. |
+| `message` | Optional | string | maxLength: `200`. |
+| `name` | Optional | string | maxLength: `255`. |
+| `send_at` | Optional | string | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: `date-time`. |
+
+## GiftCardPurchaseRefundAllocation
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `consideration_money` | Required | object | Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `order_manual_reversal_id` | Optional | string | Response only. |
+| `purchase_refund_allocation_id` | Required | string | Response only. |
+| `recovery` | Optional | object | Response only. |
+| `refund_id` | Optional | string | Response only. |
+| `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`. Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocation](MODELS.md#giftcardpurchaserefundvalueallocation) | Actual value lots reserved or reversed for this original cash refund. Amounts use the parent value_money currency. Omitted when all value remains on the original load. Response only. |
+| `value_money` | Required | object | Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardPurchaseRefundRecovery
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `destination` | Required | string | Values: `"original"`, `"replacement"`. Response only. |
+| `destinations` | Required | Array of [GiftCardPurchaseRefundRecoveryDestination](MODELS.md#giftcardpurchaserefundrecoverydestination) | Response only. |
+
+## GiftCardPurchaseRefundRecoveryDestination
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_load_id` | Required | string | Response only. |
+| `value_money` | Required | object | Response only. |
+
+## GiftCardPurchaseRefundValueAllocation
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_load_id` | Required | string | Response only. |
+
+## GiftCardPurchaseRefundValueHold
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `purchase_refund_allocation_id` | Required | string | Response only. |
+| `refund_id` | Required | string | Response only. |
+| `root_gift_card_id` | Required | string | Response only. |
+| `root_gift_card_load_id` | Required | string | Response only. |
+| `value_money` | Required | object | Response only. |
+
+## GiftCardPurchaseRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `face_value_money` | Optional | object |  |
+| `recipient` | Optional | [GiftCardPurchaseRecipient](MODELS.md#giftcardpurchaserecipient) |  |
+
+## GiftCardPurchaseRestoration
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_line_item_id` | Required | string | Response only. |
+| `original_gift_card_id` | Required | string | Response only. |
+| `original_gift_card_load_id` | Required | string | Response only. |
+| `purchase_refund_allocation_id` | Required | string | Response only. |
+| `unit_ordinal` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardPurchaseSnapshot
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `configuration` | Optional | [GiftCardProductConfiguration](MODELS.md#giftcardproductconfiguration) |  |
+| `consideration_money` | Required | object |  |
+| `face_value_money` | Required | object |  |
+| `recipient` | Optional | [GiftCardPurchaseRecipient](MODELS.md#giftcardpurchaserecipient) |  |
+| `reference_price_money` | Required | object |  |
+
+## GiftCardRedemption
+
+Independent redemption resource. Operational reservations are separate from immutable posted transactions. Captured value can be refunded only against its original redemption.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `capture_mode` | Required | string | Values: `"automatic"`, `"manual"`. Response only. |
+| `captured_money` | Required | object | Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_redemption_id` | Required | string | Response only. |
+| `idempotency_key` | Required | string | Response only. |
+| `order_id` | Required | string or null | Response only. |
+| `refunded_money` | Required | object | Response only. |
+| `remaining_refundable_money` | Required | object | Response only. |
+| `requested_money` | Required | object | Response only. |
+| `reserved_money` | Required | object | Response only. |
+| `status` | Required | string | Values: `"reserved"`, `"captured"`, `"canceled"`, `"expired"`. Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+
+## GiftCardRedemptionListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardRedemptionResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardRefundProvenance
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `original_consideration_money` | Required | Alternative shapes (see declared variants) | Response only. |
+| `original_created_at` | Required | string | Format: `date-time`. Response only. |
+| `original_source` | Required | any | Response only. |
+| `original_source_created_at` | Required | string or null | Format: `date-time`. Response only. |
+| `refund_allocation_id` | Required | string | Response only. |
+| `root_gift_card_id` | Required | string | Response only. |
+| `root_gift_card_load_id` | Required | string | Response only. |
+| `source_gift_card_id` | Required | string | Response only. |
+| `source_gift_card_redemption_id` | Required | string | Response only. |
+| `source_purchase_refund_allocation_id` | Optional | string | Response only. |
+| `source_refund_id` | Optional | string | Response only. |
+
+## GiftCardResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCard](MODELS.md#giftcard) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardTransaction
+
+Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new transactions.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Response only. |
+| `balance_after_money` | Required | object | Response only. |
+| `balance_before_money` | Required | object | Response only. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_transaction_id` | Required | string | Response only. |
+| `idempotency_key` | Required | string | Response only. |
+| `merchant_sequence` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `order_id` | Optional | string | Response only. |
+| `posted_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `reason` | Required | string | Values: [7 declared values](#giftcardtransaction-reason-values). Response only. |
+| `sequence` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `source_id` | Required | string | Response only. |
+| `source_type` | Required | string | Values: [9 declared values](#giftcardtransaction-source_type-values). Response only. |
+| `transaction_type` | Required | string | Values: [11 declared values](#giftcardtransaction-transaction_type-values). Response only. |
+
+#### GiftCardTransaction reason values
+
+- `""`
+- `"complimentary"`
+- `"balance_accidentally_decreased"`
+- `"support_issue"`
+- `"suspicious_activity"`
+- `"balance_accidentally_increased"`
+- `"customer_request"`
+
+#### GiftCardTransaction source_type values
+
+- `"gift_card_load"`
+- `"gift_card_redemption"`
+- `"refund"`
+- `"gift_card_adjustment"`
+- `"external_cash_out"`
+- `"gift_card_purchase_refund"`
+- `"gift_card_manual_purchase_reversal"`
+- `"gift_card_funding_disposition"`
+- `"gift_card_purchase_refund_recovery"`
+
+#### GiftCardTransaction transaction_type values
+
+- `"load"`
+- `"import"`
+- `"redeem"`
+- `"refund"`
+- `"refund_transfer"`
+- `"adjustment"`
+- `"cash_out"`
+- `"purchase_reversal"`
+- `"funding_loss_accepted"`
+- `"purchase_refund_recovery"`
+- `"purchase_refund_recovery_transfer"`
+
+## GiftCardTransactionListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [GiftCardTransaction](MODELS.md#giftcardtransaction) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## GiftCardVersionRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+
 ## GrantOrganizationMembershipRequest
 
 
@@ -9001,6 +9961,14 @@ Variants: object, object, object, object, object, object, object, object, object
 | `held_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `used_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+
+## HonorGiftCardFundingLossRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `reason` | Required | string | Your reason for honoring the gift card value despite the confirmed funding loss. minLength: `1`. maxLength: `200`. |
 
 ## HostedCheckout
 
@@ -9071,6 +10039,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhook067bab7c655aPayload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook06baf65fb878Payload
 
 
@@ -9111,6 +10085,12 @@ Variants: any, any.
 | `request` | Required | object or null |  |
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
+
+## IncomingWebhook0ed7a866163aPayload
+
+
+
+Variants: any, any.
 
 ## IncomingWebhook10de2029f92ePayload
 
@@ -9532,7 +10512,25 @@ Variants: any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## IncomingWebhook42d1750d6349Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook42dd85c73d6bPayload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook43a17bfb8144Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook44764240a51fPayload
 
 
 
@@ -9554,6 +10552,12 @@ Variants: any, any.
 | `request` | Required | object or null |  |
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
+
+## IncomingWebhook45be12e0c91dPayload
+
+
+
+Variants: any, any.
 
 ## IncomingWebhook46209f173440Payload
 
@@ -9653,6 +10657,12 @@ Variants: any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## IncomingWebhook588d0bbca380Payload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook58b33e47adbePayload
 
 
@@ -9660,6 +10670,12 @@ Variants: any, any.
 Variants: any, any.
 
 ## IncomingWebhook5bf59a0e8b86Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook5de06b12da29Payload
 
 
 
@@ -10094,6 +11110,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhook9d6f9adeef1cPayload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook9f2c64cbfcafPayload
 
 
@@ -10357,6 +11379,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhookc7c9c518e9d3Payload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhookc823e4336c4aPayload
 
 
@@ -10424,6 +11452,12 @@ Variants: any, any.
 Variants: any, any.
 
 ## IncomingWebhookcff5d1339489Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhookd299182c6639Payload
 
 
 
@@ -10722,6 +11756,19 @@ Variants: any, any.
 ## IncomingWebhookff9afffd27c6Payload
 
 
+
+Variants: any, any.
+
+## InitialGiftCardFunding
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `consideration_money` | Optional | Alternative shapes (see declared variants) |  |
+| `source` | Required | any |  |
+| `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `value_money` | Required | any |  |
 
 Variants: any, any.
 
@@ -11508,7 +12555,7 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1128 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
 | `conflicting_fields` | Optional | Array of string |  |
 | `current_checkout_session_id` | Optional | string |  |
@@ -11612,6 +12659,11 @@ Variants: object, object, object.
 - `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
 - `"BUYER_INVOICE_CREDENTIAL_INVALID"`
 - `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CANCELLATION_COMMENT_TOO_LONG"`
+- `"CANCELLATION_REASON_DUPLICATE"`
+- `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
+- `"CANCELLATION_REASON_NOT_OFFERED"`
+- `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
 - `"CANNOT_PAUSE"`
 - `"CANNOT_RESUME"`
 - `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
@@ -11708,6 +12760,7 @@ Variants: object, object, object.
 - `"CUSTOMER_DELETION_BLOCKED"`
 - `"CUSTOMER_DELETION_PROCESSING"`
 - `"CUSTOMER_EMAIL_ALREADY_USED"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
 - `"CUSTOMER_SESSIONS_UNAVAILABLE"`
 - `"CUSTOMER_SESSION_EXPIRED"`
 - `"CUSTOMER_SESSION_NOT_FOUND"`
@@ -11718,6 +12771,7 @@ Variants: object, object, object.
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
+- `"CUSTOMER_VERIFICATION_NOT_SENT"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
@@ -11876,6 +12930,37 @@ Variants: object, object, object.
 - `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
 - `"FULFILLMENT_TERMINAL"`
 - `"FULFILLMENT_TYPE_REQUIRED"`
+- `"GIFT_CARDS_UNAVAILABLE"`
+- `"GIFT_CARD_ALLOCATION_CHANGED"`
+- `"GIFT_CARD_ALLOCATION_REQUIRED"`
+- `"GIFT_CARD_BUNDLE_NOT_SUPPORTED"`
+- `"GIFT_CARD_BUYER_DEVICE_REQUIRED"`
+- `"GIFT_CARD_BUYER_REQUIRED"`
+- `"GIFT_CARD_CATALOG_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CHALLENGE_REQUIRED"`
+- `"GIFT_CARD_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CONFIGURATION_NOT_APPLICABLE"`
+- `"GIFT_CARD_CURRENCY_NOT_SUPPORTED"`
+- `"GIFT_CARD_CURRENCY_UNSUPPORTED"`
+- `"GIFT_CARD_INSUFFICIENT_VALUE"`
+- `"GIFT_CARD_INVENTORY_NOT_SUPPORTED"`
+- `"GIFT_CARD_MODIFIERS_NOT_SUPPORTED"`
+- `"GIFT_CARD_NOT_FOUND"`
+- `"GIFT_CARD_PRODUCT_TYPE_IMMUTABLE"`
+- `"GIFT_CARD_PURCHASE_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_INVALID"`
+- `"GIFT_CARD_PURCHASE_LIMIT_EXCEEDED"`
+- `"GIFT_CARD_PURCHASE_NOT_APPLICABLE"`
+- `"GIFT_CARD_PURCHASE_REFUND_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_SOURCE_REQUIRED"`
+- `"GIFT_CARD_PURCHASE_VERIFICATION_UNAVAILABLE"`
+- `"GIFT_CARD_RECIPIENT_VERIFICATION_REQUIRED"`
+- `"GIFT_CARD_REFUND_DESTINATION_REQUIRED"`
+- `"GIFT_CARD_STATE_CONFLICT"`
+- `"GIFT_CARD_SUBSCRIPTION_NOT_SUPPORTED"`
+- `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
+- `"GIFT_CARD_TAX_NOT_SUPPORTED"`
+- `"GIFT_CARD_UNAVAILABLE"`
 - `"HOSTED_INSTALL_UNAVAILABLE"`
 - `"IDEMPOTENCY_CLEAR_FAILED"`
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
@@ -11941,8 +13026,11 @@ Variants: object, object, object.
 - `"INVALID_BOOTSTRAP_SCOPES"`
 - `"INVALID_BUNDLE_STATUS"`
 - `"INVALID_BUSINESS_NAME"`
+- `"INVALID_BUYER_CANCELLATION_TIMING"`
+- `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
+- `"INVALID_CANCELLATION_REASON_CODE"`
 - `"INVALID_CAPABILITY"`
 - `"INVALID_CAPTURE_AMOUNT"`
 - `"INVALID_CAPTURE_METHOD"`
@@ -12018,6 +13106,10 @@ Variants: object, object, object.
 - `"INVALID_FULFILLMENT_SHIPMENT_STATUS"`
 - `"INVALID_FULFILLMENT_STATUS"`
 - `"INVALID_FULFILLMENT_TYPE"`
+- `"INVALID_GIFT_CARD_CODE"`
+- `"INVALID_GIFT_CARD_PURCHASE_REFUND"`
+- `"INVALID_GIFT_CARD_REQUEST"`
+- `"INVALID_GIFT_CARD_SELECTION"`
 - `"INVALID_HAS_PLAN"`
 - `"INVALID_ID"`
 - `"INVALID_IDEMPOTENCY_KEY"`
@@ -12106,6 +13198,7 @@ Variants: object, object, object.
 - `"INVALID_REFUND_METHOD"`
 - `"INVALID_REFUND_REASON"`
 - `"INVALID_REFUND_STATUS"`
+- `"INVALID_REFUND_TENDER_ALLOCATION"`
 - `"INVALID_RELATED_OBJECT_ID"`
 - `"INVALID_RELATED_OBJECT_TYPE"`
 - `"INVALID_RELATED_REQUEST_ID"`
@@ -12116,6 +13209,9 @@ Variants: object, object, object.
 - `"INVALID_REQUEST_BODY"`
 - `"INVALID_RESOURCE_ID"`
 - `"INVALID_RESOURCE_TYPE"`
+- `"INVALID_RETENTION_OFFER_KIND"`
+- `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
+- `"INVALID_RETURN_URL"`
 - `"INVALID_REWARD_SELECTION"`
 - `"INVALID_ROLE"`
 - `"INVALID_RULE_GROUP"`
@@ -12391,6 +13487,8 @@ Variants: object, object, object.
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
 - `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
 - `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
+- `"ORDER_REQUIRED_FOR_TENDER_REFUND"`
+- `"ORDER_REVISION_REQUIRED"`
 - `"ORDER_STATUS_NOT_CLOSABLE"`
 - `"ORDER_TAX_CALCULATION_FAILED"`
 - `"ORDER_TAX_LOCATION_INVALID"`
@@ -12412,6 +13510,9 @@ Variants: object, object, object.
 - `"PARTNER_APP_NOT_FOUND"`
 - `"PARTNER_AUTH_UNSUPPORTED"`
 - `"PARTNER_TOKEN_VALIDATION_FAILED"`
+- `"PAUSE_DURATION_REQUIRED"`
+- `"PAUSE_DURATION_TOO_LONG"`
+- `"PAUSE_NOT_ALLOWED"`
 - `"PAYMENT_ACTION_EXPIRED"`
 - `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
 - `"PAYMENT_ATTEMPT_FROZEN"`
@@ -12521,6 +13622,8 @@ Variants: object, object, object.
 - `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
 - `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TENDER_CAPACITY_CONFLICT"`
+- `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
@@ -12537,6 +13640,10 @@ Variants: object, object, object.
 - `"RESOURCE_LIMIT_EXCEEDED"`
 - `"RESOURCE_NOT_FOUND"`
 - `"RESOURCE_TIMELINE_TOKEN_INVALID"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_NOT_ALLOWED"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_REQUIRED"`
+- `"RETENTION_OFFER_PAUSE_TOO_LONG"`
+- `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
@@ -12879,6 +13986,7 @@ Variants: object, object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_schedule_entry_id` | Optional | string |  |
+| `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the invoice's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
 
 ## InvoiceCheckoutSessionResponse
 
@@ -13760,6 +14868,14 @@ The inventory capability on a Location. Present only when the caller holds comme
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## LookupGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Required | string |  |
+
 ## ManualDiscountRequest
 
 
@@ -14062,7 +15178,7 @@ Current Flint merchant billing balance for one billing account and currency.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [185 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [196 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | minimum: `1`. |
@@ -14101,6 +15217,15 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"delivery_rate_callback.archived"`
 - `"delivery_rate_callback.created"`
 - `"delivery_rate_callback.deactivated"`
@@ -14247,12 +15372,14 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.resumed"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.trial_ending"`
@@ -14781,6 +15908,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `active_payment_attempt` | Optional | object | Response only. |
 | `applied_discounts` | Optional | Array of [AppliedDiscount](MODELS.md#applieddiscount) | Response only. |
 | `authorization_amounts` | Optional | object | Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Example: `[]`. Response only. |
 | `buyer_email` | Optional | string | Response only. |
 | `buyer_note` | Optional | string |  |
 | `buyer_phone` | Optional | string | Phone the buyer gave when payment started, in E.164 format: the pay request's buyer_phone, or the phone saved on the paying checkout session. It does not change the linked customer. Response only. |
@@ -14794,6 +15922,10 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `fulfillment_status` | Optional | string | Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Response only. |
 | `fulfillments` | Optional | Array of [Fulfillment](MODELS.md#fulfillment) | Response only. |
+| `gift_card_estimate` | Optional | object | Response only. |
+| `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlement](MODELS.md#ordergiftcardsettlement) | Response only. |
+| `gift_card_tender_enabled` | Optional | boolean | Response only. |
+| `gift_cards` | Optional | Array of [OrderGiftCardSelection](MODELS.md#ordergiftcardselection) | Response only. |
 | `internal_note` | Optional | string |  |
 | `inventory_exception_status` | Optional | string | Values: `"paid_inventory_failed"`, `"resolved"`. Response only. |
 | `inventory_reservation_id` | Optional | string | The reservation holding stock for this order, when one exists. Response only. |
@@ -14803,6 +15935,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `metadata` | Optional | object |  |
 | `order_id` | Required | string | Response only. |
 | `order_number` | Optional | string | Response only. |
+| `order_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
 | `payment_collection` | Optional | object | Response only. |
 | `payment_intent_ids` | Optional | Array of string | Response only. |
@@ -15119,6 +16252,63 @@ Variants: any, any.
 | `name` | Required | string |  |
 | `state` | Required | string |  |
 
+## OrderGiftCardAllocation
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `gift_card_id` | Required | string |  |
+
+## OrderGiftCardAllocationAcceptance
+
+Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_money` | Required | object |  |
+| `gift_cards` | Required | Array of object | minItems: `1`. maxItems: `20`. |
+| `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `processor_money` | Required | object |  |
+
+## OrderGiftCardEstimate
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `can_pay` | Required | boolean |  |
+| `gift_card_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `gift_cards` | Required | Array of [OrderGiftCardAllocation](MODELS.md#ordergiftcardallocation) |  |
+| `is_reserved` | Required | boolean |  |
+| `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `processor_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+
+## OrderGiftCardSelection
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `available_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `gift_card_id` | Required | string |  |
+| `last_characters` | Required | string |  |
+| `requires_authorization` | Required | boolean |  |
+
+## OrderGiftCardSettlement
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `gift_card_id` | Required | string | Response only. |
+| `gift_card_redemption_id` | Required | string | Response only. |
+| `last_characters` | Required | string | Response only. |
+| `tip_money` | Required | object | Response only. |
+
 ## OrderInventoryRoutingSourceRequest
 
 
@@ -15143,6 +16333,7 @@ Variants: any, any.
 | `categories` | Optional | Array of [CategoryReference](MODELS.md#categoryreference) |  |
 | `description` | Optional | string |  |
 | `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `gift_card_purchase` | Optional | object | Response only. |
 | `image` | Optional | [Image](MODELS.md#image) |  |
 | `inventory_snapshot` | Optional | [LineItemInventorySnapshot](MODELS.md#lineiteminventorysnapshot) |  |
 | `metadata` | Optional | object |  |
@@ -15151,6 +16342,7 @@ Variants: any, any.
 | `name` | Required | string |  |
 | `order_line_item_id` | Required | string |  |
 | `product_id` | Optional | string |  |
+| `purchased_gift_cards` | Optional | Array of [PurchasedGiftCard](MODELS.md#purchasedgiftcard) | Masked card identities for fully funded units of this purchase line. Partial consideration does not issue a card. Response only. |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `refunded_quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -15163,7 +16355,7 @@ Variants: any, any.
 | `total_money` | Required | [SignedMoney](MODELS.md#signedmoney) |  |
 | `unit_price_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
-| `version` | Required | exact numeric string | Version to send as expected_version when replacing modifiers on this line item. Checkout-session reads return the checkout modifier version. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `version` | Required | exact numeric string | Version to send as expected_version when changing gift_card_recipient or replacing modifiers. Checkout-session reads return the checkout modifier version for modifier choices. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 
 ## OrderLineItemModifier
 
@@ -15244,6 +16436,7 @@ Variants: any, any.
 | `expected_outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `failure_code` | Optional | string | Reason code for an attempt failure or interrupted payment step, when available. For payment declines, inspect each payment leg's last_payment_error.code. Unmapped values are returned as attempt_failed. Values: [55 declared values](#orderpaymentattempt-failure_code-values). |
 | `failure_message` | Optional | string | Explanation of an attempt failure or interrupted payment step, when available. For payment declines, inspect each payment leg's last_payment_error.message. |
+| `gift_card_redemptions` | Optional | Array of [PaymentAttemptGiftCardRedemption](MODELS.md#paymentattemptgiftcardredemption) |  |
 | `is_resumable` | Required | boolean | Whether the attempt can continue through PayOrder with action: resume and this payment_attempt_id after any pending client action is complete. If false, check status before starting another payment; the attempt may still be in progress. |
 | `mode` | Required | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
 | `payment_attempt_id` | Required | string |  |
@@ -16128,7 +17321,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [191 declared values](#partnerwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [202 declared values](#partnerwebhookenvelope-event_type-values). |
 | `partner_app_id` | Required | string |  |
 | `webhook_event_id` | Required | string |  |
 
@@ -16193,6 +17386,15 @@ Variants: object, object, object, object, object, object, object, object.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -16315,12 +17517,14 @@ Variants: object, object, object, object, object, object, object, object.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
@@ -16332,7 +17536,7 @@ Variants: object, object, object, object, object, object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `pause_duration_cycles` | Optional | integer | Format: `int32`. |
+| `pause_duration_cycles` | Optional | integer | Billing cycles to pause for. Omit it to pause until the subscription is resumed. When the store's customer_account.buyer_capabilities.pause.max_cycles is set, a buyer must send a value from 1 to that limit. Format: `int32`. |
 
 ## PaymentAddOnFee
 
@@ -16342,6 +17546,18 @@ Variants: object, object, object, object, object, object, object, object.
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `fee_type` | Required | string | Values: `"invoice_collection"`, `"subscription_collection"`, `"automatic_tax"`. |
+
+## PaymentAttemptGiftCardRedemption
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `gift_card_id` | Required | string |  |
+| `gift_card_redemption_id` | Required | string |  |
+| `last_characters` | Required | string |  |
+| `tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 
 ## PaymentAttemptPaymentIntent
 
@@ -16973,6 +18189,7 @@ Variants: object, object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"confirm_payment_intents"`. |
 | `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
 | `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
@@ -16988,6 +18205,7 @@ Variants: object, object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"pay"`. |
 | `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
 | `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
@@ -17421,7 +18639,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `options` | Required | Array of [ProductOption](MODELS.md#productoption) |  |
 | `price_range` | Optional | object | Response only. |
 | `product_id` | Required | string | Response only. |
-| `product_type` | Required | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
+| `product_type` | Required | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `variant_count` | Optional | integer | Format: `int32`. Response only. |
@@ -17523,6 +18741,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `delivery_profile_id` | Optional | string |  |
 | `effective_images` | Required | Array of [Image](MODELS.md#image) | Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `gift_card_configuration` | Optional | object | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. |
 | `images` | Required | Array of [Image](MODELS.md#image) |  |
 | `images_inherited` | Required | boolean | Response only. |
 | `inventory_item_id` | Optional | string | The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. |
@@ -17589,6 +18808,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `barcode` | Optional | string |  |
 | `delivery_profile_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `gift_card_configuration` | Optional | object | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequest](MODELS.md#inventoryitemcreaterequest) |  |
 | `inventory_item_id` | Optional | string |  |
@@ -18209,6 +19429,18 @@ Variants: string, number, boolean, object.
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `timezone` | Optional | string | Response only. |
 
+## PurchasedGiftCard
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_id` | Required | string | Response only. |
+| `last_characters` | Required | string | Response only. |
+| `original_gift_card_id` | Optional | string | Response only. |
+| `restoration_reason` | Optional | string | Values: `"manual_recollection"`, `"processor_recollection"`. Response only. |
+| `unit_ordinal` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
+
 ## QueryDeliveryPickupAvailabilityRequest
 
 
@@ -18284,6 +19516,8 @@ Variants: string, number, boolean, object.
 | `review_id` | Optional | string | Response only. |
 | `status` | Required | string | Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"requires_action"`, `"canceled"`, `"partially_succeeded"`. Response only. |
 | `tax_breakdown_refunds` | Optional | Array of [RefundTaxBreakdownRefund](MODELS.md#refundtaxbreakdownrefund) |  |
+| `tender_allocations` | Optional | Array of [RefundTenderAllocation](MODELS.md#refundtenderallocation) | Response only. |
+| `unissued_gift_card_recoveries` | Optional | Array of [RefundUnissuedGiftCardRecovery](MODELS.md#refundunissuedgiftcardrecovery) | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
 #### Refund failure_reason values
@@ -18342,6 +19576,24 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `order_charge_id` | Required | string |  |
+
+## RefundGiftCardCode
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Required | string | Response only. |
+| `gift_card_id` | Required | string | Response only. |
+
+## RefundGiftCardDestination
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `gift_card_id` | Required | string | Response only. |
 
 ## RefundLineItem
 
@@ -18496,6 +19748,66 @@ Variants: string, number, boolean, object.
 | `tax_breakdown_id` | Required | string |  |
 | `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 
+## RefundTenderAllocation
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `destination` | Optional | string | Values: `"original"`, `"replacement"`. Response only. |
+| `destination_cards` | Optional | Array of [RefundGiftCardDestination](MODELS.md#refundgiftcarddestination) | Response only. |
+| `failure_reason` | Optional | string | Flint-normalized refund failure reason. Unknown provider values are returned as refund_failed. Values: [10 declared values](#refundtenderallocation-failure_reason-values). Response only. |
+| `gift_card_id` | Optional | string | Response only. |
+| `gift_card_redemption_id` | Optional | string | Response only. |
+| `payment_intent_id` | Optional | string | Response only. |
+| `refund_allocation_id` | Required | string | Response only. |
+| `refunded_tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `status` | Required | string | Values: `"pending"`, `"requires_action"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`, `"partially_succeeded"`. Response only. |
+| `tender_type` | Required | string | Values: `"payment_intent"`, `"gift_card_redemption"`. Response only. |
+
+#### RefundTenderAllocation failure_reason values
+
+- `"expired_or_canceled_card"`
+- `"lost_or_stolen_card"`
+- `"insufficient_funds"`
+- `"insufficient_available_balance"`
+- `"declined"`
+- `"merchant_request"`
+- `"payment_disputed"`
+- `"payment_refund_failed"`
+- `"payment_refund_not_attempted"`
+- `"refund_failed"`
+
+## RefundTenderAllocationRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | any |  |
+| `destination` | Optional | string | Values: `"original"`, `"replacement"`. |
+| `gift_card_redemption_id` | Optional | string |  |
+| `payment_intent_id` | Optional | string |  |
+| `tender_type` | Required | string | Values: `"payment_intent"`, `"gift_card_redemption"`. |
+
+Variants: any, any.
+
+## RefundUnissuedGiftCardRecovery
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | Response only. |
+| `order_line_item_id` | Required | string | Response only. |
+| `payment_intent_id` | Required | string | Response only. |
+| `purchase_refund_allocation_id` | Required | string | Response only. |
+| `returned_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `settlement_allocation_id` | Required | string | Response only. |
+| `source_pending_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `source_remaining_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+
 ## RegenerateInvoiceLinkResponse
 
 
@@ -18552,6 +19864,14 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `order_discount_ids` | Required | Array of string |  |
 
+## RemoveOrderGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+
 ## ReopenReturnRequest
 
 
@@ -18585,13 +19905,15 @@ Variants: string, number, boolean, object.
 | `interval_end_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `interval_start_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `report_id` | Required | string | pattern: `^rep_[0-9A-HJKMNP-TV-Z]{26}$`. Response only. |
-| `report_type` | Required | string | The generated report contract. tax_transactions_itemized_v1 contains frozen Quaderno-backed collection and successful refund evidence for reconciliation and import, not filing instructions. Values: [8 declared values](#report-report_type-values). Response only. |
+| `report_type` | Required | string | The generated report contract. tax_transactions_itemized_v1 contains frozen Quaderno-backed collection and successful refund evidence for reconciliation and import, not filing instructions. Values: [10 declared values](#report-report_type-values). Response only. |
 | `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`. Response only. |
 | `timezone` | Required | string | Response only. |
 
 #### Report report_type values
 
+- `"gift_card_liability_v1"`
 - `"orders_itemized_v1"`
+- `"orders_itemized_v2"`
 - `"payments_itemized_v1"`
 - `"balance_transactions_itemized_v1"`
 - `"payouts_itemized_v1"`
@@ -19894,6 +21216,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time; merchant reads and webhooks get an empty list. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: `[]`. Response only. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `completed_by` | Optional | [ReturnActor](MODELS.md#returnactor) |  |
@@ -20234,6 +21557,15 @@ Variants: object, object, object, object, object, object, object, object.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## RotateGiftCardCodeRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `notification` | Optional | object | Explicitly send or schedule the replacement code through private recipient access. Requires commerce.gift_cards.recipients.write in addition to secret replacement authority. |
+
 ## RotatePartnerAppSecretResponse
 
 
@@ -20294,6 +21626,12 @@ Variants: object, object, object, object, object, object, object, object.
 | `data` | Required | [DeveloperSandboxWithAPIKey](MODELS.md#developersandboxwithapikey) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
+
+## SaveMeGiftCardRequest
+
+
+
+Variants: object, object.
 
 ## SaveMePaymentMethodRequest
 
@@ -20363,6 +21701,14 @@ Variants: object, object, object, object, object, object, object, object.
 | `option_name` | Required | string |  |
 | `option_value_id` | Required | string |  |
 | `value` | Required | string |  |
+
+## SendOrderReceiptRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Required | string | Format: `email`. minLength: `1`. maxLength: `254`. |
 
 ## ServiceFulfillmentDetails
 
@@ -20593,8 +21939,10 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
 | `billing_schedule_owner` | Required | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean |  |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
 | `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `contract_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -20655,6 +22003,17 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 How billing begins. Send exactly one closed tagged-union branch.
 
 Variants: object, object, object.
+
+## SubscriptionCancellationDetails
+
+The cancellation request behind a scheduled or completed cancellation.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `comment` | Optional | string | What the requester wrote. Only merchant credentials read it; buyers never receive it. Omitted when none was given, and cleared when the customer is deleted. maxLength: `500`. |
+| `reason_code` | Optional | string | The reason the requester chose. Omitted when none was given. Values: `"too_expensive"`, `"missing_features"`, `"switched_service"`, `"unused"`, `"customer_service"`, `"too_complex"`, `"low_quality"`, `"other"`. |
+| `requested_at` | Required | string | When the cancellation was requested. Format: `date-time`. |
+| `requested_by` | Required | string | buyer: the buyer, in Flint's buyer account or with a customer session. merchant: a merchant credential, such as an API key or the dashboard. Values: `"buyer"`, `"merchant"`. |
 
 ## SubscriptionLineItem
 
@@ -21093,6 +22452,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | `settled_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"requested"`, `"settled"`, `"partially_refunded"`, `"refunded"`, `"canceled"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `value_settlement_allocations` | Optional | Array of [TipValueSettlementAllocation](MODELS.md#tipvaluesettlementallocation) |  |
 
 ## TipPaymentIntentAllocation
 
@@ -21131,6 +22491,15 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
 | `tip_percentages` | Optional | Array of number | minItems: `3`. maxItems: `3`. |
 
+## TipValueSettlementAllocation
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `value_settlement_id` | Required | string |  |
+
 ## TransferOrganizationOwnershipRequest
 
 
@@ -21157,6 +22526,18 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `membership` | Required | [OrganizationMembership](MODELS.md#organizationmembership) |  |
 | `previous_owner_user_id` | Optional | string |  |
+
+## TransitionGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `action` | Required | string | Values: `"freeze"`, `"unfreeze"`, `"close"`. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `reason` | Optional | string | Values: `"suspicious_activity"`, `"customer_request"`, `"support_issue"`. |
+
+Variants: any, any.
 
 ## UpdateAPIKeyRequest
 
@@ -21269,6 +22650,15 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | `label` | Optional | string |  |
 | `phone` | Optional | string |  |
 | `recipient_name` | Optional | string |  |
+
+## UpdateCustomerEmailPreferencesRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `checkout_reminders` | Optional | boolean | A reminder after leaving checkout without paying. |
+| `shipping_updates` | Optional | boolean | Emails about shipments and deliveries, such as shipped, out for delivery, and delivered. |
 
 ## UpdateCustomerRequest
 
@@ -21430,6 +22820,16 @@ Provide at most one fulfillment details object: pickup_details, local_delivery_d
 
 Variants: any, any, any, any, any.
 
+## UpdateGiftCardRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Optional | string or null | Omission preserves the association; null clears it. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omission preserves the association; null clears it. minLength: `1`. maxLength: `255`. |
+
 ## UpdateInventoryAllocationPolicyRequest
 
 
@@ -21531,6 +22931,7 @@ Variants: any, any, any, any, any.
 | --- | --- | --- | --- |
 | `description` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `gift_card_recipient` | Optional | Alternative shapes (see declared variants) | Replaces the recipient of an unfunded gift card purchase. Omission preserves it; null clears it. Send expected_version from the line item. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequest](MODELS.md#orderlineitemmodifierrequest) |  |
 | `name` | Optional | string |  |
@@ -21889,7 +23290,7 @@ Variants: any, any.
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. pattern: `^ms_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `name` | Optional | string |  |
 | `options` | Optional | Array of [UpdateProductOptionRequest](MODELS.md#updateproductoptionrequest) | Replaces all product options and values atomically. Include existing option_id and option_value_id values to retain members. Omitted members are archived. Null is not accepted. |
-| `product_type` | Optional | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
+| `product_type` | Optional | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 
 ## UpdateProductVariantRequest
@@ -21901,6 +23302,7 @@ Variants: any, any.
 | `barcode` | Optional | string |  |
 | `delivery_profile_id` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Resource version last read by the caller. Required when replacing an owned collection. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `gift_card_configuration` | Optional | object | Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | Replaces the authored variant gallery atomically. Send [] to clear it and resume product-image inheritance. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequest](MODELS.md#inventoryitemcreaterequest) |  |
 | `inventory_item_id` | Optional | string or null | Inventory item tracked by this variant. Send null to stop tracking inventory. |
@@ -23971,6 +25373,276 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `data` | Required | [FraudWarning](MODELS.md#fraudwarning) |  |
 | `event_type` | Required | any | Values: `"fraud_warning.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies. |
+| `event_type` | Required | any | Values: `"gift_card.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCard](MODELS.md#giftcard) |  |
+| `event_type` | Required | any | Values: `"gift_card.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_load_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding. |
+| `event_type` | Required | any | Values: `"gift_card_load.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_load_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardLoad](MODELS.md#giftcardload) |  |
+| `event_type` | Required | any | Values: `"gift_card_load.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_load_updated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding. |
+| `event_type` | Required | any | Values: `"gift_card_load.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_load_updated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardLoad](MODELS.md#giftcardload) |  |
+| `event_type` | Required | any | Values: `"gift_card_load.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_notification_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"gift_card_notification.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_notification_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardNotification](MODELS.md#giftcardnotification) |  |
+| `event_type` | Required | any | Values: `"gift_card_notification.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_notification_updated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"gift_card_notification.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_notification_updated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardNotification](MODELS.md#giftcardnotification) |  |
+| `event_type` | Required | any | Values: `"gift_card_notification.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_redemption_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Independent redemption resource. Operational reservations are separate from immutable posted transactions. Captured value can be refunded only against its original redemption. |
+| `event_type` | Required | any | Values: `"gift_card_redemption.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_redemption_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
+| `event_type` | Required | any | Values: `"gift_card_redemption.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_redemption_updated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Independent redemption resource. Operational reservations are separate from immutable posted transactions. Captured value can be refunded only against its original redemption. |
+| `event_type` | Required | any | Values: `"gift_card_redemption.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_redemption_updated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
+| `event_type` | Required | any | Values: `"gift_card_redemption.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_transaction_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new transactions. |
+| `event_type` | Required | any | Values: `"gift_card_transaction.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_transaction_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardTransaction](MODELS.md#giftcardtransaction) |  |
+| `event_type` | Required | any | Values: `"gift_card_transaction.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_updated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object | Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies. |
+| `event_type` | Required | any | Values: `"gift_card.updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_gift_card_updated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCard](MODELS.md#giftcard) |  |
+| `event_type` | Required | any | Values: `"gift_card.updated"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `merchant_id` | Required | string |  |
@@ -27109,6 +28781,36 @@ Variants: any, any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## Webhook_subscription_cancellation_scheduled_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.cancellation_scheduled"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_cancellation_scheduled_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.cancellation_scheduled"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
 ## Webhook_subscription_created_installed_merchants
 
 
@@ -27280,6 +28982,36 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `data` | Required | object |  |
 | `event_type` | Required | any | Values: `"subscription.payment_succeeded"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_reactivated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.reactivated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_reactivated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.reactivated"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `merchant_id` | Required | string |  |
@@ -27649,7 +29381,7 @@ Variants: any, any, any.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `event_origin` | Required | string | Values: `"business_event"`, `"test_api"`. |
 | `event_source` | Optional | string | Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Values: [191 declared values](#webhookevent-event_type-values). |
+| `event_type` | Required | string | Values: [202 declared values](#webhookevent-event_type-values). |
 | `partner_app_id` | Optional | string |  |
 | `payload` | Optional | object | Stored webhook delivery payload as structured JSON. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired. |
 | `request_id` | Optional | string |  |
@@ -27719,6 +29451,15 @@ Variants: any, any, any.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -27841,12 +29582,14 @@ Variants: any, any, any.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
@@ -27913,7 +29656,7 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `description` | Required | string | Concise semantics for the state transition or event occurrence. |
 | `event_sources` | Required | Array of string | Event source buckets where this event type is valid. |
-| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [191 declared values](#webhookeventtype-event_type-values). |
+| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [202 declared values](#webhookeventtype-event_type-values). |
 
 #### WebhookEventType event_type values
 
@@ -27976,6 +29719,15 @@ Variants: any, any, any.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -28098,12 +29850,14 @@ Variants: any, any, any.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
@@ -28170,7 +29924,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [191 declared values](#webhookstreamwithheld-event_type-values). |
+| `event_type` | Required | string | Values: [202 declared values](#webhookstreamwithheld-event_type-values). |
 | `reason` | Required | string | Values: `"missing_resource_scope"`, `"resource_unattributed"`. |
 | `required_scopes` | Optional | Array of string |  |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookstreamwithheld-resource_type-values). |
@@ -28237,6 +29991,15 @@ Variants: any, any, any.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -28359,12 +30122,14 @@ Variants: any, any, any.
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`

@@ -15,6 +15,5 @@ $result = $client->riskLists->addItems('example', [
   'values' => [
     'sdk-example',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

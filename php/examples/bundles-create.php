@@ -17,8 +17,7 @@ $result = $client->bundles->create([
     'amount' => '0',
     'currency' => 'USD',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->bundle_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

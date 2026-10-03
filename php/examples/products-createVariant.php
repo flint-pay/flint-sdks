@@ -18,8 +18,7 @@ $result = $client->products->createVariant('example', [
       'currency' => 'USD',
     ],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->product_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

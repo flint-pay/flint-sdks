@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read string $delivery_profile_id
  * @property-read list<Image> $effective_images
  * @property-read string $external_reference_id
+ * @property-read GiftCardProductConfiguration $gift_card_configuration
  * @property-read list<Image> $images
  * @property-read bool $images_inherited
  * @property-read string $inventory_item_id
@@ -33,7 +34,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class ProductVariant extends Model {
-    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'current_delivery_profile_revision_id'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_price_money': mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
+    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'current_delivery_profile_revision_id'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: object{'custom_amount_bounds'?: mixed, 'face_value_money': object{'amount': string, 'currency': string}, 'price_mode': string}, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_price_money': mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariant')); }
     /** @return bool
      * @throws SdkError When available_for_sale is omitted; use hasAvailableForSale() or valueOrDefault().
@@ -80,6 +81,11 @@ final class ProductVariant extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** @return GiftCardProductConfiguration
+     * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
+     */
+    public function getGiftCardConfiguration(): GiftCardProductConfiguration { return $this->get('gift_card_configuration'); }
+    public function hasGiftCardConfiguration(): bool { return $this->has('gift_card_configuration'); }
     /** @return list<Image>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().
      */

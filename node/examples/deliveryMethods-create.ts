@@ -22,8 +22,8 @@ const result = await client.deliveryMethods.create(
     },
     name: "Standard shipping",
     type: "shipment",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.current_delivery_method_revision_id);
 console.log(result.delivery_method_id);

@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read OrderPaymentAttempt $active_payment_attempt
  * @property-read list<AppliedDiscount> $applied_discounts
  * @property-read OrderAuthorizationAmounts $authorization_amounts
+ * @property-read list<BuyerAction> $buyer_actions
  * @property-read string $buyer_email
  * @property-read string $buyer_note
  * @property-read string $buyer_phone
@@ -19,6 +20,10 @@ namespace Flint;
  * @property-read string $fulfillment_id
  * @property-read string $fulfillment_status
  * @property-read list<Fulfillment> $fulfillments
+ * @property-read OrderGiftCardEstimate $gift_card_estimate
+ * @property-read list<OrderGiftCardSettlement> $gift_card_settlements
+ * @property-read bool $gift_card_tender_enabled
+ * @property-read list<OrderGiftCardSelection> $gift_cards
  * @property-read string $internal_note
  * @property-read string $inventory_exception_status
  * @property-read string $inventory_reservation_id
@@ -28,6 +33,7 @@ namespace Flint;
  * @property-read array<array-key, string> $metadata
  * @property-read string $order_id
  * @property-read string $order_number
+ * @property-read string $order_revision
  * @property-read string $origin
  * @property-read string $package_id
  * @property-read list<PackageItem> $package_items
@@ -53,7 +59,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class CreateFulfillmentResult extends Model {
-    /** @param array{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: object{'authorized_money': mixed, 'capturable_money': mixed, 'expires_at'?: string}, 'buyer_email'?: string, 'buyer_note'?: string, 'buyer_phone'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: object{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string}, 'external_reference_id'?: string, 'fulfillment_id': string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: object{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'package_id'?: string, 'package_items': list<mixed>, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'plan_id'?: string, 'pricing_amounts': object{'charge_money': mixed, 'discount_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed}, 'purchased_event'?: object{'location'?: string, 'name': string, 'starts_at'?: string, 'timezone'?: string}, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'settlement_amounts': object{'balance_money': mixed, 'credit_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'settled_tip_money': mixed}, 'setup_collection'?: object{'stripe'?: mixed}, 'shipment_id'?: string, 'status': string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'tax': object{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'enabled': bool, 'exemption'?: mixed, 'failure_reason'?: string, 'location'?: mixed, 'mode': string, 'status': string, 'tax_breakdowns'?: list<mixed>, 'taxability_reason': string}, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: object{'authorized_money': mixed, 'capturable_money': mixed, 'expires_at'?: string}, 'buyer_actions': list<mixed>, 'buyer_email'?: string, 'buyer_note'?: string, 'buyer_phone'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: object{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string}, 'external_reference_id'?: string, 'fulfillment_id': string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: object{'can_pay': bool, 'gift_card_money': mixed, 'gift_cards': list<mixed>, 'is_reserved': bool, 'order_revision': string, 'processor_money': mixed}, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: object{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'package_id'?: string, 'package_items': list<mixed>, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'plan_id'?: string, 'pricing_amounts': object{'charge_money': mixed, 'discount_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed}, 'purchased_event'?: object{'location'?: string, 'name': string, 'starts_at'?: string, 'timezone'?: string}, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'settlement_amounts': object{'balance_money': mixed, 'credit_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'settled_tip_money': mixed}, 'setup_collection'?: object{'stripe'?: mixed}, 'shipment_id'?: string, 'status': string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'tax': object{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'enabled': bool, 'exemption'?: mixed, 'failure_reason'?: string, 'location'?: mixed, 'mode': string, 'status': string, 'tax_breakdowns'?: list<mixed>, 'taxability_reason': string}, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFulfillmentResult')); }
     /** @return OrderPaymentAttempt
      * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
@@ -70,6 +76,11 @@ final class CreateFulfillmentResult extends Model {
      */
     public function getAuthorizationAmounts(): OrderAuthorizationAmounts { return $this->get('authorization_amounts'); }
     public function hasAuthorizationAmounts(): bool { return $this->has('authorization_amounts'); }
+    /** @return list<BuyerAction>
+     * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
+     */
+    public function getBuyerActions(): array { return $this->get('buyer_actions'); }
+    public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
     /** @return string
      * @throws SdkError When buyer_email is omitted; use hasBuyerEmail() or valueOrDefault().
      */
@@ -140,6 +151,26 @@ final class CreateFulfillmentResult extends Model {
      */
     public function getFulfillments(): array { return $this->get('fulfillments'); }
     public function hasFulfillments(): bool { return $this->has('fulfillments'); }
+    /** @return OrderGiftCardEstimate
+     * @throws SdkError When gift_card_estimate is omitted; use hasGiftCardEstimate() or valueOrDefault().
+     */
+    public function getGiftCardEstimate(): OrderGiftCardEstimate { return $this->get('gift_card_estimate'); }
+    public function hasGiftCardEstimate(): bool { return $this->has('gift_card_estimate'); }
+    /** @return list<OrderGiftCardSettlement>
+     * @throws SdkError When gift_card_settlements is omitted; use hasGiftCardSettlements() or valueOrDefault().
+     */
+    public function getGiftCardSettlements(): array { return $this->get('gift_card_settlements'); }
+    public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
+    /** @return bool
+     * @throws SdkError When gift_card_tender_enabled is omitted; use hasGiftCardTenderEnabled() or valueOrDefault().
+     */
+    public function getGiftCardTenderEnabled(): bool { return $this->get('gift_card_tender_enabled'); }
+    public function hasGiftCardTenderEnabled(): bool { return $this->has('gift_card_tender_enabled'); }
+    /** @return list<OrderGiftCardSelection>
+     * @throws SdkError When gift_cards is omitted; use hasGiftCards() or valueOrDefault().
+     */
+    public function getGiftCards(): array { return $this->get('gift_cards'); }
+    public function hasGiftCards(): bool { return $this->has('gift_cards'); }
     /** @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
@@ -185,6 +216,11 @@ final class CreateFulfillmentResult extends Model {
      */
     public function getOrderNumber(): string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
+    /** @return string
+     * @throws SdkError When order_revision is omitted; use hasOrderRevision() or valueOrDefault().
+     */
+    public function getOrderRevision(): string { return $this->get('order_revision'); }
+    public function hasOrderRevision(): bool { return $this->has('order_revision'); }
     /** @return string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */

@@ -22,7 +22,7 @@ export interface InventoryReceiptsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReceipts.create({lines: [], "Idempotency-Key": idempotencyKey})
+ * client.inventoryReceipts.create({lines: []}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "external_actor_id"?: string; "lines": Array<InventoryReceiptLineRequestInput>; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReceiptResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -31,7 +31,7 @@ export interface InventoryReceiptsResource {
  * List completed inventory receipt effects. Use typed Return filters for reconciliation when the receipt was created by Returns.
  * GET /v1/inventory-receipts
  * @example
- * client.inventoryReceipts.list({})
+ * client.inventoryReceipts.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "receiving_location_id"?: InputValue<string>; "inventory_reservation_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryReceiptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

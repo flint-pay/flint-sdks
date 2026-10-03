@@ -6,6 +6,5 @@ const client = new Client({
 });
 const result = await client.checkoutSessions.getDeliveryQuote(
   "example",
-  "example",
-  {}
+  "example"
 );

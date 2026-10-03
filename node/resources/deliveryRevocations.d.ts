@@ -17,7 +17,7 @@ export interface DeliveryRevocationsResource {
  * Returns one permanent delivery revocation and its estimated impact at creation time.
  * GET /v1/delivery-revocations/{delivery_revocation_id}
  * @example
- * client.deliveryRevocations.get("example", {})
+ * client.deliveryRevocations.get("example")
  */
     get(delivery_revocation_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryRevocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -28,7 +28,7 @@ export interface DeliveryRevocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRevocations.revokeDeliveryDependency({reason: "unsafe_configuration", target: {target_type: "location_geography", location_id: "example", location_geography_revision: "100"}, "Idempotency-Key": idempotencyKey})
+ * client.deliveryRevocations.revokeDeliveryDependency({reason: "unsafe_configuration", target: {target_type: "location_geography", location_id: "example", location_geography_revision: "100"}}, { idempotencyKey: idempotencyKey })
  */
     revokeDeliveryDependency(params: (InputValue<{ "merchant_note"?: string; "reason": "unsafe_configuration" | "location_unavailable" | "credential_compromise" | "legal_requirement" | "other"; "target": DeliveryRevocationTargetInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRevocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

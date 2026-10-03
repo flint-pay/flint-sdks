@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->fulfillmentEvents->get('example', []);
+$result = $client->fulfillmentEvents->get('example');
 echo $result->fulfillment_event_id . PHP_EOL;
 echo $result->fulfillment_id . PHP_EOL;
 $client->close();

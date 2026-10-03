@@ -21,8 +21,8 @@ const result = await client.returns.createInspection(
     ],
     location_id: "example",
     return_receipt_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.location_id);
 console.log(result.return_id);

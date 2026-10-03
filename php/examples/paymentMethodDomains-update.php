@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->paymentMethodDomains->update('example', [
   'status' => 'active',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_method_domain_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

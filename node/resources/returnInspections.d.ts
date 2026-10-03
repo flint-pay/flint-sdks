@@ -22,7 +22,7 @@ export interface ReturnInspectionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnInspections.decideLineItem("example", "example", {acceptance_decision_reason: "inspection_result", acceptance_status: "accepted", "Idempotency-Key": idempotencyKey})
+ * client.returnInspections.decideLineItem("example", "example", {acceptance_decision_reason: "inspection_result", acceptance_status: "accepted"}, { idempotencyKey: idempotencyKey })
  */
     decideLineItem(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<{ "acceptance_decision_reason": "inspection_result" | "return_policy" | "manual_review" | "other"; "acceptance_decision_reason_message"?: string; "acceptance_status": "accepted" | "rejected" | "review_required"; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnInspectionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -31,7 +31,7 @@ export interface ReturnInspectionsResource {
  * Retrieve one inspection with its line items, findings, and current or superseded observation status.
  * GET /v1/return-inspections/{return_inspection_id}
  * @example
- * client.returnInspections.get("example", {})
+ * client.returnInspections.get("example")
  */
     get(return_inspection_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnInspectionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -40,7 +40,7 @@ export interface ReturnInspectionsResource {
  * List inspection observations. Omitting return_id lists inspections across every Return for the merchant.
  * GET /v1/return-inspections
  * @example
- * client.returnInspections.list({})
+ * client.returnInspections.list()
  */
     list(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnInspectionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

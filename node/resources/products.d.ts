@@ -3,6 +3,7 @@ export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSe
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CreateProductOptionRequestInput } from '../declarations/CreateProductOptionRequestInput.js';
+import type { GiftCardCustomAmountBoundsInput } from '../declarations/GiftCardCustomAmountBoundsInput.js';
 import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 import type { InventoryItemCreateRequestInput } from '../declarations/InventoryItemCreateRequestInput.js';
 import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
@@ -52,18 +53,18 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.create({name: "example", product_type: "physical", default_variant: {unit_price_money: {amount: "0", currency: "USD"}}, "Idempotency-Key": idempotencyKey})
+ * client.products.create({name: "example", product_type: "physical", default_variant: {unit_price_money: {amount: "0", currency: "USD"}}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
+    create(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsCreateResponse>>;
+    createWithResponse(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsCreateResponse>>;
     /**
  * Create product variant.
  * POST /v1/products/{product_id}/variants
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.createVariant("example", {variant: {unit_price_money: {amount: "0", currency: "USD"}}, "Idempotency-Key": idempotencyKey})
+ * client.products.createVariant("example", {variant: {unit_price_money: {amount: "0", currency: "USD"}}}, { idempotencyKey: idempotencyKey })
  */
     createVariant(product_id: InputValue<string>, params: (InputValue<{ "variant": ProductVariantRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -74,7 +75,7 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.products.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(product_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -85,7 +86,7 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.deleteVariant("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.products.deleteVariant("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     deleteVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -94,7 +95,7 @@ export interface ProductsResource {
  * Returns a single product by ID.
  * GET /v1/products/{product_id}
  * @example
- * client.products.get("example", {})
+ * client.products.get("example")
  */
     get(product_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"modifier_set">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -103,7 +104,7 @@ export interface ProductsResource {
  * Get product option.
  * GET /v1/products/{product_id}/options/{option_id}
  * @example
- * client.products.getOption("example", "example", {})
+ * client.products.getOption("example", "example")
  */
     getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ProductOptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -112,7 +113,7 @@ export interface ProductsResource {
  * Get product variant.
  * GET /v1/products/{product_id}/variants/{variant_id}
  * @example
- * client.products.getVariant("example", "example", {})
+ * client.products.getVariant("example", "example")
  */
     getVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"modifier_set">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -121,7 +122,7 @@ export interface ProductsResource {
  * List product options.
  * GET /v1/products/{product_id}/options
  * @example
- * client.products.listOptions("example", {})
+ * client.products.listOptions("example")
  */
     listOptions(product_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductOptionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -133,19 +134,19 @@ export interface ProductsResource {
  * Returns a paginated list of products for the authenticated merchant.
  * GET /v1/products
  * @example
- * client.products.list({})
+ * client.products.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ProductsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Product>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ProductsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Product>;
     /**
  * List product variants.
  * GET /v1/products/{product_id}/variants
  * @example
- * client.products.listVariants("example", {})
+ * client.products.listVariants("example")
  */
     listVariants(product_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"position" | "created_at" | "updated_at" | "unit_price">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductVariantListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -159,22 +160,22 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.products.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
+    update(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateResponse>>;
+    updateWithResponse(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateResponse>>;
     /**
  * Update product variant.
  * PATCH /v1/products/{product_id}/variants/{variant_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.updateVariant("example", "example", {"Idempotency-Key": idempotencyKey})
+ * client.products.updateVariant("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
+    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateVariantResponse>>;
+    updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateVariantResponse>>;
   }
 export declare class Client {
 
@@ -211,6 +212,7 @@ export type { ProductsListVariantsResponse } from '../declarations/ProductsListV
 export type { ProductVariant } from '../declarations/ProductVariant.js';
 export type { UpdateProductOptionRequestInput } from '../declarations/UpdateProductOptionRequestInput.js';
 export type { ProductsUpdateResponse } from '../declarations/ProductsUpdateResponse.js';
+export type { GiftCardCustomAmountBoundsInput } from '../declarations/GiftCardCustomAmountBoundsInput.js';
 export type { InventoryItemCreateRequestInput } from '../declarations/InventoryItemCreateRequestInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { ProductsUpdateVariantResponse } from '../declarations/ProductsUpdateVariantResponse.js';
@@ -237,6 +239,7 @@ export type { NextAction } from '../declarations/NextAction.js';
 export type { ProductOptionValue } from '../declarations/ProductOptionValue.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
 export type { Image } from '../declarations/Image.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
 export type { ModifierSetGroup } from '../declarations/ModifierSetGroup.js';
 export type { ModifierGroup } from '../declarations/ModifierGroup.js';
 export type { Modifier } from '../declarations/Modifier.js';
@@ -264,6 +267,7 @@ export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeProductOptionValue } from '../declarations/makeProductOptionValue.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
 export { makeImage } from '../declarations/makeImage.js';
+export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
 export { makeModifierSetGroup } from '../declarations/makeModifierSetGroup.js';
 export { makeModifierGroup } from '../declarations/makeModifierGroup.js';
 export { makeModifier } from '../declarations/makeModifier.js';

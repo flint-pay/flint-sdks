@@ -13,7 +13,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->riskLists->update('example', [
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->risk_list_id . PHP_EOL;
 $client->close();

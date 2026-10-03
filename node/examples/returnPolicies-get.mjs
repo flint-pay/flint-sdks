@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.returnPolicies.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.current_return_policy_revision_id);
 console.log(result.return_policy_id);

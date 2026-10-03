@@ -36,7 +36,7 @@ export interface ReturnResolutionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.cancel("example", {reason: "buyer_request", "Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.cancel("example", {reason: "buyer_request"}, { idempotencyKey: idempotencyKey })
  */
     cancel(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "buyer_request" | "merchant_request" | "duplicate" | "expired" | "created_in_error" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -47,27 +47,27 @@ export interface ReturnResolutionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.confirm("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.confirm("example", {}, { idempotencyKey: idempotencyKey })
  */
     confirm(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     confirmWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsConfirmResponse>>;
     /**
- * Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution.
+ * Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
  * POST /v1/return-resolutions/{return_resolution_id}/checkout-session
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.getOrCreateCheckoutSession("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
+    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds, payments, and replacement order. Supports expand for those links.
  * GET /v1/return-resolutions/{return_resolution_id}
  * @example
- * client.returnResolutions.get("example", {})
+ * client.returnResolutions.get("example")
  */
     get(return_resolution_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"payment_intents" | "refunds" | "replacement_order">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -76,7 +76,7 @@ export interface ReturnResolutionsResource {
  * List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for a resolution that already settled.
  * GET /v1/return-resolutions
  * @example
- * client.returnResolutions.list({})
+ * client.returnResolutions.list()
  */
     list(params?: { "action_required_by"?: InputValue<"buyer" | "merchant" | "integration">; "corrects_return_resolution_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "correction">>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_policy_revision_id"?: InputValue<string>; "status"?: InputValue<Array<"proposed" | "pending" | "requires_action" | "partially_fulfilled" | "fulfilled" | "failed" | "canceled">>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnResolutionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -90,7 +90,7 @@ export interface ReturnResolutionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.release("example", {reason: "merchant_approved", "Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.release("example", {reason: "merchant_approved"}, { idempotencyKey: idempotencyKey })
  */
     release(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "merchant_approved" | "exception_resolved" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -101,7 +101,7 @@ export interface ReturnResolutionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.retry("example", {reason: "dependency_recovered", "Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.retry("example", {reason: "dependency_recovered"}, { idempotencyKey: idempotencyKey })
  */
     retry(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "dependency_recovered" | "payment_method_updated" | "operator_retry" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -112,7 +112,7 @@ export interface ReturnResolutionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.returnResolutions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(return_resolution_id: InputValue<string>, params: (InputValue<({ "adjustment_set"?: ReturnResolutionAdjustmentSetInput; "expected_version"?: string; "external_reference_id"?: string | null; "line_items"?: Array<ReturnResolutionLineItemReplacementRequestInput>; "metadata"?: Record<string, string | null> | null; "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price"; "replacement_line_items"?: Array<ReturnReplacementLineItemReplacementRequestInput>; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "replacement_line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "adjustment_set"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnResolutionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -162,6 +162,7 @@ export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessio
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
@@ -229,11 +230,15 @@ export type { RefundLineItemModifierAllocation } from '../declarations/RefundLin
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { RefundTaxBreakdownRefund } from '../declarations/RefundTaxBreakdownRefund.js';
 export type { PaymentRefund } from '../declarations/PaymentRefund.js';
+export type { RefundTenderAllocation } from '../declarations/RefundTenderAllocation.js';
+export type { RefundGiftCardDestination } from '../declarations/RefundGiftCardDestination.js';
+export type { RefundUnissuedGiftCardRecovery } from '../declarations/RefundUnissuedGiftCardRecovery.js';
 export type { ReturnReplacementLineItem } from '../declarations/ReturnReplacementLineItem.js';
 export type { ReturnResolutionAdjustmentRequestInput } from '../declarations/ReturnResolutionAdjustmentRequestInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { CancelReturnRequestInput } from '../declarations/CancelReturnRequestInput.js';
 export type { ConfirmReturnResolutionRequestInput } from '../declarations/ConfirmReturnResolutionRequestInput.js';
+export type { GetOrCreateReturnResolutionCheckoutSessionRequestInput } from '../declarations/GetOrCreateReturnResolutionCheckoutSessionRequestInput.js';
 export type { ReleaseReturnResolutionRequestInput } from '../declarations/ReleaseReturnResolutionRequestInput.js';
 export type { RetryReturnResolutionRequestInput } from '../declarations/RetryReturnResolutionRequestInput.js';
 export type { UpdateReturnResolutionRequestInput } from '../declarations/UpdateReturnResolutionRequestInput.js';
@@ -248,6 +253,7 @@ export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSes
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
@@ -315,4 +321,7 @@ export { makeRefundLineItemModifierAllocation } from '../declarations/makeRefund
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeRefundTaxBreakdownRefund } from '../declarations/makeRefundTaxBreakdownRefund.js';
 export { makePaymentRefund } from '../declarations/makePaymentRefund.js';
+export { makeRefundTenderAllocation } from '../declarations/makeRefundTenderAllocation.js';
+export { makeRefundGiftCardDestination } from '../declarations/makeRefundGiftCardDestination.js';
+export { makeRefundUnissuedGiftCardRecovery } from '../declarations/makeRefundUnissuedGiftCardRecovery.js';
 export { makeReturnReplacementLineItem } from '../declarations/makeReturnReplacementLineItem.js';

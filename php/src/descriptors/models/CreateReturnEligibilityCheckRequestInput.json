@@ -1,1 +1,1 @@
-{"shared":"CreateReturnEligibilityCheckRequest","dependencies":["CreateReturnEligibilityCheckRequest","ReturnEligibilitySelection","ReturnLineItemRequest","SharedCodec483","SharedCodec484"]}
+{"shared":"CreateReturnEligibilityCheckRequest","dependencies":["CreateReturnEligibilityCheckRequest","ReturnEligibilitySelection","ReturnLineItemRequest","SharedCodec532","SharedCodec533"]}

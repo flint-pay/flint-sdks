@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->fulfillmentNotifications->get('example', []);
+$result = $client->fulfillmentNotifications->get('example');
 echo $result->fulfillment_id . PHP_EOL;
 echo $result->fulfillment_notification_id . PHP_EOL;
 $client->close();

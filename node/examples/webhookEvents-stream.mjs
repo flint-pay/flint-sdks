@@ -5,7 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.webhookEvents.stream(
-  {}
+
 );
 console.log(result.meta.requestId);
 if (result.data instanceof EventStream) {

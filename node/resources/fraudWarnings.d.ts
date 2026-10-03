@@ -18,7 +18,7 @@ export interface FraudWarningsResource {
  * Get an early fraud warning for the authenticated merchant environment.
  * GET /v1/fraud-warnings/{fraud_warning_id}
  * @example
- * client.fraudWarnings.get("example", {})
+ * client.fraudWarnings.get("example")
  */
     get(fraud_warning_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"dispute" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FraudWarningResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface FraudWarningsResource {
  * List early fraud warnings for the authenticated merchant environment.
  * GET /v1/fraud-warnings
  * @example
- * client.fraudWarnings.list({})
+ * client.fraudWarnings.list()
  */
     list(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FraudWarningListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

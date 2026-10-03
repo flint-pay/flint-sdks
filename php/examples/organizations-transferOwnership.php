@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->organizations->transferOwnership('example', [
   'new_owner_user_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->membership->organization_id . PHP_EOL;
 echo $result->membership->status . PHP_EOL;
 $client->close();

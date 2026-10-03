@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0-beta.20261003024310",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -6111,6 +6111,422 @@
     "waiveReturnLineInspection": {
       "resource": "returns",
       "method": "waiveLineInspection",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "honorGiftCardFundingLoss": {
+      "resource": "giftCardFundingDisputes",
+      "method": "honorValue",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "listGiftCardLoads": {
+      "resource": "giftCardLoads",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "getGiftCardLoad": {
+      "resource": "giftCardLoads",
+      "method": "get",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "createGiftCardLoad": {
+      "resource": "giftCardLoads",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "listGiftCardNotifications": {
+      "resource": "giftCardNotifications",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "createGiftCardNotification": {
+      "resource": "giftCardNotifications",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "getGiftCardNotification": {
+      "resource": "giftCardNotifications",
+      "method": "get",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "cancelGiftCardNotification": {
+      "resource": "giftCardNotifications",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "listGiftCardRedemptions": {
+      "resource": "giftCardRedemptions",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "createGiftCardRedemption": {
+      "resource": "giftCardRedemptions",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "getGiftCardRedemption": {
+      "resource": "giftCardRedemptions",
+      "method": "get",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "cancelGiftCardRedemption": {
+      "resource": "giftCardRedemptions",
+      "method": "cancel",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "captureGiftCardRedemption": {
+      "resource": "giftCardRedemptions",
+      "method": "capture",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "listGiftCardTransactions": {
+      "resource": "giftCardTransactions",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "listGiftCards": {
+      "resource": "giftCards",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "createGiftCard": {
+      "resource": "giftCards",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "lookupGiftCard": {
+      "resource": "giftCards",
+      "method": "lookup"
+    },
+    "getGiftCard": {
+      "resource": "giftCards",
+      "method": "get",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "updateGiftCard": {
+      "resource": "giftCards",
+      "method": "update",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "createGiftCardAdjustment": {
+      "resource": "giftCardAdjustments",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "createGiftCardCashOut": {
+      "resource": "giftCardCashOuts",
+      "method": "create",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "rotateGiftCardCode": {
+      "resource": "giftCards",
+      "method": "rotateCode",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "transitionGiftCard": {
+      "resource": "giftCards",
+      "method": "transition",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "applyOrderGiftCard": {
+      "resource": "orders",
+      "method": "applyGiftCard",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "removeOrderGiftCard": {
+      "resource": "orders",
+      "method": "removeGiftCard",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "sendOrderReceipt": {
+      "resource": "orders",
+      "method": "sendReceipt",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity."
+      }
+    },
+    "listMeGiftCards": {
+      "resource": "me",
+      "method": "listGiftCards",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      },
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "saveMeGiftCard": {
+      "resource": "me",
+      "method": "saveGiftCard",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Keys are retained with the gift card ledger.",
+        "scope": "Buyer, merchant, environment and operation."
+      }
+    },
+    "getMeGiftCard": {
+      "resource": "me",
+      "method": "getGiftCard",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "listMeGiftCardTransactions": {
+      "resource": "me",
+      "method": "listGiftCardTransactions",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      },
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "removeMeGiftCard": {
+      "resource": "me",
+      "method": "removeGiftCard",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "auto": false,
+        "retention": "Keys are retained with the gift card ledger.",
+        "scope": "Buyer, merchant, environment and operation."
+      }
+    },
+    "listMeDeletionRequests": {
+      "resource": "me",
+      "method": "listDeletionRequests",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      },
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": {
+        "kind": "cursor",
+        "items": "data",
+        "next": "next_page_token",
+        "parameter": "page_token"
+      }
+    },
+    "getMeEmailPreferences": {
+      "resource": "me",
+      "method": "getEmailPreferences",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "getMePaymentMethod": {
+      "resource": "me",
+      "method": "getPaymentMethod",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "updateMeEmailPreferences": {
+      "resource": "me",
+      "method": "updateEmailPreferences",
       "idempotency": {
         "header": "Idempotency-Key",
         "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",

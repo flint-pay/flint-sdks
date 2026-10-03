@@ -14,7 +14,7 @@ export interface CapabilitiesResource {
  * Returns payment and money movement capability readiness for the authenticated merchant.
  * GET /v1/capabilities
  * @example
- * client.capabilities.list({})
+ * client.capabilities.list()
  */
     list(params?: { "domain"?: InputValue<"money_movement" | "payments">; "capability"?: InputValue<"accept_card_payments" | "save_payment_methods" | "accept_affirm_payments" | "receive_payouts" | "create_standard_payouts" | "manage_payout_destinations" | "manage_payout_settings">; "status"?: InputValue<"ready" | "blocked" | "pending" | "not_available">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CapabilityListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

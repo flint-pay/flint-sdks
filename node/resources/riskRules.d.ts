@@ -31,7 +31,7 @@ export interface RiskRulesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskRules.create({action: "review", description: "Synthetic SDK example", predicate: {attribute: "payment_method_type", operator: "eq", value: "card"}, "Idempotency-Key": idempotencyKey})
+ * client.riskRules.create({action: "review", description: "Synthetic SDK example", predicate: {attribute: "payment_method_type", operator: "eq", value: "card"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "action": "allow" | "block" | "review" | "require_3ds"; "description": string; "enabled"?: boolean; "predicate": (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface RiskRulesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskRules.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.riskRules.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(risk_rule_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -51,7 +51,7 @@ export interface RiskRulesResource {
  * Get a risk rule for the authenticated merchant environment.
  * GET /v1/risk-rules/{risk_rule_id}
  * @example
- * client.riskRules.get("example", {})
+ * client.riskRules.get("example")
  */
     get(risk_rule_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -60,7 +60,7 @@ export interface RiskRulesResource {
  * Get the risk rule attribute registry for the authenticated merchant environment.
  * GET /v1/risk-rules/attributes
  * @example
- * client.riskRules.getAttributeRegistry({})
+ * client.riskRules.getAttributeRegistry()
  */
     getAttributeRegistry(params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskRuleAttributeRegistryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -69,7 +69,7 @@ export interface RiskRulesResource {
  * List risk rules for the authenticated merchant environment.
  * GET /v1/risk-rules
  * @example
- * client.riskRules.list({})
+ * client.riskRules.list()
  */
     list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRuleListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -83,7 +83,7 @@ export interface RiskRulesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskRules.update("example", {action: "allow", "Idempotency-Key": idempotencyKey})
+ * client.riskRules.update("example", {action: "allow"}, { idempotencyKey: idempotencyKey })
  */
     update(risk_rule_id: InputValue<string>, params: (InputValue<({ "action"?: "allow" | "block" | "review" | "require_3ds"; "description"?: string; "enabled"?: boolean; "expected_version"?: string; "predicate"?: (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }) & (({ "action": unknown; }) | ({ "predicate": unknown; }) | ({ "description": unknown; }) | ({ "enabled": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->orders->listPaymentAttempts('example', []);
+$result = $client->orders->listPaymentAttempts('example');
 $client->close();

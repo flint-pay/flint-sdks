@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.checkoutSessions.getDeliverySelectionHistory(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.checkout_session_id);
 console.log(result.delivery_quote_id);

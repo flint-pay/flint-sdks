@@ -20,8 +20,8 @@ const result = await client.inventoryTransfers.transition(
         },
       ],
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.inventory_transfer.destination_location_id);
 console.log(result.inventory_transfer.inventory_transfer_id);

@@ -10,9 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.developer.revokePartnerAppInstall(
   "example",
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant_id);
 console.log(result.partner_app_install_id);

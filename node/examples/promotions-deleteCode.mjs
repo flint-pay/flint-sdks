@@ -10,9 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.promotions.deleteCode(
   "example",
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.promotion_code_id);
 console.log(result.promotion_id);

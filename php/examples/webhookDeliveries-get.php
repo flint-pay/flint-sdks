@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->webhookDeliveries->get('example', []);
+$result = $client->webhookDeliveries->get('example');
 echo $result->status . PHP_EOL;
 echo $result->webhook_delivery_id . PHP_EOL;
 $client->close();

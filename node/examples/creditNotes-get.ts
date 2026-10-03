@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.creditNotes.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.credit_note_id);
 console.log(result.invoice_id);

@@ -9,9 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryRateCallbacks.createTestDelivery(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_rate_callback_id);
 console.log(result.delivery_rate_callback_revision_id);

@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.subscriptions.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.customer_id);
 console.log(result.payment_method_id);

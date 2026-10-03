@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.reportDownloads.get(
-  "example",
-  {}
+  "example"
 );
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.

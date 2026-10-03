@@ -19,8 +19,7 @@ $result = $client->returns->createResolution('example', [
     ],
   ],
   'resolution_type' => 'refund',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_id . PHP_EOL;
 echo $result->return_resolution_id . PHP_EOL;
 $client->close();

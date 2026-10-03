@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->reviews->get('example', []);
+$result = $client->reviews->get('example');
 echo $result->payment_intent_id . PHP_EOL;
 echo $result->review_id . PHP_EOL;
 $client->close();

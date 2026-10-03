@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->developer->getAuthContext([]);
+$result = $client->developer->getAuthContext();
 echo $result->merchant_id . PHP_EOL;
 $client->close();

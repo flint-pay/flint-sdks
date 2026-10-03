@@ -16,8 +16,7 @@ $result = $client->subscriptionPlans->create([
   'billing_interval_count' => 1,
   'currency' => 'USD',
   'name' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->plan_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

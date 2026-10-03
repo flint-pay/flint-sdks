@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->paymentLinks->get('example', []);
+$result = $client->paymentLinks->get('example');
 echo $result->payment_link_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

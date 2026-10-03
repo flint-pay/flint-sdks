@@ -18,8 +18,8 @@ const result = await client.orders.addCharge(
         currency: "USD",
       },
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.status);

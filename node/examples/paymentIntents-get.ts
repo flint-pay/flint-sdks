@@ -5,8 +5,7 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.paymentIntents.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.payment_intent_id);
 console.log(result.status);

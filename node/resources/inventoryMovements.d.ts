@@ -14,7 +14,7 @@ export interface InventoryMovementsResource {
  * List inventory movements, oldest recorded first. Send expand=inventory_item to render each movement's inventory item inline, so a history table needs no read per row. Filter by idempotency_key to recover the movements a command produced. Send order=desc to read the newest movements first.
  * GET /v1/inventory-movements
  * @example
- * client.inventoryMovements.list({})
+ * client.inventoryMovements.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovementListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

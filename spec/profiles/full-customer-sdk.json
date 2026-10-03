@@ -1,5 +1,7 @@
 {
-  "profiles": ["full-common-sdk.json"],
+  "profiles": [
+    "full-common-sdk.json"
+  ],
   "include": [
     "cancelMeReturn",
     "cancelMeSubscription",
@@ -20,16 +22,22 @@
     "getMeCreditNote",
     "getMeCreditNotePDF",
     "getMeDeletionRequest",
+    "getMeEmailPreferences",
+    "getMeGiftCard",
     "getMeInvoice",
     "getMeInvoicePDF",
     "getMeOrder",
+    "getMePaymentMethod",
     "getMeReturn",
     "getMeSubscription",
     "getOpenAPISpec",
     "getPaymentLinkPublic",
     "listMeAddresses",
     "listMeCreditNotes",
+    "listMeDeletionRequests",
     "listMeFulfillments",
+    "listMeGiftCardTransactions",
+    "listMeGiftCards",
     "listMeInvoices",
     "listMeOrderActivities",
     "listMeOrders",
@@ -44,23 +52,28 @@
     "previewPartnerInstallAuthorization",
     "reactivateMeSubscription",
     "refreshCustomerSession",
+    "removeMeGiftCard",
     "removeMePaymentMethod",
     "resendMeOrderReceipt",
     "resetDemoSession",
     "resolvePaymentLink",
     "resumeMeSubscription",
+    "saveMeGiftCard",
     "saveMePaymentMethod",
     "setDefaultMeAddress",
     "setDefaultMePaymentMethod",
     "startOnboarding",
     "updateMe",
     "updateMeAddress",
+    "updateMeEmailPreferences",
     "verifyOnboardingEmail"
   ],
   "auth": {
     "modes": {
       "customer": {
-        "schemes": ["CustomerSessionBearer"],
+        "schemes": [
+          "CustomerSessionBearer"
+        ],
         "operations": [
           "cancelMeReturn",
           "cancelMeSubscription",
@@ -79,14 +92,20 @@
           "getMeCreditNote",
           "getMeCreditNotePDF",
           "getMeDeletionRequest",
+          "getMeEmailPreferences",
+          "getMeGiftCard",
           "getMeInvoice",
           "getMeInvoicePDF",
           "getMeOrder",
+          "getMePaymentMethod",
           "getMeReturn",
           "getMeSubscription",
           "listMeAddresses",
           "listMeCreditNotes",
+          "listMeDeletionRequests",
           "listMeFulfillments",
+          "listMeGiftCardTransactions",
+          "listMeGiftCards",
           "listMeInvoices",
           "listMeOrderActivities",
           "listMeOrders",
@@ -99,14 +118,17 @@
           "listMeSubscriptions",
           "pauseMeSubscription",
           "reactivateMeSubscription",
+          "removeMeGiftCard",
           "removeMePaymentMethod",
           "resendMeOrderReceipt",
           "resumeMeSubscription",
+          "saveMeGiftCard",
           "saveMePaymentMethod",
           "setDefaultMeAddress",
           "setDefaultMePaymentMethod",
           "updateMe",
-          "updateMeAddress"
+          "updateMeAddress",
+          "updateMeEmailPreferences"
         ]
       }
     },

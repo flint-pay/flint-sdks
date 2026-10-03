@@ -16,7 +16,7 @@ const result = await client.riskRules.create(
       operator: "eq",
       value: "card",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_rule_id);

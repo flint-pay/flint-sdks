@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryRevocations->get('example', []);
+$result = $client->deliveryRevocations->get('example');
 echo $result->delivery_revocation_id . PHP_EOL;
 $client->close();

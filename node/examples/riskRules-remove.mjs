@@ -9,8 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.riskRules.remove(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_rule_id);

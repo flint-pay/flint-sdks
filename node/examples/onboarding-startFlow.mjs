@@ -11,6 +11,6 @@ const result = await client.onboarding.startFlow(
     email: "example",
     first_name: "example",
     last_name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

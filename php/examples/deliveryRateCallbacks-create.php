@@ -16,8 +16,7 @@ $result = $client->deliveryRateCallbacks->create([
   'configuration' => (object) [
     'url' => 'example',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_rate_callback_revision_id . PHP_EOL;
 echo $result->delivery_rate_callback_id . PHP_EOL;
 $client->close();

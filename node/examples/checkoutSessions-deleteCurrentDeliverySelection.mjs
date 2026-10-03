@@ -11,6 +11,6 @@ const result = await client.checkoutSessions.deleteCurrentDeliverySelection(
   "example",
   {
     expected_delivery_selection_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );

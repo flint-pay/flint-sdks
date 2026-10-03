@@ -25,8 +25,7 @@ $result = $client->deliveryMethods->create([
   ],
   'name' => 'Standard shipping',
   'type' => 'shipment',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_method_revision_id . PHP_EOL;
 echo $result->delivery_method_id . PHP_EOL;
 $client->close();

@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->orders->removeDiscounts('example', [
   'order_discount_ids' => [],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

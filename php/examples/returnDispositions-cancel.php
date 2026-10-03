@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnDispositions->cancel('example', [
   'reason' => 'created_in_error',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_disposition_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

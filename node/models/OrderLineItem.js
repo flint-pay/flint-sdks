@@ -1,9 +1,9 @@
-import { d60 as c0, d152 as c1, d811 as c2, d1587 as c3, d1588 as c4, d69 as c5, d1671 as c6, d1685 as c7, d1686 as c8, d2109 as c9, d59 as c10, d1679 as c11, d1666 as c12, d2166 as c13, d2167 as c14, d2170 as c15, d2174 as c16 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d1685 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d61 as c0, d169 as c1, d861 as c2, d883 as c3, d884 as c4, d905 as c5, d1724 as c6, d1725 as c7, d74 as c8, d1809 as c9, d1832 as c10, d1833 as c11, d2061 as c12, d2272 as c13, d401 as c14, d60 as c15, d1817 as c16, d1831 as c17, d1804 as c18, d2331 as c19, d2332 as c20, d2335 as c21, d2339 as c22 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d1832 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1685;
+const read = d1832;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CategoryReference"]:c1(),["Image"]:c2(),["LineItemInventoryDemand"]:c3(),["LineItemInventorySnapshot"]:c4(),["MoneyValue"]:c5(),["OrderCalculatedLineItemTax"]:c6(),["OrderLineItem"]:c7(),["OrderLineItemModifier"]:c8(),["SelectedProductOption"]:c9(),["SharedCodec16"]:c10(),["SharedCodec441"]:c11(),["SignedMoney"]:c12(),["TaxCalculationRequest"]:c13(),["TaxComponentRequest"]:c14(),["TaxJurisdiction"]:c15(),["TextModifierRequest"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CategoryReference"]:c1(),["GiftCardCustomAmountBounds"]:c2(),["GiftCardProductConfiguration"]:c3(),["GiftCardPurchaseRecipient"]:c4(),["Image"]:c5(),["LineItemInventoryDemand"]:c6(),["LineItemInventorySnapshot"]:c7(),["MoneyValue"]:c8(),["OrderCalculatedLineItemTax"]:c9(),["OrderLineItem"]:c10(),["OrderLineItemModifier"]:c11(),["PurchasedGiftCard"]:c12(),["SelectedProductOption"]:c13(),["SharedCodec146"]:c14(),["SharedCodec16"]:c15(),["SharedCodec482"]:c16(),["SharedCodec486"]:c17(),["SignedMoney"]:c18(),["TaxCalculationRequest"]:c19(),["TaxComponentRequest"]:c20(),["TaxJurisdiction"]:c21(),["TextModifierRequest"]:c22()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderLineItem(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

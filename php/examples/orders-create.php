@@ -17,8 +17,7 @@ $result = $client->orders->create([
       'variant_id' => 'example',
     ],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

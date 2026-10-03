@@ -13,8 +13,8 @@ const result = await client.fulfillments.transition(
     body: {
       action: "complete",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.fulfillment.fulfillment_id);
 console.log(result.fulfillment.order_id);

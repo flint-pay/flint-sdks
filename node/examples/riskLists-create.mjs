@@ -12,7 +12,7 @@ const result = await client.riskLists.create(
     alias: "example",
     name: "example",
     item_type: "card_fingerprint",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.risk_list_id);

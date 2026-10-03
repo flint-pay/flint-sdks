@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->packages->get('example', []);
+$result = $client->packages->get('example');
 echo $result->fulfillment_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
 $client->close();

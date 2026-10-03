@@ -1,9 +1,9 @@
-import { d82 as c0, d41 as c1, d704 as c2, d69 as c3, d1803 as c4, d1804 as c5, d1806 as c6, d1843 as c7, d1202 as c8, d1902 as c9, d1906 as c10, d2074 as c11, d2116 as c12, d703 as c13, d705 as c14, d1203 as c15, d1204 as c16, d42 as c17, d1666 as c18 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
-import { d2074 } from '../descriptors/data.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import { d87 as c0, d42 as c1, d132 as c2, d74 as c3, d1953 as c4, d1954 as c5, d1956 as c6, d1993 as c7, d1333 as c8, d2052 as c9, d2056 as c10, d2233 as c11, d2280 as c12, d752 as c13, d753 as c14, d1334 as c15, d1335 as c16, d43 as c17, d1804 as c18 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d2233 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2074;
+const read = d2233;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedCustomerSummary"]:c0(),["ExpandedOrderSummary"]:c1(),["ExpandedPaymentIntentSummary"]:c2(),["MoneyValue"]:c3(),["PaymentSourceAchDebitSummary"]:c4(),["PaymentSourceCardSummary"]:c5(),["PaymentSourceSummary"]:c6(),["PricingAmounts"]:c7(),["PublicIPAddressLocation"]:c8(),["PublicReviewRisk"]:c9(),["PublicRiskPaymentSummary"]:c10(),["Review"]:c11(),["SettlementAmounts"]:c12(),["SharedCodec218"]:c13(),["SharedCodec219"]:c14(),["SharedCodec331"]:c15(),["SharedCodec332"]:c16(),["SharedCodec7"]:c17(),["SignedMoney"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedCustomerSummary"]:c0(),["ExpandedOrderSummary"]:c1(),["ExpandedPaymentIntentSummary"]:c2(),["MoneyValue"]:c3(),["PaymentSourceAchDebitSummary"]:c4(),["PaymentSourceCardSummary"]:c5(),["PaymentSourceSummary"]:c6(),["PricingAmounts"]:c7(),["PublicIPAddressLocation"]:c8(),["PublicReviewRisk"]:c9(),["PublicRiskPaymentSummary"]:c10(),["Review"]:c11(),["SettlementAmounts"]:c12(),["SharedCodec239"]:c13(),["SharedCodec240"]:c14(),["SharedCodec372"]:c15(),["SharedCodec373"]:c16(),["SharedCodec7"]:c17(),["SignedMoney"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReview(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

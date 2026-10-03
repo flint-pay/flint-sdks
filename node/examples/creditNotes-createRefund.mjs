@@ -11,8 +11,8 @@ const result = await client.creditNotes.createRefund(
   "example",
   {
     reason: "duplicate",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.refund_id);
 console.log(result.status);

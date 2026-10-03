@@ -20,8 +20,7 @@ $result = $client->deliveryZones->create([
     ],
   ],
   'name' => 'Standard delivery',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_zone_revision_id . PHP_EOL;
 echo $result->delivery_zone_id . PHP_EOL;
 $client->close();

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=bef5952824dbe0867acb5a07673ca91102b136eda21794fff718a3addd296a2a';
+import settings from '../descriptors/settings.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntents"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -45,6 +45,7 @@ this.paymentIntents = Object.freeze({
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "Flint-Buyer-Device",
   "Flint-Version"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
@@ -52,6 +53,7 @@ this.paymentIntents = Object.freeze({
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "Flint-Buyer-Device",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [

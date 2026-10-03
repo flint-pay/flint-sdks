@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->webhookEvents->stream([]);
+$result = $client->webhookEvents->stream();
 echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 if ($result->data instanceof EventStream) {
   foreach ($result->data as $event) { echo $event->event; break; }

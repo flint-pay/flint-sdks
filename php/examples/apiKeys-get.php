@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->apiKeys->get('example', []);
+$result = $client->apiKeys->get('example');
 echo $result->api_key_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

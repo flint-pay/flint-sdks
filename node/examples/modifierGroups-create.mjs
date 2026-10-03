@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.modifierGroups.create(
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.modifier_group_id);
 console.log(result.status);

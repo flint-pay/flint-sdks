@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->inventoryMovements->list([]);
+$result = $client->inventoryMovements->list();
 $client->close();

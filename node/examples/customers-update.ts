@@ -9,8 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customers.update(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);

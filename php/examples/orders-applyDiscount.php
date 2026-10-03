@@ -15,8 +15,7 @@ $result = $client->orders->applyDiscount('example', [
   'promotion' => (object) [
     'promotion_id' => 'example',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -9,8 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.webhookEndpoints.update(
   "example",
-  {
-    "Idempotency-Key": idempotencyKey,
-  }
+  {},
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.webhook_endpoint_id);

@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->merchantBillingBalances->get('example', []);
+$result = $client->merchantBillingBalances->get('example');
 echo $result->merchant_billing_balance_id . PHP_EOL;
 $client->close();

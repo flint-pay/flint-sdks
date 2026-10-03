@@ -13,8 +13,8 @@ const result = await client.orders.pay(
     body: {
       action: "pay",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order.order_id);
 console.log(result.order.status);

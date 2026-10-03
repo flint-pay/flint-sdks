@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->organizations->get('example', []);
+$result = $client->organizations->get('example');
 echo $result->organization_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->returns->getLineItem('example', 'example', []);
+$result = $client->returns->getLineItem('example', 'example');
 echo $result->eligibility->status . PHP_EOL;
 echo $result->fulfillment_id . PHP_EOL;
 $client->close();

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryLocationSets->get('example', []);
+$result = $client->deliveryLocationSets->get('example');
 echo $result->current_delivery_location_set_revision_id . PHP_EOL;
 echo $result->delivery_location_set_id . PHP_EOL;
 $client->close();

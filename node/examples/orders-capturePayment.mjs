@@ -10,7 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.orders.capturePayment(
   "example",
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order.order_id);
 console.log(result.order.status);

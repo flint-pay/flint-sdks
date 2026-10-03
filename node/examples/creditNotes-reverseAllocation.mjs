@@ -10,7 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.creditNotes.reverseAllocation(
   "example",
   "example",
-  undefined
+  undefined,
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.credit_note.credit_note_id);
 console.log(result.credit_note.invoice_id);

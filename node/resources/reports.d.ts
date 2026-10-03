@@ -22,16 +22,16 @@ export interface ReportsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.reports.create({currency: "USD", interval_end_at: "2026-01-02T00:00:00Z", interval_start_at: "2026-01-01T00:00:00Z", report_type: "orders_itemized_v1", "Idempotency-Key": idempotencyKey})
+ * client.reports.create({currency: "USD", interval_end_at: "2026-01-02T00:00:00Z", interval_start_at: "2026-01-01T00:00:00Z", report_type: "orders_itemized_v1"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "orders_itemized_v1" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
+    create(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "gift_card_liability_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "orders_itemized_v1" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReportsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "gift_card_liability_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReportsCreateResponse>>;
     /**
  * Returns one report and its terminal download or failure details when available.
  * GET /v1/reports/{report_id}
  * @example
- * client.reports.get("example", {})
+ * client.reports.get("example")
  */
     get(report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface ReportsResource {
  * Lists reports in descending creation order using opaque pagination.
  * GET /v1/reports
  * @example
- * client.reports.list({})
+ * client.reports.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReportListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

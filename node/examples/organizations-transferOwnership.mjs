@@ -11,8 +11,8 @@ const result = await client.organizations.transferOwnership(
   "example",
   {
     new_owner_user_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.membership.organization_id);
 console.log(result.membership.status);

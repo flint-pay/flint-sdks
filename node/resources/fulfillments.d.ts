@@ -34,7 +34,7 @@ export interface FulfillmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.fulfillments.createEvent("example", {event_type: "shipped", "Idempotency-Key": idempotencyKey})
+ * client.fulfillments.createEvent("example", {event_type: "shipped"}, { idempotencyKey: idempotencyKey })
  */
     createEvent(fulfillment_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "custom_details"?: Record<string, string>; "event_type": "shipped" | "in_transit" | "out_for_delivery" | "delivered" | "delivery_attempted" | "tracking_updated" | "exception" | "returned" | "custom"; "external_event_id"?: string; "external_status"?: string; "external_system"?: string; "location_description"?: string; "message"?: string; "occurred_at"?: string | globalThis.Date; "package_id"?: string; "shipment_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FulfillmentEventResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -45,7 +45,7 @@ export interface FulfillmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.fulfillments.createShipment("example", {"Idempotency-Key": idempotencyKey})
+ * client.fulfillments.createShipment("example", {}, { idempotencyKey: idempotencyKey })
  */
     createShipment(fulfillment_id: InputValue<string>, params: (InputValue<({ "direction"?: "outbound" | "return"; "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "return_id"?: string; "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>; }) & ((({ "direction"?: "outbound"; }) & (({ "return_id"?: never }) & ({ "return_line_items"?: never }))) | ({ "direction": "return"; "return_line_items": Array<unknown>; "return_id": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateShipmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -54,7 +54,7 @@ export interface FulfillmentsResource {
  * Retrieves a single fulfillment by ID.
  * GET /v1/fulfillments/{fulfillment_id}
  * @example
- * client.fulfillments.get("example", {})
+ * client.fulfillments.get("example")
  */
     get(fulfillment_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order" | "packages" | "shipments">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FulfillmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -63,7 +63,7 @@ export interface FulfillmentsResource {
  * Returns fulfillments for operational queue and order-detail views. Results default to newest created first.
  * GET /v1/fulfillments
  * @example
- * client.fulfillments.list({})
+ * client.fulfillments.list()
  */
     list(params?: { "expand"?: InputValue<Array<"order">>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"pending" | "in_progress" | "ready" | "completed" | "canceled" | "failed" | "scheduled" | "preparing" | "picked" | "packed" | "dispatched">; "type"?: InputValue<"shipment" | "pickup" | "local_delivery" | "digital" | "service">; "location_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "sort_direction"?: InputValue<"asc" | "desc">; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FulfillmentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -77,7 +77,7 @@ export interface FulfillmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.fulfillments.transition({fulfillment_id: "example", body: {action: "complete"}, "Idempotency-Key": idempotencyKey})
+ * client.fulfillments.transition({fulfillment_id: "example", body: {action: "complete"}}, { idempotencyKey: idempotencyKey })
  */
     transition(input: FulfillmentsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FulfillmentCommandResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -88,7 +88,7 @@ export interface FulfillmentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.fulfillments.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.fulfillments.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(fulfillment_id: InputValue<string>, params: (InputValue<({ "completed_at"?: string | globalThis.Date | null; "customer_id"?: string | null; "device_id"?: string | null; "digital_details"?: (({ "delivered_at"?: string | globalThis.Date | null; "delivery_url"?: string | null; }) | (null)); "expected_version"?: string; "external_reference_id"?: string; "local_delivery_details"?: (({ "carrier"?: string | null; "courier_pickup_at"?: string | globalThis.Date | null; "courier_pickup_window_duration_seconds"?: string | null; "courier_provider_name"?: string | null; "courier_support_phone_number"?: string | null; "delivered_at"?: string | globalThis.Date | null; "dispatched_at"?: string | globalThis.Date | null; "dropoff_notes"?: string | null; "expires_at"?: string | globalThis.Date | null; "external_delivery_id"?: string | null; "instructions"?: string | null; "no_contact"?: boolean | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "service_area_id"?: string | null; "timezone"?: string; "tracking_url"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "location_id"?: string | null; "metadata"?: Record<string, string | null> | null; "pickup_details"?: (({ "address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "curbside_instructions"?: string | null; "customer_arrived_at"?: string | globalThis.Date | null; "expires_at"?: string | globalThis.Date | null; "instructions"?: string | null; "location_name"?: string | null; "picked_up_at"?: string | globalThis.Date | null; "pickup_window_duration_seconds"?: string | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "timezone"?: string; "vehicle_description"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "recipient"?: (({ "address"?: PostalAddressInput; "email"?: string; "instructions"?: string; "name"?: string; "phone"?: string; }) | (null)); "service_details"?: (({ "completed_at"?: string | globalThis.Date | null; "notes"?: string | null; "scheduled_end_at"?: string | globalThis.Date | null; "scheduled_start_at"?: string | globalThis.Date | null; "timezone"?: string; }) | (null)); }) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -160,12 +160,14 @@ export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSu
 export type { FulfillmentTransitionRequestInput } from '../declarations/FulfillmentTransitionRequestInput.js';
 export type { FulfillmentCommandResult } from '../declarations/FulfillmentCommandResult.js';
 export type { Order } from '../declarations/Order.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
 export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
 export type { StripePaymentClientAction } from '../declarations/StripePaymentClientAction.js';
 export type { AppliedDiscount } from '../declarations/AppliedDiscount.js';
+export type { BuyerAction } from '../declarations/BuyerAction.js';
 export type { OrderCharge } from '../declarations/OrderCharge.js';
 export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
 export type { TaxCalculationRequest } from '../declarations/TaxCalculationRequest.js';
@@ -173,13 +175,21 @@ export type { TaxComponentRequest } from '../declarations/TaxComponentRequest.js
 export type { TaxJurisdiction } from '../declarations/TaxJurisdiction.js';
 export type { OrderDeliveryDestinationAddress } from '../declarations/OrderDeliveryDestinationAddress.js';
 export type { OrderDeliveryDestinationRecipient } from '../declarations/OrderDeliveryDestinationRecipient.js';
+export type { GiftCardMoney } from '../declarations/GiftCardMoney.js';
+export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
+export type { OrderGiftCardSettlement } from '../declarations/OrderGiftCardSettlement.js';
+export type { OrderGiftCardSelection } from '../declarations/OrderGiftCardSelection.js';
 export type { OrderLineItem } from '../declarations/OrderLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
+export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
 export type { Image } from '../declarations/Image.js';
 export type { LineItemInventorySnapshot } from '../declarations/LineItemInventorySnapshot.js';
 export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryDemand.js';
+export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionStripe.js';
 export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
@@ -196,6 +206,7 @@ export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
 export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
 export type { Tip } from '../declarations/Tip.js';
 export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentIntentAllocation.js';
+export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
 export type { CreateFulfillmentEventRequestInput } from '../declarations/CreateFulfillmentEventRequestInput.js';
 export type { CreateShipmentRequestInput } from '../declarations/CreateShipmentRequestInput.js';
 export type { UpdateFulfillmentRequestInput } from '../declarations/UpdateFulfillmentRequestInput.js';
@@ -236,12 +247,14 @@ export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfil
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeFulfillmentCommandResult } from '../declarations/makeFulfillmentCommandResult.js';
 export { makeOrder } from '../declarations/makeOrder.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
 export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
 export { makeStripePaymentClientAction } from '../declarations/makeStripePaymentClientAction.js';
 export { makeAppliedDiscount } from '../declarations/makeAppliedDiscount.js';
+export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
 export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
 export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
 export { makeTaxCalculationRequest } from '../declarations/makeTaxCalculationRequest.js';
@@ -249,13 +262,21 @@ export { makeTaxComponentRequest } from '../declarations/makeTaxComponentRequest
 export { makeTaxJurisdiction } from '../declarations/makeTaxJurisdiction.js';
 export { makeOrderDeliveryDestinationAddress } from '../declarations/makeOrderDeliveryDestinationAddress.js';
 export { makeOrderDeliveryDestinationRecipient } from '../declarations/makeOrderDeliveryDestinationRecipient.js';
+export { makeGiftCardMoney } from '../declarations/makeGiftCardMoney.js';
+export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../declarations/makeOrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../declarations/makeOrderGiftCardSelection.js';
 export { makeOrderLineItem } from '../declarations/makeOrderLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
+export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
 export { makeImage } from '../declarations/makeImage.js';
 export { makeLineItemInventorySnapshot } from '../declarations/makeLineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makePaymentCollectionStripe } from '../declarations/makePaymentCollectionStripe.js';
 export { makeSelectableOrderPaymentIntent } from '../declarations/makeSelectableOrderPaymentIntent.js';
@@ -272,3 +293,4 @@ export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
 export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
 export { makeTip } from '../declarations/makeTip.js';
 export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';

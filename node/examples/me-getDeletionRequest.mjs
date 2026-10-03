@@ -5,8 +5,7 @@ const client = new Client({
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 const result = await client.me.getDeletionRequest(
-  "example",
-  {}
+  "example"
 );
 console.log(result.customer_deletion_request_id);
 console.log(result.customer_id);

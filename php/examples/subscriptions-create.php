@@ -20,8 +20,7 @@ $result = $client->subscriptions->create([
   'billing_schedule' => (object) [
     'owner' => 'flint',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
 echo $result->payment_method_id . PHP_EOL;
 $client->close();

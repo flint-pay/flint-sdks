@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->webhookDeliveries->listAttempts('example', []);
+$result = $client->webhookDeliveries->listAttempts('example');
 $client->close();

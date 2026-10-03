@@ -14,8 +14,8 @@ const result = await client.bundles.create(
       amount: "0",
       currency: "USD",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.bundle_id);
 console.log(result.status);

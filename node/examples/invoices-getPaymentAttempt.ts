@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.invoices.getPaymentAttempt(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.invoice_id);
 console.log(result.invoice_payment_attempt_id);

@@ -29,7 +29,7 @@ export interface PayoutsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payouts.cancel("example", {"Idempotency-Key": idempotencyKey})
+ * client.payouts.cancel("example", {}, { idempotencyKey: idempotencyKey })
  */
     cancel(payout_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -40,7 +40,7 @@ export interface PayoutsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.payouts.create({amount_money: {amount: "0", currency: "USD"}, "Idempotency-Key": idempotencyKey})
+ * client.payouts.create({amount_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "amount_money": MoneyValueInput; "balance_source_type"?: "card" | "bank_account" | "fpx"; "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "method"?: "standard"; "payout_destination_id"?: string; "statement_descriptor"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -49,7 +49,7 @@ export interface PayoutsResource {
  * Returns one payout by ID, with optional related payout and payout destination expansions.
  * GET /v1/payouts/{payout_id}
  * @example
- * client.payouts.get("example", {})
+ * client.payouts.get("example")
  */
     get(payout_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -58,7 +58,7 @@ export interface PayoutsResource {
  * Lists the authoritative balance-transaction allocations for a payout in ascending occurrence order. A paid payout returns an unavailable error instead of incomplete or inferred entries.
  * GET /v1/payouts/{payout_id}/entries
  * @example
- * client.payouts.listEntries("example", {})
+ * client.payouts.listEntries("example")
  */
     listEntries(payout_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutEntryListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -70,7 +70,7 @@ export interface PayoutsResource {
  * Returns a paginated list of payouts with optional filters for status, currency, destination, method, and timing.
  * GET /v1/payouts
  * @example
- * client.payouts.list({})
+ * client.payouts.list()
  */
     list(params?: { "currency"?: InputValue<string>; "method"?: InputValue<"standard">; "balance_source_type"?: InputValue<"card" | "bank_account" | "fpx">; "payout_destination_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"pending" | "in_transit" | "paid" | "failed" | "canceled">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "arrival_after"?: InputValue<string | globalThis.Date>; "arrival_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

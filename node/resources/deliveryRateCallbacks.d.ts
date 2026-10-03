@@ -36,7 +36,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.checkConnection("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.checkConnection("example", {}, { idempotencyKey: idempotencyKey })
  */
     checkConnection(delivery_rate_callback_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackConnectionCheckResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -47,7 +47,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.create({name: "example", configuration: {url: "example"}, "Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.create({name: "example", configuration: {url: "example"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "configuration": DeliveryRateCallbackConfigurationInput; "external_reference_id"?: string; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -58,7 +58,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.createTestDelivery("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.createTestDelivery("example", {}, { idempotencyKey: idempotencyKey })
  */
     createTestDelivery(delivery_rate_callback_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackTestDeliveryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -69,7 +69,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(delivery_rate_callback_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -78,7 +78,7 @@ export interface DeliveryRateCallbacksResource {
  * Returns the current revision and lifecycle state for one delivery rate callback.
  * GET /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
  * @example
- * client.deliveryRateCallbacks.get("example", {})
+ * client.deliveryRateCallbacks.get("example")
  */
     get(delivery_rate_callback_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -87,7 +87,7 @@ export interface DeliveryRateCallbacksResource {
  * Returns delivery rate callbacks in a stable, cursor-paginated order.
  * GET /v1/delivery-rate-callbacks
  * @example
- * client.deliveryRateCallbacks.list({})
+ * client.deliveryRateCallbacks.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "delivery_method_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryRateCallbackListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -101,7 +101,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.rotateSigningKey("example", {"Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.rotateSigningKey("example", {}, { idempotencyKey: idempotencyKey })
  */
     rotateSigningKey(delivery_rate_callback_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackSigningKeyRotationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -112,7 +112,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.update("example", {name: "example", "Idempotency-Key": idempotencyKey})
+ * client.deliveryRateCallbacks.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
     update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

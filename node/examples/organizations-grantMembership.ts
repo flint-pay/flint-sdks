@@ -12,8 +12,8 @@ const result = await client.organizations.grantMembership(
   {
     role: "owner",
     user_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.organization_id);
 console.log(result.status);

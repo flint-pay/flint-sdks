@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customers->setDefaultAddress('example', 'example', [
   'default_for' => 'billing',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_address_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

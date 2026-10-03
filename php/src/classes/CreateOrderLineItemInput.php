@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string $bundle_id
  * @property-read string $description
  * @property-read LineItemFulfillmentRequestInput|array<array-key, mixed>|\stdClass $fulfillment
+ * @property-read array{'face_value_money'?: array{'amount': string, 'currency': string}|object, 'recipient'?: GiftCardPurchaseRecipientInput|array<array-key, mixed>|\stdClass}|object $gift_card_purchase
  * @property-read ImageReferenceRequestInput|array<array-key, mixed>|\stdClass $image
  * @property-read list<OrderDraftLineItemInventoryDemandRequestInput|array<array-key, mixed>|\stdClass> $inventory_demands
  * @property-read array<array-key, string>|\stdClass $metadata
@@ -33,6 +34,11 @@ final class CreateOrderLineItemInput extends Model {
      */
     public function getFulfillment(): mixed { return $this->get('fulfillment'); }
     public function hasFulfillment(): bool { return $this->has('fulfillment'); }
+    /** @return array{'face_value_money'?: array{'amount': string, 'currency': string}|object, 'recipient'?: GiftCardPurchaseRecipientInput|array<array-key, mixed>|\stdClass}|object
+     * @throws SdkError When gift_card_purchase is omitted; use hasGiftCardPurchase() or valueOrDefault().
+     */
+    public function getGiftCardPurchase(): array|object { return $this->get('gift_card_purchase'); }
+    public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
     /** @return ImageReferenceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */

@@ -20,8 +20,7 @@ $result = $client->orders->addCharge('example', [
       'currency' => 'USD',
     ],
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

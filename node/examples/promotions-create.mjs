@@ -13,8 +13,8 @@ const result = await client.promotions.create(
       percent_off: 1,
     },
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.promotion_id);
 console.log(result.status);

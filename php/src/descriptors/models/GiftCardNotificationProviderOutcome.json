@@ -1,0 +1,1 @@
+{"shared":"GiftCardNotificationProviderOutcome","phpRepresentation":{"kind":"record","fields":{"delivery_attempt_id":{"kind":"value","type":"string"},"kind":{"kind":"value","type":"string"},"occurred_at":{"kind":"value","type":"string"},"received_at":{"kind":"value","type":"string"}}},"dependencies":["GiftCardNotificationProviderOutcome"]}

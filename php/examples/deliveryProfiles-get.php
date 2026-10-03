@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryProfiles->get('example', []);
+$result = $client->deliveryProfiles->get('example');
 echo $result->current_delivery_profile_revision_id . PHP_EOL;
 echo $result->delivery_profile_id . PHP_EOL;
 $client->close();

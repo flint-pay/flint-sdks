@@ -5,6 +5,5 @@ const client = new Client({
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 const result = await client.me.listOrderActivities(
-  "example",
-  {}
+  "example"
 );

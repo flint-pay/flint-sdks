@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->webhookEndpoints->createWebhookTestEvent('example', [
   'event_type' => 'balance.updated',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->webhook_delivery_attempt_id . PHP_EOL;
 echo $result->webhook_delivery_id . PHP_EOL;
 $client->close();

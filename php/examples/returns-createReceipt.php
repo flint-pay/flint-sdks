@@ -20,8 +20,7 @@ $result = $client->returns->createReceipt('example', [
   ],
   'received_at' => '2026-01-01T00:00:00Z',
   'receiving_location_id' => 'example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->receiving_location_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

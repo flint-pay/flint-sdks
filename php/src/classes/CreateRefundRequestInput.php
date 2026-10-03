@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read list<RefundChargeInput|array<array-key, mixed>|\stdClass> $charges
  * @property-read string $external_reference_id
+ * @property-read string $gift_card_load_id
  * @property-read list<RefundLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $order_id
@@ -13,6 +14,7 @@ namespace Flint;
  * @property-read string $reason_message
  * @property-read string $refund_method
  * @property-read list<RefundTaxBreakdownRefundInInput|array<array-key, mixed>|\stdClass> $tax_breakdown_refunds
+ * @property-read list<RefundTenderAllocationRequestInput|array<array-key, mixed>|\stdClass> $tender_allocations
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateRefundRequestInput extends Model {
     /** @param mixed $values */
@@ -32,6 +34,11 @@ final class CreateRefundRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** @return string
+     * @throws SdkError When gift_card_load_id is omitted; use hasGiftCardLoadId() or valueOrDefault().
+     */
+    public function getGiftCardLoadId(): string { return $this->get('gift_card_load_id'); }
+    public function hasGiftCardLoadId(): bool { return $this->has('gift_card_load_id'); }
     /** @return list<RefundLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -72,4 +79,9 @@ final class CreateRefundRequestInput extends Model {
      */
     public function getTaxBreakdownRefunds(): array { return $this->get('tax_breakdown_refunds'); }
     public function hasTaxBreakdownRefunds(): bool { return $this->has('tax_breakdown_refunds'); }
+    /** @return list<RefundTenderAllocationRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When tender_allocations is omitted; use hasTenderAllocations() or valueOrDefault().
+     */
+    public function getTenderAllocations(): array { return $this->get('tender_allocations'); }
+    public function hasTenderAllocations(): bool { return $this->has('tender_allocations'); }
 }

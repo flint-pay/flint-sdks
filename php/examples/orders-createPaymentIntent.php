@@ -11,9 +11,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->createPaymentIntent('example', [
-  'Idempotency-Key' => $idempotencyKey,
-]);
+$result = $client->orders->createPaymentIntent('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_intent->payment_intent_id . PHP_EOL;
 echo $result->payment_intent->status . PHP_EOL;
 $client->close();

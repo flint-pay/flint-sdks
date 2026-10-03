@@ -5,7 +5,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.merchantBillingBalances.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.merchant_billing_balance_id);

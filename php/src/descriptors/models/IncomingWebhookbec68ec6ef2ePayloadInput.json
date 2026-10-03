@@ -1,1 +1,1 @@
-{"shared":"Webhook_inventory_reservation_hold_expired_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","Webhook_inventory_reservation_hold_expired_merchant"]}
+{"shared":"Webhook_inventory_reservation_hold_expired_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec197","SharedCodec275","Webhook_inventory_reservation_hold_expired_merchant"]}

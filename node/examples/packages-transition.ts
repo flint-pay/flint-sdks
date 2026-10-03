@@ -13,8 +13,8 @@ const result = await client.packages.transition(
     body: {
       action: "mark_delivered",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.package.fulfillment_id);
 console.log(result.package.order_id);

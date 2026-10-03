@@ -14,8 +14,8 @@ const result = await client.creditNotes.createAllocation(
       amount: "0",
       currency: "USD",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.credit_note.credit_note_id);
 console.log(result.credit_note.invoice_id);

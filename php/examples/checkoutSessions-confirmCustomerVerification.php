@@ -21,8 +21,7 @@ $result = $client->checkoutSessions->confirmCustomerVerification('cs_example', '
   'code' => '123456',
   'X-Checkout-Session-ID' => 'cs_example',
   'X-Checkout-Session-Secret' => 'checkout_secret_example',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->checkout_session->checkout_session_id . PHP_EOL;
 echo $result->checkout_session->status . PHP_EOL;
 $client->close();

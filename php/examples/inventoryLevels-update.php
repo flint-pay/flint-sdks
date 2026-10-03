@@ -13,8 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->inventoryLevels->update('example', [
   'safety_stock_quantity' => '0',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_level->inventory_item_id . PHP_EOL;
 echo $result->inventory_level->inventory_level_id . PHP_EOL;
 $client->close();

@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.refunds.create(
   {
     order_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.refund_id);
 console.log(result.status);

@@ -18,7 +18,7 @@ export interface BalanceTransactionsResource {
  * Returns one balance transaction by ID, with optional related order expansion.
  * GET /v1/balance-transactions/{balance_transaction_id}
  * @example
- * client.balanceTransactions.get("example", {})
+ * client.balanceTransactions.get("example")
  */
     get(balance_transaction_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<BalanceTransactionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface BalanceTransactionsResource {
  * Returns a paginated ledger of balance-affecting transactions, including availability timing and related public resources.
  * GET /v1/balance-transactions
  * @example
- * client.balanceTransactions.list({})
+ * client.balanceTransactions.list()
  */
     list(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"payment" | "refund" | "dispute" | "dispute_reversal" | "return" | "recovery" | "payout" | "payout_failure" | "payout_cancellation" | "payout_reversal" | "payout_advance" | "payout_advance_funding" | "reserve_hold" | "reserve_release" | "payout_hold" | "payout_hold_release" | "adjustment" | "merchant_billing_payment" | "merchant_billing_payment_reversal">; "related_object_type"?: InputValue<"payment_intent" | "refund" | "dispute" | "payout" | "payout_destination" | "reserve" | "adjustment" | "merchant_subscription_invoice">; "related_object_id"?: InputValue<string>; "status"?: InputValue<"pending" | "available" | "reserved" | "reversed" | "failed" | "superseded">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "available_after"?: InputValue<string | globalThis.Date>; "available_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceTransactionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -17,8 +17,8 @@ const result = await client.returns.createResolution(
       },
     ],
     resolution_type: "refund",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.return_id);
 console.log(result.return_resolution_id);

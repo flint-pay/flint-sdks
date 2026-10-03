@@ -14,8 +14,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->packages->createItem('example', [
   'order_line_item_id' => 'example',
   'quantity' => '100',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->fulfillment_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
 $client->close();

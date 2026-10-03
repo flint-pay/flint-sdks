@@ -1,0 +1,1 @@
+{"shared":"CustomerEmailPreferences","phpRepresentation":{"kind":"record","fields":{"checkout_reminders":{"kind":"value","type":"bool"},"customer_id":{"kind":"value","type":"string"},"shipping_updates":{"kind":"value","type":"bool"}}},"dependencies":["CustomerEmailPreferences"]}

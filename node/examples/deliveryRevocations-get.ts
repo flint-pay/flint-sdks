@@ -5,7 +5,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 const result = await client.deliveryRevocations.get(
-  "example",
-  {}
+  "example"
 );
 console.log(result.delivery_revocation_id);

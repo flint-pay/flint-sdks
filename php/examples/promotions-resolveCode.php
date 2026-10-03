@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->promotions->resolveCode('example', []);
+$result = $client->promotions->resolveCode('example');
 echo $result->promotion->promotion_id . PHP_EOL;
 echo $result->promotion->status . PHP_EOL;
 $client->close();

@@ -14,8 +14,8 @@ const result = await client.invoices.recordManualPayment(
       amount: "0",
       currency: "USD",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_id);
 console.log(result.merchant_id);

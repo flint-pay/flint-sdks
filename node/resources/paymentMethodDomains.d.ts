@@ -24,7 +24,7 @@ export interface PaymentMethodDomainsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethodDomains.create({domain_name: "payments.example.invalid", "Idempotency-Key": idempotencyKey})
+ * client.paymentMethodDomains.create({domain_name: "payments.example.invalid"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "domain_name": (string); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -33,7 +33,7 @@ export interface PaymentMethodDomainsResource {
  * Returns one environment-scoped payment method domain and its Apple Pay and Google Pay readiness.
  * GET /v1/payment-method-domains/{payment_method_domain_id}
  * @example
- * client.paymentMethodDomains.get("example", {})
+ * client.paymentMethodDomains.get("example")
  */
     get(payment_method_domain_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -42,7 +42,7 @@ export interface PaymentMethodDomainsResource {
  * Returns payment method domains ordered by payment_method_domain_id ascending in the selected Flint environment. Page tokens are opaque, bind to the list parameters, and return a validation error when invalid or mismatched.
  * GET /v1/payment-method-domains
  * @example
- * client.paymentMethodDomains.list({})
+ * client.paymentMethodDomains.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentMethodDomainListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -56,7 +56,7 @@ export interface PaymentMethodDomainsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethodDomains.update("example", {status: "active", "Idempotency-Key": idempotencyKey})
+ * client.paymentMethodDomains.update("example", {status: "active"}, { idempotencyKey: idempotencyKey })
  */
     update(payment_method_domain_id: InputValue<string>, params: (InputValue<{ "status": "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

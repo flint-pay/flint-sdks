@@ -5,8 +5,7 @@ const client = new Client({
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 const result = await client.me.getInvoicePDF(
-  "example",
-  {}
+  "example"
 );
 // Choose a destination path; PDF bytes must not be decoded as text.
 const resultPath = process.env.API_DOWNLOAD_PATH ?? 'download.pdf';

@@ -15,6 +15,5 @@ $result = $client->merchantAccountSessions->create([
   'components' => [
     'account_onboarding',
   ],
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

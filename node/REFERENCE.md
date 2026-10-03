@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 2.0.0; API 2026-09-07.
+Package 3.0.0-beta.20261003024310; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -41,6 +41,14 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [fulfillmentEvents](#resource-fulfillmentevents)
 - [fulfillmentNotifications](#resource-fulfillmentnotifications)
 - [fulfillments](#resource-fulfillments)
+- [giftCardAdjustments](#resource-giftcardadjustments)
+- [giftCardCashOuts](#resource-giftcardcashouts)
+- [giftCardFundingDisputes](#resource-giftcardfundingdisputes)
+- [giftCardLoads](#resource-giftcardloads)
+- [giftCardNotifications](#resource-giftcardnotifications)
+- [giftCardRedemptions](#resource-giftcardredemptions)
+- [giftCardTransactions](#resource-giftcardtransactions)
+- [giftCards](#resource-giftcards)
 - [inventoryAdjustments](#resource-inventoryadjustments)
 - [inventoryAllocationPolicies](#resource-inventoryallocationpolicies)
 - [inventoryCounts](#resource-inventorycounts)
@@ -225,7 +233,7 @@ Creates a merchant-bound external API key. secret_key is returned only in the in
 
 `POST /v1/api-keys`
 
-Call: `create(params: (InputValue<{ "expires_at"?: string | globalThis.Date; "name": string; "sandbox_id"?: string; "scopes": Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "expires_at"?: string | globalThis.Date; "name": string; "sandbox_id"?: string; "scopes": Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.recipients.write" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -260,6 +268,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.credit_notes.write" |
     "commerce.delivery.read" |
     "commerce.delivery.write" |
+    "commerce.gift_cards.adjustments.write" |
+    "commerce.gift_cards.read" |
+    "commerce.gift_cards.recipients.write" |
+    "commerce.gift_cards.redemptions.write" |
+    "commerce.gift_cards.secrets.write" |
+    "commerce.gift_cards.write" |
     "commerce.inventory.read" |
     "commerce.inventory.write" |
     "commerce.inventory_locations.write" |
@@ -527,7 +541,7 @@ Updates an active external API key's name or complete scope list. API-key-authen
 
 `PATCH /v1/api-keys/{api_key_id}`
 
-Call: `update(api_key_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date | null; "name"?: string; "scopes"?: Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(api_key_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date | null; "name"?: string; "scopes"?: Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.recipients.write" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `api_key_id`. Params contain flat body fields and query/header fields.
 
@@ -563,6 +577,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.credit_notes.write" |
     "commerce.delivery.read" |
     "commerce.delivery.write" |
+    "commerce.gift_cards.adjustments.write" |
+    "commerce.gift_cards.read" |
+    "commerce.gift_cards.recipients.write" |
+    "commerce.gift_cards.redemptions.write" |
+    "commerce.gift_cards.secrets.write" |
+    "commerce.gift_cards.write" |
     "commerce.inventory.read" |
     "commerce.inventory.write" |
     "commerce.inventory_locations.write" |
@@ -1868,11 +1888,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### checkoutSessions.createCustomerVerification
 
-Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, the default, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, Flint sends a code to any valid address. With purpose use_saved_payment_methods, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and make 30 text requests an hour, and 20 requests of any kind a minute. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
+Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, whose default channel is email, Flint sends a code to any valid address. With purpose use_saved_payment_methods and channel email, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose use_saved_payment_methods and channel auto, its default, a checkout asks as the buyer leaves the email field, and Flint sends the code the way the email's details were saved: it texts the mobile phone number they carry, as channel sms does, or, when they carry none, emails a code when the email has cards saved by email. The response's channel says which. For an email with neither, or past a cap, it sends nothing and returns CUSTOMER_VERIFICATION_NOT_SENT; show nothing about saved details then. So this answer tells anyone who types the email whether it has saved details at the merchant; name channel email for an answer that doesn't. While an emailed code a checkout sent this way still works, another auto request for the same email answers with that code and sends nothing; request channel email to send another. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and 10 codes emailed by channel auto, and make 30 text and auto requests together, an hour, and 20 requests of any kind a minute. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
 
 `POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications`
 
-Call: `createCustomerVerification(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms"; "email"?: string; "purpose": "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">)`
+Call: `createCustomerVerification(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms" | "auto"; "email"?: string; "purpose": "gift_card_purchase" | "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">)`
 
 Path arguments: `path0` = `checkout_session_id`. Params contain flat body fields and query/header fields.
 
@@ -1888,9 +1908,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": {
     "channel"?: "email" |
-    "sms";
+    "sms" |
+    "auto";
     "email"?: string;
-    "purpose": "save_payment_method" |
+    "purpose": "gift_card_purchase" |
+    "save_payment_method" |
     "use_saved_payment_methods" |
     "confirm_saved_payment_method";
   };
@@ -2162,6 +2184,7 @@ Returned payload:
       (string & {
       });
       "failure_message"?: string;
+      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
       "is_resumable": boolean;
       "mode": "payment" |
       "setup" |
@@ -2536,6 +2559,7 @@ Returned payload:
       (string & {
       });
       "failure_message"?: string;
+      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
       "is_resumable": boolean;
       "mode": "payment" |
       "setup" |
@@ -2565,6 +2589,7 @@ Returned payload:
       "capturable_money": MoneyValue;
       "expires_at"?: string;
     };
+    "buyer_actions": Array<BuyerAction>;
     "buyer_email"?: string;
     "buyer_note"?: string;
     "buyer_phone"?: string;
@@ -2603,6 +2628,17 @@ Returned payload:
     (string & {
     });
     "fulfillments"?: Array<Fulfillment>;
+    "gift_card_estimate"?: {
+      "can_pay": boolean;
+      "gift_card_money": GiftCardMoney;
+      "gift_cards": Array<OrderGiftCardAllocation>;
+      "is_reserved": boolean;
+      "order_revision": string;
+      "processor_money": GiftCardMoney;
+    };
+    "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
+    "gift_card_tender_enabled"?: boolean;
+    "gift_cards"?: Array<OrderGiftCardSelection>;
     "internal_note"?: string;
     "inventory_exception_status"?: "paid_inventory_failed" |
     "resolved" |
@@ -2626,6 +2662,7 @@ Returned payload:
     string>;
     "order_id": string;
     "order_number"?: string;
+    "order_revision"?: string;
     "origin"?: "virtual_terminal" |
     "payment_link" |
     "checkout" |
@@ -2885,6 +2922,7 @@ Returned payload:
       (string & {
       });
       "failure_message"?: string;
+      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
       "is_resumable": boolean;
       "mode": "payment" |
       "setup" |
@@ -3259,6 +3297,7 @@ Returned payload:
       (string & {
       });
       "failure_message"?: string;
+      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
       "is_resumable": boolean;
       "mode": "payment" |
       "setup" |
@@ -3288,6 +3327,7 @@ Returned payload:
       "capturable_money": MoneyValue;
       "expires_at"?: string;
     };
+    "buyer_actions": Array<BuyerAction>;
     "buyer_email"?: string;
     "buyer_note"?: string;
     "buyer_phone"?: string;
@@ -3326,6 +3366,17 @@ Returned payload:
     (string & {
     });
     "fulfillments"?: Array<Fulfillment>;
+    "gift_card_estimate"?: {
+      "can_pay": boolean;
+      "gift_card_money": GiftCardMoney;
+      "gift_cards": Array<OrderGiftCardAllocation>;
+      "is_reserved": boolean;
+      "order_revision": string;
+      "processor_money": GiftCardMoney;
+    };
+    "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
+    "gift_card_tender_enabled"?: boolean;
+    "gift_cards"?: Array<OrderGiftCardSelection>;
     "internal_note"?: string;
     "inventory_exception_status"?: "paid_inventory_failed" |
     "resolved" |
@@ -3349,6 +3400,7 @@ Returned payload:
     string>;
     "order_id": string;
     "order_number"?: string;
+    "order_revision"?: string;
     "origin"?: "virtual_terminal" |
     "payment_link" |
     "checkout" |
@@ -12067,6 +12119,1543 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/fulfillments-update.mjs)
 
 
+## Resource: giftCardAdjustments
+
+### giftCardAdjustments.create
+
+Posts a relative correction with a typed reason and separate administrative authority. Corrections cannot consume reserved funds, exceed funding limits, or replace linked refunds and purchase reversals.
+
+`POST /v1/gift-cards/{gift_card_id}/adjustments`
+
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "amount_money": GiftCardMoneyInput;
+    "expected_version"?: string;
+    "reason": "complimentary" |
+    "balance_accidentally_decreased" |
+    "support_issue" |
+    "suspicious_activity" |
+    "balance_accidentally_increased";
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardAdjustments-create.mjs)
+
+
+## Resource: giftCardCashOuts
+
+### giftCardCashOuts.create
+
+Records cash that the merchant attests it paid to the cardholder. Flint does not send cash. The amount cannot exceed available value or consume payment reservations; the external reference identifies the merchant's disbursement record.
+
+`POST /v1/gift-cards/{gift_card_id}/cash-outs`
+
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "amount_money": GiftCardMoneyInput;
+    "expected_version"?: string;
+    "external_reference_id": string;
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardCashOuts-create.mjs)
+
+
+## Resource: giftCardFundingDisputes
+
+### giftCardFundingDisputes.honorValue
+
+Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment, including replacement refund lots. Records the dispute amount, original gift card consideration, honored value and preserved reservations. Clears only this dispute restriction; balances, unrelated restrictions and unresolved payment reservations remain intact. Requires gift card adjustment authority and a durable Idempotency-Key.
+
+`POST /v1/gift-card-funding-disputes/{dispute_id}/honor-value`
+
+Call: `honorValue(dispute_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `dispute_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "dispute_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "reason": string; }; }`
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `dispute_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `honorValueWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardFundingDisputes-honorValue.mjs)
+
+
+## Resource: giftCardLoads
+
+### giftCardLoads.create
+
+Adds positive value with separately recorded consideration and funding provenance. Limits apply to externally funded value and imports as well as Flint-funded sales. Loading a pending card activates it; loading a frozen card does not remove its restrictions.
+
+`POST /v1/gift-cards/{gift_card_id}/loads`
+
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; })) | (null)); "expected_version"?: string; "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); }) & ((({ "consideration_money": GiftCardMoneyInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": "USD"; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": ({
+    "consideration_money"?: ((({
+      "amount"?: string;
+    }) & ({
+      "amount": string;
+      "currency": "USD";
+    })) |
+    (null));
+    "expected_version"?: string;
+    "source": ({
+      "funding_source_type"?: "external_payment" |
+      "flint_payment" |
+      "import";
+    }) & (({
+      "buyer_id"?: string;
+      "funding_source_type": "external_payment" |
+      "flint_payment" |
+      "flint_manual_payment" |
+      "import" |
+      "adjustment" |
+      "gift_card_refund" |
+      "gift_card_purchase_refund_recovery";
+      "order_id"?: string;
+      "order_manual_payment_id"?: never;
+      "payment_intent_id"?: string;
+      "reference_id": string;
+    }) & ((({
+      "funding_source_type"?: ("external_payment") & ("external_payment");
+      "buyer_id": unknown;
+    }) & (({
+      "payment_intent_id"?: never
+    }) & ({
+      "order_id"?: never
+    }))) |
+    (({
+      "funding_source_type"?: ("flint_payment") & ("flint_payment");
+      "payment_intent_id": unknown;
+    }) & ({
+      "order_manual_payment_id"?: never
+    })) |
+    (({
+      "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment");
+      "order_id": unknown;
+      "buyer_id": unknown;
+    }) & ({
+      "payment_intent_id"?: never
+    })) |
+    (({
+      "funding_source_type"?: ("import") & ("import");
+    }) & (({
+      "payment_intent_id"?: never
+    }) & ({
+      "order_id"?: never
+    }))) |
+    ({
+      "funding_source_type"?: ("adjustment") & ("adjustment");
+    }) |
+    (({
+      "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund");
+    }) & ({
+      "payment_intent_id"?: never
+    })) |
+    (({
+      "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery");
+    }) & (({
+      "payment_intent_id"?: never
+    }) & ({
+      "order_manual_payment_id"?: never
+    }))))) & ({
+      "order_manual_payment_id"?: never
+    });
+    "source_created_at"?: string |
+    globalThis.Date;
+    "value_money": ({
+      "amount"?: string;
+    }) & ({
+      "amount": string;
+      "currency": "USD";
+    });
+  }) & ((({
+    "consideration_money": GiftCardMoneyInput;
+    "source": null |
+    boolean |
+    number |
+    string |
+    unknown[] |
+    ({
+      "funding_source_type"?: "external_payment" |
+      "flint_payment";
+    });
+  }) & ({
+    "source_created_at"?: never
+  })) |
+  ({
+    "consideration_money"?: (({
+      "amount": string;
+      "currency": "USD";
+    }) |
+    (null));
+    "source": null |
+    boolean |
+    number |
+    string |
+    unknown[] |
+    ({
+      "funding_source_type"?: ("import") & ("import");
+    });
+  }));
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardLoads-create.mjs)
+
+
+### giftCardLoads.get
+
+Retrieves original value, consideration, funding provenance and remaining attributable value for one load.
+
+`GET /v1/gift-card-loads/{gift_card_load_id}`
+
+Call: `get(gift_card_load_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `gift_card_load_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_load_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `GiftCardLoad`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_load_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardLoads-get.mjs)
+
+
+### giftCardLoads.list
+
+Lists funding lots in descending ID order. Consideration may be null for imported balances whose original purchase price is unknown. The idempotency_key filter recovers a load after a lost command response.
+
+`GET /v1/gift-card-loads`
+
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_id"?: InputValue<string>; "source_type"?: InputValue<"adjustment" | "external_payment" | "flint_manual_payment" | "flint_payment" | "gift_card_purchase_refund_recovery" | "gift_card_refund" | "import">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "from_at"?: string |
+  globalThis.Date;
+  "gift_card_id"?: string;
+  "idempotency_key"?: string;
+  "order_id"?: string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "source_id"?: string;
+  "source_type"?: "adjustment" |
+  "external_payment" |
+  "flint_manual_payment" |
+  "flint_payment" |
+  "gift_card_purchase_refund_recovery" |
+  "gift_card_refund" |
+  "import";
+  "until_at"?: string |
+  globalThis.Date;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<GiftCardLoad>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `from_at` | Optional | string | Format: `date-time`. |
+| `gift_card_id` | Optional | string | maxLength: `255`. |
+| `idempotency_key` | Optional | string | maxLength: `255`. |
+| `order_id` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `source_id` | Optional | string | maxLength: `255`. |
+| `source_type` | Optional | string | maxLength: `255`. Values: [7 declared values](#giftcardloadslist-input-source_type-values). |
+| `until_at` | Optional | string | Format: `date-time`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+#### giftCardLoads.list input source_type values
+
+- `"adjustment"`
+- `"external_payment"`
+- `"flint_manual_payment"`
+- `"flint_payment"`
+- `"gift_card_purchase_refund_recovery"`
+- `"gift_card_refund"`
+- `"import"`
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardLoads-list.mjs)
+
+#### giftCardLoads.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.giftCardLoads.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### giftCardLoads.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardLoads.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### giftCardLoads.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardLoads.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+## Resource: giftCardNotifications
+
+### giftCardNotifications.cancel
+
+Cancels a notification before sending starts or after confirmed failure. A sending or unconfirmed notification cannot be canceled. Gift card value is preserved.
+
+`POST /v1/gift-card-notifications/{gift_card_notification_id}/cancel`
+
+Call: `cancel(gift_card_notification_id: InputValue<string>, params: (InputValue<{  }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_notification_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_notification_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": {  }; }`
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_notification_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardNotifications-cancel.mjs)
+
+
+### giftCardNotifications.create
+
+Creates a recipient email notification, immediately or up to 90 days from now. A resend creates a new resource with resend_of_notification_id. An unconfirmed send must be resolved before another send is requested. Sending does not change gift card value or order fulfillment.
+
+`POST /v1/gift-card-notifications`
+
+Call: `create(params: (InputValue<{ "gift_card_id": string; "recipient": GiftCardNotificationRecipientInput; "resend_of_notification_id"?: string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "gift_card_id": string;
+    "recipient": GiftCardNotificationRecipientInput;
+    "resend_of_notification_id"?: string;
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardNotifications-create.mjs)
+
+
+### giftCardNotifications.get
+
+Retrieves a notification and its sending outcome. Sent means the sending provider accepted the message; it does not mean the recipient read it.
+
+`GET /v1/gift-card-notifications/{gift_card_notification_id}`
+
+Call: `get(gift_card_notification_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `gift_card_notification_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_notification_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `GiftCardNotification`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_notification_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardNotifications-get.mjs)
+
+
+### giftCardNotifications.list
+
+Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or recipient access tokens are returned.
+
+`GET /v1/gift-card-notifications`
+
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unknown">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "from_at"?: string |
+  globalThis.Date;
+  "gift_card_id"?: string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "status"?: "bounced" |
+  "canceled" |
+  "failed" |
+  "queued" |
+  "scheduled" |
+  "sending" |
+  "sent" |
+  "unknown";
+  "until_at"?: string |
+  globalThis.Date;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<GiftCardNotification>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `from_at` | Optional | string | Format: `date-time`. |
+| `gift_card_id` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `status` | Optional | string | maxLength: `255`. Values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unknown"`. |
+| `until_at` | Optional | string | Format: `date-time`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardNotifications-list.mjs)
+
+#### giftCardNotifications.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.giftCardNotifications.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### giftCardNotifications.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardNotifications.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### giftCardNotifications.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardNotifications.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+## Resource: giftCardRedemptions
+
+### giftCardRedemptions.cancel
+
+Releases an uncaptured standalone reservation without posting a debit or refund. Flint order reservations cannot be released while a processor outcome is unresolved.
+
+`POST /v1/gift-card-redemptions/{gift_card_redemption_id}/cancel`
+
+Call: `cancel(gift_card_redemption_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_redemption_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_redemption_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_redemption_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardRedemptions-cancel.mjs)
+
+
+### giftCardRedemptions.capture
+
+Posts the full reserved amount before the manual reservation expires. Capturing and expiry use the same concurrency fence. Flint order reservations are resolved by their payment attempt and cannot be captured through this standalone operation.
+
+`POST /v1/gift-card-redemptions/{gift_card_redemption_id}/capture`
+
+Call: `capture(gift_card_redemption_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_redemption_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_redemption_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_redemption_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `captureWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardRedemptions-capture.mjs)
+
+
+### giftCardRedemptions.create
+
+Posts an exact amount automatically or reserves it for one full manual capture. Insufficient funds are rejected without a partial debit. Manual reservations default to 15 minutes and may be bounded up to 24 hours. External integrations coordinate and compensate their other tenders themselves.
+
+`POST /v1/gift-card-redemptions`
+
+Call: `create(params: (InputValue<({ "amount_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); "capture_mode": "automatic" | "manual"; "expected_version"?: string; "expires_at"?: string | globalThis.Date; "external_reference_id": string; "gift_card_id": string; }) & ((({ "capture_mode": ("automatic") & ("automatic"); }) & ({ "expires_at"?: never })) | ({ "capture_mode": ("manual") & ("manual"); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": ({
+    "amount_money": ({
+      "amount"?: string;
+    }) & ({
+      "amount": string;
+      "currency": "USD";
+    });
+    "capture_mode": "automatic" |
+    "manual";
+    "expected_version"?: string;
+    "expires_at"?: string |
+    globalThis.Date;
+    "external_reference_id": string;
+    "gift_card_id": string;
+  }) & ((({
+    "capture_mode": ("automatic") & ("automatic");
+  }) & ({
+    "expires_at"?: never
+  })) |
+  ({
+    "capture_mode": ("manual") & ("manual");
+  }));
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCardRedemptions-create.mjs)
+
+
+### giftCardRedemptions.get
+
+Retrieves requested, reserved, captured, refunded and remaining refundable value with the current reservation status.
+
+`GET /v1/gift-card-redemptions/{gift_card_redemption_id}`
+
+Call: `get(gift_card_redemption_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `gift_card_redemption_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_redemption_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `GiftCardRedemption`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_redemption_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardRedemptions-get.mjs)
+
+
+### giftCardRedemptions.list
+
+Lists reservations and captured redemptions in descending ID order. Retrieve by idempotency_key to recover an operation after a lost response.
+
+`GET /v1/gift-card-redemptions`
+
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_type"?: InputValue<"external" | "flint_order">; "status"?: InputValue<"canceled" | "captured" | "expired" | "reserved">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "external_reference_id"?: string;
+  "from_at"?: string |
+  globalThis.Date;
+  "gift_card_id"?: string;
+  "idempotency_key"?: string;
+  "order_id"?: string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "source_type"?: "external" |
+  "flint_order";
+  "status"?: "canceled" |
+  "captured" |
+  "expired" |
+  "reserved";
+  "until_at"?: string |
+  globalThis.Date;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<GiftCardRedemption>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `from_at` | Optional | string | Format: `date-time`. |
+| `gift_card_id` | Optional | string | maxLength: `255`. |
+| `idempotency_key` | Optional | string | maxLength: `255`. |
+| `order_id` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `source_type` | Optional | string | maxLength: `255`. Values: `"external"`, `"flint_order"`. |
+| `status` | Optional | string | maxLength: `255`. Values: `"canceled"`, `"captured"`, `"expired"`, `"reserved"`. |
+| `until_at` | Optional | string | Format: `date-time`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardRedemptions-list.mjs)
+
+#### giftCardRedemptions.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.giftCardRedemptions.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### giftCardRedemptions.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardRedemptions.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### giftCardRedemptions.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardRedemptions.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+## Resource: giftCards
+
+### giftCards.create
+
+Creates a merchant-issued USD gift card with optional paid funding or imported opening value. External funding is merchant-attested and does not collect a payment. The full code is returned only by issuance or code replacement and their authorized retries for 24 hours. Financial command identity is retained for the lifetime of the ledger.
+
+`POST /v1/gift-cards`
+
+Call: `create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); }) & ((({ "consideration_money": GiftCardMoneyInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": "USD"; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "currency": "USD";
+    "customer_id"?: string;
+    "external_reference_id"?: string;
+    "funding"?: ((({
+      "consideration_money"?: ((({
+        "amount"?: string;
+      }) & ({
+        "amount": string;
+        "currency": "USD";
+      })) |
+      (null));
+      "source": ({
+        "funding_source_type"?: "external_payment" |
+        "flint_payment" |
+        "import";
+      }) & (({
+        "buyer_id"?: string;
+        "funding_source_type": "external_payment" |
+        "flint_payment" |
+        "flint_manual_payment" |
+        "import" |
+        "adjustment" |
+        "gift_card_refund" |
+        "gift_card_purchase_refund_recovery";
+        "order_id"?: string;
+        "order_manual_payment_id"?: never;
+        "payment_intent_id"?: string;
+        "reference_id": string;
+      }) & ((({
+        "funding_source_type"?: ("external_payment") & ("external_payment");
+        "buyer_id": unknown;
+      }) & (({
+        "payment_intent_id"?: never
+      }) & ({
+        "order_id"?: never
+      }))) |
+      (({
+        "funding_source_type"?: ("flint_payment") & ("flint_payment");
+        "payment_intent_id": unknown;
+      }) & ({
+        "order_manual_payment_id"?: never
+      })) |
+      (({
+        "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment");
+        "order_id": unknown;
+        "buyer_id": unknown;
+      }) & ({
+        "payment_intent_id"?: never
+      })) |
+      (({
+        "funding_source_type"?: ("import") & ("import");
+      }) & (({
+        "payment_intent_id"?: never
+      }) & ({
+        "order_id"?: never
+      }))) |
+      ({
+        "funding_source_type"?: ("adjustment") & ("adjustment");
+      }) |
+      (({
+        "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund");
+      }) & ({
+        "payment_intent_id"?: never
+      })) |
+      (({
+        "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery");
+      }) & (({
+        "payment_intent_id"?: never
+      }) & ({
+        "order_manual_payment_id"?: never
+      }))))) & ({
+        "order_manual_payment_id"?: never
+      });
+      "source_created_at"?: string |
+      globalThis.Date;
+      "value_money": ({
+        "amount"?: string;
+      }) & ({
+        "amount": string;
+        "currency": "USD";
+      });
+    }) & ((({
+      "consideration_money": GiftCardMoneyInput;
+      "source": null |
+      boolean |
+      number |
+      string |
+      unknown[] |
+      ({
+        "funding_source_type"?: "external_payment" |
+        "flint_payment";
+      });
+    }) & ({
+      "source_created_at"?: never
+    })) |
+    ({
+      "consideration_money"?: (({
+        "amount": string;
+        "currency": "USD";
+      }) |
+      (null));
+      "source": null |
+      boolean |
+      number |
+      string |
+      unknown[] |
+      ({
+        "funding_source_type"?: ("import") & ("import");
+      });
+    }))) |
+    (null));
+    "notification"?: {
+      "email": string;
+      "message"?: string;
+      "name"?: string;
+      "send_at"?: string |
+      globalThis.Date;
+    };
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCards-create.mjs)
+
+
+### giftCards.get
+
+Retrieves the current gift card, including supported lifecycle actions and balance projections. A gift card ID does not authorize a buyer to spend it.
+
+`GET /v1/gift-cards/{gift_card_id}`
+
+Call: `get(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `GiftCard`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCards-get.mjs)
+
+
+### giftCards.list
+
+Lists gift cards in descending ID order within the authenticated merchant and environment. Reads include masked codes, posted balance, reserved value and available value. Purchased cards have no expiry or service fees.
+
+`GET /v1/gift-cards`
+
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "external_reference_id"?: string;
+  "from_at"?: string |
+  globalThis.Date;
+  "gift_card_id"?: string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "status"?: "active" |
+  "closed" |
+  "frozen" |
+  "pending";
+  "until_at"?: string |
+  globalThis.Date;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<GiftCard>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `from_at` | Optional | string | Format: `date-time`. |
+| `gift_card_id` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `status` | Optional | string | maxLength: `255`. Values: `"active"`, `"closed"`, `"frozen"`, `"pending"`. |
+| `until_at` | Optional | string | Format: `date-time`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCards-list.mjs)
+
+#### giftCards.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.giftCards.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### giftCards.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCards.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### giftCards.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCards.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+### giftCards.lookup
+
+Evaluates a full bearer code in a request body. Codes contain 16 ASCII Crockford base32 characters, accept lowercase and hyphens, and normalize O to 0 and I/L to 1. Lookup is side-effect-free and never reserves funds. Unknown, other-merchant and unusable codes return the same error.
+
+`POST /v1/gift-cards/lookup`
+
+Call: `lookup(params: (InputValue<{ "code": string; }>) & { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "Flint-Version"?: string; "body": { "code": string; }; }`
+
+Returned payload: `GiftCard`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `lookupWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCards-lookup.mjs)
+
+
+### giftCards.rotateCode
+
+Invalidates the old bearer credential and generates a new code for the same gift card. Balances, funding, reservations and refund history are preserved. The operation requires secret replacement authority. Include notification to explicitly send the new private recipient link with recipient notification authority. Retired links cannot open the current code.
+
+`POST /v1/gift-cards/{gift_card_id}/rotate-code`
+
+Call: `rotateCode(gift_card_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+    "notification"?: {
+      "email": string;
+      "message"?: string;
+      "name"?: string;
+      "send_at"?: string |
+      globalThis.Date;
+    };
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `rotateCodeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCards-rotateCode.mjs)
+
+
+### giftCards.transition
+
+Freezes spending, removes a merchant freeze, or closes a card after all value and restrictions are resolved. Unfreezing cannot remove unresolved funding-dispute restrictions. Freezing does not release accepted payment reservations.
+
+`POST /v1/gift-cards/{gift_card_id}/transitions`
+
+Call: `transition(gift_card_id: InputValue<string>, params: (InputValue<({ "action": "freeze" | "unfreeze" | "close"; "expected_version"?: string; "reason"?: "suspicious_activity" | "customer_request" | "support_issue"; }) & (({ "action": ("freeze") & ("freeze"); "reason": unknown; }) | (({ "action": "unfreeze" | "close"; }) & ({ "reason"?: never })))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": ({
+    "action": "freeze" |
+    "unfreeze" |
+    "close";
+    "expected_version"?: string;
+    "reason"?: "suspicious_activity" |
+    "customer_request" |
+    "support_issue";
+  }) & (({
+    "action": ("freeze") & ("freeze");
+    "reason": unknown;
+  }) |
+  (({
+    "action": "unfreeze" |
+    "close";
+  }) & ({
+    "reason"?: never
+  })));
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `transitionWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCards-transition.mjs)
+
+
+### giftCards.update
+
+Updates descriptive associations. Omitted fields are preserved; null clears external_reference_id or customer_id. This operation cannot change balances, currency, code or status.
+
+`PATCH /v1/gift-cards/{gift_card_id}`
+
+Call: `update(gift_card_id: InputValue<string>, params: (InputValue<{ "customer_id"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "gift_card_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "customer_id"?: string |
+    null;
+    "expected_version"?: string;
+    "external_reference_id"?: string |
+    null;
+  };
+}
+```
+
+Returned payload: `GiftCardCommandResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/giftCards-update.mjs)
+
+
+## Resource: giftCardTransactions
+
+### giftCardTransactions.list
+
+Lists immutable financial entries across the merchant in ascending merchant_sequence order. Per-card sequences and balance snapshots support reconciliation. Reservations and code replacement never create financial debits.
+
+`GET /v1/gift-card-transactions`
+
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_id"?: InputValue<string>; "source_type"?: InputValue<string>; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "external_reference_id"?: string;
+  "from_at"?: string |
+  globalThis.Date;
+  "gift_card_id"?: string;
+  "idempotency_key"?: string;
+  "order_id"?: string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "source_id"?: string;
+  "source_type"?: string;
+  "until_at"?: string |
+  globalThis.Date;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<GiftCardTransaction>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `from_at` | Optional | string | Format: `date-time`. |
+| `gift_card_id` | Optional | string | maxLength: `255`. |
+| `idempotency_key` | Optional | string | maxLength: `255`. |
+| `order_id` | Optional | string | maxLength: `255`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `source_id` | Optional | string | maxLength: `255`. |
+| `source_type` | Optional | string | maxLength: `255`. |
+| `until_at` | Optional | string | Format: `date-time`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/giftCardTransactions-list.mjs)
+
+#### giftCardTransactions.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.giftCardTransactions.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### giftCardTransactions.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardTransactions.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### giftCardTransactions.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.giftCardTransactions.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
 ## Resource: inventoryAdjustments
 
 ### inventoryAdjustments.create
@@ -14657,11 +16246,11 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### invoices.getOrCreateCheckoutSession
 
-Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item.
+Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/invoices/{invoice_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; }> | { "invoice_schedule_entry_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -14675,6 +16264,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
+    "return_url"?: string;
   };
 }
 ```
@@ -16025,11 +17615,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### me.cancelSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription immediately or at period end. Response may include advisory contract information.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Response may include advisory contract information.
 
 `POST /v1/me/subscriptions/{subscription_id}/cancel`
 
-Call: `cancelSubscription(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+Call: `cancelSubscription(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
@@ -16043,6 +17633,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": {
     "cancel_immediately"?: boolean;
+    "cancellation_comment"?: string;
+    "cancellation_reason_code"?: "too_expensive" |
+    "missing_features" |
+    "switched_service" |
+    "unused" |
+    "customer_service" |
+    "too_complex" |
+    "low_quality" |
+    "other";
   };
 }
 ```
@@ -16272,11 +17871,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### me.createInvoiceCheckoutSession
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/me/invoices/{invoice_id}/checkout-session`
 
-Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; }> | { "invoice_schedule_entry_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
+Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -16290,6 +17889,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
+    "return_url"?: string;
   };
 }
 ```
@@ -16413,15 +18013,15 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.createReturnResolutionCheckoutSession
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/me/return-resolutions/{resolution_id}/checkout-session`
 
-Call: `createReturnResolutionCheckoutSession(resolution_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+Call: `createReturnResolutionCheckoutSession(resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
 
 Path arguments: `path0` = `resolution_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "return_url"?: string; }; }`
 
 Returned payload: `CheckoutSessionLaunchResult`
 
@@ -16430,6 +18030,7 @@ Returned payload: `CheckoutSessionLaunchResult`
 | `resolution_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
 
 Returns the payload at `data` directly. Use `createReturnResolutionCheckoutSessionWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -16615,6 +18216,63 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 [Example](examples/me-getDeletionRequest.mjs)
 
 
+### me.getEmailPreferences
+
+Uses the customer identity fixed by the customer session. Returns which of the merchant's optional email categories the customer's current email receives in the selected merchant environment. A category the buyer never changed is on. Email preferences exist only for a customer with an email: without one, the read answers 404 with CUSTOMER_EMAIL_REQUIRED. Receipts and other transactional email always send.
+
+`GET /v1/me/email-preferences`
+
+Call: `getEmailPreferences(params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `CustomerEmailPreferences`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getEmailPreferencesWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-getEmailPreferences.mjs)
+
+
+### me.getGiftCard
+
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code.
+
+`GET /v1/me/gift-cards/{gift_card_id}`
+
+Call: `getGiftCard(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `BuyerGiftCard`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getGiftCardWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-getGiftCard.mjs)
+
+
 ### me.getInvoice
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single invoice by ID.
@@ -16699,6 +18357,34 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 [Example](examples/me-getOrder.mjs)
 
 
+### me.getPaymentMethod
+
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single payment method by ID.
+
+`GET /v1/me/payment-methods/{payment_method_id}`
+
+Call: `getPaymentMethod(payment_method_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: `path0` = `payment_method_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "payment_method_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `PaymentMethod`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `payment_method_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getPaymentMethodWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-getPaymentMethod.mjs)
+
+
 ### me.getReturn
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Retrieve a Return with its line items, policy evaluation, financial summary, and completion blockers. Supports expand for the order, the customer, and each line item's reason and fulfillment.
@@ -16729,7 +18415,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.getSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single subscription by ID.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single subscription by ID. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan.
 
 `GET /v1/me/subscriptions/{subscription_id}`
 
@@ -16913,6 +18599,100 @@ for await (const page of client.me.listCreditNotesPagesWithResponse("example", {
 ```
 
 
+### me.listDeletionRequests
+
+Uses the customer identity fixed by the customer session. Lists the current buyer's deletion requests in the selected merchant environment, newest first by requested_at.
+
+`GET /v1/me/deletion-requests`
+
+Call: `listDeletionRequests(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "status"?: "pending_review" |
+  "processing" |
+  "completed" |
+  "rejected" |
+  "failed";
+  "page_size"?: number;
+  "page_token"?: string;
+  "X-Request-Id"?: string;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<CustomerDeletionRequest>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `status` | Optional | string | Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listDeletionRequestsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-listDeletionRequests.mjs)
+
+#### me.listDeletionRequestsItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const item of client.me.listDeletionRequestsItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### me.listDeletionRequestsPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listDeletionRequestsPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### me.listDeletionRequestsPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listDeletionRequestsPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
 ### me.listFulfillments
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns fulfillments for operational queue and order-detail views. Results default to newest created first.
@@ -17036,6 +18816,165 @@ const client = new Client({
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
 for await (const page of client.me.listFulfillmentsPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+### me.listGiftCards
+
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending.
+
+`GET /v1/me/gift-cards`
+
+Call: `listGiftCards(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "page_size"?: number; "page_token"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `{ "data": Array<BuyerGiftCard>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listGiftCardsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-listGiftCards.mjs)
+
+#### me.listGiftCardsItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const item of client.me.listGiftCardsItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### me.listGiftCardsPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listGiftCardsPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### me.listGiftCardsPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listGiftCardsPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+### me.listGiftCardTransactions
+
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists the full anonymous balance-change history by per-card sequence, descending. Other holders' identities and order references are omitted.
+
+`GET /v1/me/gift-cards/{gift_card_id}/transactions`
+
+Call: `listGiftCardTransactions(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_id": string; "page_size"?: number; "page_token"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `{ "data": Array<BuyerGiftCardTransaction>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listGiftCardTransactionsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-listGiftCardTransactions.mjs)
+
+#### me.listGiftCardTransactionsItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const item of client.me.listGiftCardTransactionsItems("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### me.listGiftCardTransactionsPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listGiftCardTransactionsPages("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### me.listGiftCardTransactionsPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+});
+for await (const page of client.me.listGiftCardTransactionsPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["body"]["data"]);
   console.log(page.meta.requestId);
 }
@@ -17292,7 +19231,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/orders`
 
-Call: `listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<"unpaid" | "partially_paid" | "paid">; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -17304,9 +19243,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "page_token"?: string;
   "status"?: "open" |
   "closed";
-  "payment_status"?: "unpaid" |
+  "payment_status"?: (("unpaid" |
   "partially_paid" |
-  "paid";
+  "paid") |
+  (Array<"unpaid" |
+  "partially_paid" |
+  "paid">));
   "refund_status"?: Array<"none" |
   "partially_refunded" |
   "refunded">;
@@ -17353,7 +19295,7 @@ Returned payload: `{ "data": Array<Order>; "meta"?: ResponseMeta; "next_page_tok
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
 | `status` | Optional | string | Values: `"open"`, `"closed"`. |
-| `payment_status` | Optional | string | Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
+| `payment_status` | Optional | Alternative shapes (see declared variants) |  |
 | `refund_status` | Optional | Array of string |  |
 | `fulfillment_status` | Optional | Array of string |  |
 | `order_number` | Optional | string |  |
@@ -17847,7 +19789,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 }
 ```
 
-Returned payload: `{ "data": Array<Refund>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+Returned payload: `{ "data": Array<BuyerRefund>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -18199,7 +20141,7 @@ for await (const page of client.me.listShipmentsPagesWithResponse({}, { maxPages
 
 ### me.listSubscriptions
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a paginated list of subscriptions for the authenticated merchant.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a paginated list of subscriptions for the authenticated merchant. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan.
 
 `GET /v1/me/subscriptions`
 
@@ -18328,7 +20270,7 @@ for await (const page of client.me.listSubscriptionsPagesWithResponse({}, { maxP
 
 ### me.pauseSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately, optionally for a fixed number of billing cycles.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately, optionally for a fixed number of billing cycles. A buyer's pause follows the store's customer_account.buyer_capabilities.
 
 `POST /v1/me/subscriptions/{subscription_id}/pause`
 
@@ -18401,6 +20343,38 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-reactivateSubscription.mjs)
+
+
+### me.removeGiftCard
+
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Removes only this buyer's saved access without changing funds or other holders' access. Repeated removals succeed.
+
+`DELETE /v1/me/gift-cards/{gift_card_id}`
+
+Call: `removeGiftCard(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "gift_card_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `ActionResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `removeGiftCardWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Keys are retained with the gift card ledger.; scope: Buyer, merchant, environment and operation..
+
+[Example](examples/me-removeGiftCard.mjs)
 
 
 ### me.removePaymentMethod
@@ -18497,6 +20471,56 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-resumeSubscription.mjs)
+
+
+### me.saveGiftCard
+
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code.
+
+`POST /v1/me/gift-cards`
+
+Call: `saveGiftCard(params: (InputValue<({  }) & (({ "code": string; "credential_type": ("code") & ("code"); }) | ({ "credential_type": ("recipient_access") & ("recipient_access"); "grant_id": string; "recipient_access_token": string; }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": ({
+  }) & (({
+    "code": string;
+    "credential_type": ("code") & ("code");
+  }) |
+  ({
+    "credential_type": ("recipient_access") & ("recipient_access");
+    "grant_id": string;
+    "recipient_access_token": string;
+  }));
+}
+```
+
+Returned payload: `BuyerGiftCard`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `saveGiftCardWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Keys are retained with the gift card ledger.; scope: Buyer, merchant, environment and operation..
+
+[Example](examples/me-saveGiftCard.mjs)
 
 
 ### me.savePaymentMethod
@@ -18688,6 +20712,50 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-updateAddress.mjs)
+
+
+### me.updateEmailPreferences
+
+Uses the customer identity fixed by the customer session. Turns the optional email categories in the body on or off for the customer's current email at this merchant in the selected merchant environment, and leaves the others as they are. The setting follows the email address, so it also covers guest checkouts with the same email. A customer without an email has no email preferences, and the change answers 404 with CUSTOMER_EMAIL_REQUIRED.
+
+`PATCH /v1/me/email-preferences`
+
+Call: `updateEmailPreferences(params: (InputValue<{ "checkout_reminders"?: boolean; "shipping_updates"?: boolean; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "Idempotency-Key"?: string;
+  "X-Request-Id"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "checkout_reminders"?: boolean;
+    "shipping_updates"?: boolean;
+  };
+}
+```
+
+Returned payload: `CustomerEmailPreferences`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateEmailPreferencesWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/me-updateEmailPreferences.mjs)
 
 
 ## Resource: merchantAccountSessions
@@ -20144,6 +22212,58 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/orders-applyDiscount.mjs)
 
 
+### orders.applyGiftCard
+
+Selects a gift card by its current code and returns masked selections and an unreserved estimate. No value is held or debited. order_revision must match the order revision returned by the last read. An order may select at most 20 gift cards. Gift card value cannot pay for subscription orders.
+
+`POST /v1/orders/{order_id}/gift-cards`
+
+Call: `applyGiftCard(order_id: InputValue<string>, params: (InputValue<{ "gift_card_code": string; "order_revision": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Gift-Card-Challenge"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "order_id": string;
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Gift-Card-Challenge"?: string;
+  "X-Checkout-Session-ID"?: string;
+  "X-Checkout-Session-Secret"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "gift_card_code": string;
+    "order_revision": string;
+  };
+}
+```
+
+Returned payload: `Order`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Gift-Card-Challenge` | Optional | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `applyGiftCardWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/orders-applyGiftCard.mjs)
+
+
 ### orders.cancelPayment
 
 Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
@@ -20757,7 +22877,7 @@ Returns a paginated list of orders for the authenticated merchant.
 
 `GET /v1/orders`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<"unpaid" | "partially_paid" | "paid">; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -20770,9 +22890,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "customer_id"?: string;
   "status"?: "open" |
   "closed";
-  "payment_status"?: "unpaid" |
+  "payment_status"?: (("unpaid" |
   "partially_paid" |
-  "paid";
+  "paid") |
+  (Array<"unpaid" |
+  "partially_paid" |
+  "paid">));
   "refund_status"?: Array<"none" |
   "partially_refunded" |
   "refunded">;
@@ -20820,7 +22943,7 @@ Returned payload: `{ "data": Array<Order>; "meta"?: ResponseMeta; "next_page_tok
 | `page_token` | Optional | string |  |
 | `customer_id` | Optional | string |  |
 | `status` | Optional | string | Values: `"open"`, `"closed"`. |
-| `payment_status` | Optional | string | Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
+| `payment_status` | Optional | Alternative shapes (see declared variants) |  |
 | `refund_status` | Optional | Array of string |  |
 | `fulfillment_status` | Optional | Array of string |  |
 | `order_number` | Optional | string |  |
@@ -21125,8 +23248,10 @@ Input:
   "X-Checkout-Session-ID"?: string;
   "X-Checkout-Session-Secret"?: string;
   "X-Request-Id"?: string;
+  "Flint-Buyer-Device"?: string;
   "Flint-Version"?: string;
   "body": (({
+    "accepted_gift_card_allocation"?: OrderGiftCardAllocationAcceptanceInput;
     "action": "pay";
     "buyer_email"?: string;
     "buyer_phone"?: string;
@@ -21136,6 +23261,7 @@ Input:
     "save_payment_method_phone"?: string;
   }) |
   ({
+    "accepted_gift_card_allocation"?: OrderGiftCardAllocationAcceptanceInput;
     "action": "confirm_payment_intents";
     "buyer_email"?: string;
     "buyer_phone"?: string;
@@ -21174,6 +23300,7 @@ Returned payload: `PayOrderResult`
 | `X-Checkout-Session-ID` | Optional | string |  |
 | `X-Checkout-Session-Secret` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
+| `Flint-Buyer-Device` | Optional | string | pattern: `^[a-f0-9]{32}$`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Required | Alternative shapes (see declared variants) |  |
 
@@ -21280,6 +23407,57 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/orders-removeDiscounts.mjs)
+
+
+### orders.removeGiftCard
+
+Removes a selected gift card without moving value. The order revision must still match. Selections cannot change during an active payment attempt.
+
+`DELETE /v1/orders/{order_id}/gift-cards/{gift_card_id}`
+
+Call: `removeGiftCard(order_id: InputValue<string>, gift_card_id: InputValue<string>, params: (InputValue<{ "order_revision": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `order_id`, `path1` = `gift_card_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "order_id": string;
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "gift_card_id": string;
+  "X-Checkout-Session-ID"?: string;
+  "X-Checkout-Session-Secret"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "order_revision": string;
+  };
+}
+```
+
+Returned payload: `Order`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `gift_card_id` | Required | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `removeGiftCardWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/orders-removeGiftCard.mjs)
 
 
 ### orders.repriceDiscounts
@@ -21403,6 +23581,55 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/orders-resolveInventoryException.mjs)
+
+
+### orders.sendReceipt
+
+Queues a receipt for a paid order to the email you provide, including original gift card tenders and settled processor payments. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+
+`POST /v1/orders/{order_id}/send-receipt`
+
+Call: `sendReceipt(order_id: InputValue<string>, params: (InputValue<{ "email": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "order_id": string;
+  "Idempotency-Key"?: string;
+  "X-Request-Id"?: string;
+  "X-Checkout-Session-ID"?: string;
+  "X-Checkout-Session-Secret"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "email": string;
+  };
+}
+```
+
+Returned payload: `ActionResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `sendReceiptWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+
+[Example](examples/orders-sendReceipt.mjs)
 
 
 ### orders.update
@@ -21568,11 +23795,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.updateLineItem
 
-Updates a single line item on an order.
+Updates a single line item on an order. Send gift_card_recipient and expected_version to replace or clear recipient delivery details before any purchase funding. Checkout credentials can update recipient details or modifiers, each with expected_version.
 
 `PATCH /v1/orders/{order_id}/line-items/{order_line_item_id}`
 
-Call: `updateLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<({ "description"?: string; "expected_version"?: string; "metadata"?: Record<string, string | null> | null; "modifiers"?: Array<OrderLineItemModifierRequestInput>; "name"?: string; "quantity"?: string; "tax"?: OrderCalculatedLineItemTaxInput; "unit_price_money"?: MoneyValueInput; }) & ((({ "modifiers"?: never })) | ({ "modifiers": unknown; "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `updateLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<({ "description"?: string; "expected_version"?: string; "gift_card_recipient"?: (({ "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }) | (null)); "metadata"?: Record<string, string | null> | null; "modifiers"?: Array<OrderLineItemModifierRequestInput>; "name"?: string; "quantity"?: string; "tax"?: OrderCalculatedLineItemTaxInput; "unit_price_money"?: MoneyValueInput; }) & (((({ "gift_card_recipient"?: never })) | ({ "gift_card_recipient": unknown; "expected_version": unknown; }))) & ((({ "modifiers"?: never })) | ({ "modifiers": unknown; "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`, `path1` = `order_line_item_id`. Params contain flat body fields and query/header fields.
 
@@ -21590,6 +23817,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "body": ({
     "description"?: string;
     "expected_version"?: string;
+    "gift_card_recipient"?: (({
+      "email": string;
+      "message"?: string;
+      "name"?: string;
+      "send_at"?: string |
+      globalThis.Date;
+    }) |
+    (null));
     "metadata"?: Record<string,
     string |
     null> |
@@ -21599,7 +23834,13 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "quantity"?: string;
     "tax"?: OrderCalculatedLineItemTaxInput;
     "unit_price_money"?: MoneyValueInput;
-  }) & ((({
+  }) & (((({
+    "gift_card_recipient"?: never
+  })) |
+  ({
+    "gift_card_recipient": unknown;
+    "expected_version": unknown;
+  }))) & ((({
     "modifiers"?: never
   })) |
   ({
@@ -22826,7 +25067,7 @@ Confirms a standalone payment intent. Order-owned payment intents reject this ro
 
 `POST /v1/payment-intents/{payment_intent_id}/confirm`
 
-Call: `confirm(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `confirm(payment_intent_id: InputValue<string>, params: (InputValue<{ "confirmation_token"?: string; "payment_method_id"?: string; "payment_source_token"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Buyer-Device"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `payment_intent_id`. Params contain flat body fields and query/header fields.
 
@@ -22837,6 +25078,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "payment_intent_id": string;
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
+  "Flint-Buyer-Device"?: string;
   "Flint-Version"?: string;
   "body": {
     "confirmation_token"?: string;
@@ -22853,6 +25095,7 @@ Returned payload: `PaymentIntent`
 | `payment_intent_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
+| `Flint-Buyer-Device` | Optional | string | pattern: `^[a-f0-9]{32}$`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Required | object |  |
 
@@ -24674,7 +26917,7 @@ Creates a product for the authenticated merchant.
 
 `POST /v1/products`
 
-Call: `create(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "categories"?: Array<string>; "default_variant"?: ProductVariantRequestInput; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "options"?: Array<CreateProductOptionRequestInput>; "product_type": "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; "variants"?: Array<ProductVariantRequestInput>; }) & ((({ "default_variant": unknown; }) & (({ "options"?: never }) & ({ "variants"?: never }))) | (({ "options": unknown; "variants": unknown; }) & (({ "default_variant"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -24700,7 +26943,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "product_type": "physical" |
     "service" |
     "fee" |
-    "digital";
+    "digital" |
+    "gift_card";
     "status"?: "active" |
     "inactive";
     "variants"?: Array<ProductVariantRequestInput>;
@@ -24924,7 +27168,7 @@ Returns a paginated list of products for the authenticated merchant.
 
 `GET /v1/products`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "product_type"?: InputValue<"physical" | "service" | "fee" | "digital" | "gift_card">; "status"?: InputValue<"active" | "inactive" | "archived">; "category_handle"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -24937,7 +27181,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "product_type"?: "physical" |
   "service" |
   "fee" |
-  "digital";
+  "digital" |
+  "gift_card";
   "status"?: "active" |
   "inactive" |
   "archived";
@@ -24972,7 +27217,7 @@ Returned payload: `{ "data": Array<Product>; "meta"?: ResponseMeta; "next_page_t
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
-| `product_type` | Optional | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
+| `product_type` | Optional | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `category_handle` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
@@ -25287,7 +27532,7 @@ Applies a sparse update to product-parent fields. When categories is present, it
 
 `PATCH /v1/products/{product_id}`
 
-Call: `update(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(product_id: InputValue<string>, params: (InputValue<({ "categories"?: Array<string>; "default_variant_id"?: string; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "options"?: Array<UpdateProductOptionRequestInput>; "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card"; "status"?: "active" | "inactive"; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "options"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `product_id`. Params contain flat body fields and query/header fields.
 
@@ -25317,7 +27562,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "product_type"?: "physical" |
     "service" |
     "fee" |
-    "digital";
+    "digital" |
+    "gift_card";
     "status"?: "active" |
     "inactive";
   }) & (((({
@@ -25366,7 +27612,7 @@ Update product variant.
 
 `PATCH /v1/products/{product_id}/variants/{variant_id}`
 
-Call: `updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `product_id`, `path1` = `variant_id`. Params contain flat body fields and query/header fields.
 
@@ -25383,6 +27629,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "barcode"?: string;
     "delivery_profile_id"?: string;
     "expected_version"?: string;
+    "gift_card_configuration"?: {
+      "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput;
+      "face_value_money": {
+        "amount": string;
+        "currency": "USD";
+      };
+      "price_mode": "face_value" |
+      "discounted";
+    };
     "images"?: Array<ImageRequestInput>;
     "inventory_item"?: InventoryItemCreateRequestInput;
     "inventory_item_id"?: string |
@@ -26353,7 +28608,7 @@ Creates a refund for an order or payment intent. This is a financial operation.
 
 `POST /v1/refunds`
 
-Call: `create(params: (InputValue<({ "amount_money"?: MoneyValueInput; "charges"?: Array<RefundChargeInput>; "external_reference_id"?: string; "line_items"?: Array<RefundLineItemInput>; "metadata"?: Record<string, string>; "order_id"?: string; "payment_intent_id"?: string; "reason"?: "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; "refund_method"?: "original_payment"; "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>; }) & (({ "order_id": unknown; }) | ({ "payment_intent_id": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "amount_money"?: MoneyValueInput; "charges"?: Array<RefundChargeInput>; "external_reference_id"?: string; "gift_card_load_id"?: string; "line_items"?: Array<RefundLineItemInput>; "metadata"?: Record<string, string>; "order_id"?: string; "payment_intent_id"?: string; "reason"?: "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; "refund_method"?: "original_payment"; "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>; "tender_allocations"?: Array<RefundTenderAllocationRequestInput>; }) & (({ "order_id": unknown; }) | ({ "payment_intent_id": unknown; }) | ({ "tender_allocations": unknown; }) | ({ "gift_card_load_id": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -26368,6 +28623,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "amount_money"?: MoneyValueInput;
     "charges"?: Array<RefundChargeInput>;
     "external_reference_id"?: string;
+    "gift_card_load_id"?: string;
     "line_items"?: Array<RefundLineItemInput>;
     "metadata"?: Record<string,
     string>;
@@ -26388,11 +28644,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "reason_message"?: string;
     "refund_method"?: "original_payment";
     "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
   }) & (({
     "order_id": unknown;
   }) |
   ({
     "payment_intent_id": unknown;
+  }) |
+  ({
+    "tender_allocations": unknown;
+  }) |
+  ({
+    "gift_card_load_id": unknown;
   }));
 }
 ```
@@ -26690,7 +28953,7 @@ Creates an idempotent asynchronous CSV report. Poll the returned report until it
 
 `POST /v1/reports`
 
-Call: `create(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "orders_itemized_v1" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "gift_card_liability_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -26707,7 +28970,9 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     globalThis.Date;
     "interval_start_at": string |
     globalThis.Date;
-    "report_type": "orders_itemized_v1" |
+    "report_type": "gift_card_liability_v1" |
+    "orders_itemized_v1" |
+    "orders_itemized_v2" |
     "payments_itemized_v1" |
     "balance_transactions_itemized_v1" |
     "payouts_itemized_v1" |
@@ -28389,15 +30654,15 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### returnResolutions.getOrCreateCheckoutSession
 
-Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution.
+Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "return_resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "return_resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "return_url"?: string; }; }`
 
 Returned payload: `CheckoutSessionLaunchResult`
 
@@ -28406,6 +30671,7 @@ Returned payload: `CheckoutSessionLaunchResult`
 | `return_resolution_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
 
 Returns the payload at `data` directly. Use `getOrCreateCheckoutSessionWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -31832,11 +34098,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.cancel
 
-Cancels a subscription immediately or at period end. Response may include advisory contract information.
+Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Response may include advisory contract information.
 
 `POST /v1/subscriptions/{subscription_id}/cancel`
 
-Call: `cancel(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `cancel(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
@@ -31850,6 +34116,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": {
     "cancel_immediately"?: boolean;
+    "cancellation_comment"?: string;
+    "cancellation_reason_code"?: "too_expensive" |
+    "missing_features" |
+    "switched_service" |
+    "unused" |
+    "customer_service" |
+    "too_complex" |
+    "low_quality" |
+    "other";
   };
 }
 ```
@@ -32299,7 +34574,7 @@ for await (const page of client.subscriptions.listPaymentRetriesPagesWithRespons
 
 ### subscriptions.pause
 
-Pauses a subscription immediately, optionally for a fixed number of billing cycles.
+Pauses a subscription immediately, optionally for a fixed number of billing cycles. A buyer's pause follows the store's customer_account.buyer_capabilities.
 
 `POST /v1/subscriptions/{subscription_id}/pause`
 
@@ -32763,7 +35038,7 @@ Creates and delivers a synthetic test webhook event to one active webhook endpoi
 
 `POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events`
 
-Call: `createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<{ "event_type": "balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.completed" | "checkout_session.closed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.activated" | "delivery_rate_callback.updated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.activated" | "delivery_method.updated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.activated" | "delivery_location_set.updated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.activated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.activated" | "delivery_zone.updated" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.credited" | "invoice.created" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issued" | "invoice.issue_failed" | "invoice.late_fee_due" | "invoice.late_fee_assessed" | "invoice.late_fee_waived" | "invoice.marked_uncollectible" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.overdue" | "invoice.paid" | "invoice.payment_processing" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "merchant_billing_balance.updated" | "merchant.readiness.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.payment_authorization_expired" | "order.payment_authorization_canceled" | "order.payment_authorized" | "order.payment_captured" | "order.partially_paid" | "order.paid" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.resumed" | "subscription.renewal_upcoming" | "subscription.trial_ending" | "subscription.updated"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<{ "event_type": "balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.completed" | "checkout_session.closed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.activated" | "delivery_rate_callback.updated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.activated" | "delivery_method.updated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.activated" | "delivery_location_set.updated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.activated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.activated" | "delivery_zone.updated" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.credited" | "invoice.created" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issued" | "invoice.issue_failed" | "invoice.late_fee_due" | "invoice.late_fee_assessed" | "invoice.late_fee_waived" | "invoice.marked_uncollectible" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.overdue" | "invoice.paid" | "invoice.payment_processing" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "merchant_billing_balance.updated" | "merchant.readiness.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.payment_authorization_expired" | "order.payment_authorization_canceled" | "order.payment_authorized" | "order.payment_captured" | "order.partially_paid" | "order.paid" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.resumed" | "subscription.renewal_upcoming" | "subscription.trial_ending" | "subscription.updated"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `webhook_endpoint_id`. Params contain flat body fields and query/header fields.
 
@@ -32804,6 +35079,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "dispute.won" |
     "fraud_warning.created" |
     "fraud_warning.updated" |
+    "gift_card.created" |
+    "gift_card.updated" |
+    "gift_card_load.created" |
+    "gift_card_load.updated" |
+    "gift_card_notification.created" |
+    "gift_card_notification.updated" |
+    "gift_card_redemption.created" |
+    "gift_card_redemption.updated" |
+    "gift_card_transaction.created" |
     "delivery_rate_callback.archived" |
     "delivery_rate_callback.created" |
     "delivery_rate_callback.deactivated" |
@@ -32950,12 +35234,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "review.opened" |
     "subscription.activated" |
     "subscription.canceled" |
+    "subscription.cancellation_scheduled" |
     "subscription.created" |
     "subscription.dunning_exhausted" |
     "subscription.past_due" |
     "subscription.paused" |
     "subscription.payment_failed" |
     "subscription.payment_succeeded" |
+    "subscription.reactivated" |
     "subscription.resumed" |
     "subscription.renewal_upcoming" |
     "subscription.trial_ending" |
@@ -33261,7 +35547,7 @@ Returns recent canonical webhook events for the authenticated merchant.
 
 `GET /v1/webhook-events`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "webhook_endpoint_id"?: InputValue<string>; "delivery_status"?: InputValue<"pending" | "delivered" | "failed" | "suppressed">; "event_source"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>; "partner_app_id"?: InputValue<string>; "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "partner_app.install.created" | "partner_app.install.environment_grant.created" | "partner_app.install.environment_grant.revoked" | "partner_app.install.permissions_updated" | "partner_app.install.revoked" | "partner_app.install.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated">; "resource_type"?: InputValue<"balance" | "balance_transaction" | "capability" | "checkout_session" | "customer" | "dispute" | "fraud_warning" | "invoice" | "merchant" | "inventory_count" | "inventory_level" | "inventory_reservation" | "inventory_reservation_line" | "inventory_receipt" | "inventory_transfer" | "order" | "payment_intent" | "payment_method" | "payout" | "payout_destination" | "payout_settings" | "refund" | "return" | "return_disposition" | "return_inspection" | "return_receipt" | "return_resolution" | "review" | "subscription">; "resource_id"?: InputValue<string>; "api_request_log_id"?: InputValue<string>; "request_id"?: InputValue<string>; "correlation_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "include"?: InputValue<Array<"test_events">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "webhook_endpoint_id"?: InputValue<string>; "delivery_status"?: InputValue<"pending" | "delivered" | "failed" | "suppressed">; "event_source"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>; "partner_app_id"?: InputValue<string>; "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "partner_app.install.created" | "partner_app.install.environment_grant.created" | "partner_app.install.environment_grant.revoked" | "partner_app.install.permissions_updated" | "partner_app.install.revoked" | "partner_app.install.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated">; "resource_type"?: InputValue<"balance" | "balance_transaction" | "capability" | "checkout_session" | "customer" | "dispute" | "fraud_warning" | "invoice" | "merchant" | "inventory_count" | "inventory_level" | "inventory_reservation" | "inventory_reservation_line" | "inventory_receipt" | "inventory_transfer" | "order" | "payment_intent" | "payment_method" | "payout" | "payout_destination" | "payout_settings" | "refund" | "return" | "return_disposition" | "return_inspection" | "return_receipt" | "return_resolution" | "review" | "subscription">; "resource_id"?: InputValue<string>; "api_request_log_id"?: InputValue<string>; "request_id"?: InputValue<string>; "correlation_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "include"?: InputValue<Array<"test_events">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -33339,6 +35625,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "dispute.won" |
   "fraud_warning.created" |
   "fraud_warning.updated" |
+  "gift_card.created" |
+  "gift_card.updated" |
+  "gift_card_load.created" |
+  "gift_card_load.updated" |
+  "gift_card_notification.created" |
+  "gift_card_notification.updated" |
+  "gift_card_redemption.created" |
+  "gift_card_redemption.updated" |
+  "gift_card_transaction.created" |
   "inventory.action_required" |
   "inventory.count.applied" |
   "inventory.level.updated" |
@@ -33461,12 +35756,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "review.opened" |
   "subscription.activated" |
   "subscription.canceled" |
+  "subscription.cancellation_scheduled" |
   "subscription.created" |
   "subscription.dunning_exhausted" |
   "subscription.past_due" |
   "subscription.paused" |
   "subscription.payment_failed" |
   "subscription.payment_succeeded" |
+  "subscription.reactivated" |
   "subscription.renewal_upcoming" |
   "subscription.resumed" |
   "subscription.trial_ending" |
@@ -33523,7 +35820,7 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 | `delivery_status` | Optional | string | Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string |  |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | string | Values: [191 declared values](#webhookeventslist-input-event_type-values). |
+| `event_type` | Optional | string | Values: [202 declared values](#webhookeventslist-input-event_type-values). |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookeventslist-input-resource_type-values). |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
@@ -33595,6 +35892,15 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -33717,12 +36023,14 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
@@ -33903,7 +36211,7 @@ Streams canonical merchant webhook events created after the connection opens or 
 
 `GET /v1/webhook-events/stream`
 
-Call: `stream(params?: { "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated">; "after_event_id"?: InputValue<string>; "Last-Event-ID"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `stream(params?: { "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated">; "after_event_id"?: InputValue<string>; "Last-Event-ID"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -33970,6 +36278,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "dispute.won" |
   "fraud_warning.created" |
   "fraud_warning.updated" |
+  "gift_card.created" |
+  "gift_card.updated" |
+  "gift_card_load.created" |
+  "gift_card_load.updated" |
+  "gift_card_notification.created" |
+  "gift_card_notification.updated" |
+  "gift_card_redemption.created" |
+  "gift_card_redemption.updated" |
+  "gift_card_transaction.created" |
   "inventory.action_required" |
   "inventory.count.applied" |
   "inventory.level.updated" |
@@ -34086,12 +36403,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "review.opened" |
   "subscription.activated" |
   "subscription.canceled" |
+  "subscription.cancellation_scheduled" |
   "subscription.created" |
   "subscription.dunning_exhausted" |
   "subscription.past_due" |
   "subscription.paused" |
   "subscription.payment_failed" |
   "subscription.payment_succeeded" |
+  "subscription.reactivated" |
   "subscription.renewal_upcoming" |
   "subscription.resumed" |
   "subscription.trial_ending" |
@@ -34106,7 +36425,7 @@ Response body (inside Result.data): `EventStream`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | string | Values: [185 declared values](#webhookeventsstream-input-event_type-values). |
+| `event_type` | Optional | string | Values: [196 declared values](#webhookeventsstream-input-event_type-values). |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -34172,6 +36491,15 @@ Response body (inside Result.data): `EventStream`
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
 - `"inventory.action_required"`
 - `"inventory.count.applied"`
 - `"inventory.level.updated"`
@@ -34288,12 +36616,14 @@ Response body (inside Result.data): `EventStream`
 - `"review.opened"`
 - `"subscription.activated"`
 - `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`

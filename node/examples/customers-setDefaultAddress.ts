@@ -12,8 +12,8 @@ const result = await client.customers.setDefaultAddress(
   "example",
   {
     default_for: "billing",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_address_id);
 console.log(result.customer_id);

@@ -30,7 +30,7 @@ export interface SubscriptionPlansResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionPlans.create({billing_interval: "daily", billing_interval_count: 1, currency: "USD", name: "example", "Idempotency-Key": idempotencyKey})
+ * client.subscriptionPlans.create({billing_interval: "daily", billing_interval_count: 1, currency: "USD", name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -41,7 +41,7 @@ export interface SubscriptionPlansResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionPlans.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.subscriptionPlans.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(plan_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -50,7 +50,7 @@ export interface SubscriptionPlansResource {
  * Returns a single subscription plan by ID.
  * GET /v1/subscription-plans/{plan_id}
  * @example
- * client.subscriptionPlans.get("example", {})
+ * client.subscriptionPlans.get("example")
  */
     get(plan_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -59,7 +59,7 @@ export interface SubscriptionPlansResource {
  * Returns a paginated list of subscription plans for the authenticated merchant.
  * GET /v1/subscription-plans
  * @example
- * client.subscriptionPlans.list({})
+ * client.subscriptionPlans.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPlanListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -73,7 +73,7 @@ export interface SubscriptionPlansResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionPlans.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.subscriptionPlans.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

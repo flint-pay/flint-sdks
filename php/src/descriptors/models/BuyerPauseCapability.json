@@ -1,0 +1,1 @@
+{"shared":"BuyerPauseCapability","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"},"max_cycles":{"kind":"value","type":"int"}}},"dependencies":["BuyerPauseCapability"]}

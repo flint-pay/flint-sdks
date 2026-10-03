@@ -8,8 +8,10 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read string $billing_schedule_owner
  * @property-read string $billing_schedule_waiting_started_at
+ * @property-read list<BuyerAction> $buyer_actions
  * @property-read bool $cancel_at_period_end
  * @property-read string $canceled_at
+ * @property-read SubscriptionCancellationDetails $cancellation_details
  * @property-read string $contract_end_at
  * @property-read ContractInfo $contract_info
  * @property-read string $contract_start_at
@@ -38,7 +40,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class CancelSubscriptionResult extends Model {
-    /** @param array{'awaiting_billing_schedule'?: bool, 'billing_anchor_day'?: int, 'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule_owner'?: string, 'billing_schedule_waiting_started_at'?: string, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'contract_end_at'?: string, 'contract_info'?: mixed, 'contract_start_at'?: string, 'created_at'?: string, 'current_period_end'?: string, 'current_period_start'?: string, 'customer'?: mixed, 'customer_id': string, 'external_reference_id'?: string, 'line_items'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'next_billing_at'?: string, 'next_retry_at'?: string|null, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_id': string, 'plan_id': string, 'recurring_amount_money'?: object{'amount': string, 'currency': string}, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'trial_end'?: string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'awaiting_billing_schedule'?: bool, 'billing_anchor_day'?: int, 'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule_owner'?: string, 'billing_schedule_waiting_started_at'?: string, 'buyer_actions': list<mixed>, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: object{'comment'?: string, 'reason_code'?: string, 'requested_at': string, 'requested_by': string}, 'contract_end_at'?: string, 'contract_info'?: mixed, 'contract_start_at'?: string, 'created_at'?: string, 'current_period_end'?: string, 'current_period_start'?: string, 'customer'?: mixed, 'customer_id': string, 'external_reference_id'?: string, 'line_items'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'next_billing_at'?: string, 'next_retry_at'?: string|null, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_id': string, 'plan_id': string, 'recurring_amount_money'?: object{'amount': string, 'currency': string}, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'trial_end'?: string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelSubscriptionResult')); }
     /** @return bool
      * @throws SdkError When awaiting_billing_schedule is omitted; use hasAwaitingBillingSchedule() or valueOrDefault().
@@ -70,6 +72,11 @@ final class CancelSubscriptionResult extends Model {
      */
     public function getBillingScheduleWaitingStartedAt(): string { return $this->get('billing_schedule_waiting_started_at'); }
     public function hasBillingScheduleWaitingStartedAt(): bool { return $this->has('billing_schedule_waiting_started_at'); }
+    /** @return list<BuyerAction>
+     * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
+     */
+    public function getBuyerActions(): array { return $this->get('buyer_actions'); }
+    public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
     /** @return bool
      * @throws SdkError When cancel_at_period_end is omitted; use hasCancelAtPeriodEnd() or valueOrDefault().
      */
@@ -80,6 +87,11 @@ final class CancelSubscriptionResult extends Model {
      */
     public function getCanceledAt(): string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
+    /** @return SubscriptionCancellationDetails
+     * @throws SdkError When cancellation_details is omitted; use hasCancellationDetails() or valueOrDefault().
+     */
+    public function getCancellationDetails(): SubscriptionCancellationDetails { return $this->get('cancellation_details'); }
+    public function hasCancellationDetails(): bool { return $this->has('cancellation_details'); }
     /** @return string
      * @throws SdkError When contract_end_at is omitted; use hasContractEndAt() or valueOrDefault().
      */

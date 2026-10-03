@@ -1,7 +1,5 @@
 {
-  "profiles": [
-    "full-common-sdk.json"
-  ],
+  "profiles": ["full-common-sdk.json"],
   "include": [
     "addOrderCharge",
     "addOrderLineItems",
@@ -10,9 +8,12 @@
     "advanceOnboarding",
     "applyInventoryCount",
     "applyOrderDiscount",
+    "applyOrderGiftCard",
     "approveReview",
     "assessInvoiceLateFee",
     "assignToUnconfiguredDeliveryProfile",
+    "cancelGiftCardNotification",
+    "cancelGiftCardRedemption",
     "cancelInventoryCount",
     "cancelInvoicePaymentAttempt",
     "cancelOrderPayment",
@@ -24,6 +25,7 @@
     "cancelReturnLineItem",
     "cancelReturnResolution",
     "cancelSubscription",
+    "captureGiftCardRedemption",
     "captureOrderPayment",
     "capturePaymentIntent",
     "changeSubscriptionPaymentMethod",
@@ -63,6 +65,12 @@
     "createFeedbackReport",
     "createFulfillment",
     "createFulfillmentEvent",
+    "createGiftCard",
+    "createGiftCardAdjustment",
+    "createGiftCardCashOut",
+    "createGiftCardLoad",
+    "createGiftCardNotification",
+    "createGiftCardRedemption",
     "createInventoryAdjustment",
     "createInventoryAllocationPolicy",
     "createInventoryCount",
@@ -180,6 +188,10 @@
     "getFulfillment",
     "getFulfillmentEvent",
     "getFulfillmentNotification",
+    "getGiftCard",
+    "getGiftCardLoad",
+    "getGiftCardNotification",
+    "getGiftCardRedemption",
     "getInvoice",
     "getInvoicePDF",
     "getInvoicePaymentAttempt",
@@ -241,6 +253,7 @@
     "getWebhookEndpoint",
     "getWebhookEvent",
     "grantOrganizationMembership",
+    "honorGiftCardFundingLoss",
     "issueCreditNote",
     "issueDeveloperSandboxTestKey",
     "issueInvoice",
@@ -275,6 +288,11 @@
     "listFulfillmentEvents",
     "listFulfillmentNotifications",
     "listFulfillments",
+    "listGiftCardLoads",
+    "listGiftCardNotifications",
+    "listGiftCardRedemptions",
+    "listGiftCardTransactions",
+    "listGiftCards",
     "listInventoryAdjustments",
     "listInventoryAllocationPolicies",
     "listInventoryCounts",
@@ -337,6 +355,7 @@
     "listWebhookEndpoints",
     "listWebhookEventTypes",
     "listWebhookEvents",
+    "lookupGiftCard",
     "markInvoiceUncollectible",
     "pauseInvoiceReminders",
     "pauseSubscription",
@@ -355,6 +374,7 @@
     "releaseInventoryReservation",
     "releaseReturnResolution",
     "removeOrderDiscounts",
+    "removeOrderGiftCard",
     "removePaymentMethod",
     "reopenReturn",
     "repriceOrderDiscounts",
@@ -381,9 +401,11 @@
     "revokeOrganizationMembership",
     "rotateDeliveryRateCallbackSigningKey",
     "rotateDeveloperPartnerAppSecret",
+    "rotateGiftCardCode",
     "rotateWebhookSecret",
     "savePaymentMethod",
     "sendInvoiceReminder",
+    "sendOrderReceipt",
     "setDefaultCustomerAddress",
     "setDefaultPaymentMethod",
     "skipSubscriptionCycle",
@@ -391,6 +413,7 @@
     "streamWebhookEvents",
     "transferOrganizationOwnership",
     "transitionFulfillment",
+    "transitionGiftCard",
     "transitionInventoryTransfer",
     "transitionPackage",
     "updateAPIKey",
@@ -408,6 +431,7 @@
     "updateDeveloperPartnerApp",
     "updateDevice",
     "updateFulfillment",
+    "updateGiftCard",
     "updateInventoryAllocationPolicy",
     "updateInventoryCount",
     "updateInventoryItem",
@@ -461,9 +485,7 @@
   "auth": {
     "modes": {
       "merchantKey": {
-        "schemes": [
-          "ApiKeyHeader"
-        ],
+        "schemes": ["ApiKeyHeader"],
         "operations": [
           "addOrderCharge",
           "addOrderLineItems",
@@ -472,9 +494,12 @@
           "advanceOnboarding",
           "applyInventoryCount",
           "applyOrderDiscount",
+          "applyOrderGiftCard",
           "approveReview",
           "assessInvoiceLateFee",
           "assignToUnconfiguredDeliveryProfile",
+          "cancelGiftCardNotification",
+          "cancelGiftCardRedemption",
           "cancelInventoryCount",
           "cancelInvoicePaymentAttempt",
           "cancelOrderPayment",
@@ -486,6 +511,7 @@
           "cancelReturnLineItem",
           "cancelReturnResolution",
           "cancelSubscription",
+          "captureGiftCardRedemption",
           "captureOrderPayment",
           "capturePaymentIntent",
           "changeSubscriptionPaymentMethod",
@@ -524,6 +550,12 @@
           "createFeedbackReport",
           "createFulfillment",
           "createFulfillmentEvent",
+          "createGiftCard",
+          "createGiftCardAdjustment",
+          "createGiftCardCashOut",
+          "createGiftCardLoad",
+          "createGiftCardNotification",
+          "createGiftCardRedemption",
           "createInventoryAdjustment",
           "createInventoryAllocationPolicy",
           "createInventoryCount",
@@ -640,6 +672,10 @@
           "getFulfillment",
           "getFulfillmentEvent",
           "getFulfillmentNotification",
+          "getGiftCard",
+          "getGiftCardLoad",
+          "getGiftCardNotification",
+          "getGiftCardRedemption",
           "getInvoice",
           "getInvoicePDF",
           "getInvoicePaymentAttempt",
@@ -699,6 +735,7 @@
           "getWebhookEndpoint",
           "getWebhookEvent",
           "grantOrganizationMembership",
+          "honorGiftCardFundingLoss",
           "issueCreditNote",
           "issueDeveloperSandboxTestKey",
           "issueInvoice",
@@ -733,6 +770,11 @@
           "listFulfillmentEvents",
           "listFulfillmentNotifications",
           "listFulfillments",
+          "listGiftCardLoads",
+          "listGiftCardNotifications",
+          "listGiftCardRedemptions",
+          "listGiftCardTransactions",
+          "listGiftCards",
           "listInventoryAdjustments",
           "listInventoryAllocationPolicies",
           "listInventoryCounts",
@@ -795,6 +837,7 @@
           "listWebhookEndpoints",
           "listWebhookEventTypes",
           "listWebhookEvents",
+          "lookupGiftCard",
           "markInvoiceUncollectible",
           "pauseInvoiceReminders",
           "pauseSubscription",
@@ -811,6 +854,7 @@
           "releaseInventoryReservation",
           "releaseReturnResolution",
           "removeOrderDiscounts",
+          "removeOrderGiftCard",
           "removePaymentMethod",
           "reopenReturn",
           "repriceOrderDiscounts",
@@ -835,15 +879,18 @@
           "revokeOrganizationMembership",
           "rotateDeliveryRateCallbackSigningKey",
           "rotateDeveloperPartnerAppSecret",
+          "rotateGiftCardCode",
           "rotateWebhookSecret",
           "savePaymentMethod",
           "sendInvoiceReminder",
+          "sendOrderReceipt",
           "setDefaultCustomerAddress",
           "setDefaultPaymentMethod",
           "skipSubscriptionCycle",
           "streamWebhookEvents",
           "transferOrganizationOwnership",
           "transitionFulfillment",
+          "transitionGiftCard",
           "transitionInventoryTransfer",
           "transitionPackage",
           "updateAPIKey",
@@ -861,6 +908,7 @@
           "updateDeveloperPartnerApp",
           "updateDevice",
           "updateFulfillment",
+          "updateGiftCard",
           "updateInventoryAllocationPolicy",
           "updateInventoryCount",
           "updateInventoryItem",
@@ -938,9 +986,7 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": [
-            "sdk-example"
-          ]
+          "values": ["sdk-example"]
         }
       }
     },
@@ -1009,9 +1055,7 @@
         "body": {
           "configuration": {
             "country": {
-              "values": [
-                "example"
-              ]
+              "values": ["example"]
             }
           },
           "name": "Standard delivery"

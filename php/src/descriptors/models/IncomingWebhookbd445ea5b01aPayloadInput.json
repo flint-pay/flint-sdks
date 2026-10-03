@@ -1,1 +1,1 @@
-{"shared":"Webhook_dispute_lost_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec244","Webhook_dispute_lost_merchant"]}
+{"shared":"Webhook_dispute_lost_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec197","SharedCodec275","Webhook_dispute_lost_merchant"]}

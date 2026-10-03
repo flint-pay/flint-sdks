@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.developer.createSandbox(
   {
     name: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.sandbox_id);
 console.log(result.status);

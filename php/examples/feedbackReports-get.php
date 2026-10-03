@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->feedbackReports->get('example', []);
+$result = $client->feedbackReports->get('example');
 echo $result->feedback_report_id . PHP_EOL;
 $client->close();

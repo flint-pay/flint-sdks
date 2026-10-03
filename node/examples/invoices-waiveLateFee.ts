@@ -12,8 +12,8 @@ const result = await client.invoices.waiveLateFee(
   "example",
   {
     reason: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_id);
 console.log(result.merchant_id);

@@ -29,10 +29,12 @@ namespace Flint;
  * @property-read string $review_id
  * @property-read string $status
  * @property-read list<RefundTaxBreakdownRefund> $tax_breakdown_refunds
+ * @property-read list<RefundTenderAllocation> $tender_allocations
+ * @property-read list<RefundUnissuedGiftCardRecovery> $unissued_gift_card_recoveries
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class Refund extends Model {
-    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'reason'?: string|null, 'reason_message'?: string, 'refund_id': string, 'refund_method'?: string, 'refunded_tip_money': object{'amount': string, 'currency': string}, 'return_id'?: string, 'return_resolution_id'?: string, 'review_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'reason'?: string|null, 'reason_message'?: string, 'refund_id': string, 'refund_method'?: string, 'refunded_tip_money': object{'amount': string, 'currency': string}, 'return_id'?: string, 'return_resolution_id'?: string, 'review_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Refund')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -169,6 +171,16 @@ final class Refund extends Model {
      */
     public function getTaxBreakdownRefunds(): array { return $this->get('tax_breakdown_refunds'); }
     public function hasTaxBreakdownRefunds(): bool { return $this->has('tax_breakdown_refunds'); }
+    /** @return list<RefundTenderAllocation>
+     * @throws SdkError When tender_allocations is omitted; use hasTenderAllocations() or valueOrDefault().
+     */
+    public function getTenderAllocations(): array { return $this->get('tender_allocations'); }
+    public function hasTenderAllocations(): bool { return $this->has('tender_allocations'); }
+    /** @return list<RefundUnissuedGiftCardRecovery>
+     * @throws SdkError When unissued_gift_card_recoveries is omitted; use hasUnissuedGiftCardRecoveries() or valueOrDefault().
+     */
+    public function getUnissuedGiftCardRecoveries(): array { return $this->get('unissued_gift_card_recoveries'); }
+    public function hasUnissuedGiftCardRecoveries(): bool { return $this->has('unissued_gift_card_recoveries'); }
     /** @return string
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

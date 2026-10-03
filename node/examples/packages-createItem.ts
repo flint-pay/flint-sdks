@@ -12,8 +12,8 @@ const result = await client.packages.createItem(
   {
     order_line_item_id: "example",
     quantity: "100",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

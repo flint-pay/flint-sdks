@@ -11,8 +11,8 @@ const result = await client.me.confirmEmailChangeRequest(
   "example",
   {
     new_email_code: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
 console.log(result.email_change_request_id);

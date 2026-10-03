@@ -11,8 +11,8 @@ const result = await client.orders.removeDiscounts(
   "example",
   {
     order_discount_ids: [],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.status);

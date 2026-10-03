@@ -8,5 +8,5 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryRateCallbacks->list([]);
+$result = $client->deliveryRateCallbacks->list();
 $client->close();

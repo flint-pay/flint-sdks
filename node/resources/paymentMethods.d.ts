@@ -26,7 +26,7 @@ export interface PaymentMethodsResource {
  * Returns a single payment method by ID.
  * GET /v1/payment-methods/{payment_method_id}
  * @example
- * client.paymentMethods.get("example", {})
+ * client.paymentMethods.get("example")
  */
     get(payment_method_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer">>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentMethodResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -35,7 +35,7 @@ export interface PaymentMethodsResource {
  * Returns saved payment methods for the merchant, optionally filtered to a customer. By default, only active payment methods are returned. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use.
  * GET /v1/payment-methods
  * @example
- * client.paymentMethods.list({})
+ * client.paymentMethods.list()
  */
     list(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session">; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PaymentMethodListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -49,7 +49,7 @@ export interface PaymentMethodsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentMethods.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -60,7 +60,7 @@ export interface PaymentMethodsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.save({customer_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.paymentMethods.save({customer_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     save(params: (InputValue<{ "customer_id": string; "type"?: "card"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SavePaymentMethodResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -71,7 +71,7 @@ export interface PaymentMethodsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.setDefault("example", {"Idempotency-Key": idempotencyKey})
+ * client.paymentMethods.setDefault("example", {}, { idempotencyKey: idempotencyKey })
  */
     setDefault(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -11,8 +11,8 @@ const result = await client.customerDeletionRequests.resolve(
   "example",
   {
     decision: "approve",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_deletion_request_id);
 console.log(result.customer_id);

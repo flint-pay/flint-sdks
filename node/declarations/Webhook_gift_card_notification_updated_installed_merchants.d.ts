@@ -1,0 +1,4 @@
+
+import type { Webhook_gift_card_notification_created_installed_merchants } from './Webhook_gift_card_notification_created_installed_merchants.js';
+
+export type Webhook_gift_card_notification_updated_installed_merchants = Webhook_gift_card_notification_created_installed_merchants;

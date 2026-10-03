@@ -18,7 +18,7 @@ export interface FulfillmentEventsResource {
  * Retrieves one provider-neutral fulfillment event by ID.
  * GET /v1/fulfillment-events/{fulfillment_event_id}
  * @example
- * client.fulfillmentEvents.get("example", {})
+ * client.fulfillmentEvents.get("example")
  */
     get(fulfillment_event_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FulfillmentEventResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -27,7 +27,7 @@ export interface FulfillmentEventsResource {
  * Lists provider-neutral fulfillment events. Results default to newest received first.
  * GET /v1/fulfillment-events
  * @example
- * client.fulfillmentEvents.list({})
+ * client.fulfillmentEvents.list()
  */
     list(params?: { "fulfillment_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "package_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "event_type"?: InputValue<"accepted" | "preparing" | "picked" | "packed" | "ready" | "shipped" | "dispatched" | "in_transit" | "out_for_delivery" | "delivered" | "delivery_attempted" | "tracking_updated" | "exception" | "returned" | "completed" | "canceled" | "failed" | "no_show" | "custom">; "external_system"?: InputValue<string>; "external_event_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "sort_by"?: InputValue<"received_at" | "occurred_at">; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FulfillmentEventListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

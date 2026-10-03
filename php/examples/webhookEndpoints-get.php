@@ -8,6 +8,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->webhookEndpoints->get('example', []);
+$result = $client->webhookEndpoints->get('example');
 echo $result->webhook_endpoint_id . PHP_EOL;
 $client->close();

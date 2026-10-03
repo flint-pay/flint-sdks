@@ -17,8 +17,8 @@ const result = await client.orders.createFulfillment(
       },
     ],
     type: "shipment",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

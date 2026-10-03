@@ -18,8 +18,8 @@ const result = await client.returns.createReceipt(
     ],
     received_at: "2026-01-01T00:00:00Z",
     receiving_location_id: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.receiving_location_id);
 console.log(result.return_id);

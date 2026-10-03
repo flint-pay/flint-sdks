@@ -15,8 +15,7 @@ $result = $client->returns->cancelLineItem('example', 'example', [
   'handback_quantity' => '100',
   'quantity' => '100',
   'reason' => 'buyer_request',
-  'Idempotency-Key' => $idempotencyKey,
-]);
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;
 $client->close();

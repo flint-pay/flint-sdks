@@ -16,9 +16,8 @@ $input = [
   'body' => (object) [
     'action' => 'mark_delivered',
   ],
-  'Idempotency-Key' => $idempotencyKey,
 ];
-$result = $client->packages->transition($input);
+$result = $client->packages->transition($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->package->fulfillment_id . PHP_EOL;
 echo $result->package->order_id . PHP_EOL;
 $client->close();

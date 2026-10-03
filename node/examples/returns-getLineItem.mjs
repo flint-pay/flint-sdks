@@ -6,8 +6,7 @@ const client = new Client({
 });
 const result = await client.returns.getLineItem(
   "example",
-  "example",
-  {}
+  "example"
 );
 console.log(result.eligibility.status);
 console.log(result.fulfillment_id);

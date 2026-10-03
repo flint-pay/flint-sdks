@@ -28,7 +28,7 @@ export interface ModifierSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.modifierSets.create({name: "example", "Idempotency-Key": idempotencyKey})
+ * client.modifierSets.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "modifier_groups"?: Array<CreateModifierSetGroupRequestInput>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -39,7 +39,7 @@ export interface ModifierSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.modifierSets.remove("example", {"Idempotency-Key": idempotencyKey})
+ * client.modifierSets.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(modifier_set_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -48,7 +48,7 @@ export interface ModifierSetsResource {
  * Get modifier set.
  * GET /v1/modifier-sets/{modifier_set_id}
  * @example
- * client.modifierSets.get("example", {})
+ * client.modifierSets.get("example")
  */
     get(modifier_set_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ModifierSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -57,7 +57,7 @@ export interface ModifierSetsResource {
  * List modifier sets.
  * GET /v1/modifier-sets
  * @example
- * client.modifierSets.list({})
+ * client.modifierSets.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierSetListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -71,7 +71,7 @@ export interface ModifierSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.modifierSets.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.modifierSets.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(modifier_set_id: InputValue<string>, params: (InputValue<({ "expected_version"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "modifier_groups"?: Array<ModifierSetGroupRequestInput>; "name"?: string; "status"?: "active" | "inactive"; }) & ((({ "modifier_groups"?: never })) | ({ "modifier_groups": unknown; "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

@@ -11,8 +11,8 @@ const result = await client.deliveryMethods.update(
   "example",
   {
     status: "active",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.current_delivery_method_revision_id);
 console.log(result.delivery_method_id);

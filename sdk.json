@@ -26,9 +26,7 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": [
-            "sdk-example"
-          ]
+          "values": ["sdk-example"]
         }
       }
     },
@@ -97,9 +95,7 @@
         "body": {
           "configuration": {
             "country": {
-              "values": [
-                "example"
-              ]
+              "values": ["example"]
             }
           },
           "name": "Standard delivery"
@@ -131,6 +127,26 @@
           ],
           "source_system": {
             "type": "manual"
+          }
+        }
+      }
+    },
+    "createGiftCardLoad": {
+      "example": {
+        "gift_card_id": "gc_01J00000000000000000000001",
+        "body": {
+          "value_money": {
+            "amount": "1000",
+            "currency": "USD"
+          },
+          "consideration_money": {
+            "amount": "1000",
+            "currency": "USD"
+          },
+          "source": {
+            "funding_source_type": "external_payment",
+            "reference_id": "synthetic-funding-reference",
+            "buyer_id": "synthetic-buyer"
           }
         }
       }

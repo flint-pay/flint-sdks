@@ -71,7 +71,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.closeSession("example", {"Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.closeSession("example", {}, { idempotencyKey: idempotencyKey })
  */
     closeSession(checkout_session_id: InputValue<string>, params: (InputValue<{ "reason"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -82,7 +82,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.confirmCustomerVerification("cs_example", "cver_example", {code: "123456", "X-Checkout-Session-ID": "cs_example", "X-Checkout-Session-Secret": "checkout_secret_example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.confirmCustomerVerification("cs_example", "cver_example", {code: "123456", "X-Checkout-Session-ID": "cs_example", "X-Checkout-Session-Secret": "checkout_secret_example"}, { idempotencyKey: idempotencyKey })
  */
     confirmCustomerVerification(checkout_session_id: InputValue<string>, customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<_SdkPayloadAt<CheckoutCustomerVerificationConfirmationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -93,29 +93,29 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.create({order_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.create({order_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "payments"?: CheckoutPaymentConfigInput; "plan_id"?: string; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "payments"?: CheckoutPaymentConfigInput; "plan_id"?: string; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CheckoutSessionsCreateResponse>>;
     /**
- * Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, the default, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, Flint sends a code to any valid address. With purpose use_saved_payment_methods, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and make 30 text requests an hour, and 20 requests of any kind a minute. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
+ * Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, whose default channel is email, Flint sends a code to any valid address. With purpose use_saved_payment_methods and channel email, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose use_saved_payment_methods and channel auto, its default, a checkout asks as the buyer leaves the email field, and Flint sends the code the way the email's details were saved: it texts the mobile phone number they carry, as channel sms does, or, when they carry none, emails a code when the email has cards saved by email. The response's channel says which. For an email with neither, or past a cap, it sends nothing and returns CUSTOMER_VERIFICATION_NOT_SENT; show nothing about saved details then. So this answer tells anyone who types the email whether it has saved details at the merchant; name channel email for an answer that doesn't. While an emailed code a checkout sent this way still works, another auto request for the same email answers with that code and sends nothing; request channel email to send another. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and 10 codes emailed by channel auto, and make 30 text and auto requests together, an hour, and 20 requests of any kind a minute. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
  * POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.createCustomerVerification("example", {purpose: "save_payment_method", "X-Checkout-Session-ID": "example", "X-Checkout-Session-Secret": "example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.createCustomerVerification("example", {purpose: "gift_card_purchase", "X-Checkout-Session-ID": "example", "X-Checkout-Session-Secret": "example"}, { idempotencyKey: idempotencyKey })
  */
-    createCustomerVerification(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms"; "email"?: string; "purpose": "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<_SdkPayloadAt<CheckoutCustomerVerificationResponse, ["data"]>>;
+    createCustomerVerification(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms" | "auto"; "email"?: string; "purpose": "gift_card_purchase" | "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<_SdkPayloadAt<CheckoutCustomerVerificationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createCustomerVerificationWithResponse(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms"; "email"?: string; "purpose": "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<SdkResponse<CheckoutSessionsCreateCustomerVerificationResponse>>;
+    createCustomerVerificationWithResponse(checkout_session_id: InputValue<string>, params: (InputValue<{ "channel"?: "email" | "sms" | "auto"; "email"?: string; "purpose": "gift_card_purchase" | "save_payment_method" | "use_saved_payment_methods" | "confirm_saved_payment_method"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<SdkResponse<CheckoutSessionsCreateCustomerVerificationResponse>>;
     /**
  * Creates an exact checkout-bound delivery quote without holding inventory.
  * POST /v1/checkout-sessions/{checkout_session_id}/delivery-quotes
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.createDeliveryQuote("example", {expected_delivery_selection_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.createDeliveryQuote("example", {expected_delivery_selection_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     createDeliveryQuote(checkout_session_id: InputValue<string>, params: (InputValue<{ "basis_delivery_quote_id"?: string; "buyer_location"?: DeliveryBuyerLocationRequestInput; "destination_address"?: DeliveryAddressRequestInput; "expected_delivery_selection_id": string | null; "inventory_assignments"?: Array<DeliveryInventoryAssignmentRequestInput>; "method_results"?: Array<CallerSuppliedDeliveryMethodResultRequestInput>; "pickup_location_id"?: string; "tier_key"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutDeliveryQuoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -126,7 +126,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.createDeliverySelection("example", {choices: [], delivery_quote_id: "example", expected_delivery_selection_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.createDeliverySelection("example", {choices: [], delivery_quote_id: "example", expected_delivery_selection_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     createDeliverySelection(checkout_session_id: InputValue<string>, params: (InputValue<{ "choices": Array<CreateDeliverySelectionChoiceRequestInput>; "delivery_quote_id": string; "destination_address"?: PostalAddressInput; "expected_delivery_selection_id": string | null; "external_reference_id"?: string; "external_system"?: string; "recipient"?: DeliverySelectionRecipientRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutDeliverySelectionResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -137,7 +137,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.deleteCurrentDeliverySelection("example", {expected_delivery_selection_id: "example", "Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.deleteCurrentDeliverySelection("example", {expected_delivery_selection_id: "example"}, { idempotencyKey: idempotencyKey })
  */
     deleteCurrentDeliverySelection(checkout_session_id: InputValue<string>, params: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expected_delivery_selection_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutDeliverySelectionResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -146,7 +146,7 @@ export interface CheckoutSessionsResource {
  * Returns a single checkout session by ID.
  * GET /v1/checkout-sessions/{checkout_session_id}
  * @example
- * client.checkoutSessions.get("example", {})
+ * client.checkoutSessions.get("example")
  */
     get(checkout_session_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expand"?: InputValue<Array<"customer" | "invoice" | "order" | "payment_intents" | "payment_link">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -155,7 +155,7 @@ export interface CheckoutSessionsResource {
  * Returns the provisional selection or the order-level committed selection effective for this checkout.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current
  * @example
- * client.checkoutSessions.getCurrentDeliverySelection("example", {})
+ * client.checkoutSessions.getCurrentDeliverySelection("example")
  */
     getCurrentDeliverySelection(checkout_session_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CheckoutEffectiveDeliverySelectionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -164,7 +164,7 @@ export interface CheckoutSessionsResource {
  * Returns one quote under its checkout authority. Buyer credentials receive the buyer-safe projection.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-quotes/{delivery_quote_id}
  * @example
- * client.checkoutSessions.getDeliveryQuote("example", "example", {})
+ * client.checkoutSessions.getDeliveryQuote("example", "example")
  */
     getDeliveryQuote(checkout_session_id: InputValue<string>, delivery_quote_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CheckoutDeliveryQuoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -173,7 +173,7 @@ export interface CheckoutSessionsResource {
  * Returns one checkout selection with its economics, lifecycle events, and retention-aware private data. While the selection is selected, the tax on its delivery charges follows the order's tax.
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/{delivery_selection_id}
  * @example
- * client.checkoutSessions.getDeliverySelectionHistory("example", "example", {})
+ * client.checkoutSessions.getDeliverySelectionHistory("example", "example")
  */
     getDeliverySelectionHistory(checkout_session_id: InputValue<string>, delivery_selection_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliverySelectionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -182,7 +182,7 @@ export interface CheckoutSessionsResource {
  * Returns a paginated list of checkout sessions for the authenticated merchant.
  * GET /v1/checkout-sessions
  * @example
- * client.checkoutSessions.list({})
+ * client.checkoutSessions.list()
  */
     list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated">; "order_id"?: InputValue<string>; "payment_link_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expires_after"?: InputValue<string | globalThis.Date>; "expires_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CheckoutSessionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -205,7 +205,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.update("example", {"Idempotency-Key": idempotencyKey})
+ * client.checkoutSessions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
     update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -288,6 +288,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { CheckoutCustomerVerificationConfirmation } from '../declarations/CheckoutCustomerVerificationConfirmation.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
@@ -362,6 +363,7 @@ export type { DeliverySelectionLifecycleEventResource } from '../declarations/De
 export type { DeliveryInventoryReservationSummary } from '../declarations/DeliveryInventoryReservationSummary.js';
 export type { Order } from '../declarations/Order.js';
 export type { AppliedDiscount } from '../declarations/AppliedDiscount.js';
+export type { BuyerAction } from '../declarations/BuyerAction.js';
 export type { OrderCharge } from '../declarations/OrderCharge.js';
 export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
 export type { TaxCalculationRequest } from '../declarations/TaxCalculationRequest.js';
@@ -381,13 +383,21 @@ export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillment
 export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
+export type { GiftCardMoney } from '../declarations/GiftCardMoney.js';
+export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
+export type { OrderGiftCardSettlement } from '../declarations/OrderGiftCardSettlement.js';
+export type { OrderGiftCardSelection } from '../declarations/OrderGiftCardSelection.js';
 export type { OrderLineItem } from '../declarations/OrderLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
+export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
 export type { Image } from '../declarations/Image.js';
 export type { LineItemInventorySnapshot } from '../declarations/LineItemInventorySnapshot.js';
 export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryDemand.js';
+export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
@@ -397,6 +407,7 @@ export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
 export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
 export type { Tip } from '../declarations/Tip.js';
 export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentIntentAllocation.js';
+export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
 export type { BuyerDeliverySelection } from '../declarations/BuyerDeliverySelection.js';
 export type { BuyerDeliverySelectionChoiceResource } from '../declarations/BuyerDeliverySelectionChoiceResource.js';
 export type { DeliveryRecipientResource } from '../declarations/DeliveryRecipientResource.js';
@@ -430,6 +441,7 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeCheckoutCustomerVerificationConfirmation } from '../declarations/makeCheckoutCustomerVerificationConfirmation.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
@@ -497,6 +509,7 @@ export { makeDeliverySelectionLifecycleEventResource } from '../declarations/mak
 export { makeDeliveryInventoryReservationSummary } from '../declarations/makeDeliveryInventoryReservationSummary.js';
 export { makeOrder } from '../declarations/makeOrder.js';
 export { makeAppliedDiscount } from '../declarations/makeAppliedDiscount.js';
+export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
 export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
 export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
 export { makeTaxCalculationRequest } from '../declarations/makeTaxCalculationRequest.js';
@@ -516,13 +529,21 @@ export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillm
 export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
+export { makeGiftCardMoney } from '../declarations/makeGiftCardMoney.js';
+export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../declarations/makeOrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../declarations/makeOrderGiftCardSelection.js';
 export { makeOrderLineItem } from '../declarations/makeOrderLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
+export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
 export { makeImage } from '../declarations/makeImage.js';
 export { makeLineItemInventorySnapshot } from '../declarations/makeLineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
@@ -532,6 +553,7 @@ export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
 export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
 export { makeTip } from '../declarations/makeTip.js';
 export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';
 export { makeBuyerDeliverySelection } from '../declarations/makeBuyerDeliverySelection.js';
 export { makeBuyerDeliverySelectionChoiceResource } from '../declarations/makeBuyerDeliverySelectionChoiceResource.js';
 export { makeDeliveryRecipientResource } from '../declarations/makeDeliveryRecipientResource.js';

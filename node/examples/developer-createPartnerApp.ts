@@ -12,8 +12,8 @@ const result = await client.developer.createPartnerApp(
     name: "example",
     permission_manifest: [],
     redirect_uris: [],
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.client_id);
 console.log(result.partner_app_id);

@@ -13,8 +13,8 @@ const result = await client.orders.applyDiscount(
     promotion: {
       promotion_id: "example",
     },
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);
 console.log(result.status);

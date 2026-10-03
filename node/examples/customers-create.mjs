@@ -10,7 +10,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.customers.create(
   {
     email: "example",
-    "Idempotency-Key": idempotencyKey,
-  }
+  },
+  { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
