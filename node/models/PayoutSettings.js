@@ -1,7 +1,7 @@
-import { d1780 as c0, d74 as c1, d1784 as c2, d1783 as c3, d1984 as c4 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1984 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1782 as c0, d74 as c1, d1786 as c2, d1785 as c3, d1987 as c4 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d1987 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1984;
+const read = d1987;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MoneyMovementBlockedReason"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PayoutSettings"]:c4()}); }
 export { codec as _validate };

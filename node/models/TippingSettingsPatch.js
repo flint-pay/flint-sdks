@@ -1,7 +1,7 @@
-import { d74 as c0, d419 as c1, d2342 as c2, d2343 as c3, d2345 as c4 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2345 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d74 as c0, d421 as c1, d2345 as c2, d2346 as c3, d2348 as c4 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d2348 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2345;
+const read = d2348;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec157"]:c1(),["SharedCodec606"]:c2(),["SharedCodec607"]:c3(),["TippingSettingsPatch"]:c4()}); }
 export { codec as _validate };

@@ -739,7 +739,7 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 | `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. |
 | `is_available` | Required | boolean | Whether this session can take the action now. |
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [11 declared values](#buyeraction-kind-values). |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [12 declared values](#buyeraction-kind-values). |
 | `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`. |
 
 #### BuyerAction kind values
@@ -755,6 +755,7 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 - `"withdraw"`
 - `"ship_items"`
 - `"pay_balance"`
+- `"retry_payment"`
 
 ## BuyerCapabilities
 
@@ -1225,6 +1226,32 @@ The offer a buyer sees before canceling. Send at least one field.
 | `kind` | Optional | string | none: no offer. pause_instead: offer to pause for pause_cycles billing periods instead of canceling. pause_instead needs pausing turned on. Values: `"none"`, `"pause_instead"`. |
 | `pause_cycles` | Optional | integer | Billing periods the offered pause lasts. Required when kind is pause_instead, and at most pause.max_cycles when that is set. Not allowed with kind none. Format: `int32`. minimum: `1`. maximum: `12`. |
 
+## BuyerSubscriptionPaymentRetry
+
+A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `failure` | Optional | [SubscriptionPaymentRetryFailure](MODELS.md#subscriptionpaymentretryfailure) |  |
+| `order_id` | Optional | string |  |
+| `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `status` | Required | string | Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`. |
+| `subscription_id` | Required | string |  |
+| `subscription_payment_retry_id` | Required | string |  |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+## BuyerSubscriptionPaymentRetryResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [BuyerSubscriptionPaymentRetry](MODELS.md#buyersubscriptionpaymentretry) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
 ## CallerSuppliedDeliveryMethodResultRequest
 
 
@@ -1445,7 +1472,7 @@ Variants: any, any, any.
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
 | `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, then retry_payment, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all six every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean |  |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
@@ -1924,7 +1951,6 @@ Checkout reminder email settings. On update, an omitted field keeps its value.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cancel_redirect_url` | Optional | string |  |
-| `on_load_redirect_url` | Optional | string |  |
 | `success_redirect_url` | Optional | string |  |
 
 ## CheckoutSavedPaymentDetailsSettings
@@ -2140,7 +2166,7 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `default_smart_tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `default_tip_percentage` | Optional | number |  |
+| `default_tip_percentage` | Optional | number | minimum: `1`. maximum: `100`. |
 | `enabled` | Optional | boolean |  |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
@@ -2871,6 +2897,7 @@ Variants: any, any, any, any, any.
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | object | Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `shipment_id` | Optional | string |  |
@@ -3434,7 +3461,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldRequest](MODELS.md#paymentlinkcustomfieldrequest) |  |
+| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldRequest](MODELS.md#paymentlinkcustomfieldrequest) | maxItems: `20`. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
@@ -3451,7 +3478,7 @@ Variants: any, any.
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemRequest](MODELS.md#paymentlinklineitemrequest) |  |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object |  |
+| `metadata` | Optional | object |  Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
 | `name` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
@@ -7065,7 +7092,7 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1190 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
 | `conflicting_fields` | Optional | Array of string |  |
 | `current_checkout_session_id` | Optional | string |  |
@@ -8234,6 +8261,8 @@ Variants: any, any, any, any, any, any, any.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
@@ -12555,7 +12584,7 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1190 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
 | `conflicting_fields` | Optional | Array of string |  |
 | `current_checkout_session_id` | Optional | string |  |
@@ -13724,6 +13753,8 @@ Variants: object, object, object.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
@@ -15947,6 +15978,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | object | Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
@@ -16593,6 +16625,17 @@ Variants: any, any.
 | `data` | Required | [Order](MODELS.md#order) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
+
+## OrderReturnCreditSettlement
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `return_id` | Required | string | Response only. |
+| `return_resolution_id` | Required | string | Response only. |
 
 ## OrderTax
 
@@ -17812,10 +17855,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `payment_link_custom_field_id` | Required | string | Response only. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
@@ -17828,10 +17871,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `payment_link_custom_field_id` | Optional | string | Stable ID of an existing custom field. Omit it to create a new custom field. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
@@ -17844,10 +17887,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
 | `required` | Optional | boolean |  |
@@ -17876,7 +17919,7 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `is_catalog_item_unavailable` | Required | boolean | True when this line item references a variant or bundle that is missing, deleted, or inactive, so it cannot be sold right now. Always false on ad-hoc line items. Response only. |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -17903,7 +17946,7 @@ Variants: any, any, any, any.
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -17928,7 +17971,7 @@ Variants: any, any, any, any.
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -21939,7 +21982,7 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
 | `billing_schedule_owner` | Required | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, then retry_payment, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all six every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean |  |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
@@ -22471,7 +22514,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Required | Alternative shapes (see declared variants) | The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. |
-| `default_tip_percentage` | Required | number or null | The preselected percentage, from 0.01 through 100. It must match one of the effective tip_percentages. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percentage` | Required | number or null | The preselected percentage, from 1 through 100. It must match one of the effective tip_percentages. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `1`. maximum: `100`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
@@ -22485,7 +22528,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Optional | Alternative shapes (see declared variants) | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. |
-| `default_tip_percentage` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percentage` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `1`. maximum: `100`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
@@ -23170,7 +23213,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](MODELS.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. |
+| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](MODELS.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. maxItems: `20`. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
@@ -23188,7 +23231,7 @@ Variants: any, any.
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemPatchRequest](MODELS.md#paymentlinklineitempatchrequest) | Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted. minItems: `1`. |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
 | `name` | Optional | string |  |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |

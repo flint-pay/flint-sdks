@@ -1,7 +1,7 @@
-import { d1748 as c0, d1750 as c1, d1752 as c2, d1753 as c3, d1754 as c4, d1755 as c5, d1756 as c6, d1757 as c7, d74 as c8, d1784 as c9, d1783 as c10, d1787 as c11, d1795 as c12, d2118 as c13, d2119 as c14, d1794 as c15, d1793 as c16 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1752 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1750 as c0, d1752 as c1, d1754 as c2, d1755 as c3, d1756 as c4, d1757 as c5, d1758 as c6, d1759 as c7, d74 as c8, d1786 as c9, d1785 as c10, d1789 as c11, d1797 as c12, d2121 as c13, d2122 as c14, d1796 as c15, d1795 as c16 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d1754 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1752;
+const read = d1754;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MerchantAccountSession"]:c0(),["MerchantAccountSessionEffectivePolicy"]:c1(),["MerchantAccountSessionResponse"]:c2(),["MerchantAccountSessionStripeCollectionOptions"]:c3(),["MerchantAccountSessionStripeComponentLaunch"]:c4(),["MerchantAccountSessionStripeComponentProps"]:c5(),["MerchantAccountSessionStripeLaunch"]:c6(),["MerchantAccountSessionStripeRequirements"]:c7(),["MoneyValue"]:c8(),["NextAction"]:c9(),["NextActionMerchantAccountSession"]:c10(),["OnboardingExternalAction"]:c11(),["OnboardingRequirements"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SharedCodec480"]:c15(),["SharedCodec481"]:c16()}); }
 export { codec as _validate };

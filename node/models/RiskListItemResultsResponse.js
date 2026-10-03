@@ -1,7 +1,7 @@
-import { d74 as c0, d1784 as c1, d1783 as c2, d2055 as c3, d2118 as c4, d2119 as c5, d2240 as c6, d2243 as c7, d2244 as c8 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2244 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d74 as c0, d1786 as c1, d1785 as c2, d2058 as c3, d2121 as c4, d2122 as c5, d2243 as c6, d2246 as c7, d2247 as c8 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d2247 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2244;
+const read = d2247;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["PublicRiskListItemResult"]:c3(),["ResponseMeta"]:c4(),["ResponseWarning"]:c5(),["RiskListItem"]:c6(),["RiskListItemResultsData"]:c7(),["RiskListItemResultsResponse"]:c8()}); }
 export { codec as _validate };

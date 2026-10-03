@@ -1,7 +1,7 @@
-import { d74 as c0, d1826 as c1, d1966 as c2, d1955 as c3, d1823 as c4, d1825 as c5, d1824 as c6 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1966 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d74 as c0, d1828 as c1, d1969 as c2, d1958 as c3, d1825 as c4, d1827 as c5, d1826 as c6 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d1969 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1966;
+const read = d1969;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderGiftCardAllocationAcceptance"]:c1(),["PayOrderRequestPay"]:c2(),["PaymentSourceCredential"]:c3(),["SharedCodec483"]:c4(),["SharedCodec484"]:c5(),["SharedCodec485"]:c6()}); }
 export { codec as _validate };

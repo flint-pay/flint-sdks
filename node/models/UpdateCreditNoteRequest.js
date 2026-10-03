@@ -1,7 +1,7 @@
-import { d525 as c0, d527 as c1, d74 as c2, d523 as c3, d524 as c4, d2361 as c5, d2362 as c6 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2362 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d527 as c0, d529 as c1, d74 as c2, d525 as c3, d526 as c4, d2364 as c5, d2365 as c6 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d2365 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2362;
+const read = d2365;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreditNoteCorrectionRequest"]:c0(),["CreditNoteLineRequest"]:c1(),["MoneyValue"]:c2(),["SharedCodec198"]:c3(),["SharedCodec199"]:c4(),["SharedCodec612"]:c5(),["UpdateCreditNoteRequest"]:c6()}); }
 export { codec as _validate };

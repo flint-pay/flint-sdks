@@ -1,7 +1,7 @@
-import { d74 as c0, d1784 as c1, d1783 as c2, d1788 as c3, d1789 as c4, d1790 as c5, d1791 as c6, d1795 as c7, d1799 as c8, d1800 as c9, d2118 as c10, d2119 as c11, d1785 as c12, d1794 as c13, d1793 as c14 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1800 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d74 as c0, d1786 as c1, d1785 as c2, d1790 as c3, d1791 as c4, d1792 as c5, d1793 as c6, d1797 as c7, d1801 as c8, d1802 as c9, d2121 as c10, d2122 as c11, d1787 as c12, d1796 as c13, d1795 as c14 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d1802 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1800;
+const read = d1802;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["OnboardingLaunchRecommendedPolicy"]:c3(),["OnboardingLaunchReference"]:c4(),["OnboardingNextStep"]:c5(),["OnboardingProfile"]:c6(),["OnboardingRequirements"]:c7(),["OnboardingState"]:c8(),["OnboardingStateResponse"]:c9(),["ResponseMeta"]:c10(),["ResponseWarning"]:c11(),["SharedCodec479"]:c12(),["SharedCodec480"]:c13(),["SharedCodec481"]:c14()}); }
 export { codec as _validate };

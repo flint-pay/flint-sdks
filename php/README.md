@@ -1,6 +1,6 @@
 # Flint Public API SDK (php)
 
-Package 3.0.0-beta.20261003024310; generated for API 2026-09-07.
+Package 3.0.0-beta.20261003201615; generated for API 2026-09-07.
 
 Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts.
 
@@ -14,7 +14,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 
 Requires PHP 8.2+, ext-json and ext-curl; framework independent. PHPDoc types target PHPStan 2.2+ (development tooling only).
 
-Install: `composer require flintpay/flint:3.0.0-beta.20261003024310`
+Install: `composer require flintpay/flint:3.0.0-beta.20261003201615`
 
 ## Quickstart
 

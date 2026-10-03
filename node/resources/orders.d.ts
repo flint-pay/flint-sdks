@@ -624,6 +624,7 @@ export type { PaymentCollection } from '../declarations/PaymentCollection.js';
 export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
 export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
+export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
 export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
@@ -766,6 +767,7 @@ export { makePaymentCollection } from '../declarations/makePaymentCollection.js'
 export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
 export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
 export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';

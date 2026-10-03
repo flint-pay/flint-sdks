@@ -1,7 +1,7 @@
-import { d609 as c0, d607 as c1, d608 as c2, d277 as c3, d276 as c4 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d609 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d611 as c0, d609 as c1, d610 as c2, d279 as c3, d278 as c4 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
+import { d611 } from '../descriptors/data.js?sdk=40abaf2a2616e8b74370ab25f8d4a8faced3f68b7d58057fcd11631bbc8038f0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d609;
+const read = d611;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["DeliveryMethodOriginSelector"]:c0(),["SharedCodec204"]:c1(),["SharedCodec205"]:c2(),["SharedCodec74"]:c3(),["SharedCodec75"]:c4()}); }
 export { codec as _validate };
