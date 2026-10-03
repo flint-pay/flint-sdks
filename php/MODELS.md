@@ -9875,7 +9875,7 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 | `amount_money` | Required | object | Response only. |
 | `balance_after_money` | Required | object | Response only. |
 | `balance_before_money` | Required | object | Response only. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Response only. |
+| `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_transaction_id` | Required | string | Response only. |
 | `idempotency_key` | Required | string | Response only. |

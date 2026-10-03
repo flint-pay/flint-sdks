@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read GiftCardMoney $amount_money
  * @property-read GiftCardMoney $balance_after_money
  * @property-read GiftCardMoney $balance_before_money
- * @property-read string $external_reference_id
+ * @property-read string|null $external_reference_id
  * @property-read string $gift_card_id
  * @property-read string $gift_card_transaction_id
  * @property-read string $idempotency_key
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $transaction_type
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardTransaction extends Model {
-    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'balance_after_money': object{'amount': string, 'currency': string}, 'balance_before_money': object{'amount': string, 'currency': string}, 'external_reference_id'?: string, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string, 'merchant_sequence': string, 'order_id'?: string, 'posted_at': string, 'reason': string, 'sequence': string, 'source_id': string, 'source_type': string, 'transaction_type': string, ...}|object $values */
+    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'balance_after_money': object{'amount': string, 'currency': string}, 'balance_before_money': object{'amount': string, 'currency': string}, 'external_reference_id': string|null, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string, 'merchant_sequence': string, 'order_id'?: string, 'posted_at': string, 'reason': string, 'sequence': string, 'source_id': string, 'source_type': string, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardTransaction')); }
     /** @return GiftCardMoney
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -36,10 +36,10 @@ final class GiftCardTransaction extends Model {
      */
     public function getBalanceBeforeMoney(): GiftCardMoney { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** @return string
+    /** @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().

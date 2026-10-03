@@ -1,5 +1,5 @@
-import { d508 as c0, d907 as c1, d74 as c2, d405 as c3, d1834 as c4, d407 as c5, d406 as c6, d404 as c7, d403 as c8, d1936 as c9, d1935 as c10, d2312 as c11, d2311 as c12, d2314 as c13, d2313 as c14, d2315 as c15, d2339 as c16 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
-import { d508 } from '../descriptors/data.js?sdk=a6b376902242b69271e8ff7d7046c24b4e5476233434e4180a046d09fed7dde4';
+import { d508 as c0, d907 as c1, d74 as c2, d405 as c3, d1834 as c4, d407 as c5, d406 as c6, d404 as c7, d403 as c8, d1936 as c9, d1935 as c10, d2312 as c11, d2311 as c12, d2314 as c13, d2313 as c14, d2315 as c15, d2339 as c16 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d508 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d508;
 let prepared;
