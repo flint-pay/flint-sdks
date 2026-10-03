@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0-beta.20261003024310",
+  "version": "3.0.0-beta.20261003185520",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -934,6 +934,16 @@
         "header": "Idempotency-Key",
         "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
         "scope": "Endpoint-defined command identity. Optional idempotency key for safe retries.",
+        "auto": false
+      }
+    },
+    "createMeSubscriptionPaymentRetry": {
+      "resource": "me",
+      "method": "createSubscriptionPaymentRetry",
+      "idempotency": {
+        "header": "Idempotency-Key",
+        "retention": "Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.",
+        "scope": "Endpoint-defined command identity. Required durable identity for this retry attempt.",
         "auto": false
       }
     },
@@ -2188,6 +2198,16 @@
     "getMeSubscription": {
       "resource": "me",
       "method": "getSubscription",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false,
+        "baseDelayMs": 100
+      }
+    },
+    "getMeSubscriptionPaymentRetry": {
+      "resource": "me",
+      "method": "getSubscriptionPaymentRetry",
       "retry": {
         "maxAttempts": 1,
         "statuses": [],

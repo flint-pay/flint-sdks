@@ -1,7 +1,7 @@
-import { d517 as c0, d526 as c1, d531 as c2, d757 as c3, d74 as c4, d1784 as c5, d1783 as c6, d70 as c7, d2118 as c8, d2119 as c9, d73 as c10, d71 as c11, d72 as c12 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d531 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d519 as c0, d528 as c1, d533 as c2, d759 as c3, d74 as c4, d1786 as c5, d1785 as c6, d70 as c7, d2121 as c8, d2122 as c9, d73 as c10, d71 as c11, d72 as c12 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d533 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d531;
+const read = d533;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreditNote"]:c0(),["CreditNoteLine"]:c1(),["CreditNoteResponse"]:c2(),["DocumentTaxID"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["PostalAddress"]:c7(),["ResponseMeta"]:c8(),["ResponseWarning"]:c9(),["SharedCodec17"]:c10(),["SharedCodec18"]:c11(),["TaxIdentity"]:c12()}); }
 export { codec as _validate };

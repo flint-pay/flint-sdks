@@ -1,7 +1,7 @@
-import { d353 as c0, d342 as c1, d896 as c2, d346 as c3, d345 as c4, d347 as c5, d348 as c6, d349 as c7, d350 as c8, d352 as c9, d351 as c10, d867 as c11, d869 as c12 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d896 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d355 as c0, d344 as c1, d898 as c2, d348 as c3, d347 as c4, d349 as c5, d350 as c6, d351 as c7, d352 as c8, d354 as c9, d353 as c10, d869 as c11, d871 as c12 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d898 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d896;
+const read = d898;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["GiftCardMoney"]:c1(),["GiftCardRefundProvenance"]:c2(),["SharedCodec117"]:c3(),["SharedCodec118"]:c4(),["SharedCodec119"]:c5(),["SharedCodec120"]:c6(),["SharedCodec121"]:c7(),["SharedCodec122"]:c8(),["SharedCodec123"]:c9(),["SharedCodec124"]:c10(),["SharedCodec267"]:c11(),["SharedCodec270"]:c12()}); }
 export { codec as _validate };

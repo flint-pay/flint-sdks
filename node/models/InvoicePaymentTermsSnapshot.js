@@ -1,7 +1,7 @@
-import { d1662 as c0, d1680 as c1, d1683 as c2, d74 as c3, d1660 as c4, d1661 as c5, d1672 as c6, d1671 as c7, d1673 as c8, d1674 as c9, d1675 as c10, d1676 as c11 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1683 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1664 as c0, d1682 as c1, d1685 as c2, d74 as c3, d1662 as c4, d1663 as c5, d1674 as c6, d1673 as c7, d1675 as c8, d1676 as c9, d1677 as c10, d1678 as c11 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d1685 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1683;
+const read = d1685;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InvoiceLateFeePolicy"]:c0(),["InvoicePaymentTermCalculation"]:c1(),["InvoicePaymentTermsSnapshot"]:c2(),["MoneyValue"]:c3(),["SharedCodec448"]:c4(),["SharedCodec449"]:c5(),["SharedCodec451"]:c6(),["SharedCodec452"]:c7(),["SharedCodec453"]:c8(),["SharedCodec454"]:c9(),["SharedCodec455"]:c10(),["SharedCodec456"]:c11()}); }
 export { codec as _validate };

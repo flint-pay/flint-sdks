@@ -1,7 +1,7 @@
-import { d42 as c0, d74 as c1, d1784 as c2, d1783 as c3, d1993 as c4, d2118 as c5, d2119 as c6, d2230 as c7, d2280 as c8, d96 as c9, d765 as c10, d1804 as c11, d2468 as c12, d2469 as c13 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2468 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d42 as c0, d74 as c1, d1786 as c2, d1785 as c3, d1996 as c4, d2121 as c5, d2122 as c6, d2233 as c7, d2283 as c8, d96 as c9, d767 as c10, d1806 as c11, d2471 as c12, d2472 as c13 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
+import { d2471 } from '../descriptors/data.js?sdk=7603172525e41200d4f73e10915d0ae5669c2ee7108f266f11ac6495c50c1bfa';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2468;
+const read = d2471;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PricingAmounts"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["ReturnShipmentLineItemAllocation"]:c7(),["SettlementAmounts"]:c8(),["SharedCodec26"]:c9(),["Shipment"]:c10(),["SignedMoney"]:c11(),["UpdateShipmentResponse"]:c12(),["UpdateShipmentResult"]:c13()}); }
 export { codec as _validate };
