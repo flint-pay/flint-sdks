@@ -13,8 +13,8 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardFundingDispositions->create([
   'disposition' => 'honor_value',
-  'dispute_id' => 'du_01J00000000000000000000001',
-  'reason_message' => 'Synthetic SDK example',
+  'dispute_id' => 'du_01JZXK4G8Q5V3N7M2P9R6T1W0Y',
+  'reason_message' => 'Honored after the dispute review.',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->dispute_id . PHP_EOL;
 echo $result->gift_card_funding_disposition_id . PHP_EOL;

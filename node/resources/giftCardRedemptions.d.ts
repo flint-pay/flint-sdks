@@ -49,7 +49,7 @@ export interface GiftCardRedemptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardRedemptions.create({amount_money: {amount: "100", currency: "USD"}, capture_mode: "automatic", external_reference_id: "sdk-example", gift_card_id: "gc_01J00000000000000000000001"}, { idempotencyKey: idempotencyKey })
+ * client.giftCardRedemptions.create({amount_money: {amount: "500", currency: "USD"}, capture_mode: "automatic", external_reference_id: "synthetic-redemption-reference", gift_card_id: "gc_01JZXK4G8Q5V3N7M2P9R6T1W0Y"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<({ "amount_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "capture_mode": "automatic" | "manual"; "expected_version"?: string; "expires_at"?: string | globalThis.Date; "external_reference_id": string; "gift_card_id": string; }) & ((({ "capture_mode": ("automatic") & ("automatic"); }) & ({ "expires_at"?: never })) | ({ "capture_mode": ("manual") & ("manual"); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

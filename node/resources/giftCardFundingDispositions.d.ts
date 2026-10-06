@@ -15,7 +15,7 @@ export interface GiftCardFundingDispositionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardFundingDispositions.create({disposition: "honor_value", dispute_id: "du_01J00000000000000000000001", reason_message: "Synthetic SDK example"}, { idempotencyKey: idempotencyKey })
+ * client.giftCardFundingDispositions.create({disposition: "honor_value", dispute_id: "du_01JZXK4G8Q5V3N7M2P9R6T1W0Y", reason_message: "Honored after the dispute review."}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardFundingDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */

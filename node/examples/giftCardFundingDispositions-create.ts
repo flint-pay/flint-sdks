@@ -10,8 +10,8 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.giftCardFundingDispositions.create(
   {
     disposition: "honor_value",
-    dispute_id: "du_01J00000000000000000000001",
-    reason_message: "Synthetic SDK example",
+    dispute_id: "du_01JZXK4G8Q5V3N7M2P9R6T1W0Y",
+    reason_message: "Honored after the dispute review.",
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -10,12 +10,12 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.giftCardRedemptions.create(
   {
     amount_money: {
-      amount: "100",
+      amount: "500",
       currency: "USD",
     },
     capture_mode: "automatic",
-    external_reference_id: "sdk-example",
-    gift_card_id: "gc_01J00000000000000000000001",
+    external_reference_id: "synthetic-redemption-reference",
+    gift_card_id: "gc_01JZXK4G8Q5V3N7M2P9R6T1W0Y",
   },
   { idempotencyKey: idempotencyKey },
 );
