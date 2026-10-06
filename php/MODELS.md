@@ -2409,7 +2409,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1661 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -3783,6 +3783,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -9023,7 +9024,7 @@ Variants: any, any, any, any, any, any, any.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1661 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -10443,6 +10444,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -10884,7 +10886,7 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1661 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -12295,6 +12297,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -17062,7 +17065,7 @@ Variants: object, object, object.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1661 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -18482,6 +18485,7 @@ Variants: object, object, object.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -18923,7 +18927,7 @@ Variants: object, object, object.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1661 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -20334,6 +20338,7 @@ Variants: object, object, object.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`

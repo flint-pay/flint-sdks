@@ -5,9 +5,9 @@
   },
   "api": {
     "repository": "https://github.com/flint-pay/flint",
-    "revision": "76c2f6f4646726b9b3a4196636d2c271cbaccad8",
+    "revision": "941119e2ebcc342ab3eb89770b46e24a131a5234",
     "path": "web/apps/developers/src/generated/openapi.json",
-    "sha256": "01dfa4e604547e8019d9956d44e726b00b805054b23377b64d7ee51d1b07a823",
+    "sha256": "f6ff9ef670485115876dca43b77e75fdfa178a0bdc9b021dfe3fc3e041d1d79a",
     "version": "2026-09-07"
   }
 }

@@ -8,5 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-$result = $client->me->listFulfillmentEvents();
+$result = $client->me->listFulfillmentEvents([
+  'order_id' => 'example',
+]);
 $client->close();

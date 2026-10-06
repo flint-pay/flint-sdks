@@ -8,6 +8,8 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `3.0.0-beta.20261006230000` makes `order_id` required for `me.listFulfillmentEvents`, matching the API, which already requires it. Pass the ID of an order that belongs to the customer session's customer. Calls that omit `order_id` now fail TypeScript type checking, and the Node and PHP SDKs reject them before sending a request. The pinned OpenAPI contract now lists the existing `PORTAL_ORDER_ID_REQUIRED`, `INVALID_ID`, `INVALID_PAGE_SIZE`, `INVALID_PAGE_TOKEN`, and `RESOURCE_NOT_FOUND` errors for this operation, and generated error code types include `PORTAL_ORDER_ID_REQUIRED`.
+
 Version `3.0.0-beta.20261006020957` pins the current public API and adds buyer subscription payment retries, Flint wallet card setup, buyer access links, discount previews, gift card funding dispositions, inventory reads, and invoice activities. Review the generated migration notes before upgrading; removed operations and checkout fields change the beta interface.
 
 Version `3.0.0-beta.20261003024310` adds `me.listGiftCards`, `me.saveGiftCard`, `me.getGiftCard`, `me.listGiftCardTransactions`, and `me.removeGiftCard`. Each requires a full customer session. Saved access proves possession, can be shared, and permits balance reads without transferring ownership or authorizing checkout spending.
@@ -25,6 +27,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261006230000` | `2026-09-07` |
 | `3.0.0-beta.20261006210100` | `2026-09-07` |
 | `3.0.0-beta.20261006020957` | `2026-09-07` |
 | `3.0.0-beta.20261003024310` | `2026-09-07` |

@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006210100; API 2026-09-07.
+Package 3.0.0-beta.20261006230000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -15002,7 +15002,7 @@ Lists fulfillment events for an order owned by the current buyer, ordered by occ
 
 `GET /v1/me/fulfillment-events`
 
-Call: `listFulfillmentEvents(array|Model|null $params = null, ?RequestOptions $options = null)`
+Call: `listFulfillmentEvents(array|Model $params, ?RequestOptions $options = null)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -15010,7 +15010,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```text
 array{
-  'order_id'?: string,
+  'order_id': string,
   'fulfillment_id'?: string,
   'shipment_id'?: string,
   'package_id'?: string,
@@ -15024,7 +15024,7 @@ Returned payload: `MeListFulfillmentEventsResponse200`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string |  |
+| `order_id` | Required | string |  |
 | `fulfillment_id` | Optional | string |  |
 | `shipment_id` | Optional | string |  |
 | `package_id` | Optional | string |  |
@@ -15055,7 +15055,9 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-foreach ($client->me->listFulfillmentEventsItems([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+foreach ($client->me->listFulfillmentEventsItems([
+  'order_id' => 'example',
+], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
   // Process $item before requesting the next page.
 }
 $client->close();
@@ -15076,7 +15078,9 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-foreach ($client->me->listFulfillmentEventsPages([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+foreach ($client->me->listFulfillmentEventsPages([
+  'order_id' => 'example',
+], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
   // Process $page->{'data'} before requesting the next page.
 }
 $client->close();
@@ -15097,7 +15101,9 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
-foreach ($client->me->listFulfillmentEventsPagesWithResponse([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+foreach ($client->me->listFulfillmentEventsPagesWithResponse([
+  'order_id' => 'example',
+], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
   // Process $page->{'body'}->{'data'} before requesting the next page.
   echo $page->meta['requestId'] ?? '';
 }

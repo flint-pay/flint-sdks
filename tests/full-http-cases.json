@@ -2774,5 +2774,62 @@
     ],
     "status": 200,
     "baseUrl": "https://api.example.invalid"
+  },
+  {
+    "name": "buyer fulfillment events require order ID before dispatch",
+    "operation": "listMeFulfillmentEvents",
+    "input": {},
+    "options": {
+      "authMode": "customer",
+      "credentials": {
+        "CustomerSessionBearer": "customer-test"
+      },
+      "maxAttempts": 1
+    },
+    "responses": [],
+    "error": {
+      "kind": "validation",
+      "outcome": "not_sent"
+    },
+    "attempts": 0
+  },
+  {
+    "name": "buyer fulfillment events preserve order and optional filters",
+    "operation": "listMeFulfillmentEvents",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "order_id": "ord_test",
+      "fulfillment_id": "ful_test",
+      "page_size": 25
+    },
+    "options": {
+      "authMode": "customer",
+      "credentials": {
+        "CustomerSessionBearer": "customer-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/me/fulfillment-events?order_id=ord_test&fulfillment_id=ful_test&page_size=25",
+      "headers": {
+        "authorization": "Bearer customer-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[]}"
+      }
+    ],
+    "data": {
+      "data": []
+    },
+    "status": 200,
+    "attempts": 1
   }
 ]
