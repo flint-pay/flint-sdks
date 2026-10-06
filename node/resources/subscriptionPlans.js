@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPlan"]:r0,["deleteSubscriptionPlan"]:r0,["getSubscriptionPlan"]:r0,["listSubscriptionPlans"]:r0,["updateSubscriptionPlan"]:r0});
 export class Client {
@@ -22,30 +22,30 @@ this.subscriptionPlans = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
-      remove: async (plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      remove: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "expected_version",
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      removeWithResponse: async (plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      removeWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "expected_version",
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      get: async (plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      get: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      getWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listSubscriptionPlans", _sdkRequestInput([], [], [
@@ -108,16 +108,16 @@ this.subscriptionPlans = Object.freeze({
   "created_before",
   "Flint-Version"
 ], false, false, params), options),
-      update: async (plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      update: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      updateWithResponse: async (plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
-  "plan_id"
-], [plan_id], [
+      updateWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
+  "subscription_plan_id"
+], [subscription_plan_id], [
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"

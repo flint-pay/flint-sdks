@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney|null $consideration_money
+ * @property-read MoneyValue|null $consideration_money
  * @property-read string $created_at
  * @property-read list<GiftCardFundingDispute> $funding_disputes
  * @property-read string $gift_card_id
@@ -12,21 +12,21 @@ namespace Flint;
  * @property-read list<GiftCardPurchaseRefundAllocation> $purchase_refunds
  * @property-read GiftCardPurchaseRestoration $purchase_restoration
  * @property-read GiftCardRefundProvenance $refund_provenance
- * @property-read GiftCardMoney $refund_transferred_money
- * @property-read GiftCardMoney $remaining_money
- * @property-read GiftCardMoney $reversed_money
+ * @property-read MoneyValue $refund_transferred_money
+ * @property-read MoneyValue $remaining_money
+ * @property-read MoneyValue $reversed_money
  * @property-read \stdClass $source
  * @property-read string|null $source_created_at
- * @property-read GiftCardMoney $value_money
+ * @property-read MoneyValue $value_money
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardLoad extends Model {
     /** @param array{'consideration_money': mixed, 'created_at': string, 'funding_disputes': list<mixed>, 'gift_card_id': string, 'gift_card_load_id': string, 'idempotency_key': string, 'purchase_refund_value_holds'?: list<mixed>, 'purchase_refunds': list<mixed>, 'purchase_restoration'?: object{'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': string}, 'refund_provenance'?: object{'original_consideration_money': mixed, 'original_created_at': string, 'original_source': \stdClass, 'original_source_created_at': string|null, 'refund_allocation_id': string, 'root_gift_card_id': string, 'root_gift_card_load_id': string, 'source_gift_card_id': string, 'source_gift_card_redemption_id': string, 'source_purchase_refund_allocation_id'?: string, 'source_refund_id'?: string}, 'refund_transferred_money'?: object{'amount': string, 'currency': string}, 'remaining_money': object{'amount': string, 'currency': string}, 'reversed_money': object{'amount': string, 'currency': string}, 'source': \stdClass, 'source_created_at': string|null, 'value_money': object{'amount': string, 'currency': string}, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoad')); }
-    /** @return GiftCardMoney|null
+    /** @return MoneyValue|null
      * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().
      */
-    public function getConsiderationMoney(): GiftCardMoney|null { return $this->get('consideration_money'); }
+    public function getConsiderationMoney(): MoneyValue|null { return $this->get('consideration_money'); }
     public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -73,20 +73,20 @@ final class GiftCardLoad extends Model {
      */
     public function getRefundProvenance(): GiftCardRefundProvenance { return $this->get('refund_provenance'); }
     public function hasRefundProvenance(): bool { return $this->has('refund_provenance'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When refund_transferred_money is omitted; use hasRefundTransferredMoney() or valueOrDefault().
      */
-    public function getRefundTransferredMoney(): GiftCardMoney { return $this->get('refund_transferred_money'); }
+    public function getRefundTransferredMoney(): MoneyValue { return $this->get('refund_transferred_money'); }
     public function hasRefundTransferredMoney(): bool { return $this->has('refund_transferred_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When remaining_money is omitted; use hasRemainingMoney() or valueOrDefault().
      */
-    public function getRemainingMoney(): GiftCardMoney { return $this->get('remaining_money'); }
+    public function getRemainingMoney(): MoneyValue { return $this->get('remaining_money'); }
     public function hasRemainingMoney(): bool { return $this->has('remaining_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When reversed_money is omitted; use hasReversedMoney() or valueOrDefault().
      */
-    public function getReversedMoney(): GiftCardMoney { return $this->get('reversed_money'); }
+    public function getReversedMoney(): MoneyValue { return $this->get('reversed_money'); }
     public function hasReversedMoney(): bool { return $this->has('reversed_money'); }
     /** @return \stdClass
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
@@ -98,10 +98,10 @@ final class GiftCardLoad extends Model {
      */
     public function getSourceCreatedAt(): string|null { return $this->get('source_created_at'); }
     public function hasSourceCreatedAt(): bool { return $this->has('source_created_at'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
      */
-    public function getValueMoney(): GiftCardMoney { return $this->get('value_money'); }
+    public function getValueMoney(): MoneyValue { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
     /** @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().

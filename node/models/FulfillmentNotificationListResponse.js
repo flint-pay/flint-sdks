@@ -1,9 +1,9 @@
-import { d42 as c0, d802 as c1, d803 as c2, d74 as c3, d1784 as c4, d1783 as c5, d1993 as c6, d2118 as c7, d2119 as c8, d2280 as c9, d801 as c10, d43 as c11, d1804 as c12 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d803 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d45 as c0, d810 as c1, d811 as c2, d77 as c3, d1797 as c4, d1796 as c5, d2008 as c6, d2131 as c7, d2132 as c8, d2294 as c9, d14 as c10, d809 as c11, d1795 as c12, d46 as c13, d223 as c14 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d811 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d803;
+const read = d811;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentNotification"]:c1(),["FulfillmentNotificationListResponse"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec246"]:c10(),["SharedCodec7"]:c11(),["SignedMoney"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentNotification"]:c1(),["FulfillmentNotificationListResponse"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec1"]:c10(),["SharedCodec253"]:c11(),["SharedCodec485"]:c12(),["SharedCodec8"]:c13(),["SignedMoney"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeFulfillmentNotificationListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

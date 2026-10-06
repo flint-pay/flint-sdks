@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261003024310; API 2026-09-07.
+Package 3.0.0-beta.20261006020957; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -35,6 +35,7 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [demoSessions](#resource-demosessions)
 - [developer](#resource-developer)
 - [devices](#resource-devices)
+- [discountPreviews](#resource-discountpreviews)
 - [disputes](#resource-disputes)
 - [feedbackReports](#resource-feedbackreports)
 - [fraudWarnings](#resource-fraudwarnings)
@@ -43,7 +44,7 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [fulfillments](#resource-fulfillments)
 - [giftCardAdjustments](#resource-giftcardadjustments)
 - [giftCardCashOuts](#resource-giftcardcashouts)
-- [giftCardFundingDisputes](#resource-giftcardfundingdisputes)
+- [giftCardFundingDispositions](#resource-giftcardfundingdispositions)
 - [giftCardLoads](#resource-giftcardloads)
 - [giftCardNotifications](#resource-giftcardnotifications)
 - [giftCardRedemptions](#resource-giftcardredemptions)
@@ -233,7 +234,7 @@ Creates a merchant-bound external API key. secret_key is returned only in the in
 
 `POST /v1/api-keys`
 
-Call: `create(params: (InputValue<{ "expires_at"?: string | globalThis.Date; "name": string; "sandbox_id"?: string; "scopes": Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.recipients.write" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "expires_at"?: string | globalThis.Date; "name": string; "sandbox_id"?: string; "scopes": Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.operations.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -270,7 +271,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.delivery.write" |
     "commerce.gift_cards.adjustments.write" |
     "commerce.gift_cards.read" |
-    "commerce.gift_cards.recipients.write" |
     "commerce.gift_cards.redemptions.write" |
     "commerce.gift_cards.secrets.write" |
     "commerce.gift_cards.write" |
@@ -278,7 +278,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.inventory.write" |
     "commerce.inventory_locations.write" |
     "commerce.inventory_policies.write" |
-    "commerce.inventory_reservations.write" |
     "commerce.invoices.read" |
     "commerce.invoices.write" |
     "commerce.orders.read" |
@@ -292,9 +291,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.refunds.write" |
     "commerce.return_policies.write" |
     "commerce.return_reasons.write" |
-    "commerce.returns.decisions.write" |
     "commerce.returns.operations.write" |
-    "commerce.returns.process.write" |
     "commerce.returns.read" |
     "commerce.returns.resolutions.write" |
     "commerce.returns.write" |
@@ -541,7 +538,7 @@ Updates an active external API key's name or complete scope list. API-key-authen
 
 `PATCH /v1/api-keys/{api_key_id}`
 
-Call: `update(api_key_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date | null; "name"?: string; "scopes"?: Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.recipients.write" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.inventory_reservations.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.decisions.write" | "commerce.returns.operations.write" | "commerce.returns.process.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(api_key_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date | null; "name"?: string; "scopes"?: Array<"accounts.api_keys.read" | "accounts.api_keys.write" | "accounts.devices.read" | "accounts.devices.write" | "accounts.organizations.read" | "accounts.organizations.write" | "analytics.read" | "capabilities.read" | "checkouts.checkout_sessions.read" | "checkouts.checkout_sessions.write" | "checkouts.payment_links.read" | "checkouts.payment_links.write" | "commerce.bundles.read" | "commerce.bundles.write" | "commerce.catalog.read" | "commerce.catalog.write" | "commerce.credit_notes.read" | "commerce.credit_notes.write" | "commerce.delivery.read" | "commerce.delivery.write" | "commerce.gift_cards.adjustments.write" | "commerce.gift_cards.read" | "commerce.gift_cards.redemptions.write" | "commerce.gift_cards.secrets.write" | "commerce.gift_cards.write" | "commerce.inventory.read" | "commerce.inventory.write" | "commerce.inventory_locations.write" | "commerce.inventory_policies.write" | "commerce.invoices.read" | "commerce.invoices.write" | "commerce.orders.read" | "commerce.orders.write" | "commerce.products.read" | "commerce.products.write" | "commerce.promotions.read" | "commerce.promotions.write" | "commerce.refunds.read" | "commerce.refunds.tax_overrides.write" | "commerce.refunds.write" | "commerce.return_policies.write" | "commerce.return_reasons.write" | "commerce.returns.operations.write" | "commerce.returns.read" | "commerce.returns.resolutions.write" | "commerce.returns.write" | "commerce.subscription_plans.read" | "commerce.subscription_plans.write" | "commerce.subscriptions.read" | "commerce.subscriptions.write" | "customers.read" | "customers.sessions.write" | "customers.write" | "developer.feedback_reports.read" | "developer.feedback_reports.write" | "developer.partner_apps.read" | "developer.partner_apps.write" | "developer.request_logs.self.detail.read" | "developer.request_logs.self.read" | "developer.resource_timelines.read" | "developer.sandboxes.read" | "developer.sandboxes.write" | "merchant_billing.read" | "merchants.account_sessions.write" | "merchants.locations.read" | "merchants.locations.write" | "merchants.onboarding.read" | "merchants.onboarding.write" | "merchants.profile.read" | "merchants.profile.write" | "money_movement.balance_transactions.read" | "money_movement.balances.read" | "money_movement.payout_settings.read" | "money_movement.payout_settings.write" | "money_movement.payouts.read" | "money_movement.payouts.write" | "payments.disputes.read" | "payments.payment_intents.read" | "payments.payment_intents.write" | "payments.payment_method_domains.read" | "payments.payment_method_domains.write" | "payments.payment_methods.read" | "payments.payment_methods.write" | "payments.payment_options.read" | "reports.read" | "reports.write" | "risk.controls.write" | "risk.read" | "risk.reviews.write" | "settings.read" | "settings.write" | "webhooks.read" | "webhooks.write">; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `api_key_id`. Params contain flat body fields and query/header fields.
 
@@ -579,7 +576,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.delivery.write" |
     "commerce.gift_cards.adjustments.write" |
     "commerce.gift_cards.read" |
-    "commerce.gift_cards.recipients.write" |
     "commerce.gift_cards.redemptions.write" |
     "commerce.gift_cards.secrets.write" |
     "commerce.gift_cards.write" |
@@ -587,7 +583,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.inventory.write" |
     "commerce.inventory_locations.write" |
     "commerce.inventory_policies.write" |
-    "commerce.inventory_reservations.write" |
     "commerce.invoices.read" |
     "commerce.invoices.write" |
     "commerce.orders.read" |
@@ -601,9 +596,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "commerce.refunds.write" |
     "commerce.return_policies.write" |
     "commerce.return_reasons.write" |
-    "commerce.returns.decisions.write" |
     "commerce.returns.operations.write" |
-    "commerce.returns.process.write" |
     "commerce.returns.read" |
     "commerce.returns.resolutions.write" |
     "commerce.returns.write" |
@@ -1532,29 +1525,16 @@ List categories.
 
 `GET /v1/categories`
 
-Call: `list(params?: { "status"?: InputValue<"active" | "archived">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures):
-
-```typescript
-{
-  "status"?: "active" |
-  "archived";
-  "page_size"?: number;
-  "page_token"?: string;
-  "external_reference_id"?: string;
-  "query"?: string;
-  "Flint-Version"?: string;
-}
-```
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "page_size"?: number; "page_token"?: string; "external_reference_id"?: string; "query"?: string; "Flint-Version"?: string; }`
 
 Returned payload: `{ "data": Array<Category>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | string | Values: `"active"`, `"archived"`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
@@ -1710,7 +1690,7 @@ Closes an open checkout session before it naturally expires.
 
 `POST /v1/checkout-sessions/{checkout_session_id}/close`
 
-Call: `closeSession(checkout_session_id: InputValue<string>, params: (InputValue<{ "reason"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `closeSession(checkout_session_id: InputValue<string>, params: (InputValue<{ "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `checkout_session_id`. Params contain flat body fields and query/header fields.
 
@@ -1723,7 +1703,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
   "body": {
-    "reason"?: string;
+    "reason_message"?: string;
   };
 }
 ```
@@ -1806,7 +1786,7 @@ Creates a hosted or embedded checkout session for an order, quick-pay charge, or
 
 `POST /v1/checkout-sessions`
 
-Call: `create(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "payments"?: CheckoutPaymentConfigInput; "plan_id"?: string; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "subscription_plan_id"?: string; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "subscription_plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "subscription_plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "subscription_plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -1828,11 +1808,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     string>;
     "order_id"?: string;
     "payments"?: CheckoutPaymentConfigInput;
-    "plan_id"?: string;
     "promotion_config"?: CheckoutPromotionConfigInput;
     "quick_pay_item"?: CheckoutQuickPayItemRequestInput;
     "redirects"?: CheckoutRedirectsConfigInput;
     "replace_checkout_session_id"?: string;
+    "subscription_plan_id"?: string;
     "surface"?: "hosted" |
     "embedded";
     "tax"?: CheckoutTaxConfigInput;
@@ -1843,19 +1823,19 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   }) & (({
     "quick_pay_item"?: never
   }) & ({
-    "plan_id"?: never
+    "subscription_plan_id"?: never
   }))) |
   (({
     "quick_pay_item": unknown;
   }) & (({
     "order_id"?: never
   }) & ({
-    "plan_id"?: never
+    "subscription_plan_id"?: never
   }) & ({
     "replace_checkout_session_id"?: never
   }))) |
   (({
-    "plan_id": unknown;
+    "subscription_plan_id": unknown;
   }) & (({
     "order_id"?: never
   }) & ({
@@ -2191,7 +2171,7 @@ Returned payload:
       "settlement" |
       (string & {
       });
-      "payment_attempt_id": string;
+      "order_payment_attempt_id": string;
       "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
       "pending_actions"?: Array<PendingPaymentAction>;
       "started_at"?: string;
@@ -2211,9 +2191,11 @@ Returned payload:
     "buyer_contact"?: {
       "email": string |
       null;
+      "is_email_cleared": boolean;
+      "is_phone_cleared": boolean;
       "phone": string |
       null;
-      "updated_at": string;
+      "updated_at"?: string;
     };
     "checkout_session_id": string;
     "closed_reason"?: string;
@@ -2381,11 +2363,11 @@ Returned payload:
       "event" |
       (string & {
       });
-      "plan_id"?: string;
       "status": "active" |
       "inactive" |
       (string & {
       });
+      "subscription_plan_id"?: string;
       "updated_at"?: string;
       "url"?: string;
     }) |
@@ -2407,7 +2389,6 @@ Returned payload:
       });
     };
     "payments"?: CheckoutPaymentConfig;
-    "plan_id"?: string;
     "problems": Array<CheckoutProblemResource>;
     "promotion_config"?: CheckoutPromotionConfig;
     "recovery_expires_at"?: string |
@@ -2429,6 +2410,7 @@ Returned payload:
     "invalidated" |
     (string & {
     });
+    "subscription_plan_id"?: string;
     "subscription_terms"?: {
       "billing_interval": "daily" |
       "weekly" |
@@ -2442,7 +2424,6 @@ Returned payload:
         "amount": string;
         "currency": string;
       };
-      "plan_id": string;
       "plan_name": string;
       "recurring_total_money": {
         "amount": string;
@@ -2452,6 +2433,7 @@ Returned payload:
         "amount": string;
         "currency": string;
       };
+      "subscription_plan_id": string;
       "trial_period_days"?: number;
     };
     "superseding_checkout_session_id"?: string;
@@ -2566,7 +2548,7 @@ Returned payload:
       "settlement" |
       (string & {
       });
-      "payment_attempt_id": string;
+      "order_payment_attempt_id": string;
       "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
       "pending_actions"?: Array<PendingPaymentAction>;
       "started_at"?: string;
@@ -2590,9 +2572,16 @@ Returned payload:
       "expires_at"?: string;
     };
     "buyer_actions": Array<BuyerAction>;
-    "buyer_email"?: string;
+    "buyer_contact"?: {
+      "email": string |
+      null;
+      "is_email_cleared": boolean;
+      "is_phone_cleared": boolean;
+      "phone": string |
+      null;
+      "updated_at"?: string;
+    };
     "buyer_note"?: string;
-    "buyer_phone"?: string;
     "charges"?: Array<OrderCharge>;
     "checkout_session_ids"?: Array<string>;
     "closed_reason"?: string;
@@ -2630,11 +2619,11 @@ Returned payload:
     "fulfillments"?: Array<Fulfillment>;
     "gift_card_estimate"?: {
       "can_pay": boolean;
-      "gift_card_money": GiftCardMoney;
+      "gift_card_money": MoneyValue;
       "gift_cards": Array<OrderGiftCardAllocation>;
       "is_reserved": boolean;
       "order_revision": string;
-      "processor_money": GiftCardMoney;
+      "processor_money": MoneyValue;
     };
     "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
     "gift_card_tender_enabled"?: boolean;
@@ -2680,7 +2669,6 @@ Returned payload:
     "paid" |
     (string & {
     });
-    "plan_id"?: string;
     "pricing_amounts": {
       "charge_money": MoneyValue;
       "discount_money": MoneyValue;
@@ -2702,6 +2690,7 @@ Returned payload:
     (string & {
     });
     "requested_tip"?: RequestedTip;
+    "return_credit_settlements"?: Array<OrderReturnCreditSettlement>;
     "settlement_amounts": {
       "balance_money": SignedMoney;
       "credit_money": MoneyValue;
@@ -2726,7 +2715,6 @@ Returned payload:
       "current_period_start"?: string;
       "customer_id": string;
       "next_billing_at"?: string;
-      "plan_id": string;
       "status": "trialing" |
       "active" |
       "paused" |
@@ -2736,6 +2724,7 @@ Returned payload:
       (string & {
       });
       "subscription_id": string;
+      "subscription_plan_id": string;
       "updated_at"?: string;
     }) |
     (null));
@@ -2753,16 +2742,17 @@ Returned payload:
       "description"?: string;
       "line_items"?: Array<SubscriptionPlanLineItem>;
       "name": string;
-      "plan_id": string;
       "setup_fee_money"?: MoneyValue;
       "status": "active" |
       "archived" |
       (string & {
       });
+      "subscription_plan_id": string;
       "trial_period_days"?: number;
       "updated_at"?: string;
     }) |
     (null));
+    "subscription_plan_id"?: string;
     "tax": {
       "automatic_profile"?: "standard" |
       "connected" |
@@ -2929,7 +2919,7 @@ Returned payload:
       "settlement" |
       (string & {
       });
-      "payment_attempt_id": string;
+      "order_payment_attempt_id": string;
       "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
       "pending_actions"?: Array<PendingPaymentAction>;
       "started_at"?: string;
@@ -2949,9 +2939,11 @@ Returned payload:
     "buyer_contact"?: {
       "email": string |
       null;
+      "is_email_cleared": boolean;
+      "is_phone_cleared": boolean;
       "phone": string |
       null;
-      "updated_at": string;
+      "updated_at"?: string;
     };
     "checkout_session_id": string;
     "closed_reason"?: string;
@@ -3119,11 +3111,11 @@ Returned payload:
       "event" |
       (string & {
       });
-      "plan_id"?: string;
       "status": "active" |
       "inactive" |
       (string & {
       });
+      "subscription_plan_id"?: string;
       "updated_at"?: string;
       "url"?: string;
     }) |
@@ -3145,7 +3137,6 @@ Returned payload:
       });
     };
     "payments"?: CheckoutPaymentConfig;
-    "plan_id"?: string;
     "problems": Array<CheckoutProblemResource>;
     "promotion_config"?: CheckoutPromotionConfig;
     "recovery_expires_at"?: string |
@@ -3167,6 +3158,7 @@ Returned payload:
     "invalidated" |
     (string & {
     });
+    "subscription_plan_id"?: string;
     "subscription_terms"?: {
       "billing_interval": "daily" |
       "weekly" |
@@ -3180,7 +3172,6 @@ Returned payload:
         "amount": string;
         "currency": string;
       };
-      "plan_id": string;
       "plan_name": string;
       "recurring_total_money": {
         "amount": string;
@@ -3190,6 +3181,7 @@ Returned payload:
         "amount": string;
         "currency": string;
       };
+      "subscription_plan_id": string;
       "trial_period_days"?: number;
     };
     "superseding_checkout_session_id"?: string;
@@ -3304,7 +3296,7 @@ Returned payload:
       "settlement" |
       (string & {
       });
-      "payment_attempt_id": string;
+      "order_payment_attempt_id": string;
       "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
       "pending_actions"?: Array<PendingPaymentAction>;
       "started_at"?: string;
@@ -3328,9 +3320,16 @@ Returned payload:
       "expires_at"?: string;
     };
     "buyer_actions": Array<BuyerAction>;
-    "buyer_email"?: string;
+    "buyer_contact"?: {
+      "email": string |
+      null;
+      "is_email_cleared": boolean;
+      "is_phone_cleared": boolean;
+      "phone": string |
+      null;
+      "updated_at"?: string;
+    };
     "buyer_note"?: string;
-    "buyer_phone"?: string;
     "charges"?: Array<OrderCharge>;
     "checkout_session_ids"?: Array<string>;
     "closed_reason"?: string;
@@ -3368,11 +3367,11 @@ Returned payload:
     "fulfillments"?: Array<Fulfillment>;
     "gift_card_estimate"?: {
       "can_pay": boolean;
-      "gift_card_money": GiftCardMoney;
+      "gift_card_money": MoneyValue;
       "gift_cards": Array<OrderGiftCardAllocation>;
       "is_reserved": boolean;
       "order_revision": string;
-      "processor_money": GiftCardMoney;
+      "processor_money": MoneyValue;
     };
     "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
     "gift_card_tender_enabled"?: boolean;
@@ -3418,7 +3417,6 @@ Returned payload:
     "paid" |
     (string & {
     });
-    "plan_id"?: string;
     "pricing_amounts": {
       "charge_money": MoneyValue;
       "discount_money": MoneyValue;
@@ -3440,6 +3438,7 @@ Returned payload:
     (string & {
     });
     "requested_tip"?: RequestedTip;
+    "return_credit_settlements"?: Array<OrderReturnCreditSettlement>;
     "settlement_amounts": {
       "balance_money": SignedMoney;
       "credit_money": MoneyValue;
@@ -3464,7 +3463,6 @@ Returned payload:
       "current_period_start"?: string;
       "customer_id": string;
       "next_billing_at"?: string;
-      "plan_id": string;
       "status": "trialing" |
       "active" |
       "paused" |
@@ -3474,6 +3472,7 @@ Returned payload:
       (string & {
       });
       "subscription_id": string;
+      "subscription_plan_id": string;
       "updated_at"?: string;
     }) |
     (null));
@@ -3491,16 +3490,17 @@ Returned payload:
       "description"?: string;
       "line_items"?: Array<SubscriptionPlanLineItem>;
       "name": string;
-      "plan_id": string;
       "setup_fee_money"?: MoneyValue;
       "status": "active" |
       "archived" |
       (string & {
       });
+      "subscription_plan_id": string;
       "trial_period_days"?: number;
       "updated_at"?: string;
     }) |
     (null));
+    "subscription_plan_id"?: string;
     "tax": {
       "automatic_profile"?: "standard" |
       "connected" |
@@ -3753,7 +3753,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### checkoutSessions.getDeliveryQuote
 
-Returns one quote under its checkout authority. Buyer credentials receive the buyer-safe projection.
+Returns a delivery quote for this checkout session. Checkout credentials receive the buyer view.
 
 `GET /v1/checkout-sessions/{checkout_session_id}/delivery-quotes/{delivery_quote_id}`
 
@@ -4033,51 +4033,6 @@ for await (const page of client.checkoutSessions.listPagesWithResponse({}, { max
   console.log(page.meta.requestId);
 }
 ```
-
-
-### checkoutSessions.queryPickupAvailability
-
-Computes a bounded, non-holding pickup-location projection from current checkout authority and one inventory snapshot. Returns up to 25 locations, nearest first when the buyer location has a coordinate or a postal code. Merchant-authenticated requests include configured Location diagnostics; checkout credentials receive only buyer-safe results.
-
-`POST /v1/checkout-sessions/{checkout_session_id}/query-pickup-availability`
-
-Call: `queryPickupAvailability(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_location"?: DeliveryBuyerLocationRequestInput; "expected_delivery_selection_id"?: string; "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput; }>) & { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)`
-
-Path arguments: `path0` = `checkout_session_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures):
-
-```typescript
-{
-  "checkout_session_id": string;
-  "X-Checkout-Session-ID"?: string;
-  "X-Checkout-Session-Secret"?: string;
-  "Flint-Version"?: string;
-  "body": {
-    "buyer_location"?: DeliveryBuyerLocationRequestInput;
-    "expected_delivery_selection_id"?: string;
-    "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
-  };
-}
-```
-
-Returned payload: `DeliveryPickupAvailability`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `checkout_session_id` | Required | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Required | object |  |
-
-Returns the payload at `data` directly. Use `queryPickupAvailabilityWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
-
-[Example](examples/checkoutSessions-queryPickupAvailability.mjs)
 
 
 ### checkoutSessions.update
@@ -6007,7 +5962,7 @@ Delivery methods combine eligibility, pricing, schedules, estimates, tax treatme
 
 `POST /v1/delivery-methods`
 
-Call: `create(params: (InputValue<({ "configuration": DeliveryMethodConfigurationCreateRequestInput; "description"?: string; "display_position"?: number; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "recommendation_priority"?: number; "status"?: "inactive" | "active"; "type": "shipment" | "local_delivery" | "pickup"; }) & (({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone_number": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day"; }) & ({ "pickup_mode"?: never }); }); "type": "shipment"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone_number": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "on_demand" | "same_day" | "scheduled"; }) & ({ "pickup_mode"?: never }); }); "type": "local_delivery"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone_number": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "origin": (({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })))) & ({ "type"?: "pickup_location_collection"; }); "public_details": ({ "pickup_mode": "in_store" | "curbside" | "locker" | "other"; }) & ({ "service_level"?: never }); }); "type": "pickup"; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "configuration": DeliveryMethodConfigurationCreateRequestInput; "description"?: string; "display_position"?: number; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "recommendation_priority"?: number; "status"?: "inactive" | "active"; "type": "shipment" | "local_delivery" | "pickup"; }) & (({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day"; }) & ({ "pickup_mode"?: never }); }); "type": "shipment"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "on_demand" | "same_day" | "scheduled"; }) & ({ "pickup_mode"?: never }); }); "type": "local_delivery"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "origin": (({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })))) & ({ "type"?: "pickup_location_collection"; }); "public_details": ({ "pickup_mode": "in_store" | "curbside" | "locker" | "other"; }) & ({ "service_level"?: never }); }); "type": "pickup"; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -6051,7 +6006,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "country"?: DeliveryCountryConditionInput;
         "customer_group"?: DeliveryCustomerGroupConditionInput;
         "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput;
+        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
         "customer_verified"?: DeliveryCustomerBooleanConditionInput;
         "not"?: DeliveryEligibilityExpressionInput;
         "postal_code"?: DeliveryPostalCodeConditionInput;
@@ -6096,7 +6051,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "customer_has_email": unknown;
       }) |
       ({
-        "customer_has_phone_number": unknown;
+        "customer_has_phone": unknown;
       }));
       "estimate"?: {
         "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
@@ -6627,7 +6582,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "country"?: DeliveryCountryConditionInput;
         "customer_group"?: DeliveryCustomerGroupConditionInput;
         "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput;
+        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
         "customer_verified"?: DeliveryCustomerBooleanConditionInput;
         "not"?: DeliveryEligibilityExpressionInput;
         "postal_code"?: DeliveryPostalCodeConditionInput;
@@ -6672,7 +6627,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "customer_has_email": unknown;
       }) |
       ({
-        "customer_has_phone_number": unknown;
+        "customer_has_phone": unknown;
       }));
       "estimate"?: {
         "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
@@ -7200,7 +7155,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "country"?: DeliveryCountryConditionInput;
         "customer_group"?: DeliveryCustomerGroupConditionInput;
         "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone_number"?: DeliveryCustomerBooleanConditionInput;
+        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
         "customer_verified"?: DeliveryCustomerBooleanConditionInput;
         "not"?: DeliveryEligibilityExpressionInput;
         "postal_code"?: DeliveryPostalCodeConditionInput;
@@ -7245,7 +7200,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "customer_has_email": unknown;
       }) |
       ({
-        "customer_has_phone_number": unknown;
+        "customer_has_phone": unknown;
       }));
       "estimate"?: {
         "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
@@ -8093,39 +8048,88 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### deliveryPreviews.create
 
-Computes exact display-only delivery outcomes without persisting a resource, holding inventory, or granting selection authority.
+Computes delivery options with mode delivery_options or up to 25 pickup locations with mode pickup_locations. Creates no resource, holds no inventory, and does not change the current selection. Pickup locations are nearest first when a buyer location is provided. Merchant callers receive diagnostics. Checkout credentials may use only pickup_locations for their own checkout session.
 
 `POST /v1/delivery-previews`
 
-Call: `create(params: (InputValue<{ "buyer_location"?: DeliveryBuyerLocationRequestInput; "currency": string; "delivery_method_ids": Array<string>; "destination_address"?: DeliveryAddressRequestInput; "inventory_routing_source"?: DeliveryPreviewRoutingSourceInput; "line_items": Array<CreateOrderLineItemInput>; "pickup_location_id"?: string; "pricing_context"?: Record<string, string>; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
-
-Path arguments: none. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures):
+Input:
 
 ```typescript
 {
+  "X-Checkout-Session-ID"?: string;
+  "X-Checkout-Session-Secret"?: string;
   "Flint-Version"?: string;
-  "body": {
+  "body": (({
     "buyer_location"?: DeliveryBuyerLocationRequestInput;
     "currency": string;
     "delivery_method_ids": Array<string>;
     "destination_address"?: DeliveryAddressRequestInput;
     "inventory_routing_source"?: DeliveryPreviewRoutingSourceInput;
     "line_items": Array<CreateOrderLineItemInput>;
+    "mode": "delivery_options";
     "pickup_location_id"?: string;
     "pricing_context"?: Record<string,
     string>;
-  };
+  }) |
+  ({
+    "buyer_location"?: DeliveryBuyerLocationRequestInput;
+    "checkout_session_id": string;
+    "expected_delivery_selection_id"?: string |
+    null;
+    "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
+    "mode": "pickup_locations";
+  }));
 }
 ```
 
-Returned payload: `DeliveryPreview`
+Returned payload:
+
+```typescript
+(({
+  "buyer_location"?: DeliveryBuyerLocationResource;
+  "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
+  "currency": string;
+  "delivery_method_ids": Array<string>;
+  "destination_address"?: DeliveryAddressResource;
+  "evaluated_at": string;
+  "evaluation_status": "complete" |
+  "incomplete" |
+  "degraded" |
+  (string & {
+  });
+  "expires_at": string;
+  "input_requirements": Array<DeliveryInputRequirement>;
+  "line_items": Array<CreateOrderLineItem>;
+  "merchant_diagnostics": Array<DeliveryMerchantDiagnostic>;
+  "mode": "delivery_options";
+  "pickup_location_id"?: string;
+  "selection_authority": boolean;
+}) |
+ ({
+  "audience": "buyer" |
+  "merchant" |
+  (string & {
+  });
+  "evaluated_at": string;
+  "evaluation_status": "complete" |
+  "incomplete" |
+  "degraded" |
+  (string & {
+  });
+  "input_requirements": Array<DeliveryInputRequirement>;
+  "locations": Array<DeliveryPickupAvailabilityLocationResource>;
+  "merchant_diagnostics"?: Array<DeliveryPickupAvailabilityDiagnostic>;
+  "mode": "pickup_locations";
+}) |
+ (object))
+```
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Required | object |  |
+| `body` | Required | Alternative shapes (see declared variants) |  |
 
 Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -9374,7 +9378,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### demoSessions.reset
 
-Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client daily limit as creation.
+Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client email failure limit as creation.
 
 `POST /v1/demo-sessions/reset`
 
@@ -9410,7 +9414,7 @@ Creates a partner app owned by the authenticated merchant. Use a developer setup
 
 `POST /v1/developer/partner/apps`
 
-Call: `createPartnerApp(params: (InputValue<{ "api_version"?: string; "app_type"?: string; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)`
+Call: `createPartnerApp(params: (InputValue<{ "api_version"?: string; "app_type"?: "server" | "plugin"; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -9423,7 +9427,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": {
     "api_version"?: string;
-    "app_type"?: string;
+    "app_type"?: "server" |
+    "plugin";
     "default_requested_permissions"?: Array<string>;
     "name": string;
     "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>;
@@ -10155,7 +10160,7 @@ Revokes a partner app install and all of its environment grants.
 
 `POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/revoke`
 
-Call: `revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)`
+Call: `revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `partner_app_id`, `path1` = `partner_app_install_id`. Params contain flat body fields and query/header fields.
 
@@ -10183,7 +10188,7 @@ Returned payload: `PartnerAppInstall`
 
 Returns the payload at `data` directly. Use `revokePartnerAppInstallWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
 
@@ -10198,7 +10203,7 @@ Revokes a single test or live environment grant for a partner app install.
 
 `POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke`
 
-Call: `revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)`
+Call: `revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `partner_app_id`, `path1` = `partner_app_install_id`, `path2` = `environment_grant_id`. Params contain flat body fields and query/header fields.
 
@@ -10228,7 +10233,7 @@ Returned payload: `PartnerAppInstall`
 
 Returns the payload at `data` directly. Use `revokePartnerEnvironmentGrantWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
 
@@ -10243,7 +10248,7 @@ Rotates the client secret for a partner app owned by the authenticated merchant.
 
 `POST /v1/developer/partner/apps/{partner_app_id}/rotate-secret`
 
-Call: `rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)`
+Call: `rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `partner_app_id`. Params contain flat body fields and query/header fields.
 
@@ -10260,7 +10265,7 @@ Returned payload: `PartnerAppSecretRotationResult`
 
 Returns the payload at `data` directly. Use `rotatePartnerAppSecretWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
 
@@ -10570,6 +10575,52 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/devices-update.mjs)
+
+
+## Resource: discountPreviews
+
+### discountPreviews.create
+
+Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
+
+`POST /v1/discount-previews`
+
+Call: `create(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "X-Request-Id"?: string;
+  "X-Checkout-Session-ID"?: string;
+  "X-Checkout-Session-Secret"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "discount"?: CreateOrderDiscountInput;
+    "order_id": string;
+  };
+}
+```
+
+Returned payload: `DiscountPreview`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `X-Request-Id` | Optional | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/discountPreviews-create.mjs)
 
 
 ## Resource: disputes
@@ -11770,14 +11821,14 @@ Input:
     "completed_at"?: string |
     globalThis.Date;
     "expected_version"?: string;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "cancel";
     "buyer_notification_behavior"?: "send" |
     "suppress";
     "expected_version"?: string;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "hold";
@@ -11802,7 +11853,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_ready";
@@ -11811,7 +11862,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "fail";
@@ -11820,7 +11871,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
     "release_quantity": boolean;
   }) |
   ({
@@ -11830,7 +11881,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
     "scheduled_end_at": string |
     globalThis.Date;
     "scheduled_start_at": string |
@@ -11844,7 +11895,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_preparing";
@@ -11853,7 +11904,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_picked";
@@ -11862,7 +11913,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_packed";
@@ -11871,7 +11922,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "dispatch";
@@ -11880,7 +11931,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_no_show";
@@ -11925,7 +11976,7 @@ Updates mutable fulfillment fields and fulfillment-specific details. Fulfillment
 
 `PATCH /v1/fulfillments/{fulfillment_id}`
 
-Call: `update(fulfillment_id: InputValue<string>, params: (InputValue<({ "completed_at"?: string | globalThis.Date | null; "customer_id"?: string | null; "device_id"?: string | null; "digital_details"?: (({ "delivered_at"?: string | globalThis.Date | null; "delivery_url"?: string | null; }) | (null)); "expected_version"?: string; "external_reference_id"?: string; "local_delivery_details"?: (({ "carrier"?: string | null; "courier_pickup_at"?: string | globalThis.Date | null; "courier_pickup_window_duration_seconds"?: string | null; "courier_provider_name"?: string | null; "courier_support_phone_number"?: string | null; "delivered_at"?: string | globalThis.Date | null; "dispatched_at"?: string | globalThis.Date | null; "dropoff_notes"?: string | null; "expires_at"?: string | globalThis.Date | null; "external_delivery_id"?: string | null; "instructions"?: string | null; "no_contact"?: boolean | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "service_area_id"?: string | null; "timezone"?: string; "tracking_url"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "location_id"?: string | null; "metadata"?: Record<string, string | null> | null; "pickup_details"?: (({ "address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "curbside_instructions"?: string | null; "customer_arrived_at"?: string | globalThis.Date | null; "expires_at"?: string | globalThis.Date | null; "instructions"?: string | null; "location_name"?: string | null; "picked_up_at"?: string | globalThis.Date | null; "pickup_window_duration_seconds"?: string | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "timezone"?: string; "vehicle_description"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "recipient"?: (({ "address"?: PostalAddressInput; "email"?: string; "instructions"?: string; "name"?: string; "phone"?: string; }) | (null)); "service_details"?: (({ "completed_at"?: string | globalThis.Date | null; "notes"?: string | null; "scheduled_end_at"?: string | globalThis.Date | null; "scheduled_start_at"?: string | globalThis.Date | null; "timezone"?: string; }) | (null)); }) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(fulfillment_id: InputValue<string>, params: (InputValue<({ "completed_at"?: string | globalThis.Date | null; "customer_id"?: string | null; "device_id"?: string | null; "digital_details"?: (({ "delivered_at"?: string | globalThis.Date | null; "delivery_url"?: string | null; }) | (null)); "expected_version"?: string; "external_reference_id"?: string; "local_delivery_details"?: (({ "carrier"?: string | null; "courier_pickup_at"?: string | globalThis.Date | null; "courier_pickup_window_duration_seconds"?: string | null; "courier_provider_name"?: string | null; "courier_support_phone"?: string | null; "delivered_at"?: string | globalThis.Date | null; "dispatched_at"?: string | globalThis.Date | null; "dropoff_notes"?: string | null; "expires_at"?: string | globalThis.Date | null; "external_delivery_id"?: string | null; "instructions"?: string | null; "no_contact"?: boolean | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "service_area_id"?: string | null; "timezone"?: string; "tracking_url"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "location_id"?: string | null; "metadata"?: Record<string, string | null> | null; "pickup_details"?: (({ "address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "curbside_instructions"?: string | null; "customer_arrived_at"?: string | globalThis.Date | null; "expires_at"?: string | globalThis.Date | null; "instructions"?: string | null; "location_name"?: string | null; "picked_up_at"?: string | globalThis.Date | null; "pickup_window_duration_seconds"?: string | null; "prep_time_duration_seconds"?: string | null; "ready_at"?: string | globalThis.Date | null; "timezone"?: string; "vehicle_description"?: string | null; "window_end_at"?: string | globalThis.Date | null; "window_start_at"?: string | globalThis.Date | null; }) | (null)); "recipient"?: (({ "address"?: PostalAddressInput; "email"?: string; "instructions"?: string; "name"?: string; "phone"?: string; }) | (null)); "service_details"?: (({ "completed_at"?: string | globalThis.Date | null; "notes"?: string | null; "scheduled_end_at"?: string | globalThis.Date | null; "scheduled_start_at"?: string | globalThis.Date | null; "timezone"?: string; }) | (null)); }) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `fulfillment_id`. Params contain flat body fields and query/header fields.
 
@@ -11965,7 +12016,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       null;
       "courier_provider_name"?: string |
       null;
-      "courier_support_phone_number"?: string |
+      "courier_support_phone"?: string |
       null;
       "delivered_at"?: string |
       globalThis.Date |
@@ -12127,7 +12178,7 @@ Posts a relative correction with a typed reason and separate administrative auth
 
 `POST /v1/gift-cards/{gift_card_id}/adjustments`
 
-Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": SignedMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
 
@@ -12140,7 +12191,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": {
-    "amount_money": GiftCardMoneyInput;
+    "amount_money": SignedMoneyInput;
     "expected_version"?: string;
     "reason": "complimentary" |
     "balance_accidentally_decreased" |
@@ -12180,7 +12231,7 @@ Records cash that the merchant attests it paid to the cardholder. Flint does not
 
 `POST /v1/gift-cards/{gift_card_id}/cash-outs`
 
-Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
 
@@ -12193,7 +12244,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": {
-    "amount_money": GiftCardMoneyInput;
+    "amount_money": MoneyValueInput;
     "expected_version"?: string;
     "external_reference_id": string;
   };
@@ -12221,39 +12272,51 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/giftCardCashOuts-create.mjs)
 
 
-## Resource: giftCardFundingDisputes
+## Resource: giftCardFundingDispositions
 
-### giftCardFundingDisputes.honorValue
+### giftCardFundingDispositions.create
 
-Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment, including replacement refund lots. Records the dispute amount, original gift card consideration, honored value and preserved reservations. Clears only this dispute restriction; balances, unrelated restrictions and unresolved payment reservations remain intact. Requires gift card adjustment authority and a durable Idempotency-Key.
+Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment, including value restored to replacement cards. Records the dispute amount, original gift card consideration, honored value and preserved reservations. Clears only this dispute restriction; balances, unrelated restrictions and unresolved payment reservations remain intact. Requires gift card adjustment authority and a durable Idempotency-Key.
 
-`POST /v1/gift-card-funding-disputes/{dispute_id}/honor-value`
+`POST /v1/gift-card-funding-dispositions`
 
-Call: `honorValue(dispute_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
-Path arguments: `path0` = `dispute_id`. Params contain flat body fields and query/header fields.
+Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "X-Request-Id"?: string; "dispute_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "reason": string; }; }`
+Canonical input schema (for configuration examples and HTTP fixtures):
 
-Returned payload: `GiftCardCommandResult`
+```typescript
+{
+  "X-Request-Id"?: string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "disposition": "honor_value";
+    "dispute_id": string;
+    "reason_message": string;
+  };
+}
+```
+
+Returned payload: `GiftCardFundingDisposition`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
-| `dispute_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Required | object |  |
 
-Returns the payload at `data` directly. Use `honorValueWithResponse` for `body`, `meta` and `raw` without unwrapping.
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
 
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+Idempotency header: Idempotency-Key; retention: Keys are retained for the ledger's lifetime.; scope: Endpoint-defined command identity. Required durable command identity. Reuse this key after a lost or unconfirmed response; its identity is retained for the ledger's lifetime..
 
-[Example](examples/giftCardFundingDisputes-honorValue.mjs)
+[Example](examples/giftCardFundingDispositions-create.mjs)
 
 
 ## Resource: giftCardLoads
@@ -12264,7 +12327,7 @@ Adds positive value with separately recorded consideration and funding provenanc
 
 `POST /v1/gift-cards/{gift_card_id}/loads`
 
-Call: `create(gift_card_id: InputValue<string>, params: (InputValue<({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; })) | (null)); "expected_version"?: string; "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); }) & ((({ "consideration_money": GiftCardMoneyInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": "USD"; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(gift_card_id: InputValue<string>, params: (InputValue<({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "expected_version"?: string; "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
 
@@ -12281,7 +12344,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "amount"?: string;
     }) & ({
       "amount": string;
-      "currency": "USD";
+      "currency": string;
     })) |
     (null));
     "expected_version"?: string;
@@ -12353,10 +12416,10 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "amount"?: string;
     }) & ({
       "amount": string;
-      "currency": "USD";
+      "currency": string;
     });
   }) & ((({
-    "consideration_money": GiftCardMoneyInput;
+    "consideration_money": MoneyValueInput;
     "source": null |
     boolean |
     number |
@@ -12372,7 +12435,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   ({
     "consideration_money"?: (({
       "amount": string;
-      "currency": "USD";
+      "currency": string;
     }) |
     (null));
     "source": null |
@@ -12443,7 +12506,7 @@ Lists funding lots in descending ID order. Consideration may be null for importe
 
 `GET /v1/gift-card-loads`
 
-Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_id"?: InputValue<string>; "source_type"?: InputValue<"adjustment" | "external_payment" | "flint_manual_payment" | "flint_payment" | "gift_card_purchase_refund_recovery" | "gift_card_refund" | "import">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_id"?: InputValue<string>; "source_type"?: InputValue<"adjustment" | "external_payment" | "flint_manual_payment" | "flint_payment" | "gift_card_purchase_refund_recovery" | "gift_card_refund" | "import">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -12452,7 +12515,9 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 ```typescript
 {
   "X-Request-Id"?: string;
-  "from_at"?: string |
+  "created_after"?: string |
+  globalThis.Date;
+  "created_before"?: string |
   globalThis.Date;
   "gift_card_id"?: string;
   "idempotency_key"?: string;
@@ -12467,8 +12532,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "gift_card_purchase_refund_recovery" |
   "gift_card_refund" |
   "import";
-  "until_at"?: string |
-  globalThis.Date;
   "Flint-Version"?: string;
 }
 ```
@@ -12478,7 +12541,8 @@ Returned payload: `{ "data": Array<GiftCardLoad>; "meta"?: ResponseMeta; "next_p
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
-| `from_at` | Optional | string | Format: `date-time`. |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
 | `idempotency_key` | Optional | string | maxLength: `255`. |
 | `order_id` | Optional | string | maxLength: `255`. |
@@ -12486,7 +12550,6 @@ Returned payload: `{ "data": Array<GiftCardLoad>; "meta"?: ResponseMeta; "next_p
 | `page_token` | Optional | string |  |
 | `source_id` | Optional | string | maxLength: `255`. |
 | `source_type` | Optional | string | maxLength: `255`. Values: [7 declared values](#giftcardloadslist-input-source_type-values). |
-| `until_at` | Optional | string | Format: `date-time`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 #### giftCardLoads.list input source_type values
@@ -12672,7 +12735,7 @@ Lists recipient notification identities, schedules and delivery outcomes. No red
 
 `GET /v1/gift-card-notifications`
 
-Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unknown">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"bounced" | "canceled" | "failed" | "queued" | "scheduled" | "sending" | "sent" | "unconfirmed">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -12681,7 +12744,9 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 ```typescript
 {
   "X-Request-Id"?: string;
-  "from_at"?: string |
+  "created_after"?: string |
+  globalThis.Date;
+  "created_before"?: string |
   globalThis.Date;
   "gift_card_id"?: string;
   "page_size"?: number;
@@ -12693,9 +12758,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "scheduled" |
   "sending" |
   "sent" |
-  "unknown";
-  "until_at"?: string |
-  globalThis.Date;
+  "unconfirmed";
   "Flint-Version"?: string;
 }
 ```
@@ -12705,12 +12768,12 @@ Returned payload: `{ "data": Array<GiftCardNotification>; "meta"?: ResponseMeta;
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
-| `from_at` | Optional | string | Format: `date-time`. |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
-| `status` | Optional | string | maxLength: `255`. Values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unknown"`. |
-| `until_at` | Optional | string | Format: `date-time`. |
+| `status` | Optional | string | maxLength: `255`. Values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -12869,7 +12932,7 @@ Posts an exact amount automatically or reserves it for one full manual capture. 
 
 `POST /v1/gift-card-redemptions`
 
-Call: `create(params: (InputValue<({ "amount_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); "capture_mode": "automatic" | "manual"; "expected_version"?: string; "expires_at"?: string | globalThis.Date; "external_reference_id": string; "gift_card_id": string; }) & ((({ "capture_mode": ("automatic") & ("automatic"); }) & ({ "expires_at"?: never })) | ({ "capture_mode": ("manual") & ("manual"); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "amount_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "capture_mode": "automatic" | "manual"; "expected_version"?: string; "expires_at"?: string | globalThis.Date; "external_reference_id": string; "gift_card_id": string; }) & ((({ "capture_mode": ("automatic") & ("automatic"); }) & ({ "expires_at"?: never })) | ({ "capture_mode": ("manual") & ("manual"); }))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -12885,7 +12948,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "amount"?: string;
     }) & ({
       "amount": string;
-      "currency": "USD";
+      "currency": string;
     });
     "capture_mode": "automatic" |
     "manual";
@@ -12960,7 +13023,7 @@ Lists reservations and captured redemptions in descending ID order. Retrieve by 
 
 `GET /v1/gift-card-redemptions`
 
-Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_type"?: InputValue<"external" | "flint_order">; "status"?: InputValue<"canceled" | "captured" | "expired" | "reserved">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_type"?: InputValue<"external" | "flint_order">; "status"?: InputValue<"canceled" | "captured" | "expired" | "reserved">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -12969,9 +13032,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 ```typescript
 {
   "X-Request-Id"?: string;
-  "external_reference_id"?: string;
-  "from_at"?: string |
+  "created_after"?: string |
   globalThis.Date;
+  "created_before"?: string |
+  globalThis.Date;
+  "external_reference_id"?: string;
   "gift_card_id"?: string;
   "idempotency_key"?: string;
   "order_id"?: string;
@@ -12983,8 +13048,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "captured" |
   "expired" |
   "reserved";
-  "until_at"?: string |
-  globalThis.Date;
   "Flint-Version"?: string;
 }
 ```
@@ -12994,8 +13057,9 @@ Returned payload: `{ "data": Array<GiftCardRedemption>; "meta"?: ResponseMeta; "
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `from_at` | Optional | string | Format: `date-time`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
 | `idempotency_key` | Optional | string | maxLength: `255`. |
 | `order_id` | Optional | string | maxLength: `255`. |
@@ -13003,7 +13067,6 @@ Returned payload: `{ "data": Array<GiftCardRedemption>; "meta"?: ResponseMeta; "
 | `page_token` | Optional | string |  |
 | `source_type` | Optional | string | maxLength: `255`. Values: `"external"`, `"flint_order"`. |
 | `status` | Optional | string | maxLength: `255`. Values: `"canceled"`, `"captured"`, `"expired"`, `"reserved"`. |
-| `until_at` | Optional | string | Format: `date-time`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -13072,7 +13135,7 @@ Creates a merchant-issued USD gift card with optional paid funding or imported o
 
 `POST /v1/gift-cards`
 
-Call: `create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": "USD"; }); }) & ((({ "consideration_money": GiftCardMoneyInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": "USD"; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -13092,7 +13155,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "amount"?: string;
       }) & ({
         "amount": string;
-        "currency": "USD";
+        "currency": string;
       })) |
       (null));
       "source": ({
@@ -13163,10 +13226,10 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "amount"?: string;
       }) & ({
         "amount": string;
-        "currency": "USD";
+        "currency": string;
       });
     }) & ((({
-      "consideration_money": GiftCardMoneyInput;
+      "consideration_money": MoneyValueInput;
       "source": null |
       boolean |
       number |
@@ -13182,7 +13245,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     ({
       "consideration_money"?: (({
         "amount": string;
-        "currency": "USD";
+        "currency": string;
       }) |
       (null));
       "source": null |
@@ -13261,7 +13324,7 @@ Lists gift cards in descending ID order within the authenticated merchant and en
 
 `GET /v1/gift-cards`
 
-Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending">; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -13270,9 +13333,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 ```typescript
 {
   "X-Request-Id"?: string;
-  "external_reference_id"?: string;
-  "from_at"?: string |
+  "created_after"?: string |
   globalThis.Date;
+  "created_before"?: string |
+  globalThis.Date;
+  "external_reference_id"?: string;
   "gift_card_id"?: string;
   "page_size"?: number;
   "page_token"?: string;
@@ -13280,8 +13345,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "closed" |
   "frozen" |
   "pending";
-  "until_at"?: string |
-  globalThis.Date;
   "Flint-Version"?: string;
 }
 ```
@@ -13291,13 +13354,13 @@ Returned payload: `{ "data": Array<GiftCard>; "meta"?: ResponseMeta; "next_page_
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `from_at` | Optional | string | Format: `date-time`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
 | `status` | Optional | string | maxLength: `255`. Values: `"active"`, `"closed"`, `"frozen"`, `"pending"`. |
-| `until_at` | Optional | string | Format: `date-time`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -13389,7 +13452,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### giftCards.rotateCode
 
-Invalidates the old bearer credential and generates a new code for the same gift card. Balances, funding, reservations and refund history are preserved. The operation requires secret replacement authority. Include notification to explicitly send the new private recipient link with recipient notification authority. Retired links cannot open the current code.
+Invalidates the old bearer credential and generates a new code for the same gift card. Balances, funding, reservations and refund history are preserved. Requires commerce.gift_cards.secrets.write. Include notification to send the new private recipient link. Retired links cannot open the current code.
 
 `POST /v1/gift-cards/{gift_card_id}/rotate-code`
 
@@ -13556,7 +13619,7 @@ Lists immutable financial entries across the merchant in ascending merchant_sequ
 
 `GET /v1/gift-card-transactions`
 
-Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "from_at"?: InputValue<string | globalThis.Date>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "source_id"?: InputValue<string>; "source_type"?: InputValue<string>; "until_at"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "X-Request-Id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "posted_after"?: InputValue<string | globalThis.Date>; "posted_before"?: InputValue<string | globalThis.Date>; "source_id"?: InputValue<string>; "source_type"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -13566,17 +13629,17 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 {
   "X-Request-Id"?: string;
   "external_reference_id"?: string;
-  "from_at"?: string |
-  globalThis.Date;
   "gift_card_id"?: string;
   "idempotency_key"?: string;
   "order_id"?: string;
   "page_size"?: number;
   "page_token"?: string;
+  "posted_after"?: string |
+  globalThis.Date;
+  "posted_before"?: string |
+  globalThis.Date;
   "source_id"?: string;
   "source_type"?: string;
-  "until_at"?: string |
-  globalThis.Date;
   "Flint-Version"?: string;
 }
 ```
@@ -13587,15 +13650,15 @@ Returned payload: `{ "data": Array<GiftCardTransaction>; "meta"?: ResponseMeta; 
 | --- | --- | --- | --- |
 | `X-Request-Id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
-| `from_at` | Optional | string | Format: `date-time`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
 | `idempotency_key` | Optional | string | maxLength: `255`. |
 | `order_id` | Optional | string | maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
+| `posted_after` | Optional | string | Format: `date-time`. |
+| `posted_before` | Optional | string | Format: `date-time`. |
 | `source_id` | Optional | string | maxLength: `255`. |
 | `source_type` | Optional | string | maxLength: `255`. |
-| `until_at` | Optional | string | Format: `date-time`. |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -13883,9 +13946,37 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/inventoryAllocationPolicies-create.mjs)
 
 
+### inventoryAllocationPolicies.get
+
+Retrieve an allocation policy by ID, including archived policies.
+
+`GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
+
+Call: `get(inventory_allocation_policy_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `inventory_allocation_policy_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "inventory_allocation_policy_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `InventoryAllocationPolicy`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_allocation_policy_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/inventoryAllocationPolicies-get.mjs)
+
+
 ### inventoryAllocationPolicies.list
 
-List inventory allocation policies.
+List allocation policies. Archived policies are excluded unless you filter by status archived.
 
 `GET /v1/inventory-allocation-policies`
 
@@ -13979,7 +14070,7 @@ for await (const page of client.inventoryAllocationPolicies.listPagesWithRespons
 
 ### inventoryAllocationPolicies.remove
 
-Retire an allocation policy. keeps the archived resource available in list results.
+Retire an allocation policy. The policy is archived: it stays readable by ID and appears in lists only when you filter by status archived.
 
 `DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}`
 
@@ -14375,9 +14466,37 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/inventoryItems-create.mjs)
 
 
+### inventoryItems.get
+
+Retrieve an inventory item by ID, including archived items.
+
+`GET /v1/inventory-items/{inventory_item_id}`
+
+Call: `get(inventory_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `inventory_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "inventory_item_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `InventoryItem`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_item_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/inventoryItems-get.mjs)
+
+
 ### inventoryItems.list
 
-List inventory items.
+List inventory items. Archived items are excluded unless you filter by status archived.
 
 `GET /v1/inventory-items`
 
@@ -14475,7 +14594,7 @@ for await (const page of client.inventoryItems.listPagesWithResponse({}, { maxPa
 
 ### inventoryItems.remove
 
-Retire an inventory item. keeps the archived resource available in list results.
+Retire an inventory item. The item is archived: it stays readable by ID and appears in lists only when you filter by status archived.
 
 `DELETE /v1/inventory-items/{inventory_item_id}`
 
@@ -14507,7 +14626,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### inventoryItems.update
 
-Update an inventory item. accepts status active or inactive. Send sku or barcode as null to clear.
+Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to clear.
 
 `PATCH /v1/inventory-items/{inventory_item_id}`
 
@@ -14679,7 +14798,7 @@ for await (const page of client.inventoryLevels.listPagesWithResponse({}, { maxP
 
 ### inventoryLevels.update
 
-Set one inventory level's safety_stock_quantity. returns the updated level with durable command evidence.
+Set one inventory level's safety_stock_quantity. Returns the updated level with durable command evidence.
 
 `PATCH /v1/inventory-levels/{inventory_level_id}`
 
@@ -16520,6 +16639,123 @@ for await (const page of client.invoices.listPagesWithResponse({}, { maxPages: 1
 ```
 
 
+### invoices.listActivities
+
+Returns a read-only history of an invoice for timelines and debugging, newest first. Use sort_direction=asc for chronological order. Read the invoice and the resources each row references for authoritative state.
+
+`GET /v1/invoices/{invoice_id}/activities`
+
+Call: `listActivities(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "invoice_id": string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "sort_direction"?: "asc" |
+  "desc";
+  "type"?: Array<"draft_created" |
+  "issued" |
+  "sent" |
+  "delivery_sent" |
+  "reminder_sent" |
+  "viewed" |
+  "payment_attempt_started" |
+  "payment_applied" |
+  "manual_payment_recorded" |
+  "manual_payment_reversed" |
+  "refund_succeeded" |
+  "voided" |
+  "token_regenerated" |
+  "collection_blocked" |
+  "collection_block_resolved" |
+  "updated" |
+  "marked_uncollectible" |
+  "payment_processing" |
+  "issue_failed" |
+  "overdue" |
+  "reminder_due" |
+  "late_fee_due" |
+  "late_fee_assessed" |
+  "late_fee_waived" |
+  "credited">;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<InvoiceActivity>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
+| `type` | Optional | Array of string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listActivitiesWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/invoices-listActivities.mjs)
+
+#### invoices.listActivitiesItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.invoices.listActivitiesItems("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### invoices.listActivitiesPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.invoices.listActivitiesPages("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### invoices.listActivitiesPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.invoices.listActivitiesPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
 ### invoices.listDeliveryAttempts
 
 Returns email delivery attempts for send and reminder actions.
@@ -16593,85 +16829,6 @@ const client = new Client({
   token: process.env.API_TOKEN ?? '',
 });
 for await (const page of client.invoices.listDeliveryAttemptsPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
-  console.log(page["body"]["data"]);
-  console.log(page.meta.requestId);
-}
-```
-
-
-### invoices.listEvents
-
-Returns the audit timeline for an invoice.
-
-`GET /v1/invoices/{invoice_id}/events`
-
-Call: `listEvents(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
-
-Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "invoice_id": string; "page_size"?: number; "page_token"?: string; "Flint-Version"?: string; }`
-
-Returned payload: `{ "data": Array<InvoiceEvent>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
-| `page_token` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-
-Returns the complete decoded body directly. Use `listEventsWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
-
-[Example](examples/invoices-listEvents.mjs)
-
-#### invoices.listEventsItems
-
-Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
-
-```typescript
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
-const client = new Client({
-  baseUrl: clientBaseUrl,
-  token: process.env.API_TOKEN ?? '',
-});
-for await (const item of client.invoices.listEventsItems("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
-  console.log(item);
-}
-```
-
-#### invoices.listEventsPages
-
-Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
-
-```typescript
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
-const client = new Client({
-  baseUrl: clientBaseUrl,
-  token: process.env.API_TOKEN ?? '',
-});
-for await (const page of client.invoices.listEventsPages("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
-  console.log(page["data"]);
-}
-```
-
-#### invoices.listEventsPagesWithResponse
-
-Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
-
-```typescript
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
-const client = new Client({
-  baseUrl: clientBaseUrl,
-  token: process.env.API_TOKEN ?? '',
-});
-for await (const page of client.invoices.listEventsPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["body"]["data"]);
   console.log(page.meta.requestId);
 }
@@ -16803,38 +16960,6 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/invoices-markUncollectible.mjs)
 
 
-### invoices.pauseReminders
-
-Stops the automatic reminder cadence on a collectible invoice and sets reminders_paused_at. Manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire.
-
-`POST /v1/invoices/{invoice_id}/pause-reminders`
-
-Call: `pauseReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
-
-Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "invoice_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "expected_version"?: string; }; }`
-
-Returned payload: `Invoice`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Optional | object |  |
-
-Returns the payload at `data` directly. Use `pauseRemindersWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
-
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
-
-[Example](examples/invoices-pauseReminders.mjs)
-
-
 ### invoices.recordManualPayment
 
 Applies an offline/manual payment to an issued invoice. Recording is rejected with INVOICE_PAYMENT_RESOLVING while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
@@ -16930,38 +17055,6 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/invoices-regeneratePublicLink.mjs)
 
 
-### invoices.resumeReminders
-
-Clears reminders_paused_at so the invoice resumes its reminder cadence. Reminder times that passed while it was paused do not fire retroactively.
-
-`POST /v1/invoices/{invoice_id}/resume-reminders`
-
-Call: `resumeReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
-
-Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "invoice_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "expected_version"?: string; }; }`
-
-Returned payload: `Invoice`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Optional | object |  |
-
-Returns the payload at `data` directly. Use `resumeRemindersWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
-
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
-
-[Example](examples/invoices-resumeReminders.mjs)
-
-
 ### invoices.reverseManualPayment
 
 Reverses previously applied manual/offline payment amount from an invoice. Safe to retry with the same Idempotency-Key.
@@ -17046,11 +17139,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### invoices.update
 
-Updates mutable fields on a draft invoice. Sent invoices are immutable except for delivery-related actions.
+Updates mutable fields on a draft invoice. After issue, the only writable field is reminders_paused, which pauses or resumes automatic reminders on an open or partially paid invoice.
 
 `PATCH /v1/invoices/{invoice_id}`
 
-Call: `update(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "reminders_paused"?: boolean; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -17077,6 +17170,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "po_number"?: string;
     "recipient_email"?: string;
     "reference"?: string;
+    "reminders_paused"?: boolean;
     "remit_to_address"?: PostalAddressInput;
     "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>;
     "scheduled_send_at"?: string |
@@ -17164,7 +17258,7 @@ Waives the unpaid remainder of an assessed late fee. Collected money is not refu
 
 `POST /v1/invoices/{invoice_id}/late-fees/{invoice_late_fee_id}/waive`
 
-Call: `waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason_message": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `invoice_id`, `path1` = `invoice_late_fee_id`. Params contain flat body fields and query/header fields.
 
@@ -17177,7 +17271,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": {
-    "reason": string;
+    "reason_message": string;
   };
 }
 ```
@@ -17615,7 +17709,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### me.cancelSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Response may include advisory contract information.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities.
 
 `POST /v1/me/subscriptions/{subscription_id}/cancel`
 
@@ -17646,7 +17740,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 }
 ```
 
-Returned payload: `CancelSubscriptionResult`
+Returned payload: `Subscription`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -17869,6 +17963,37 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-createEmailChangeRequest.mjs)
 
 
+### me.createFlintWalletStoreSetup
+
+Records the buyer's consent to save an independent store copy for off-session payments, including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer login and an enabled Flint wallet at a Flint-hosted store account. Supply an id from listMeFlintWalletPaymentMethods. Confirm client_setup with Stripe.js confirmSetup, then poll GET /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through /v1/me/subscriptions/{subscription_id}/payment-method. Setup may request authentication. Removing the platform card or revoking store consent blocks the copy immediately. Idempotency-Key is required and scoped to the store, customer, card handle, and key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are refused. Get new consent and use a new key to create another copy. Retry a lost response with the same key. Concurrent requests for the same card at this store share one copy and setup. A failed off-session charge can still require the buyer to return through the existing card-update link. Accept an empty body or {}.
+
+`POST /v1/me/flint-wallet/payment-methods/{id}/store-setups`
+
+Call: `createFlintWalletStoreSetup(id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `MeFlintWalletStoreSetup`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `createFlintWalletStoreSetupWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Responses are retained for 24 hours.; scope: Endpoint-defined command identity. Required durable identity for this store card setup, scoped to the store, buyer, card handle and key..
+
+[Example](examples/me-createFlintWalletStoreSetup.mjs)
+
+
 ### me.createInvoiceCheckoutSession
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
@@ -17894,7 +18019,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 }
 ```
 
-Returned payload: `InvoiceCheckoutSessionResult | InvoiceCheckoutSessionResult`
+Returned payload: `BuyerInvoiceCheckoutSessionResult | BuyerInvoiceCheckoutSessionResult`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -18015,19 +18140,19 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
-`POST /v1/me/return-resolutions/{resolution_id}/checkout-session`
+`POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `createReturnResolutionCheckoutSession(resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+Call: `createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
 
-Path arguments: `path0` = `resolution_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "return_url"?: string; }; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "return_resolution_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "return_url"?: string; }; }`
 
 Returned payload: `CheckoutSessionLaunchResult`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `resolution_id` | Required | string |  |
+| `return_resolution_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Optional | object |  |
@@ -18041,6 +18166,39 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-createReturnResolutionCheckoutSession.mjs)
+
+
+### me.createSubscriptionPaymentRetry
+
+Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
+
+`POST /v1/me/subscriptions/{subscription_id}/payment-retries`
+
+Call: `createSubscriptionPaymentRetry(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body"?: {  }; }`
+
+Returned payload: `BuyerSubscriptionPaymentRetry`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
+
+Returns the payload at `data` directly. Use `createSubscriptionPaymentRetryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
+
+[Example](examples/me-createSubscriptionPaymentRetry.mjs)
 
 
 ### me.deleteAddress
@@ -18441,6 +18599,35 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 [Example](examples/me-getSubscription.mjs)
 
 
+### me.getSubscriptionPaymentRetry
+
+Uses the customer identity fixed by the customer session. Returns one durable manual subscription payment retry.
+
+`GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}`
+
+Call: `getSubscriptionPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_payment_retry_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "subscription_payment_retry_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `BuyerSubscriptionPaymentRetry`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `subscription_payment_retry_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getSubscriptionPaymentRetryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-getSubscriptionPaymentRetry.mjs)
+
+
 ### me.listAddresses
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the customer's saved addresses with billing and shipping default flags.
@@ -18691,6 +18878,33 @@ for await (const page of client.me.listDeletionRequestsPagesWithResponse({}, { m
   console.log(page.meta.requestId);
 }
 ```
+
+
+### me.listFlintWalletPaymentMethods
+
+Returns the current buyer's usable wallet cards in newest-first order. Each id is an opaque per-store handle. store_payment_method_id is null until this store holds a copy. Requires a customer session minted from a live email-code buyer login at a Flint-hosted store account, including a login narrowed to a custom domain. Email links, checkout sessions, grants, merchant-created sessions, and API keys receive 404. Live and sandbox wallets are isolated. The full card collection is returned; has_more is false. Flint wallet support must be enabled.
+
+`GET /v1/me/flint-wallet/payment-methods`
+
+Call: `listFlintWalletPaymentMethods(params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "Flint-Version"?: string; }`
+
+Returned payload: `{ "data": Array<MeFlintWalletCard>; "has_more": boolean; "meta"?: ResponseMeta; "request_id": string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listFlintWalletPaymentMethodsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+
+[Example](examples/me-listFlintWalletPaymentMethods.mjs)
 
 
 ### me.listFulfillments
@@ -19577,7 +19791,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/payments`
 
-Call: `listPayments(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "order_id"?: InputValue<string>; "invoice_id"?: InputValue<string>; "status"?: InputValue<"requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired">; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "external_reference_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "query"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "state"?: InputValue<"with_refunds" | "fully_refunded" | "disputed" | "needs_action">; "sort_by"?: InputValue<"created_at" | "updated_at" | "amount">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listPayments(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "order_id"?: InputValue<string>; "invoice_id"?: InputValue<string>; "status"?: InputValue<"requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired">; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "external_reference_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "query"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "dispute_status"?: InputValue<Array<"none" | "warning_needs_response" | "warning_under_review" | "warning_closed" | "needs_response" | "under_review" | "won" | "lost" | "prevented">>; "sort_by"?: InputValue<"created_at" | "updated_at" | "amount">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -19620,10 +19834,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "min_amount"?: string;
   "max_amount"?: string;
   "currency"?: string;
-  "state"?: "with_refunds" |
-  "fully_refunded" |
-  "disputed" |
-  "needs_action";
+  "refund_status"?: Array<"none" |
+  "partially_refunded" |
+  "refunded">;
+  "dispute_status"?: Array<"none" |
+  "warning_needs_response" |
+  "warning_under_review" |
+  "warning_closed" |
+  "needs_response" |
+  "under_review" |
+  "won" |
+  "lost" |
+  "prevented">;
   "sort_by"?: "created_at" |
   "updated_at" |
   "amount";
@@ -19660,7 +19882,8 @@ Returned payload: `{ "data": Array<PaymentIntent>; "meta"?: ResponseMeta; "next_
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
 | `max_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `state` | Optional | string | Values: `"with_refunds"`, `"fully_refunded"`, `"disputed"`, `"needs_action"`. |
+| `refund_status` | Optional | Array of string |  |
+| `dispute_status` | Optional | Array of string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"amount"`. |
 | `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Format: `date-time`. Example: `"2026-03-17T14:30:00Z"`. |
@@ -20145,7 +20368,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/subscriptions`
 
-Call: `listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -20165,7 +20388,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "external";
   "awaiting_billing_schedule"?: boolean;
   "cancel_at_period_end"?: boolean;
-  "plan_id"?: string;
+  "subscription_plan_id"?: string;
   "sort_by"?: "created_at" |
   "updated_at" |
   "next_billing_at";
@@ -20198,7 +20421,7 @@ Returned payload: `{ "data": Array<Subscription>; "meta"?: ResponseMeta; "next_p
 | `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. |
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
-| `plan_id` | Optional | string |  |
+| `subscription_plan_id` | Optional | string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
 | `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Format: `date-time`. Example: `"2026-03-17T14:30:00Z"`. |
@@ -20409,38 +20632,6 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-removePaymentMethod.mjs)
 
 
-### me.resendOrderReceipt
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Queues another receipt email for a paid order when Flint manages receipt delivery. The recipient is derived from the order and cannot be supplied by the caller. When the merchant manages receipt delivery, ask the merchant for another copy.
-
-`POST /v1/me/orders/{order_id}/receipt`
-
-Call: `resendOrderReceipt(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
-
-Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; }`
-
-Returned payload: `ActionResult`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string |  |
-| `X-Request-Id` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-
-Returns the payload at `data` directly. Use `resendOrderReceiptWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
-
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
-
-[Example](examples/me-resendOrderReceipt.mjs)
-
-
 ### me.resumeSubscription
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
@@ -20553,6 +20744,38 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-savePaymentMethod.mjs)
+
+
+### me.sendOrderReceipt
+
+Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+
+`POST /v1/me/orders/{order_id}/send-receipt`
+
+Call: `sendOrderReceipt(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `ActionResult`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `sendOrderReceiptWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/me-sendOrderReceipt.mjs)
 
 
 ### me.setDefaultAddress
@@ -20762,7 +20985,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### merchantAccountSessions.create
 
-Creates an embedded browser handoff for one or more allowlisted account components.
+Creates an embedded browser handoff for one or more allowlisted account components. An onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant. Live onboarding requires a live API key.
 
 `POST /v1/merchant-account-sessions`
 
@@ -20814,7 +21037,7 @@ Idempotency header: Idempotency-Key; retention: Successful repeated requests min
 
 ### merchantAccountSessions.refresh
 
-Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant.
+Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant. An onboarding session can refresh only sandbox launch tokens created by the same user with an onboarding session. The sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id named another sandbox of the same merchant at creation. Live onboarding requires a live API key, and refresh requires the same API key that created the launch token.
 
 `POST /v1/merchant-account-sessions/refresh`
 
@@ -20957,21 +21180,20 @@ for await (const page of client.merchantBillingBalances.listPagesWithResponse({}
 
 ### merchants.get
 
-Returns the authenticated merchant by ID.
+Returns the authenticated merchant.
 
-`GET /v1/merchants/{merchant_id}`
+`GET /v1/merchant`
 
-Call: `get(merchant_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `get(params?: { "expand"?: InputValue<Array<"organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
-Path arguments: `path0` = `merchant_id`. Params contain flat body fields and query/header fields.
+Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "merchant_id": string; "expand"?: Array<"organization">; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "expand"?: Array<"organization">; "Flint-Version"?: string; }`
 
 Returned payload: `Merchant`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_id` | Required | string |  |
 | `expand` | Optional | Array of string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
@@ -20988,17 +21210,16 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 Applies a sparse update to the authenticated merchant's public business profile fields.
 
-`PATCH /v1/merchants/{merchant_id}`
+`PATCH /v1/merchant`
 
-Call: `update(merchant_id: InputValue<string>, params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: { "alt"?: string; "external_reference_id"?: string; "source_url": string; }; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
-Path arguments: `path0` = `merchant_id`. Params contain flat body fields and query/header fields.
+Path arguments: none. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```typescript
 {
-  "merchant_id": string;
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
@@ -21008,6 +21229,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "business_name"?: string;
     "email"?: string;
     "expected_version"?: string;
+    "icon"?: {
+      "alt"?: string;
+      "external_reference_id"?: string;
+      "source_url": string;
+    };
     "logo"?: ImageRequestInput;
     "metadata"?: Record<string,
     string |
@@ -21028,7 +21254,6 @@ Returned payload: `Merchant`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -21765,7 +21990,7 @@ Exchanges an authorization code or refresh token for an installation-scoped bear
 
 `POST /v1/oauth/token`
 
-Call: `exchangePartnerInstallToken(params: (InputValue<{ "client_id": string; "client_secret": string; "code"?: string; "grant_type": string; "redirect_uri"?: string; "refresh_token"?: string; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>)`
+Call: `exchangePartnerInstallToken(params: (InputValue<{ "client_id": string; "client_secret": string; "code"?: string; "grant_type": "authorization_code" | "refresh_token"; "redirect_uri"?: string; "refresh_token"?: string; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -21778,7 +22003,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "client_id": string;
     "client_secret": string;
     "code"?: string;
-    "grant_type": string;
+    "grant_type": "authorization_code" |
+    "refresh_token";
     "redirect_uri"?: string;
     "refresh_token"?: string;
   };
@@ -21801,7 +22027,9 @@ Response body (inside Result.data):
   "partner_app_install_id": string;
   "refresh_token"?: string;
   "scope"?: string;
-  "token_type": string;
+  "token_type": "bearer" |
+  (string & {
+  });
 }) |
  (({
   "access_token": string;
@@ -21864,7 +22092,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### onboarding.advance
 
-Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements.
+Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key.
 
 `POST /v1/onboarding/advance`
 
@@ -21910,21 +22138,31 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### onboarding.createAPIKey
 
-Creates the first long-lived external API key and exits onboarding.
+Creates the first long-lived sandbox API key. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key created in the dashboard.
 
 `POST /v1/onboarding/api-key`
 
-Call: `createAPIKey(params: (InputValue<{ "name": string; "sandbox_id"?: string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"onboarding">)`
+Input:
 
-Path arguments: none. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "name": string; "sandbox_id"?: string; "scopes"?: Array<string>; }; }`
+```typescript
+{
+  "Idempotency-Key"?: string;
+  "sandbox_id"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "name": string;
+    "sandbox_id"?: string;
+    "scopes"?: Array<string>;
+  };
+}
+```
 
 Returned payload: `APIKeyWithSecret`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `Idempotency-Key` | Optional | string |  |
+| `sandbox_id` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Required | object |  |
 
@@ -21941,7 +22179,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### onboarding.getState
 
-Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only.
+Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key.
 
 `GET /v1/onboarding/state`
 
@@ -21973,7 +22211,7 @@ Starts the consolidated onboarding flow by emailing a short-lived verification c
 
 `POST /v1/onboarding/start`
 
-Call: `startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>)`
+Call: `startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -21983,8 +22221,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 {
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
-  "X-Checkout-Session-ID"?: string;
-  "X-Checkout-Session-Secret"?: string;
   "Flint-Version"?: string;
   "body": {
     "email": string;
@@ -22000,8 +22236,6 @@ Returned payload: `OnboardingStartResult`
 | --- | --- | --- | --- |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 | `body` | Required | object |  |
 
@@ -22018,7 +22252,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### onboarding.verifyEmailCode
 
-Verifies the emailed code, provisions the Flint user and merchant if needed, and returns a short-lived session token for the rest of onboarding.
+Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one.
 
 `POST /v1/onboarding/verify-email`
 
@@ -22266,11 +22500,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.cancelPayment
 
-Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
+Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching order_payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
 
 `POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/cancel`
 
-Call: `cancelPayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `cancelPayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "order_payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`, `path1` = `payment_intent_id`. Params contain flat body fields and query/header fields.
 
@@ -22290,7 +22524,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "duplicate" |
     "fraudulent" |
     "abandoned";
-    "payment_attempt_id"?: string;
+    "order_payment_attempt_id"?: string;
   };
 }
 ```
@@ -22323,18 +22557,18 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
 
-`POST /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}/cancel`
+`POST /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}/cancel`
 
-Call: `cancelPaymentAttempt(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `cancelPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
-Path arguments: `path0` = `order_id`, `path1` = `payment_attempt_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `order_id`, `path1` = `order_payment_attempt_id`. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```typescript
 {
   "order_id": string;
-  "payment_attempt_id": string;
+  "order_payment_attempt_id": string;
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
   "X-Checkout-Session-ID"?: string;
@@ -22354,7 +22588,7 @@ Returned payload: `PayOrderResult`
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_id` | Required | string |  |
-| `payment_attempt_id` | Required | string |  |
+| `order_payment_attempt_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
 | `X-Checkout-Session-ID` | Optional | string |  |
@@ -22379,7 +22613,7 @@ Captures an active payment authorization for an order and updates the order paym
 
 `POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/capture`
 
-Call: `capturePayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "payment_attempt_id"?: string; }> | { "amount_money"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `capturePayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "order_payment_attempt_id"?: string; }> | { "amount_money"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`, `path1` = `payment_intent_id`. Params contain flat body fields and query/header fields.
 
@@ -22394,7 +22628,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "amount_money"?: MoneyValueInput;
-    "payment_attempt_id"?: string;
+    "order_payment_attempt_id"?: string;
   };
 }
 ```
@@ -22423,15 +22657,27 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.closeSession
 
-Closes an eligible open, paid, or partially refunded order. Closing cancels pending discounts, releases pending promotion reservations, and recalculates totals from the current surviving pricing economics; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Closing is blocked while payment collection is in progress.
+Closes an open order. Closing cancels pending discounts, releases pending promotion reservations, and recalculates totals from the current surviving pricing economics; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Closing is blocked while payment collection is in progress.
 
 `POST /v1/orders/{order_id}/close`
 
-Call: `closeSession(order_id: InputValue<string>, params: (InputValue<{ "reason"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `closeSession(order_id: InputValue<string>, params: (InputValue<{ "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body": { "reason"?: string; }; }`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "order_id": string;
+  "Idempotency-Key"?: string;
+  "X-Request-Id"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "reason_message"?: string;
+  };
+}
+```
 
 Returned payload: `Order`
 
@@ -22536,6 +22782,39 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/orders-create.mjs)
 
 
+### orders.createAccessLink
+
+Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for an order without a customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+
+`POST /v1/orders/{order_id}/access-links`
+
+Call: `createAccessLink(order_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body"?: {  }; }`
+
+Returned payload: `AccessLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
+
+Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
+
+[Example](examples/orders-createAccessLink.mjs)
+
+
 ### orders.createFulfillment
 
 Creates an explicit fulfillment for an order.
@@ -22612,7 +22891,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 }
 ```
 
-Returned payload: `CreateFulfillmentResult`
+Returned payload: `Fulfillment`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -22834,18 +23113,18 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 Returns one durable payment attempt for the order. Checkout-session callers can read only attempts created by their own session.
 
-`GET /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}`
+`GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}`
 
-Call: `getPaymentAttempt(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)`
+Call: `getPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)`
 
-Path arguments: `path0` = `order_id`, `path1` = `payment_attempt_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `order_id`, `path1` = `order_payment_attempt_id`. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```typescript
 {
   "order_id": string;
-  "payment_attempt_id": string;
+  "order_payment_attempt_id": string;
   "X-Checkout-Session-ID"?: string;
   "X-Checkout-Session-Secret"?: string;
   "Flint-Version"?: string;
@@ -22857,7 +23136,7 @@ Returned payload: `OrderPaymentAttempt`
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_id` | Required | string |  |
-| `payment_attempt_id` | Required | string |  |
+| `order_payment_attempt_id` | Required | string |  |
 | `X-Checkout-Session-ID` | Optional | string |  |
 | `X-Checkout-Session-Secret` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -23235,7 +23514,7 @@ for await (const page of client.orders.listPaymentAttemptsPagesWithResponse("exa
 
 ### orders.pay
 
-Starts or resumes a payment attempt on the order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with payment_attempt_id and a new Idempotency-Key. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately.
+Starts or resumes a payment attempt on the order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately.
 
 `POST /v1/orders/{order_id}/pay`
 
@@ -23253,8 +23532,15 @@ Input:
   "body": (({
     "accepted_gift_card_allocation"?: OrderGiftCardAllocationAcceptanceInput;
     "action": "pay";
-    "buyer_email"?: string;
-    "buyer_phone"?: string;
+    "buyer_contact"?: ({
+      "email"?: string |
+      null;
+      "phone"?: string |
+      null;
+    }) & ({
+      "email"?: string;
+      "phone"?: string;
+    });
     "expected_outstanding_money"?: MoneyValueInput;
     "payment_source"?: PaymentSourceCredentialInput;
     "save_payment_method"?: boolean;
@@ -23263,8 +23549,15 @@ Input:
   ({
     "accepted_gift_card_allocation"?: OrderGiftCardAllocationAcceptanceInput;
     "action": "confirm_payment_intents";
-    "buyer_email"?: string;
-    "buyer_phone"?: string;
+    "buyer_contact"?: ({
+      "email"?: string |
+      null;
+      "phone"?: string |
+      null;
+    }) & ({
+      "email"?: string;
+      "phone"?: string;
+    });
     "completion_behavior"?: "complete_order" |
     "partial_payment";
     "expected_outstanding_money"?: MoneyValueInput;
@@ -23274,8 +23567,15 @@ Input:
   }) |
   ({
     "action": "setup";
-    "buyer_email"?: string;
-    "buyer_phone"?: string;
+    "buyer_contact"?: ({
+      "email"?: string |
+      null;
+      "phone"?: string |
+      null;
+    }) & ({
+      "email"?: string;
+      "phone"?: string;
+    });
     "expected_outstanding_money"?: MoneyValueInput;
     "setup_payment_source": {
       "token": string;
@@ -23283,10 +23583,17 @@ Input:
   }) |
   ({
     "action": "resume";
-    "buyer_email"?: string;
-    "buyer_phone"?: string;
+    "buyer_contact"?: ({
+      "email"?: string |
+      null;
+      "phone"?: string |
+      null;
+    }) & ({
+      "email"?: string;
+      "phone"?: string;
+    });
     "expected_outstanding_money"?: MoneyValueInput;
-    "payment_attempt_id": string;
+    "order_payment_attempt_id": string;
   }));
 }
 ```
@@ -23313,51 +23620,6 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/orders-pay.mjs)
-
-
-### orders.previewDiscounts
-
-Evaluates promotion outcomes for an order without mutating it. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
-
-`POST /v1/orders/{order_id}/discounts/preview`
-
-Call: `previewDiscounts(order_id: InputValue<string>, params?: (InputValue<{ "discount"?: CreateOrderDiscountInput; }> | { "discount"?: never }) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)`
-
-Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures):
-
-```typescript
-{
-  "order_id": string;
-  "X-Request-Id"?: string;
-  "X-Checkout-Session-ID"?: string;
-  "X-Checkout-Session-Secret"?: string;
-  "Flint-Version"?: string;
-  "body"?: {
-    "discount"?: CreateOrderDiscountInput;
-  };
-}
-```
-
-Returned payload: `DiscountPreviewData`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `X-Request-Id` | Optional | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Optional | object |  |
-
-Returns the payload at `data` directly. Use `previewDiscountsWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
-
-[Example](examples/orders-previewDiscounts.mjs)
 
 
 ### orders.removeDiscounts
@@ -23505,13 +23767,13 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/orders-repriceDiscounts.mjs)
 
 
-### orders.resendReceipt
+### orders.resolveInventoryException
 
-Queues another receipt email for a paid order when Flint manages receipt delivery. The recipient is derived from the order and cannot be supplied by the caller. When the merchant manages receipt delivery, ask the merchant for another copy.
+Marks a paid inventory failure as resolved after an operator has completed manual inventory remediation.
 
-`POST /v1/orders/{order_id}/receipt`
+`POST /v1/orders/{order_id}/inventory-exception/resolve`
 
-Call: `resendReceipt(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `resolveInventoryException(order_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
@@ -23522,45 +23784,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "order_id": string;
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
-  "X-Checkout-Session-ID"?: string;
-  "X-Checkout-Session-Secret"?: string;
   "Flint-Version"?: string;
+  "body"?: {
+    "reason_message"?: string;
+  };
 }
 ```
-
-Returned payload: `ActionResult`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string |  |
-| `X-Request-Id` | Optional | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-
-Returns the payload at `data` directly. Use `resendReceiptWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
-
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
-
-[Example](examples/orders-resendReceipt.mjs)
-
-
-### orders.resolveInventoryException
-
-Marks a paid inventory failure as resolved after an operator has completed manual inventory remediation.
-
-`POST /v1/orders/{order_id}/inventory-exception/resolve`
-
-Call: `resolveInventoryException(order_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
-
-Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body"?: { "reason"?: string; }; }`
 
 Returned payload: `Order`
 
@@ -23585,11 +23814,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.sendReceipt
 
-Queues a receipt for a paid order to the email you provide, including original gift card tenders and settled processor payments. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
 
 `POST /v1/orders/{order_id}/send-receipt`
 
-Call: `sendReceipt(order_id: InputValue<string>, params: (InputValue<{ "email": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `sendReceipt(order_id: InputValue<string>, params?: (InputValue<{ "email"?: string; }> | { "email"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
@@ -23603,8 +23832,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Checkout-Session-ID"?: string;
   "X-Checkout-Session-Secret"?: string;
   "Flint-Version"?: string;
-  "body": {
-    "email": string;
+  "body"?: {
+    "email"?: string;
   };
 }
 ```
@@ -23619,7 +23848,7 @@ Returned payload: `ActionResult`
 | `X-Checkout-Session-ID` | Optional | string |  |
 | `X-Checkout-Session-Secret` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
-| `body` | Required | object |  |
+| `body` | Optional | object |  |
 
 Returns the payload at `data` directly. Use `sendReceiptWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -24694,7 +24923,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_delivery_attempted";
@@ -24703,7 +24932,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_exception";
@@ -24712,7 +24941,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_in_transit";
@@ -24721,7 +24950,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_out_for_delivery";
@@ -24730,7 +24959,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_packed";
@@ -24739,7 +24968,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_returned";
@@ -24748,7 +24977,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }) |
   ({
     "action": "mark_shipped";
@@ -24757,7 +24986,7 @@ Input:
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   }));
 }
 ```
@@ -24922,7 +25151,7 @@ Voids a package before carrier handoff and appends a package timeline event. Voi
 
 `POST /v1/packages/{package_id}/void`
 
-Call: `voidResource(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `voidResource(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `package_id`. Params contain flat body fields and query/header fields.
 
@@ -24940,7 +25169,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   };
 }
 ```
@@ -25219,7 +25448,7 @@ Returns a paginated list of payment intents for the authenticated merchant.
 
 `GET /v1/payment-intents`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "invoice_id"?: InputValue<string>; "status"?: InputValue<"requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired">; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "external_reference_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "query"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "state"?: InputValue<"with_refunds" | "fully_refunded" | "disputed" | "needs_action">; "sort_by"?: InputValue<"created_at" | "updated_at" | "amount">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "invoice_id"?: InputValue<string>; "status"?: InputValue<"requires_payment_method" | "requires_confirmation" | "requires_action" | "processing" | "requires_capture" | "canceled" | "succeeded" | "expired">; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "external_reference_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "query"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "dispute_status"?: InputValue<Array<"none" | "warning_needs_response" | "warning_under_review" | "warning_closed" | "needs_response" | "under_review" | "won" | "lost" | "prevented">>; "sort_by"?: InputValue<"created_at" | "updated_at" | "amount">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -25263,10 +25492,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "min_amount"?: string;
   "max_amount"?: string;
   "currency"?: string;
-  "state"?: "with_refunds" |
-  "fully_refunded" |
-  "disputed" |
-  "needs_action";
+  "refund_status"?: Array<"none" |
+  "partially_refunded" |
+  "refunded">;
+  "dispute_status"?: Array<"none" |
+  "warning_needs_response" |
+  "warning_under_review" |
+  "warning_closed" |
+  "needs_response" |
+  "under_review" |
+  "won" |
+  "lost" |
+  "prevented">;
   "sort_by"?: "created_at" |
   "updated_at" |
   "amount";
@@ -25304,7 +25541,8 @@ Returned payload: `{ "data": Array<PaymentIntent>; "meta"?: ResponseMeta; "next_
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
 | `max_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `state` | Optional | string | Values: `"with_refunds"`, `"fully_refunded"`, `"disputed"`, `"needs_action"`. |
+| `refund_status` | Optional | Array of string |  |
+| `dispute_status` | Optional | Array of string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"amount"`. |
 | `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Format: `date-time`. Example: `"2026-03-17T14:30:00Z"`. |
@@ -25432,7 +25670,7 @@ Creates a payment link for the authenticated merchant. Line items may use fixed 
 
 `POST /v1/payment-links`
 
-Call: `create(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: CheckoutPaymentConfigInput; "plan_id"?: string; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "subscription_plan_id"?: string; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -25468,9 +25706,9 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "donation" |
     "event";
     "payments"?: CheckoutPaymentConfigInput;
-    "plan_id"?: string;
     "promotion_config"?: CheckoutPromotionConfigInput;
     "redirects"?: CheckoutRedirectsConfigInput;
+    "subscription_plan_id"?: string;
     "tax"?: CheckoutTaxConfigInput;
     "theme"?: ThemeConfigInput;
     "tip"?: CheckoutTipConfigInput;
@@ -26808,7 +27046,7 @@ Updates mutable payout settings for the authenticated merchant. Safe to retry wi
 
 `PATCH /v1/payout-settings`
 
-Call: `update(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -26836,7 +27074,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     (null))>;
     "monthly_payout_days"?: Array<number>;
     "statement_descriptor"?: string;
-    "weekly_payout_days"?: Array<string>;
+    "weekly_payout_days"?: Array<"monday" |
+    "tuesday" |
+    "wednesday" |
+    "thursday" |
+    "friday">;
   };
 }
 ```
@@ -28175,23 +28417,41 @@ for await (const page of client.promotions.listPagesWithResponse({}, { maxPages:
 
 ### promotions.listCodes
 
-Returns a paginated list of codes for a promotion.
+Returns a paginated list of promotion codes in every status, ordered by created_at descending, then promotion_code_id descending. Deleted codes are excluded.
 
-`GET /v1/promotions/{promotion_id}/codes`
+`GET /v1/promotion-codes`
 
-Call: `listCodes(promotion_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `listCodes(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
-Path arguments: `path0` = `promotion_id`. Params contain flat body fields and query/header fields.
+Path arguments: none. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "promotion_id": string; "page_size"?: number; "page_token"?: string; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "promotion_id"?: string;
+  "code"?: string;
+  "status"?: "active" |
+  "inactive" |
+  "expired" |
+  "exhausted";
+  "page_size"?: number;
+  "page_token"?: string;
+  "expand"?: Array<"promotion">;
+  "Flint-Version"?: string;
+}
+```
 
 Returned payload: `{ "data": Array<PromotionCode>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `promotion_id` | Required | string |  |
+| `promotion_id` | Optional | string |  |
+| `code` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`, `"expired"`, `"exhausted"`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
 | `page_token` | Optional | string |  |
+| `expand` | Optional | Array of string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the complete decoded body directly. Use `listCodesWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -28213,7 +28473,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   token: process.env.API_TOKEN ?? '',
 });
-for await (const item of client.promotions.listCodesItems("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const item of client.promotions.listCodesItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(item);
 }
 ```
@@ -28229,7 +28489,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   token: process.env.API_TOKEN ?? '',
 });
-for await (const page of client.promotions.listCodesPages("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const page of client.promotions.listCodesPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["data"]);
 }
 ```
@@ -28245,7 +28505,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   token: process.env.API_TOKEN ?? '',
 });
-for await (const page of client.promotions.listCodesPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const page of client.promotions.listCodesPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["body"]["data"]);
   console.log(page.meta.requestId);
 }
@@ -28282,34 +28542,6 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/promotions-remove.mjs)
-
-
-### promotions.resolveCode
-
-Resolves a buyer-entered promotion code to its promotion code record and parent promotion. This does not evaluate the code against an order or redeem it.
-
-`GET /v1/promotions/by-code/{code}`
-
-Call: `resolveCode(code: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
-
-Path arguments: `path0` = `code`. Params contain flat body fields and query/header fields.
-
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "code": string; "Flint-Version"?: string; }`
-
-Returned payload: `PromotionCodeResolution`
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `code` | Required | string |  |
-| `Flint-Version` | Optional | string | Format: `date`. |
-
-Returns the payload at `data` directly. Use `resolveCodeWithResponse` for `body`, `meta` and `raw` without unwrapping.
-
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
-
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
-
-[Example](examples/promotions-resolveCode.mjs)
 
 
 ### promotions.update
@@ -31218,6 +31450,39 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/returns-create.mjs)
 
 
+### returns.createAccessLink
+
+Creates the link Flint's email about a Return carries, to put in buyer email or messages you send yourself. It opens the Return and its order in your Flint-hosted customer account without a sign-in. Withdrawing the Return needs the buyer to sign in. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the Return. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for a Return whose order has no customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+
+`POST /v1/returns/{return_id}/access-links`
+
+Call: `createAccessLink(return_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `return_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "return_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body"?: {  }; }`
+
+Returned payload: `AccessLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `return_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
+
+Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
+
+[Example](examples/returns-createAccessLink.mjs)
+
+
 ### returns.createDisposition
 
 Record an auditable merchandise disposition from either a receipt line or an inspection line.
@@ -31911,7 +32176,7 @@ for await (const page of client.returns.listLineItemsPagesWithResponse("example"
 
 ### returns.processExisting
 
-Process an existing requested Return atomically at the Flint facts layer. Requires the current Return version and Idempotency-Key. Linked effects remain asynchronous.
+Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested or open Return in one request. Refunds, payments, replacement orders, and inventory updates complete asynchronously. expected_version is optional and checked only when sent. If the Return has changed since that version, the request fails with RETURN_VERSION_CONFLICT. Requires Idempotency-Key and all three scopes: commerce.returns.write, commerce.returns.operations.write, and commerce.returns.resolutions.write.
 
 `POST /v1/returns/{return_id}/process`
 
@@ -33726,7 +33991,7 @@ Voids a shipment before carrier handoff and voids all child packages that have n
 
 `POST /v1/shipments/{shipment_id}/void`
 
-Call: `voidResource(shipment_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `voidResource(shipment_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `shipment_id`. Params contain flat body fields and query/header fields.
 
@@ -33744,7 +34009,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "expected_version"?: string;
     "occurred_at"?: string |
     globalThis.Date;
-    "reason"?: string;
+    "reason_message"?: string;
   };
 }
 ```
@@ -33863,19 +34128,19 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 Returns a single subscription plan by ID.
 
-`GET /v1/subscription-plans/{plan_id}`
+`GET /v1/subscription-plans/{subscription_plan_id}`
 
-Call: `get(plan_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `get(subscription_plan_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
-Path arguments: `path0` = `plan_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `subscription_plan_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "plan_id": string; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_plan_id": string; "Flint-Version"?: string; }`
 
 Returned payload: `SubscriptionPlan`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `plan_id` | Required | string |  |
+| `subscription_plan_id` | Required | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -33997,19 +34262,29 @@ for await (const page of client.subscriptionPlans.listPagesWithResponse({}, { ma
 
 Retires a subscription plan. Plans with active subscriptions cannot be retired.
 
-`DELETE /v1/subscription-plans/{plan_id}`
+`DELETE /v1/subscription-plans/{subscription_plan_id}`
 
-Call: `remove(plan_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `remove(subscription_plan_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
-Path arguments: `path0` = `plan_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `subscription_plan_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "plan_id": string; "expected_version"?: string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_plan_id": string;
+  "expected_version"?: string;
+  "Idempotency-Key"?: string;
+  "X-Request-Id"?: string;
+  "Flint-Version"?: string;
+}
+```
 
 Returned payload: `SubscriptionPlan`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `plan_id` | Required | string |  |
+| `subscription_plan_id` | Required | string |  |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
@@ -34030,17 +34305,17 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 Applies a sparse update to mutable subscription plan fields. Line items are mutated through the subscription plan line-item endpoints.
 
-`PATCH /v1/subscription-plans/{plan_id}`
+`PATCH /v1/subscription-plans/{subscription_plan_id}`
 
-Call: `update(plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
-Path arguments: `path0` = `plan_id`. Params contain flat body fields and query/header fields.
+Path arguments: `path0` = `subscription_plan_id`. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```typescript
 {
-  "plan_id": string;
+  "subscription_plan_id": string;
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
@@ -34077,7 +34352,7 @@ Returned payload: `SubscriptionPlan`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `plan_id` | Required | string |  |
+| `subscription_plan_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -34098,7 +34373,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.cancel
 
-Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Response may include advisory contract information.
+Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities.
 
 `POST /v1/subscriptions/{subscription_id}/cancel`
 
@@ -34129,7 +34404,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 }
 ```
 
-Returned payload: `CancelSubscriptionResult`
+Returned payload: `Subscription`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -34201,7 +34476,7 @@ Creates a subscription for the authenticated merchant.
 
 `POST /v1/subscriptions`
 
-Call: `create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "plan_id": string; "service_location"?: SubscriptionServiceLocationRequestInput; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -34221,8 +34496,8 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "metadata"?: Record<string,
     string>;
     "payment_method_id"?: string;
-    "plan_id": string;
     "service_location"?: SubscriptionServiceLocationRequestInput;
+    "subscription_plan_id": string;
   }) & (({
     "billing_schedule": {
       "owner": "flint";
@@ -34261,6 +34536,39 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/subscriptions-create.mjs)
+
+
+### subscriptions.createAccessLink
+
+Creates a link like the ones in Flint's subscription email, to put in buyer email or messages you send yourself. It opens the subscription in your Flint-hosted customer account without a sign-in. Changing it, such as pausing or canceling, needs the buyer to sign in. It works for 14 days or 5 opens, whichever comes first; after that the buyer signs in to see the subscription. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+
+`POST /v1/subscriptions/{subscription_id}/access-links`
+
+Call: `createAccessLink(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "Idempotency-Key"?: string; "X-Request-Id"?: string; "Flint-Version"?: string; "body"?: {  }; }`
+
+Returned payload: `AccessLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Optional | object |  |
+
+Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
+
+[Example](examples/subscriptions-createAccessLink.mjs)
 
 
 ### subscriptions.createPaymentRetry
@@ -34360,7 +34668,7 @@ Returns a paginated list of subscriptions for the authenticated merchant.
 
 `GET /v1/subscriptions`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -34381,7 +34689,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "awaiting_billing_schedule"?: boolean;
   "cancel_at_period_end"?: boolean;
   "customer_id"?: string;
-  "plan_id"?: string;
+  "subscription_plan_id"?: string;
   "external_reference_id"?: string;
   "query"?: string;
   "sort_by"?: "created_at" |
@@ -34419,7 +34727,7 @@ Returned payload: `{ "data": Array<Subscription>; "meta"?: ResponseMeta; "next_p
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
 | `customer_id` | Optional | string |  |
-| `plan_id` | Optional | string |  |
+| `subscription_plan_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
@@ -34730,11 +35038,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.update
 
-Updates mutable subscription fields such as payment_method_id and metadata.
+Updates subscription metadata and external_reference_id. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
-Call: `update(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_at_period_end"?: boolean; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "payment_method_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(subscription_id: InputValue<string>, params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
@@ -34747,13 +35055,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
   "body": {
-    "cancel_at_period_end"?: boolean;
     "external_reference_id"?: string;
     "metadata"?: Record<string,
     string |
     null> |
     null;
-    "payment_method_id"?: string;
   };
 }
 ```
@@ -34950,11 +35256,11 @@ Sends the canonical event payload again to the delivery's current webhook endpoi
 
 `POST /v1/webhook-deliveries/{webhook_delivery_id}/resend`
 
-Call: `resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `webhook_delivery_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "webhook_delivery_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "reason"?: string; }; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "webhook_delivery_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body"?: { "reason_message"?: string; }; }`
 
 Returned payload: `WebhookDeliveryAction`
 

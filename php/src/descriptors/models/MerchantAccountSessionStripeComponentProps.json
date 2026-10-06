@@ -1,1 +1,0 @@
-{"shared":"MerchantAccountSessionStripeComponentProps","phpRepresentation":{"kind":"record","fields":{"collectionOptions":{"kind":"entity","name":"MerchantAccountSessionStripeCollectionOptions"}}},"dependencies":["MerchantAccountSessionStripeCollectionOptions","MerchantAccountSessionStripeComponentProps","MerchantAccountSessionStripeRequirements"]}

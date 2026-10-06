@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney $available_money
- * @property-read GiftCardMoney $balance_money
+ * @property-read MoneyValue $available_money
+ * @property-read MoneyValue $balance_money
  * @property-read string $created_at
  * @property-read string $currency
  * @property-read string|null $customer_id
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string|null $last_loaded_at
  * @property-read string|null $last_redeemed_at
  * @property-read string $merchant_id
- * @property-read GiftCardMoney $reserved_money
+ * @property-read MoneyValue $reserved_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read string $updated_at
@@ -22,15 +22,15 @@ namespace Flint;
 final class GiftCard extends Model {
     /** @param array{'available_money': object{'amount': string, 'currency': string}, 'balance_money': object{'amount': string, 'currency': string}, 'created_at': string, 'currency': string, 'customer_id': string|null, 'external_reference_id': string|null, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'merchant_id': string, 'reserved_money': object{'amount': string, 'currency': string}, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCard')); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
      */
-    public function getAvailableMoney(): GiftCardMoney { return $this->get('available_money'); }
+    public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When balance_money is omitted; use hasBalanceMoney() or valueOrDefault().
      */
-    public function getBalanceMoney(): GiftCardMoney { return $this->get('balance_money'); }
+    public function getBalanceMoney(): MoneyValue { return $this->get('balance_money'); }
     public function hasBalanceMoney(): bool { return $this->has('balance_money'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -77,10 +77,10 @@ final class GiftCard extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When reserved_money is omitted; use hasReservedMoney() or valueOrDefault().
      */
-    public function getReservedMoney(): GiftCardMoney { return $this->get('reserved_money'); }
+    public function getReservedMoney(): MoneyValue { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

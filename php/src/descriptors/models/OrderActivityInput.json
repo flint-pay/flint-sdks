@@ -1,1 +1,1 @@
-{"shared":"OrderActivity","dependencies":["OrderActivity","SignedMoney"]}
+{"shared":"OrderActivity","dependencies":["OrderActivity","SharedCodec489","SignedMoney"]}

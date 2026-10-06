@@ -9,8 +9,6 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.sendReceipt(
   "example",
-  {
-    email: "example@example.invalid",
-  },
+  undefined,
   { idempotencyKey: idempotencyKey },
 );

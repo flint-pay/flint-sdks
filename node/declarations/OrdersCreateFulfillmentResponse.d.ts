@@ -1,4 +1,4 @@
 
-import type { CreateFulfillmentResponse } from './CreateFulfillmentResponse.js';
+import type { FulfillmentResponse } from './FulfillmentResponse.js';
 
-export type OrdersCreateFulfillmentResponse = CreateFulfillmentResponse;
+export type OrdersCreateFulfillmentResponse = FulfillmentResponse;

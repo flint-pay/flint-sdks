@@ -1,1 +1,1 @@
-{"shared":"Webhook_order_inventory_exception_resolved_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec197","SharedCodec275","SharedCodec330","Webhook_order_inventory_exception_resolved_merchant"]}
+{"shared":"Webhook_order_inventory_exception_resolved_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec281","SharedCodec336","Webhook_order_inventory_exception_resolved_merchant"]}

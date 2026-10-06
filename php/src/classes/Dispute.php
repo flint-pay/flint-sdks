@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $dispute_id
  * @property-read bool $evidence_deadline_passed
- * @property-read string $evidence_due_at
+ * @property-read string|null $evidence_due_at
  * @property-read bool $evidence_response_allowed
  * @property-read int $evidence_submission_count
  * @property-read bool $evidence_submission_past_due
@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read ExpandedPaymentIntentSummary|null $payment_intent
  * @property-read string $payment_intent_id
- * @property-read string $payment_option
+ * @property-read string|null $payment_option
  * @property-read string $reason
  * @property-read string $response_unavailable_reason
  * @property-read string $status
@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class Dispute extends Model {
-    /** @param array{'action_required': bool, 'amount_money': mixed, 'case_type': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_deadline_passed': bool, 'evidence_due_at'?: string, 'evidence_response_allowed': bool, 'evidence_submission_count': int, 'evidence_submission_past_due': bool, 'fraud_warning_id'?: string, 'has_evidence': bool, 'merchant_id': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option'?: string, 'reason': string, 'response_unavailable_reason'?: string, 'status': string, 'status_changed_at'?: string, 'updated_at': string, ...}|object $values */
+    /** @param array{'action_required': bool, 'amount_money': mixed, 'case_type': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_deadline_passed': bool, 'evidence_due_at'?: string|null, 'evidence_response_allowed': bool, 'evidence_submission_count': int, 'evidence_submission_past_due': bool, 'fraud_warning_id'?: string, 'has_evidence': bool, 'merchant_id': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option'?: string|null, 'reason': string, 'response_unavailable_reason'?: string, 'status': string, 'status_changed_at'?: string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Dispute')); }
     /** @return bool
      * @throws SdkError When action_required is omitted; use hasActionRequired() or valueOrDefault().
@@ -72,10 +72,10 @@ final class Dispute extends Model {
      */
     public function getEvidenceDeadlinePassed(): bool { return $this->get('evidence_deadline_passed'); }
     public function hasEvidenceDeadlinePassed(): bool { return $this->has('evidence_deadline_passed'); }
-    /** @return string
+    /** @return string|null
      * @throws SdkError When evidence_due_at is omitted; use hasEvidenceDueAt() or valueOrDefault().
      */
-    public function getEvidenceDueAt(): string { return $this->get('evidence_due_at'); }
+    public function getEvidenceDueAt(): string|null { return $this->get('evidence_due_at'); }
     public function hasEvidenceDueAt(): bool { return $this->has('evidence_due_at'); }
     /** @return bool
      * @throws SdkError When evidence_response_allowed is omitted; use hasEvidenceResponseAllowed() or valueOrDefault().
@@ -132,10 +132,10 @@ final class Dispute extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** @return string
+    /** @return string|null
      * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
      */
-    public function getPaymentOption(): string { return $this->get('payment_option'); }
+    public function getPaymentOption(): string|null { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
     /** @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().

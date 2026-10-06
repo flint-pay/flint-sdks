@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney $consideration_money
+ * @property-read MoneyValue $consideration_money
  * @property-read string $created_at
  * @property-read string $order_manual_reversal_id
  * @property-read string $purchase_refund_allocation_id
@@ -11,16 +11,16 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read list<GiftCardPurchaseRefundValueAllocation> $value_allocations
- * @property-read GiftCardMoney $value_money
+ * @property-read MoneyValue $value_money
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardPurchaseRefundAllocation extends Model {
     /** @param array{'consideration_money': object{'amount': string, 'currency': string}, 'created_at': string, 'order_manual_reversal_id'?: string, 'purchase_refund_allocation_id': string, 'recovery'?: object{'created_at': string, 'destination': string, 'destinations': list<mixed>}, 'refund_id'?: string, 'status': string, 'updated_at': string, 'value_allocations'?: list<mixed>, 'value_money': object{'amount': string, 'currency': string}, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundAllocation')); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().
      */
-    public function getConsiderationMoney(): GiftCardMoney { return $this->get('consideration_money'); }
+    public function getConsiderationMoney(): MoneyValue { return $this->get('consideration_money'); }
     public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -62,10 +62,10 @@ final class GiftCardPurchaseRefundAllocation extends Model {
      */
     public function getValueAllocations(): array { return $this->get('value_allocations'); }
     public function hasValueAllocations(): bool { return $this->has('value_allocations'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
      */
-    public function getValueMoney(): GiftCardMoney { return $this->get('value_money'); }
+    public function getValueMoney(): MoneyValue { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
     /** @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().

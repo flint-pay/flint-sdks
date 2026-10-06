@@ -2,20 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $status
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $external_reference_id
  * @property-read string $query
  * Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesListInput extends Model {
-    /** @param array{'status'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoriesListInput')); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
-     */
-    public function getStatus(): string { return $this->get('status'); }
-    public function hasStatus(): bool { return $this->has('status'); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */

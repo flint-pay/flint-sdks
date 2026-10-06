@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $amount_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $expected_version
  * @property-read string $external_reference_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateGiftCardCashOutRequestInput extends Model {
-    /** @param array{'amount_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'external_reference_id': string}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'external_reference_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardCashOutRequestInput')); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }

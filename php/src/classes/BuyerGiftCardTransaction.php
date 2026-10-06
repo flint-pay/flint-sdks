@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney $amount_money
- * @property-read GiftCardMoney $balance_after_money
- * @property-read GiftCardMoney $balance_before_money
+ * @property-read SignedMoney $amount_money
+ * @property-read MoneyValue $balance_after_money
+ * @property-read MoneyValue $balance_before_money
  * @property-read string $gift_card_id
  * @property-read string $gift_card_transaction_id
  * @property-read string $posted_at
@@ -12,22 +12,22 @@ namespace Flint;
  * @property-read string $transaction_type
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerGiftCardTransaction extends Model {
-    /** @param array{'amount_money': mixed, 'balance_after_money': mixed, 'balance_before_money': mixed, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string, 'sequence': string, 'transaction_type': string, ...}|object $values */
+    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'balance_after_money': mixed, 'balance_before_money': mixed, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string, 'sequence': string, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardTransaction')); }
-    /** @return GiftCardMoney
+    /** @return SignedMoney
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): GiftCardMoney { return $this->get('amount_money'); }
+    public function getAmountMoney(): SignedMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When balance_after_money is omitted; use hasBalanceAfterMoney() or valueOrDefault().
      */
-    public function getBalanceAfterMoney(): GiftCardMoney { return $this->get('balance_after_money'); }
+    public function getBalanceAfterMoney(): MoneyValue { return $this->get('balance_after_money'); }
     public function hasBalanceAfterMoney(): bool { return $this->has('balance_after_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When balance_before_money is omitted; use hasBalanceBeforeMoney() or valueOrDefault().
      */
-    public function getBalanceBeforeMoney(): GiftCardMoney { return $this->get('balance_before_money'); }
+    public function getBalanceBeforeMoney(): MoneyValue { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
     /** @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().

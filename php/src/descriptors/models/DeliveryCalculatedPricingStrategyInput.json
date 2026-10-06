@@ -1,1 +1,1 @@
-{"shared":"DeliveryCalculatedPricingStrategyRequest","dependencies":["DeliveryCalculatedPricingStrategyRequest","DeliveryDistanceUnitPriceRequest","DeliveryWeightUnitPriceRequest","MoneyValue"]}
+{"shared":"DeliveryCalculatedPricingStrategy","dependencies":["DeliveryCalculatedPricingStrategy","DeliveryDistanceUnitPrice","DeliveryWeightUnitPrice","MoneyValue"]}

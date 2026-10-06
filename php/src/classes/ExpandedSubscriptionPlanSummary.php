@@ -9,14 +9,14 @@ namespace Flint;
  * @property-read string $description
  * @property-read list<\stdClass> $line_items
  * @property-read string $name
- * @property-read string $plan_id
  * @property-read MoneyValue $setup_fee_money
  * @property-read string $status
+ * @property-read string $subscription_plan_id
  * @property-read int $trial_period_days
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class ExpandedSubscriptionPlanSummary extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'plan_id': string, 'setup_fee_money'?: mixed, 'status': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'setup_fee_money'?: mixed, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummary')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -53,11 +53,6 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return MoneyValue
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */
@@ -68,6 +63,11 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return int
      * @throws SdkError When trial_period_days is omitted; use hasTrialPeriodDays() or valueOrDefault().
      */

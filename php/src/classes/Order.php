@@ -6,9 +6,8 @@ namespace Flint;
  * @property-read list<AppliedDiscount> $applied_discounts
  * @property-read OrderAuthorizationAmounts $authorization_amounts
  * @property-read list<BuyerAction> $buyer_actions
- * @property-read string $buyer_email
+ * @property-read CheckoutBuyerContact $buyer_contact
  * @property-read string $buyer_note
- * @property-read string $buyer_phone
  * @property-read list<OrderCharge> $charges
  * @property-read list<string> $checkout_session_ids
  * @property-read string $closed_reason
@@ -38,24 +37,25 @@ namespace Flint;
  * @property-read list<string> $payment_intent_ids
  * @property-read list<ExpandedPaymentIntentSummary> $payment_intents
  * @property-read string $payment_status
- * @property-read string $plan_id
  * @property-read PricingAmounts $pricing_amounts
  * @property-read PurchasedEvent $purchased_event
  * @property-read list<string> $refund_ids
  * @property-read string $refund_status
  * @property-read RequestedTip $requested_tip
+ * @property-read list<OrderReturnCreditSettlement> $return_credit_settlements
  * @property-read SettlementAmounts $settlement_amounts
  * @property-read PaymentCollection $setup_collection
  * @property-read string $status
  * @property-read ExpandedSubscriptionSummary|null $subscription
  * @property-read string $subscription_id
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
+ * @property-read string $subscription_plan_id
  * @property-read OrderTax $tax
  * @property-read list<Tip> $tips
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class Order extends Model {
-    /** @param array{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: object{'authorized_money': mixed, 'capturable_money': mixed, 'expires_at'?: string}, 'buyer_actions': list<mixed>, 'buyer_email'?: string, 'buyer_note'?: string, 'buyer_phone'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: object{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string}, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: object{'can_pay': bool, 'gift_card_money': mixed, 'gift_cards': list<mixed>, 'is_reserved': bool, 'order_revision': string, 'processor_money': mixed}, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: object{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'plan_id'?: string, 'pricing_amounts': object{'charge_money': mixed, 'discount_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed}, 'purchased_event'?: object{'location'?: string, 'name': string, 'starts_at'?: string, 'timezone'?: string}, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'settlement_amounts': object{'balance_money': mixed, 'credit_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'settled_tip_money': mixed}, 'setup_collection'?: object{'stripe'?: mixed}, 'status': string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'tax': object{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'enabled': bool, 'exemption'?: mixed, 'failure_reason'?: string, 'location'?: mixed, 'mode': string, 'status': string, 'tax_breakdowns'?: list<mixed>, 'taxability_reason': string}, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: object{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string}, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: object{'authorized_money': mixed, 'capturable_money': mixed, 'expires_at'?: string}, 'buyer_actions': list<mixed>, 'buyer_contact'?: object{'email': string|null, 'is_email_cleared': bool, 'is_phone_cleared': bool, 'phone': string|null, 'updated_at'?: string}, 'buyer_note'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: object{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string}, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: object{'can_pay': bool, 'gift_card_money': mixed, 'gift_cards': list<mixed>, 'is_reserved': bool, 'order_revision': string, 'processor_money': mixed}, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: object{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'payment_collection'?: object{'stripe'?: mixed}, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'pricing_amounts': object{'charge_money': mixed, 'discount_money': mixed, 'requested_tip_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed}, 'purchased_event'?: object{'location'?: string, 'name': string, 'starts_at'?: string, 'timezone'?: string}, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'return_credit_settlements'?: list<mixed>, 'settlement_amounts': object{'balance_money': mixed, 'credit_money': mixed, 'net_collected_money': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'refunded_money': mixed, 'settled_tip_money': mixed}, 'setup_collection'?: object{'stripe'?: mixed}, 'status': string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': object{'automatic_profile'?: string, 'available_location_inputs'?: list<string>, 'enabled': bool, 'exemption'?: mixed, 'failure_reason'?: string, 'location'?: mixed, 'mode': string, 'status': string, 'tax_breakdowns'?: list<mixed>, 'taxability_reason': string}, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Order')); }
     /** @return OrderPaymentAttempt
      * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
@@ -77,21 +77,16 @@ final class Order extends Model {
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
     public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
-    /** @return string
-     * @throws SdkError When buyer_email is omitted; use hasBuyerEmail() or valueOrDefault().
+    /** @return CheckoutBuyerContact
+     * @throws SdkError When buyer_contact is omitted; use hasBuyerContact() or valueOrDefault().
      */
-    public function getBuyerEmail(): string { return $this->get('buyer_email'); }
-    public function hasBuyerEmail(): bool { return $this->has('buyer_email'); }
+    public function getBuyerContact(): CheckoutBuyerContact { return $this->get('buyer_contact'); }
+    public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
     /** @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
      */
     public function getBuyerNote(): string { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** @return string
-     * @throws SdkError When buyer_phone is omitted; use hasBuyerPhone() or valueOrDefault().
-     */
-    public function getBuyerPhone(): string { return $this->get('buyer_phone'); }
-    public function hasBuyerPhone(): bool { return $this->has('buyer_phone'); }
     /** @return list<OrderCharge>
      * @throws SdkError When charges is omitted; use hasCharges() or valueOrDefault().
      */
@@ -237,11 +232,6 @@ final class Order extends Model {
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return PricingAmounts
      * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
      */
@@ -267,6 +257,11 @@ final class Order extends Model {
      */
     public function getRequestedTip(): RequestedTip { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
+    /** @return list<OrderReturnCreditSettlement>
+     * @throws SdkError When return_credit_settlements is omitted; use hasReturnCreditSettlements() or valueOrDefault().
+     */
+    public function getReturnCreditSettlements(): array { return $this->get('return_credit_settlements'); }
+    public function hasReturnCreditSettlements(): bool { return $this->has('return_credit_settlements'); }
     /** @return SettlementAmounts
      * @throws SdkError When settlement_amounts is omitted; use hasSettlementAmounts() or valueOrDefault().
      */
@@ -297,6 +292,11 @@ final class Order extends Model {
      */
     public function getSubscriptionPlan(): ExpandedSubscriptionPlanSummary|null { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return OrderTax
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

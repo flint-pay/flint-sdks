@@ -1,6 +1,6 @@
 
-import type { DeliveryDistanceUnitPriceRequestInput } from './DeliveryDistanceUnitPriceRequestInput.js';
-import type { DeliveryWeightUnitPriceRequestInput } from './DeliveryWeightUnitPriceRequestInput.js';
+import type { DeliveryDistanceUnitPriceInput } from './DeliveryDistanceUnitPriceInput.js';
+import type { DeliveryWeightUnitPriceInput } from './DeliveryWeightUnitPriceInput.js';
 import type { MoneyValueInput } from './MoneyValueInput.js';
 
-export type DeliveryCalculatedPricingStrategyInput = { "base_fee"?: Record<string, MoneyValueInput>; "distance"?: DeliveryDistanceUnitPriceRequestInput; "maximum_amount"?: Record<string, MoneyValueInput>; "minimum_amount"?: Record<string, MoneyValueInput>; "per_item_handling"?: Record<string, MoneyValueInput>; "weight"?: DeliveryWeightUnitPriceRequestInput; };
+export type DeliveryCalculatedPricingStrategyInput = { /** Base delivery fee by ISO currency code. Each key must equal the Money object's currency. */ "base_fee_currency_options"?: Record<string, MoneyValueInput>; "distance"?: DeliveryDistanceUnitPriceInput; /** Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. */ "maximum_fee_currency_options"?: Record<string, MoneyValueInput>; /** Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. */ "minimum_fee_currency_options"?: Record<string, MoneyValueInput>; /** Handling fee per item by ISO currency code. Each key must equal the Money object's currency. */ "per_item_handling_fee_currency_options"?: Record<string, MoneyValueInput>; "weight"?: DeliveryWeightUnitPriceInput; };

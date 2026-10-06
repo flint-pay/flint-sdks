@@ -3,27 +3,21 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $billing_anchor_day
- * @property-read bool $cancel_at_period_end
  * @property-read string $customer_id
  * @property-read string $external_reference_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $payment_method_id
- * @property-read string $plan_id
  * @property-read SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass $service_location
+ * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionInput extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'cancel_at_period_end': bool, 'customer_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'payment_method_id': string, 'plan_id': string, 'service_location'?: SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'customer_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'payment_method_id': string, 'service_location'?: SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInput')); }
     /** @return int
      * @throws SdkError When billing_anchor_day is omitted; use hasBillingAnchorDay() or valueOrDefault().
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
-    /** @return bool
-     * @throws SdkError When cancel_at_period_end is omitted; use hasCancelAtPeriodEnd() or valueOrDefault().
-     */
-    public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
-    public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -44,14 +38,14 @@ final class SubscriptionInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
      */
     public function getServiceLocation(): mixed { return $this->get('service_location'); }
     public function hasServiceLocation(): bool { return $this->has('service_location'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
 }

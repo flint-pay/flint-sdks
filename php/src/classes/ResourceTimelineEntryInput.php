@@ -28,7 +28,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $next_retry_at
  * @property-read string|\DateTimeInterface $occurred_at
  * @property-read string $path
- * @property-read string $reason
+ * @property-read string $reason_message
  * @property-read string $recommended_action
  * @property-read string $reference_url
  * @property-read string $request_id
@@ -47,7 +47,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineEntryInput extends Model {
-    /** @param array{'api_request_log_id'?: string, 'attempt_number'?: int, 'automatic_attempt_count'?: int, 'completed_at'?: string|\DateTimeInterface, 'correlation_id'?: string, 'delivered_at'?: string|\DateTimeInterface, 'delivery_trigger'?: string, 'diagnostic_category'?: string, 'duration_milliseconds'?: string, 'entry_type': string, 'environment_id'?: string, 'error_category'?: string, 'error_code'?: string, 'error_summary'?: string, 'event_source'?: string, 'event_type'?: string, 'http_method'?: string, 'image_revision'?: string, 'last_error'?: string, 'last_response_code'?: int, 'latency_milliseconds'?: string, 'max_attempts'?: int, 'mutation_kind'?: string, 'next_retry_at'?: string|\DateTimeInterface, 'occurred_at': string|\DateTimeInterface, 'path'?: string, 'reason'?: string, 'recommended_action'?: string, 'reference_url'?: string, 'request_id'?: string, 'resource_id'?: string, 'resource_timeline_entry_id': string, 'resource_type'?: string, 'retryable'?: bool, 'route_pattern'?: string, 'started_at'?: string|\DateTimeInterface, 'status'?: string, 'status_code'?: int, 'test': bool, 'webhook_delivery_attempt_id'?: string, 'webhook_delivery_id'?: string, 'webhook_endpoint_id'?: string, 'webhook_event_id'?: string, ...}|object $values */
+    /** @param array{'api_request_log_id'?: string, 'attempt_number'?: int, 'automatic_attempt_count'?: int, 'completed_at'?: string|\DateTimeInterface, 'correlation_id'?: string, 'delivered_at'?: string|\DateTimeInterface, 'delivery_trigger'?: string, 'diagnostic_category'?: string, 'duration_milliseconds'?: string, 'entry_type': string, 'environment_id'?: string, 'error_category'?: string, 'error_code'?: string, 'error_summary'?: string, 'event_source'?: string, 'event_type'?: string, 'http_method'?: string, 'image_revision'?: string, 'last_error'?: string, 'last_response_code'?: int, 'latency_milliseconds'?: string, 'max_attempts'?: int, 'mutation_kind'?: string, 'next_retry_at'?: string|\DateTimeInterface, 'occurred_at': string|\DateTimeInterface, 'path'?: string, 'reason_message'?: string, 'recommended_action'?: string, 'reference_url'?: string, 'request_id'?: string, 'resource_id'?: string, 'resource_timeline_entry_id': string, 'resource_type'?: string, 'retryable'?: bool, 'route_pattern'?: string, 'started_at'?: string|\DateTimeInterface, 'status'?: string, 'status_code'?: int, 'test': bool, 'webhook_delivery_attempt_id'?: string, 'webhook_delivery_id'?: string, 'webhook_endpoint_id'?: string, 'webhook_event_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntryInput')); }
     /** @return string
      * @throws SdkError When api_request_log_id is omitted; use hasApiRequestLogId() or valueOrDefault().
@@ -180,10 +180,10 @@ final class ResourceTimelineEntryInput extends Model {
     public function getPath(): string { return $this->get('path'); }
     public function hasPath(): bool { return $this->has('path'); }
     /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
     /** @return string
      * @throws SdkError When recommended_action is omitted; use hasRecommendedAction() or valueOrDefault().
      */

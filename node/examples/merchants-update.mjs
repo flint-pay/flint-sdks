@@ -8,7 +8,6 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.merchants.update(
-  "example",
   {},
   { idempotencyKey: idempotencyKey },
 );

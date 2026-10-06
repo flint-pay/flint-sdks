@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $courier_pickup_at
  * @property-read string|null $courier_pickup_window_duration_seconds
  * @property-read string|null $courier_provider_name
- * @property-read string|null $courier_support_phone_number
+ * @property-read string|null $courier_support_phone
  * @property-read string|\DateTimeInterface|null $delivered_at
  * @property-read string|\DateTimeInterface|null $dispatched_at
  * @property-read string|null $dropoff_notes
@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateDeliveryFulfillmentDetailsInput extends Model {
-    /** @param array{'carrier'?: string|null, 'courier_pickup_at'?: string|\DateTimeInterface|null, 'courier_pickup_window_duration_seconds'?: string|null, 'courier_provider_name'?: string|null, 'courier_support_phone_number'?: string|null, 'delivered_at'?: string|\DateTimeInterface|null, 'dispatched_at'?: string|\DateTimeInterface|null, 'dropoff_notes'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'external_delivery_id'?: string|null, 'instructions'?: string|null, 'no_contact'?: bool|null, 'prep_time_duration_seconds'?: string|null, 'ready_at'?: string|\DateTimeInterface|null, 'service_area_id'?: string|null, 'timezone'?: string, 'tracking_url'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'carrier'?: string|null, 'courier_pickup_at'?: string|\DateTimeInterface|null, 'courier_pickup_window_duration_seconds'?: string|null, 'courier_provider_name'?: string|null, 'courier_support_phone'?: string|null, 'delivered_at'?: string|\DateTimeInterface|null, 'dispatched_at'?: string|\DateTimeInterface|null, 'dropoff_notes'?: string|null, 'expires_at'?: string|\DateTimeInterface|null, 'external_delivery_id'?: string|null, 'instructions'?: string|null, 'no_contact'?: bool|null, 'prep_time_duration_seconds'?: string|null, 'ready_at'?: string|\DateTimeInterface|null, 'service_area_id'?: string|null, 'timezone'?: string, 'tracking_url'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeliveryFulfillmentDetailsInput')); }
     /** @return string|null
      * @throws SdkError When carrier is omitted; use hasCarrier() or valueOrDefault().
@@ -46,10 +46,10 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
     public function getCourierProviderName(): string|null { return $this->get('courier_provider_name'); }
     public function hasCourierProviderName(): bool { return $this->has('courier_provider_name'); }
     /** @return string|null
-     * @throws SdkError When courier_support_phone_number is omitted; use hasCourierSupportPhoneNumber() or valueOrDefault().
+     * @throws SdkError When courier_support_phone is omitted; use hasCourierSupportPhone() or valueOrDefault().
      */
-    public function getCourierSupportPhoneNumber(): string|null { return $this->get('courier_support_phone_number'); }
-    public function hasCourierSupportPhoneNumber(): bool { return $this->has('courier_support_phone_number'); }
+    public function getCourierSupportPhone(): string|null { return $this->get('courier_support_phone'); }
+    public function hasCourierSupportPhone(): bool { return $this->has('courier_support_phone'); }
     /** @return string|\DateTimeInterface|null
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */

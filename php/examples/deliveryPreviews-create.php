@@ -8,13 +8,17 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->deliveryPreviews->create([
-  'currency' => 'USD',
-  'delivery_method_ids' => [],
-  'line_items' => [
-    (object) [
-      'variant_id' => 'example',
+$input = [
+  'body' => (object) [
+    'currency' => 'USD',
+    'delivery_method_ids' => [],
+    'line_items' => [
+      (object) [
+        'variant_id' => 'example',
+      ],
     ],
+    'mode' => 'delivery_options',
   ],
-]);
+];
+$result = $client->deliveryPreviews->create($input);
 $client->close();

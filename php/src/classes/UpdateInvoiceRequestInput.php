@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $po_number
  * @property-read string $recipient_email
  * @property-read string $reference
+ * @property-read bool $reminders_paused
  * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $remit_to_address
  * @property-read list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass> $schedule_entries
  * @property-read string|\DateTimeInterface $scheduled_send_at
@@ -76,6 +77,11 @@ final class UpdateInvoiceRequestInput extends Model {
      */
     public function getReference(): string { return $this->get('reference'); }
     public function hasReference(): bool { return $this->has('reference'); }
+    /** @return bool
+     * @throws SdkError When reminders_paused is omitted; use hasRemindersPaused() or valueOrDefault().
+     */
+    public function getRemindersPaused(): bool { return $this->get('reminders_paused'); }
+    public function hasRemindersPaused(): bool { return $this->has('reminders_paused'); }
     /** @return PostalAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remit_to_address is omitted; use hasRemitToAddress() or valueOrDefault().
      */

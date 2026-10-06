@@ -8,9 +8,10 @@ namespace Flint;
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
  * @property-read list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass> $locations
  * @property-read list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass> $merchant_diagnostics
+ * @property-read string $mode
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPickupAvailabilityInput extends Model {
-    /** @param array{'audience': string, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'locations': list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'audience': string, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'locations': list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityInput')); }
     /** @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
@@ -42,4 +43,9 @@ final class DeliveryPickupAvailabilityInput extends Model {
      */
     public function getMerchantDiagnostics(): array { return $this->get('merchant_diagnostics'); }
     public function hasMerchantDiagnostics(): bool { return $this->has('merchant_diagnostics'); }
+    /** @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
 }

@@ -3,15 +3,15 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $default_smart_tip_money
- * @property-read int|float $default_tip_percentage
+ * @property-read int|float $default_tip_percent
  * @property-read bool $enabled
  * @property-read bool $is_custom_tip_enabled
  * @property-read bool $is_smart_tips_enabled
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $smart_tip_money_options
- * @property-read list<int|float> $tip_percentages
+ * @property-read list<int|float> $tip_percent_options
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutTipConfigInput extends Model {
-    /** @param array{'default_smart_tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'default_tip_percentage'?: int|float, 'enabled'?: bool, 'is_custom_tip_enabled'?: bool, 'is_smart_tips_enabled'?: bool, 'smart_tip_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tip_percentages'?: list<int|float>, ...}|object $values */
+    /** @param array{'default_smart_tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'default_tip_percent'?: int|float, 'enabled'?: bool, 'is_custom_tip_enabled'?: bool, 'is_smart_tips_enabled'?: bool, 'smart_tip_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tip_percent_options'?: list<int|float>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutTipConfigInput')); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When default_smart_tip_money is omitted; use hasDefaultSmartTipMoney() or valueOrDefault().
@@ -19,10 +19,10 @@ final class CheckoutTipConfigInput extends Model {
     public function getDefaultSmartTipMoney(): mixed { return $this->get('default_smart_tip_money'); }
     public function hasDefaultSmartTipMoney(): bool { return $this->has('default_smart_tip_money'); }
     /** @return int|float
-     * @throws SdkError When default_tip_percentage is omitted; use hasDefaultTipPercentage() or valueOrDefault().
+     * @throws SdkError When default_tip_percent is omitted; use hasDefaultTipPercent() or valueOrDefault().
      */
-    public function getDefaultTipPercentage(): int|float { return $this->get('default_tip_percentage'); }
-    public function hasDefaultTipPercentage(): bool { return $this->has('default_tip_percentage'); }
+    public function getDefaultTipPercent(): int|float { return $this->get('default_tip_percent'); }
+    public function hasDefaultTipPercent(): bool { return $this->has('default_tip_percent'); }
     /** @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */
@@ -44,8 +44,8 @@ final class CheckoutTipConfigInput extends Model {
     public function getSmartTipMoneyOptions(): array { return $this->get('smart_tip_money_options'); }
     public function hasSmartTipMoneyOptions(): bool { return $this->has('smart_tip_money_options'); }
     /** @return list<int|float>
-     * @throws SdkError When tip_percentages is omitted; use hasTipPercentages() or valueOrDefault().
+     * @throws SdkError When tip_percent_options is omitted; use hasTipPercentOptions() or valueOrDefault().
      */
-    public function getTipPercentages(): array { return $this->get('tip_percentages'); }
-    public function hasTipPercentages(): bool { return $this->has('tip_percentages'); }
+    public function getTipPercentOptions(): array { return $this->get('tip_percent_options'); }
+    public function hasTipPercentOptions(): bool { return $this->has('tip_percent_options'); }
 }

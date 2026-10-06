@@ -10,7 +10,7 @@ $client = new Client(new ClientOptions(
 $result = $client->oauth->exchangePartnerInstallToken([
   'client_id' => 'example',
   'client_secret' => 'example',
-  'grant_type' => 'example',
+  'grant_type' => 'authorization_code',
 ]);
 echo ($result->meta['requestId'] ?? '') . PHP_EOL;
 $client->close();

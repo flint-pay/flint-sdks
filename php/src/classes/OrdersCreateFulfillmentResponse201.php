@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CreateFulfillmentResult $data
+ * @property-read Fulfillment $data
  * @property-read ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrdersCreateFulfillmentResponse201 extends Model {
-    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
+    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateFulfillmentResponse201')); }
-    /** @return CreateFulfillmentResult
+    /** @return Fulfillment
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
-    public function getData(): CreateFulfillmentResult { return $this->get('data'); }
+    public function getData(): Fulfillment { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** @return ResponseMeta
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().

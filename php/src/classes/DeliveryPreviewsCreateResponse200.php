@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryPreview $data
+ * @property-read DeliveryPreviewsCreateResponse200DataDeliveryOptions|DeliveryPreviewsCreateResponse200DataPickupLocations|\stdClass $data
  * @property-read ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryPreviewsCreateResponse200 extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewsCreateResponse200')); }
-    /** @return DeliveryPreview
+    /** @return DeliveryPreviewsCreateResponse200DataDeliveryOptions|DeliveryPreviewsCreateResponse200DataPickupLocations|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
-    public function getData(): DeliveryPreview { return $this->get('data'); }
+    public function getData(): DeliveryPreviewsCreateResponse200DataDeliveryOptions|DeliveryPreviewsCreateResponse200DataPickupLocations|\stdClass { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** @return ResponseMeta
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().

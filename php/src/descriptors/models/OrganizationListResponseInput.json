@@ -1,1 +1,1 @@
-{"shared":"OrganizationListResponse","dependencies":["ExpandedOrganizationSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","Organization","OrganizationListResponse","ResponseMeta","ResponseWarning","SharedCodec475"]}
+{"shared":"OrganizationListResponse","dependencies":["ExpandedOrganizationSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","Organization","OrganizationListResponse","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec481","SharedCodec485"]}

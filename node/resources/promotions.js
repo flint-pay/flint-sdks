@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/promotions.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/promotions.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createPromotion"]:r0,["createPromotionCode"]:r0,["deletePromotion"]:r0,["deletePromotionCode"]:r0,["getPromotion"]:r0,["listPromotionCodes"]:r0,["listPromotions"]:r0,["resolvePromotionCode"]:r0,["updatePromotion"]:r0,["updatePromotionCode"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPromotion"]:r0,["createPromotionCode"]:r0,["deletePromotion"]:r0,["deletePromotionCode"]:r0,["getPromotion"]:r0,["listPromotionCodes"]:r0,["listPromotions"]:r0,["updatePromotion"]:r0,["updatePromotionCode"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -76,39 +76,49 @@ this.promotions = Object.freeze({
 ], [promotion_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      listCodes: async (promotion_id, params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
+      listCodes: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
+  "promotion_id",
+  "code",
+  "status",
   "page_size",
   "page_token",
+  "expand",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
-      listCodesWithResponse: async (promotion_id, params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
+      listCodesWithResponse: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
+  "promotion_id",
+  "code",
+  "status",
   "page_size",
   "page_token",
+  "expand",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      listCodesPages: (promotion_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
+      listCodesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
+  "promotion_id",
+  "code",
+  "status",
   "page_size",
   "page_token",
+  "expand",
   "Flint-Version"
 ], false, false, params), options), []),
-      listCodesPagesWithResponse: (promotion_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
+      listCodesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
+  "promotion_id",
+  "code",
+  "status",
   "page_size",
   "page_token",
+  "expand",
   "Flint-Version"
 ], false, false, params), options)),
-      listCodesItems: (promotion_id, params, options) => this.#runtime.items("listPromotionCodes", _sdkRequestInput([
-  "promotion_id"
-], [promotion_id], [
+      listCodesItems: (params, options) => this.#runtime.items("listPromotionCodes", _sdkRequestInput([], [], [
+  "promotion_id",
+  "code",
+  "status",
   "page_size",
   "page_token",
+  "expand",
   "Flint-Version"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPromotions", _sdkRequestInput([], [], [
@@ -211,16 +221,6 @@ this.promotions = Object.freeze({
   "updated_before",
   "Flint-Version"
 ], false, false, params), options),
-      resolveCode: async (code, params, options) => this.#runtime.request("resolvePromotionCode", _sdkRequestInput([
-  "code"
-], [code], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      resolveCodeWithResponse: async (code, params, options) => this.#runtime.request("resolvePromotionCode", _sdkRequestInput([
-  "code"
-], [code], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
       update: async (promotion_id, params, options) => this.#runtime.request("updatePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
@@ -261,7 +261,6 @@ export { makePromotionCodeListResponse } from '../models/PromotionCodeListRespon
 export { makePromotionCode } from '../models/PromotionCode.js';
 export { makePromotionListResponse } from '../models/PromotionListResponse.js';
 export { makePromotion } from '../models/Promotion.js';
-export { makePromotionCodeResolutionResponse } from '../models/PromotionCodeResolutionResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
@@ -273,4 +272,3 @@ export { makePromotionRuleGroup } from '../models/PromotionRuleGroup.js';
 export { makePromotionCombinesWith } from '../models/PromotionCombinesWith.js';
 export { makePromotionExclusivity } from '../models/PromotionExclusivity.js';
 export { makePromotionSchedule } from '../models/PromotionSchedule.js';
-export { makePromotionCodeResolution } from '../models/PromotionCodeResolution.js';

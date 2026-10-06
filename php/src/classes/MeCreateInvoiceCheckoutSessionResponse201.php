@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read InvoiceCheckoutSessionResult $data
+ * @property-read BuyerInvoiceCheckoutSessionResult $data
  * @property-read ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class MeCreateInvoiceCheckoutSessionResponse201 extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateInvoiceCheckoutSessionResponse201')); }
-    /** @return InvoiceCheckoutSessionResult
+    /** @return BuyerInvoiceCheckoutSessionResult
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
-    public function getData(): InvoiceCheckoutSessionResult { return $this->get('data'); }
+    public function getData(): BuyerInvoiceCheckoutSessionResult { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** @return ResponseMeta
      * @throws SdkError When meta is omitted; use hasMeta() or valueOrDefault().

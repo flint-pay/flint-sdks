@@ -1,9 +1,9 @@
-import { d400 as c0, d1743 as c1, d74 as c2, d2030 as c3, d27 as c4, d28 as c5, d2028 as c6, d2029 as c7 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d400 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d406 as c0, d1750 as c1, d77 as c2, d2043 as c3, d30 as c4, d31 as c5, d2041 as c6, d2042 as c7 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d406 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d400;
+const read = d406;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateOrderDiscount"]:c0(),["ManualDiscountRequest"]:c1(),["MoneyValue"]:c2(),["PromotionRefRequest"]:c3(),["SharedCodec2"]:c4(),["SharedCodec3"]:c5(),["SharedCodec520"]:c6(),["SharedCodec521"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateOrderDiscount"]:c0(),["ManualDiscountRequest"]:c1(),["MoneyValue"]:c2(),["PromotionRefRequest"]:c3(),["SharedCodec3"]:c4(),["SharedCodec4"]:c5(),["SharedCodec530"]:c6(),["SharedCodec531"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateOrderDiscount(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

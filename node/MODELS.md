@@ -6,6 +6,26 @@ Fields below describe the API's declared shape. Inputs omit read-only fields; re
 
 Exact numeric strings preserve JSON numeric precision. For a minor-unit amount, `"100"` is 100 minor units (USD 1.00), not USD 100.00. Use the field's documented units.
 
+## AccessLink
+
+A link that opens one order, subscription, or Return in the merchant's Flint-hosted customer account without a sign-in. Its url is a bearer credential, returned only when the link is created.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expires_at` | Required | string | When the link stops opening the resource without a sign-in. Format: `date-time`. Response only. |
+| `purpose` | Required | string | What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. Values: `"order_view"`, `"subscription_view"`, `"return_view"`. Response only. |
+| `url` | Required | string | The link to send the buyer. It carries an access grant in its fragment, so anyone with it can open the resource until expires_at or until it reaches its open limit. The link follows the customer account's current custom domain when the buyer opens it. Format: `uri`. Response only. |
+
+## AccessLinkResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [AccessLink](MODELS.md#accesslink) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
 ## ActionResponse
 
 
@@ -217,7 +237,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string |  |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#apirequestlog-resource_type-values). |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Required | string |  |
@@ -245,6 +265,114 @@ Variants: any, any.
 - `"webhook_http_4xx"`
 - `"webhook_delivery"`
 
+#### APIRequestLog resource_type values
+
+- `"api_key"`
+- `"api_request_log"`
+- `"balance"`
+- `"balance_transaction"`
+- `"bundle"`
+- `"bundle_component"`
+- `"capability"`
+- `"category"`
+- `"checkout_session"`
+- `"credit_note"`
+- `"credit_note_allocation"`
+- `"customer"`
+- `"customer_address"`
+- `"customer_deletion_request"`
+- `"customer_session"`
+- `"customer_verification"`
+- `"delivery_location_set"`
+- `"delivery_method"`
+- `"delivery_profile"`
+- `"delivery_quote"`
+- `"delivery_rate"`
+- `"delivery_rate_callback"`
+- `"delivery_revocation"`
+- `"delivery_selection"`
+- `"delivery_zone"`
+- `"device"`
+- `"dispute"`
+- `"email_change_request"`
+- `"environment_grant"`
+- `"feedback_report"`
+- `"fraud_warning"`
+- `"fulfillment"`
+- `"fulfillment_event"`
+- `"fulfillment_notification"`
+- `"gift_card"`
+- `"gift_card_load"`
+- `"gift_card_notification"`
+- `"gift_card_redemption"`
+- `"inventory_allocation_policy"`
+- `"inventory_count"`
+- `"inventory_item"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_reservation_line"`
+- `"inventory_transfer"`
+- `"invoice"`
+- `"invoice_late_fee"`
+- `"invoice_payment_attempt"`
+- `"invoice_payment_term"`
+- `"location"`
+- `"merchant"`
+- `"merchant_billing_balance"`
+- `"merchant_subscription_invoice"`
+- `"modifier"`
+- `"modifier_group"`
+- `"modifier_set"`
+- `"order"`
+- `"order_charge"`
+- `"order_line_item"`
+- `"order_payment_attempt"`
+- `"organization"`
+- `"package"`
+- `"package_item"`
+- `"partner_app"`
+- `"partner_app_install"`
+- `"payment_intent"`
+- `"payment_link"`
+- `"payment_method"`
+- `"payment_method_domain"`
+- `"payout"`
+- `"payout_destination"`
+- `"payout_settings"`
+- `"product"`
+- `"product_option"`
+- `"product_variant"`
+- `"promotion"`
+- `"promotion_code"`
+- `"refund"`
+- `"report"`
+- `"report_download"`
+- `"return"`
+- `"return_disposition"`
+- `"return_inspection"`
+- `"return_inspection_line_item"`
+- `"return_line_item"`
+- `"return_policy"`
+- `"return_policy_revision"`
+- `"return_reason"`
+- `"return_receipt"`
+- `"return_receipt_line_item"`
+- `"return_resolution"`
+- `"review"`
+- `"risk_list"`
+- `"risk_list_item"`
+- `"risk_rule"`
+- `"sandbox"`
+- `"shipment"`
+- `"subscription"`
+- `"subscription_payment_retry"`
+- `"subscription_plan"`
+- `"user"`
+- `"webhook_delivery"`
+- `"webhook_endpoint"`
+- `"webhook_event"`
+
 ## APIRequestLogDetail
 
 
@@ -270,7 +398,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string |  |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#apirequestlogdetail-resource_type-values). |
 | `response_body` | Optional | string |  |
 | `response_content_type` | Optional | string |  |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
@@ -299,6 +427,114 @@ Variants: any, any.
 - `"webhook_http_5xx"`
 - `"webhook_http_4xx"`
 - `"webhook_delivery"`
+
+#### APIRequestLogDetail resource_type values
+
+- `"api_key"`
+- `"api_request_log"`
+- `"balance"`
+- `"balance_transaction"`
+- `"bundle"`
+- `"bundle_component"`
+- `"capability"`
+- `"category"`
+- `"checkout_session"`
+- `"credit_note"`
+- `"credit_note_allocation"`
+- `"customer"`
+- `"customer_address"`
+- `"customer_deletion_request"`
+- `"customer_session"`
+- `"customer_verification"`
+- `"delivery_location_set"`
+- `"delivery_method"`
+- `"delivery_profile"`
+- `"delivery_quote"`
+- `"delivery_rate"`
+- `"delivery_rate_callback"`
+- `"delivery_revocation"`
+- `"delivery_selection"`
+- `"delivery_zone"`
+- `"device"`
+- `"dispute"`
+- `"email_change_request"`
+- `"environment_grant"`
+- `"feedback_report"`
+- `"fraud_warning"`
+- `"fulfillment"`
+- `"fulfillment_event"`
+- `"fulfillment_notification"`
+- `"gift_card"`
+- `"gift_card_load"`
+- `"gift_card_notification"`
+- `"gift_card_redemption"`
+- `"inventory_allocation_policy"`
+- `"inventory_count"`
+- `"inventory_item"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_reservation_line"`
+- `"inventory_transfer"`
+- `"invoice"`
+- `"invoice_late_fee"`
+- `"invoice_payment_attempt"`
+- `"invoice_payment_term"`
+- `"location"`
+- `"merchant"`
+- `"merchant_billing_balance"`
+- `"merchant_subscription_invoice"`
+- `"modifier"`
+- `"modifier_group"`
+- `"modifier_set"`
+- `"order"`
+- `"order_charge"`
+- `"order_line_item"`
+- `"order_payment_attempt"`
+- `"organization"`
+- `"package"`
+- `"package_item"`
+- `"partner_app"`
+- `"partner_app_install"`
+- `"payment_intent"`
+- `"payment_link"`
+- `"payment_method"`
+- `"payment_method_domain"`
+- `"payout"`
+- `"payout_destination"`
+- `"payout_settings"`
+- `"product"`
+- `"product_option"`
+- `"product_variant"`
+- `"promotion"`
+- `"promotion_code"`
+- `"refund"`
+- `"report"`
+- `"report_download"`
+- `"return"`
+- `"return_disposition"`
+- `"return_inspection"`
+- `"return_inspection_line_item"`
+- `"return_line_item"`
+- `"return_policy"`
+- `"return_policy_revision"`
+- `"return_reason"`
+- `"return_receipt"`
+- `"return_receipt_line_item"`
+- `"return_resolution"`
+- `"review"`
+- `"risk_list"`
+- `"risk_list_item"`
+- `"risk_rule"`
+- `"sandbox"`
+- `"shipment"`
+- `"subscription"`
+- `"subscription_payment_retry"`
+- `"subscription_plan"`
+- `"user"`
+- `"webhook_delivery"`
+- `"webhook_endpoint"`
+- `"webhook_event"`
 
 ## APIRequestLogDetailResponse
 
@@ -363,7 +599,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `auth_mode` | Required | string |  |
+| `auth_mode` | Required | string | Values: `"api_key_or_partner"`, `"checkout_session"`. |
 | `expansion_shapes` | Required | Array of [ApiRequestLogExpansionShape](MODELS.md#apirequestlogexpansionshape) |  |
 | `normalized_expand_paths` | Required | Array of string |  |
 | `response_shape_key` | Required | string |  |
@@ -739,7 +975,7 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 | `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. |
 | `is_available` | Required | boolean | Whether this session can take the action now. |
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [11 declared values](#buyeraction-kind-values). |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [12 declared values](#buyeraction-kind-values). |
 | `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`. |
 
 #### BuyerAction kind values
@@ -755,6 +991,7 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 - `"withdraw"`
 - `"ship_items"`
 - `"pay_balance"`
+- `"retry_payment"`
 
 ## BuyerCapabilities
 
@@ -960,8 +1197,8 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
-| `balance_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `available_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `balance_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `gift_card_id` | Required | string |  |
@@ -969,7 +1206,7 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `last_loaded_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `last_redeemed_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `merchant_id` | Required | string |  |
-| `reserved_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `reserved_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -1001,9 +1238,9 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
-| `balance_after_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
-| `balance_before_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `amount_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_after_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `balance_before_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_card_id` | Required | string |  |
 | `gift_card_transaction_id` | Required | string |  |
 | `posted_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -1092,6 +1329,28 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 | `version` | Required | exact numeric string | Current invoice version. Send this as expected_version when updating the draft. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
 | `viewed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+## BuyerInvoiceCheckoutSessionResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [BuyerInvoiceCheckoutSessionResult](MODELS.md#buyerinvoicecheckoutsessionresult) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## BuyerInvoiceCheckoutSessionResult
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
+| `hosted_checkout` | Required | [HostedCheckout](MODELS.md#hostedcheckout) |  |
+| `invoice` | Required | [BuyerInvoice](MODELS.md#buyerinvoice) |  |
+| `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
+| `reused_existing` | Required | boolean |  |
 
 ## BuyerInvoiceLateFee
 
@@ -1225,6 +1484,32 @@ The offer a buyer sees before canceling. Send at least one field.
 | `kind` | Optional | string | none: no offer. pause_instead: offer to pause for pause_cycles billing periods instead of canceling. pause_instead needs pausing turned on. Values: `"none"`, `"pause_instead"`. |
 | `pause_cycles` | Optional | integer | Billing periods the offered pause lasts. Required when kind is pause_instead, and at most pause.max_cycles when that is set. Not allowed with kind none. Format: `int32`. minimum: `1`. maximum: `12`. |
 
+## BuyerSubscriptionPaymentRetry
+
+A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `failure` | Optional | [SubscriptionPaymentRetryFailure](MODELS.md#subscriptionpaymentretryfailure) |  |
+| `order_id` | Optional | string |  |
+| `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `status` | Required | string | Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`. |
+| `subscription_id` | Required | string |  |
+| `subscription_payment_retry_id` | Required | string |  |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+## BuyerSubscriptionPaymentRetryResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [BuyerSubscriptionPaymentRetry](MODELS.md#buyersubscriptionpaymentretry) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
 ## CallerSuppliedDeliveryMethodResultRequest
 
 
@@ -1317,7 +1602,7 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cancellation_reason` | Optional | string | Optional merchant-supplied cancellation reason. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`. |
-| `payment_attempt_id` | Optional | string | Owning Flint payment attempt ID. Required while the payment leg belongs to an active attempt. |
+| `order_payment_attempt_id` | Optional | string | Owning Flint payment attempt ID. Required while the payment leg belongs to an active attempt. |
 
 ## CancelPaymentIntentRequest
 
@@ -1423,59 +1708,6 @@ Variants: any, any, any.
 | `cancellation_comment` | Optional | string | Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed. Recorded in cancellation_details.comment, which only merchant credentials read. maxLength: `500`. |
 | `cancellation_reason_code` | Optional | string | Optional. Why the subscription is being canceled. When the store lists customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one of them; merchant credentials may send any code. Recorded in cancellation_details.reason_code. Values: `"too_expensive"`, `"missing_features"`, `"switched_service"`, `"unused"`, `"customer_service"`, `"too_complex"`, `"low_quality"`, `"other"`. |
 
-## CancelSubscriptionResponse
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `data` | Required | [CancelSubscriptionResult](MODELS.md#cancelsubscriptionresult) |  |
-| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
-| `request_id` | Optional | string |  |
-
-## CancelSubscriptionResult
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `awaiting_billing_schedule` | Optional | boolean | Response only. |
-| `billing_anchor_day` | Optional | integer | Format: `int32`. |
-| `billing_interval` | Optional | string | How often the subscription bills, frozen when the subscription was created. Read with billing_interval_count: monthly with a count of 3 bills quarterly. Omitted for subscriptions created before Flint recorded this interval. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. Response only. |
-| `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
-| `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. Response only. |
-| `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
-| `cancel_at_period_end` | Required | boolean |  |
-| `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
-| `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `contract_info` | Optional | [ContractInfo](MODELS.md#contractinfo) |  |
-| `contract_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `current_period_end` | Optional | string | Response only. |
-| `current_period_start` | Optional | string | Response only. |
-| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `customer_id` | Required | string |  |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `line_items` | Optional | Array of [SubscriptionLineItem](MODELS.md#subscriptionlineitem) | Response only. |
-| `merchant_id` | Optional | string | Response only. |
-| `metadata` | Optional | object |  |
-| `next_billing_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `next_retry_at` | Optional | string or null | Recorded automatic payment retry time. Null when no retry time is available. Format: `date-time`. Response only. |
-| `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `payment_method` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `payment_method_id` | Required | string |  |
-| `plan_id` | Required | string |  |
-| `recurring_amount_money` | Optional | object | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
-| `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) |  |
-| `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. Response only. |
-| `subscription_id` | Required | string | Response only. |
-| `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `trial_end` | Optional | string | Response only. |
-| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-
 ## Capability
 
 Merchant capability readiness for a payment or money movement capability.
@@ -1542,7 +1774,7 @@ Merchant capability readiness for a payment or money movement capability.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `payment_attempt_id` | Optional | string | Owning Flint payment attempt ID. Required while the authorization belongs to an active attempt. |
+| `order_payment_attempt_id` | Optional | string | Owning Flint payment attempt ID. Required while the authorization belongs to an active attempt. |
 
 ## CapturePaymentIntentRequest
 
@@ -1590,7 +1822,7 @@ Merchant capability readiness for a payment or money movement capability.
 | `merchant_id` | Optional | string |  |
 | `metadata` | Optional | object |  |
 | `name` | Required | string |  |
-| `status` | Required | string | Values: `"active"`, `"archived"`, `"deleted"`. |
+| `status` | Required | string | Values: `"active"`, `"deleted"`. |
 | `targeting_reference_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -1644,22 +1876,24 @@ Merchant capability readiness for a payment or money movement capability.
 
 ## CheckoutBuyerContact
 
-Contact the buyer entered in checkout before paying.
+Buyer contact supplied with payment or saved during checkout.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Required | string or null | Email the buyer entered, exactly as typed. Null when the buyer has not entered an email or cleared it. Format: `email`. maxLength: `255`. |
-| `phone` | Required | string or null | Phone the buyer entered, in E.164 format. Null when the buyer has not entered a phone or cleared it. pattern: `^\+[1-9][0-9]{1,14}$`. |
-| `updated_at` | Required | string | When the buyer last changed the saved contact. Format: `date-time`. Response only. |
+| `email` | Required | string or null | Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. Format: `email`. maxLength: `255`. |
+| `is_email_cleared` | Required | boolean | True when the buyer explicitly cleared the email, including before entering one. Saving an email resets it to false. Do not restore a prefilled email while true. Response only. |
+| `is_phone_cleared` | Required | boolean | True when the buyer explicitly cleared the phone, including before entering one. Saving a phone resets it to false. Do not restore a prefilled phone while true. Response only. |
+| `phone` | Required | string or null | Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared distinguishes an explicit clear. pattern: `^\+[1-9][0-9]{1,14}$`. |
+| `updated_at` | Optional | string | When the buyer last changed the saved checkout contact. Omitted on order buyer contact. Format: `date-time`. Response only. |
 
 ## CheckoutBuyerContactRequest
 
-Buyer contact to save. Send at least one field. Omitted fields keep their saved value; null clears a saved value. Values are stored exactly as sent, so an email with surrounding spaces is rejected.
+Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Optional | string or null | Email the buyer entered, such as buyer@example.com. Null clears the saved email. Format: `email`. maxLength: `255`. |
-| `phone` | Optional | string or null | Phone the buyer entered, in E.164 format, such as +14155551234. Null clears the saved phone. pattern: `^\+[1-9][0-9]{1,14}$`. |
+| `email` | Optional | string or null | Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: `email`. maxLength: `255`. |
+| `phone` | Optional | string or null | Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates, null clears the saved phone. pattern: `^\+[1-9][0-9]{1,14}$`. |
 
 ## CheckoutCustomerConfig
 
@@ -1914,7 +2148,7 @@ Checkout reminder email settings. On update, an omitted field keeps its value.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delay_minutes` | Optional | integer | Minutes to wait after the buyer last changed their email or phone before sending the reminder. Defaults to 60. Format: `int32`. minimum: `15`. maximum: `1440`. |
+| `delay_seconds` | Optional | integer | Seconds to wait after the buyer last changed their email or phone before sending the reminder. Must be a multiple of 60. Defaults to 3600. Format: `int32`. minimum: `900`. maximum: `86400`. multipleOf: `60`. |
 | `enabled` | Optional | boolean | Whether Flint sends checkout reminders. Turning them on requires a business address on the merchant, which the reminder prints; without one the update returns CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED. |
 
 ## CheckoutRedirectsConfig
@@ -1924,7 +2158,6 @@ Checkout reminder email settings. On update, an omitted field keeps its value.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cancel_redirect_url` | Optional | string |  |
-| `on_load_redirect_url` | Optional | string |  |
 | `success_redirect_url` | Optional | string |  |
 
 ## CheckoutSavedPaymentDetailsSettings
@@ -1942,9 +2175,9 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `active_payment_attempt` | Optional | object | Response only. |
-| `buyer_contact` | Optional | object | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Omitted until the buyer saves one. When a checkout session payment omits buyer_email or buyer_phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. |
+| `buyer_contact` | Optional | object | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. |
 | `checkout_session_id` | Required | string | Response only. |
-| `closed_reason` | Optional | string | Internal reason supplied when the checkout session was closed. This is not shown to the buyer. Response only. |
+| `closed_reason` | Optional | string | The note supplied when the checkout session was closed. It is not shown to the buyer. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
@@ -1973,7 +2206,6 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `payment_link_id` | Optional | string | Response only. |
 | `payment_method_save` | Optional | object | The card the buyer saved with this checkout's payment by giving a mobile phone number, and whether they confirmed it. Present only on reads with the session's checkout credential, after a payment that paid the order in full, or that was approved for the merchant to capture later, and saved a card this way. A checkout whose payment is approved stays open until the capture. Response only. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
-| `plan_id` | Optional | string | Response only. |
 | `problems` | Required | Array of [CheckoutProblemResource](MODELS.md#checkoutproblemresource) | Named conditions that affect checkout completion. Follow each problem's remediation action instead of reconstructing delivery lifecycle rules in the client. When Flint cannot read the checkout's delivery, the read still succeeds and reports delivery_selection_stale; its remediation says whether reading the session again can succeed, and its next action's reason_code names the error. Response only. |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `recovery_expires_at` | Optional | string or null | RFC3339 deadline for the restricted payment-attempt recovery window. Format: `date-time`. Response only. |
@@ -1985,6 +2217,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `save_payment_method_requires_verification` | Optional | boolean | Whether the buyer must confirm their email with a code before the checkout can save their card or use their saved cards. Present only on reads with the session's checkout credential. True when save_payment_method_offered is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever save_payment_method_offered is false. Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `status` | Required | string | Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. Response only. |
+| `subscription_plan_id` | Optional | string | Response only. |
 | `subscription_terms` | Optional | object | Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them. Absent when the checkout starts no subscription. Response only. |
 | `superseding_checkout_session_id` | Optional | string | Response only. |
 | `surface` | Required | string | Values: `"hosted"`, `"embedded"`. |
@@ -2076,22 +2309,1674 @@ Checkout-session access returned for hosted or embedded checkout creation.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `base_subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `checkout_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string |  |
-| `conflict_reason` | Optional | string |  |
-| `latest_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `line_item_key` | Optional | string |  |
-| `message` | Required | string |  |
-| `modifier_choices` | Optional | Array of [AvailableModifierGroup](MODELS.md#availablemodifiergroup) |  |
-| `modifier_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `modifiers` | Optional | Array of [OrderLineItemModifier](MODELS.md#orderlineitemmodifier) |  |
-| `order_line_item_id` | Optional | string |  |
-| `param` | Optional | string |  |
-| `payment_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `total_money` | Optional | [SignedMoney](MODELS.md#signedmoney) |  |
+| `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
+| `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `message` | Required | string | Human-readable explanation of this item for your logs. The wording can change, so branch on code. |
+| `modifier_choices` | Optional | Array of [AvailableModifierGroup](MODELS.md#availablemodifiergroup) | Modifier groups and options the buyer can choose for the line item now. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `modifier_total_money` | Optional | object | Total price change from the line item's modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `modifiers` | Optional | Array of [OrderLineItemModifier](MODELS.md#orderlineitemmodifier) | Modifiers currently applied to the line item. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `order_line_item_id` | Optional | string | Order line item whose modifiers changed. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
+| `payment_amount_money` | Optional | object | Amount the buyer pays to complete the checkout, which equals checkout_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `subtotal_money` | Optional | object | Line item base subtotal plus modifier_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `tax_money` | Optional | object | Tax on the line item. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `total_money` | Optional | object | Line item total after its share of discounts and tax. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+
+#### CheckoutSessionRevisionConflictDetail code values
+
+- `"ACCESS_LINK_CUSTOMER_REQUIRED"`
+- `"ACCESS_LINK_MERCHANT_HOSTED"`
+- `"ACCOUNT_SETUP_CONFIGURATION_CONFLICT"`
+- `"ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"ACCOUNT_SETUP_UNAVAILABLE"`
+- `"ACH_BILLING_DETAILS_REQUIRED"`
+- `"ACH_MANDATE_ACCEPTANCE_REQUIRED"`
+- `"ACH_TRANSACTION_PURPOSE_UNRESOLVED"`
+- `"ACTIVE_BUNDLE_COMPONENTS_IMMUTABLE"`
+- `"ACTIVE_DEMO_SESSION_EXISTS"`
+- `"ACTIVE_LINE_ITEM_SOURCE_CHANGE"`
+- `"ACTIVE_OPTIONS_REQUIRED"`
+- `"ACTIVE_OPTION_SELECTOR_COLLAPSE"`
+- `"ACTIVE_VARIANTS_REQUIRE_OPTION_BACKFILL"`
+- `"AFFIRM_REFUND_RETRY_NOT_ALLOWED"`
+- `"AMBIGUOUS_AUTH"`
+- `"AMBIGUOUS_CATEGORY"`
+- `"AMOUNT_ABOVE_MAX"`
+- `"AMOUNT_BELOW_LIMIT"`
+- `"AMOUNT_BELOW_MIN"`
+- `"AMOUNT_EXCEEDS_BALANCE"`
+- `"AMOUNT_EXCEEDS_LIMIT"`
+- `"AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"AMOUNT_MISMATCH"`
+- `"AMOUNT_MONEY_CURRENCY_REQUIRED"`
+- `"AMOUNT_MONEY_REQUIRED"`
+- `"AMOUNT_NOT_ADJUSTABLE"`
+- `"AMOUNT_NOT_UPDATABLE"`
+- `"AMOUNT_REQUIRED"`
+- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
+- `"AMOUNT_TOO_LARGE"`
+- `"AMOUNT_TOO_SMALL"`
+- `"API_KEYS_UNAVAILABLE"`
+- `"API_KEY_ALREADY_REVOKED"`
+- `"API_KEY_CHANGED"`
+- `"API_KEY_DATA_INVALID"`
+- `"API_KEY_EXPIRED"`
+- `"API_KEY_MANAGEMENT_FORBIDDEN"`
+- `"API_KEY_MODE_MISMATCH"`
+- `"API_KEY_NOT_FOUND"`
+- `"API_KEY_REQUIRED"`
+- `"API_KEY_REVOKED"`
+- `"API_KEY_SANDBOX_UNAVAILABLE"`
+- `"API_KEY_SCOPE_INVALID"`
+- `"API_KEY_SCOPE_UNSUPPORTED"`
+- `"API_VERSION_CHANGED"`
+- `"API_VERSION_RETIRED"`
+- `"APPLICATION_METHOD_REQUIRED"`
+- `"ATTRIBUTE_REQUIRED"`
+- `"ATTRIBUTE_UNAVAILABLE"`
+- `"AUTHENTICATION_FAILED"`
+- `"AUTHENTICATION_REQUIRED"`
+- `"AUTHORIZATION_FAILED"`
+- `"AUTH_CONTEXT_MISSING"`
+- `"AUTH_REQUIRED"`
+- `"AUTH_UNAVAILABLE"`
+- `"AUTH_VALIDATION_FAILED"`
+- `"AUTOMATIC_PAYOUT_NOT_CANCELABLE"`
+- `"AUTOMATIC_PROMOTIONS_DISABLED"`
+- `"AUTOMATIC_TAX_CATEGORY_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_CHARGE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_COMPONENTS_FORBIDDEN"`
+- `"AUTOMATIC_TAX_CONNECTION_REQUIRED"`
+- `"AUTOMATIC_TAX_DELAYED_CAPTURE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_EXEMPTION_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INCLUSIVE_PRICING_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INVOICE_INSTALLMENTS_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_MULTIPLE_DESTINATIONS"`
+- `"AUTOMATIC_TAX_MULTIPLE_ORIGINS"`
+- `"AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED"`
+- `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
+- `"BALANCE_SNAPSHOT_UNAVAILABLE"`
+- `"BALANCE_SOURCE_TYPE_REQUIRED"`
+- `"BALANCE_TRANSACTION_NOT_FOUND"`
+- `"BANK_ACCOUNT_CLOSED"`
+- `"BANK_ACCOUNT_NOT_FOUND"`
+- `"BANK_ACCOUNT_RESTRICTED"`
+- `"BANK_DEBIT_LIMIT_EXCEEDED"`
+- `"BANK_DEBIT_NOT_AUTHORIZED"`
+- `"BARCODE_ALREADY_EXISTS"`
+- `"BUNDLE_COMPONENTS_REQUIRED"`
+- `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
+- `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
+- `"BUNDLE_IN_ACTIVE_PAYMENT_LINK"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"BUNDLE_IN_OPEN_CHECKOUT_SESSION"`
+- `"BUNDLE_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"BUNDLE_IN_OPEN_ORDER"`
+- `"BUNDLE_NOT_SELLABLE"`
+- `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
+- `"BUYER_INVOICE_CREDENTIAL_INVALID"`
+- `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CALCULATION_BASIS_FORBIDDEN"`
+- `"CALCULATION_BASIS_NOT_APPLICABLE"`
+- `"CALCULATION_BASIS_REQUIRED"`
+- `"CANCELLATION_COMMENT_TOO_LONG"`
+- `"CANCELLATION_REASON_DUPLICATE"`
+- `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
+- `"CANCELLATION_REASON_NOT_OFFERED"`
+- `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
+- `"CANNOT_CANCEL_EXPIRED_PAYMENT"`
+- `"CANNOT_CANCEL_SUCCEEDED_PAYMENT"`
+- `"CANNOT_PAUSE"`
+- `"CANNOT_RESUME"`
+- `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
+- `"CANNOT_RESUME_PAST_DUE_PAYMENT_REQUIRED"`
+- `"CAPABILITIES_IMMUTABLE"`
+- `"CAPABILITIES_UNAVAILABLE"`
+- `"CAPABILITY_DEPENDENCY_REQUIRED"`
+- `"CAPABILITY_NOT_REQUESTED"`
+- `"CAPABILITY_SET_UNSUPPORTED"`
+- `"CAPABILITY_SNAPSHOT_UNAVAILABLE"`
+- `"CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE"`
+- `"CAPTURE_AMOUNT_MISMATCH"`
+- `"CAPTURE_CURRENCY_MISMATCH"`
+- `"CARD_DECLINED"`
+- `"CATALOG_INVENTORY_RELATIONSHIP_INVALID"`
+- `"CATALOG_LINE_ITEM_CURRENCY_CHANGED"`
+- `"CATALOG_LINE_ITEM_FIELDS_READ_ONLY"`
+- `"CATALOG_LINE_ITEM_SOURCE_CHANGED"`
+- `"CATALOG_MODIFIERS_REQUIRED"`
+- `"CATEGORY_HANDLE_EXISTS"`
+- `"CATEGORY_MODIFIED"`
+- `"CATEGORY_REFERENCED"`
+- `"CHALLENGE_FAILED"`
+- `"CHALLENGE_REQUIRED"`
+- `"CHALLENGE_TOKEN_INVALID"`
+- `"CHARGE_NAME_REQUIRED"`
+- `"CHARGE_NOT_ON_ORDER"`
+- `"CHARGE_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"CHARGE_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"CHARGE_TYPE_REQUIRED"`
+- `"CHARGE_VALUE_REQUIRED"`
+- `"CHECKOUT_CREDENTIAL_CHANGED"`
+- `"CHECKOUT_CREDENTIAL_REQUIRED"`
+- `"CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED"`
+- `"CHECKOUT_CUSTOMER_CHANGED"`
+- `"CHECKOUT_CUSTOMER_CONFLICT"`
+- `"CHECKOUT_CUSTOMER_NOT_SET_ON_ORDER"`
+- `"CHECKOUT_DISCOUNT_ID_NOT_ALLOWED"`
+- `"CHECKOUT_DISCOUNT_NOT_REMOVABLE"`
+- `"CHECKOUT_LAUNCH_TOKEN_RESTRICTED"`
+- `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
+- `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
+- `"CHECKOUT_PAYMENT_RESOLVING"`
+- `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
+- `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
+- `"CHECKOUT_RECOVERY_RESTRICTED"`
+- `"CHECKOUT_REPLACEMENT_REQUIRES_ORDER"`
+- `"CHECKOUT_SAVED_PAYMENT_DETAILS_REQUIRES_MERCHANT_SCOPE"`
+- `"CHECKOUT_SESSIONS_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_ALREADY_EXISTS"`
+- `"CHECKOUT_SESSION_AUTH_REQUIRED"`
+- `"CHECKOUT_SESSION_AUTH_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_CURRENT_CHANGED"`
+- `"CHECKOUT_SESSION_CURRENT_STATE"`
+- `"CHECKOUT_SESSION_EXPIRED"`
+- `"CHECKOUT_SESSION_LOOKUP_FAILED"`
+- `"CHECKOUT_SESSION_MODIFIERS_READ_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_FIELDS_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_LINE_ITEM_MISSING"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_MISSING_ORDER"`
+- `"CHECKOUT_SESSION_NOT_FOUND"`
+- `"CHECKOUT_SESSION_NOT_OPEN"`
+- `"CHECKOUT_SESSION_ORDER_MISMATCH"`
+- `"CHECKOUT_SESSION_PAYMENT_REQUIRED"`
+- `"CHECKOUT_SESSION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_CONFLICT"`
+- `"CHECKOUT_SESSION_REVISION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
+- `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
+- `"CHECKOUT_TIPPING_DISABLED"`
+- `"CHECKOUT_TIP_NOT_ALLOWED"`
+- `"CODES_NOT_ALLOWED"`
+- `"CODES_REQUIRED"`
+- `"CODE_EMPTY"`
+- `"CODE_TOO_LONG"`
+- `"COMPONENT_REQUIRED"`
+- `"CONCURRENT_MODIFICATION"`
+- `"CONFIRMATION_RETURN_URL_INVALID"`
+- `"CONFIRMATION_RETURN_URL_NOT_ALLOWED"`
+- `"CONFIRMATION_RETURN_URL_REQUIRED"`
+- `"CONFIRMATION_TOKEN_ALREADY_USED"`
+- `"CONFIRMATION_TOKEN_EXPIRED"`
+- `"CONFIRMATION_TOKEN_REQUIRED"`
+- `"CONFIRMATION_TOKEN_SCOPE_MISMATCH"`
+- `"CONFIRMATION_TOKEN_SDK_REQUIRED"`
+- `"CONTEXT_NOT_FOUND"`
+- `"CONTRACT_TERM_REQUIRED"`
+- `"CONTRACT_TOO_LONG"`
+- `"CONTRACT_TOO_SHORT"`
+- `"COUNTRY_IMMUTABLE"`
+- `"COUNTRY_NOT_SUPPORTED"`
+- `"COUNTRY_REQUIRED"`
+- `"CREATE_ORDER_LINE_ITEM_DISCOUNT_UNSUPPORTED"`
+- `"CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED"`
+- `"CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_AMOUNT_EXCEEDS_CREDITABLE"`
+- `"CREDIT_NOTE_CHANGED"`
+- `"CREDIT_NOTE_CURRENCY_MISMATCH"`
+- `"CREDIT_NOTE_HAS_ALLOCATIONS"`
+- `"CREDIT_NOTE_ISSUE_IN_PROGRESS"`
+- `"CREDIT_NOTE_NOT_DRAFT"`
+- `"CREDIT_NOTE_NOT_ISSUED"`
+- `"CREDIT_NOTE_REFUND_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_REFUND_INVALID"`
+- `"CURRENCY_MISMATCH"`
+- `"CURRENCY_REQUIRED"`
+- `"CURSOR_MISMATCH"`
+- `"CUSTOMER_ACCOUNTS_UNAVAILABLE"`
+- `"CUSTOMER_ACCOUNT_MODE_CONFLICT"`
+- `"CUSTOMER_ACCOUNT_RESOURCE_NOT_FOUND"`
+- `"CUSTOMER_ACCOUNT_URL_REQUIRED"`
+- `"CUSTOMER_DELETION_BLOCKED"`
+- `"CUSTOMER_DELETION_PROCESSING"`
+- `"CUSTOMER_EMAIL_ALREADY_USED"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
+- `"CUSTOMER_ID_NOT_CLEARABLE"`
+- `"CUSTOMER_NOT_UPDATABLE"`
+- `"CUSTOMER_PAYMENT_METHOD_MISMATCH"`
+- `"CUSTOMER_PAYMENT_TERM_UNAVAILABLE"`
+- `"CUSTOMER_SESSIONS_UNAVAILABLE"`
+- `"CUSTOMER_SESSION_EXPIRED"`
+- `"CUSTOMER_SESSION_NOT_FOUND"`
+- `"CUSTOMER_SESSION_REFRESH_EXPIRED"`
+- `"CUSTOMER_SESSION_REFRESH_REUSED"`
+- `"CUSTOMER_SESSION_REQUIRED"`
+- `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
+- `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
+- `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_NOT_VERIFIED"`
+- `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
+- `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_FIELD_KEY_REQUIRED"`
+- `"CUSTOM_FIELD_KEY_TOO_LONG"`
+- `"CUSTOM_FIELD_KEY_WHITESPACE"`
+- `"CUSTOM_FIELD_LABEL_REQUIRED"`
+- `"CUSTOM_FIELD_OPTION_TOO_LONG"`
+- `"CUSTOM_FIELD_OPTION_WHITESPACE"`
+- `"DAILY_LIMIT_EXCEEDED"`
+- `"DANGLING_EXPANSION_REFERENCE"`
+- `"DEFAULT_ENVIRONMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATIONS_MANAGED_EXTERNALLY"`
+- `"DEFAULT_PAYOUT_DESTINATION_INVALID"`
+- `"DEFAULT_PAYOUT_DESTINATION_REPLACEMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATION_REQUIRED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_ARCHIVED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_RESET"`
+- `"DEFAULT_VARIANT_REQUIRED"`
+- `"DELIVERY_CALCULATION_EXPIRED"`
+- `"DELIVERY_CALLER_RATES_UNAVAILABLE_TO_BUYER"`
+- `"DELIVERY_COMMERCE_TREATMENT_UNSUPPORTED"`
+- `"DELIVERY_CONFIGURATION_INVALID"`
+- `"DELIVERY_DEPENDENCY_REVOKED"`
+- `"DELIVERY_DESTINATION_ADDRESS_INCOMPLETE"`
+- `"DELIVERY_DESTINATION_ADDRESS_REQUIRED"`
+- `"DELIVERY_DESTINATION_CONTROLLED_BY_SELECTION"`
+- `"DELIVERY_DESTINATION_COUNTRY_INVALID"`
+- `"DELIVERY_DESTINATION_FIELD_TOO_LONG"`
+- `"DELIVERY_DESTINATION_FROZEN"`
+- `"DELIVERY_DESTINATION_INVALID"`
+- `"DELIVERY_DESTINATION_NOT_APPLICABLE"`
+- `"DELIVERY_DESTINATION_UPDATE_CONFLICT"`
+- `"DELIVERY_ELIGIBILITY_CONTEXT_CHANGED"`
+- `"DELIVERY_EXPECTED_SELECTION_REQUIRED"`
+- `"DELIVERY_EXPECTED_VERSION_INVALID"`
+- `"DELIVERY_EXPECTED_VERSION_REQUIRED"`
+- `"DELIVERY_EXTERNAL_REFERENCE_REUSED"`
+- `"DELIVERY_FIELD_NOT_SUPPORTED"`
+- `"DELIVERY_FIELD_REQUIRED"`
+- `"DELIVERY_GROUPING_UNSUPPORTED"`
+- `"DELIVERY_MERCHANT_INPUT_REQUIRED"`
+- `"DELIVERY_METHODS_NOT_APPLICABLE"`
+- `"DELIVERY_METHOD_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_OPTION_ALREADY_SELECTED"`
+- `"DELIVERY_OPTION_EXPIRED"`
+- `"DELIVERY_OPTION_NOT_IN_CHOICE_GROUP"`
+- `"DELIVERY_PICKUP_AVAILABILITY_CHANGED"`
+- `"DELIVERY_PICKUP_AVAILABILITY_INVALID"`
+- `"DELIVERY_PICKUP_AVAILABILITY_UNAVAILABLE"`
+- `"DELIVERY_PICKUP_LOCATION_UNAVAILABLE"`
+- `"DELIVERY_PREVIEW_INVALID"`
+- `"DELIVERY_PREVIEW_METHOD_TYPES_INCOMPATIBLE"`
+- `"DELIVERY_PREVIEW_REQUIRES_CHECKOUT"`
+- `"DELIVERY_PREVIEW_UNAVAILABLE"`
+- `"DELIVERY_PROFILE_NOT_APPLICABLE"`
+- `"DELIVERY_QUOTE_BASIS_INVALID"`
+- `"DELIVERY_QUOTE_EXPIRED"`
+- `"DELIVERY_QUOTE_INCOMPLETE"`
+- `"DELIVERY_QUOTE_INPUT_CHANGED"`
+- `"DELIVERY_QUOTE_INVALID"`
+- `"DELIVERY_QUOTE_REVOKED"`
+- `"DELIVERY_QUOTE_STALE"`
+- `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RECIPIENT_REQUIRED"`
+- `"DELIVERY_REQUEST_INVALID"`
+- `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
+- `"DELIVERY_RESOURCE_NOT_FOUND"`
+- `"DELIVERY_RESOURCE_VERSION_CONFLICT"`
+- `"DELIVERY_SELECTION_CHANGED"`
+- `"DELIVERY_SELECTION_EXPIRED"`
+- `"DELIVERY_SELECTION_INCOMPLETE"`
+- `"DELIVERY_SELECTION_NOT_MUTABLE_AFTER_PAYMENT"`
+- `"DELIVERY_SELECTION_REPLACEMENT_LIMIT"`
+- `"DELIVERY_SELECTION_UNAVAILABLE"`
+- `"DELIVERY_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_STATE_CONFLICT"`
+- `"DELIVERY_STATUS_COMBINATION_INVALID"`
+- `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_WINDOW_EXPIRED"`
+- `"DELIVERY_WINDOW_INVALID"`
+- `"DEMO_SESSIONS_UNAVAILABLE"`
+- `"DEMO_SESSION_ROUTE_NOT_ALLOWED"`
+- `"DEMO_SESSION_SECRET_REPLAY_EXPIRED"`
+- `"DESCRIPTION_TOO_LONG"`
+- `"DEVICE_DELETED"`
+- `"DEVICE_LOCATION_MISMATCH"`
+- `"DISCOUNTED_ITEM_RULES_REQUIRED"`
+- `"DISCOUNT_AMOUNT_INVALID"`
+- `"DISCOUNT_IDS_REQUIRED"`
+- `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_REQUIRED"`
+- `"DISPLAY_NAME_TOO_LONG"`
+- `"DISPUTES_UNAVAILABLE"`
+- `"DISPUTE_NOT_FOUND"`
+- `"DONATION_AMOUNT_REQUIRED"`
+- `"DONATION_CONFIG_NOT_APPLICABLE"`
+- `"DONATION_LINE_ITEMS_NOT_ALLOWED"`
+- `"DONATION_LINE_ITEM_MISSING"`
+- `"DONATION_PLAN_NOT_ALLOWED"`
+- `"DONATION_PROMOTION_NOT_ALLOWED"`
+- `"DONATION_TAX_NOT_ALLOWED"`
+- `"DONATION_TIP_NOT_ALLOWED"`
+- `"DROPDOWN_OPTIONS_REQUIRED"`
+- `"DUPLICATE_BUNDLE_COMPONENT_ID"`
+- `"DUPLICATE_CAPABILITY"`
+- `"DUPLICATE_CHARGE_TARGET"`
+- `"DUPLICATE_CLIENT_OPTION_KEY"`
+- `"DUPLICATE_CLIENT_VALUE_KEY"`
+- `"DUPLICATE_CODE"`
+- `"DUPLICATE_COMPONENT_VARIANT"`
+- `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
+- `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"DUPLICATE_IMAGE_SOURCE"`
+- `"DUPLICATE_INVOICE_LINE"`
+- `"DUPLICATE_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_INVOICE_REMINDER_OFFSET"`
+- `"DUPLICATE_LINE_ITEM_ID"`
+- `"DUPLICATE_LINE_ITEM_KEY"`
+- `"DUPLICATE_LINE_ITEM_TARGET"`
+- `"DUPLICATE_OPTION"`
+- `"DUPLICATE_OPTION_NAME"`
+- `"DUPLICATE_OPTION_SELECTION"`
+- `"DUPLICATE_OPTION_VALUE"`
+- `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_SCOPE"`
+- `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_COMPONENT"`
+- `"DUPLICATE_VALUE"`
+- `"EMAIL_ALREADY_LINKED"`
+- `"EMAIL_CHANGE_CONFIRMATION_EXPIRED"`
+- `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
+- `"EMAIL_CHANGE_DELIVERY_FAILED"`
+- `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_REQUIRED"`
+- `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
+- `"EMPTY_CAPABILITY_SET"`
+- `"EMPTY_UPDATE"`
+- `"ENVIRONMENT_GRANT_NOT_FOUND"`
+- `"ENVIRONMENT_LOOKUP_FAILED"`
+- `"ENVIRONMENT_LOOKUP_UNAVAILABLE"`
+- `"ENVIRONMENT_REQUIRED"`
+- `"ENVIRONMENT_SELECTION_FORBIDDEN"`
+- `"EVENT_CONFIG_NOT_APPLICABLE"`
+- `"EVENT_LINE_ITEMS_REQUIRED"`
+- `"EVENT_PLAN_NOT_ALLOWED"`
+- `"EVENT_SOLD_OUT"`
+- `"EVENT_TICKET_QUANTITY_REQUIRED"`
+- `"EVENT_TIMEZONE_REQUIRED"`
+- `"EXACTLY_ONE_REQUIRED"`
+- `"EXPANSION_DEPENDENCY_UNAVAILABLE"`
+- `"EXPANSION_LIMIT_EXCEEDED"`
+- `"EXPANSION_RESOLUTION_FAILED"`
+- `"EXPECTED_AMOUNT_REQUIRED"`
+- `"EXPECTED_VERSION_REQUIRED"`
+- `"EXPIRED_CARD"`
+- `"EXPLICIT_TAX_REFUND_NOOP"`
+- `"EXTERNAL_API_KEY_REQUIRED"`
+- `"EXTERNAL_IMAGE_NOT_ALLOWED"`
+- `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
+- `"EXTERNAL_SERVICE_ERROR"`
+- `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"FEEDBACK_REPORTS_UNAVAILABLE"`
+- `"FEEDBACK_REPORT_NOT_FOUND"`
+- `"FIELD_NOT_ALLOWED_FOR_CALLER"`
+- `"FIELD_NOT_UPDATABLE"`
+- `"FIELD_REQUIRED"`
+- `"FIRST_NAME_REQUIRED"`
+- `"FLAT_TAX_PAYMENT_ATTRIBUTION_UNAVAILABLE"`
+- `"FLAT_TAX_PRICE_MODE_INVALID"`
+- `"FLAT_TAX_REFUND_MUST_BE_FULL"`
+- `"FLAT_TAX_REFUND_STATE_INVALID"`
+- `"FLAT_TAX_SCOPE_INVALID"`
+- `"FLINT_WALLET_CARD_NOT_FOUND"`
+- `"FLINT_WALLET_NOT_FOUND"`
+- `"FLINT_WALLET_UNAVAILABLE"`
+- `"FRAUD_WARNING_NOT_FOUND"`
+- `"FULFILLMENT_ACTION_NOT_ALLOWED"`
+- `"FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION"`
+- `"FULFILLMENT_APPROVAL_REQUIRED"`
+- `"FULFILLMENT_BUNDLE_UNSUPPORTED"`
+- `"FULFILLMENT_CHANGED"`
+- `"FULFILLMENT_COMPLETED"`
+- `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
+- `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
+- `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
+- `"FULFILLMENT_EVENT_DEDUPE_CONFLICT"`
+- `"FULFILLMENT_EVENT_OCCURRED_RANGE_INVALID"`
+- `"FULFILLMENT_EVENT_PROVIDER_IDENTITY_INCOMPLETE"`
+- `"FULFILLMENT_EVENT_SUBJECT_INVALID"`
+- `"FULFILLMENT_FIELD_TOO_LONG"`
+- `"FULFILLMENT_INACTIVE"`
+- `"FULFILLMENT_LABEL_URL_EXTERNAL_SYSTEM_REQUIRED"`
+- `"FULFILLMENT_LABEL_URL_INVALID"`
+- `"FULFILLMENT_LINE_ITEMS_REQUIRED"`
+- `"FULFILLMENT_LINE_ITEM_ID_REQUIRED"`
+- `"FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE"`
+- `"FULFILLMENT_METHOD_DUPLICATE"`
+- `"FULFILLMENT_METHOD_LIMIT_EXCEEDED"`
+- `"FULFILLMENT_METHOD_UNAVAILABLE"`
+- `"FULFILLMENT_NOTIFICATION_BUILD_FAILED"`
+- `"FULFILLMENT_OBLIGATION_UNAVAILABLE"`
+- `"FULFILLMENT_PROFILE_REQUIRED"`
+- `"FULFILLMENT_PROFILE_REVISION_UNUSABLE"`
+- `"FULFILLMENT_PROFILE_UNAVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EFFECT_REQUIRED"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM"`
+- `"FULFILLMENT_QUANTITY_INVALID"`
+- `"FULFILLMENT_REASON_INVALID"`
+- `"FULFILLMENT_REQUIREMENT_REQUIRED"`
+- `"FULFILLMENT_SCHEDULE_INVALID"`
+- `"FULFILLMENT_SCHEDULE_NOT_ALLOWED"`
+- `"FULFILLMENT_SCHEDULE_REQUIRED"`
+- `"FULFILLMENT_SELECTION_REQUIRED"`
+- `"FULFILLMENT_SHIPMENT_NOT_MUTABLE"`
+- `"FULFILLMENT_SHIPMENT_NOT_VOIDABLE"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_CONFLICT"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"FULFILLMENT_SHIPMENT_TERMINAL"`
+- `"FULFILLMENT_STATUS_CONFLICT"`
+- `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
+- `"FULFILLMENT_TERMINAL"`
+- `"FULFILLMENT_TIMEZONE_REQUIRED"`
+- `"FULFILLMENT_TRACKING_URL_INVALID"`
+- `"FULFILLMENT_TYPE_NOT_ALLOWED"`
+- `"FULFILLMENT_TYPE_REQUIRED"`
+- `"FULFILLMENT_WINDOW_INVALID"`
+- `"GIFT_CARDS_UNAVAILABLE"`
+- `"GIFT_CARD_ALLOCATION_CHANGED"`
+- `"GIFT_CARD_ALLOCATION_REQUIRED"`
+- `"GIFT_CARD_BUNDLE_NOT_SUPPORTED"`
+- `"GIFT_CARD_BUYER_DEVICE_REQUIRED"`
+- `"GIFT_CARD_BUYER_REQUIRED"`
+- `"GIFT_CARD_CATALOG_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CHALLENGE_REQUIRED"`
+- `"GIFT_CARD_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CONFIGURATION_NOT_APPLICABLE"`
+- `"GIFT_CARD_CURRENCY_NOT_SUPPORTED"`
+- `"GIFT_CARD_CURRENCY_UNSUPPORTED"`
+- `"GIFT_CARD_INSUFFICIENT_VALUE"`
+- `"GIFT_CARD_INVENTORY_NOT_SUPPORTED"`
+- `"GIFT_CARD_MODIFIERS_NOT_SUPPORTED"`
+- `"GIFT_CARD_NOT_FOUND"`
+- `"GIFT_CARD_PRODUCT_TYPE_IMMUTABLE"`
+- `"GIFT_CARD_PURCHASE_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_INVALID"`
+- `"GIFT_CARD_PURCHASE_LIMIT_EXCEEDED"`
+- `"GIFT_CARD_PURCHASE_NOT_APPLICABLE"`
+- `"GIFT_CARD_PURCHASE_REFUND_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_SOURCE_REQUIRED"`
+- `"GIFT_CARD_PURCHASE_VERIFICATION_UNAVAILABLE"`
+- `"GIFT_CARD_RECIPIENT_VERIFICATION_REQUIRED"`
+- `"GIFT_CARD_REFUND_DESTINATION_REQUIRED"`
+- `"GIFT_CARD_STATE_CONFLICT"`
+- `"GIFT_CARD_SUBSCRIPTION_NOT_SUPPORTED"`
+- `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
+- `"GIFT_CARD_TAX_NOT_SUPPORTED"`
+- `"GIFT_CARD_UNAVAILABLE"`
+- `"HOSTED_CHECKOUT_CALLER_RATES_UNSUPPORTED"`
+- `"HOSTED_INSTALL_UNAVAILABLE"`
+- `"IDEMPOTENCY_CLEAR_FAILED"`
+- `"IDEMPOTENCY_KEY_IN_PROGRESS"`
+- `"IDEMPOTENCY_KEY_REQUIRED"`
+- `"IDEMPOTENCY_KEY_REUSED"`
+- `"IDEMPOTENCY_KEY_TOO_LONG"`
+- `"IDEMPOTENCY_LOAD_FAILED"`
+- `"IDEMPOTENCY_PERSIST_FAILED"`
+- `"IDEMPOTENCY_RECORD_INVALID"`
+- `"IDEMPOTENCY_RECOVERY_REQUIRED"`
+- `"IDEMPOTENCY_REQUEST_IN_PROGRESS"`
+- `"IDENTITY_RESOLUTION_FAILED"`
+- `"IDENTITY_UNAVAILABLE"`
+- `"IMAGE_ANIMATION_UNSUPPORTED"`
+- `"IMAGE_ASSET_NOT_ATTACHABLE"`
+- `"IMAGE_ASSET_NOT_FOUND"`
+- `"IMAGE_DIMENSIONS_EXCEEDED"`
+- `"IMAGE_DIMENSIONS_UNSUPPORTED"`
+- `"IMAGE_FORMAT_UNSUPPORTED"`
+- `"IMAGE_GALLERY_LIMIT_EXCEEDED"`
+- `"IMAGE_INGESTION_COUNT_EXCEEDED"`
+- `"IMAGE_INGESTION_EXPIRED"`
+- `"IMAGE_INGESTION_IN_PROGRESS"`
+- `"IMAGE_INGESTION_RESTART_REQUIRED"`
+- `"IMAGE_NOT_ATTACHABLE"`
+- `"IMAGE_OWNER_NOT_MUTABLE"`
+- `"IMAGE_PIXEL_BUDGET_EXCEEDED"`
+- `"IMAGE_PROCESSING_CAPACITY_EXCEEDED"`
+- `"IMAGE_PROCESSING_FAILED"`
+- `"IMAGE_PROCESSING_TIMEOUT"`
+- `"IMAGE_REVISION_MISMATCH"`
+- `"IMAGE_SOURCE_FETCH_FAILED"`
+- `"IMAGE_SOURCE_NOT_PUBLIC"`
+- `"IMAGE_SOURCE_TIMEOUT"`
+- `"IMAGE_SOURCE_TOO_LARGE"`
+- `"IMAGE_SOURCE_UNAVAILABLE"`
+- `"IMAGE_SOURCE_URL_INVALID"`
+- `"IMAGE_STORAGE_QUOTA_EXCEEDED"`
+- `"IMAGE_URL_INVALID"`
+- `"IMAGE_URL_MUST_BE_CANONICAL"`
+- `"INCOMPLETE_OPTION_SELECTION"`
+- `"INCORRECT_CVC"`
+- `"INHERIT_ONLY_VIOLATION"`
+- `"INITIAL_API_KEY_ALREADY_CREATED"`
+- `"INSTANT_PAYOUTS_UNAVAILABLE"`
+- `"INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"INSUFFICIENT_FUNDS"`
+- `"INSUFFICIENT_SCOPE"`
+- `"INTERNAL_ERROR"`
+- `"INTERVAL_COUNT_TOO_LARGE"`
+- `"INTERVAL_REQUIRED"`
+- `"INVALID_ACTION"`
+- `"INVALID_ACTIONABLE"`
+- `"INVALID_ACTIVITY_TYPE"`
+- `"INVALID_ALLOCATION"`
+- `"INVALID_AMOUNT"`
+- `"INVALID_AMOUNT_OFF"`
+- `"INVALID_AMOUNT_RANGE"`
+- `"INVALID_API_KEY"`
+- `"INVALID_API_VERSION"`
+- `"INVALID_APPLICATION_METHOD"`
+- `"INVALID_AUTHORIZATION_HEADER"`
+- `"INVALID_AVAILABLE_PAYOUT_METHOD"`
+- `"INVALID_BALANCE_SOURCE_TYPE"`
+- `"INVALID_BEARER_TOKEN"`
+- `"INVALID_BILLING_ANCHOR_DAY"`
+- `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_SCHEDULE_OWNER"`
+- `"INVALID_BOGO_DISCOUNT_CLASS"`
+- `"INVALID_BOGO_QUANTITY"`
+- `"INVALID_BOOLEAN"`
+- `"INVALID_BOOTSTRAP_SCOPES"`
+- `"INVALID_BUNDLE_STATUS"`
+- `"INVALID_BUSINESS_NAME"`
+- `"INVALID_BUYER_CANCELLATION_TIMING"`
+- `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_CALCULATION_BASIS"`
+- `"INVALID_CANCELLATION_REASON"`
+- `"INVALID_CANCELLATION_REASON_CODE"`
+- `"INVALID_CAPABILITY"`
+- `"INVALID_CAPTURE_AMOUNT"`
+- `"INVALID_CAPTURE_METHOD"`
+- `"INVALID_CASE_TYPE"`
+- `"INVALID_CATEGORIES"`
+- `"INVALID_CATEGORY"`
+- `"INVALID_CATEGORY_DESCRIPTION"`
+- `"INVALID_CATEGORY_HANDLE"`
+- `"INVALID_CATEGORY_NAME"`
+- `"INVALID_CHANNEL"`
+- `"INVALID_CHARGE_AMOUNT"`
+- `"INVALID_CHARGE_PERCENT"`
+- `"INVALID_CHARGE_REFUND_AMOUNT"`
+- `"INVALID_CHARGE_TYPE"`
+- `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKOUT_SESSION"`
+- `"INVALID_CHECKOUT_SURFACE"`
+- `"INVALID_CODE"`
+- `"INVALID_COLOR"`
+- `"INVALID_COMPLETION_BEHAVIOR"`
+- `"INVALID_COMPONENT"`
+- `"INVALID_COMPONENTS"`
+- `"INVALID_COMPONENT_POSITION"`
+- `"INVALID_COMPONENT_QUANTITY"`
+- `"INVALID_CORNER_RADIUS"`
+- `"INVALID_COUNTRY"`
+- `"INVALID_CREATED_AFTER"`
+- `"INVALID_CREATED_BEFORE"`
+- `"INVALID_CREATED_RANGE"`
+- `"INVALID_CREDIT_NOTE"`
+- `"INVALID_CREDIT_NOTE_CORRECTION_TYPE"`
+- `"INVALID_CREDIT_NOTE_LINE"`
+- `"INVALID_CREDIT_NOTE_MEMO"`
+- `"INVALID_CREDIT_NOTE_REASON"`
+- `"INVALID_CREDIT_NOTE_STATUS"`
+- `"INVALID_CURRENCY"`
+- `"INVALID_CURRENCY_OPTION"`
+- `"INVALID_CURSOR"`
+- `"INVALID_CUSTOMER_ACCOUNT_REQUEST"`
+- `"INVALID_CUSTOMER_ACCOUNT_ROUTE_TEMPLATE"`
+- `"INVALID_CUSTOMER_ACCOUNT_URL"`
+- `"INVALID_CUSTOMER_SESSION"`
+- `"INVALID_CUSTOM_DOMAIN"`
+- `"INVALID_DEFAULT_FOR_CURRENCY"`
+- `"INVALID_DEFAULT_SMART_TIP_AMOUNT"`
+- `"INVALID_DEFAULT_TIP_PERCENTAGE"`
+- `"INVALID_DEFAULT_VARIANT"`
+- `"INVALID_DELAY_DAYS_OVERRIDE"`
+- `"INVALID_DELIVERY_CONFIGURATION_STATUS"`
+- `"INVALID_DELIVERY_EVALUATION_STATUS"`
+- `"INVALID_DELIVERY_MODE"`
+- `"INVALID_DELIVERY_PROFILE_ID"`
+- `"INVALID_DELIVERY_QUOTE_STATUS"`
+- `"INVALID_DELIVERY_STATUS"`
+- `"INVALID_DESCRIPTION"`
+- `"INVALID_DIGITAL_WALLET"`
+- `"INVALID_DISCOUNT"`
+- `"INVALID_DISCOUNT_CALCULATION_BASIS"`
+- `"INVALID_DISCOUNT_CLASS"`
+- `"INVALID_DISCOUNT_SCOPE"`
+- `"INVALID_DISPUTE_REQUEST"`
+- `"INVALID_DISPUTE_STATUS"`
+- `"INVALID_DOMAIN"`
+- `"INVALID_DOMAIN_NAME"`
+- `"INVALID_DONATION_AMOUNT"`
+- `"INVALID_DONATION_AMOUNT_RANGE"`
+- `"INVALID_DROPDOWN_VALUE"`
+- `"INVALID_DUNNING_RETRY_DAYS"`
+- `"INVALID_EMAIL_FORMAT"`
+- `"INVALID_ENVIRONMENT_SELECTION"`
+- `"INVALID_EVENT_AT"`
+- `"INVALID_EVENT_SOURCE"`
+- `"INVALID_EVENT_SOURCES"`
+- `"INVALID_EVENT_TYPE"`
+- `"INVALID_EXCLUSIVITY_SELECTION"`
+- `"INVALID_EXPAND"`
+- `"INVALID_EXPECTED_VERSION"`
+- `"INVALID_EXPIRATION"`
+- `"INVALID_EXPIRES_AT"`
+- `"INVALID_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_FEEDBACK_KIND"`
+- `"INVALID_FEEDBACK_SHAPE"`
+- `"INVALID_FEEDBACK_SURFACE"`
+- `"INVALID_FIELD_TYPE"`
+- `"INVALID_FLAT_TAX"`
+- `"INVALID_FONT_FAMILY"`
+- `"INVALID_FULFILLMENT_BUYER_NOTIFICATION_BEHAVIOR"`
+- `"INVALID_FULFILLMENT_DETAILS"`
+- `"INVALID_FULFILLMENT_EVENT_TYPE"`
+- `"INVALID_FULFILLMENT_REQUIREMENT"`
+- `"INVALID_FULFILLMENT_STATUS"`
+- `"INVALID_FULFILLMENT_TYPE"`
+- `"INVALID_GIFT_CARD_CODE"`
+- `"INVALID_GIFT_CARD_PURCHASE_REFUND"`
+- `"INVALID_GIFT_CARD_REQUEST"`
+- `"INVALID_GIFT_CARD_SELECTION"`
+- `"INVALID_HAS_PLAN"`
+- `"INVALID_ID"`
+- `"INVALID_IDEMPOTENCY_KEY"`
+- `"INVALID_IMAGE_ALT"`
+- `"INVALID_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_IMAGE_GALLERY"`
+- `"INVALID_INCLUDE"`
+- `"INVALID_INCLUDE_DELETED"`
+- `"INVALID_INTERVAL"`
+- `"INVALID_INTERVAL_END_AT"`
+- `"INVALID_INTERVAL_START_AT"`
+- `"INVALID_INVENTORY_EXCEPTION_RESOLUTION_REASON"`
+- `"INVALID_INVENTORY_SOURCE_KEY"`
+- `"INVALID_INVOICE"`
+- `"INVALID_INVOICE_AUTOPAY_RETRY_OFFSETS"`
+- `"INVALID_INVOICE_COLLECTION"`
+- `"INVALID_INVOICE_COLLECTION_MODE"`
+- `"INVALID_INVOICE_DRAFT_SOURCE"`
+- `"INVALID_INVOICE_LATE_FEE_AMOUNT"`
+- `"INVALID_INVOICE_LATE_FEE_REASON"`
+- `"INVALID_INVOICE_LATE_FEE_SCHEDULE"`
+- `"INVALID_INVOICE_PAYMENT_DUE"`
+- `"INVALID_INVOICE_PAYMENT_DUE_TYPE"`
+- `"INVALID_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_INVOICE_PAYMENT_POLICY"`
+- `"INVALID_INVOICE_PAYMENT_TERM"`
+- `"INVALID_INVOICE_REMINDER_OFFSET"`
+- `"INVALID_INVOICE_REPLY_TO_EMAIL"`
+- `"INVALID_INVOICE_TIMEZONE"`
+- `"INVALID_JSON"`
+- `"INVALID_LINE_ITEM"`
+- `"INVALID_LINE_ITEMS"`
+- `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
+- `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
+- `"INVALID_LIST_ALIAS"`
+- `"INVALID_LIST_ITEM_COUNT"`
+- `"INVALID_LOW_STOCK_THRESHOLD"`
+- `"INVALID_MAX_AMOUNT"`
+- `"INVALID_MAX_APPLICATIONS_PER_ORDER"`
+- `"INVALID_MAX_COMPLETIONS"`
+- `"INVALID_MAX_DISCOUNTED_QUANTITY"`
+- `"INVALID_MAX_LENGTH"`
+- `"INVALID_MAX_PROMOTIONS_PER_ORDER"`
+- `"INVALID_MAX_TOTAL_QUANTITY"`
+- `"INVALID_MAX_USES"`
+- `"INVALID_MERCHANT_ADDRESS"`
+- `"INVALID_MERCHANT_SELECTION"`
+- `"INVALID_METADATA"`
+- `"INVALID_METADATA_KEY"`
+- `"INVALID_METHOD"`
+- `"INVALID_MINIMUM_BALANCE_AMOUNT"`
+- `"INVALID_MINIMUM_BALANCE_BY_CURRENCY"`
+- `"INVALID_MINIMUM_BALANCE_CURRENCY"`
+- `"INVALID_MIN_AMOUNT"`
+- `"INVALID_MODE"`
+- `"INVALID_MODIFIER_GROUP"`
+- `"INVALID_MODIFIER_GROUP_STATUS"`
+- `"INVALID_MODIFIER_GROUP_TYPE"`
+- `"INVALID_MODIFIER_SET"`
+- `"INVALID_MODIFIER_SET_ID"`
+- `"INVALID_MODIFIER_SET_STATUS"`
+- `"INVALID_MODIFIER_STATUS"`
+- `"INVALID_MONEY"`
+- `"INVALID_MONTHLY_PAYOUT_DAY"`
+- `"INVALID_NAME"`
+- `"INVALID_NOTIFICATION_TYPE"`
+- `"INVALID_OAUTH_TOKEN"`
+- `"INVALID_ONBOARDING_SESSION"`
+- `"INVALID_OPERAND"`
+- `"INVALID_OPERATOR"`
+- `"INVALID_OPTIONS"`
+- `"INVALID_OPTION_POSITION"`
+- `"INVALID_OPTION_STATUS"`
+- `"INVALID_OPTION_VALUE"`
+- `"INVALID_OPTION_VALUE_POSITION"`
+- `"INVALID_OPTION_VALUE_STATUS"`
+- `"INVALID_ORDER_STATUS"`
+- `"INVALID_ORGANIZATION_ID"`
+- `"INVALID_ORIGIN"`
+- `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_SIZE"`
+- `"INVALID_PAGE_TOKEN"`
+- `"INVALID_PARENT_ORGANIZATION"`
+- `"INVALID_PARTNER_APP"`
+- `"INVALID_PARTNER_TOKEN"`
+- `"INVALID_PAYMENTS"`
+- `"INVALID_PAYMENT_FLOW"`
+- `"INVALID_PAYMENT_LIMIT_RANGE"`
+- `"INVALID_PAYMENT_LINK_CUSTOM_FIELD_TYPE"`
+- `"INVALID_PAYMENT_LINK_TYPE"`
+- `"INVALID_PAYMENT_METHOD_TYPE"`
+- `"INVALID_PAYMENT_OPTIONS"`
+- `"INVALID_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_PAYMENT_OPTION_RESOLVE_REQUEST"`
+- `"INVALID_PAYMENT_SOURCE"`
+- `"INVALID_PAYMENT_STATUS"`
+- `"INVALID_PERCENT_OFF"`
+- `"INVALID_PHONE_FORMAT"`
+- `"INVALID_PREDICATE"`
+- `"INVALID_PREDICATE_GROUP"`
+- `"INVALID_PREDICATE_NODE"`
+- `"INVALID_PRICE"`
+- `"INVALID_PRODUCT_CREATE_SHAPE"`
+- `"INVALID_PRODUCT_TYPE"`
+- `"INVALID_PURPOSE"`
+- `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_RANGE"`
+- `"INVALID_QUERY"`
+- `"INVALID_QUERY_PARAMETER"`
+- `"INVALID_RANGE"`
+- `"INVALID_REASON"`
+- `"INVALID_RECOVERY_EMAIL_DELAY"`
+- `"INVALID_RECURRENCE_TYPE"`
+- `"INVALID_REDEMPTION_TYPE"`
+- `"INVALID_REFUND_ADJUSTMENT_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_APPLIES_TO"`
+- `"INVALID_REFUND_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_REFUND_ADJUSTMENT_REFUND_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_TARGET"`
+- `"INVALID_REFUND_ADJUSTMENT_TYPE"`
+- `"INVALID_REFUND_METHOD"`
+- `"INVALID_REFUND_REASON"`
+- `"INVALID_REFUND_STATUS"`
+- `"INVALID_REFUND_TENDER_ALLOCATION"`
+- `"INVALID_RELATED_OBJECT_ID"`
+- `"INVALID_RELATED_OBJECT_TYPE"`
+- `"INVALID_RELATED_REQUEST_ID"`
+- `"INVALID_RELATED_RESOURCE_ID"`
+- `"INVALID_REPORT_INTERVAL"`
+- `"INVALID_REPORT_TYPE"`
+- `"INVALID_REQUEST"`
+- `"INVALID_REQUEST_BODY"`
+- `"INVALID_RESOURCE_ID"`
+- `"INVALID_RESOURCE_TYPE"`
+- `"INVALID_RETENTION_OFFER_KIND"`
+- `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
+- `"INVALID_RETURN_URL"`
+- `"INVALID_REVIEW_STATUS"`
+- `"INVALID_REWARD_SELECTION"`
+- `"INVALID_RISK_LEVEL"`
+- `"INVALID_RISK_LIST_ALIAS"`
+- `"INVALID_RISK_LIST_ITEM_TYPE"`
+- `"INVALID_ROLE"`
+- `"INVALID_RULE_ACTION"`
+- `"INVALID_RULE_GROUP"`
+- `"INVALID_RULE_OPERATOR"`
+- `"INVALID_RULE_VALUE"`
+- `"INVALID_SANDBOX_ID"`
+- `"INVALID_SCHEDULE"`
+- `"INVALID_SCOPE"`
+- `"INVALID_SHIPMENT_DIMENSIONS"`
+- `"INVALID_SHIPMENT_DIRECTION"`
+- `"INVALID_SHIPMENT_PACKAGE_ITEM_QUANTITY"`
+- `"INVALID_SHIPMENT_WEIGHT"`
+- `"INVALID_SMART_TIP_AMOUNT"`
+- `"INVALID_SMART_TIP_AMOUNTS_COUNT"`
+- `"INVALID_SORT_BY"`
+- `"INVALID_SORT_DIRECTION"`
+- `"INVALID_SORT_FIELD"`
+- `"INVALID_SOURCE"`
+- `"INVALID_SOURCE_CONTEXT"`
+- `"INVALID_STACKING_MODE"`
+- `"INVALID_STATEMENT_DESCRIPTOR"`
+- `"INVALID_STATUS"`
+- `"INVALID_STATUS_BUCKET"`
+- `"INVALID_STATUS_FOR_CAPTURE"`
+- `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
+- `"INVALID_SUGGESTED_AMOUNT"`
+- `"INVALID_SUPPORT_EMAIL"`
+- `"INVALID_SUPPORT_PHONE"`
+- `"INVALID_SUPPORT_URL"`
+- `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
+- `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
+- `"INVALID_TAX_CALCULATION_TYPE"`
+- `"INVALID_TAX_CATEGORY"`
+- `"INVALID_TAX_IDENTITY"`
+- `"INVALID_TAX_JURISDICTION"`
+- `"INVALID_TAX_MODE"`
+- `"INVALID_TAX_MONEY"`
+- `"INVALID_TAX_PERCENTAGE"`
+- `"INVALID_TAX_PRICE_MODE"`
+- `"INVALID_TAX_REFUND_MODE"`
+- `"INVALID_TAX_TYPE"`
+- `"INVALID_TEMPLATE"`
+- `"INVALID_TIMESTAMP"`
+- `"INVALID_TIMEZONE"`
+- `"INVALID_TIP"`
+- `"INVALID_TIP_AMOUNT"`
+- `"INVALID_TIP_PERCENT"`
+- `"INVALID_TIP_PERCENTAGES_COUNT"`
+- `"INVALID_TOTALS"`
+- `"INVALID_TRANSACTION_PURPOSE"`
+- `"INVALID_TYPE"`
+- `"INVALID_UPDATED_AFTER"`
+- `"INVALID_UPDATED_BEFORE"`
+- `"INVALID_UPDATE_MASK"`
+- `"INVALID_URL"`
+- `"INVALID_URL_HOST"`
+- `"INVALID_URL_SCHEME"`
+- `"INVALID_USAGE"`
+- `"INVALID_VALUES"`
+- `"INVALID_VALUE_TYPE"`
+- `"INVALID_VARIANT_STATUS"`
+- `"INVALID_VERIFICATION"`
+- `"INVALID_WEBHOOK_ENDPOINT"`
+- `"INVALID_WEBHOOK_ENDPOINT_SOURCE"`
+- `"INVALID_WEBHOOK_EVENT"`
+- `"INVALID_WEBSITE_URL"`
+- `"INVALID_WEEKLY_PAYOUT_DAY"`
+- `"INVENTORY_ADJUSTMENT_NOT_FOUND"`
+- `"INVENTORY_ALLOCATION_POLICY_IN_USE"`
+- `"INVENTORY_CHANGED"`
+- `"INVENTORY_CONDITION_INVALID"`
+- `"INVENTORY_COUNT_CHANGED"`
+- `"INVENTORY_COUNT_NOT_FOUND"`
+- `"INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED"`
+- `"INVENTORY_DEMAND_DUPLICATE"`
+- `"INVENTORY_DEMAND_INVALID"`
+- `"INVENTORY_EVENT_PROVENANCE_INVALID"`
+- `"INVENTORY_INSUFFICIENT"`
+- `"INVENTORY_ITEM_INACTIVE"`
+- `"INVENTORY_ITEM_IN_USE"`
+- `"INVENTORY_ITEM_NAME_INVALID"`
+- `"INVENTORY_ITEM_NOT_FOUND"`
+- `"INVENTORY_ITEM_REFERENCE_REQUIRED"`
+- `"INVENTORY_ITEM_UNAVAILABLE"`
+- `"INVENTORY_LEVEL_NOT_FOUND"`
+- `"INVENTORY_LOCATION_ALLOCATION_INACTIVE"`
+- `"INVENTORY_LOCATION_INELIGIBLE"`
+- `"INVENTORY_LOCATION_NOT_CONFIGURED"`
+- `"INVENTORY_MOVEMENT_NOT_FOUND"`
+- `"INVENTORY_POLICY_INVALID"`
+- `"INVENTORY_POLICY_NOT_FOUND"`
+- `"INVENTORY_QUANTITY_CONFLICT"`
+- `"INVENTORY_RECEIPT_CONFLICT"`
+- `"INVENTORY_RECEIPT_INVALID"`
+- `"INVENTORY_RECEIPT_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_EXISTS"`
+- `"INVENTORY_RESERVATION_EXPIRED"`
+- `"INVENTORY_RESERVATION_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_OWNER_MISMATCH"`
+- `"INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED"`
+- `"INVENTORY_ROUTING_SOURCE_INVALID"`
+- `"INVENTORY_ROUTING_SOURCE_REQUIRED"`
+- `"INVENTORY_ROUTING_TOO_COMPLEX"`
+- `"INVENTORY_ROUTING_UNAVAILABLE"`
+- `"INVENTORY_SHORTAGE"`
+- `"INVENTORY_SOURCE_SEQUENCE_CHANGED"`
+- `"INVENTORY_TRANSFER_ACTION_NOT_ALLOWED"`
+- `"INVENTORY_TRANSFER_CHANGED"`
+- `"INVENTORY_TRANSFER_INVALID"`
+- `"INVENTORY_TRANSFER_NOT_FOUND"`
+- `"INVENTORY_UNAVAILABLE"`
+- `"INVOICE_ACCESS_AUTH_UNAVAILABLE"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_UNSUPPORTED"`
+- `"INVOICE_AUTOPAY_RETRY_LIMIT_EXCEEDED"`
+- `"INVOICE_BALANCE_CHANGED"`
+- `"INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED"`
+- `"INVOICE_COLLECTION_BLOCKED"`
+- `"INVOICE_COLLECTION_CHANGED"`
+- `"INVOICE_COLLECTION_MODE_UNSUPPORTED"`
+- `"INVOICE_COST_COMPARISON_REQUIRES_OPTIONS"`
+- `"INVOICE_DRAFT_CHANGED"`
+- `"INVOICE_HAS_ISSUED_CREDIT_NOTE"`
+- `"INVOICE_ISSUE_IN_PROGRESS"`
+- `"INVOICE_LATE_FEE_NOT_COLLECTIBLE"`
+- `"INVOICE_LATE_FEE_NOT_DUE"`
+- `"INVOICE_LATE_FEE_NOT_FOUND"`
+- `"INVOICE_LATE_FEE_POLICY_REQUIRED"`
+- `"INVOICE_LINK_UNAVAILABLE"`
+- `"INVOICE_LOCKED_ORDER_FINANCIALS"`
+- `"INVOICE_NOT_COLLECTIBLE"`
+- `"INVOICE_NOT_CREDITABLE"`
+- `"INVOICE_NOT_DRAFT"`
+- `"INVOICE_NOT_FOUND"`
+- `"INVOICE_NOT_ISSUED"`
+- `"INVOICE_NOT_MARKABLE_UNCOLLECTIBLE"`
+- `"INVOICE_NOT_REVERSIBLE"`
+- `"INVOICE_NOT_VOIDABLE"`
+- `"INVOICE_PAYMENT_ALREADY_SETTLED"`
+- `"INVOICE_PAYMENT_ATTEMPT_ACTIVE"`
+- `"INVOICE_PAYMENT_FAILED"`
+- `"INVOICE_PAYMENT_NOT_APPLIED"`
+- `"INVOICE_PAYMENT_OPTIONS_REQUIRED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"INVOICE_PAYMENT_PROCESSING"`
+- `"INVOICE_PAYMENT_RESOLVING"`
+- `"INVOICE_PAYMENT_TERM_CHANGED"`
+- `"INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH"`
+- `"INVOICE_PAYMENT_TERM_IN_USE"`
+- `"INVOICE_PAYMENT_TERM_UNAVAILABLE"`
+- `"INVOICE_PDF_UNAVAILABLE"`
+- `"INVOICE_REMINDER_CHANGED"`
+- `"INVOICE_REMINDER_RATE_LIMITED"`
+- `"INVOICE_REMINDER_RULE_LIMIT_EXCEEDED"`
+- `"INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE"`
+- `"INVOICE_SCHEDULE_INVALID"`
+- `"INVOICE_SOURCE_CONFLICT"`
+- `"INVOICE_SOURCE_REQUIRED"`
+- `"INVOICE_TAX_SNAPSHOT_MISSING"`
+- `"INVOICE_TAX_SNAPSHOT_STALE"`
+- `"INVOICE_TIMEZONE_REQUIRED"`
+- `"ITEMS_REQUIRED"`
+- `"LAST_NAME_REQUIRED"`
+- `"LATEST_REVISION"`
+- `"LINE_ITEM_AMOUNT_REQUIRED"`
+- `"LINE_ITEM_DISCOUNT_NO_CHARGE_IDS"`
+- `"LINE_ITEM_DISCOUNT_REQUIRES_IDS"`
+- `"LINE_ITEM_INVALID_QUANTITY"`
+- `"LINE_ITEM_KEY_WHITESPACE"`
+- `"LINE_ITEM_NAME_REQUIRED"`
+- `"LINE_ITEM_NAME_TOO_LONG"`
+- `"LINE_ITEM_NEGATIVE_PRICE"`
+- `"LINE_ITEM_NOT_FOUND"`
+- `"LINE_ITEM_NOT_ON_ORDER"`
+- `"LINE_ITEM_PRICE_REQUIRED"`
+- `"LINE_ITEM_QUANTITY_TOO_LARGE"`
+- `"LINE_ITEM_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_QUANTITY_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_TARGET_AMBIGUOUS"`
+- `"LINE_ITEM_SOURCE_CONFLICT"`
+- `"LINE_ITEM_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"LINE_ITEM_UNIT_PRICE_REQUIRED"`
+- `"LIST_IN_USE"`
+- `"LIST_RESERVED"`
+- `"LOCATION_CHANGED"`
+- `"LOCATION_CONFLICT"`
+- `"LOCATION_GEOGRAPHY_CHANGED"`
+- `"LOCATION_GEOGRAPHY_INVALID"`
+- `"LOCATION_INVALID"`
+- `"LOCATION_INVENTORY_CHANGED"`
+- `"LOCATION_IN_USE"`
+- `"LOCATION_NOT_ACTIVE"`
+- `"LOCATION_NOT_FOUND"`
+- `"LOCATION_TOO_LONG"`
+- `"LOCATION_UNAVAILABLE"`
+- `"MAX_BOUND_VIOLATION"`
+- `"MAX_LENGTH_NOT_APPLICABLE"`
+- `"MEMBERSHIP_REQUIRED"`
+- `"MERCHANTS_UNAVAILABLE"`
+- `"MERCHANT_ACCESS_REQUIRED"`
+- `"MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED"`
+- `"MERCHANT_ACCOUNT_NOT_READY"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_CONTROLLER_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_INELIGIBLE"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_LAUNCH_TOKEN"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_POLICY_COMBINATION"`
+- `"MERCHANT_ACCOUNT_SESSION_LAUNCH_TOKEN_SCOPE_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_POLICY_NOT_SUPPORTED_BY_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_PREPARATION_FAILED"`
+- `"MERCHANT_ACCOUNT_SESSION_PROVIDER_GRANT_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
+- `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_CHANGED"`
+- `"MERCHANT_CONTEXT_MISSING"`
+- `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
+- `"MERCHANT_FINANCE_READ_FAILED"`
+- `"MERCHANT_NOT_LOADED"`
+- `"MERCHANT_ONBOARDING_REQUIRED"`
+- `"MERCHANT_PROCESSING_RESTRICTED"`
+- `"MERCHANT_READINESS_UNAVAILABLE"`
+- `"MERCHANT_SELECTION_REQUIRED"`
+- `"METADATA_KEY_TOO_LONG"`
+- `"METADATA_TOO_LARGE"`
+- `"METADATA_TOO_MANY_KEYS"`
+- `"METADATA_VALUE_TOO_LONG"`
+- `"METHOD_NOT_ALLOWED"`
+- `"ME_CUSTOMER_ID_FORBIDDEN"`
+- `"MINIMUM_BALANCE_CURRENCY_MISMATCH"`
+- `"MINIMUM_BALANCE_REQUIRED"`
+- `"MIN_BOUND_VIOLATION"`
+- `"MISSING_CURRENCY"`
+- `"MISSING_DISPLAY_NAME"`
+- `"MISSING_EXCLUSIVITY_GROUP"`
+- `"MISSING_LINE_ITEMS"`
+- `"MISSING_REQUIRED_FIELD"`
+- `"MISSING_URL"`
+- `"MIXED_VARIANT_CURRENCIES"`
+- `"MODIFIERS_REQUIRED"`
+- `"MODIFIERS_UNAVAILABLE"`
+- `"MODIFIER_CURRENCY_MISMATCH"`
+- `"MODIFIER_DEFAULT_INVALID"`
+- `"MODIFIER_DUPLICATE_SELECTION"`
+- `"MODIFIER_GROUP_CHANGED"`
+- `"MODIFIER_GROUP_IN_USE"`
+- `"MODIFIER_GROUP_NAME_REQUIRED"`
+- `"MODIFIER_GROUP_REQUIRED"`
+- `"MODIFIER_GROUP_UNAVAILABLE"`
+- `"MODIFIER_IN_USE"`
+- `"MODIFIER_METADATA_UNSUPPORTED"`
+- `"MODIFIER_NAME_REQUIRED"`
+- `"MODIFIER_OVERRIDE_INVALID"`
+- `"MODIFIER_QUANTITY_INVALID"`
+- `"MODIFIER_SELECTION_ID_INVALID"`
+- `"MODIFIER_SELECTION_LIMIT_EXCEEDED"`
+- `"MODIFIER_SET_GROUP_SOURCE_INVALID"`
+- `"MODIFIER_SET_IN_USE"`
+- `"MODIFIER_SET_NAME_REQUIRED"`
+- `"MODIFIER_SET_VERSION_CONFLICT"`
+- `"MODIFIER_SOURCE_UNSUPPORTED"`
+- `"MODIFIER_TEXT_INVALID"`
+- `"MODIFIER_UNAVAILABLE"`
+- `"MONEY_MOVEMENT_HISTORY_STATUS_INVALID"`
+- `"MONEY_MOVEMENT_OPERATION_BLOCKED"`
+- `"MONEY_MOVEMENT_PROVIDER_NOT_CONFIGURED"`
+- `"MONEY_MOVEMENT_PROVIDER_OPERATION_FAILED"`
+- `"MONTHLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"MONTHLY_PAYOUT_DAYS_REQUIRED"`
+- `"MULTIPLE_IDENTITIES_FOUND"`
+- `"NAME_REQUIRED"`
+- `"NAME_TOO_LONG"`
+- `"NORMALIZED_IMAGE_TOO_LARGE"`
+- `"NOTE_TOO_LONG"`
+- `"NOTHING_TO_REFUND"`
+- `"NOTHING_TO_REFUND_FOR_CHARGE"`
+- `"NOTHING_TO_REFUND_FOR_LINE_ITEM"`
+- `"NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN"`
+- `"NO_DISCOUNTABLE_BALANCE"`
+- `"NO_FIELDS_TO_UPDATE"`
+- `"NO_PAYMENTS_FOR_ORDER"`
+- `"NULL_NOT_ALLOWED"`
+- `"OAUTH_CONTEXT_MISMATCH"`
+- `"OAUTH_UNAVAILABLE"`
+- `"ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED"`
+- `"ONBOARDING_DIRECT_OWNER_REQUIRED"`
+- `"ONBOARDING_PARTNER_AUTH_UNSUPPORTED"`
+- `"ONBOARDING_PROFILE_PROVIDER_MANAGED"`
+- `"ONBOARDING_SESSION_REQUIRED"`
+- `"ONBOARDING_SESSION_TOKEN_FAILED"`
+- `"ONBOARDING_UNAVAILABLE"`
+- `"OPTIONS_REQUIRED"`
+- `"OPTION_REQUIRED"`
+- `"OPTION_VALUES_REQUIRED"`
+- `"OPTION_VALUE_REFERENCE_REQUIRED"`
+- `"OPTION_VALUE_REQUIRED"`
+- `"OPTION_VALUE_TOO_LONG"`
+- `"ORDERS_UNAVAILABLE"`
+- `"ORDER_ALREADY_CLOSED"`
+- `"ORDER_ALREADY_HAS_ACTIVE_INVOICE"`
+- `"ORDER_ALREADY_HAS_PAYMENTS"`
+- `"ORDER_ALREADY_HAS_REFUNDS"`
+- `"ORDER_ALREADY_PAID"`
+- `"ORDER_CHANGED_REFRESH_REQUIRED"`
+- `"ORDER_CHARGE_ID_REQUIRED"`
+- `"ORDER_CHARGE_NOT_FOUND"`
+- `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CLOSED"`
+- `"ORDER_COLLECTION_ALREADY_ACTIVE"`
+- `"ORDER_COLLECTION_IN_PROGRESS"`
+- `"ORDER_CONFLICT"`
+- `"ORDER_CURRENCY_REQUIRED"`
+- `"ORDER_CUSTOMER_ALREADY_SET"`
+- `"ORDER_CUSTOMER_CHECKOUT_ACTIVE"`
+- `"ORDER_CUSTOMER_NOT_CLEARABLE"`
+- `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
+- `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
+- `"ORDER_HAS_ACTIVE_PAYMENT_INTENT"`
+- `"ORDER_HAS_MANUAL_PAYMENTS"`
+- `"ORDER_HAS_NO_CHARGES"`
+- `"ORDER_HAS_NO_LINE_ITEMS"`
+- `"ORDER_HAS_NO_REFUNDABLE_CHARGES"`
+- `"ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS"`
+- `"ORDER_HAS_OPEN_CHECKOUT"`
+- `"ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE"`
+- `"ORDER_INVENTORY_EXCEPTION_UNRESOLVED"`
+- `"ORDER_LINE_ITEM_ID_REQUIRED"`
+- `"ORDER_LINE_ITEM_NOT_FOUND"`
+- `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
+- `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_NOT_FOUND"`
+- `"ORDER_NOT_FULFILLABLE"`
+- `"ORDER_NOT_OPEN"`
+- `"ORDER_NOT_PAYABLE"`
+- `"ORDER_OWNED_PAYMENT_INTENT_REQUIRED"`
+- `"ORDER_PAYMENT_ATTEMPT_ACTIVE"`
+- `"ORDER_PAYMENT_AUTHORIZATION_NOT_FOUND"`
+- `"ORDER_PAYMENT_CUSTOMER_MISMATCH"`
+- `"ORDER_PAYMENT_FLOW_REQUIRED"`
+- `"ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS"`
+- `"ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW"`
+- `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
+- `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
+- `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
+- `"ORDER_RECEIPT_MERCHANT_MANAGED"`
+- `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
+- `"ORDER_RECONCILIATION_REQUIRED"`
+- `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
+- `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
+- `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
+- `"ORDER_REQUIRED_FOR_TENDER_REFUND"`
+- `"ORDER_REVISION_REQUIRED"`
+- `"ORDER_STATUS_NOT_CLOSABLE"`
+- `"ORDER_TAX_CALCULATION_FAILED"`
+- `"ORDER_TAX_FULL_ADDRESS_REQUIRED"`
+- `"ORDER_TAX_LOCATION_INVALID"`
+- `"ORDER_TAX_LOCATION_REQUIRED"`
+- `"ORDER_TAX_NOT_READY"`
+- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_RATE_UNAVAILABLE"`
+- `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
+- `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
+- `"ORDER_UNAVAILABLE"`
+- `"ORGANIZATION_CYCLE"`
+- `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
+- `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORG_SCOPE_RESOLUTION_FAILED"`
+- `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
+- `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_REQUIRED"`
+- `"PACKAGE_ACTION_NOT_ALLOWED"`
+- `"PACKAGE_CHANGED"`
+- `"PACKAGE_PARENT_CHANGED"`
+- `"PACKAGE_REQUIRED"`
+- `"PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_REMOVAL_FORBIDDEN"`
+- `"PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN"`
+- `"PARTIAL_CAPTURE_NOT_SUPPORTED"`
+- `"PARTNER_APP_INSTALL_NOT_FOUND"`
+- `"PARTNER_APP_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"PARTNER_APP_NOT_FOUND"`
+- `"PARTNER_AUTH_UNSUPPORTED"`
+- `"PARTNER_TOKEN_VALIDATION_FAILED"`
+- `"PAUSE_DURATION_REQUIRED"`
+- `"PAUSE_DURATION_TOO_LONG"`
+- `"PAUSE_NOT_ALLOWED"`
+- `"PAYMENT_ACTION_EXPIRED"`
+- `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
+- `"PAYMENT_ALREADY_CANCELED"`
+- `"PAYMENT_ALREADY_SETTLED"`
+- `"PAYMENT_ALREADY_SUCCEEDED"`
+- `"PAYMENT_AMOUNT_CHANGED"`
+- `"PAYMENT_ATTEMPT_FROZEN"`
+- `"PAYMENT_ATTEMPT_ID_REQUIRED"`
+- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
+- `"PAYMENT_ATTEMPT_MISMATCH"`
+- `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
+- `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
+- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
+- `"PAYMENT_AUTHORIZATION_EXPIRED"`
+- `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
+- `"PAYMENT_BLOCKED"`
+- `"PAYMENT_CANCELED"`
+- `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
+- `"PAYMENT_CONFIRM_IN_PROGRESS"`
+- `"PAYMENT_CONFLICT"`
+- `"PAYMENT_EXPIRED"`
+- `"PAYMENT_FAILED"`
+- `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
+- `"PAYMENT_INTENT_DISPUTED"`
+- `"PAYMENT_INTENT_LIMIT_REACHED"`
+- `"PAYMENT_INTENT_NOT_CANCELABLE"`
+- `"PAYMENT_INTENT_NOT_FOUND"`
+- `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
+- `"PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_LEG_SELECTION_REQUIRED"`
+- `"PAYMENT_LINKS_UNAVAILABLE"`
+- `"PAYMENT_LINK_CHANGED"`
+- `"PAYMENT_LINK_CHANGED_RETRY"`
+- `"PAYMENT_LINK_FULFILLMENT_UNAVAILABLE"`
+- `"PAYMENT_LINK_INACTIVE"`
+- `"PAYMENT_LINK_LINE_ITEM_UNAVAILABLE"`
+- `"PAYMENT_LINK_MAX_COMPLETIONS_REACHED"`
+- `"PAYMENT_LINK_METADATA_TOO_LARGE"`
+- `"PAYMENT_LINK_METADATA_TOO_MANY_KEYS"`
+- `"PAYMENT_LINK_NOT_FOUND"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_INVALID"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_RATE_LIMITED"`
+- `"PAYMENT_LINK_RESOLUTION_REPLAY_UNAVAILABLE"`
+- `"PAYMENT_LINK_RESOLUTION_UNAVAILABLE"`
+- `"PAYMENT_METHOD_CUSTOMER_MISMATCH"`
+- `"PAYMENT_METHOD_DECLINED"`
+- `"PAYMENT_METHOD_DOMAINS_UNAVAILABLE"`
+- `"PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS"`
+- `"PAYMENT_METHOD_DOMAIN_NOT_FOUND"`
+- `"PAYMENT_METHOD_DOMAIN_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_METHOD_DOMAIN_REGISTRATION_FAILED"`
+- `"PAYMENT_METHOD_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PAYMENT_METHOD_NOT_ACTIVE"`
+- `"PAYMENT_METHOD_NOT_READY"`
+- `"PAYMENT_METHOD_ON_SESSION_ONLY"`
+- `"PAYMENT_METHOD_REQUIRED"`
+- `"PAYMENT_METHOD_SAVE_CODE_LIMIT_REACHED"`
+- `"PAYMENT_METHOD_SAVE_EMAIL_UNAVAILABLE"`
+- `"PAYMENT_METHOD_SAVE_NOT_PENDING"`
+- `"PAYMENT_METHOD_SAVE_NOT_READY"`
+- `"PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE"`
+- `"PAYMENT_METHOD_UNAVAILABLE"`
+- `"PAYMENT_NOT_COMPLETED"`
+- `"PAYMENT_NOT_REQUIRED"`
+- `"PAYMENT_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_OPTIONS_NOT_COMPARABLE"`
+- `"PAYMENT_OPTIONS_REQUIRED"`
+- `"PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"PAYMENT_OPTION_NOT_ALLOWED"`
+- `"PAYMENT_OPTION_NOT_READY"`
+- `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_UNAVAILABLE"`
+- `"PAYMENT_PROCESSOR_ERROR"`
+- `"PAYMENT_PROCESSOR_REJECTED"`
+- `"PAYMENT_PROCESSOR_UNAVAILABLE"`
+- `"PAYMENT_REQUIRED"`
+- `"PAYMENT_RETURN_URL_INVALID"`
+- `"PAYMENT_RETURN_URL_REQUIRED"`
+- `"PAYMENT_REVIEW_OPEN"`
+- `"PAYMENT_SOURCE_CONFLICT"`
+- `"PAYMENT_SOURCE_NOT_ALLOWED"`
+- `"PAYMENT_SOURCE_NOT_UPDATABLE"`
+- `"PAYMENT_SOURCE_OWNERSHIP_MISMATCH"`
+- `"PAYMENT_SOURCE_REQUIRED"`
+- `"PAYMENT_SOURCE_SELECTION_CONFLICT"`
+- `"PAYMENT_SOURCE_SELECTION_REQUIRED"`
+- `"PAYMENT_SOURCE_UNAVAILABLE"`
+- `"PAYMENT_START_SHAPE_CONFLICT"`
+- `"PAYMENT_UPDATE_REJECTED"`
+- `"PAYMENT_UPDATE_UNAVAILABLE"`
+- `"PAYOUTS_NOT_ENABLED"`
+- `"PAYOUT_DELAY_PROVIDER_CONTROLLED"`
+- `"PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_DESTINATION_NOT_FOUND"`
+- `"PAYOUT_DESTINATION_UPDATE_EMPTY"`
+- `"PAYOUT_ENTRIES_UNAVAILABLE"`
+- `"PAYOUT_FEE_NOT_DETERMINABLE"`
+- `"PAYOUT_NOT_CANCELABLE"`
+- `"PAYOUT_NOT_FOUND"`
+- `"PAYOUT_SETTINGS_MANAGED_EXTERNALLY"`
+- `"PAYOUT_SETTINGS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_SNAPSHOT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_UPDATE_EMPTY"`
+- `"PAYOUT_STATUS_NOT_CANCELABLE"`
+- `"PLAN_ARCHIVED"`
+- `"PLAN_HAS_ACTIVE_PAYMENT_LINKS"`
+- `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
+- `"PLAN_NOT_ACTIVE"`
+- `"PRICE_TOO_HIGH"`
+- `"PROCESSING_ERROR"`
+- `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
+- `"PROCESSING_FEE_PRICING_UNAVAILABLE"`
+- `"PROCESSOR_NOT_CONFIGURED"`
+- `"PRODUCT_IN_ACTIVE_PLAN"`
+- `"PRODUCT_IN_ACTIVE_SUBSCRIPTION"`
+- `"PRODUCT_IN_OPEN_CHECKOUT_SESSION"`
+- `"PRODUCT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"PRODUCT_IN_OPEN_ORDER"`
+- `"PRODUCT_IN_USE"`
+- `"PRODUCT_LINE_ITEM_SOURCE_UNSUPPORTED"`
+- `"PRODUCT_OPTIONS_REQUIRED"`
+- `"PRODUCT_OPTION_ALREADY_EXISTS"`
+- `"PRODUCT_OPTION_VALUE_ALREADY_EXISTS"`
+- `"PROFILE_RECONCILIATION_PENDING"`
+- `"PROFILE_UPDATE_STATUS_UNKNOWN"`
+- `"PROFILE_WRITE_LIVE_MODE_REQUIRED"`
+- `"PROMOTION_CODES_DISABLED"`
+- `"PROMOTION_CONFLICT"`
+- `"PROMOTION_DECLINED"`
+- `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_ID_REQUIRED"`
+- `"PROMOTION_NOT_CODE_GATED"`
+- `"PROMOTION_NOT_FOUND"`
+- `"PROMOTION_NOT_REDEEMABLE"`
+- `"PROMOTION_NO_ACTIVE_CODES"`
+- `"PROMOTION_SHAPE_IMMUTABLE"`
+- `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
+- `"PROVIDER_READINESS_UNAVAILABLE"`
+- `"PROVISIONING_FAILED"`
+- `"QUANTITY_ABOVE_MAX"`
+- `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_NOT_ADJUSTABLE"`
+- `"RANGE_REQUIRED"`
+- `"RATE_LIMIT_EXCEEDED"`
+- `"RECEIPT_EMAIL_NOT_UPDATABLE"`
+- `"RECIPIENT_EMAIL_REQUIRED"`
+- `"REFUND_ADJUSTMENTS_EXCEED_AUTOMATIC"`
+- `"REFUND_ADJUSTMENT_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_LINE_ITEM_MISMATCH"`
+- `"REFUND_ADJUSTMENT_NOT_FOUND"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_MISMATCH"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_REASON_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING"`
+- `"REFUND_AMOUNT_NOT_ALLOCATED"`
+- `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
+- `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"REFUND_TARGETS_NOT_ALLOCATED"`
+- `"REFUND_TENDER_CAPACITY_CONFLICT"`
+- `"REFUND_TENDER_NOT_FOUND"`
+- `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
+- `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPORTING_TIMEZONE_REQUIRED"`
+- `"REPORTING_UNAVAILABLE"`
+- `"REPORT_DOWNLOAD_EXPIRED"`
+- `"REPORT_INTERVAL_INCOMPLETE"`
+- `"REPORT_INTERVAL_TOO_LARGE"`
+- `"REPORT_NOT_FOUND"`
+- `"REQUEST_BODY_NOT_ALLOWED"`
+- `"REQUEST_BODY_TOO_LARGE"`
+- `"REQUEST_FAILED"`
+- `"REQUEST_TIMEOUT"`
+- `"REQUIRED_CUSTOM_FIELD_MISSING"`
+- `"RESERVED_FIELD_NOT_YET_SUPPORTED"`
+- `"RESERVED_METADATA_KEY"`
+- `"RESOURCE_LIMIT_EXCEEDED"`
+- `"RESOURCE_NOT_FOUND"`
+- `"RESOURCE_TIMELINE_TOKEN_INVALID"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_NOT_ALLOWED"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_REQUIRED"`
+- `"RETENTION_OFFER_PAUSE_TOO_LONG"`
+- `"RETENTION_OFFER_REQUIRES_PAUSE"`
+- `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_COMPLETION_BLOCKED"`
+- `"RETURN_DECISION_SCOPE_REQUIRED"`
+- `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
+- `"RETURN_FULFILLMENT_ALLOCATION_AMBIGUOUS"`
+- `"RETURN_INSPECTION_QUANTITY_EXCEEDED"`
+- `"RETURN_INVALID"`
+- `"RETURN_LINE_CANCELLATION_CONFLICT"`
+- `"RETURN_NOT_FOUND"`
+- `"RETURN_PACKAGE_ALLOCATION_EXCEEDS_SHIPMENT"`
+- `"RETURN_PACKAGE_LINE_DUPLICATED"`
+- `"RETURN_PACKAGE_LINE_ITEMS_REQUIRED"`
+- `"RETURN_PACKAGE_QUANTITY_INVALID"`
+- `"RETURN_POLICY_CONFLICT"`
+- `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
+- `"RETURN_SHIPMENT_INVALID"`
+- `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_INVALID"`
+- `"RETURN_VALUE_EXCEEDED"`
+- `"RETURN_VERSION_CONFLICT"`
+- `"REVERSAL_EXCEEDS_MANUAL_PAYMENTS"`
+- `"REVIEW_ALREADY_CLOSED"`
+- `"REVIEW_NOT_FOUND"`
+- `"REVIEW_RESOLUTION_IN_PROGRESS"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION"`
+- `"RISK_CONTROL_CONFLICT"`
+- `"RISK_EVALUATION_UNAVAILABLE"`
+- `"RISK_LIST_ALIAS_ALREADY_EXISTS"`
+- `"RISK_RESOURCE_NOT_FOUND"`
+- `"ROLE_ASSIGNMENT_FORBIDDEN"`
+- `"ROLE_MANAGEMENT_FORBIDDEN"`
+- `"ROOT_ORGANIZATION_CREATION_FORBIDDEN"`
+- `"ROUTE_NOT_FOUND"`
+- `"RULES_REQUIRED"`
+- `"RULE_ACTION_UNAVAILABLE_AT_STAGE"`
+- `"RULE_LIMIT_EXCEEDED"`
+- `"RULE_RESERVED"`
+- `"SANDBOXES_UNAVAILABLE"`
+- `"SANDBOX_ALREADY_EXISTS"`
+- `"SANDBOX_ARCHIVED"`
+- `"SANDBOX_ARCHIVE_FAILED"`
+- `"SANDBOX_BOOTSTRAP_FAILED"`
+- `"SANDBOX_CREATE_FAILED"`
+- `"SANDBOX_ID_NOT_ALLOWED"`
+- `"SANDBOX_ID_REQUIRED"`
+- `"SANDBOX_INACTIVE"`
+- `"SANDBOX_LIST_FAILED"`
+- `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"SANDBOX_NOT_ACCESSIBLE"`
+- `"SANDBOX_NOT_FOUND"`
+- `"SANDBOX_PLANE_UNAVAILABLE"`
+- `"SANDBOX_RESET_FAILED"`
+- `"SANDBOX_RESET_UNAVAILABLE"`
+- `"SANDBOX_SELECTION_FORBIDDEN"`
+- `"SANDBOX_SELECTION_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_CREDENTIAL_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
+- `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
+- `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
+- `"SCHEDULED_SEND_IN_PAST"`
+- `"SCOPES_REQUIRED"`
+- `"SCOPE_NOT_ALLOWED"`
+- `"SCOPE_NOT_ALLOWED_FOR_KEY_MODE"`
+- `"SELECTED_OPTIONS_REQUIRED"`
+- `"SELF_ROLE_EDITS_FORBIDDEN"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_INVALID"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_UNCONFIGURED"`
+- `"SENSITIVE_IDEMPOTENCY_RESULT_INVALID"`
+- `"SERVER_GENERATED_ID"`
+- `"SERVICE_CHARGE_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_REQUIRES_CHARGE_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_SCOPE_INVALID"`
+- `"SERVICE_TIMEZONE_REQUIRED"`
+- `"SERVICE_UNAVAILABLE"`
+- `"SETTINGS_CONCURRENT_MODIFICATION"`
+- `"SETTINGS_UNAVAILABLE"`
+- `"SETTINGS_WRITE_FORBIDDEN"`
+- `"SETUP_SOURCE_NON_ZERO_ORDER"`
+- `"SETUP_SOURCE_SUBSCRIPTION_REQUIRED"`
+- `"SHIPMENT_CHANGED"`
+- `"SHIPMENT_CREATED_RANGE_INVALID"`
+- `"SHIPMENT_HANDOFF_RANGE_INVALID"`
+- `"SHIPMENT_PACKAGE_ITEM_LINE_ITEM_NOT_IN_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_NOT_MUTABLE"`
+- `"SHIPMENT_PACKAGE_NOT_VOIDABLE"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_CONFLICT"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"SHIPMENT_PACKAGE_TERMINAL"`
+- `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKU_ALREADY_EXISTS"`
+- `"SOURCE_CONTEXT_CONFLICT"`
+- `"STANDARD_PAYOUTS_UNAVAILABLE"`
+- `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
+- `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
+- `"SUBSCRIPTION_BILLING_START_INVALID"`
+- `"SUBSCRIPTION_CANCELED"`
+- `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
+- `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
+- `"SUBSCRIPTION_INITIATED_BY_INVALID"`
+- `"SUBSCRIPTION_MODE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
+- `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
+- `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
+- `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
+- `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSET_ONLY_VIOLATION"`
+- `"SUGGESTED_AMOUNT_ABOVE_MAX"`
+- `"SUGGESTED_AMOUNT_BELOW_MIN"`
+- `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRED"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_ID_REQUIRED"`
+- `"TAX_BREAKDOWN_LINE_ITEM_MISMATCH"`
+- `"TAX_BREAKDOWN_NOT_ORDER_SCOPED_FLAT"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRE_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_REFUNDS_WITHOUT_TAX"`
+- `"TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING"`
+- `"TAX_BREAKDOWN_REFUND_MONEY_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
+- `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_INPUT_CONFLICT"`
+- `"TAX_MODE_MISMATCH"`
+- `"TAX_MONEY_REQUIRED"`
+- `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TICKET_PREFIX_TOO_LONG"`
+- `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
+- `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_LIMIT_EXCEEDED"`
+- `"TOO_MANY_CUSTOM_FIELDS"`
+- `"TOO_MANY_LINE_ITEMS"`
+- `"TOO_MANY_PENDING_REPORTS"`
+- `"TOO_MANY_SUGGESTED_AMOUNTS"`
+- `"TRANSACTION_PURPOSE_NOT_APPLICABLE"`
+- `"TRANSACTION_PURPOSE_REQUIRED"`
+- `"TRIAL_NEGATIVE"`
+- `"TRIAL_TOO_LONG"`
+- `"UNKNOWN_ATTRIBUTE"`
+- `"UNKNOWN_BUNDLE_COMPONENT"`
+- `"UNKNOWN_CATEGORY_HANDLE"`
+- `"UNKNOWN_CLIENT_OPTION_VALUE"`
+- `"UNKNOWN_CUSTOM_FIELD_KEY"`
+- `"UNKNOWN_FIELD"`
+- `"UNKNOWN_LINE_ITEM_KEY"`
+- `"UNKNOWN_OPTION"`
+- `"UNKNOWN_OPTION_VALUE"`
+- `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_SCOPE"`
+- `"UNSAFE_FEEDBACK_CONTENT"`
+- `"UNSUPPORTED_APPLICATION_TYPE"`
+- `"UNSUPPORTED_CONTENT_TYPE"`
+- `"UNSUPPORTED_CURRENCY"`
+- `"UNSUPPORTED_PREVIEW_DISCOUNT"`
+- `"UNSUPPORTED_PROCESSOR"`
+- `"UNSUPPORTED_PRODUCT_FIELD"`
+- `"UNSUPPORTED_QUERY_PARAM"`
+- `"UNSUPPORTED_RESOURCE_TYPE"`
+- `"UPDATE_MASK_REQUIRED"`
+- `"URL_TOO_LONG"`
+- `"VALIDATION_ERROR"`
+- `"VALUES_REQUIRED"`
+- `"VALUE_REQUIRED"`
+- `"VALUE_TOO_LONG"`
+- `"VARIANTS_REQUIRED"`
+- `"VARIANT_IN_ACTIVE_BUNDLE"`
+- `"VARIANT_IN_ACTIVE_PAYMENT_LINK"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"VARIANT_IN_OPEN_CHECKOUT_SESSION"`
+- `"VARIANT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"VARIANT_IN_OPEN_ORDER"`
+- `"VARIANT_NOT_SELLABLE"`
+- `"VARIANT_OPTION_COMBINATION_ALREADY_EXISTS"`
+- `"VERIFICATION_ALREADY_USED"`
+- `"VERIFICATION_ATTEMPTS_EXCEEDED"`
+- `"VERIFICATION_CODE_FAILED"`
+- `"VERIFICATION_EMAIL_FAILED"`
+- `"VERIFICATION_TOKEN_FAILED"`
+- `"VERSION_CONFLICT"`
+- `"WEBHOOKS_UNAVAILABLE"`
+- `"WEBHOOK_DELIVERY_IN_FLIGHT"`
+- `"WEBHOOK_DELIVERY_UNAVAILABLE"`
+- `"WEBHOOK_ENDPOINT_NOT_ACTIVE"`
+- `"WEBHOOK_EVENT_PAYLOAD_EXPIRED"`
+- `"WEBHOOK_SECRET_ROTATION_OVERLAP_ACTIVE"`
+- `"WEBHOOK_STREAM_CONNECTION_LIMIT"`
+- `"WEBHOOK_STREAM_LIMITER_UNAVAILABLE"`
+- `"WEBHOOK_STREAM_NOTIFIER_UNAVAILABLE"`
+- `"WEEKLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"WEEKLY_PAYOUT_DAYS_REQUIRED"`
 
 ## CheckoutSettings
 
@@ -2103,7 +3988,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `enabled_payment_options` | Optional | Array of string |  |
 | `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
-| `recovery_email` | Optional | object | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 60 minute delay. |
+| `recovery_email` | Optional | object | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. |
 | `require_billing_address` | Optional | boolean |  |
 | `require_email` | Optional | boolean |  |
 | `require_phone` | Optional | boolean |  |
@@ -2119,10 +4004,10 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
 | `contract_term_months` | Optional | integer | Minimum commitment in months, when the plan has one. Format: `int32`. |
 | `early_termination_fee_money` | Optional | object | Fee charged when the buyer cancels before the contract term ends, when the plan has one. |
-| `plan_id` | Required | string | Flint subscription plan ID the terms come from. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
 | `recurring_total_money` | Required | object | Charge for one billing interval before tax: each line's unit price times its quantity, plus modifiers. |
 | `setup_fee_money` | Optional | object | One-time fee charged with the first payment, when the plan has one. |
+| `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. |
 | `trial_period_days` | Optional | integer | Days before the first recurring charge, when the plan has a trial. Format: `int32`. |
 
 ## CheckoutTaxConfig
@@ -2140,12 +4025,12 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `default_smart_tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `default_tip_percentage` | Optional | number |  |
+| `default_tip_percent` | Optional | number | The preselected tip percent, from 1 through 100 with at most four decimal places. Must match one of tip_percent_options. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `enabled` | Optional | boolean |  |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
-| `tip_percentages` | Optional | Array of number |  |
+| `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. |
 
 ## CLITokenRequest
 
@@ -2182,7 +4067,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Optional | string | Internal reason for closing the checkout session. This is not shown to the buyer. |
+| `reason_message` | Optional | string | Your note explaining why you are closing the checkout session. It is not shown to the buyer. |
 
 ## CloseOrderRequest
 
@@ -2190,7 +4075,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Optional | string | Internal reason for closing the order. This is not shown to the buyer. |
+| `reason_message` | Optional | string | Your note explaining why you are closing the order. It is not shown to the buyer. |
 
 ## CollectInvoiceRequest
 
@@ -2304,16 +4189,6 @@ The code the buyer typed.
 | `expected_version` | Optional | exact numeric string | Reservation version the caller last read. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `lines` | Required | Array of object |  |
 | `provenance` | Required | object | When and where the physical handoff happened. Required on consume, rejected on commit and release. |
-
-## ContractInfo
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `is_within_contract_term` | Required | boolean |  |
-| `remaining_months` | Optional | integer | Format: `int32`. |
 
 ## CountMetric
 
@@ -2455,11 +4330,11 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | `metadata` | Optional | object |  |
 | `order_id` | Optional | string |  |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
-| `plan_id` | Optional | string |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
 | `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `subscription_plan_id` | Optional | string |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
@@ -2568,7 +4443,7 @@ Variants: any, any, any.
 | `courier_pickup_at` | Optional | string | Time at which the courier collected the order. Format: `date-time`. |
 | `courier_pickup_window_duration_seconds` | Optional | exact numeric string | Width of the promised courier pickup window, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `courier_provider_name` | Optional | string | Delivery network or merchant fleet provider handling the job. maxLength: `255`. |
-| `courier_support_phone_number` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
+| `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `dispatched_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. maxLength: `2048`. |
 | `expires_at` | Optional | string | Deadline after which an undelivered job should enter merchant review. Format: `date-time`. |
@@ -2612,7 +4487,7 @@ Variants: any, any, any.
 
 Variants: any, any, any.
 
-## CreateDeliveryPreviewRequest
+## CreateDeliveryOptionsPreviewRequest
 
 
 
@@ -2624,8 +4499,27 @@ Variants: any, any, any.
 | `destination_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) |  |
 | `inventory_routing_source` | Optional | [DeliveryPreviewRoutingSource](MODELS.md#deliverypreviewroutingsource) |  |
 | `line_items` | Required | Array of [CreateOrderLineItem](MODELS.md#createorderlineitem) | minItems: `1`. maxItems: `100`. |
+| `mode` | Required | string | The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods and prices for the supplied items and buyer location. Values: `"delivery_options"`. |
 | `pickup_location_id` | Optional | string |  |
 | `pricing_context` | Optional | object |  |
+
+## CreateDeliveryPickupLocationsPreviewRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_location` | Optional | [DeliveryBuyerLocationRequest](MODELS.md#deliverybuyerlocationrequest) |  |
+| `checkout_session_id` | Required | string | Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. |
+| `expected_delivery_selection_id` | Optional | string or null | ID of the checkout's current delivery selection, as GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The search does not change or release the selection. |
+| `maximum_distance` | Optional | [DeliveryPickupAvailabilityMaximumDistanceRequest](MODELS.md#deliverypickupavailabilitymaximumdistancerequest) |  |
+| `mode` | Required | string | The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Values: `"pickup_locations"`. |
+
+## CreateDeliveryPreviewRequest
+
+
+
+Variants: object, object.
 
 ## CreateDeliveryProfileRequest
 
@@ -2810,85 +4704,13 @@ Provide at most one fulfillment details object: pickup_details, local_delivery_d
 
 Variants: any, any, any, any, any.
 
-## CreateFulfillmentResponse
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `data` | Required | [CreateFulfillmentResult](MODELS.md#createfulfillmentresult) |  |
-| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
-| `request_id` | Required | string |  |
-
-## CreateFulfillmentResult
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `active_payment_attempt` | Optional | object | Response only. |
-| `applied_discounts` | Optional | Array of [AppliedDiscount](MODELS.md#applieddiscount) | Response only. |
-| `authorization_amounts` | Optional | object | Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Example: `[]`. Response only. |
-| `buyer_email` | Optional | string | Response only. |
-| `buyer_note` | Optional | string |  |
-| `buyer_phone` | Optional | string | Phone the buyer gave when payment started, in E.164 format: the pay request's buyer_phone, or the phone saved on the paying checkout session. It does not change the linked customer. Response only. |
-| `charges` | Optional | Array of [OrderCharge](MODELS.md#ordercharge) | Response only. |
-| `checkout_session_ids` | Optional | Array of string | Response only. |
-| `closed_reason` | Optional | string | Internal reason supplied when the order was closed. This is not shown to the buyer. Response only. |
-| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `customer_id` | Optional | string |  |
-| `delivery_destination` | Optional | object | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `fulfillment_id` | Required | string |  |
-| `fulfillment_status` | Optional | string | Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Response only. |
-| `fulfillments` | Optional | Array of [Fulfillment](MODELS.md#fulfillment) | Response only. |
-| `gift_card_estimate` | Optional | object | Response only. |
-| `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlement](MODELS.md#ordergiftcardsettlement) | Response only. |
-| `gift_card_tender_enabled` | Optional | boolean | Response only. |
-| `gift_cards` | Optional | Array of [OrderGiftCardSelection](MODELS.md#ordergiftcardselection) | Response only. |
-| `internal_note` | Optional | string |  |
-| `inventory_exception_status` | Optional | string | Values: `"paid_inventory_failed"`, `"resolved"`. Response only. |
-| `inventory_reservation_id` | Optional | string | The reservation holding stock for this order, when one exists. Response only. |
-| `inventory_routing_source` | Optional | object | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. |
-| `line_items` | Required | Array of [OrderLineItem](MODELS.md#orderlineitem) | Response only. |
-| `merchant_id` | Optional | string | Response only. |
-| `metadata` | Optional | object |  |
-| `order_id` | Required | string | Response only. |
-| `order_number` | Optional | string | Response only. |
-| `order_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
-| `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
-| `package_id` | Optional | string |  |
-| `package_items` | Required | Array of [PackageItem](MODELS.md#packageitem) | Canonical package items created with this fulfillment. Empty when shipment was omitted. Subsequent edits use the package item routes. |
-| `payment_collection` | Optional | object | Response only. |
-| `payment_intent_ids` | Optional | Array of string | Response only. |
-| `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](MODELS.md#expandedpaymentintentsummary) | Response only. |
-| `payment_status` | Required | string | Values: `"unpaid"`, `"partially_paid"`, `"paid"`. Response only. |
-| `plan_id` | Optional | string | Response only. |
-| `pricing_amounts` | Required | object | Response only. |
-| `purchased_event` | Optional | object | Response only. |
-| `refund_ids` | Optional | Array of string | Response only. |
-| `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
-| `settlement_amounts` | Required | object | Response only. |
-| `setup_collection` | Optional | object | Response only. |
-| `shipment_id` | Optional | string |  |
-| `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
-| `subscription` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `subscription_id` | Optional | string | Response only. |
-| `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `tax` | Required | object | Response only. |
-| `tips` | Optional | Array of [Tip](MODELS.md#tip) | Response only. |
-| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-
 ## CreateGiftCardAdjustmentRequest
 
 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `amount_money` | Required | [SignedMoney](MODELS.md#signedmoney) |  |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `reason` | Required | string | Values: `"complimentary"`, `"balance_accidentally_decreased"`, `"support_issue"`, `"suspicious_activity"`, `"balance_accidentally_increased"`. |
 
@@ -2898,9 +4720,19 @@ Variants: any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+
+## CreateGiftCardFundingDispositionRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `disposition` | Required | string | Values: `"honor_value"`. |
+| `dispute_id` | Required | string | The lost dispute on the payment that funded the gift card value. pattern: `^du_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `reason_message` | Required | string | Your reason for honoring the gift card value despite the confirmed funding loss. minLength: `1`. maxLength: `200`. |
 
 ## CreateGiftCardLoadRequest
 
@@ -2951,7 +4783,7 @@ Variants: any, any.
 | `customer_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `funding` | Optional | Alternative shapes (see declared variants) |  |
-| `notification` | Optional | object | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.recipients.write in addition to issuance authority. |
+| `notification` | Optional | object | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. |
 
 ## CreateInlineModifierGroupRequest
 
@@ -3375,7 +5207,7 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string |  |
-| `app_type` | Optional | string |  |
+| `app_type` | Optional | string | Values: `"server"`, `"plugin"`. |
 | `default_requested_permissions` | Optional | Array of string |  |
 | `name` | Required | string |  |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntry](MODELS.md#partnerapppermissionmanifestentry) |  |
@@ -3434,7 +5266,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldRequest](MODELS.md#paymentlinkcustomfieldrequest) |  |
+| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldRequest](MODELS.md#paymentlinkcustomfieldrequest) | maxItems: `20`. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
@@ -3451,13 +5283,13 @@ Variants: any, any.
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemRequest](MODELS.md#paymentlinklineitemrequest) |  |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object |  |
+| `metadata` | Optional | object |  Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
 | `name` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
-| `plan_id` | Optional | string |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
+| `subscription_plan_id` | Optional | string |  |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
 | `tip` | Optional | [CheckoutTipConfig](MODELS.md#checkouttipconfig) |  |
@@ -4025,8 +5857,8 @@ Variants: any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object |  |
 | `payment_method_id` | Optional | string |  |
-| `plan_id` | Required | string |  |
 | `service_location` | Optional | [SubscriptionServiceLocationRequest](MODELS.md#subscriptionservicelocationrequest) |  |
+| `subscription_plan_id` | Required | string |  |
 
 Variants: any, any, any.
 
@@ -4908,12 +6740,12 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `base_fee` | Optional | object |  |
-| `distance` | Optional | [DeliveryDistanceUnitPriceRequest](MODELS.md#deliverydistanceunitpricerequest) |  |
-| `maximum_amount` | Optional | object |  |
-| `minimum_amount` | Optional | object |  |
-| `per_item_handling` | Optional | object |  |
-| `weight` | Optional | [DeliveryWeightUnitPriceRequest](MODELS.md#deliveryweightunitpricerequest) |  |
+| `base_fee_currency_options` | Optional | object | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `distance` | Optional | [DeliveryDistanceUnitPrice](MODELS.md#deliverydistanceunitprice) |  |
+| `maximum_fee_currency_options` | Optional | object | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `minimum_fee_currency_options` | Optional | object | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `per_item_handling_fee_currency_options` | Optional | object | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. |
+| `weight` | Optional | [DeliveryWeightUnitPrice](MODELS.md#deliveryweightunitprice) |  |
 
 ## DeliveryCalculatedPricingStrategyRequest
 
@@ -4921,11 +6753,11 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `base_fee` | Optional | object |  |
+| `base_fee_currency_options` | Optional | object | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 | `distance` | Optional | [DeliveryDistanceUnitPriceRequest](MODELS.md#deliverydistanceunitpricerequest) |  |
-| `maximum_amount` | Optional | object |  |
-| `minimum_amount` | Optional | object |  |
-| `per_item_handling` | Optional | object |  |
+| `maximum_fee_currency_options` | Optional | object | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `minimum_fee_currency_options` | Optional | object | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `per_item_handling_fee_currency_options` | Optional | object | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. |
 | `weight` | Optional | [DeliveryWeightUnitPriceRequest](MODELS.md#deliveryweightunitpricerequest) |  |
 
 ## DeliveryCallbackPricingStrategyRequest
@@ -4935,8 +6767,8 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string |  |
-| `maximum_amount` | Optional | object |  |
-| `minimum_amount` | Optional | object |  |
+| `maximum_fee_currency_options` | Optional | object | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `minimum_fee_currency_options` | Optional | object | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 | `preview_enabled` | Optional | boolean |  |
 
 ## DeliveryCallerSuppliedPricingStrategyRequest
@@ -4945,8 +6777,8 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_amount` | Required | object |  |
-| `minimum_amount` | Required | object |  |
+| `maximum_fee_currency_options` | Required | object | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `minimum_fee_currency_options` | Required | object | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 
 ## DeliveryCandidateOutcomeResource
 
@@ -5067,7 +6899,7 @@ A boolean expression containing exactly one operator or typed condition at each 
 | `country` | Optional | [DeliveryCountryCondition](MODELS.md#deliverycountrycondition) |  |
 | `customer_group` | Optional | [DeliveryCustomerGroupCondition](MODELS.md#deliverycustomergroupcondition) |  |
 | `customer_has_email` | Optional | [DeliveryCustomerBooleanCondition](MODELS.md#deliverycustomerbooleancondition) |  |
-| `customer_has_phone_number` | Optional | [DeliveryCustomerBooleanCondition](MODELS.md#deliverycustomerbooleancondition) |  |
+| `customer_has_phone` | Optional | [DeliveryCustomerBooleanCondition](MODELS.md#deliverycustomerbooleancondition) |  |
 | `customer_verified` | Optional | [DeliveryCustomerBooleanCondition](MODELS.md#deliverycustomerbooleancondition) |  |
 | `not` | Optional | Alternative shapes (see declared variants) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `postal_code` | Optional | [DeliveryPostalCodeCondition](MODELS.md#deliverypostalcodecondition) |  |
@@ -5100,7 +6932,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 - `"customer_group"`
 - `"customer_verified"`
 - `"customer_has_email"`
-- `"customer_has_phone_number"`
+- `"customer_has_phone"`
 
 ## DeliveryEstimateRule
 
@@ -5130,8 +6962,8 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Optional | string |  |
 | `delivery_rate_callback_revision_id` | Optional | string |  |
-| `maximum_amount` | Required | object |  |
-| `minimum_amount` | Required | object |  |
+| `maximum_fee_currency_options` | Required | object | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
+| `minimum_fee_currency_options` | Required | object | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 | `preview_enabled` | Optional | boolean |  |
 
 ## DeliveryFixedPricingStrategy
@@ -5160,7 +6992,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `courier_pickup_at` | Optional | string | Time at which the courier collected the order. Format: `date-time`. |
 | `courier_pickup_window_duration_seconds` | Optional | exact numeric string | Width of the promised courier pickup window, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `courier_provider_name` | Optional | string | Delivery network or merchant fleet provider handling the job. maxLength: `255`. |
-| `courier_support_phone_number` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
+| `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `dispatched_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. maxLength: `2048`. |
@@ -5325,7 +7157,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Stable reason the method did not produce an option. - `ELIGIBILITY_NO_MATCH`: The configured eligibility expression excluded the method. - `METHOD_UNAVAILABLE`: The method was unavailable for this evaluation. - `INPUT_REQUIRED`: More typed buyer or caller input is required. - `CHECKOUT_CONTEXT_REQUIRED`: Exact evaluation requires a checkout session. - `PREVIEW_UNSUPPORTED`: The method cannot be evaluated in an orderless preview. - `DEPENDENCY_FAILURE`: A dependency prevented Flint from proving availability. Values: `"ELIGIBILITY_NO_MATCH"`, `"METHOD_UNAVAILABLE"`, `"INPUT_REQUIRED"`, `"CHECKOUT_CONTEXT_REQUIRED"`, `"PREVIEW_UNSUPPORTED"`, `"DEPENDENCY_FAILURE"`. |
+| `code` | Required | string | Stable reason the method did not produce an option. - `eligibility_no_match`: The configured eligibility expression excluded the method. - `method_unavailable`: The method was unavailable for this evaluation. - `input_required`: The buyer or caller must provide more information to evaluate the method. - `checkout_context_required`: A checkout session is required to evaluate the method. - `preview_unsupported`: The method cannot be evaluated without a checkout session. - `dependency_failure`: Flint could not check whether the method is available. Values: `"eligibility_no_match"`, `"method_unavailable"`, `"input_required"`, `"checkout_context_required"`, `"preview_unsupported"`, `"dependency_failure"`. |
 | `delivery_method_id` | Optional | string |  |
 | `delivery_method_revision_id` | Optional | string |  |
 | `diagnostic_id` | Required | string |  |
@@ -5524,6 +7356,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](MODELS.md#deliveryinputrequirement) |  |
 | `locations` | Required | Array of [DeliveryPickupAvailabilityLocationResource](MODELS.md#deliverypickupavailabilitylocationresource) | Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: `25`. |
 | `merchant_diagnostics` | Optional | Array of [DeliveryPickupAvailabilityDiagnostic](MODELS.md#deliverypickupavailabilitydiagnostic) | Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Present only for merchant-authenticated requests. |
+| `mode` | Required | string | The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Values: `"pickup_locations"`. |
 
 ## DeliveryPickupAvailabilityCandidateOutcome
 
@@ -5544,7 +7377,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Stable reason a configured pickup location was left out of the results or cannot supply the order. - `PICKUP_LOCATION_INACTIVE`: The Location is inactive, so it was left out. - `PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE`: The Location has no usable published geography, so it was left out. - `PICKUP_LOCATION_INVENTORY_UNAVAILABLE`: The Location does not allocate inventory, so it cannot supply the order's tracked items. It is listed with an unavailable outcome. Items without tracked inventory need no allocation. - `PICKUP_LOCATION_DEPENDENCY_FAILURE`: Flint could not resolve the configured Location. Values: [4 declared values](#deliverypickupavailabilitydiagnostic-code-values). |
+| `code` | Required | string | Stable reason a configured pickup location was left out of the results or cannot supply the order. - `pickup_location_inactive`: The Location is inactive, so it was left out. - `pickup_location_geography_unavailable`: The Location has no usable published geography, so it was left out. - `pickup_location_inventory_unavailable`: The Location does not allocate inventory, so it cannot supply the order's tracked items. It is listed with an unavailable outcome. Items without tracked inventory need no allocation. - `pickup_location_dependency_failure`: Flint could not resolve the configured Location. Values: [4 declared values](#deliverypickupavailabilitydiagnostic-code-values). |
 | `diagnostic_id` | Required | string |  |
 | `location_id` | Required | string |  |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -5556,10 +7389,10 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 #### DeliveryPickupAvailabilityDiagnostic code values
 
-- `"PICKUP_LOCATION_INACTIVE"`
-- `"PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE"`
-- `"PICKUP_LOCATION_INVENTORY_UNAVAILABLE"`
-- `"PICKUP_LOCATION_DEPENDENCY_FAILURE"`
+- `"pickup_location_inactive"`
+- `"pickup_location_geography_unavailable"`
+- `"pickup_location_inventory_unavailable"`
+- `"pickup_location_dependency_failure"`
 
 ## DeliveryPickupAvailabilityLocationResource
 
@@ -5590,7 +7423,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `unit` | Required | string | Values: `"meters"`, `"kilometers"`, `"miles"`. |
-| `value` | Required | number |  |
+| `value` | Required | number | Maximum distance from the buyer location, greater than zero, in the selected unit. exclusiveMinimum: `0`. |
 
 ## DeliveryPickupAvailabilityMethodResource
 
@@ -5610,16 +7443,6 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | `bundle_component_id` | Optional | string |  |
 | `order_line_item_id` | Required | string |  |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-
-## DeliveryPickupAvailabilityResponse
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `data` | Required | [DeliveryPickupAvailability](MODELS.md#deliverypickupavailability) |  |
-| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
-| `request_id` | Optional | string |  |
 
 ## DeliveryPickupDetails
 
@@ -5677,6 +7500,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](MODELS.md#deliveryinputrequirement) | Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids. |
 | `line_items` | Required | Array of [CreateOrderLineItem](MODELS.md#createorderlineitem) |  |
 | `merchant_diagnostics` | Required | Array of [DeliveryMerchantDiagnostic](MODELS.md#deliverymerchantdiagnostic) |  |
+| `mode` | Required | string | The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods and prices for the supplied items and buyer location. Values: `"delivery_options"`. |
 | `pickup_location_id` | Optional | string |  |
 | `selection_authority` | Required | boolean |  |
 
@@ -5701,7 +7525,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [DeliveryPreview](MODELS.md#deliverypreview) |  |
+| `data` | Required | Alternative shapes (see declared variants) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
@@ -5754,12 +7578,12 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculated` | Optional | [DeliveryCalculatedPricingStrategyRequest](MODELS.md#deliverycalculatedpricingstrategyrequest) |  |
+| `calculated` | Optional | [DeliveryCalculatedPricingStrategy](MODELS.md#deliverycalculatedpricingstrategy) |  |
 | `callback` | Optional | [DeliveryExternalPricingStrategy](MODELS.md#deliveryexternalpricingstrategy) |  |
 | `caller_supplied` | Optional | [DeliveryExternalPricingStrategy](MODELS.md#deliveryexternalpricingstrategy) |  |
 | `fixed` | Optional | [DeliveryFixedPricingStrategyRequest](MODELS.md#deliveryfixedpricingstrategyrequest) |  |
 | `rate_table` | Optional | [DeliveryRateTablePricingStrategy](MODELS.md#deliveryratetablepricingstrategy) |  |
-| `tiered` | Optional | [DeliveryTieredPricingStrategyRequest](MODELS.md#deliverytieredpricingstrategyrequest) |  |
+| `tiered` | Optional | [DeliveryTieredPricingStrategy](MODELS.md#deliverytieredpricingstrategy) |  |
 | `type` | Required | string | Values: `"fixed"`, `"rate_table"`, `"tiered"`, `"calculated"`, `"callback"`, `"caller_supplied"`. |
 
 Variants: any, any, any, any, any, any.
@@ -6386,8 +8210,28 @@ Variants: any, any, any, any, any, any.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `delivery_selection_id` | Required | string |  |
 | `delivery_selection_lifecycle_event_id` | Required | string |  |
-| `reason` | Required | string |  |
+| `reason` | Required | string | Values: [17 declared values](#deliveryselectionlifecycleeventresource-reason-values). |
 | `status` | Required | string | Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
+
+#### DeliverySelectionLifecycleEventResource reason values
+
+- `"replacement_selected"`
+- `"buyer_selected"`
+- `"payment_started"`
+- `"payment_failed_selection_restored"`
+- `"payment_settled"`
+- `"payment_failed_selection_expired"`
+- `"calculation_expired"`
+- `"selection_expired"`
+- `"selection_not_current"`
+- `"dependency_revoked"`
+- `"buyer_cleared"`
+- `"eligibility_context_refreshed"`
+- `"checkout_replaced"`
+- `"checkout_terminal"`
+- `"order_mutated"`
+- `"quote_basis_changed"`
+- `"calculation_changed"`
 
 ## DeliverySelectionRecipientRequest
 
@@ -6784,14 +8628,6 @@ Variants: any, any, any, any, any, any, any.
 | `available` | Required | Array of [PromotionCandidate](MODELS.md#promotioncandidate) |  |
 | `skipped` | Required | Array of [PromotionCandidate](MODELS.md#promotioncandidate) |  |
 
-## DiscountPreviewData
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `discount_preview` | Required | [DiscountPreview](MODELS.md#discountpreview) |  |
-
 ## DiscountPreviewRequest
 
 
@@ -6799,6 +8635,7 @@ Variants: any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `discount` | Optional | [CreateOrderDiscount](MODELS.md#createorderdiscount) |  |
+| `order_id` | Required | string | The order to evaluate. Checkout session credentials can use only their own order. |
 
 ## DiscountPreviewResponse
 
@@ -6806,7 +8643,7 @@ Variants: any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [DiscountPreviewData](MODELS.md#discountpreviewdata) |  |
+| `data` | Required | [DiscountPreview](MODELS.md#discountpreview) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
@@ -6824,7 +8661,7 @@ Variants: any, any, any, any, any, any, any.
 | `customer_id` | Optional | string |  |
 | `dispute_id` | Required | string |  |
 | `evidence_deadline_passed` | Required | boolean |  |
-| `evidence_due_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `evidence_due_at` | Optional | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `evidence_response_allowed` | Required | boolean |  |
 | `evidence_submission_count` | Required | integer | Format: `int32`. |
 | `evidence_submission_past_due` | Required | boolean |  |
@@ -6836,9 +8673,9 @@ Variants: any, any, any, any, any, any, any.
 | `order_id` | Optional | string |  |
 | `payment_intent` | Optional | Alternative shapes (see declared variants) |  |
 | `payment_intent_id` | Optional | string |  |
-| `payment_option` | Optional | string | Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payment_option` | Optional | string or null | Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `null`. |
 | `reason` | Required | string | Values: [20 declared values](#dispute-reason-values). |
-| `response_unavailable_reason` | Optional | string | Why a response is unavailable when evidence_response_allowed is false. Absent when no reason is reported. Current values are bank_return_not_contestable and provider_response_unavailable. The provider value means no evidence deadline was supplied; it does not identify why the provider cannot accept a response. |
+| `response_unavailable_reason` | Optional | string | Why a response is unavailable when evidence_response_allowed is false. Absent when no reason is reported. Current values are bank_return_not_contestable and provider_response_unavailable. The provider value means no evidence deadline was supplied; it does not identify why the provider cannot accept a response. Values: `"bank_return_not_contestable"`, `"provider_response_unavailable"`. |
 | `status` | Required | string | Values: `"warning_needs_response"`, `"warning_under_review"`, `"warning_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`. |
 | `status_changed_at` | Optional | string | Recorded time of the current status. On first observation this is the dispute creation time. Later status changes use the provider event time when available, or the time Flint observed the change. This may not be the exact decision or submission time. Format: `date-time`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -6935,18 +8772,6 @@ Variants: any, any, any, any, any, any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
-## EmbeddedMerchantAccountSessionExternalAction
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `kind` | Required | string | Values: `"embedded"`. |
-| `launch_token` | Required | string |  |
-| `launch_token_expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `provider_session_expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `stripe` | Required | [MerchantAccountSessionStripeLaunch](MODELS.md#merchantaccountsessionstripelaunch) |  |
-
 ## ErrorDetail
 
 
@@ -6955,174 +8780,110 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | Bounded resources that must transition or be corrected before the operation can succeed. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. |
-| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
+| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string |  |
-| `conflict_type` | Optional | string | Values: `"physical_revision"`, `"source_observation_sequence"`. |
-| `conflicting_fields` | Optional | Array of string |  |
-| `current_checkout_session_id` | Optional | string |  |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#errordetail-code-values). |
+| `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
+| `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
+| `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
+| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_source_observation_sequence` | Optional | exact numeric string | Latest accepted absolute source sequence for this item and Location. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
-| `current_version` | Optional | exact numeric string | Current mutable resource version observed when a conditional mutation failed. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `demand_key` | Optional | string |  |
+| `current_version` | Optional | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on status conflicts such as INVENTORY_TRANSFER_ACTION_NOT_ALLOWED and SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#errordetail-dependency_type-values). |
-| `eligibility_reason` | Optional | string | Values: [12 declared values](#errordetail-eligibility_reason-values). |
-| `existing_checkout_session_id` | Optional | string |  |
-| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#errordetail-eligibility_reason-values). |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
-| `inventory_count_line_id` | Optional | string |  |
-| `inventory_item_id` | Optional | string |  |
-| `is_resumable` | Optional | boolean | Whether the order payment attempt identified by payment_attempt_id can be resumed. If false, inspect payment_attempt_status before starting another payment. |
-| `limit` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `location_id` | Optional | string |  |
-| `location_outcome` | Optional | string |  |
+| `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
+| `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
+| `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
+| `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
+| `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `location_id` | Optional | string | Location this failure concerns. Sent on INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, INVENTORY_SOURCE_SEQUENCE_CHANGED, PICKUP_LOCATION_INACTIVE, PICKUP_LOCATION_INVENTORY_UNAVAILABLE, PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE, and PICKUP_LOCATION_DEPENDENCY_FAILURE. |
+| `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
-| `message` | Required | string |  |
-| `param` | Optional | string |  |
-| `payment_attempt_id` | Optional | string |  |
-| `payment_attempt_status` | Optional | string | Current Flint order payment attempt status associated with this error. Values: [11 declared values](#errordetail-payment_attempt_status-values). |
-| `payment_intent_ids` | Optional | Array of string |  |
-| `payment_method_domain_id` | Optional | string |  |
+| `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
+| `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errordetail-payment_attempt_status-values). |
+| `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
+| `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 | `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: not_eligible, minimum_not_met, expired, not_yet_started, exhausted, code_required, code_invalid, disabled, automatic_disabled, codes_disabled, already_applied, not_combinable, superseded_by_better_offer, superseded, max_promotions_reached, no_discountable_balance, buy_item_missing, currency_mismatch, unknown_type. |
-| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) |  |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#errordetail-reason-values). |
+| `remediation` | Optional | object | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
-| `risk_rule_ids` | Optional | Array of string |  |
+| `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
-| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) |  |
+| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Optional | Array of string | Actions accepted for the current resource state. |
-| `supported_api_versions` | Optional | Array of string |  |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
+| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
-#### ErrorDetail dependency_type values
+#### ErrorDetail capability values
 
-- `"devices"`
-- `"fulfillment"`
-- `"inventory_allocation_policies"`
-- `"inventory_capability"`
-- `"inventory_claims"`
-- `"inventory_counts"`
-- `"inventory_levels"`
-- `"inventory_transfers"`
-- `"settings"`
+- `"accept_card_payments"`
+- `"save_payment_methods"`
+- `"accept_affirm_payments"`
+- `"receive_payouts"`
+- `"create_standard_payouts"`
+- `"manage_payout_destinations"`
+- `"manage_payout_settings"`
 
-#### ErrorDetail eligibility_reason values
+#### ErrorDetail code values
 
-- `"location_not_active"`
-- `"inventory_not_configured"`
-- `"inventory_allocation_inactive"`
-- `"outside_policy"`
-- `"outside_allowed_set"`
-- `"destination_missing"`
-- `"geography_unavailable"`
-- `"item_unavailable"`
-- `"forced_location_mismatch"`
-- `"fulfillment_incompatible"`
-- `"split_prohibited"`
-- `"insufficient_quantity"`
-
-#### ErrorDetail payment_attempt_status values
-
-- `"open"`
-- `"requires_action"`
-- `"processing"`
-- `"requires_capture"`
-- `"requires_retry"`
-- `"finalizing"`
-- `"partially_succeeded"`
-- `"succeeded"`
-- `"failed"`
-- `"canceled"`
-- `"expired"`
-
-## ErrorEnvelope
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `error` | Required | [ErrorObject](MODELS.md#errorobject) |  |
-
-## ErrorObject
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. |
-| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#errorobject-code-values). |
-| `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
-| `conflicting_fields` | Optional | Array of string |  |
-| `current_checkout_session_id` | Optional | string |  |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. |
-| `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
-| `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
-| `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
-| `current_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `details` | Optional | Array of [ErrorDetail](MODELS.md#errordetail) |  |
-| `doc_url` | Required | string | Developer error-handling documentation. |
-| `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
-| `existing_checkout_session_id` | Optional | string |  |
-| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
-| `is_resumable` | Optional | boolean | Whether the order payment attempt identified by payment_attempt_id can be resumed. If false, inspect payment_attempt_status before starting another payment. |
-| `limit` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
-| `message` | Required | string |  |
-| `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
-| `param` | Optional | string |  |
-| `payment_attempt_id` | Optional | string |  |
-| `payment_attempt_status` | Optional | string | Current Flint order payment attempt status associated with this error. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
-| `payment_intent_ids` | Optional | Array of string |  |
-| `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: not_eligible, minimum_not_met, expired, not_yet_started, exhausted, code_required, code_invalid, disabled, automatic_disabled, codes_disabled, already_applied, not_combinable, superseded_by_better_offer, superseded, max_promotions_reached, no_discountable_balance, buy_item_missing, currency_mismatch, unknown_type. |
-| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) |  |
-| `request_id` | Optional | string |  |
-| `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
-| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
-| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) |  |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `type` | Required | string | Values: [12 declared values](#errorobject-type-values). |
-
-#### ErrorObject code values
-
+- `"ACCESS_LINK_CUSTOMER_REQUIRED"`
+- `"ACCESS_LINK_MERCHANT_HOSTED"`
 - `"ACCOUNT_SETUP_CONFIGURATION_CONFLICT"`
 - `"ACCOUNT_SETUP_REPAIR_REQUIRED"`
-- `"ACCOUNT_SETUP_REQUIRED"`
 - `"ACCOUNT_SETUP_UNAVAILABLE"`
+- `"ACH_BILLING_DETAILS_REQUIRED"`
+- `"ACH_MANDATE_ACCEPTANCE_REQUIRED"`
+- `"ACH_TRANSACTION_PURPOSE_UNRESOLVED"`
 - `"ACTIVE_BUNDLE_COMPONENTS_IMMUTABLE"`
 - `"ACTIVE_DEMO_SESSION_EXISTS"`
+- `"ACTIVE_LINE_ITEM_SOURCE_CHANGE"`
 - `"ACTIVE_OPTIONS_REQUIRED"`
 - `"ACTIVE_OPTION_SELECTOR_COLLAPSE"`
 - `"ACTIVE_VARIANTS_REQUIRE_OPTION_BACKFILL"`
 - `"AFFIRM_REFUND_RETRY_NOT_ALLOWED"`
 - `"AMBIGUOUS_AUTH"`
+- `"AMBIGUOUS_CATEGORY"`
+- `"AMOUNT_ABOVE_MAX"`
+- `"AMOUNT_BELOW_LIMIT"`
+- `"AMOUNT_BELOW_MIN"`
+- `"AMOUNT_EXCEEDS_BALANCE"`
+- `"AMOUNT_EXCEEDS_LIMIT"`
 - `"AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"AMOUNT_MISMATCH"`
 - `"AMOUNT_MONEY_CURRENCY_REQUIRED"`
 - `"AMOUNT_MONEY_REQUIRED"`
+- `"AMOUNT_NOT_ADJUSTABLE"`
+- `"AMOUNT_NOT_UPDATABLE"`
+- `"AMOUNT_REQUIRED"`
 - `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
+- `"AMOUNT_TOO_LARGE"`
+- `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
+- `"API_KEY_ALREADY_REVOKED"`
+- `"API_KEY_CHANGED"`
 - `"API_KEY_DATA_INVALID"`
 - `"API_KEY_EXPIRED"`
+- `"API_KEY_MANAGEMENT_FORBIDDEN"`
 - `"API_KEY_MODE_MISMATCH"`
 - `"API_KEY_NOT_FOUND"`
 - `"API_KEY_REQUIRED"`
@@ -7133,7 +8894,8 @@ Variants: any, any, any, any, any, any, any.
 - `"API_VERSION_CHANGED"`
 - `"API_VERSION_RETIRED"`
 - `"APPLICATION_METHOD_REQUIRED"`
-- `"ARCHIVED_CATEGORY"`
+- `"ATTRIBUTE_REQUIRED"`
+- `"ATTRIBUTE_UNAVAILABLE"`
 - `"AUTHENTICATION_FAILED"`
 - `"AUTHENTICATION_REQUIRED"`
 - `"AUTHORIZATION_FAILED"`
@@ -7142,9 +8904,12 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTH_UNAVAILABLE"`
 - `"AUTH_VALIDATION_FAILED"`
 - `"AUTOMATIC_PAYOUT_NOT_CANCELABLE"`
+- `"AUTOMATIC_PROMOTIONS_DISABLED"`
+- `"AUTOMATIC_TAX_CATEGORY_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_CHARGE_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_COMPONENTS_FORBIDDEN"`
 - `"AUTOMATIC_TAX_CONNECTION_REQUIRED"`
+- `"AUTOMATIC_TAX_DELAYED_CAPTURE_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_EXEMPTION_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_INCLUSIVE_PRICING_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_INVOICE_INSTALLMENTS_UNSUPPORTED"`
@@ -7153,7 +8918,8 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED"`
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
-- `"AVAILABLE_MERCHANT"`
+- `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -7162,27 +8928,42 @@ Variants: any, any, any, any, any, any, any.
 - `"BANK_ACCOUNT_RESTRICTED"`
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
+- `"BARCODE_ALREADY_EXISTS"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
+- `"BUNDLE_IN_ACTIVE_PAYMENT_LINK"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"BUNDLE_IN_OPEN_CHECKOUT_SESSION"`
+- `"BUNDLE_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"BUNDLE_IN_OPEN_ORDER"`
 - `"BUNDLE_NOT_SELLABLE"`
 - `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
 - `"BUYER_INVOICE_CREDENTIAL_INVALID"`
 - `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CALCULATION_BASIS_FORBIDDEN"`
+- `"CALCULATION_BASIS_NOT_APPLICABLE"`
+- `"CALCULATION_BASIS_REQUIRED"`
 - `"CANCELLATION_COMMENT_TOO_LONG"`
 - `"CANCELLATION_REASON_DUPLICATE"`
 - `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
 - `"CANCELLATION_REASON_NOT_OFFERED"`
 - `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
+- `"CANNOT_CANCEL_EXPIRED_PAYMENT"`
+- `"CANNOT_CANCEL_SUCCEEDED_PAYMENT"`
 - `"CANNOT_PAUSE"`
 - `"CANNOT_RESUME"`
 - `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
 - `"CANNOT_RESUME_PAST_DUE_PAYMENT_REQUIRED"`
+- `"CAPABILITIES_IMMUTABLE"`
 - `"CAPABILITIES_UNAVAILABLE"`
+- `"CAPABILITY_DEPENDENCY_REQUIRED"`
 - `"CAPABILITY_NOT_REQUESTED"`
 - `"CAPABILITY_SET_UNSUPPORTED"`
 - `"CAPABILITY_SNAPSHOT_UNAVAILABLE"`
 - `"CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE"`
+- `"CAPTURE_AMOUNT_MISMATCH"`
 - `"CAPTURE_CURRENCY_MISMATCH"`
 - `"CARD_DECLINED"`
 - `"CATALOG_INVENTORY_RELATIONSHIP_INVALID"`
@@ -7193,21 +8974,27 @@ Variants: any, any, any, any, any, any, any.
 - `"CATEGORY_HANDLE_EXISTS"`
 - `"CATEGORY_MODIFIED"`
 - `"CATEGORY_REFERENCED"`
-- `"CATEGORY_TARGETED"`
 - `"CHALLENGE_FAILED"`
 - `"CHALLENGE_REQUIRED"`
 - `"CHALLENGE_TOKEN_INVALID"`
 - `"CHARGE_NAME_REQUIRED"`
+- `"CHARGE_NOT_ON_ORDER"`
+- `"CHARGE_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"CHARGE_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"CHARGE_TYPE_REQUIRED"`
+- `"CHARGE_VALUE_REQUIRED"`
 - `"CHECKOUT_CREDENTIAL_CHANGED"`
 - `"CHECKOUT_CREDENTIAL_REQUIRED"`
 - `"CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED"`
 - `"CHECKOUT_CUSTOMER_CHANGED"`
+- `"CHECKOUT_CUSTOMER_CONFLICT"`
+- `"CHECKOUT_CUSTOMER_NOT_SET_ON_ORDER"`
 - `"CHECKOUT_DISCOUNT_ID_NOT_ALLOWED"`
 - `"CHECKOUT_DISCOUNT_NOT_REMOVABLE"`
 - `"CHECKOUT_LAUNCH_TOKEN_RESTRICTED"`
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
 - `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
@@ -7219,6 +9006,8 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_SESSION_AUTH_REQUIRED"`
 - `"CHECKOUT_SESSION_AUTH_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_CURRENT_CHANGED"`
+- `"CHECKOUT_SESSION_CURRENT_STATE"`
+- `"CHECKOUT_SESSION_EXPIRED"`
 - `"CHECKOUT_SESSION_LOOKUP_FAILED"`
 - `"CHECKOUT_SESSION_MODIFIERS_READ_ONLY"`
 - `"CHECKOUT_SESSION_MODIFIER_FIELDS_ONLY"`
@@ -7239,18 +9028,27 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
-- `"CLERK_EMAIL_MISSING"`
-- `"CLERK_EMAIL_VERIFY_FAILED"`
-- `"CLERK_USER_CREATE_FAILED"`
-- `"CLERK_USER_LOOKUP_FAILED"`
+- `"CODES_NOT_ALLOWED"`
+- `"CODES_REQUIRED"`
+- `"CODE_EMPTY"`
 - `"CODE_TOO_LONG"`
 - `"COMPONENT_REQUIRED"`
 - `"CONCURRENT_MODIFICATION"`
 - `"CONFIRMATION_RETURN_URL_INVALID"`
 - `"CONFIRMATION_RETURN_URL_NOT_ALLOWED"`
 - `"CONFIRMATION_RETURN_URL_REQUIRED"`
+- `"CONFIRMATION_TOKEN_ALREADY_USED"`
+- `"CONFIRMATION_TOKEN_EXPIRED"`
+- `"CONFIRMATION_TOKEN_REQUIRED"`
+- `"CONFIRMATION_TOKEN_SCOPE_MISMATCH"`
+- `"CONFIRMATION_TOKEN_SDK_REQUIRED"`
 - `"CONTEXT_NOT_FOUND"`
+- `"CONTRACT_TERM_REQUIRED"`
+- `"CONTRACT_TOO_LONG"`
+- `"CONTRACT_TOO_SHORT"`
+- `"COUNTRY_IMMUTABLE"`
 - `"COUNTRY_NOT_SUPPORTED"`
+- `"COUNTRY_REQUIRED"`
 - `"CREATE_ORDER_LINE_ITEM_DISCOUNT_UNSUPPORTED"`
 - `"CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED"`
 - `"CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE"`
@@ -7264,13 +9062,20 @@ Variants: any, any, any, any, any, any, any.
 - `"CREDIT_NOTE_REFUND_EXCEEDS_BALANCE"`
 - `"CREDIT_NOTE_REFUND_INVALID"`
 - `"CURRENCY_MISMATCH"`
+- `"CURRENCY_REQUIRED"`
 - `"CURSOR_MISMATCH"`
 - `"CUSTOMER_ACCOUNTS_UNAVAILABLE"`
+- `"CUSTOMER_ACCOUNT_MODE_CONFLICT"`
 - `"CUSTOMER_ACCOUNT_RESOURCE_NOT_FOUND"`
+- `"CUSTOMER_ACCOUNT_URL_REQUIRED"`
 - `"CUSTOMER_DELETION_BLOCKED"`
 - `"CUSTOMER_DELETION_PROCESSING"`
 - `"CUSTOMER_EMAIL_ALREADY_USED"`
 - `"CUSTOMER_EMAIL_REQUIRED"`
+- `"CUSTOMER_ID_NOT_CLEARABLE"`
+- `"CUSTOMER_NOT_UPDATABLE"`
+- `"CUSTOMER_PAYMENT_METHOD_MISMATCH"`
+- `"CUSTOMER_PAYMENT_TERM_UNAVAILABLE"`
 - `"CUSTOMER_SESSIONS_UNAVAILABLE"`
 - `"CUSTOMER_SESSION_EXPIRED"`
 - `"CUSTOMER_SESSION_NOT_FOUND"`
@@ -7286,6 +9091,14 @@ Variants: any, any, any, any, any, any, any.
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
+- `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
+- `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_FIELD_KEY_REQUIRED"`
+- `"CUSTOM_FIELD_KEY_TOO_LONG"`
+- `"CUSTOM_FIELD_KEY_WHITESPACE"`
+- `"CUSTOM_FIELD_LABEL_REQUIRED"`
+- `"CUSTOM_FIELD_OPTION_TOO_LONG"`
+- `"CUSTOM_FIELD_OPTION_WHITESPACE"`
 - `"DAILY_LIMIT_EXCEEDED"`
 - `"DANGLING_EXPANSION_REFERENCE"`
 - `"DEFAULT_ENVIRONMENT_REQUIRED"`
@@ -7361,23 +9174,51 @@ Variants: any, any, any, any, any, any, any.
 - `"DEMO_SESSIONS_UNAVAILABLE"`
 - `"DEMO_SESSION_ROUTE_NOT_ALLOWED"`
 - `"DEMO_SESSION_SECRET_REPLAY_EXPIRED"`
-- `"DEVELOPER_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"DESCRIPTION_TOO_LONG"`
+- `"DEVICE_DELETED"`
+- `"DEVICE_LOCATION_MISMATCH"`
+- `"DISCOUNTED_ITEM_RULES_REQUIRED"`
 - `"DISCOUNT_AMOUNT_INVALID"`
+- `"DISCOUNT_IDS_REQUIRED"`
+- `"DISCOUNT_NOT_FOUND"`
 - `"DISCOUNT_REQUIRED"`
+- `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
 - `"DISPUTE_NOT_FOUND"`
+- `"DONATION_AMOUNT_REQUIRED"`
+- `"DONATION_CONFIG_NOT_APPLICABLE"`
+- `"DONATION_LINE_ITEMS_NOT_ALLOWED"`
+- `"DONATION_LINE_ITEM_MISSING"`
+- `"DONATION_PLAN_NOT_ALLOWED"`
+- `"DONATION_PROMOTION_NOT_ALLOWED"`
+- `"DONATION_TAX_NOT_ALLOWED"`
+- `"DONATION_TIP_NOT_ALLOWED"`
+- `"DROPDOWN_OPTIONS_REQUIRED"`
 - `"DUPLICATE_BUNDLE_COMPONENT_ID"`
+- `"DUPLICATE_CAPABILITY"`
+- `"DUPLICATE_CHARGE_TARGET"`
 - `"DUPLICATE_CLIENT_OPTION_KEY"`
 - `"DUPLICATE_CLIENT_VALUE_KEY"`
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
+- `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
 - `"DUPLICATE_INVOICE_LINE"`
+- `"DUPLICATE_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_INVOICE_REMINDER_OFFSET"`
+- `"DUPLICATE_LINE_ITEM_ID"`
+- `"DUPLICATE_LINE_ITEM_KEY"`
+- `"DUPLICATE_LINE_ITEM_TARGET"`
 - `"DUPLICATE_OPTION"`
 - `"DUPLICATE_OPTION_NAME"`
+- `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
 - `"DUPLICATE_TAX_COMPONENT"`
@@ -7389,12 +9230,19 @@ Variants: any, any, any, any, any, any, any.
 - `"EMAIL_CHANGE_RATE_LIMITED"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
+- `"EMPTY_CAPABILITY_SET"`
 - `"EMPTY_UPDATE"`
 - `"ENVIRONMENT_GRANT_NOT_FOUND"`
 - `"ENVIRONMENT_LOOKUP_FAILED"`
 - `"ENVIRONMENT_LOOKUP_UNAVAILABLE"`
 - `"ENVIRONMENT_REQUIRED"`
 - `"ENVIRONMENT_SELECTION_FORBIDDEN"`
+- `"EVENT_CONFIG_NOT_APPLICABLE"`
+- `"EVENT_LINE_ITEMS_REQUIRED"`
+- `"EVENT_PLAN_NOT_ALLOWED"`
+- `"EVENT_SOLD_OUT"`
+- `"EVENT_TICKET_QUANTITY_REQUIRED"`
+- `"EVENT_TIMEZONE_REQUIRED"`
 - `"EXACTLY_ONE_REQUIRED"`
 - `"EXPANSION_DEPENDENCY_UNAVAILABLE"`
 - `"EXPANSION_LIMIT_EXCEEDED"`
@@ -7402,8 +9250,11 @@ Variants: any, any, any, any, any, any, any.
 - `"EXPECTED_AMOUNT_REQUIRED"`
 - `"EXPECTED_VERSION_REQUIRED"`
 - `"EXPIRED_CARD"`
+- `"EXPLICIT_TAX_REFUND_NOOP"`
 - `"EXTERNAL_API_KEY_REQUIRED"`
 - `"EXTERNAL_IMAGE_NOT_ALLOWED"`
+- `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
+- `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
@@ -7416,30 +9267,63 @@ Variants: any, any, any, any, any, any, any.
 - `"FLAT_TAX_REFUND_MUST_BE_FULL"`
 - `"FLAT_TAX_REFUND_STATE_INVALID"`
 - `"FLAT_TAX_SCOPE_INVALID"`
+- `"FLINT_WALLET_CARD_NOT_FOUND"`
+- `"FLINT_WALLET_NOT_FOUND"`
+- `"FLINT_WALLET_UNAVAILABLE"`
 - `"FRAUD_WARNING_NOT_FOUND"`
 - `"FULFILLMENT_ACTION_NOT_ALLOWED"`
+- `"FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION"`
 - `"FULFILLMENT_APPROVAL_REQUIRED"`
 - `"FULFILLMENT_BUNDLE_UNSUPPORTED"`
 - `"FULFILLMENT_CHANGED"`
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
+- `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
+- `"FULFILLMENT_EVENT_DEDUPE_CONFLICT"`
+- `"FULFILLMENT_EVENT_OCCURRED_RANGE_INVALID"`
+- `"FULFILLMENT_EVENT_PROVIDER_IDENTITY_INCOMPLETE"`
 - `"FULFILLMENT_EVENT_SUBJECT_INVALID"`
+- `"FULFILLMENT_FIELD_TOO_LONG"`
+- `"FULFILLMENT_INACTIVE"`
+- `"FULFILLMENT_LABEL_URL_EXTERNAL_SYSTEM_REQUIRED"`
+- `"FULFILLMENT_LABEL_URL_INVALID"`
+- `"FULFILLMENT_LINE_ITEMS_REQUIRED"`
+- `"FULFILLMENT_LINE_ITEM_ID_REQUIRED"`
 - `"FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE"`
+- `"FULFILLMENT_METHOD_DUPLICATE"`
+- `"FULFILLMENT_METHOD_LIMIT_EXCEEDED"`
 - `"FULFILLMENT_METHOD_UNAVAILABLE"`
+- `"FULFILLMENT_NOTIFICATION_BUILD_FAILED"`
+- `"FULFILLMENT_OBLIGATION_UNAVAILABLE"`
 - `"FULFILLMENT_PROFILE_REQUIRED"`
 - `"FULFILLMENT_PROFILE_REVISION_UNUSABLE"`
 - `"FULFILLMENT_PROFILE_UNAVAILABLE"`
 - `"FULFILLMENT_QUANTITY_EFFECT_REQUIRED"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM"`
+- `"FULFILLMENT_QUANTITY_INVALID"`
 - `"FULFILLMENT_REASON_INVALID"`
 - `"FULFILLMENT_REQUIREMENT_REQUIRED"`
+- `"FULFILLMENT_SCHEDULE_INVALID"`
 - `"FULFILLMENT_SCHEDULE_NOT_ALLOWED"`
 - `"FULFILLMENT_SCHEDULE_REQUIRED"`
 - `"FULFILLMENT_SELECTION_REQUIRED"`
+- `"FULFILLMENT_SHIPMENT_NOT_MUTABLE"`
+- `"FULFILLMENT_SHIPMENT_NOT_VOIDABLE"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_CONFLICT"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"FULFILLMENT_SHIPMENT_TERMINAL"`
+- `"FULFILLMENT_STATUS_CONFLICT"`
 - `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
 - `"FULFILLMENT_TERMINAL"`
+- `"FULFILLMENT_TIMEZONE_REQUIRED"`
+- `"FULFILLMENT_TRACKING_URL_INVALID"`
+- `"FULFILLMENT_TYPE_NOT_ALLOWED"`
 - `"FULFILLMENT_TYPE_REQUIRED"`
+- `"FULFILLMENT_WINDOW_INVALID"`
 - `"GIFT_CARDS_UNAVAILABLE"`
 - `"GIFT_CARD_ALLOCATION_CHANGED"`
 - `"GIFT_CARD_ALLOCATION_REQUIRED"`
@@ -7471,6 +9355,7 @@ Variants: any, any, any, any, any, any, any.
 - `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
 - `"GIFT_CARD_TAX_NOT_SUPPORTED"`
 - `"GIFT_CARD_UNAVAILABLE"`
+- `"HOSTED_CHECKOUT_CALLER_RATES_UNSUPPORTED"`
 - `"HOSTED_INSTALL_UNAVAILABLE"`
 - `"IDEMPOTENCY_CLEAR_FAILED"`
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
@@ -7483,10 +9368,12 @@ Variants: any, any, any, any, any, any, any.
 - `"IDEMPOTENCY_RECOVERY_REQUIRED"`
 - `"IDEMPOTENCY_REQUEST_IN_PROGRESS"`
 - `"IDENTITY_RESOLUTION_FAILED"`
+- `"IDENTITY_UNAVAILABLE"`
 - `"IMAGE_ANIMATION_UNSUPPORTED"`
 - `"IMAGE_ASSET_NOT_ATTACHABLE"`
 - `"IMAGE_ASSET_NOT_FOUND"`
 - `"IMAGE_DIMENSIONS_EXCEEDED"`
+- `"IMAGE_DIMENSIONS_UNSUPPORTED"`
 - `"IMAGE_FORMAT_UNSUPPORTED"`
 - `"IMAGE_GALLERY_LIMIT_EXCEEDED"`
 - `"IMAGE_INGESTION_COUNT_EXCEEDED"`
@@ -7509,19 +9396,24 @@ Variants: any, any, any, any, any, any, any.
 - `"IMAGE_STORAGE_QUOTA_EXCEEDED"`
 - `"IMAGE_URL_INVALID"`
 - `"IMAGE_URL_MUST_BE_CANONICAL"`
+- `"INCOMPLETE_OPTION_SELECTION"`
 - `"INCORRECT_CVC"`
+- `"INHERIT_ONLY_VIOLATION"`
 - `"INITIAL_API_KEY_ALREADY_CREATED"`
 - `"INSTANT_PAYOUTS_UNAVAILABLE"`
 - `"INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"INSUFFICIENT_FUNDS"`
 - `"INSUFFICIENT_SCOPE"`
 - `"INTERNAL_ERROR"`
+- `"INTERVAL_COUNT_TOO_LARGE"`
 - `"INTERVAL_REQUIRED"`
 - `"INVALID_ACTION"`
 - `"INVALID_ACTIONABLE"`
 - `"INVALID_ACTIVITY_TYPE"`
 - `"INVALID_ALLOCATION"`
 - `"INVALID_AMOUNT"`
+- `"INVALID_AMOUNT_OFF"`
+- `"INVALID_AMOUNT_RANGE"`
 - `"INVALID_API_KEY"`
 - `"INVALID_API_VERSION"`
 - `"INVALID_APPLICATION_METHOD"`
@@ -7532,6 +9424,8 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
+- `"INVALID_BOGO_DISCOUNT_CLASS"`
+- `"INVALID_BOGO_QUANTITY"`
 - `"INVALID_BOOLEAN"`
 - `"INVALID_BOOTSTRAP_SCOPES"`
 - `"INVALID_BUNDLE_STATUS"`
@@ -7546,74 +9440,91 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_CAPTURE_METHOD"`
 - `"INVALID_CASE_TYPE"`
 - `"INVALID_CATEGORIES"`
+- `"INVALID_CATEGORY"`
 - `"INVALID_CATEGORY_DESCRIPTION"`
 - `"INVALID_CATEGORY_HANDLE"`
 - `"INVALID_CATEGORY_NAME"`
-- `"INVALID_CATEGORY_STATUS"`
 - `"INVALID_CHANNEL"`
+- `"INVALID_CHARGE_AMOUNT"`
+- `"INVALID_CHARGE_PERCENT"`
+- `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
+- `"INVALID_COLOR"`
 - `"INVALID_COMPLETION_BEHAVIOR"`
 - `"INVALID_COMPONENT"`
 - `"INVALID_COMPONENTS"`
 - `"INVALID_COMPONENT_POSITION"`
 - `"INVALID_COMPONENT_QUANTITY"`
+- `"INVALID_CORNER_RADIUS"`
 - `"INVALID_COUNTRY"`
 - `"INVALID_CREATED_AFTER"`
 - `"INVALID_CREATED_BEFORE"`
 - `"INVALID_CREATED_RANGE"`
+- `"INVALID_CREDIT_NOTE"`
 - `"INVALID_CREDIT_NOTE_CORRECTION_TYPE"`
 - `"INVALID_CREDIT_NOTE_LINE"`
 - `"INVALID_CREDIT_NOTE_MEMO"`
 - `"INVALID_CREDIT_NOTE_REASON"`
 - `"INVALID_CREDIT_NOTE_STATUS"`
 - `"INVALID_CURRENCY"`
+- `"INVALID_CURRENCY_OPTION"`
 - `"INVALID_CURSOR"`
 - `"INVALID_CUSTOMER_ACCOUNT_REQUEST"`
+- `"INVALID_CUSTOMER_ACCOUNT_ROUTE_TEMPLATE"`
+- `"INVALID_CUSTOMER_ACCOUNT_URL"`
 - `"INVALID_CUSTOMER_SESSION"`
+- `"INVALID_CUSTOM_DOMAIN"`
 - `"INVALID_DEFAULT_FOR_CURRENCY"`
+- `"INVALID_DEFAULT_SMART_TIP_AMOUNT"`
+- `"INVALID_DEFAULT_TIP_PERCENTAGE"`
+- `"INVALID_DEFAULT_VARIANT"`
 - `"INVALID_DELAY_DAYS_OVERRIDE"`
 - `"INVALID_DELIVERY_CONFIGURATION_STATUS"`
 - `"INVALID_DELIVERY_EVALUATION_STATUS"`
 - `"INVALID_DELIVERY_MODE"`
-- `"INVALID_DELIVERY_OPTION_DETAILS"`
-- `"INVALID_DELIVERY_OPTION_TYPE"`
 - `"INVALID_DELIVERY_PROFILE_ID"`
 - `"INVALID_DELIVERY_QUOTE_STATUS"`
 - `"INVALID_DELIVERY_STATUS"`
+- `"INVALID_DESCRIPTION"`
 - `"INVALID_DIGITAL_WALLET"`
 - `"INVALID_DISCOUNT"`
 - `"INVALID_DISCOUNT_CALCULATION_BASIS"`
 - `"INVALID_DISCOUNT_CLASS"`
 - `"INVALID_DISCOUNT_SCOPE"`
 - `"INVALID_DISPUTE_REQUEST"`
+- `"INVALID_DISPUTE_STATUS"`
 - `"INVALID_DOMAIN"`
 - `"INVALID_DOMAIN_NAME"`
 - `"INVALID_DONATION_AMOUNT"`
+- `"INVALID_DONATION_AMOUNT_RANGE"`
+- `"INVALID_DROPDOWN_VALUE"`
+- `"INVALID_DUNNING_RETRY_DAYS"`
 - `"INVALID_EMAIL_FORMAT"`
 - `"INVALID_ENVIRONMENT_SELECTION"`
 - `"INVALID_EVENT_AT"`
+- `"INVALID_EVENT_SOURCE"`
+- `"INVALID_EVENT_SOURCES"`
 - `"INVALID_EVENT_TYPE"`
 - `"INVALID_EXCLUSIVITY_SELECTION"`
 - `"INVALID_EXPAND"`
 - `"INVALID_EXPECTED_VERSION"`
+- `"INVALID_EXPIRATION"`
 - `"INVALID_EXPIRES_AT"`
 - `"INVALID_EXTERNAL_REFERENCE_ID"`
 - `"INVALID_FEEDBACK_KIND"`
 - `"INVALID_FEEDBACK_SHAPE"`
 - `"INVALID_FEEDBACK_SURFACE"`
 - `"INVALID_FIELD_TYPE"`
-- `"INVALID_FLAT_MONEY"`
 - `"INVALID_FLAT_TAX"`
+- `"INVALID_FONT_FAMILY"`
 - `"INVALID_FULFILLMENT_BUYER_NOTIFICATION_BEHAVIOR"`
 - `"INVALID_FULFILLMENT_DETAILS"`
 - `"INVALID_FULFILLMENT_EVENT_TYPE"`
-- `"INVALID_FULFILLMENT_QUANTITY_EFFECT"`
 - `"INVALID_FULFILLMENT_REQUIREMENT"`
-- `"INVALID_FULFILLMENT_SHIPMENT_STATUS"`
 - `"INVALID_FULFILLMENT_STATUS"`
 - `"INVALID_FULFILLMENT_TYPE"`
 - `"INVALID_GIFT_CARD_CODE"`
@@ -7631,7 +9542,10 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_INTERVAL"`
 - `"INVALID_INTERVAL_END_AT"`
 - `"INVALID_INTERVAL_START_AT"`
+- `"INVALID_INVENTORY_EXCEPTION_RESOLUTION_REASON"`
+- `"INVALID_INVENTORY_SOURCE_KEY"`
 - `"INVALID_INVOICE"`
+- `"INVALID_INVOICE_AUTOPAY_RETRY_OFFSETS"`
 - `"INVALID_INVOICE_COLLECTION"`
 - `"INVALID_INVOICE_COLLECTION_MODE"`
 - `"INVALID_INVOICE_DRAFT_SOURCE"`
@@ -7640,13 +9554,30 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_INVOICE_LATE_FEE_SCHEDULE"`
 - `"INVALID_INVOICE_PAYMENT_DUE"`
 - `"INVALID_INVOICE_PAYMENT_DUE_TYPE"`
+- `"INVALID_INVOICE_PAYMENT_OPTION_LIMIT"`
 - `"INVALID_INVOICE_PAYMENT_POLICY"`
 - `"INVALID_INVOICE_PAYMENT_TERM"`
+- `"INVALID_INVOICE_REMINDER_OFFSET"`
+- `"INVALID_INVOICE_REPLY_TO_EMAIL"`
+- `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
-- `"INVALID_LAUNCH_TOKEN"`
 - `"INVALID_LINE_ITEM"`
 - `"INVALID_LINE_ITEMS"`
+- `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
+- `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
+- `"INVALID_LIST_ALIAS"`
+- `"INVALID_LIST_ITEM_COUNT"`
+- `"INVALID_LOW_STOCK_THRESHOLD"`
 - `"INVALID_MAX_AMOUNT"`
+- `"INVALID_MAX_APPLICATIONS_PER_ORDER"`
+- `"INVALID_MAX_COMPLETIONS"`
+- `"INVALID_MAX_DISCOUNTED_QUANTITY"`
+- `"INVALID_MAX_LENGTH"`
+- `"INVALID_MAX_PROMOTIONS_PER_ORDER"`
+- `"INVALID_MAX_TOTAL_QUANTITY"`
+- `"INVALID_MAX_USES"`
+- `"INVALID_MERCHANT_ADDRESS"`
+- `"INVALID_MERCHANT_SELECTION"`
 - `"INVALID_METADATA"`
 - `"INVALID_METADATA_KEY"`
 - `"INVALID_METHOD"`
@@ -7655,7 +9586,6 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_MINIMUM_BALANCE_CURRENCY"`
 - `"INVALID_MIN_AMOUNT"`
 - `"INVALID_MODE"`
-- `"INVALID_MODIFIER"`
 - `"INVALID_MODIFIER_GROUP"`
 - `"INVALID_MODIFIER_GROUP_STATUS"`
 - `"INVALID_MODIFIER_GROUP_TYPE"`
@@ -7665,8 +9595,12 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_MODIFIER_STATUS"`
 - `"INVALID_MONEY"`
 - `"INVALID_MONTHLY_PAYOUT_DAY"`
+- `"INVALID_NAME"`
 - `"INVALID_NOTIFICATION_TYPE"`
+- `"INVALID_OAUTH_TOKEN"`
 - `"INVALID_ONBOARDING_SESSION"`
+- `"INVALID_OPERAND"`
+- `"INVALID_OPERATOR"`
 - `"INVALID_OPTIONS"`
 - `"INVALID_OPTION_POSITION"`
 - `"INVALID_OPTION_STATUS"`
@@ -7674,36 +9608,48 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_OPTION_VALUE_POSITION"`
 - `"INVALID_OPTION_VALUE_STATUS"`
 - `"INVALID_ORDER_STATUS"`
+- `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
+- `"INVALID_PARENT_ORGANIZATION"`
 - `"INVALID_PARTNER_APP"`
 - `"INVALID_PARTNER_TOKEN"`
 - `"INVALID_PAYMENTS"`
-- `"INVALID_PAYMENT_INTENT_STATE"`
+- `"INVALID_PAYMENT_FLOW"`
+- `"INVALID_PAYMENT_LIMIT_RANGE"`
 - `"INVALID_PAYMENT_LINK_CUSTOM_FIELD_TYPE"`
 - `"INVALID_PAYMENT_LINK_TYPE"`
 - `"INVALID_PAYMENT_METHOD_TYPE"`
 - `"INVALID_PAYMENT_OPTIONS"`
+- `"INVALID_PAYMENT_OPTION_LIMIT"`
 - `"INVALID_PAYMENT_OPTION_RESOLVE_REQUEST"`
 - `"INVALID_PAYMENT_SOURCE"`
 - `"INVALID_PAYMENT_STATUS"`
+- `"INVALID_PERCENT_OFF"`
 - `"INVALID_PHONE_FORMAT"`
-- `"INVALID_POLICY_COMBINATION"`
+- `"INVALID_PREDICATE"`
+- `"INVALID_PREDICATE_GROUP"`
+- `"INVALID_PREDICATE_NODE"`
+- `"INVALID_PRICE"`
 - `"INVALID_PRODUCT_CREATE_SHAPE"`
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
+- `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
 - `"INVALID_RANGE"`
 - `"INVALID_REASON"`
-- `"INVALID_RECIPIENT"`
 - `"INVALID_RECOVERY_EMAIL_DELAY"`
 - `"INVALID_RECURRENCE_TYPE"`
 - `"INVALID_REDEMPTION_TYPE"`
+- `"INVALID_REFUND_ADJUSTMENT_AMOUNT"`
 - `"INVALID_REFUND_ADJUSTMENT_APPLIES_TO"`
 - `"INVALID_REFUND_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_REFUND_ADJUSTMENT_REFUND_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_TARGET"`
 - `"INVALID_REFUND_ADJUSTMENT_TYPE"`
 - `"INVALID_REFUND_METHOD"`
 - `"INVALID_REFUND_REASON"`
@@ -7722,15 +9668,25 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_RETENTION_OFFER_KIND"`
 - `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
 - `"INVALID_RETURN_URL"`
+- `"INVALID_REVIEW_STATUS"`
 - `"INVALID_REWARD_SELECTION"`
+- `"INVALID_RISK_LEVEL"`
+- `"INVALID_RISK_LIST_ALIAS"`
+- `"INVALID_RISK_LIST_ITEM_TYPE"`
 - `"INVALID_ROLE"`
+- `"INVALID_RULE_ACTION"`
 - `"INVALID_RULE_GROUP"`
 - `"INVALID_RULE_OPERATOR"`
 - `"INVALID_RULE_VALUE"`
 - `"INVALID_SANDBOX_ID"`
+- `"INVALID_SCHEDULE"`
 - `"INVALID_SCOPE"`
+- `"INVALID_SHIPMENT_DIMENSIONS"`
 - `"INVALID_SHIPMENT_DIRECTION"`
-- `"INVALID_SHIPMENT_PACKAGE_STATUS"`
+- `"INVALID_SHIPMENT_PACKAGE_ITEM_QUANTITY"`
+- `"INVALID_SHIPMENT_WEIGHT"`
+- `"INVALID_SMART_TIP_AMOUNT"`
+- `"INVALID_SMART_TIP_AMOUNTS_COUNT"`
 - `"INVALID_SORT_BY"`
 - `"INVALID_SORT_DIRECTION"`
 - `"INVALID_SORT_FIELD"`
@@ -7740,14 +9696,23 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_STATEMENT_DESCRIPTOR"`
 - `"INVALID_STATUS"`
 - `"INVALID_STATUS_BUCKET"`
+- `"INVALID_STATUS_FOR_CAPTURE"`
+- `"INVALID_STATUS_TRANSITION"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
+- `"INVALID_SUGGESTED_AMOUNT"`
+- `"INVALID_SUPPORT_EMAIL"`
+- `"INVALID_SUPPORT_PHONE"`
+- `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
 - `"INVALID_TAX_CALCULATION_TYPE"`
 - `"INVALID_TAX_CATEGORY"`
+- `"INVALID_TAX_IDENTITY"`
 - `"INVALID_TAX_JURISDICTION"`
 - `"INVALID_TAX_MODE"`
+- `"INVALID_TAX_MONEY"`
 - `"INVALID_TAX_PERCENTAGE"`
 - `"INVALID_TAX_PRICE_MODE"`
 - `"INVALID_TAX_REFUND_MODE"`
@@ -7758,16 +9723,24 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_TIP"`
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
+- `"INVALID_TIP_PERCENTAGES_COUNT"`
 - `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
 - `"INVALID_UPDATED_BEFORE"`
 - `"INVALID_UPDATE_MASK"`
+- `"INVALID_URL"`
+- `"INVALID_URL_HOST"`
+- `"INVALID_URL_SCHEME"`
 - `"INVALID_USAGE"`
+- `"INVALID_VALUES"`
+- `"INVALID_VALUE_TYPE"`
 - `"INVALID_VARIANT_STATUS"`
 - `"INVALID_VERIFICATION"`
 - `"INVALID_WEBHOOK_ENDPOINT"`
+- `"INVALID_WEBHOOK_ENDPOINT_SOURCE"`
+- `"INVALID_WEBHOOK_EVENT"`
 - `"INVALID_WEBSITE_URL"`
 - `"INVALID_WEEKLY_PAYOUT_DAY"`
 - `"INVENTORY_ADJUSTMENT_NOT_FOUND"`
@@ -7781,11 +9754,15 @@ Variants: any, any, any, any, any, any, any.
 - `"INVENTORY_DEMAND_INVALID"`
 - `"INVENTORY_EVENT_PROVENANCE_INVALID"`
 - `"INVENTORY_INSUFFICIENT"`
+- `"INVENTORY_ITEM_INACTIVE"`
 - `"INVENTORY_ITEM_IN_USE"`
+- `"INVENTORY_ITEM_NAME_INVALID"`
 - `"INVENTORY_ITEM_NOT_FOUND"`
+- `"INVENTORY_ITEM_REFERENCE_REQUIRED"`
 - `"INVENTORY_ITEM_UNAVAILABLE"`
 - `"INVENTORY_LEVEL_NOT_FOUND"`
 - `"INVENTORY_LOCATION_ALLOCATION_INACTIVE"`
+- `"INVENTORY_LOCATION_INELIGIBLE"`
 - `"INVENTORY_LOCATION_NOT_CONFIGURED"`
 - `"INVENTORY_MOVEMENT_NOT_FOUND"`
 - `"INVENTORY_POLICY_INVALID"`
@@ -7798,6 +9775,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVENTORY_RESERVATION_EXPIRED"`
 - `"INVENTORY_RESERVATION_NOT_FOUND"`
 - `"INVENTORY_RESERVATION_OWNER_MISMATCH"`
+- `"INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED"`
 - `"INVENTORY_ROUTING_SOURCE_INVALID"`
 - `"INVENTORY_ROUTING_SOURCE_REQUIRED"`
 - `"INVENTORY_ROUTING_TOO_COMPLEX"`
@@ -7812,11 +9790,13 @@ Variants: any, any, any, any, any, any, any.
 - `"INVOICE_ACCESS_AUTH_UNAVAILABLE"`
 - `"INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED"`
 - `"INVOICE_AUTOPAY_PAYMENT_METHOD_UNSUPPORTED"`
+- `"INVOICE_AUTOPAY_RETRY_LIMIT_EXCEEDED"`
 - `"INVOICE_BALANCE_CHANGED"`
 - `"INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED"`
 - `"INVOICE_COLLECTION_BLOCKED"`
 - `"INVOICE_COLLECTION_CHANGED"`
 - `"INVOICE_COLLECTION_MODE_UNSUPPORTED"`
+- `"INVOICE_COST_COMPARISON_REQUIRES_OPTIONS"`
 - `"INVOICE_DRAFT_CHANGED"`
 - `"INVOICE_HAS_ISSUED_CREDIT_NOTE"`
 - `"INVOICE_ISSUE_IN_PROGRESS"`
@@ -7837,28 +9817,40 @@ Variants: any, any, any, any, any, any, any.
 - `"INVOICE_PAYMENT_ALREADY_SETTLED"`
 - `"INVOICE_PAYMENT_ATTEMPT_ACTIVE"`
 - `"INVOICE_PAYMENT_FAILED"`
+- `"INVOICE_PAYMENT_NOT_APPLIED"`
 - `"INVOICE_PAYMENT_OPTIONS_REQUIRED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
 - `"INVOICE_PAYMENT_PROCESSING"`
 - `"INVOICE_PAYMENT_RESOLVING"`
 - `"INVOICE_PAYMENT_TERM_CHANGED"`
+- `"INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH"`
 - `"INVOICE_PAYMENT_TERM_IN_USE"`
 - `"INVOICE_PAYMENT_TERM_UNAVAILABLE"`
 - `"INVOICE_PDF_UNAVAILABLE"`
+- `"INVOICE_REMINDER_CHANGED"`
 - `"INVOICE_REMINDER_RATE_LIMITED"`
+- `"INVOICE_REMINDER_RULE_LIMIT_EXCEEDED"`
 - `"INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE"`
 - `"INVOICE_SCHEDULE_INVALID"`
 - `"INVOICE_SOURCE_CONFLICT"`
 - `"INVOICE_SOURCE_REQUIRED"`
 - `"INVOICE_TAX_SNAPSHOT_MISSING"`
 - `"INVOICE_TAX_SNAPSHOT_STALE"`
+- `"INVOICE_TIMEZONE_REQUIRED"`
 - `"ITEMS_REQUIRED"`
 - `"LAST_NAME_REQUIRED"`
 - `"LATEST_REVISION"`
-- `"LAUNCH_TOKEN_SCOPE_MISMATCH"`
+- `"LINE_ITEM_AMOUNT_REQUIRED"`
+- `"LINE_ITEM_DISCOUNT_NO_CHARGE_IDS"`
+- `"LINE_ITEM_DISCOUNT_REQUIRES_IDS"`
 - `"LINE_ITEM_INVALID_QUANTITY"`
+- `"LINE_ITEM_KEY_WHITESPACE"`
 - `"LINE_ITEM_NAME_REQUIRED"`
 - `"LINE_ITEM_NAME_TOO_LONG"`
 - `"LINE_ITEM_NEGATIVE_PRICE"`
+- `"LINE_ITEM_NOT_FOUND"`
+- `"LINE_ITEM_NOT_ON_ORDER"`
 - `"LINE_ITEM_PRICE_REQUIRED"`
 - `"LINE_ITEM_QUANTITY_TOO_LARGE"`
 - `"LINE_ITEM_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
@@ -7878,8 +9870,14 @@ Variants: any, any, any, any, any, any, any.
 - `"LOCATION_IN_USE"`
 - `"LOCATION_NOT_ACTIVE"`
 - `"LOCATION_NOT_FOUND"`
+- `"LOCATION_TOO_LONG"`
+- `"LOCATION_UNAVAILABLE"`
+- `"MAX_BOUND_VIOLATION"`
+- `"MAX_LENGTH_NOT_APPLICABLE"`
+- `"MEMBERSHIP_REQUIRED"`
 - `"MERCHANTS_UNAVAILABLE"`
 - `"MERCHANT_ACCESS_REQUIRED"`
+- `"MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED"`
 - `"MERCHANT_ACCOUNT_NOT_READY"`
 - `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED"`
 - `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED"`
@@ -7896,11 +9894,14 @@ Variants: any, any, any, any, any, any, any.
 - `"MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
+- `"MERCHANT_ADDRESS_INCOMPLETE"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
+- `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
 - `"MERCHANT_FINANCE_READ_FAILED"`
 - `"MERCHANT_NOT_LOADED"`
 - `"MERCHANT_ONBOARDING_REQUIRED"`
+- `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
 - `"METADATA_KEY_TOO_LONG"`
@@ -7911,19 +9912,35 @@ Variants: any, any, any, any, any, any, any.
 - `"ME_CUSTOMER_ID_FORBIDDEN"`
 - `"MINIMUM_BALANCE_CURRENCY_MISMATCH"`
 - `"MINIMUM_BALANCE_REQUIRED"`
+- `"MIN_BOUND_VIOLATION"`
+- `"MISSING_CURRENCY"`
+- `"MISSING_DISPLAY_NAME"`
+- `"MISSING_EXCLUSIVITY_GROUP"`
 - `"MISSING_LINE_ITEMS"`
 - `"MISSING_REQUIRED_FIELD"`
+- `"MISSING_URL"`
 - `"MIXED_VARIANT_CURRENCIES"`
 - `"MODIFIERS_REQUIRED"`
 - `"MODIFIERS_UNAVAILABLE"`
 - `"MODIFIER_CURRENCY_MISMATCH"`
+- `"MODIFIER_DEFAULT_INVALID"`
 - `"MODIFIER_DUPLICATE_SELECTION"`
 - `"MODIFIER_GROUP_CHANGED"`
+- `"MODIFIER_GROUP_IN_USE"`
+- `"MODIFIER_GROUP_NAME_REQUIRED"`
 - `"MODIFIER_GROUP_REQUIRED"`
+- `"MODIFIER_GROUP_UNAVAILABLE"`
+- `"MODIFIER_IN_USE"`
 - `"MODIFIER_METADATA_UNSUPPORTED"`
+- `"MODIFIER_NAME_REQUIRED"`
 - `"MODIFIER_OVERRIDE_INVALID"`
 - `"MODIFIER_QUANTITY_INVALID"`
+- `"MODIFIER_SELECTION_ID_INVALID"`
 - `"MODIFIER_SELECTION_LIMIT_EXCEEDED"`
+- `"MODIFIER_SET_GROUP_SOURCE_INVALID"`
+- `"MODIFIER_SET_IN_USE"`
+- `"MODIFIER_SET_NAME_REQUIRED"`
+- `"MODIFIER_SET_VERSION_CONFLICT"`
 - `"MODIFIER_SOURCE_UNSUPPORTED"`
 - `"MODIFIER_TEXT_INVALID"`
 - `"MODIFIER_UNAVAILABLE"`
@@ -7935,15 +9952,18 @@ Variants: any, any, any, any, any, any, any.
 - `"MONTHLY_PAYOUT_DAYS_REQUIRED"`
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
+- `"NAME_TOO_LONG"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
+- `"NOTHING_TO_REFUND_FOR_CHARGE"`
 - `"NOTHING_TO_REFUND_FOR_LINE_ITEM"`
 - `"NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN"`
 - `"NO_DISCOUNTABLE_BALANCE"`
 - `"NO_FIELDS_TO_UPDATE"`
 - `"NO_PAYMENTS_FOR_ORDER"`
 - `"NULL_NOT_ALLOWED"`
+- `"OAUTH_CONTEXT_MISMATCH"`
 - `"OAUTH_UNAVAILABLE"`
 - `"ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED"`
 - `"ONBOARDING_DIRECT_OWNER_REQUIRED"`
@@ -7961,6 +9981,9 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDERS_UNAVAILABLE"`
 - `"ORDER_ALREADY_CLOSED"`
 - `"ORDER_ALREADY_HAS_ACTIVE_INVOICE"`
+- `"ORDER_ALREADY_HAS_PAYMENTS"`
+- `"ORDER_ALREADY_HAS_REFUNDS"`
+- `"ORDER_ALREADY_PAID"`
 - `"ORDER_CHANGED_REFRESH_REQUIRED"`
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
@@ -7969,6 +9992,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
 - `"ORDER_CONFLICT"`
+- `"ORDER_CURRENCY_REQUIRED"`
 - `"ORDER_CUSTOMER_ALREADY_SET"`
 - `"ORDER_CUSTOMER_CHECKOUT_ACTIVE"`
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
@@ -7977,14 +10001,30 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
+- `"ORDER_HAS_ACTIVE_PAYMENT_INTENT"`
+- `"ORDER_HAS_MANUAL_PAYMENTS"`
+- `"ORDER_HAS_NO_CHARGES"`
+- `"ORDER_HAS_NO_LINE_ITEMS"`
+- `"ORDER_HAS_NO_REFUNDABLE_CHARGES"`
+- `"ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS"`
+- `"ORDER_HAS_OPEN_CHECKOUT"`
+- `"ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE"`
+- `"ORDER_INVENTORY_EXCEPTION_UNRESOLVED"`
 - `"ORDER_LINE_ITEM_ID_REQUIRED"`
+- `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
 - `"ORDER_NOT_FOUND"`
+- `"ORDER_NOT_FULFILLABLE"`
+- `"ORDER_NOT_OPEN"`
+- `"ORDER_NOT_PAYABLE"`
 - `"ORDER_OWNED_PAYMENT_INTENT_REQUIRED"`
 - `"ORDER_PAYMENT_ATTEMPT_ACTIVE"`
+- `"ORDER_PAYMENT_AUTHORIZATION_NOT_FOUND"`
+- `"ORDER_PAYMENT_CUSTOMER_MISMATCH"`
 - `"ORDER_PAYMENT_FLOW_REQUIRED"`
 - `"ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS"`
+- `"ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW"`
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
@@ -7993,7 +10033,6 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
-- `"ORDER_REFUNDED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
 - `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
 - `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
@@ -8001,6 +10040,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_REVISION_REQUIRED"`
 - `"ORDER_STATUS_NOT_CLOSABLE"`
 - `"ORDER_TAX_CALCULATION_FAILED"`
+- `"ORDER_TAX_FULL_ADDRESS_REQUIRED"`
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
@@ -8010,11 +10050,25 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
+- `"ORGANIZATION_CYCLE"`
+- `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
+- `"ORGANIZATION_LINKED_TO_MERCHANT"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
+- `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
+- `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_REQUIRED"`
 - `"PACKAGE_ACTION_NOT_ALLOWED"`
 - `"PACKAGE_CHANGED"`
 - `"PACKAGE_PARENT_CHANGED"`
 - `"PACKAGE_REQUIRED"`
+- `"PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_REMOVAL_FORBIDDEN"`
+- `"PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN"`
+- `"PARTIAL_CAPTURE_NOT_SUPPORTED"`
 - `"PARTNER_APP_INSTALL_NOT_FOUND"`
 - `"PARTNER_APP_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"PARTNER_APP_NOT_FOUND"`
@@ -8025,6 +10079,10 @@ Variants: any, any, any, any, any, any, any.
 - `"PAUSE_NOT_ALLOWED"`
 - `"PAYMENT_ACTION_EXPIRED"`
 - `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
+- `"PAYMENT_ALREADY_CANCELED"`
+- `"PAYMENT_ALREADY_SETTLED"`
+- `"PAYMENT_ALREADY_SUCCEEDED"`
+- `"PAYMENT_AMOUNT_CHANGED"`
 - `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
 - `"PAYMENT_ATTEMPT_IN_PROGRESS"`
@@ -8033,19 +10091,34 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
+- `"PAYMENT_AUTHORIZATION_EXPIRED"`
+- `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
+- `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
+- `"PAYMENT_CONFIRM_IN_PROGRESS"`
+- `"PAYMENT_CONFLICT"`
+- `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
+- `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
 - `"PAYMENT_INTENT_DISPUTED"`
+- `"PAYMENT_INTENT_LIMIT_REACHED"`
+- `"PAYMENT_INTENT_NOT_CANCELABLE"`
 - `"PAYMENT_INTENT_NOT_FOUND"`
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"PAYMENT_INTENT_ORDER_MISMATCH"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
 - `"PAYMENT_LINK_CHANGED_RETRY"`
 - `"PAYMENT_LINK_FULFILLMENT_UNAVAILABLE"`
+- `"PAYMENT_LINK_INACTIVE"`
+- `"PAYMENT_LINK_LINE_ITEM_UNAVAILABLE"`
+- `"PAYMENT_LINK_MAX_COMPLETIONS_REACHED"`
+- `"PAYMENT_LINK_METADATA_TOO_LARGE"`
+- `"PAYMENT_LINK_METADATA_TOO_MANY_KEYS"`
 - `"PAYMENT_LINK_NOT_FOUND"`
 - `"PAYMENT_LINK_RESOLUTION_CONTEXT_INVALID"`
 - `"PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED"`
@@ -8074,22 +10147,33 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_NOT_COMPLETED"`
 - `"PAYMENT_NOT_REQUIRED"`
 - `"PAYMENT_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_OPTIONS_NOT_COMPARABLE"`
 - `"PAYMENT_OPTIONS_REQUIRED"`
 - `"PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_UNAVAILABLE"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
+- `"PAYMENT_PROCESSOR_ERROR"`
+- `"PAYMENT_PROCESSOR_REJECTED"`
+- `"PAYMENT_PROCESSOR_UNAVAILABLE"`
+- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
+- `"PAYMENT_REVIEW_OPEN"`
 - `"PAYMENT_SOURCE_CONFLICT"`
 - `"PAYMENT_SOURCE_NOT_ALLOWED"`
+- `"PAYMENT_SOURCE_NOT_UPDATABLE"`
 - `"PAYMENT_SOURCE_OWNERSHIP_MISMATCH"`
 - `"PAYMENT_SOURCE_REQUIRED"`
 - `"PAYMENT_SOURCE_SELECTION_CONFLICT"`
 - `"PAYMENT_SOURCE_SELECTION_REQUIRED"`
 - `"PAYMENT_SOURCE_UNAVAILABLE"`
 - `"PAYMENT_START_SHAPE_CONFLICT"`
+- `"PAYMENT_UPDATE_REJECTED"`
+- `"PAYMENT_UPDATE_UNAVAILABLE"`
 - `"PAYOUTS_NOT_ENABLED"`
 - `"PAYOUT_DELAY_PROVIDER_CONTROLLED"`
 - `"PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE"`
@@ -8104,38 +10188,76 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYOUT_SETTINGS_SNAPSHOT_UNAVAILABLE"`
 - `"PAYOUT_SETTINGS_UPDATE_EMPTY"`
 - `"PAYOUT_STATUS_NOT_CANCELABLE"`
+- `"PLAN_ARCHIVED"`
+- `"PLAN_HAS_ACTIVE_PAYMENT_LINKS"`
+- `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
-- `"POLICY_NOT_SUPPORTED_BY_COMPONENT"`
+- `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
 - `"PROCESSING_FEE_PRICING_UNAVAILABLE"`
+- `"PROCESSOR_NOT_CONFIGURED"`
+- `"PRODUCT_IN_ACTIVE_PLAN"`
+- `"PRODUCT_IN_ACTIVE_SUBSCRIPTION"`
+- `"PRODUCT_IN_OPEN_CHECKOUT_SESSION"`
+- `"PRODUCT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"PRODUCT_IN_OPEN_ORDER"`
+- `"PRODUCT_IN_USE"`
 - `"PRODUCT_LINE_ITEM_SOURCE_UNSUPPORTED"`
+- `"PRODUCT_OPTIONS_REQUIRED"`
+- `"PRODUCT_OPTION_ALREADY_EXISTS"`
+- `"PRODUCT_OPTION_VALUE_ALREADY_EXISTS"`
 - `"PROFILE_RECONCILIATION_PENDING"`
 - `"PROFILE_UPDATE_STATUS_UNKNOWN"`
 - `"PROFILE_WRITE_LIVE_MODE_REQUIRED"`
+- `"PROMOTION_CODES_DISABLED"`
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
 - `"PROMOTION_ID_REQUIRED"`
+- `"PROMOTION_NOT_CODE_GATED"`
+- `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
 - `"PROMOTION_NO_ACTIVE_CODES"`
+- `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
 - `"PROVISIONING_FAILED"`
+- `"QUANTITY_ABOVE_MAX"`
+- `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
-- `"READ_ONLY_REASON"`
+- `"RECEIPT_EMAIL_NOT_UPDATABLE"`
 - `"RECIPIENT_EMAIL_REQUIRED"`
+- `"REFUND_ADJUSTMENTS_EXCEED_AUTOMATIC"`
 - `"REFUND_ADJUSTMENT_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_LINE_ITEM_MISMATCH"`
+- `"REFUND_ADJUSTMENT_NOT_FOUND"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_MISMATCH"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_TOO_LONG"`
 - `"REFUND_ADJUSTMENT_REASON_REQUIRED"`
 - `"REFUND_ADJUSTMENT_REFUND_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING"`
+- `"REFUND_AMOUNT_NOT_ALLOCATED"`
 - `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
 - `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"REFUND_TARGETS_NOT_ALLOCATED"`
 - `"REFUND_TENDER_CAPACITY_CONFLICT"`
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
@@ -8145,6 +10267,7 @@ Variants: any, any, any, any, any, any, any.
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
 - `"REQUEST_TIMEOUT"`
+- `"REQUIRED_CUSTOM_FIELD_MISSING"`
 - `"RESERVED_FIELD_NOT_YET_SUPPORTED"`
 - `"RESERVED_METADATA_KEY"`
 - `"RESOURCE_LIMIT_EXCEEDED"`
@@ -8163,18 +10286,33 @@ Variants: any, any, any, any, any, any, any.
 - `"RETURN_INVALID"`
 - `"RETURN_LINE_CANCELLATION_CONFLICT"`
 - `"RETURN_NOT_FOUND"`
+- `"RETURN_PACKAGE_ALLOCATION_EXCEEDS_SHIPMENT"`
+- `"RETURN_PACKAGE_LINE_DUPLICATED"`
+- `"RETURN_PACKAGE_LINE_ITEMS_REQUIRED"`
+- `"RETURN_PACKAGE_QUANTITY_INVALID"`
 - `"RETURN_POLICY_CONFLICT"`
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
+- `"RETURN_SHIPMENT_INVALID"`
+- `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
+- `"REVERSAL_EXCEEDS_MANUAL_PAYMENTS"`
 - `"REVIEW_ALREADY_CLOSED"`
 - `"REVIEW_NOT_FOUND"`
 - `"REVIEW_RESOLUTION_IN_PROGRESS"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION"`
 - `"RISK_CONTROL_CONFLICT"`
 - `"RISK_EVALUATION_UNAVAILABLE"`
 - `"RISK_LIST_ALIAS_ALREADY_EXISTS"`
 - `"RISK_RESOURCE_NOT_FOUND"`
+- `"ROLE_ASSIGNMENT_FORBIDDEN"`
+- `"ROLE_MANAGEMENT_FORBIDDEN"`
+- `"ROOT_ORGANIZATION_CREATION_FORBIDDEN"`
 - `"ROUTE_NOT_FOUND"`
+- `"RULES_REQUIRED"`
+- `"RULE_ACTION_UNAVAILABLE_AT_STAGE"`
 - `"RULE_LIMIT_EXCEEDED"`
 - `"RULE_RESERVED"`
 - `"SANDBOXES_UNAVAILABLE"`
@@ -8204,9 +10342,12 @@ Variants: any, any, any, any, any, any, any.
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
+- `"SCHEDULED_SEND_IN_PAST"`
 - `"SCOPES_REQUIRED"`
 - `"SCOPE_NOT_ALLOWED"`
 - `"SCOPE_NOT_ALLOWED_FOR_KEY_MODE"`
+- `"SELECTED_OPTIONS_REQUIRED"`
+- `"SELF_ROLE_EDITS_FORBIDDEN"`
 - `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_INVALID"`
 - `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_UNCONFIGURED"`
 - `"SENSITIVE_IDEMPOTENCY_RESULT_INVALID"`
@@ -8214,10 +10355,25 @@ Variants: any, any, any, any, any, any, any.
 - `"SERVICE_CHARGE_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"SERVICE_CHARGE_DISCOUNT_REQUIRES_CHARGE_IDS"`
 - `"SERVICE_CHARGE_DISCOUNT_SCOPE_INVALID"`
+- `"SERVICE_TIMEZONE_REQUIRED"`
 - `"SERVICE_UNAVAILABLE"`
 - `"SETTINGS_CONCURRENT_MODIFICATION"`
 - `"SETTINGS_UNAVAILABLE"`
+- `"SETTINGS_WRITE_FORBIDDEN"`
+- `"SETUP_SOURCE_NON_ZERO_ORDER"`
+- `"SETUP_SOURCE_SUBSCRIPTION_REQUIRED"`
 - `"SHIPMENT_CHANGED"`
+- `"SHIPMENT_CREATED_RANGE_INVALID"`
+- `"SHIPMENT_HANDOFF_RANGE_INVALID"`
+- `"SHIPMENT_PACKAGE_ITEM_LINE_ITEM_NOT_IN_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_NOT_MUTABLE"`
+- `"SHIPMENT_PACKAGE_NOT_VOIDABLE"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_CONFLICT"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"SHIPMENT_PACKAGE_TERMINAL"`
+- `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
@@ -8227,13 +10383,17 @@ Variants: any, any, any, any, any, any, any.
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
 - `"SUBSCRIPTION_INITIATED_BY_INVALID"`
+- `"SUBSCRIPTION_MODE"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
@@ -8242,52 +10402,1933 @@ Variants: any, any, any, any, any, any, any.
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
-- `"TARGETED_REMEDIATION_UNAVAILABLE"`
+- `"SUBSET_ONLY_VIOLATION"`
+- `"SUGGESTED_AMOUNT_ABOVE_MAX"`
+- `"SUGGESTED_AMOUNT_BELOW_MIN"`
+- `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRED"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_BREAKDOWN_ID_REQUIRED"`
+- `"TAX_BREAKDOWN_LINE_ITEM_MISMATCH"`
 - `"TAX_BREAKDOWN_NOT_ORDER_SCOPED_FLAT"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRE_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_REFUNDS_WITHOUT_TAX"`
+- `"TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING"`
 - `"TAX_BREAKDOWN_REFUND_MONEY_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"TAX_BREAKDOWN_UNAVAILABLE"`
 - `"TAX_CALCULATION_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
 - `"TAX_MODE_MISMATCH"`
+- `"TAX_MONEY_REQUIRED"`
+- `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
 - `"TIP_LIMIT_EXCEEDED"`
+- `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
 - `"TOO_MANY_PENDING_REPORTS"`
+- `"TOO_MANY_SUGGESTED_AMOUNTS"`
 - `"TRANSACTION_PURPOSE_NOT_APPLICABLE"`
 - `"TRANSACTION_PURPOSE_REQUIRED"`
+- `"TRIAL_NEGATIVE"`
+- `"TRIAL_TOO_LONG"`
+- `"UNKNOWN_ATTRIBUTE"`
 - `"UNKNOWN_BUNDLE_COMPONENT"`
+- `"UNKNOWN_CATEGORY_HANDLE"`
 - `"UNKNOWN_CLIENT_OPTION_VALUE"`
+- `"UNKNOWN_CUSTOM_FIELD_KEY"`
 - `"UNKNOWN_FIELD"`
+- `"UNKNOWN_LINE_ITEM_KEY"`
 - `"UNKNOWN_OPTION"`
 - `"UNKNOWN_OPTION_VALUE"`
+- `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"UNKNOWN_PREDICATE_FIELD"`
 - `"UNKNOWN_SCOPE"`
-- `"UNMAPPABLE_REQUIREMENT_ID"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
 - `"UNSUPPORTED_CONTENT_TYPE"`
 - `"UNSUPPORTED_CURRENCY"`
+- `"UNSUPPORTED_PREVIEW_DISCOUNT"`
+- `"UNSUPPORTED_PROCESSOR"`
 - `"UNSUPPORTED_PRODUCT_FIELD"`
 - `"UNSUPPORTED_QUERY_PARAM"`
 - `"UNSUPPORTED_RESOURCE_TYPE"`
 - `"UPDATE_MASK_REQUIRED"`
-- `"USE_CANCEL_SUBSCRIPTION"`
+- `"URL_TOO_LONG"`
 - `"VALIDATION_ERROR"`
+- `"VALUES_REQUIRED"`
 - `"VALUE_REQUIRED"`
+- `"VALUE_TOO_LONG"`
 - `"VARIANTS_REQUIRED"`
 - `"VARIANT_IN_ACTIVE_BUNDLE"`
+- `"VARIANT_IN_ACTIVE_PAYMENT_LINK"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"VARIANT_IN_OPEN_CHECKOUT_SESSION"`
+- `"VARIANT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"VARIANT_IN_OPEN_ORDER"`
 - `"VARIANT_NOT_SELLABLE"`
 - `"VARIANT_OPTION_COMBINATION_ALREADY_EXISTS"`
 - `"VERIFICATION_ALREADY_USED"`
+- `"VERIFICATION_ATTEMPTS_EXCEEDED"`
 - `"VERIFICATION_CODE_FAILED"`
 - `"VERIFICATION_EMAIL_FAILED"`
 - `"VERIFICATION_TOKEN_FAILED"`
+- `"VERSION_CONFLICT"`
 - `"WEBHOOKS_UNAVAILABLE"`
 - `"WEBHOOK_DELIVERY_IN_FLIGHT"`
 - `"WEBHOOK_DELIVERY_UNAVAILABLE"`
 - `"WEBHOOK_ENDPOINT_NOT_ACTIVE"`
 - `"WEBHOOK_EVENT_PAYLOAD_EXPIRED"`
+- `"WEBHOOK_SECRET_ROTATION_OVERLAP_ACTIVE"`
+- `"WEBHOOK_STREAM_CONNECTION_LIMIT"`
+- `"WEBHOOK_STREAM_LIMITER_UNAVAILABLE"`
+- `"WEBHOOK_STREAM_NOTIFIER_UNAVAILABLE"`
+- `"WEEKLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"WEEKLY_PAYOUT_DAYS_REQUIRED"`
+
+#### ErrorDetail dependency_type values
+
+- `"devices"`
+- `"fulfillment"`
+- `"inventory_allocation_policies"`
+- `"inventory_capability"`
+- `"inventory_claims"`
+- `"inventory_counts"`
+- `"inventory_levels"`
+- `"inventory_transfers"`
+- `"settings"`
+
+#### ErrorDetail eligibility_reason values
+
+- `"location_not_active"`
+- `"inventory_not_configured"`
+- `"inventory_allocation_inactive"`
+- `"forced_location_mismatch"`
+- `"fulfillment_incompatible"`
+- `"split_prohibited"`
+- `"insufficient_quantity"`
+
+#### ErrorDetail payment_attempt_status values
+
+- `"open"`
+- `"requires_action"`
+- `"processing"`
+- `"requires_capture"`
+- `"requires_retry"`
+- `"finalizing"`
+- `"partially_succeeded"`
+- `"succeeded"`
+- `"failed"`
+- `"canceled"`
+- `"expired"`
+
+#### ErrorDetail reason values
+
+- `"active"`
+- `"allow"`
+- `"already_applied"`
+- `"amount_out_of_range"`
+- `"applies_to"`
+- `"archived"`
+- `"automatic_disabled"`
+- `"block"`
+- `"bounded_inventory_guarantee_not_supported"`
+- `"buy_item_missing"`
+- `"capability_blocked"`
+- `"capability_pending"`
+- `"card_unavailable"`
+- `"checkout_order_ownership_required"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
+- `"country_not_supported"`
+- `"country_required"`
+- `"currency_mismatch"`
+- `"currency_not_supported"`
+- `"customer_unavailable"`
+- `"disabled"`
+- `"disabled_by_merchant_settings"`
+- `"disabled_by_platform_policy"`
+- `"exhausted"`
+- `"existing_order_checkout"`
+- `"expired"`
+- `"inactive"`
+- `"ineligible_origin"`
+- `"insufficient_available_balance"`
+- `"invalid_configuration"`
+- `"invoice_finalized"`
+- `"limited_benefit_capacity_not_supported"`
+- `"manual_capture_not_supported"`
+- `"max_promotions_reached"`
+- `"merchant_account_action_required"`
+- `"merchant_hosted_customer_accounts"`
+- `"merchant_payments_disabled"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_checkout_session"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_found"`
+- `"not_publishable"`
+- `"not_supported"`
+- `"not_yet_started"`
+- `"off_session_not_supported"`
+- `"partial_payment"`
+- `"payment_account_context_invalid"`
+- `"payment_account_setup_incomplete"`
+- `"payment_disputed"`
+- `"payment_option_access_not_provisioned"`
+- `"payment_option_activation_pending"`
+- `"payment_option_not_available"`
+- `"payment_option_not_in_plan"`
+- `"recurrence"`
+- `"recurring_ach_not_supported"`
+- `"recurring_not_supported"`
+- `"redirects_required"`
+- `"require_3ds"`
+- `"requirements_due"`
+- `"return_checkout"`
+- `"review"`
+- `"revision_unavailable"`
+- `"revoked"`
+- `"session_not_open"`
+- `"setting_off"`
+- `"source_delayed_settlement_not_supported"`
+- `"source_not_supported"`
+- `"split_payment_not_supported"`
+- `"subscription_checkout"`
+- `"subscription_terms_locked"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
+- `"surface_not_supported"`
+- `"unknown_type"`
+- `"unsupported_evaluation_schema"`
+- `"unsupported_use"`
+
+## ErrorEnvelope
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `error` | Required | [ErrorObject](MODELS.md#errorobject) |  |
+
+## ErrorObject
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
+| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1649 declared values](#errorobject-code-values). |
+| `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
+| `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
+| `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
+| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
+| `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
+| `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
+| `current_version` | Optional | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected, repeated from the first item in details. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on INVENTORY_TRANSFER_ACTION_NOT_ALLOWED. When a later item in details carries current_version, such as on SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED, read it there. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `details` | Optional | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
+| `doc_url` | Required | string | Developer error-handling documentation. |
+| `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
+| `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
+| `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
+| `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
+| `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `param` | Optional | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
+| `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
+| `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
+| `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#errorobject-reason-values). |
+| `remediation` | Optional | object | Recovery guidance: whether retrying can succeed and what to do next. |
+| `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
+| `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
+| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
+| `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
+| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
+| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#errorobject-type-values). |
+
+#### ErrorObject capability values
+
+- `"accept_card_payments"`
+- `"save_payment_methods"`
+- `"accept_affirm_payments"`
+- `"receive_payouts"`
+- `"create_standard_payouts"`
+- `"manage_payout_destinations"`
+- `"manage_payout_settings"`
+
+#### ErrorObject code values
+
+- `"ACCESS_LINK_CUSTOMER_REQUIRED"`
+- `"ACCESS_LINK_MERCHANT_HOSTED"`
+- `"ACCOUNT_SETUP_CONFIGURATION_CONFLICT"`
+- `"ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"ACCOUNT_SETUP_UNAVAILABLE"`
+- `"ACH_BILLING_DETAILS_REQUIRED"`
+- `"ACH_MANDATE_ACCEPTANCE_REQUIRED"`
+- `"ACH_TRANSACTION_PURPOSE_UNRESOLVED"`
+- `"ACTIVE_BUNDLE_COMPONENTS_IMMUTABLE"`
+- `"ACTIVE_DEMO_SESSION_EXISTS"`
+- `"ACTIVE_LINE_ITEM_SOURCE_CHANGE"`
+- `"ACTIVE_OPTIONS_REQUIRED"`
+- `"ACTIVE_OPTION_SELECTOR_COLLAPSE"`
+- `"ACTIVE_VARIANTS_REQUIRE_OPTION_BACKFILL"`
+- `"AFFIRM_REFUND_RETRY_NOT_ALLOWED"`
+- `"AMBIGUOUS_AUTH"`
+- `"AMBIGUOUS_CATEGORY"`
+- `"AMOUNT_ABOVE_MAX"`
+- `"AMOUNT_BELOW_LIMIT"`
+- `"AMOUNT_BELOW_MIN"`
+- `"AMOUNT_EXCEEDS_BALANCE"`
+- `"AMOUNT_EXCEEDS_LIMIT"`
+- `"AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"AMOUNT_MISMATCH"`
+- `"AMOUNT_MONEY_CURRENCY_REQUIRED"`
+- `"AMOUNT_MONEY_REQUIRED"`
+- `"AMOUNT_NOT_ADJUSTABLE"`
+- `"AMOUNT_NOT_UPDATABLE"`
+- `"AMOUNT_REQUIRED"`
+- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
+- `"AMOUNT_TOO_LARGE"`
+- `"AMOUNT_TOO_SMALL"`
+- `"API_KEYS_UNAVAILABLE"`
+- `"API_KEY_ALREADY_REVOKED"`
+- `"API_KEY_CHANGED"`
+- `"API_KEY_DATA_INVALID"`
+- `"API_KEY_EXPIRED"`
+- `"API_KEY_MANAGEMENT_FORBIDDEN"`
+- `"API_KEY_MODE_MISMATCH"`
+- `"API_KEY_NOT_FOUND"`
+- `"API_KEY_REQUIRED"`
+- `"API_KEY_REVOKED"`
+- `"API_KEY_SANDBOX_UNAVAILABLE"`
+- `"API_KEY_SCOPE_INVALID"`
+- `"API_KEY_SCOPE_UNSUPPORTED"`
+- `"API_VERSION_CHANGED"`
+- `"API_VERSION_RETIRED"`
+- `"APPLICATION_METHOD_REQUIRED"`
+- `"ATTRIBUTE_REQUIRED"`
+- `"ATTRIBUTE_UNAVAILABLE"`
+- `"AUTHENTICATION_FAILED"`
+- `"AUTHENTICATION_REQUIRED"`
+- `"AUTHORIZATION_FAILED"`
+- `"AUTH_CONTEXT_MISSING"`
+- `"AUTH_REQUIRED"`
+- `"AUTH_UNAVAILABLE"`
+- `"AUTH_VALIDATION_FAILED"`
+- `"AUTOMATIC_PAYOUT_NOT_CANCELABLE"`
+- `"AUTOMATIC_PROMOTIONS_DISABLED"`
+- `"AUTOMATIC_TAX_CATEGORY_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_CHARGE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_COMPONENTS_FORBIDDEN"`
+- `"AUTOMATIC_TAX_CONNECTION_REQUIRED"`
+- `"AUTOMATIC_TAX_DELAYED_CAPTURE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_EXEMPTION_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INCLUSIVE_PRICING_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INVOICE_INSTALLMENTS_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_MULTIPLE_DESTINATIONS"`
+- `"AUTOMATIC_TAX_MULTIPLE_ORIGINS"`
+- `"AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED"`
+- `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
+- `"BALANCE_SNAPSHOT_UNAVAILABLE"`
+- `"BALANCE_SOURCE_TYPE_REQUIRED"`
+- `"BALANCE_TRANSACTION_NOT_FOUND"`
+- `"BANK_ACCOUNT_CLOSED"`
+- `"BANK_ACCOUNT_NOT_FOUND"`
+- `"BANK_ACCOUNT_RESTRICTED"`
+- `"BANK_DEBIT_LIMIT_EXCEEDED"`
+- `"BANK_DEBIT_NOT_AUTHORIZED"`
+- `"BARCODE_ALREADY_EXISTS"`
+- `"BUNDLE_COMPONENTS_REQUIRED"`
+- `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
+- `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
+- `"BUNDLE_IN_ACTIVE_PAYMENT_LINK"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"BUNDLE_IN_OPEN_CHECKOUT_SESSION"`
+- `"BUNDLE_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"BUNDLE_IN_OPEN_ORDER"`
+- `"BUNDLE_NOT_SELLABLE"`
+- `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
+- `"BUYER_INVOICE_CREDENTIAL_INVALID"`
+- `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CALCULATION_BASIS_FORBIDDEN"`
+- `"CALCULATION_BASIS_NOT_APPLICABLE"`
+- `"CALCULATION_BASIS_REQUIRED"`
+- `"CANCELLATION_COMMENT_TOO_LONG"`
+- `"CANCELLATION_REASON_DUPLICATE"`
+- `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
+- `"CANCELLATION_REASON_NOT_OFFERED"`
+- `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
+- `"CANNOT_CANCEL_EXPIRED_PAYMENT"`
+- `"CANNOT_CANCEL_SUCCEEDED_PAYMENT"`
+- `"CANNOT_PAUSE"`
+- `"CANNOT_RESUME"`
+- `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
+- `"CANNOT_RESUME_PAST_DUE_PAYMENT_REQUIRED"`
+- `"CAPABILITIES_IMMUTABLE"`
+- `"CAPABILITIES_UNAVAILABLE"`
+- `"CAPABILITY_DEPENDENCY_REQUIRED"`
+- `"CAPABILITY_NOT_REQUESTED"`
+- `"CAPABILITY_SET_UNSUPPORTED"`
+- `"CAPABILITY_SNAPSHOT_UNAVAILABLE"`
+- `"CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE"`
+- `"CAPTURE_AMOUNT_MISMATCH"`
+- `"CAPTURE_CURRENCY_MISMATCH"`
+- `"CARD_DECLINED"`
+- `"CATALOG_INVENTORY_RELATIONSHIP_INVALID"`
+- `"CATALOG_LINE_ITEM_CURRENCY_CHANGED"`
+- `"CATALOG_LINE_ITEM_FIELDS_READ_ONLY"`
+- `"CATALOG_LINE_ITEM_SOURCE_CHANGED"`
+- `"CATALOG_MODIFIERS_REQUIRED"`
+- `"CATEGORY_HANDLE_EXISTS"`
+- `"CATEGORY_MODIFIED"`
+- `"CATEGORY_REFERENCED"`
+- `"CHALLENGE_FAILED"`
+- `"CHALLENGE_REQUIRED"`
+- `"CHALLENGE_TOKEN_INVALID"`
+- `"CHARGE_NAME_REQUIRED"`
+- `"CHARGE_NOT_ON_ORDER"`
+- `"CHARGE_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"CHARGE_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"CHARGE_TYPE_REQUIRED"`
+- `"CHARGE_VALUE_REQUIRED"`
+- `"CHECKOUT_CREDENTIAL_CHANGED"`
+- `"CHECKOUT_CREDENTIAL_REQUIRED"`
+- `"CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED"`
+- `"CHECKOUT_CUSTOMER_CHANGED"`
+- `"CHECKOUT_CUSTOMER_CONFLICT"`
+- `"CHECKOUT_CUSTOMER_NOT_SET_ON_ORDER"`
+- `"CHECKOUT_DISCOUNT_ID_NOT_ALLOWED"`
+- `"CHECKOUT_DISCOUNT_NOT_REMOVABLE"`
+- `"CHECKOUT_LAUNCH_TOKEN_RESTRICTED"`
+- `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
+- `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
+- `"CHECKOUT_PAYMENT_RESOLVING"`
+- `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
+- `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
+- `"CHECKOUT_RECOVERY_RESTRICTED"`
+- `"CHECKOUT_REPLACEMENT_REQUIRES_ORDER"`
+- `"CHECKOUT_SAVED_PAYMENT_DETAILS_REQUIRES_MERCHANT_SCOPE"`
+- `"CHECKOUT_SESSIONS_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_ALREADY_EXISTS"`
+- `"CHECKOUT_SESSION_AUTH_REQUIRED"`
+- `"CHECKOUT_SESSION_AUTH_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_CURRENT_CHANGED"`
+- `"CHECKOUT_SESSION_CURRENT_STATE"`
+- `"CHECKOUT_SESSION_EXPIRED"`
+- `"CHECKOUT_SESSION_LOOKUP_FAILED"`
+- `"CHECKOUT_SESSION_MODIFIERS_READ_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_FIELDS_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_LINE_ITEM_MISSING"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_MISSING_ORDER"`
+- `"CHECKOUT_SESSION_NOT_FOUND"`
+- `"CHECKOUT_SESSION_NOT_OPEN"`
+- `"CHECKOUT_SESSION_ORDER_MISMATCH"`
+- `"CHECKOUT_SESSION_PAYMENT_REQUIRED"`
+- `"CHECKOUT_SESSION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_CONFLICT"`
+- `"CHECKOUT_SESSION_REVISION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
+- `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
+- `"CHECKOUT_TIPPING_DISABLED"`
+- `"CHECKOUT_TIP_NOT_ALLOWED"`
+- `"CODES_NOT_ALLOWED"`
+- `"CODES_REQUIRED"`
+- `"CODE_EMPTY"`
+- `"CODE_TOO_LONG"`
+- `"COMPONENT_REQUIRED"`
+- `"CONCURRENT_MODIFICATION"`
+- `"CONFIRMATION_RETURN_URL_INVALID"`
+- `"CONFIRMATION_RETURN_URL_NOT_ALLOWED"`
+- `"CONFIRMATION_RETURN_URL_REQUIRED"`
+- `"CONFIRMATION_TOKEN_ALREADY_USED"`
+- `"CONFIRMATION_TOKEN_EXPIRED"`
+- `"CONFIRMATION_TOKEN_REQUIRED"`
+- `"CONFIRMATION_TOKEN_SCOPE_MISMATCH"`
+- `"CONFIRMATION_TOKEN_SDK_REQUIRED"`
+- `"CONTEXT_NOT_FOUND"`
+- `"CONTRACT_TERM_REQUIRED"`
+- `"CONTRACT_TOO_LONG"`
+- `"CONTRACT_TOO_SHORT"`
+- `"COUNTRY_IMMUTABLE"`
+- `"COUNTRY_NOT_SUPPORTED"`
+- `"COUNTRY_REQUIRED"`
+- `"CREATE_ORDER_LINE_ITEM_DISCOUNT_UNSUPPORTED"`
+- `"CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED"`
+- `"CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_AMOUNT_EXCEEDS_CREDITABLE"`
+- `"CREDIT_NOTE_CHANGED"`
+- `"CREDIT_NOTE_CURRENCY_MISMATCH"`
+- `"CREDIT_NOTE_HAS_ALLOCATIONS"`
+- `"CREDIT_NOTE_ISSUE_IN_PROGRESS"`
+- `"CREDIT_NOTE_NOT_DRAFT"`
+- `"CREDIT_NOTE_NOT_ISSUED"`
+- `"CREDIT_NOTE_REFUND_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_REFUND_INVALID"`
+- `"CURRENCY_MISMATCH"`
+- `"CURRENCY_REQUIRED"`
+- `"CURSOR_MISMATCH"`
+- `"CUSTOMER_ACCOUNTS_UNAVAILABLE"`
+- `"CUSTOMER_ACCOUNT_MODE_CONFLICT"`
+- `"CUSTOMER_ACCOUNT_RESOURCE_NOT_FOUND"`
+- `"CUSTOMER_ACCOUNT_URL_REQUIRED"`
+- `"CUSTOMER_DELETION_BLOCKED"`
+- `"CUSTOMER_DELETION_PROCESSING"`
+- `"CUSTOMER_EMAIL_ALREADY_USED"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
+- `"CUSTOMER_ID_NOT_CLEARABLE"`
+- `"CUSTOMER_NOT_UPDATABLE"`
+- `"CUSTOMER_PAYMENT_METHOD_MISMATCH"`
+- `"CUSTOMER_PAYMENT_TERM_UNAVAILABLE"`
+- `"CUSTOMER_SESSIONS_UNAVAILABLE"`
+- `"CUSTOMER_SESSION_EXPIRED"`
+- `"CUSTOMER_SESSION_NOT_FOUND"`
+- `"CUSTOMER_SESSION_REFRESH_EXPIRED"`
+- `"CUSTOMER_SESSION_REFRESH_REUSED"`
+- `"CUSTOMER_SESSION_REQUIRED"`
+- `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
+- `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
+- `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_NOT_VERIFIED"`
+- `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
+- `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_FIELD_KEY_REQUIRED"`
+- `"CUSTOM_FIELD_KEY_TOO_LONG"`
+- `"CUSTOM_FIELD_KEY_WHITESPACE"`
+- `"CUSTOM_FIELD_LABEL_REQUIRED"`
+- `"CUSTOM_FIELD_OPTION_TOO_LONG"`
+- `"CUSTOM_FIELD_OPTION_WHITESPACE"`
+- `"DAILY_LIMIT_EXCEEDED"`
+- `"DANGLING_EXPANSION_REFERENCE"`
+- `"DEFAULT_ENVIRONMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATIONS_MANAGED_EXTERNALLY"`
+- `"DEFAULT_PAYOUT_DESTINATION_INVALID"`
+- `"DEFAULT_PAYOUT_DESTINATION_REPLACEMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATION_REQUIRED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_ARCHIVED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_RESET"`
+- `"DEFAULT_VARIANT_REQUIRED"`
+- `"DELIVERY_CALCULATION_EXPIRED"`
+- `"DELIVERY_CALLER_RATES_UNAVAILABLE_TO_BUYER"`
+- `"DELIVERY_COMMERCE_TREATMENT_UNSUPPORTED"`
+- `"DELIVERY_CONFIGURATION_INVALID"`
+- `"DELIVERY_DEPENDENCY_REVOKED"`
+- `"DELIVERY_DESTINATION_ADDRESS_INCOMPLETE"`
+- `"DELIVERY_DESTINATION_ADDRESS_REQUIRED"`
+- `"DELIVERY_DESTINATION_CONTROLLED_BY_SELECTION"`
+- `"DELIVERY_DESTINATION_COUNTRY_INVALID"`
+- `"DELIVERY_DESTINATION_FIELD_TOO_LONG"`
+- `"DELIVERY_DESTINATION_FROZEN"`
+- `"DELIVERY_DESTINATION_INVALID"`
+- `"DELIVERY_DESTINATION_NOT_APPLICABLE"`
+- `"DELIVERY_DESTINATION_UPDATE_CONFLICT"`
+- `"DELIVERY_ELIGIBILITY_CONTEXT_CHANGED"`
+- `"DELIVERY_EXPECTED_SELECTION_REQUIRED"`
+- `"DELIVERY_EXPECTED_VERSION_INVALID"`
+- `"DELIVERY_EXPECTED_VERSION_REQUIRED"`
+- `"DELIVERY_EXTERNAL_REFERENCE_REUSED"`
+- `"DELIVERY_FIELD_NOT_SUPPORTED"`
+- `"DELIVERY_FIELD_REQUIRED"`
+- `"DELIVERY_GROUPING_UNSUPPORTED"`
+- `"DELIVERY_MERCHANT_INPUT_REQUIRED"`
+- `"DELIVERY_METHODS_NOT_APPLICABLE"`
+- `"DELIVERY_METHOD_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_OPTION_ALREADY_SELECTED"`
+- `"DELIVERY_OPTION_EXPIRED"`
+- `"DELIVERY_OPTION_NOT_IN_CHOICE_GROUP"`
+- `"DELIVERY_PICKUP_AVAILABILITY_CHANGED"`
+- `"DELIVERY_PICKUP_AVAILABILITY_INVALID"`
+- `"DELIVERY_PICKUP_AVAILABILITY_UNAVAILABLE"`
+- `"DELIVERY_PICKUP_LOCATION_UNAVAILABLE"`
+- `"DELIVERY_PREVIEW_INVALID"`
+- `"DELIVERY_PREVIEW_METHOD_TYPES_INCOMPATIBLE"`
+- `"DELIVERY_PREVIEW_REQUIRES_CHECKOUT"`
+- `"DELIVERY_PREVIEW_UNAVAILABLE"`
+- `"DELIVERY_PROFILE_NOT_APPLICABLE"`
+- `"DELIVERY_QUOTE_BASIS_INVALID"`
+- `"DELIVERY_QUOTE_EXPIRED"`
+- `"DELIVERY_QUOTE_INCOMPLETE"`
+- `"DELIVERY_QUOTE_INPUT_CHANGED"`
+- `"DELIVERY_QUOTE_INVALID"`
+- `"DELIVERY_QUOTE_REVOKED"`
+- `"DELIVERY_QUOTE_STALE"`
+- `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RECIPIENT_REQUIRED"`
+- `"DELIVERY_REQUEST_INVALID"`
+- `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
+- `"DELIVERY_RESOURCE_NOT_FOUND"`
+- `"DELIVERY_RESOURCE_VERSION_CONFLICT"`
+- `"DELIVERY_SELECTION_CHANGED"`
+- `"DELIVERY_SELECTION_EXPIRED"`
+- `"DELIVERY_SELECTION_INCOMPLETE"`
+- `"DELIVERY_SELECTION_NOT_MUTABLE_AFTER_PAYMENT"`
+- `"DELIVERY_SELECTION_REPLACEMENT_LIMIT"`
+- `"DELIVERY_SELECTION_UNAVAILABLE"`
+- `"DELIVERY_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_STATE_CONFLICT"`
+- `"DELIVERY_STATUS_COMBINATION_INVALID"`
+- `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_WINDOW_EXPIRED"`
+- `"DELIVERY_WINDOW_INVALID"`
+- `"DEMO_SESSIONS_UNAVAILABLE"`
+- `"DEMO_SESSION_ROUTE_NOT_ALLOWED"`
+- `"DEMO_SESSION_SECRET_REPLAY_EXPIRED"`
+- `"DESCRIPTION_TOO_LONG"`
+- `"DEVICE_DELETED"`
+- `"DEVICE_LOCATION_MISMATCH"`
+- `"DISCOUNTED_ITEM_RULES_REQUIRED"`
+- `"DISCOUNT_AMOUNT_INVALID"`
+- `"DISCOUNT_IDS_REQUIRED"`
+- `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_REQUIRED"`
+- `"DISPLAY_NAME_TOO_LONG"`
+- `"DISPUTES_UNAVAILABLE"`
+- `"DISPUTE_NOT_FOUND"`
+- `"DONATION_AMOUNT_REQUIRED"`
+- `"DONATION_CONFIG_NOT_APPLICABLE"`
+- `"DONATION_LINE_ITEMS_NOT_ALLOWED"`
+- `"DONATION_LINE_ITEM_MISSING"`
+- `"DONATION_PLAN_NOT_ALLOWED"`
+- `"DONATION_PROMOTION_NOT_ALLOWED"`
+- `"DONATION_TAX_NOT_ALLOWED"`
+- `"DONATION_TIP_NOT_ALLOWED"`
+- `"DROPDOWN_OPTIONS_REQUIRED"`
+- `"DUPLICATE_BUNDLE_COMPONENT_ID"`
+- `"DUPLICATE_CAPABILITY"`
+- `"DUPLICATE_CHARGE_TARGET"`
+- `"DUPLICATE_CLIENT_OPTION_KEY"`
+- `"DUPLICATE_CLIENT_VALUE_KEY"`
+- `"DUPLICATE_CODE"`
+- `"DUPLICATE_COMPONENT_VARIANT"`
+- `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
+- `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"DUPLICATE_IMAGE_SOURCE"`
+- `"DUPLICATE_INVOICE_LINE"`
+- `"DUPLICATE_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_INVOICE_REMINDER_OFFSET"`
+- `"DUPLICATE_LINE_ITEM_ID"`
+- `"DUPLICATE_LINE_ITEM_KEY"`
+- `"DUPLICATE_LINE_ITEM_TARGET"`
+- `"DUPLICATE_OPTION"`
+- `"DUPLICATE_OPTION_NAME"`
+- `"DUPLICATE_OPTION_SELECTION"`
+- `"DUPLICATE_OPTION_VALUE"`
+- `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_SCOPE"`
+- `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_COMPONENT"`
+- `"DUPLICATE_VALUE"`
+- `"EMAIL_ALREADY_LINKED"`
+- `"EMAIL_CHANGE_CONFIRMATION_EXPIRED"`
+- `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
+- `"EMAIL_CHANGE_DELIVERY_FAILED"`
+- `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_REQUIRED"`
+- `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
+- `"EMPTY_CAPABILITY_SET"`
+- `"EMPTY_UPDATE"`
+- `"ENVIRONMENT_GRANT_NOT_FOUND"`
+- `"ENVIRONMENT_LOOKUP_FAILED"`
+- `"ENVIRONMENT_LOOKUP_UNAVAILABLE"`
+- `"ENVIRONMENT_REQUIRED"`
+- `"ENVIRONMENT_SELECTION_FORBIDDEN"`
+- `"EVENT_CONFIG_NOT_APPLICABLE"`
+- `"EVENT_LINE_ITEMS_REQUIRED"`
+- `"EVENT_PLAN_NOT_ALLOWED"`
+- `"EVENT_SOLD_OUT"`
+- `"EVENT_TICKET_QUANTITY_REQUIRED"`
+- `"EVENT_TIMEZONE_REQUIRED"`
+- `"EXACTLY_ONE_REQUIRED"`
+- `"EXPANSION_DEPENDENCY_UNAVAILABLE"`
+- `"EXPANSION_LIMIT_EXCEEDED"`
+- `"EXPANSION_RESOLUTION_FAILED"`
+- `"EXPECTED_AMOUNT_REQUIRED"`
+- `"EXPECTED_VERSION_REQUIRED"`
+- `"EXPIRED_CARD"`
+- `"EXPLICIT_TAX_REFUND_NOOP"`
+- `"EXTERNAL_API_KEY_REQUIRED"`
+- `"EXTERNAL_IMAGE_NOT_ALLOWED"`
+- `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
+- `"EXTERNAL_SERVICE_ERROR"`
+- `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"FEEDBACK_REPORTS_UNAVAILABLE"`
+- `"FEEDBACK_REPORT_NOT_FOUND"`
+- `"FIELD_NOT_ALLOWED_FOR_CALLER"`
+- `"FIELD_NOT_UPDATABLE"`
+- `"FIELD_REQUIRED"`
+- `"FIRST_NAME_REQUIRED"`
+- `"FLAT_TAX_PAYMENT_ATTRIBUTION_UNAVAILABLE"`
+- `"FLAT_TAX_PRICE_MODE_INVALID"`
+- `"FLAT_TAX_REFUND_MUST_BE_FULL"`
+- `"FLAT_TAX_REFUND_STATE_INVALID"`
+- `"FLAT_TAX_SCOPE_INVALID"`
+- `"FLINT_WALLET_CARD_NOT_FOUND"`
+- `"FLINT_WALLET_NOT_FOUND"`
+- `"FLINT_WALLET_UNAVAILABLE"`
+- `"FRAUD_WARNING_NOT_FOUND"`
+- `"FULFILLMENT_ACTION_NOT_ALLOWED"`
+- `"FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION"`
+- `"FULFILLMENT_APPROVAL_REQUIRED"`
+- `"FULFILLMENT_BUNDLE_UNSUPPORTED"`
+- `"FULFILLMENT_CHANGED"`
+- `"FULFILLMENT_COMPLETED"`
+- `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
+- `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
+- `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
+- `"FULFILLMENT_EVENT_DEDUPE_CONFLICT"`
+- `"FULFILLMENT_EVENT_OCCURRED_RANGE_INVALID"`
+- `"FULFILLMENT_EVENT_PROVIDER_IDENTITY_INCOMPLETE"`
+- `"FULFILLMENT_EVENT_SUBJECT_INVALID"`
+- `"FULFILLMENT_FIELD_TOO_LONG"`
+- `"FULFILLMENT_INACTIVE"`
+- `"FULFILLMENT_LABEL_URL_EXTERNAL_SYSTEM_REQUIRED"`
+- `"FULFILLMENT_LABEL_URL_INVALID"`
+- `"FULFILLMENT_LINE_ITEMS_REQUIRED"`
+- `"FULFILLMENT_LINE_ITEM_ID_REQUIRED"`
+- `"FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE"`
+- `"FULFILLMENT_METHOD_DUPLICATE"`
+- `"FULFILLMENT_METHOD_LIMIT_EXCEEDED"`
+- `"FULFILLMENT_METHOD_UNAVAILABLE"`
+- `"FULFILLMENT_NOTIFICATION_BUILD_FAILED"`
+- `"FULFILLMENT_OBLIGATION_UNAVAILABLE"`
+- `"FULFILLMENT_PROFILE_REQUIRED"`
+- `"FULFILLMENT_PROFILE_REVISION_UNUSABLE"`
+- `"FULFILLMENT_PROFILE_UNAVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EFFECT_REQUIRED"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM"`
+- `"FULFILLMENT_QUANTITY_INVALID"`
+- `"FULFILLMENT_REASON_INVALID"`
+- `"FULFILLMENT_REQUIREMENT_REQUIRED"`
+- `"FULFILLMENT_SCHEDULE_INVALID"`
+- `"FULFILLMENT_SCHEDULE_NOT_ALLOWED"`
+- `"FULFILLMENT_SCHEDULE_REQUIRED"`
+- `"FULFILLMENT_SELECTION_REQUIRED"`
+- `"FULFILLMENT_SHIPMENT_NOT_MUTABLE"`
+- `"FULFILLMENT_SHIPMENT_NOT_VOIDABLE"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_CONFLICT"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"FULFILLMENT_SHIPMENT_TERMINAL"`
+- `"FULFILLMENT_STATUS_CONFLICT"`
+- `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
+- `"FULFILLMENT_TERMINAL"`
+- `"FULFILLMENT_TIMEZONE_REQUIRED"`
+- `"FULFILLMENT_TRACKING_URL_INVALID"`
+- `"FULFILLMENT_TYPE_NOT_ALLOWED"`
+- `"FULFILLMENT_TYPE_REQUIRED"`
+- `"FULFILLMENT_WINDOW_INVALID"`
+- `"GIFT_CARDS_UNAVAILABLE"`
+- `"GIFT_CARD_ALLOCATION_CHANGED"`
+- `"GIFT_CARD_ALLOCATION_REQUIRED"`
+- `"GIFT_CARD_BUNDLE_NOT_SUPPORTED"`
+- `"GIFT_CARD_BUYER_DEVICE_REQUIRED"`
+- `"GIFT_CARD_BUYER_REQUIRED"`
+- `"GIFT_CARD_CATALOG_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CHALLENGE_REQUIRED"`
+- `"GIFT_CARD_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CONFIGURATION_NOT_APPLICABLE"`
+- `"GIFT_CARD_CURRENCY_NOT_SUPPORTED"`
+- `"GIFT_CARD_CURRENCY_UNSUPPORTED"`
+- `"GIFT_CARD_INSUFFICIENT_VALUE"`
+- `"GIFT_CARD_INVENTORY_NOT_SUPPORTED"`
+- `"GIFT_CARD_MODIFIERS_NOT_SUPPORTED"`
+- `"GIFT_CARD_NOT_FOUND"`
+- `"GIFT_CARD_PRODUCT_TYPE_IMMUTABLE"`
+- `"GIFT_CARD_PURCHASE_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_INVALID"`
+- `"GIFT_CARD_PURCHASE_LIMIT_EXCEEDED"`
+- `"GIFT_CARD_PURCHASE_NOT_APPLICABLE"`
+- `"GIFT_CARD_PURCHASE_REFUND_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_SOURCE_REQUIRED"`
+- `"GIFT_CARD_PURCHASE_VERIFICATION_UNAVAILABLE"`
+- `"GIFT_CARD_RECIPIENT_VERIFICATION_REQUIRED"`
+- `"GIFT_CARD_REFUND_DESTINATION_REQUIRED"`
+- `"GIFT_CARD_STATE_CONFLICT"`
+- `"GIFT_CARD_SUBSCRIPTION_NOT_SUPPORTED"`
+- `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
+- `"GIFT_CARD_TAX_NOT_SUPPORTED"`
+- `"GIFT_CARD_UNAVAILABLE"`
+- `"HOSTED_CHECKOUT_CALLER_RATES_UNSUPPORTED"`
+- `"HOSTED_INSTALL_UNAVAILABLE"`
+- `"IDEMPOTENCY_CLEAR_FAILED"`
+- `"IDEMPOTENCY_KEY_IN_PROGRESS"`
+- `"IDEMPOTENCY_KEY_REQUIRED"`
+- `"IDEMPOTENCY_KEY_REUSED"`
+- `"IDEMPOTENCY_KEY_TOO_LONG"`
+- `"IDEMPOTENCY_LOAD_FAILED"`
+- `"IDEMPOTENCY_PERSIST_FAILED"`
+- `"IDEMPOTENCY_RECORD_INVALID"`
+- `"IDEMPOTENCY_RECOVERY_REQUIRED"`
+- `"IDEMPOTENCY_REQUEST_IN_PROGRESS"`
+- `"IDENTITY_RESOLUTION_FAILED"`
+- `"IDENTITY_UNAVAILABLE"`
+- `"IMAGE_ANIMATION_UNSUPPORTED"`
+- `"IMAGE_ASSET_NOT_ATTACHABLE"`
+- `"IMAGE_ASSET_NOT_FOUND"`
+- `"IMAGE_DIMENSIONS_EXCEEDED"`
+- `"IMAGE_DIMENSIONS_UNSUPPORTED"`
+- `"IMAGE_FORMAT_UNSUPPORTED"`
+- `"IMAGE_GALLERY_LIMIT_EXCEEDED"`
+- `"IMAGE_INGESTION_COUNT_EXCEEDED"`
+- `"IMAGE_INGESTION_EXPIRED"`
+- `"IMAGE_INGESTION_IN_PROGRESS"`
+- `"IMAGE_INGESTION_RESTART_REQUIRED"`
+- `"IMAGE_NOT_ATTACHABLE"`
+- `"IMAGE_OWNER_NOT_MUTABLE"`
+- `"IMAGE_PIXEL_BUDGET_EXCEEDED"`
+- `"IMAGE_PROCESSING_CAPACITY_EXCEEDED"`
+- `"IMAGE_PROCESSING_FAILED"`
+- `"IMAGE_PROCESSING_TIMEOUT"`
+- `"IMAGE_REVISION_MISMATCH"`
+- `"IMAGE_SOURCE_FETCH_FAILED"`
+- `"IMAGE_SOURCE_NOT_PUBLIC"`
+- `"IMAGE_SOURCE_TIMEOUT"`
+- `"IMAGE_SOURCE_TOO_LARGE"`
+- `"IMAGE_SOURCE_UNAVAILABLE"`
+- `"IMAGE_SOURCE_URL_INVALID"`
+- `"IMAGE_STORAGE_QUOTA_EXCEEDED"`
+- `"IMAGE_URL_INVALID"`
+- `"IMAGE_URL_MUST_BE_CANONICAL"`
+- `"INCOMPLETE_OPTION_SELECTION"`
+- `"INCORRECT_CVC"`
+- `"INHERIT_ONLY_VIOLATION"`
+- `"INITIAL_API_KEY_ALREADY_CREATED"`
+- `"INSTANT_PAYOUTS_UNAVAILABLE"`
+- `"INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"INSUFFICIENT_FUNDS"`
+- `"INSUFFICIENT_SCOPE"`
+- `"INTERNAL_ERROR"`
+- `"INTERVAL_COUNT_TOO_LARGE"`
+- `"INTERVAL_REQUIRED"`
+- `"INVALID_ACTION"`
+- `"INVALID_ACTIONABLE"`
+- `"INVALID_ACTIVITY_TYPE"`
+- `"INVALID_ALLOCATION"`
+- `"INVALID_AMOUNT"`
+- `"INVALID_AMOUNT_OFF"`
+- `"INVALID_AMOUNT_RANGE"`
+- `"INVALID_API_KEY"`
+- `"INVALID_API_VERSION"`
+- `"INVALID_APPLICATION_METHOD"`
+- `"INVALID_AUTHORIZATION_HEADER"`
+- `"INVALID_AVAILABLE_PAYOUT_METHOD"`
+- `"INVALID_BALANCE_SOURCE_TYPE"`
+- `"INVALID_BEARER_TOKEN"`
+- `"INVALID_BILLING_ANCHOR_DAY"`
+- `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_SCHEDULE_OWNER"`
+- `"INVALID_BOGO_DISCOUNT_CLASS"`
+- `"INVALID_BOGO_QUANTITY"`
+- `"INVALID_BOOLEAN"`
+- `"INVALID_BOOTSTRAP_SCOPES"`
+- `"INVALID_BUNDLE_STATUS"`
+- `"INVALID_BUSINESS_NAME"`
+- `"INVALID_BUYER_CANCELLATION_TIMING"`
+- `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_CALCULATION_BASIS"`
+- `"INVALID_CANCELLATION_REASON"`
+- `"INVALID_CANCELLATION_REASON_CODE"`
+- `"INVALID_CAPABILITY"`
+- `"INVALID_CAPTURE_AMOUNT"`
+- `"INVALID_CAPTURE_METHOD"`
+- `"INVALID_CASE_TYPE"`
+- `"INVALID_CATEGORIES"`
+- `"INVALID_CATEGORY"`
+- `"INVALID_CATEGORY_DESCRIPTION"`
+- `"INVALID_CATEGORY_HANDLE"`
+- `"INVALID_CATEGORY_NAME"`
+- `"INVALID_CHANNEL"`
+- `"INVALID_CHARGE_AMOUNT"`
+- `"INVALID_CHARGE_PERCENT"`
+- `"INVALID_CHARGE_REFUND_AMOUNT"`
+- `"INVALID_CHARGE_TYPE"`
+- `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKOUT_SESSION"`
+- `"INVALID_CHECKOUT_SURFACE"`
+- `"INVALID_CODE"`
+- `"INVALID_COLOR"`
+- `"INVALID_COMPLETION_BEHAVIOR"`
+- `"INVALID_COMPONENT"`
+- `"INVALID_COMPONENTS"`
+- `"INVALID_COMPONENT_POSITION"`
+- `"INVALID_COMPONENT_QUANTITY"`
+- `"INVALID_CORNER_RADIUS"`
+- `"INVALID_COUNTRY"`
+- `"INVALID_CREATED_AFTER"`
+- `"INVALID_CREATED_BEFORE"`
+- `"INVALID_CREATED_RANGE"`
+- `"INVALID_CREDIT_NOTE"`
+- `"INVALID_CREDIT_NOTE_CORRECTION_TYPE"`
+- `"INVALID_CREDIT_NOTE_LINE"`
+- `"INVALID_CREDIT_NOTE_MEMO"`
+- `"INVALID_CREDIT_NOTE_REASON"`
+- `"INVALID_CREDIT_NOTE_STATUS"`
+- `"INVALID_CURRENCY"`
+- `"INVALID_CURRENCY_OPTION"`
+- `"INVALID_CURSOR"`
+- `"INVALID_CUSTOMER_ACCOUNT_REQUEST"`
+- `"INVALID_CUSTOMER_ACCOUNT_ROUTE_TEMPLATE"`
+- `"INVALID_CUSTOMER_ACCOUNT_URL"`
+- `"INVALID_CUSTOMER_SESSION"`
+- `"INVALID_CUSTOM_DOMAIN"`
+- `"INVALID_DEFAULT_FOR_CURRENCY"`
+- `"INVALID_DEFAULT_SMART_TIP_AMOUNT"`
+- `"INVALID_DEFAULT_TIP_PERCENTAGE"`
+- `"INVALID_DEFAULT_VARIANT"`
+- `"INVALID_DELAY_DAYS_OVERRIDE"`
+- `"INVALID_DELIVERY_CONFIGURATION_STATUS"`
+- `"INVALID_DELIVERY_EVALUATION_STATUS"`
+- `"INVALID_DELIVERY_MODE"`
+- `"INVALID_DELIVERY_PROFILE_ID"`
+- `"INVALID_DELIVERY_QUOTE_STATUS"`
+- `"INVALID_DELIVERY_STATUS"`
+- `"INVALID_DESCRIPTION"`
+- `"INVALID_DIGITAL_WALLET"`
+- `"INVALID_DISCOUNT"`
+- `"INVALID_DISCOUNT_CALCULATION_BASIS"`
+- `"INVALID_DISCOUNT_CLASS"`
+- `"INVALID_DISCOUNT_SCOPE"`
+- `"INVALID_DISPUTE_REQUEST"`
+- `"INVALID_DISPUTE_STATUS"`
+- `"INVALID_DOMAIN"`
+- `"INVALID_DOMAIN_NAME"`
+- `"INVALID_DONATION_AMOUNT"`
+- `"INVALID_DONATION_AMOUNT_RANGE"`
+- `"INVALID_DROPDOWN_VALUE"`
+- `"INVALID_DUNNING_RETRY_DAYS"`
+- `"INVALID_EMAIL_FORMAT"`
+- `"INVALID_ENVIRONMENT_SELECTION"`
+- `"INVALID_EVENT_AT"`
+- `"INVALID_EVENT_SOURCE"`
+- `"INVALID_EVENT_SOURCES"`
+- `"INVALID_EVENT_TYPE"`
+- `"INVALID_EXCLUSIVITY_SELECTION"`
+- `"INVALID_EXPAND"`
+- `"INVALID_EXPECTED_VERSION"`
+- `"INVALID_EXPIRATION"`
+- `"INVALID_EXPIRES_AT"`
+- `"INVALID_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_FEEDBACK_KIND"`
+- `"INVALID_FEEDBACK_SHAPE"`
+- `"INVALID_FEEDBACK_SURFACE"`
+- `"INVALID_FIELD_TYPE"`
+- `"INVALID_FLAT_TAX"`
+- `"INVALID_FONT_FAMILY"`
+- `"INVALID_FULFILLMENT_BUYER_NOTIFICATION_BEHAVIOR"`
+- `"INVALID_FULFILLMENT_DETAILS"`
+- `"INVALID_FULFILLMENT_EVENT_TYPE"`
+- `"INVALID_FULFILLMENT_REQUIREMENT"`
+- `"INVALID_FULFILLMENT_STATUS"`
+- `"INVALID_FULFILLMENT_TYPE"`
+- `"INVALID_GIFT_CARD_CODE"`
+- `"INVALID_GIFT_CARD_PURCHASE_REFUND"`
+- `"INVALID_GIFT_CARD_REQUEST"`
+- `"INVALID_GIFT_CARD_SELECTION"`
+- `"INVALID_HAS_PLAN"`
+- `"INVALID_ID"`
+- `"INVALID_IDEMPOTENCY_KEY"`
+- `"INVALID_IMAGE_ALT"`
+- `"INVALID_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_IMAGE_GALLERY"`
+- `"INVALID_INCLUDE"`
+- `"INVALID_INCLUDE_DELETED"`
+- `"INVALID_INTERVAL"`
+- `"INVALID_INTERVAL_END_AT"`
+- `"INVALID_INTERVAL_START_AT"`
+- `"INVALID_INVENTORY_EXCEPTION_RESOLUTION_REASON"`
+- `"INVALID_INVENTORY_SOURCE_KEY"`
+- `"INVALID_INVOICE"`
+- `"INVALID_INVOICE_AUTOPAY_RETRY_OFFSETS"`
+- `"INVALID_INVOICE_COLLECTION"`
+- `"INVALID_INVOICE_COLLECTION_MODE"`
+- `"INVALID_INVOICE_DRAFT_SOURCE"`
+- `"INVALID_INVOICE_LATE_FEE_AMOUNT"`
+- `"INVALID_INVOICE_LATE_FEE_REASON"`
+- `"INVALID_INVOICE_LATE_FEE_SCHEDULE"`
+- `"INVALID_INVOICE_PAYMENT_DUE"`
+- `"INVALID_INVOICE_PAYMENT_DUE_TYPE"`
+- `"INVALID_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_INVOICE_PAYMENT_POLICY"`
+- `"INVALID_INVOICE_PAYMENT_TERM"`
+- `"INVALID_INVOICE_REMINDER_OFFSET"`
+- `"INVALID_INVOICE_REPLY_TO_EMAIL"`
+- `"INVALID_INVOICE_TIMEZONE"`
+- `"INVALID_JSON"`
+- `"INVALID_LINE_ITEM"`
+- `"INVALID_LINE_ITEMS"`
+- `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
+- `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
+- `"INVALID_LIST_ALIAS"`
+- `"INVALID_LIST_ITEM_COUNT"`
+- `"INVALID_LOW_STOCK_THRESHOLD"`
+- `"INVALID_MAX_AMOUNT"`
+- `"INVALID_MAX_APPLICATIONS_PER_ORDER"`
+- `"INVALID_MAX_COMPLETIONS"`
+- `"INVALID_MAX_DISCOUNTED_QUANTITY"`
+- `"INVALID_MAX_LENGTH"`
+- `"INVALID_MAX_PROMOTIONS_PER_ORDER"`
+- `"INVALID_MAX_TOTAL_QUANTITY"`
+- `"INVALID_MAX_USES"`
+- `"INVALID_MERCHANT_ADDRESS"`
+- `"INVALID_MERCHANT_SELECTION"`
+- `"INVALID_METADATA"`
+- `"INVALID_METADATA_KEY"`
+- `"INVALID_METHOD"`
+- `"INVALID_MINIMUM_BALANCE_AMOUNT"`
+- `"INVALID_MINIMUM_BALANCE_BY_CURRENCY"`
+- `"INVALID_MINIMUM_BALANCE_CURRENCY"`
+- `"INVALID_MIN_AMOUNT"`
+- `"INVALID_MODE"`
+- `"INVALID_MODIFIER_GROUP"`
+- `"INVALID_MODIFIER_GROUP_STATUS"`
+- `"INVALID_MODIFIER_GROUP_TYPE"`
+- `"INVALID_MODIFIER_SET"`
+- `"INVALID_MODIFIER_SET_ID"`
+- `"INVALID_MODIFIER_SET_STATUS"`
+- `"INVALID_MODIFIER_STATUS"`
+- `"INVALID_MONEY"`
+- `"INVALID_MONTHLY_PAYOUT_DAY"`
+- `"INVALID_NAME"`
+- `"INVALID_NOTIFICATION_TYPE"`
+- `"INVALID_OAUTH_TOKEN"`
+- `"INVALID_ONBOARDING_SESSION"`
+- `"INVALID_OPERAND"`
+- `"INVALID_OPERATOR"`
+- `"INVALID_OPTIONS"`
+- `"INVALID_OPTION_POSITION"`
+- `"INVALID_OPTION_STATUS"`
+- `"INVALID_OPTION_VALUE"`
+- `"INVALID_OPTION_VALUE_POSITION"`
+- `"INVALID_OPTION_VALUE_STATUS"`
+- `"INVALID_ORDER_STATUS"`
+- `"INVALID_ORGANIZATION_ID"`
+- `"INVALID_ORIGIN"`
+- `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_SIZE"`
+- `"INVALID_PAGE_TOKEN"`
+- `"INVALID_PARENT_ORGANIZATION"`
+- `"INVALID_PARTNER_APP"`
+- `"INVALID_PARTNER_TOKEN"`
+- `"INVALID_PAYMENTS"`
+- `"INVALID_PAYMENT_FLOW"`
+- `"INVALID_PAYMENT_LIMIT_RANGE"`
+- `"INVALID_PAYMENT_LINK_CUSTOM_FIELD_TYPE"`
+- `"INVALID_PAYMENT_LINK_TYPE"`
+- `"INVALID_PAYMENT_METHOD_TYPE"`
+- `"INVALID_PAYMENT_OPTIONS"`
+- `"INVALID_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_PAYMENT_OPTION_RESOLVE_REQUEST"`
+- `"INVALID_PAYMENT_SOURCE"`
+- `"INVALID_PAYMENT_STATUS"`
+- `"INVALID_PERCENT_OFF"`
+- `"INVALID_PHONE_FORMAT"`
+- `"INVALID_PREDICATE"`
+- `"INVALID_PREDICATE_GROUP"`
+- `"INVALID_PREDICATE_NODE"`
+- `"INVALID_PRICE"`
+- `"INVALID_PRODUCT_CREATE_SHAPE"`
+- `"INVALID_PRODUCT_TYPE"`
+- `"INVALID_PURPOSE"`
+- `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_RANGE"`
+- `"INVALID_QUERY"`
+- `"INVALID_QUERY_PARAMETER"`
+- `"INVALID_RANGE"`
+- `"INVALID_REASON"`
+- `"INVALID_RECOVERY_EMAIL_DELAY"`
+- `"INVALID_RECURRENCE_TYPE"`
+- `"INVALID_REDEMPTION_TYPE"`
+- `"INVALID_REFUND_ADJUSTMENT_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_APPLIES_TO"`
+- `"INVALID_REFUND_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_REFUND_ADJUSTMENT_REFUND_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_TARGET"`
+- `"INVALID_REFUND_ADJUSTMENT_TYPE"`
+- `"INVALID_REFUND_METHOD"`
+- `"INVALID_REFUND_REASON"`
+- `"INVALID_REFUND_STATUS"`
+- `"INVALID_REFUND_TENDER_ALLOCATION"`
+- `"INVALID_RELATED_OBJECT_ID"`
+- `"INVALID_RELATED_OBJECT_TYPE"`
+- `"INVALID_RELATED_REQUEST_ID"`
+- `"INVALID_RELATED_RESOURCE_ID"`
+- `"INVALID_REPORT_INTERVAL"`
+- `"INVALID_REPORT_TYPE"`
+- `"INVALID_REQUEST"`
+- `"INVALID_REQUEST_BODY"`
+- `"INVALID_RESOURCE_ID"`
+- `"INVALID_RESOURCE_TYPE"`
+- `"INVALID_RETENTION_OFFER_KIND"`
+- `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
+- `"INVALID_RETURN_URL"`
+- `"INVALID_REVIEW_STATUS"`
+- `"INVALID_REWARD_SELECTION"`
+- `"INVALID_RISK_LEVEL"`
+- `"INVALID_RISK_LIST_ALIAS"`
+- `"INVALID_RISK_LIST_ITEM_TYPE"`
+- `"INVALID_ROLE"`
+- `"INVALID_RULE_ACTION"`
+- `"INVALID_RULE_GROUP"`
+- `"INVALID_RULE_OPERATOR"`
+- `"INVALID_RULE_VALUE"`
+- `"INVALID_SANDBOX_ID"`
+- `"INVALID_SCHEDULE"`
+- `"INVALID_SCOPE"`
+- `"INVALID_SHIPMENT_DIMENSIONS"`
+- `"INVALID_SHIPMENT_DIRECTION"`
+- `"INVALID_SHIPMENT_PACKAGE_ITEM_QUANTITY"`
+- `"INVALID_SHIPMENT_WEIGHT"`
+- `"INVALID_SMART_TIP_AMOUNT"`
+- `"INVALID_SMART_TIP_AMOUNTS_COUNT"`
+- `"INVALID_SORT_BY"`
+- `"INVALID_SORT_DIRECTION"`
+- `"INVALID_SORT_FIELD"`
+- `"INVALID_SOURCE"`
+- `"INVALID_SOURCE_CONTEXT"`
+- `"INVALID_STACKING_MODE"`
+- `"INVALID_STATEMENT_DESCRIPTOR"`
+- `"INVALID_STATUS"`
+- `"INVALID_STATUS_BUCKET"`
+- `"INVALID_STATUS_FOR_CAPTURE"`
+- `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
+- `"INVALID_SUGGESTED_AMOUNT"`
+- `"INVALID_SUPPORT_EMAIL"`
+- `"INVALID_SUPPORT_PHONE"`
+- `"INVALID_SUPPORT_URL"`
+- `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
+- `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
+- `"INVALID_TAX_CALCULATION_TYPE"`
+- `"INVALID_TAX_CATEGORY"`
+- `"INVALID_TAX_IDENTITY"`
+- `"INVALID_TAX_JURISDICTION"`
+- `"INVALID_TAX_MODE"`
+- `"INVALID_TAX_MONEY"`
+- `"INVALID_TAX_PERCENTAGE"`
+- `"INVALID_TAX_PRICE_MODE"`
+- `"INVALID_TAX_REFUND_MODE"`
+- `"INVALID_TAX_TYPE"`
+- `"INVALID_TEMPLATE"`
+- `"INVALID_TIMESTAMP"`
+- `"INVALID_TIMEZONE"`
+- `"INVALID_TIP"`
+- `"INVALID_TIP_AMOUNT"`
+- `"INVALID_TIP_PERCENT"`
+- `"INVALID_TIP_PERCENTAGES_COUNT"`
+- `"INVALID_TOTALS"`
+- `"INVALID_TRANSACTION_PURPOSE"`
+- `"INVALID_TYPE"`
+- `"INVALID_UPDATED_AFTER"`
+- `"INVALID_UPDATED_BEFORE"`
+- `"INVALID_UPDATE_MASK"`
+- `"INVALID_URL"`
+- `"INVALID_URL_HOST"`
+- `"INVALID_URL_SCHEME"`
+- `"INVALID_USAGE"`
+- `"INVALID_VALUES"`
+- `"INVALID_VALUE_TYPE"`
+- `"INVALID_VARIANT_STATUS"`
+- `"INVALID_VERIFICATION"`
+- `"INVALID_WEBHOOK_ENDPOINT"`
+- `"INVALID_WEBHOOK_ENDPOINT_SOURCE"`
+- `"INVALID_WEBHOOK_EVENT"`
+- `"INVALID_WEBSITE_URL"`
+- `"INVALID_WEEKLY_PAYOUT_DAY"`
+- `"INVENTORY_ADJUSTMENT_NOT_FOUND"`
+- `"INVENTORY_ALLOCATION_POLICY_IN_USE"`
+- `"INVENTORY_CHANGED"`
+- `"INVENTORY_CONDITION_INVALID"`
+- `"INVENTORY_COUNT_CHANGED"`
+- `"INVENTORY_COUNT_NOT_FOUND"`
+- `"INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED"`
+- `"INVENTORY_DEMAND_DUPLICATE"`
+- `"INVENTORY_DEMAND_INVALID"`
+- `"INVENTORY_EVENT_PROVENANCE_INVALID"`
+- `"INVENTORY_INSUFFICIENT"`
+- `"INVENTORY_ITEM_INACTIVE"`
+- `"INVENTORY_ITEM_IN_USE"`
+- `"INVENTORY_ITEM_NAME_INVALID"`
+- `"INVENTORY_ITEM_NOT_FOUND"`
+- `"INVENTORY_ITEM_REFERENCE_REQUIRED"`
+- `"INVENTORY_ITEM_UNAVAILABLE"`
+- `"INVENTORY_LEVEL_NOT_FOUND"`
+- `"INVENTORY_LOCATION_ALLOCATION_INACTIVE"`
+- `"INVENTORY_LOCATION_INELIGIBLE"`
+- `"INVENTORY_LOCATION_NOT_CONFIGURED"`
+- `"INVENTORY_MOVEMENT_NOT_FOUND"`
+- `"INVENTORY_POLICY_INVALID"`
+- `"INVENTORY_POLICY_NOT_FOUND"`
+- `"INVENTORY_QUANTITY_CONFLICT"`
+- `"INVENTORY_RECEIPT_CONFLICT"`
+- `"INVENTORY_RECEIPT_INVALID"`
+- `"INVENTORY_RECEIPT_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_EXISTS"`
+- `"INVENTORY_RESERVATION_EXPIRED"`
+- `"INVENTORY_RESERVATION_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_OWNER_MISMATCH"`
+- `"INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED"`
+- `"INVENTORY_ROUTING_SOURCE_INVALID"`
+- `"INVENTORY_ROUTING_SOURCE_REQUIRED"`
+- `"INVENTORY_ROUTING_TOO_COMPLEX"`
+- `"INVENTORY_ROUTING_UNAVAILABLE"`
+- `"INVENTORY_SHORTAGE"`
+- `"INVENTORY_SOURCE_SEQUENCE_CHANGED"`
+- `"INVENTORY_TRANSFER_ACTION_NOT_ALLOWED"`
+- `"INVENTORY_TRANSFER_CHANGED"`
+- `"INVENTORY_TRANSFER_INVALID"`
+- `"INVENTORY_TRANSFER_NOT_FOUND"`
+- `"INVENTORY_UNAVAILABLE"`
+- `"INVOICE_ACCESS_AUTH_UNAVAILABLE"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_UNSUPPORTED"`
+- `"INVOICE_AUTOPAY_RETRY_LIMIT_EXCEEDED"`
+- `"INVOICE_BALANCE_CHANGED"`
+- `"INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED"`
+- `"INVOICE_COLLECTION_BLOCKED"`
+- `"INVOICE_COLLECTION_CHANGED"`
+- `"INVOICE_COLLECTION_MODE_UNSUPPORTED"`
+- `"INVOICE_COST_COMPARISON_REQUIRES_OPTIONS"`
+- `"INVOICE_DRAFT_CHANGED"`
+- `"INVOICE_HAS_ISSUED_CREDIT_NOTE"`
+- `"INVOICE_ISSUE_IN_PROGRESS"`
+- `"INVOICE_LATE_FEE_NOT_COLLECTIBLE"`
+- `"INVOICE_LATE_FEE_NOT_DUE"`
+- `"INVOICE_LATE_FEE_NOT_FOUND"`
+- `"INVOICE_LATE_FEE_POLICY_REQUIRED"`
+- `"INVOICE_LINK_UNAVAILABLE"`
+- `"INVOICE_LOCKED_ORDER_FINANCIALS"`
+- `"INVOICE_NOT_COLLECTIBLE"`
+- `"INVOICE_NOT_CREDITABLE"`
+- `"INVOICE_NOT_DRAFT"`
+- `"INVOICE_NOT_FOUND"`
+- `"INVOICE_NOT_ISSUED"`
+- `"INVOICE_NOT_MARKABLE_UNCOLLECTIBLE"`
+- `"INVOICE_NOT_REVERSIBLE"`
+- `"INVOICE_NOT_VOIDABLE"`
+- `"INVOICE_PAYMENT_ALREADY_SETTLED"`
+- `"INVOICE_PAYMENT_ATTEMPT_ACTIVE"`
+- `"INVOICE_PAYMENT_FAILED"`
+- `"INVOICE_PAYMENT_NOT_APPLIED"`
+- `"INVOICE_PAYMENT_OPTIONS_REQUIRED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"INVOICE_PAYMENT_PROCESSING"`
+- `"INVOICE_PAYMENT_RESOLVING"`
+- `"INVOICE_PAYMENT_TERM_CHANGED"`
+- `"INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH"`
+- `"INVOICE_PAYMENT_TERM_IN_USE"`
+- `"INVOICE_PAYMENT_TERM_UNAVAILABLE"`
+- `"INVOICE_PDF_UNAVAILABLE"`
+- `"INVOICE_REMINDER_CHANGED"`
+- `"INVOICE_REMINDER_RATE_LIMITED"`
+- `"INVOICE_REMINDER_RULE_LIMIT_EXCEEDED"`
+- `"INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE"`
+- `"INVOICE_SCHEDULE_INVALID"`
+- `"INVOICE_SOURCE_CONFLICT"`
+- `"INVOICE_SOURCE_REQUIRED"`
+- `"INVOICE_TAX_SNAPSHOT_MISSING"`
+- `"INVOICE_TAX_SNAPSHOT_STALE"`
+- `"INVOICE_TIMEZONE_REQUIRED"`
+- `"ITEMS_REQUIRED"`
+- `"LAST_NAME_REQUIRED"`
+- `"LATEST_REVISION"`
+- `"LINE_ITEM_AMOUNT_REQUIRED"`
+- `"LINE_ITEM_DISCOUNT_NO_CHARGE_IDS"`
+- `"LINE_ITEM_DISCOUNT_REQUIRES_IDS"`
+- `"LINE_ITEM_INVALID_QUANTITY"`
+- `"LINE_ITEM_KEY_WHITESPACE"`
+- `"LINE_ITEM_NAME_REQUIRED"`
+- `"LINE_ITEM_NAME_TOO_LONG"`
+- `"LINE_ITEM_NEGATIVE_PRICE"`
+- `"LINE_ITEM_NOT_FOUND"`
+- `"LINE_ITEM_NOT_ON_ORDER"`
+- `"LINE_ITEM_PRICE_REQUIRED"`
+- `"LINE_ITEM_QUANTITY_TOO_LARGE"`
+- `"LINE_ITEM_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_QUANTITY_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_TARGET_AMBIGUOUS"`
+- `"LINE_ITEM_SOURCE_CONFLICT"`
+- `"LINE_ITEM_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"LINE_ITEM_UNIT_PRICE_REQUIRED"`
+- `"LIST_IN_USE"`
+- `"LIST_RESERVED"`
+- `"LOCATION_CHANGED"`
+- `"LOCATION_CONFLICT"`
+- `"LOCATION_GEOGRAPHY_CHANGED"`
+- `"LOCATION_GEOGRAPHY_INVALID"`
+- `"LOCATION_INVALID"`
+- `"LOCATION_INVENTORY_CHANGED"`
+- `"LOCATION_IN_USE"`
+- `"LOCATION_NOT_ACTIVE"`
+- `"LOCATION_NOT_FOUND"`
+- `"LOCATION_TOO_LONG"`
+- `"LOCATION_UNAVAILABLE"`
+- `"MAX_BOUND_VIOLATION"`
+- `"MAX_LENGTH_NOT_APPLICABLE"`
+- `"MEMBERSHIP_REQUIRED"`
+- `"MERCHANTS_UNAVAILABLE"`
+- `"MERCHANT_ACCESS_REQUIRED"`
+- `"MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED"`
+- `"MERCHANT_ACCOUNT_NOT_READY"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_CONTROLLER_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_INELIGIBLE"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_LAUNCH_TOKEN"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_POLICY_COMBINATION"`
+- `"MERCHANT_ACCOUNT_SESSION_LAUNCH_TOKEN_SCOPE_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_POLICY_NOT_SUPPORTED_BY_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_PREPARATION_FAILED"`
+- `"MERCHANT_ACCOUNT_SESSION_PROVIDER_GRANT_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
+- `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_CHANGED"`
+- `"MERCHANT_CONTEXT_MISSING"`
+- `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
+- `"MERCHANT_FINANCE_READ_FAILED"`
+- `"MERCHANT_NOT_LOADED"`
+- `"MERCHANT_ONBOARDING_REQUIRED"`
+- `"MERCHANT_PROCESSING_RESTRICTED"`
+- `"MERCHANT_READINESS_UNAVAILABLE"`
+- `"MERCHANT_SELECTION_REQUIRED"`
+- `"METADATA_KEY_TOO_LONG"`
+- `"METADATA_TOO_LARGE"`
+- `"METADATA_TOO_MANY_KEYS"`
+- `"METADATA_VALUE_TOO_LONG"`
+- `"METHOD_NOT_ALLOWED"`
+- `"ME_CUSTOMER_ID_FORBIDDEN"`
+- `"MINIMUM_BALANCE_CURRENCY_MISMATCH"`
+- `"MINIMUM_BALANCE_REQUIRED"`
+- `"MIN_BOUND_VIOLATION"`
+- `"MISSING_CURRENCY"`
+- `"MISSING_DISPLAY_NAME"`
+- `"MISSING_EXCLUSIVITY_GROUP"`
+- `"MISSING_LINE_ITEMS"`
+- `"MISSING_REQUIRED_FIELD"`
+- `"MISSING_URL"`
+- `"MIXED_VARIANT_CURRENCIES"`
+- `"MODIFIERS_REQUIRED"`
+- `"MODIFIERS_UNAVAILABLE"`
+- `"MODIFIER_CURRENCY_MISMATCH"`
+- `"MODIFIER_DEFAULT_INVALID"`
+- `"MODIFIER_DUPLICATE_SELECTION"`
+- `"MODIFIER_GROUP_CHANGED"`
+- `"MODIFIER_GROUP_IN_USE"`
+- `"MODIFIER_GROUP_NAME_REQUIRED"`
+- `"MODIFIER_GROUP_REQUIRED"`
+- `"MODIFIER_GROUP_UNAVAILABLE"`
+- `"MODIFIER_IN_USE"`
+- `"MODIFIER_METADATA_UNSUPPORTED"`
+- `"MODIFIER_NAME_REQUIRED"`
+- `"MODIFIER_OVERRIDE_INVALID"`
+- `"MODIFIER_QUANTITY_INVALID"`
+- `"MODIFIER_SELECTION_ID_INVALID"`
+- `"MODIFIER_SELECTION_LIMIT_EXCEEDED"`
+- `"MODIFIER_SET_GROUP_SOURCE_INVALID"`
+- `"MODIFIER_SET_IN_USE"`
+- `"MODIFIER_SET_NAME_REQUIRED"`
+- `"MODIFIER_SET_VERSION_CONFLICT"`
+- `"MODIFIER_SOURCE_UNSUPPORTED"`
+- `"MODIFIER_TEXT_INVALID"`
+- `"MODIFIER_UNAVAILABLE"`
+- `"MONEY_MOVEMENT_HISTORY_STATUS_INVALID"`
+- `"MONEY_MOVEMENT_OPERATION_BLOCKED"`
+- `"MONEY_MOVEMENT_PROVIDER_NOT_CONFIGURED"`
+- `"MONEY_MOVEMENT_PROVIDER_OPERATION_FAILED"`
+- `"MONTHLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"MONTHLY_PAYOUT_DAYS_REQUIRED"`
+- `"MULTIPLE_IDENTITIES_FOUND"`
+- `"NAME_REQUIRED"`
+- `"NAME_TOO_LONG"`
+- `"NORMALIZED_IMAGE_TOO_LARGE"`
+- `"NOTE_TOO_LONG"`
+- `"NOTHING_TO_REFUND"`
+- `"NOTHING_TO_REFUND_FOR_CHARGE"`
+- `"NOTHING_TO_REFUND_FOR_LINE_ITEM"`
+- `"NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN"`
+- `"NO_DISCOUNTABLE_BALANCE"`
+- `"NO_FIELDS_TO_UPDATE"`
+- `"NO_PAYMENTS_FOR_ORDER"`
+- `"NULL_NOT_ALLOWED"`
+- `"OAUTH_CONTEXT_MISMATCH"`
+- `"OAUTH_UNAVAILABLE"`
+- `"ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED"`
+- `"ONBOARDING_DIRECT_OWNER_REQUIRED"`
+- `"ONBOARDING_PARTNER_AUTH_UNSUPPORTED"`
+- `"ONBOARDING_PROFILE_PROVIDER_MANAGED"`
+- `"ONBOARDING_SESSION_REQUIRED"`
+- `"ONBOARDING_SESSION_TOKEN_FAILED"`
+- `"ONBOARDING_UNAVAILABLE"`
+- `"OPTIONS_REQUIRED"`
+- `"OPTION_REQUIRED"`
+- `"OPTION_VALUES_REQUIRED"`
+- `"OPTION_VALUE_REFERENCE_REQUIRED"`
+- `"OPTION_VALUE_REQUIRED"`
+- `"OPTION_VALUE_TOO_LONG"`
+- `"ORDERS_UNAVAILABLE"`
+- `"ORDER_ALREADY_CLOSED"`
+- `"ORDER_ALREADY_HAS_ACTIVE_INVOICE"`
+- `"ORDER_ALREADY_HAS_PAYMENTS"`
+- `"ORDER_ALREADY_HAS_REFUNDS"`
+- `"ORDER_ALREADY_PAID"`
+- `"ORDER_CHANGED_REFRESH_REQUIRED"`
+- `"ORDER_CHARGE_ID_REQUIRED"`
+- `"ORDER_CHARGE_NOT_FOUND"`
+- `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CLOSED"`
+- `"ORDER_COLLECTION_ALREADY_ACTIVE"`
+- `"ORDER_COLLECTION_IN_PROGRESS"`
+- `"ORDER_CONFLICT"`
+- `"ORDER_CURRENCY_REQUIRED"`
+- `"ORDER_CUSTOMER_ALREADY_SET"`
+- `"ORDER_CUSTOMER_CHECKOUT_ACTIVE"`
+- `"ORDER_CUSTOMER_NOT_CLEARABLE"`
+- `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
+- `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
+- `"ORDER_HAS_ACTIVE_PAYMENT_INTENT"`
+- `"ORDER_HAS_MANUAL_PAYMENTS"`
+- `"ORDER_HAS_NO_CHARGES"`
+- `"ORDER_HAS_NO_LINE_ITEMS"`
+- `"ORDER_HAS_NO_REFUNDABLE_CHARGES"`
+- `"ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS"`
+- `"ORDER_HAS_OPEN_CHECKOUT"`
+- `"ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE"`
+- `"ORDER_INVENTORY_EXCEPTION_UNRESOLVED"`
+- `"ORDER_LINE_ITEM_ID_REQUIRED"`
+- `"ORDER_LINE_ITEM_NOT_FOUND"`
+- `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
+- `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_NOT_FOUND"`
+- `"ORDER_NOT_FULFILLABLE"`
+- `"ORDER_NOT_OPEN"`
+- `"ORDER_NOT_PAYABLE"`
+- `"ORDER_OWNED_PAYMENT_INTENT_REQUIRED"`
+- `"ORDER_PAYMENT_ATTEMPT_ACTIVE"`
+- `"ORDER_PAYMENT_AUTHORIZATION_NOT_FOUND"`
+- `"ORDER_PAYMENT_CUSTOMER_MISMATCH"`
+- `"ORDER_PAYMENT_FLOW_REQUIRED"`
+- `"ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS"`
+- `"ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW"`
+- `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
+- `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
+- `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
+- `"ORDER_RECEIPT_MERCHANT_MANAGED"`
+- `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
+- `"ORDER_RECONCILIATION_REQUIRED"`
+- `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
+- `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
+- `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
+- `"ORDER_REQUIRED_FOR_TENDER_REFUND"`
+- `"ORDER_REVISION_REQUIRED"`
+- `"ORDER_STATUS_NOT_CLOSABLE"`
+- `"ORDER_TAX_CALCULATION_FAILED"`
+- `"ORDER_TAX_FULL_ADDRESS_REQUIRED"`
+- `"ORDER_TAX_LOCATION_INVALID"`
+- `"ORDER_TAX_LOCATION_REQUIRED"`
+- `"ORDER_TAX_NOT_READY"`
+- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_RATE_UNAVAILABLE"`
+- `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
+- `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
+- `"ORDER_UNAVAILABLE"`
+- `"ORGANIZATION_CYCLE"`
+- `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
+- `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORG_SCOPE_RESOLUTION_FAILED"`
+- `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
+- `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_REQUIRED"`
+- `"PACKAGE_ACTION_NOT_ALLOWED"`
+- `"PACKAGE_CHANGED"`
+- `"PACKAGE_PARENT_CHANGED"`
+- `"PACKAGE_REQUIRED"`
+- `"PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_REMOVAL_FORBIDDEN"`
+- `"PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN"`
+- `"PARTIAL_CAPTURE_NOT_SUPPORTED"`
+- `"PARTNER_APP_INSTALL_NOT_FOUND"`
+- `"PARTNER_APP_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"PARTNER_APP_NOT_FOUND"`
+- `"PARTNER_AUTH_UNSUPPORTED"`
+- `"PARTNER_TOKEN_VALIDATION_FAILED"`
+- `"PAUSE_DURATION_REQUIRED"`
+- `"PAUSE_DURATION_TOO_LONG"`
+- `"PAUSE_NOT_ALLOWED"`
+- `"PAYMENT_ACTION_EXPIRED"`
+- `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
+- `"PAYMENT_ALREADY_CANCELED"`
+- `"PAYMENT_ALREADY_SETTLED"`
+- `"PAYMENT_ALREADY_SUCCEEDED"`
+- `"PAYMENT_AMOUNT_CHANGED"`
+- `"PAYMENT_ATTEMPT_FROZEN"`
+- `"PAYMENT_ATTEMPT_ID_REQUIRED"`
+- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
+- `"PAYMENT_ATTEMPT_MISMATCH"`
+- `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
+- `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
+- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
+- `"PAYMENT_AUTHORIZATION_EXPIRED"`
+- `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
+- `"PAYMENT_BLOCKED"`
+- `"PAYMENT_CANCELED"`
+- `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
+- `"PAYMENT_CONFIRM_IN_PROGRESS"`
+- `"PAYMENT_CONFLICT"`
+- `"PAYMENT_EXPIRED"`
+- `"PAYMENT_FAILED"`
+- `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
+- `"PAYMENT_INTENT_DISPUTED"`
+- `"PAYMENT_INTENT_LIMIT_REACHED"`
+- `"PAYMENT_INTENT_NOT_CANCELABLE"`
+- `"PAYMENT_INTENT_NOT_FOUND"`
+- `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
+- `"PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_LEG_SELECTION_REQUIRED"`
+- `"PAYMENT_LINKS_UNAVAILABLE"`
+- `"PAYMENT_LINK_CHANGED"`
+- `"PAYMENT_LINK_CHANGED_RETRY"`
+- `"PAYMENT_LINK_FULFILLMENT_UNAVAILABLE"`
+- `"PAYMENT_LINK_INACTIVE"`
+- `"PAYMENT_LINK_LINE_ITEM_UNAVAILABLE"`
+- `"PAYMENT_LINK_MAX_COMPLETIONS_REACHED"`
+- `"PAYMENT_LINK_METADATA_TOO_LARGE"`
+- `"PAYMENT_LINK_METADATA_TOO_MANY_KEYS"`
+- `"PAYMENT_LINK_NOT_FOUND"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_INVALID"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_RATE_LIMITED"`
+- `"PAYMENT_LINK_RESOLUTION_REPLAY_UNAVAILABLE"`
+- `"PAYMENT_LINK_RESOLUTION_UNAVAILABLE"`
+- `"PAYMENT_METHOD_CUSTOMER_MISMATCH"`
+- `"PAYMENT_METHOD_DECLINED"`
+- `"PAYMENT_METHOD_DOMAINS_UNAVAILABLE"`
+- `"PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS"`
+- `"PAYMENT_METHOD_DOMAIN_NOT_FOUND"`
+- `"PAYMENT_METHOD_DOMAIN_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_METHOD_DOMAIN_REGISTRATION_FAILED"`
+- `"PAYMENT_METHOD_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PAYMENT_METHOD_NOT_ACTIVE"`
+- `"PAYMENT_METHOD_NOT_READY"`
+- `"PAYMENT_METHOD_ON_SESSION_ONLY"`
+- `"PAYMENT_METHOD_REQUIRED"`
+- `"PAYMENT_METHOD_SAVE_CODE_LIMIT_REACHED"`
+- `"PAYMENT_METHOD_SAVE_EMAIL_UNAVAILABLE"`
+- `"PAYMENT_METHOD_SAVE_NOT_PENDING"`
+- `"PAYMENT_METHOD_SAVE_NOT_READY"`
+- `"PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE"`
+- `"PAYMENT_METHOD_UNAVAILABLE"`
+- `"PAYMENT_NOT_COMPLETED"`
+- `"PAYMENT_NOT_REQUIRED"`
+- `"PAYMENT_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_OPTIONS_NOT_COMPARABLE"`
+- `"PAYMENT_OPTIONS_REQUIRED"`
+- `"PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"PAYMENT_OPTION_NOT_ALLOWED"`
+- `"PAYMENT_OPTION_NOT_READY"`
+- `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_UNAVAILABLE"`
+- `"PAYMENT_PROCESSOR_ERROR"`
+- `"PAYMENT_PROCESSOR_REJECTED"`
+- `"PAYMENT_PROCESSOR_UNAVAILABLE"`
+- `"PAYMENT_REQUIRED"`
+- `"PAYMENT_RETURN_URL_INVALID"`
+- `"PAYMENT_RETURN_URL_REQUIRED"`
+- `"PAYMENT_REVIEW_OPEN"`
+- `"PAYMENT_SOURCE_CONFLICT"`
+- `"PAYMENT_SOURCE_NOT_ALLOWED"`
+- `"PAYMENT_SOURCE_NOT_UPDATABLE"`
+- `"PAYMENT_SOURCE_OWNERSHIP_MISMATCH"`
+- `"PAYMENT_SOURCE_REQUIRED"`
+- `"PAYMENT_SOURCE_SELECTION_CONFLICT"`
+- `"PAYMENT_SOURCE_SELECTION_REQUIRED"`
+- `"PAYMENT_SOURCE_UNAVAILABLE"`
+- `"PAYMENT_START_SHAPE_CONFLICT"`
+- `"PAYMENT_UPDATE_REJECTED"`
+- `"PAYMENT_UPDATE_UNAVAILABLE"`
+- `"PAYOUTS_NOT_ENABLED"`
+- `"PAYOUT_DELAY_PROVIDER_CONTROLLED"`
+- `"PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_DESTINATION_NOT_FOUND"`
+- `"PAYOUT_DESTINATION_UPDATE_EMPTY"`
+- `"PAYOUT_ENTRIES_UNAVAILABLE"`
+- `"PAYOUT_FEE_NOT_DETERMINABLE"`
+- `"PAYOUT_NOT_CANCELABLE"`
+- `"PAYOUT_NOT_FOUND"`
+- `"PAYOUT_SETTINGS_MANAGED_EXTERNALLY"`
+- `"PAYOUT_SETTINGS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_SNAPSHOT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_UPDATE_EMPTY"`
+- `"PAYOUT_STATUS_NOT_CANCELABLE"`
+- `"PLAN_ARCHIVED"`
+- `"PLAN_HAS_ACTIVE_PAYMENT_LINKS"`
+- `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
+- `"PLAN_NOT_ACTIVE"`
+- `"PRICE_TOO_HIGH"`
+- `"PROCESSING_ERROR"`
+- `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
+- `"PROCESSING_FEE_PRICING_UNAVAILABLE"`
+- `"PROCESSOR_NOT_CONFIGURED"`
+- `"PRODUCT_IN_ACTIVE_PLAN"`
+- `"PRODUCT_IN_ACTIVE_SUBSCRIPTION"`
+- `"PRODUCT_IN_OPEN_CHECKOUT_SESSION"`
+- `"PRODUCT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"PRODUCT_IN_OPEN_ORDER"`
+- `"PRODUCT_IN_USE"`
+- `"PRODUCT_LINE_ITEM_SOURCE_UNSUPPORTED"`
+- `"PRODUCT_OPTIONS_REQUIRED"`
+- `"PRODUCT_OPTION_ALREADY_EXISTS"`
+- `"PRODUCT_OPTION_VALUE_ALREADY_EXISTS"`
+- `"PROFILE_RECONCILIATION_PENDING"`
+- `"PROFILE_UPDATE_STATUS_UNKNOWN"`
+- `"PROFILE_WRITE_LIVE_MODE_REQUIRED"`
+- `"PROMOTION_CODES_DISABLED"`
+- `"PROMOTION_CONFLICT"`
+- `"PROMOTION_DECLINED"`
+- `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_ID_REQUIRED"`
+- `"PROMOTION_NOT_CODE_GATED"`
+- `"PROMOTION_NOT_FOUND"`
+- `"PROMOTION_NOT_REDEEMABLE"`
+- `"PROMOTION_NO_ACTIVE_CODES"`
+- `"PROMOTION_SHAPE_IMMUTABLE"`
+- `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
+- `"PROVIDER_READINESS_UNAVAILABLE"`
+- `"PROVISIONING_FAILED"`
+- `"QUANTITY_ABOVE_MAX"`
+- `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_NOT_ADJUSTABLE"`
+- `"RANGE_REQUIRED"`
+- `"RATE_LIMIT_EXCEEDED"`
+- `"RECEIPT_EMAIL_NOT_UPDATABLE"`
+- `"RECIPIENT_EMAIL_REQUIRED"`
+- `"REFUND_ADJUSTMENTS_EXCEED_AUTOMATIC"`
+- `"REFUND_ADJUSTMENT_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_LINE_ITEM_MISMATCH"`
+- `"REFUND_ADJUSTMENT_NOT_FOUND"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_MISMATCH"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_REASON_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING"`
+- `"REFUND_AMOUNT_NOT_ALLOCATED"`
+- `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
+- `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"REFUND_TARGETS_NOT_ALLOCATED"`
+- `"REFUND_TENDER_CAPACITY_CONFLICT"`
+- `"REFUND_TENDER_NOT_FOUND"`
+- `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
+- `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPORTING_TIMEZONE_REQUIRED"`
+- `"REPORTING_UNAVAILABLE"`
+- `"REPORT_DOWNLOAD_EXPIRED"`
+- `"REPORT_INTERVAL_INCOMPLETE"`
+- `"REPORT_INTERVAL_TOO_LARGE"`
+- `"REPORT_NOT_FOUND"`
+- `"REQUEST_BODY_NOT_ALLOWED"`
+- `"REQUEST_BODY_TOO_LARGE"`
+- `"REQUEST_FAILED"`
+- `"REQUEST_TIMEOUT"`
+- `"REQUIRED_CUSTOM_FIELD_MISSING"`
+- `"RESERVED_FIELD_NOT_YET_SUPPORTED"`
+- `"RESERVED_METADATA_KEY"`
+- `"RESOURCE_LIMIT_EXCEEDED"`
+- `"RESOURCE_NOT_FOUND"`
+- `"RESOURCE_TIMELINE_TOKEN_INVALID"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_NOT_ALLOWED"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_REQUIRED"`
+- `"RETENTION_OFFER_PAUSE_TOO_LONG"`
+- `"RETENTION_OFFER_REQUIRES_PAUSE"`
+- `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_COMPLETION_BLOCKED"`
+- `"RETURN_DECISION_SCOPE_REQUIRED"`
+- `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
+- `"RETURN_FULFILLMENT_ALLOCATION_AMBIGUOUS"`
+- `"RETURN_INSPECTION_QUANTITY_EXCEEDED"`
+- `"RETURN_INVALID"`
+- `"RETURN_LINE_CANCELLATION_CONFLICT"`
+- `"RETURN_NOT_FOUND"`
+- `"RETURN_PACKAGE_ALLOCATION_EXCEEDS_SHIPMENT"`
+- `"RETURN_PACKAGE_LINE_DUPLICATED"`
+- `"RETURN_PACKAGE_LINE_ITEMS_REQUIRED"`
+- `"RETURN_PACKAGE_QUANTITY_INVALID"`
+- `"RETURN_POLICY_CONFLICT"`
+- `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
+- `"RETURN_SHIPMENT_INVALID"`
+- `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_INVALID"`
+- `"RETURN_VALUE_EXCEEDED"`
+- `"RETURN_VERSION_CONFLICT"`
+- `"REVERSAL_EXCEEDS_MANUAL_PAYMENTS"`
+- `"REVIEW_ALREADY_CLOSED"`
+- `"REVIEW_NOT_FOUND"`
+- `"REVIEW_RESOLUTION_IN_PROGRESS"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION"`
+- `"RISK_CONTROL_CONFLICT"`
+- `"RISK_EVALUATION_UNAVAILABLE"`
+- `"RISK_LIST_ALIAS_ALREADY_EXISTS"`
+- `"RISK_RESOURCE_NOT_FOUND"`
+- `"ROLE_ASSIGNMENT_FORBIDDEN"`
+- `"ROLE_MANAGEMENT_FORBIDDEN"`
+- `"ROOT_ORGANIZATION_CREATION_FORBIDDEN"`
+- `"ROUTE_NOT_FOUND"`
+- `"RULES_REQUIRED"`
+- `"RULE_ACTION_UNAVAILABLE_AT_STAGE"`
+- `"RULE_LIMIT_EXCEEDED"`
+- `"RULE_RESERVED"`
+- `"SANDBOXES_UNAVAILABLE"`
+- `"SANDBOX_ALREADY_EXISTS"`
+- `"SANDBOX_ARCHIVED"`
+- `"SANDBOX_ARCHIVE_FAILED"`
+- `"SANDBOX_BOOTSTRAP_FAILED"`
+- `"SANDBOX_CREATE_FAILED"`
+- `"SANDBOX_ID_NOT_ALLOWED"`
+- `"SANDBOX_ID_REQUIRED"`
+- `"SANDBOX_INACTIVE"`
+- `"SANDBOX_LIST_FAILED"`
+- `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"SANDBOX_NOT_ACCESSIBLE"`
+- `"SANDBOX_NOT_FOUND"`
+- `"SANDBOX_PLANE_UNAVAILABLE"`
+- `"SANDBOX_RESET_FAILED"`
+- `"SANDBOX_RESET_UNAVAILABLE"`
+- `"SANDBOX_SELECTION_FORBIDDEN"`
+- `"SANDBOX_SELECTION_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_CREDENTIAL_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
+- `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
+- `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
+- `"SCHEDULED_SEND_IN_PAST"`
+- `"SCOPES_REQUIRED"`
+- `"SCOPE_NOT_ALLOWED"`
+- `"SCOPE_NOT_ALLOWED_FOR_KEY_MODE"`
+- `"SELECTED_OPTIONS_REQUIRED"`
+- `"SELF_ROLE_EDITS_FORBIDDEN"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_INVALID"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_UNCONFIGURED"`
+- `"SENSITIVE_IDEMPOTENCY_RESULT_INVALID"`
+- `"SERVER_GENERATED_ID"`
+- `"SERVICE_CHARGE_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_REQUIRES_CHARGE_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_SCOPE_INVALID"`
+- `"SERVICE_TIMEZONE_REQUIRED"`
+- `"SERVICE_UNAVAILABLE"`
+- `"SETTINGS_CONCURRENT_MODIFICATION"`
+- `"SETTINGS_UNAVAILABLE"`
+- `"SETTINGS_WRITE_FORBIDDEN"`
+- `"SETUP_SOURCE_NON_ZERO_ORDER"`
+- `"SETUP_SOURCE_SUBSCRIPTION_REQUIRED"`
+- `"SHIPMENT_CHANGED"`
+- `"SHIPMENT_CREATED_RANGE_INVALID"`
+- `"SHIPMENT_HANDOFF_RANGE_INVALID"`
+- `"SHIPMENT_PACKAGE_ITEM_LINE_ITEM_NOT_IN_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_NOT_MUTABLE"`
+- `"SHIPMENT_PACKAGE_NOT_VOIDABLE"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_CONFLICT"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"SHIPMENT_PACKAGE_TERMINAL"`
+- `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKU_ALREADY_EXISTS"`
+- `"SOURCE_CONTEXT_CONFLICT"`
+- `"STANDARD_PAYOUTS_UNAVAILABLE"`
+- `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
+- `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
+- `"SUBSCRIPTION_BILLING_START_INVALID"`
+- `"SUBSCRIPTION_CANCELED"`
+- `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
+- `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
+- `"SUBSCRIPTION_INITIATED_BY_INVALID"`
+- `"SUBSCRIPTION_MODE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
+- `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
+- `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
+- `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
+- `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSET_ONLY_VIOLATION"`
+- `"SUGGESTED_AMOUNT_ABOVE_MAX"`
+- `"SUGGESTED_AMOUNT_BELOW_MIN"`
+- `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRED"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_ID_REQUIRED"`
+- `"TAX_BREAKDOWN_LINE_ITEM_MISMATCH"`
+- `"TAX_BREAKDOWN_NOT_ORDER_SCOPED_FLAT"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRE_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_REFUNDS_WITHOUT_TAX"`
+- `"TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING"`
+- `"TAX_BREAKDOWN_REFUND_MONEY_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
+- `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_INPUT_CONFLICT"`
+- `"TAX_MODE_MISMATCH"`
+- `"TAX_MONEY_REQUIRED"`
+- `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TICKET_PREFIX_TOO_LONG"`
+- `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
+- `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_LIMIT_EXCEEDED"`
+- `"TOO_MANY_CUSTOM_FIELDS"`
+- `"TOO_MANY_LINE_ITEMS"`
+- `"TOO_MANY_PENDING_REPORTS"`
+- `"TOO_MANY_SUGGESTED_AMOUNTS"`
+- `"TRANSACTION_PURPOSE_NOT_APPLICABLE"`
+- `"TRANSACTION_PURPOSE_REQUIRED"`
+- `"TRIAL_NEGATIVE"`
+- `"TRIAL_TOO_LONG"`
+- `"UNKNOWN_ATTRIBUTE"`
+- `"UNKNOWN_BUNDLE_COMPONENT"`
+- `"UNKNOWN_CATEGORY_HANDLE"`
+- `"UNKNOWN_CLIENT_OPTION_VALUE"`
+- `"UNKNOWN_CUSTOM_FIELD_KEY"`
+- `"UNKNOWN_FIELD"`
+- `"UNKNOWN_LINE_ITEM_KEY"`
+- `"UNKNOWN_OPTION"`
+- `"UNKNOWN_OPTION_VALUE"`
+- `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_SCOPE"`
+- `"UNSAFE_FEEDBACK_CONTENT"`
+- `"UNSUPPORTED_APPLICATION_TYPE"`
+- `"UNSUPPORTED_CONTENT_TYPE"`
+- `"UNSUPPORTED_CURRENCY"`
+- `"UNSUPPORTED_PREVIEW_DISCOUNT"`
+- `"UNSUPPORTED_PROCESSOR"`
+- `"UNSUPPORTED_PRODUCT_FIELD"`
+- `"UNSUPPORTED_QUERY_PARAM"`
+- `"UNSUPPORTED_RESOURCE_TYPE"`
+- `"UPDATE_MASK_REQUIRED"`
+- `"URL_TOO_LONG"`
+- `"VALIDATION_ERROR"`
+- `"VALUES_REQUIRED"`
+- `"VALUE_REQUIRED"`
+- `"VALUE_TOO_LONG"`
+- `"VARIANTS_REQUIRED"`
+- `"VARIANT_IN_ACTIVE_BUNDLE"`
+- `"VARIANT_IN_ACTIVE_PAYMENT_LINK"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"VARIANT_IN_OPEN_CHECKOUT_SESSION"`
+- `"VARIANT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"VARIANT_IN_OPEN_ORDER"`
+- `"VARIANT_NOT_SELLABLE"`
+- `"VARIANT_OPTION_COMBINATION_ALREADY_EXISTS"`
+- `"VERIFICATION_ALREADY_USED"`
+- `"VERIFICATION_ATTEMPTS_EXCEEDED"`
+- `"VERIFICATION_CODE_FAILED"`
+- `"VERIFICATION_EMAIL_FAILED"`
+- `"VERIFICATION_TOKEN_FAILED"`
+- `"VERSION_CONFLICT"`
+- `"WEBHOOKS_UNAVAILABLE"`
+- `"WEBHOOK_DELIVERY_IN_FLIGHT"`
+- `"WEBHOOK_DELIVERY_UNAVAILABLE"`
+- `"WEBHOOK_ENDPOINT_NOT_ACTIVE"`
+- `"WEBHOOK_EVENT_PAYLOAD_EXPIRED"`
+- `"WEBHOOK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"WEBHOOK_STREAM_CONNECTION_LIMIT"`
 - `"WEBHOOK_STREAM_LIMITER_UNAVAILABLE"`
 - `"WEBHOOK_STREAM_NOTIFIER_UNAVAILABLE"`
@@ -8307,6 +12348,89 @@ Variants: any, any, any, any, any, any, any.
 - `"failed"`
 - `"canceled"`
 - `"expired"`
+
+#### ErrorObject reason values
+
+- `"active"`
+- `"allow"`
+- `"already_applied"`
+- `"amount_out_of_range"`
+- `"applies_to"`
+- `"archived"`
+- `"automatic_disabled"`
+- `"block"`
+- `"bounded_inventory_guarantee_not_supported"`
+- `"buy_item_missing"`
+- `"capability_blocked"`
+- `"capability_pending"`
+- `"card_unavailable"`
+- `"checkout_order_ownership_required"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
+- `"country_not_supported"`
+- `"country_required"`
+- `"currency_mismatch"`
+- `"currency_not_supported"`
+- `"customer_unavailable"`
+- `"disabled"`
+- `"disabled_by_merchant_settings"`
+- `"disabled_by_platform_policy"`
+- `"exhausted"`
+- `"existing_order_checkout"`
+- `"expired"`
+- `"inactive"`
+- `"ineligible_origin"`
+- `"insufficient_available_balance"`
+- `"invalid_configuration"`
+- `"invoice_finalized"`
+- `"limited_benefit_capacity_not_supported"`
+- `"manual_capture_not_supported"`
+- `"max_promotions_reached"`
+- `"merchant_account_action_required"`
+- `"merchant_hosted_customer_accounts"`
+- `"merchant_payments_disabled"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_checkout_session"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_found"`
+- `"not_publishable"`
+- `"not_supported"`
+- `"not_yet_started"`
+- `"off_session_not_supported"`
+- `"partial_payment"`
+- `"payment_account_context_invalid"`
+- `"payment_account_setup_incomplete"`
+- `"payment_disputed"`
+- `"payment_option_access_not_provisioned"`
+- `"payment_option_activation_pending"`
+- `"payment_option_not_available"`
+- `"payment_option_not_in_plan"`
+- `"recurrence"`
+- `"recurring_ach_not_supported"`
+- `"recurring_not_supported"`
+- `"redirects_required"`
+- `"require_3ds"`
+- `"requirements_due"`
+- `"return_checkout"`
+- `"review"`
+- `"revision_unavailable"`
+- `"revoked"`
+- `"session_not_open"`
+- `"setting_off"`
+- `"source_delayed_settlement_not_supported"`
+- `"source_not_supported"`
+- `"split_payment_not_supported"`
+- `"subscription_checkout"`
+- `"subscription_terms_locked"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
+- `"surface_not_supported"`
+- `"unknown_type"`
+- `"unsupported_evaluation_schema"`
+- `"unsupported_use"`
 
 #### ErrorObject type values
 
@@ -8341,8 +12465,117 @@ Variants: any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the blocking resource. |
-| `resource_type` | Required | string | Stable public resource name for the blocking resource. |
+| `resource_type` | Required | string | Stable public resource name for the blocking resource. Values: [106 declared values](#errorresourcereference-resource_type-values). |
 | `status` | Optional | string | Current public status of the blocking resource when available. |
+
+#### ErrorResourceReference resource_type values
+
+- `"api_key"`
+- `"api_request_log"`
+- `"balance"`
+- `"balance_transaction"`
+- `"bundle"`
+- `"bundle_component"`
+- `"capability"`
+- `"category"`
+- `"checkout_session"`
+- `"credit_note"`
+- `"credit_note_allocation"`
+- `"customer"`
+- `"customer_address"`
+- `"customer_deletion_request"`
+- `"customer_session"`
+- `"customer_verification"`
+- `"delivery_location_set"`
+- `"delivery_method"`
+- `"delivery_profile"`
+- `"delivery_quote"`
+- `"delivery_rate"`
+- `"delivery_rate_callback"`
+- `"delivery_revocation"`
+- `"delivery_selection"`
+- `"delivery_zone"`
+- `"device"`
+- `"dispute"`
+- `"email_change_request"`
+- `"environment_grant"`
+- `"feedback_report"`
+- `"fraud_warning"`
+- `"fulfillment"`
+- `"fulfillment_event"`
+- `"fulfillment_notification"`
+- `"gift_card"`
+- `"gift_card_load"`
+- `"gift_card_notification"`
+- `"gift_card_redemption"`
+- `"inventory_allocation_policy"`
+- `"inventory_count"`
+- `"inventory_item"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_reservation_line"`
+- `"inventory_transfer"`
+- `"invoice"`
+- `"invoice_late_fee"`
+- `"invoice_payment_attempt"`
+- `"invoice_payment_term"`
+- `"location"`
+- `"merchant"`
+- `"merchant_billing_balance"`
+- `"merchant_subscription_invoice"`
+- `"modifier"`
+- `"modifier_group"`
+- `"modifier_set"`
+- `"order"`
+- `"order_charge"`
+- `"order_line_item"`
+- `"order_payment_attempt"`
+- `"organization"`
+- `"package"`
+- `"package_item"`
+- `"partner_app"`
+- `"partner_app_install"`
+- `"payment_intent"`
+- `"payment_link"`
+- `"payment_method"`
+- `"payment_method_domain"`
+- `"payout"`
+- `"payout_destination"`
+- `"payout_settings"`
+- `"product"`
+- `"product_option"`
+- `"product_variant"`
+- `"promotion"`
+- `"promotion_code"`
+- `"refund"`
+- `"report"`
+- `"report_download"`
+- `"return"`
+- `"return_disposition"`
+- `"return_inspection"`
+- `"return_inspection_line_item"`
+- `"return_line_item"`
+- `"return_policy"`
+- `"return_policy_revision"`
+- `"return_reason"`
+- `"return_receipt"`
+- `"return_receipt_line_item"`
+- `"return_resolution"`
+- `"review"`
+- `"risk_list"`
+- `"risk_list_item"`
+- `"risk_rule"`
+- `"sandbox"`
+- `"shipment"`
+- `"subscription"`
+- `"subscription_payment_retry"`
+- `"subscription_plan"`
+- `"user"`
+- `"webhook_delivery"`
+- `"webhook_endpoint"`
+- `"webhook_event"`
+- `"other"`
 
 ## ExpandedCustomerSummary
 
@@ -8460,8 +12693,8 @@ Variants: any, any, any, any, any, any, any.
 | `name` | Required | string |  |
 | `payment_link_id` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
-| `plan_id` | Optional | string |  |
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
+| `subscription_plan_id` | Optional | string |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Optional | string |  |
 
@@ -8545,9 +12778,9 @@ Variants: any, any, any, any, any, any, any.
 | `description` | Optional | string |  |
 | `line_items` | Optional | Array of [SubscriptionPlanLineItem](MODELS.md#subscriptionplanlineitem) |  |
 | `name` | Required | string |  |
-| `plan_id` | Required | string |  |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. |
+| `subscription_plan_id` | Required | string |  |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -8564,9 +12797,9 @@ Variants: any, any, any, any, any, any, any.
 | `current_period_start` | Optional | string |  |
 | `customer_id` | Required | string |  |
 | `next_billing_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `plan_id` | Required | string |  |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. |
 | `subscription_id` | Required | string |  |
+| `subscription_plan_id` | Required | string |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
 ## FeedbackReport
@@ -8768,7 +13001,8 @@ Variants: any, any.
 | `package_id` | Optional | string | Response only. |
 | `previous_status` | Optional | string | Values: [23 declared values](#fulfillmentevent-previous_status-values). Response only. |
 | `quantity_effect` | Optional | string | Values: `"preserve"`, `"fulfill"`, `"release"`. Response only. |
-| `reason` | Optional | string | Response only. |
+| `reason` | Optional | string | Values: [12 declared values](#fulfillmentevent-reason-values). Response only. |
+| `reason_message` | Optional | string | The note supplied when this action was requested. Response only. |
 | `received_at` | Optional | string | Flint receive timestamp. Format: `date-time`. Response only. |
 | `shipment_id` | Optional | string | Response only. |
 | `subject_type` | Required | string | Values: `"fulfillment"`, `"shipment"`, `"package"`. Response only. |
@@ -8837,6 +13071,21 @@ Variants: any, any.
 - `"exception"`
 - `"returned"`
 - `"voided"`
+
+#### FulfillmentEvent reason values
+
+- `"address_issue"`
+- `"customer_no_show"`
+- `"customer_request"`
+- `"fraud_review"`
+- `"inventory_issue"`
+- `"location_unavailable"`
+- `"other"`
+- `"payment_review"`
+- `"provider_issue"`
+- `"provider_no_show"`
+- `"scheduling_error"`
+- `"scheduling_issue"`
 
 ## FulfillmentEventListResponse
 
@@ -9076,7 +13325,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestCancel
 
@@ -9087,7 +13336,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `action` | Required | string | Values: `"cancel"`. |
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestComplete
 
@@ -9099,7 +13348,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestDispatch
 
@@ -9111,7 +13360,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestFail
 
@@ -9123,7 +13372,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 | `release_quantity` | Required | boolean |  |
 
 ## FulfillmentTransitionRequestHold
@@ -9160,7 +13409,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestMarkPicked
 
@@ -9172,7 +13421,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestMarkPreparing
 
@@ -9184,7 +13433,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestMarkReady
 
@@ -9196,7 +13445,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## FulfillmentTransitionRequestSchedule
 
@@ -9208,7 +13457,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 | `scheduled_end_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `scheduled_start_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `timezone` | Optional | string | IANA timezone of the service appointment. |
@@ -9223,7 +13472,7 @@ Variants: object, object, object, object, object, object, object, object, object
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## GetOrCreateReturnResolutionCheckoutSessionRequest
 
@@ -9411,8 +13660,8 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Required | object | Response only. |
-| `balance_money` | Required | object | Response only. |
+| `available_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. Response only. |
 | `customer_id` | Required | string or null | Response only. |
@@ -9422,7 +13671,7 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | `last_loaded_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `last_redeemed_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `merchant_id` | Required | string | Response only. |
-| `reserved_money` | Required | object | Response only. |
+| `reserved_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. Response only. |
 | `supported_actions` | Required | Array of string | Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -9445,13 +13694,11 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `code` | Optional | string |  |
-| `funding_loss_disposition` | Optional | [GiftCardFundingLossDisposition](MODELS.md#giftcardfundinglossdisposition) |  |
 | `gift_card` | Optional | [GiftCard](MODELS.md#giftcard) |  |
 | `gift_card_load` | Optional | [GiftCardLoad](MODELS.md#giftcardload) |  |
 | `gift_card_notification` | Optional | [GiftCardNotification](MODELS.md#giftcardnotification) |  |
 | `gift_card_redemption` | Optional | [GiftCardRedemption](MODELS.md#giftcardredemption) |  |
 | `gift_card_transaction_ids` | Required | Array of string |  |
-| `gift_cards` | Optional | Array of [GiftCard](MODELS.md#giftcard) |  |
 | `secret_recovery_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
 ## GiftCardCustomAmountBounds
@@ -9462,6 +13709,34 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | --- | --- | --- | --- |
 | `maximum_money` | Required | object |  |
 | `minimum_money` | Required | object |  |
+
+## GiftCardFundingDisposition
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `disposition` | Required | string | Values: `"honor_value"`. Response only. |
+| `dispute_amount_money` | Required | object | The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Response only. |
+| `dispute_id` | Required | string | Response only. |
+| `gift_card_funding_disposition_id` | Required | string | Response only. |
+| `gift_card_ids` | Required | Array of string | Response only. |
+| `honored_value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `original_gift_card_consideration_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `payment_intent_id` | Required | string | Response only. |
+| `preserved_reserved_value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reason_message` | Required | string | Response only. |
+
+## GiftCardFundingDispositionResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GiftCardFundingDisposition](MODELS.md#giftcardfundingdisposition) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
 
 ## GiftCardFundingDispute
 
@@ -9477,24 +13752,6 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
-## GiftCardFundingLossDisposition
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `disposition` | Required | string | Values: `"honor_value"`. Response only. |
-| `dispute_amount_money` | Required | object | The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Response only. |
-| `dispute_id` | Required | string | Response only. |
-| `gift_card_funding_disposition_id` | Required | string | Response only. |
-| `gift_card_ids` | Required | Array of string | Response only. |
-| `honored_value_money` | Required | object | Response only. |
-| `original_gift_card_consideration_money` | Required | object | Response only. |
-| `payment_intent_id` | Required | string | Response only. |
-| `preserved_reserved_value_money` | Required | object | Response only. |
-| `reason` | Required | string | Response only. |
-
 ## GiftCardFundingLossResolution
 
 
@@ -9504,7 +13761,7 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `disposition` | Required | string | Values: `"honor_value"`. Response only. |
 | `gift_card_funding_disposition_id` | Required | string | Response only. |
-| `reason` | Required | string | Response only. |
+| `reason_message` | Required | string | Response only. |
 
 ## GiftCardFundingSource
 
@@ -9550,7 +13807,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | --- | --- | --- | --- |
 | `consideration_money` | Required | Alternative shapes (see declared variants) | Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `funding_disputes` | Required | Array of [GiftCardFundingDispute](MODELS.md#giftcardfundingdispute) | Restrictions tied to original funding, including replacement refund lots. A win clears only its own restriction. A loss remains frozen and requires an explicit value and loss disposition. Response only. |
+| `funding_disputes` | Required | Array of [GiftCardFundingDispute](MODELS.md#giftcardfundingdispute) | Restrictions tied to original funding, including value restored to replacement cards. A win clears only its own restriction. A loss keeps spending restricted until you create a gift card funding disposition. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_load_id` | Required | string | Response only. |
 | `idempotency_key` | Required | string | Response only. |
@@ -9558,12 +13815,12 @@ Independent funding resource. Value and consideration are separate. External fun
 | `purchase_refunds` | Required | Array of [GiftCardPurchaseRefundAllocation](MODELS.md#giftcardpurchaserefundallocation) | Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. Response only. |
 | `purchase_restoration` | Optional | object | Response only. |
 | `refund_provenance` | Optional | object | Response only. |
-| `refund_transferred_money` | Optional | object | Response only. |
-| `remaining_money` | Required | object | Response only. |
-| `reversed_money` | Required | object | Response only. |
+| `refund_transferred_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remaining_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reversed_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `source` | Required | Alternative shapes (see declared variants) | Response only. |
 | `source_created_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `value_money` | Required | object | Response only. |
+| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
 ## GiftCardLoadListResponse
@@ -9587,15 +13844,6 @@ Independent funding resource. Value and consideration are separate. External fun
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
-## GiftCardMoney
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. |
-
 ## GiftCardNotification
 
 
@@ -9603,13 +13851,13 @@ Independent funding resource. Value and consideration are separate. External fun
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `delivery` | Optional | object | Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unknown. Response only. |
+| `delivery` | Optional | object | Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_notification_id` | Required | string | Response only. |
 | `recipient` | Required | object | Response only. |
 | `resend_of_notification_id` | Optional | string | Response only. |
 | `sent_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `status` | Required | string | Values: `"scheduled"`, `"queued"`, `"sending"`, `"sent"`, `"failed"`, `"unknown"`, `"bounced"`, `"canceled"`. Response only. |
+| `status` | Required | string | Values: `"scheduled"`, `"queued"`, `"sending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"bounced"`, `"canceled"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
@@ -9707,7 +13955,7 @@ Independent funding resource. Value and consideration are separate. External fun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `consideration_money` | Required | object | Response only. |
+| `consideration_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `order_manual_reversal_id` | Optional | string | Response only. |
 | `purchase_refund_allocation_id` | Required | string | Response only. |
@@ -9716,7 +13964,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocation](MODELS.md#giftcardpurchaserefundvalueallocation) | Actual value lots reserved or reversed for this original cash refund. Amounts use the parent value_money currency. Omitted when all value remains on the original load. Response only. |
-| `value_money` | Required | object | Response only. |
+| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
 ## GiftCardPurchaseRefundRecovery
@@ -9737,7 +13985,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | --- | --- | --- | --- |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_load_id` | Required | string | Response only. |
-| `value_money` | Required | object | Response only. |
+| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## GiftCardPurchaseRefundValueAllocation
 
@@ -9759,7 +14007,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | `refund_id` | Required | string | Response only. |
 | `root_gift_card_id` | Required | string | Response only. |
 | `root_gift_card_load_id` | Required | string | Response only. |
-| `value_money` | Required | object | Response only. |
+| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## GiftCardPurchaseRequest
 
@@ -9801,7 +14049,7 @@ Independent redemption resource. Operational reservations are separate from immu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `capture_mode` | Required | string | Values: `"automatic"`, `"manual"`. Response only. |
-| `captured_money` | Required | object | Response only. |
+| `captured_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Response only. |
@@ -9809,10 +14057,10 @@ Independent redemption resource. Operational reservations are separate from immu
 | `gift_card_redemption_id` | Required | string | Response only. |
 | `idempotency_key` | Required | string | Response only. |
 | `order_id` | Required | string or null | Response only. |
-| `refunded_money` | Required | object | Response only. |
-| `remaining_refundable_money` | Required | object | Response only. |
-| `requested_money` | Required | object | Response only. |
-| `reserved_money` | Required | object | Response only. |
+| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remaining_refundable_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `requested_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reserved_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"reserved"`, `"captured"`, `"canceled"`, `"expired"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
@@ -9872,9 +14120,9 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Response only. |
-| `balance_after_money` | Required | object | Response only. |
-| `balance_before_money` | Required | object | Response only. |
+| `amount_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_after_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_before_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_transaction_id` | Required | string | Response only. |
@@ -9961,14 +14209,6 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 | `held_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `used_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-
-## HonorGiftCardFundingLossRequest
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `reason` | Required | string | Your reason for honoring the gift card value despite the confirmed funding loss. minLength: `1`. maxLength: `200`. |
 
 ## HostedCheckout
 
@@ -12165,7 +16405,7 @@ An immutable record of a single quantity change, including the level state it pr
 | `on_hand_quantity_delta` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `quality_control_quantity_delta` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `quarantined_quantity_delta` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `reason` | Required | string |  |
+| `reason` | Required | string | Values: [26 declared values](#inventorymovement-reason-values). |
 | `resulting_inventory_level` | Required | [InventoryLevel](MODELS.md#inventorylevel) |  |
 | `return_disposition_id` | Optional | string |  |
 | `return_id` | Optional | string |  |
@@ -12173,7 +16413,56 @@ An immutable record of a single quantity change, including the level state it pr
 | `source_observation_sequence` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `source_reference` | Optional | [InventorySourceReference](MODELS.md#inventorysourcereference) |  |
 | `source_system` | Required | Alternative shapes (see declared variants) |  |
-| `type` | Required | string |  |
+| `type` | Required | string | Values: [17 declared values](#inventorymovement-type-values). |
+
+#### InventoryMovement reason values
+
+- `"commit"`
+- `"condition_changed"`
+- `"consume"`
+- `"damage"`
+- `"damaged"`
+- `"depart"`
+- `"fulfillment_canceled"`
+- `"fulfillment_handoff"`
+- `"loss"`
+- `"lost"`
+- `"manual_correction"`
+- `"other"`
+- `"owner_deadline_reached"`
+- `"physical_count"`
+- `"quality_control"`
+- `"quarantined"`
+- `"reallocation"`
+- `"receive"`
+- `"received_stock"`
+- `"release"`
+- `"report_loss"`
+- `"return_to_origin"`
+- `"route_and_hold"`
+- `"safety_stock_change"`
+- `"sellable"`
+- `"theft"`
+
+#### InventoryMovement type values
+
+- `"adjustment"`
+- `"count_applied"`
+- `"fulfillment_consumed"`
+- `"reservation_committed"`
+- `"reservation_commitment_released"`
+- `"reservation_expired"`
+- `"reservation_held"`
+- `"reservation_hold_released"`
+- `"reservation_reallocated_in"`
+- `"reservation_reallocated_out"`
+- `"return_received"`
+- `"safety_stock_change"`
+- `"system_correction"`
+- `"transfer_departed"`
+- `"transfer_received"`
+- `"transfer_returned"`
+- `"transfer_lost"`
 
 ## InventoryMovementListResponse
 
@@ -12445,174 +16734,110 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | Bounded resources that must transition or be corrected before the operation can succeed. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. |
-| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
+| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string |  |
-| `conflict_type` | Optional | string | Values: `"physical_revision"`, `"source_observation_sequence"`. |
-| `conflicting_fields` | Optional | Array of string |  |
-| `current_checkout_session_id` | Optional | string |  |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
+| `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
+| `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
+| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_source_observation_sequence` | Optional | exact numeric string | Latest accepted absolute source sequence for this item and Location. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
-| `current_version` | Required | exact numeric string | Current mutable resource version observed when a conditional mutation failed. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `demand_key` | Optional | string |  |
+| `current_version` | Required | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on status conflicts such as INVENTORY_TRANSFER_ACTION_NOT_ALLOWED and SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#inventorytransferactionconflicterrordetail-dependency_type-values). |
-| `eligibility_reason` | Optional | string | Values: [12 declared values](#inventorytransferactionconflicterrordetail-eligibility_reason-values). |
-| `existing_checkout_session_id` | Optional | string |  |
-| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#inventorytransferactionconflicterrordetail-eligibility_reason-values). |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
-| `inventory_count_line_id` | Optional | string |  |
-| `inventory_item_id` | Optional | string |  |
-| `is_resumable` | Optional | boolean | Whether the order payment attempt identified by payment_attempt_id can be resumed. If false, inspect payment_attempt_status before starting another payment. |
-| `limit` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `location_id` | Optional | string |  |
-| `location_outcome` | Optional | string |  |
+| `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
+| `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
+| `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
+| `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
+| `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `location_id` | Optional | string | Location this failure concerns. Sent on INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, INVENTORY_SOURCE_SEQUENCE_CHANGED, PICKUP_LOCATION_INACTIVE, PICKUP_LOCATION_INVENTORY_UNAVAILABLE, PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE, and PICKUP_LOCATION_DEPENDENCY_FAILURE. |
+| `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
-| `message` | Required | string |  |
-| `param` | Required | string |  |
-| `payment_attempt_id` | Optional | string |  |
-| `payment_attempt_status` | Optional | string | Current Flint order payment attempt status associated with this error. Values: [11 declared values](#inventorytransferactionconflicterrordetail-payment_attempt_status-values). |
-| `payment_intent_ids` | Optional | Array of string |  |
-| `payment_method_domain_id` | Optional | string |  |
+| `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `param` | Required | string | Public JSON request field path associated with this failure, when applicable. |
+| `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrordetail-payment_attempt_status-values). |
+| `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
+| `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 | `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: not_eligible, minimum_not_met, expired, not_yet_started, exhausted, code_required, code_invalid, disabled, automatic_disabled, codes_disabled, already_applied, not_combinable, superseded_by_better_offer, superseded, max_promotions_reached, no_discountable_balance, buy_item_missing, currency_mismatch, unknown_type. |
-| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) |  |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
+| `remediation` | Optional | object | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
-| `risk_rule_ids` | Optional | Array of string |  |
+| `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
-| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) |  |
+| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Required | Array of string | Actions accepted for the current resource state. |
-| `supported_api_versions` | Optional | Array of string |  |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
+| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
-#### InventoryTransferActionConflictErrorDetail dependency_type values
+#### InventoryTransferActionConflictErrorDetail capability values
 
-- `"devices"`
-- `"fulfillment"`
-- `"inventory_allocation_policies"`
-- `"inventory_capability"`
-- `"inventory_claims"`
-- `"inventory_counts"`
-- `"inventory_levels"`
-- `"inventory_transfers"`
-- `"settings"`
+- `"accept_card_payments"`
+- `"save_payment_methods"`
+- `"accept_affirm_payments"`
+- `"receive_payouts"`
+- `"create_standard_payouts"`
+- `"manage_payout_destinations"`
+- `"manage_payout_settings"`
 
-#### InventoryTransferActionConflictErrorDetail eligibility_reason values
+#### InventoryTransferActionConflictErrorDetail code values
 
-- `"location_not_active"`
-- `"inventory_not_configured"`
-- `"inventory_allocation_inactive"`
-- `"outside_policy"`
-- `"outside_allowed_set"`
-- `"destination_missing"`
-- `"geography_unavailable"`
-- `"item_unavailable"`
-- `"forced_location_mismatch"`
-- `"fulfillment_incompatible"`
-- `"split_prohibited"`
-- `"insufficient_quantity"`
-
-#### InventoryTransferActionConflictErrorDetail payment_attempt_status values
-
-- `"open"`
-- `"requires_action"`
-- `"processing"`
-- `"requires_capture"`
-- `"requires_retry"`
-- `"finalizing"`
-- `"partially_succeeded"`
-- `"succeeded"`
-- `"failed"`
-- `"canceled"`
-- `"expired"`
-
-## InventoryTransferActionConflictErrorEnvelope
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `error` | Required | [InventoryTransferActionConflictErrorObject](MODELS.md#inventorytransferactionconflicterrorobject) |  |
-
-## InventoryTransferActionConflictErrorObject
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. |
-| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1188 declared values](#inventorytransferactionconflicterrorobject-code-values). |
-| `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) |  |
-| `conflicting_fields` | Optional | Array of string |  |
-| `current_checkout_session_id` | Optional | string |  |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. |
-| `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
-| `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
-| `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
-| `current_version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `details` | Required | Array of [ErrorDetail](MODELS.md#errordetail) |  |
-| `doc_url` | Required | string | Developer error-handling documentation. |
-| `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
-| `existing_checkout_session_id` | Optional | string |  |
-| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
-| `is_resumable` | Optional | boolean | Whether the order payment attempt identified by payment_attempt_id can be resumed. If false, inspect payment_attempt_status before starting another payment. |
-| `limit` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
-| `message` | Required | string |  |
-| `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
-| `param` | Required | string |  |
-| `payment_attempt_id` | Optional | string |  |
-| `payment_attempt_status` | Optional | string | Current Flint order payment attempt status associated with this error. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
-| `payment_intent_ids` | Optional | Array of string |  |
-| `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: not_eligible, minimum_not_met, expired, not_yet_started, exhausted, code_required, code_invalid, disabled, automatic_disabled, codes_disabled, already_applied, not_combinable, superseded_by_better_offer, superseded, max_promotions_reached, no_discountable_balance, buy_item_missing, currency_mismatch, unknown_type. |
-| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) |  |
-| `request_id` | Optional | string |  |
-| `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
-| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
-| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) |  |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `type` | Required | string | Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
-
-#### InventoryTransferActionConflictErrorObject code values
-
+- `"ACCESS_LINK_CUSTOMER_REQUIRED"`
+- `"ACCESS_LINK_MERCHANT_HOSTED"`
 - `"ACCOUNT_SETUP_CONFIGURATION_CONFLICT"`
 - `"ACCOUNT_SETUP_REPAIR_REQUIRED"`
-- `"ACCOUNT_SETUP_REQUIRED"`
 - `"ACCOUNT_SETUP_UNAVAILABLE"`
+- `"ACH_BILLING_DETAILS_REQUIRED"`
+- `"ACH_MANDATE_ACCEPTANCE_REQUIRED"`
+- `"ACH_TRANSACTION_PURPOSE_UNRESOLVED"`
 - `"ACTIVE_BUNDLE_COMPONENTS_IMMUTABLE"`
 - `"ACTIVE_DEMO_SESSION_EXISTS"`
+- `"ACTIVE_LINE_ITEM_SOURCE_CHANGE"`
 - `"ACTIVE_OPTIONS_REQUIRED"`
 - `"ACTIVE_OPTION_SELECTOR_COLLAPSE"`
 - `"ACTIVE_VARIANTS_REQUIRE_OPTION_BACKFILL"`
 - `"AFFIRM_REFUND_RETRY_NOT_ALLOWED"`
 - `"AMBIGUOUS_AUTH"`
+- `"AMBIGUOUS_CATEGORY"`
+- `"AMOUNT_ABOVE_MAX"`
+- `"AMOUNT_BELOW_LIMIT"`
+- `"AMOUNT_BELOW_MIN"`
+- `"AMOUNT_EXCEEDS_BALANCE"`
+- `"AMOUNT_EXCEEDS_LIMIT"`
 - `"AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"AMOUNT_MISMATCH"`
 - `"AMOUNT_MONEY_CURRENCY_REQUIRED"`
 - `"AMOUNT_MONEY_REQUIRED"`
+- `"AMOUNT_NOT_ADJUSTABLE"`
+- `"AMOUNT_NOT_UPDATABLE"`
+- `"AMOUNT_REQUIRED"`
 - `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
+- `"AMOUNT_TOO_LARGE"`
+- `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
+- `"API_KEY_ALREADY_REVOKED"`
+- `"API_KEY_CHANGED"`
 - `"API_KEY_DATA_INVALID"`
 - `"API_KEY_EXPIRED"`
+- `"API_KEY_MANAGEMENT_FORBIDDEN"`
 - `"API_KEY_MODE_MISMATCH"`
 - `"API_KEY_NOT_FOUND"`
 - `"API_KEY_REQUIRED"`
@@ -12623,7 +16848,8 @@ Variants: object, object, object.
 - `"API_VERSION_CHANGED"`
 - `"API_VERSION_RETIRED"`
 - `"APPLICATION_METHOD_REQUIRED"`
-- `"ARCHIVED_CATEGORY"`
+- `"ATTRIBUTE_REQUIRED"`
+- `"ATTRIBUTE_UNAVAILABLE"`
 - `"AUTHENTICATION_FAILED"`
 - `"AUTHENTICATION_REQUIRED"`
 - `"AUTHORIZATION_FAILED"`
@@ -12632,9 +16858,12 @@ Variants: object, object, object.
 - `"AUTH_UNAVAILABLE"`
 - `"AUTH_VALIDATION_FAILED"`
 - `"AUTOMATIC_PAYOUT_NOT_CANCELABLE"`
+- `"AUTOMATIC_PROMOTIONS_DISABLED"`
+- `"AUTOMATIC_TAX_CATEGORY_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_CHARGE_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_COMPONENTS_FORBIDDEN"`
 - `"AUTOMATIC_TAX_CONNECTION_REQUIRED"`
+- `"AUTOMATIC_TAX_DELAYED_CAPTURE_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_EXEMPTION_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_INCLUSIVE_PRICING_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_INVOICE_INSTALLMENTS_UNSUPPORTED"`
@@ -12643,7 +16872,8 @@ Variants: object, object, object.
 - `"AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED"`
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
-- `"AVAILABLE_MERCHANT"`
+- `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -12652,27 +16882,42 @@ Variants: object, object, object.
 - `"BANK_ACCOUNT_RESTRICTED"`
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
+- `"BARCODE_ALREADY_EXISTS"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
+- `"BUNDLE_IN_ACTIVE_PAYMENT_LINK"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"BUNDLE_IN_OPEN_CHECKOUT_SESSION"`
+- `"BUNDLE_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"BUNDLE_IN_OPEN_ORDER"`
 - `"BUNDLE_NOT_SELLABLE"`
 - `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
 - `"BUYER_INVOICE_CREDENTIAL_INVALID"`
 - `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CALCULATION_BASIS_FORBIDDEN"`
+- `"CALCULATION_BASIS_NOT_APPLICABLE"`
+- `"CALCULATION_BASIS_REQUIRED"`
 - `"CANCELLATION_COMMENT_TOO_LONG"`
 - `"CANCELLATION_REASON_DUPLICATE"`
 - `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
 - `"CANCELLATION_REASON_NOT_OFFERED"`
 - `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
+- `"CANNOT_CANCEL_EXPIRED_PAYMENT"`
+- `"CANNOT_CANCEL_SUCCEEDED_PAYMENT"`
 - `"CANNOT_PAUSE"`
 - `"CANNOT_RESUME"`
 - `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
 - `"CANNOT_RESUME_PAST_DUE_PAYMENT_REQUIRED"`
+- `"CAPABILITIES_IMMUTABLE"`
 - `"CAPABILITIES_UNAVAILABLE"`
+- `"CAPABILITY_DEPENDENCY_REQUIRED"`
 - `"CAPABILITY_NOT_REQUESTED"`
 - `"CAPABILITY_SET_UNSUPPORTED"`
 - `"CAPABILITY_SNAPSHOT_UNAVAILABLE"`
 - `"CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE"`
+- `"CAPTURE_AMOUNT_MISMATCH"`
 - `"CAPTURE_CURRENCY_MISMATCH"`
 - `"CARD_DECLINED"`
 - `"CATALOG_INVENTORY_RELATIONSHIP_INVALID"`
@@ -12683,21 +16928,27 @@ Variants: object, object, object.
 - `"CATEGORY_HANDLE_EXISTS"`
 - `"CATEGORY_MODIFIED"`
 - `"CATEGORY_REFERENCED"`
-- `"CATEGORY_TARGETED"`
 - `"CHALLENGE_FAILED"`
 - `"CHALLENGE_REQUIRED"`
 - `"CHALLENGE_TOKEN_INVALID"`
 - `"CHARGE_NAME_REQUIRED"`
+- `"CHARGE_NOT_ON_ORDER"`
+- `"CHARGE_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"CHARGE_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"CHARGE_TYPE_REQUIRED"`
+- `"CHARGE_VALUE_REQUIRED"`
 - `"CHECKOUT_CREDENTIAL_CHANGED"`
 - `"CHECKOUT_CREDENTIAL_REQUIRED"`
 - `"CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED"`
 - `"CHECKOUT_CUSTOMER_CHANGED"`
+- `"CHECKOUT_CUSTOMER_CONFLICT"`
+- `"CHECKOUT_CUSTOMER_NOT_SET_ON_ORDER"`
 - `"CHECKOUT_DISCOUNT_ID_NOT_ALLOWED"`
 - `"CHECKOUT_DISCOUNT_NOT_REMOVABLE"`
 - `"CHECKOUT_LAUNCH_TOKEN_RESTRICTED"`
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
 - `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
@@ -12709,6 +16960,8 @@ Variants: object, object, object.
 - `"CHECKOUT_SESSION_AUTH_REQUIRED"`
 - `"CHECKOUT_SESSION_AUTH_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_CURRENT_CHANGED"`
+- `"CHECKOUT_SESSION_CURRENT_STATE"`
+- `"CHECKOUT_SESSION_EXPIRED"`
 - `"CHECKOUT_SESSION_LOOKUP_FAILED"`
 - `"CHECKOUT_SESSION_MODIFIERS_READ_ONLY"`
 - `"CHECKOUT_SESSION_MODIFIER_FIELDS_ONLY"`
@@ -12729,18 +16982,27 @@ Variants: object, object, object.
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
-- `"CLERK_EMAIL_MISSING"`
-- `"CLERK_EMAIL_VERIFY_FAILED"`
-- `"CLERK_USER_CREATE_FAILED"`
-- `"CLERK_USER_LOOKUP_FAILED"`
+- `"CODES_NOT_ALLOWED"`
+- `"CODES_REQUIRED"`
+- `"CODE_EMPTY"`
 - `"CODE_TOO_LONG"`
 - `"COMPONENT_REQUIRED"`
 - `"CONCURRENT_MODIFICATION"`
 - `"CONFIRMATION_RETURN_URL_INVALID"`
 - `"CONFIRMATION_RETURN_URL_NOT_ALLOWED"`
 - `"CONFIRMATION_RETURN_URL_REQUIRED"`
+- `"CONFIRMATION_TOKEN_ALREADY_USED"`
+- `"CONFIRMATION_TOKEN_EXPIRED"`
+- `"CONFIRMATION_TOKEN_REQUIRED"`
+- `"CONFIRMATION_TOKEN_SCOPE_MISMATCH"`
+- `"CONFIRMATION_TOKEN_SDK_REQUIRED"`
 - `"CONTEXT_NOT_FOUND"`
+- `"CONTRACT_TERM_REQUIRED"`
+- `"CONTRACT_TOO_LONG"`
+- `"CONTRACT_TOO_SHORT"`
+- `"COUNTRY_IMMUTABLE"`
 - `"COUNTRY_NOT_SUPPORTED"`
+- `"COUNTRY_REQUIRED"`
 - `"CREATE_ORDER_LINE_ITEM_DISCOUNT_UNSUPPORTED"`
 - `"CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED"`
 - `"CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE"`
@@ -12754,13 +17016,20 @@ Variants: object, object, object.
 - `"CREDIT_NOTE_REFUND_EXCEEDS_BALANCE"`
 - `"CREDIT_NOTE_REFUND_INVALID"`
 - `"CURRENCY_MISMATCH"`
+- `"CURRENCY_REQUIRED"`
 - `"CURSOR_MISMATCH"`
 - `"CUSTOMER_ACCOUNTS_UNAVAILABLE"`
+- `"CUSTOMER_ACCOUNT_MODE_CONFLICT"`
 - `"CUSTOMER_ACCOUNT_RESOURCE_NOT_FOUND"`
+- `"CUSTOMER_ACCOUNT_URL_REQUIRED"`
 - `"CUSTOMER_DELETION_BLOCKED"`
 - `"CUSTOMER_DELETION_PROCESSING"`
 - `"CUSTOMER_EMAIL_ALREADY_USED"`
 - `"CUSTOMER_EMAIL_REQUIRED"`
+- `"CUSTOMER_ID_NOT_CLEARABLE"`
+- `"CUSTOMER_NOT_UPDATABLE"`
+- `"CUSTOMER_PAYMENT_METHOD_MISMATCH"`
+- `"CUSTOMER_PAYMENT_TERM_UNAVAILABLE"`
 - `"CUSTOMER_SESSIONS_UNAVAILABLE"`
 - `"CUSTOMER_SESSION_EXPIRED"`
 - `"CUSTOMER_SESSION_NOT_FOUND"`
@@ -12776,6 +17045,14 @@ Variants: object, object, object.
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
+- `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
+- `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_FIELD_KEY_REQUIRED"`
+- `"CUSTOM_FIELD_KEY_TOO_LONG"`
+- `"CUSTOM_FIELD_KEY_WHITESPACE"`
+- `"CUSTOM_FIELD_LABEL_REQUIRED"`
+- `"CUSTOM_FIELD_OPTION_TOO_LONG"`
+- `"CUSTOM_FIELD_OPTION_WHITESPACE"`
 - `"DAILY_LIMIT_EXCEEDED"`
 - `"DANGLING_EXPANSION_REFERENCE"`
 - `"DEFAULT_ENVIRONMENT_REQUIRED"`
@@ -12851,23 +17128,51 @@ Variants: object, object, object.
 - `"DEMO_SESSIONS_UNAVAILABLE"`
 - `"DEMO_SESSION_ROUTE_NOT_ALLOWED"`
 - `"DEMO_SESSION_SECRET_REPLAY_EXPIRED"`
-- `"DEVELOPER_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"DESCRIPTION_TOO_LONG"`
+- `"DEVICE_DELETED"`
+- `"DEVICE_LOCATION_MISMATCH"`
+- `"DISCOUNTED_ITEM_RULES_REQUIRED"`
 - `"DISCOUNT_AMOUNT_INVALID"`
+- `"DISCOUNT_IDS_REQUIRED"`
+- `"DISCOUNT_NOT_FOUND"`
 - `"DISCOUNT_REQUIRED"`
+- `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
 - `"DISPUTE_NOT_FOUND"`
+- `"DONATION_AMOUNT_REQUIRED"`
+- `"DONATION_CONFIG_NOT_APPLICABLE"`
+- `"DONATION_LINE_ITEMS_NOT_ALLOWED"`
+- `"DONATION_LINE_ITEM_MISSING"`
+- `"DONATION_PLAN_NOT_ALLOWED"`
+- `"DONATION_PROMOTION_NOT_ALLOWED"`
+- `"DONATION_TAX_NOT_ALLOWED"`
+- `"DONATION_TIP_NOT_ALLOWED"`
+- `"DROPDOWN_OPTIONS_REQUIRED"`
 - `"DUPLICATE_BUNDLE_COMPONENT_ID"`
+- `"DUPLICATE_CAPABILITY"`
+- `"DUPLICATE_CHARGE_TARGET"`
 - `"DUPLICATE_CLIENT_OPTION_KEY"`
 - `"DUPLICATE_CLIENT_VALUE_KEY"`
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
+- `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
 - `"DUPLICATE_INVOICE_LINE"`
+- `"DUPLICATE_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_INVOICE_REMINDER_OFFSET"`
+- `"DUPLICATE_LINE_ITEM_ID"`
+- `"DUPLICATE_LINE_ITEM_KEY"`
+- `"DUPLICATE_LINE_ITEM_TARGET"`
 - `"DUPLICATE_OPTION"`
 - `"DUPLICATE_OPTION_NAME"`
+- `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
 - `"DUPLICATE_TAX_COMPONENT"`
@@ -12879,12 +17184,19 @@ Variants: object, object, object.
 - `"EMAIL_CHANGE_RATE_LIMITED"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
+- `"EMPTY_CAPABILITY_SET"`
 - `"EMPTY_UPDATE"`
 - `"ENVIRONMENT_GRANT_NOT_FOUND"`
 - `"ENVIRONMENT_LOOKUP_FAILED"`
 - `"ENVIRONMENT_LOOKUP_UNAVAILABLE"`
 - `"ENVIRONMENT_REQUIRED"`
 - `"ENVIRONMENT_SELECTION_FORBIDDEN"`
+- `"EVENT_CONFIG_NOT_APPLICABLE"`
+- `"EVENT_LINE_ITEMS_REQUIRED"`
+- `"EVENT_PLAN_NOT_ALLOWED"`
+- `"EVENT_SOLD_OUT"`
+- `"EVENT_TICKET_QUANTITY_REQUIRED"`
+- `"EVENT_TIMEZONE_REQUIRED"`
 - `"EXACTLY_ONE_REQUIRED"`
 - `"EXPANSION_DEPENDENCY_UNAVAILABLE"`
 - `"EXPANSION_LIMIT_EXCEEDED"`
@@ -12892,8 +17204,11 @@ Variants: object, object, object.
 - `"EXPECTED_AMOUNT_REQUIRED"`
 - `"EXPECTED_VERSION_REQUIRED"`
 - `"EXPIRED_CARD"`
+- `"EXPLICIT_TAX_REFUND_NOOP"`
 - `"EXTERNAL_API_KEY_REQUIRED"`
 - `"EXTERNAL_IMAGE_NOT_ALLOWED"`
+- `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
+- `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
@@ -12906,30 +17221,63 @@ Variants: object, object, object.
 - `"FLAT_TAX_REFUND_MUST_BE_FULL"`
 - `"FLAT_TAX_REFUND_STATE_INVALID"`
 - `"FLAT_TAX_SCOPE_INVALID"`
+- `"FLINT_WALLET_CARD_NOT_FOUND"`
+- `"FLINT_WALLET_NOT_FOUND"`
+- `"FLINT_WALLET_UNAVAILABLE"`
 - `"FRAUD_WARNING_NOT_FOUND"`
 - `"FULFILLMENT_ACTION_NOT_ALLOWED"`
+- `"FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION"`
 - `"FULFILLMENT_APPROVAL_REQUIRED"`
 - `"FULFILLMENT_BUNDLE_UNSUPPORTED"`
 - `"FULFILLMENT_CHANGED"`
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
+- `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
+- `"FULFILLMENT_EVENT_DEDUPE_CONFLICT"`
+- `"FULFILLMENT_EVENT_OCCURRED_RANGE_INVALID"`
+- `"FULFILLMENT_EVENT_PROVIDER_IDENTITY_INCOMPLETE"`
 - `"FULFILLMENT_EVENT_SUBJECT_INVALID"`
+- `"FULFILLMENT_FIELD_TOO_LONG"`
+- `"FULFILLMENT_INACTIVE"`
+- `"FULFILLMENT_LABEL_URL_EXTERNAL_SYSTEM_REQUIRED"`
+- `"FULFILLMENT_LABEL_URL_INVALID"`
+- `"FULFILLMENT_LINE_ITEMS_REQUIRED"`
+- `"FULFILLMENT_LINE_ITEM_ID_REQUIRED"`
 - `"FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE"`
+- `"FULFILLMENT_METHOD_DUPLICATE"`
+- `"FULFILLMENT_METHOD_LIMIT_EXCEEDED"`
 - `"FULFILLMENT_METHOD_UNAVAILABLE"`
+- `"FULFILLMENT_NOTIFICATION_BUILD_FAILED"`
+- `"FULFILLMENT_OBLIGATION_UNAVAILABLE"`
 - `"FULFILLMENT_PROFILE_REQUIRED"`
 - `"FULFILLMENT_PROFILE_REVISION_UNUSABLE"`
 - `"FULFILLMENT_PROFILE_UNAVAILABLE"`
 - `"FULFILLMENT_QUANTITY_EFFECT_REQUIRED"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM"`
+- `"FULFILLMENT_QUANTITY_INVALID"`
 - `"FULFILLMENT_REASON_INVALID"`
 - `"FULFILLMENT_REQUIREMENT_REQUIRED"`
+- `"FULFILLMENT_SCHEDULE_INVALID"`
 - `"FULFILLMENT_SCHEDULE_NOT_ALLOWED"`
 - `"FULFILLMENT_SCHEDULE_REQUIRED"`
 - `"FULFILLMENT_SELECTION_REQUIRED"`
+- `"FULFILLMENT_SHIPMENT_NOT_MUTABLE"`
+- `"FULFILLMENT_SHIPMENT_NOT_VOIDABLE"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_CONFLICT"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"FULFILLMENT_SHIPMENT_TERMINAL"`
+- `"FULFILLMENT_STATUS_CONFLICT"`
 - `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
 - `"FULFILLMENT_TERMINAL"`
+- `"FULFILLMENT_TIMEZONE_REQUIRED"`
+- `"FULFILLMENT_TRACKING_URL_INVALID"`
+- `"FULFILLMENT_TYPE_NOT_ALLOWED"`
 - `"FULFILLMENT_TYPE_REQUIRED"`
+- `"FULFILLMENT_WINDOW_INVALID"`
 - `"GIFT_CARDS_UNAVAILABLE"`
 - `"GIFT_CARD_ALLOCATION_CHANGED"`
 - `"GIFT_CARD_ALLOCATION_REQUIRED"`
@@ -12961,6 +17309,7 @@ Variants: object, object, object.
 - `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
 - `"GIFT_CARD_TAX_NOT_SUPPORTED"`
 - `"GIFT_CARD_UNAVAILABLE"`
+- `"HOSTED_CHECKOUT_CALLER_RATES_UNSUPPORTED"`
 - `"HOSTED_INSTALL_UNAVAILABLE"`
 - `"IDEMPOTENCY_CLEAR_FAILED"`
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
@@ -12973,10 +17322,12 @@ Variants: object, object, object.
 - `"IDEMPOTENCY_RECOVERY_REQUIRED"`
 - `"IDEMPOTENCY_REQUEST_IN_PROGRESS"`
 - `"IDENTITY_RESOLUTION_FAILED"`
+- `"IDENTITY_UNAVAILABLE"`
 - `"IMAGE_ANIMATION_UNSUPPORTED"`
 - `"IMAGE_ASSET_NOT_ATTACHABLE"`
 - `"IMAGE_ASSET_NOT_FOUND"`
 - `"IMAGE_DIMENSIONS_EXCEEDED"`
+- `"IMAGE_DIMENSIONS_UNSUPPORTED"`
 - `"IMAGE_FORMAT_UNSUPPORTED"`
 - `"IMAGE_GALLERY_LIMIT_EXCEEDED"`
 - `"IMAGE_INGESTION_COUNT_EXCEEDED"`
@@ -12999,19 +17350,24 @@ Variants: object, object, object.
 - `"IMAGE_STORAGE_QUOTA_EXCEEDED"`
 - `"IMAGE_URL_INVALID"`
 - `"IMAGE_URL_MUST_BE_CANONICAL"`
+- `"INCOMPLETE_OPTION_SELECTION"`
 - `"INCORRECT_CVC"`
+- `"INHERIT_ONLY_VIOLATION"`
 - `"INITIAL_API_KEY_ALREADY_CREATED"`
 - `"INSTANT_PAYOUTS_UNAVAILABLE"`
 - `"INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"INSUFFICIENT_FUNDS"`
 - `"INSUFFICIENT_SCOPE"`
 - `"INTERNAL_ERROR"`
+- `"INTERVAL_COUNT_TOO_LARGE"`
 - `"INTERVAL_REQUIRED"`
 - `"INVALID_ACTION"`
 - `"INVALID_ACTIONABLE"`
 - `"INVALID_ACTIVITY_TYPE"`
 - `"INVALID_ALLOCATION"`
 - `"INVALID_AMOUNT"`
+- `"INVALID_AMOUNT_OFF"`
+- `"INVALID_AMOUNT_RANGE"`
 - `"INVALID_API_KEY"`
 - `"INVALID_API_VERSION"`
 - `"INVALID_APPLICATION_METHOD"`
@@ -13022,6 +17378,8 @@ Variants: object, object, object.
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
+- `"INVALID_BOGO_DISCOUNT_CLASS"`
+- `"INVALID_BOGO_QUANTITY"`
 - `"INVALID_BOOLEAN"`
 - `"INVALID_BOOTSTRAP_SCOPES"`
 - `"INVALID_BUNDLE_STATUS"`
@@ -13036,74 +17394,91 @@ Variants: object, object, object.
 - `"INVALID_CAPTURE_METHOD"`
 - `"INVALID_CASE_TYPE"`
 - `"INVALID_CATEGORIES"`
+- `"INVALID_CATEGORY"`
 - `"INVALID_CATEGORY_DESCRIPTION"`
 - `"INVALID_CATEGORY_HANDLE"`
 - `"INVALID_CATEGORY_NAME"`
-- `"INVALID_CATEGORY_STATUS"`
 - `"INVALID_CHANNEL"`
+- `"INVALID_CHARGE_AMOUNT"`
+- `"INVALID_CHARGE_PERCENT"`
+- `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
+- `"INVALID_COLOR"`
 - `"INVALID_COMPLETION_BEHAVIOR"`
 - `"INVALID_COMPONENT"`
 - `"INVALID_COMPONENTS"`
 - `"INVALID_COMPONENT_POSITION"`
 - `"INVALID_COMPONENT_QUANTITY"`
+- `"INVALID_CORNER_RADIUS"`
 - `"INVALID_COUNTRY"`
 - `"INVALID_CREATED_AFTER"`
 - `"INVALID_CREATED_BEFORE"`
 - `"INVALID_CREATED_RANGE"`
+- `"INVALID_CREDIT_NOTE"`
 - `"INVALID_CREDIT_NOTE_CORRECTION_TYPE"`
 - `"INVALID_CREDIT_NOTE_LINE"`
 - `"INVALID_CREDIT_NOTE_MEMO"`
 - `"INVALID_CREDIT_NOTE_REASON"`
 - `"INVALID_CREDIT_NOTE_STATUS"`
 - `"INVALID_CURRENCY"`
+- `"INVALID_CURRENCY_OPTION"`
 - `"INVALID_CURSOR"`
 - `"INVALID_CUSTOMER_ACCOUNT_REQUEST"`
+- `"INVALID_CUSTOMER_ACCOUNT_ROUTE_TEMPLATE"`
+- `"INVALID_CUSTOMER_ACCOUNT_URL"`
 - `"INVALID_CUSTOMER_SESSION"`
+- `"INVALID_CUSTOM_DOMAIN"`
 - `"INVALID_DEFAULT_FOR_CURRENCY"`
+- `"INVALID_DEFAULT_SMART_TIP_AMOUNT"`
+- `"INVALID_DEFAULT_TIP_PERCENTAGE"`
+- `"INVALID_DEFAULT_VARIANT"`
 - `"INVALID_DELAY_DAYS_OVERRIDE"`
 - `"INVALID_DELIVERY_CONFIGURATION_STATUS"`
 - `"INVALID_DELIVERY_EVALUATION_STATUS"`
 - `"INVALID_DELIVERY_MODE"`
-- `"INVALID_DELIVERY_OPTION_DETAILS"`
-- `"INVALID_DELIVERY_OPTION_TYPE"`
 - `"INVALID_DELIVERY_PROFILE_ID"`
 - `"INVALID_DELIVERY_QUOTE_STATUS"`
 - `"INVALID_DELIVERY_STATUS"`
+- `"INVALID_DESCRIPTION"`
 - `"INVALID_DIGITAL_WALLET"`
 - `"INVALID_DISCOUNT"`
 - `"INVALID_DISCOUNT_CALCULATION_BASIS"`
 - `"INVALID_DISCOUNT_CLASS"`
 - `"INVALID_DISCOUNT_SCOPE"`
 - `"INVALID_DISPUTE_REQUEST"`
+- `"INVALID_DISPUTE_STATUS"`
 - `"INVALID_DOMAIN"`
 - `"INVALID_DOMAIN_NAME"`
 - `"INVALID_DONATION_AMOUNT"`
+- `"INVALID_DONATION_AMOUNT_RANGE"`
+- `"INVALID_DROPDOWN_VALUE"`
+- `"INVALID_DUNNING_RETRY_DAYS"`
 - `"INVALID_EMAIL_FORMAT"`
 - `"INVALID_ENVIRONMENT_SELECTION"`
 - `"INVALID_EVENT_AT"`
+- `"INVALID_EVENT_SOURCE"`
+- `"INVALID_EVENT_SOURCES"`
 - `"INVALID_EVENT_TYPE"`
 - `"INVALID_EXCLUSIVITY_SELECTION"`
 - `"INVALID_EXPAND"`
 - `"INVALID_EXPECTED_VERSION"`
+- `"INVALID_EXPIRATION"`
 - `"INVALID_EXPIRES_AT"`
 - `"INVALID_EXTERNAL_REFERENCE_ID"`
 - `"INVALID_FEEDBACK_KIND"`
 - `"INVALID_FEEDBACK_SHAPE"`
 - `"INVALID_FEEDBACK_SURFACE"`
 - `"INVALID_FIELD_TYPE"`
-- `"INVALID_FLAT_MONEY"`
 - `"INVALID_FLAT_TAX"`
+- `"INVALID_FONT_FAMILY"`
 - `"INVALID_FULFILLMENT_BUYER_NOTIFICATION_BEHAVIOR"`
 - `"INVALID_FULFILLMENT_DETAILS"`
 - `"INVALID_FULFILLMENT_EVENT_TYPE"`
-- `"INVALID_FULFILLMENT_QUANTITY_EFFECT"`
 - `"INVALID_FULFILLMENT_REQUIREMENT"`
-- `"INVALID_FULFILLMENT_SHIPMENT_STATUS"`
 - `"INVALID_FULFILLMENT_STATUS"`
 - `"INVALID_FULFILLMENT_TYPE"`
 - `"INVALID_GIFT_CARD_CODE"`
@@ -13121,7 +17496,10 @@ Variants: object, object, object.
 - `"INVALID_INTERVAL"`
 - `"INVALID_INTERVAL_END_AT"`
 - `"INVALID_INTERVAL_START_AT"`
+- `"INVALID_INVENTORY_EXCEPTION_RESOLUTION_REASON"`
+- `"INVALID_INVENTORY_SOURCE_KEY"`
 - `"INVALID_INVOICE"`
+- `"INVALID_INVOICE_AUTOPAY_RETRY_OFFSETS"`
 - `"INVALID_INVOICE_COLLECTION"`
 - `"INVALID_INVOICE_COLLECTION_MODE"`
 - `"INVALID_INVOICE_DRAFT_SOURCE"`
@@ -13130,13 +17508,30 @@ Variants: object, object, object.
 - `"INVALID_INVOICE_LATE_FEE_SCHEDULE"`
 - `"INVALID_INVOICE_PAYMENT_DUE"`
 - `"INVALID_INVOICE_PAYMENT_DUE_TYPE"`
+- `"INVALID_INVOICE_PAYMENT_OPTION_LIMIT"`
 - `"INVALID_INVOICE_PAYMENT_POLICY"`
 - `"INVALID_INVOICE_PAYMENT_TERM"`
+- `"INVALID_INVOICE_REMINDER_OFFSET"`
+- `"INVALID_INVOICE_REPLY_TO_EMAIL"`
+- `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
-- `"INVALID_LAUNCH_TOKEN"`
 - `"INVALID_LINE_ITEM"`
 - `"INVALID_LINE_ITEMS"`
+- `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
+- `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
+- `"INVALID_LIST_ALIAS"`
+- `"INVALID_LIST_ITEM_COUNT"`
+- `"INVALID_LOW_STOCK_THRESHOLD"`
 - `"INVALID_MAX_AMOUNT"`
+- `"INVALID_MAX_APPLICATIONS_PER_ORDER"`
+- `"INVALID_MAX_COMPLETIONS"`
+- `"INVALID_MAX_DISCOUNTED_QUANTITY"`
+- `"INVALID_MAX_LENGTH"`
+- `"INVALID_MAX_PROMOTIONS_PER_ORDER"`
+- `"INVALID_MAX_TOTAL_QUANTITY"`
+- `"INVALID_MAX_USES"`
+- `"INVALID_MERCHANT_ADDRESS"`
+- `"INVALID_MERCHANT_SELECTION"`
 - `"INVALID_METADATA"`
 - `"INVALID_METADATA_KEY"`
 - `"INVALID_METHOD"`
@@ -13145,7 +17540,6 @@ Variants: object, object, object.
 - `"INVALID_MINIMUM_BALANCE_CURRENCY"`
 - `"INVALID_MIN_AMOUNT"`
 - `"INVALID_MODE"`
-- `"INVALID_MODIFIER"`
 - `"INVALID_MODIFIER_GROUP"`
 - `"INVALID_MODIFIER_GROUP_STATUS"`
 - `"INVALID_MODIFIER_GROUP_TYPE"`
@@ -13155,8 +17549,12 @@ Variants: object, object, object.
 - `"INVALID_MODIFIER_STATUS"`
 - `"INVALID_MONEY"`
 - `"INVALID_MONTHLY_PAYOUT_DAY"`
+- `"INVALID_NAME"`
 - `"INVALID_NOTIFICATION_TYPE"`
+- `"INVALID_OAUTH_TOKEN"`
 - `"INVALID_ONBOARDING_SESSION"`
+- `"INVALID_OPERAND"`
+- `"INVALID_OPERATOR"`
 - `"INVALID_OPTIONS"`
 - `"INVALID_OPTION_POSITION"`
 - `"INVALID_OPTION_STATUS"`
@@ -13164,36 +17562,48 @@ Variants: object, object, object.
 - `"INVALID_OPTION_VALUE_POSITION"`
 - `"INVALID_OPTION_VALUE_STATUS"`
 - `"INVALID_ORDER_STATUS"`
+- `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
+- `"INVALID_PARENT_ORGANIZATION"`
 - `"INVALID_PARTNER_APP"`
 - `"INVALID_PARTNER_TOKEN"`
 - `"INVALID_PAYMENTS"`
-- `"INVALID_PAYMENT_INTENT_STATE"`
+- `"INVALID_PAYMENT_FLOW"`
+- `"INVALID_PAYMENT_LIMIT_RANGE"`
 - `"INVALID_PAYMENT_LINK_CUSTOM_FIELD_TYPE"`
 - `"INVALID_PAYMENT_LINK_TYPE"`
 - `"INVALID_PAYMENT_METHOD_TYPE"`
 - `"INVALID_PAYMENT_OPTIONS"`
+- `"INVALID_PAYMENT_OPTION_LIMIT"`
 - `"INVALID_PAYMENT_OPTION_RESOLVE_REQUEST"`
 - `"INVALID_PAYMENT_SOURCE"`
 - `"INVALID_PAYMENT_STATUS"`
+- `"INVALID_PERCENT_OFF"`
 - `"INVALID_PHONE_FORMAT"`
-- `"INVALID_POLICY_COMBINATION"`
+- `"INVALID_PREDICATE"`
+- `"INVALID_PREDICATE_GROUP"`
+- `"INVALID_PREDICATE_NODE"`
+- `"INVALID_PRICE"`
 - `"INVALID_PRODUCT_CREATE_SHAPE"`
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
+- `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
 - `"INVALID_RANGE"`
 - `"INVALID_REASON"`
-- `"INVALID_RECIPIENT"`
 - `"INVALID_RECOVERY_EMAIL_DELAY"`
 - `"INVALID_RECURRENCE_TYPE"`
 - `"INVALID_REDEMPTION_TYPE"`
+- `"INVALID_REFUND_ADJUSTMENT_AMOUNT"`
 - `"INVALID_REFUND_ADJUSTMENT_APPLIES_TO"`
 - `"INVALID_REFUND_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_REFUND_ADJUSTMENT_REFUND_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_TARGET"`
 - `"INVALID_REFUND_ADJUSTMENT_TYPE"`
 - `"INVALID_REFUND_METHOD"`
 - `"INVALID_REFUND_REASON"`
@@ -13212,15 +17622,25 @@ Variants: object, object, object.
 - `"INVALID_RETENTION_OFFER_KIND"`
 - `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
 - `"INVALID_RETURN_URL"`
+- `"INVALID_REVIEW_STATUS"`
 - `"INVALID_REWARD_SELECTION"`
+- `"INVALID_RISK_LEVEL"`
+- `"INVALID_RISK_LIST_ALIAS"`
+- `"INVALID_RISK_LIST_ITEM_TYPE"`
 - `"INVALID_ROLE"`
+- `"INVALID_RULE_ACTION"`
 - `"INVALID_RULE_GROUP"`
 - `"INVALID_RULE_OPERATOR"`
 - `"INVALID_RULE_VALUE"`
 - `"INVALID_SANDBOX_ID"`
+- `"INVALID_SCHEDULE"`
 - `"INVALID_SCOPE"`
+- `"INVALID_SHIPMENT_DIMENSIONS"`
 - `"INVALID_SHIPMENT_DIRECTION"`
-- `"INVALID_SHIPMENT_PACKAGE_STATUS"`
+- `"INVALID_SHIPMENT_PACKAGE_ITEM_QUANTITY"`
+- `"INVALID_SHIPMENT_WEIGHT"`
+- `"INVALID_SMART_TIP_AMOUNT"`
+- `"INVALID_SMART_TIP_AMOUNTS_COUNT"`
 - `"INVALID_SORT_BY"`
 - `"INVALID_SORT_DIRECTION"`
 - `"INVALID_SORT_FIELD"`
@@ -13230,14 +17650,23 @@ Variants: object, object, object.
 - `"INVALID_STATEMENT_DESCRIPTOR"`
 - `"INVALID_STATUS"`
 - `"INVALID_STATUS_BUCKET"`
+- `"INVALID_STATUS_FOR_CAPTURE"`
+- `"INVALID_STATUS_TRANSITION"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
+- `"INVALID_SUGGESTED_AMOUNT"`
+- `"INVALID_SUPPORT_EMAIL"`
+- `"INVALID_SUPPORT_PHONE"`
+- `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
 - `"INVALID_TAX_CALCULATION_TYPE"`
 - `"INVALID_TAX_CATEGORY"`
+- `"INVALID_TAX_IDENTITY"`
 - `"INVALID_TAX_JURISDICTION"`
 - `"INVALID_TAX_MODE"`
+- `"INVALID_TAX_MONEY"`
 - `"INVALID_TAX_PERCENTAGE"`
 - `"INVALID_TAX_PRICE_MODE"`
 - `"INVALID_TAX_REFUND_MODE"`
@@ -13248,16 +17677,24 @@ Variants: object, object, object.
 - `"INVALID_TIP"`
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
+- `"INVALID_TIP_PERCENTAGES_COUNT"`
 - `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
 - `"INVALID_UPDATED_BEFORE"`
 - `"INVALID_UPDATE_MASK"`
+- `"INVALID_URL"`
+- `"INVALID_URL_HOST"`
+- `"INVALID_URL_SCHEME"`
 - `"INVALID_USAGE"`
+- `"INVALID_VALUES"`
+- `"INVALID_VALUE_TYPE"`
 - `"INVALID_VARIANT_STATUS"`
 - `"INVALID_VERIFICATION"`
 - `"INVALID_WEBHOOK_ENDPOINT"`
+- `"INVALID_WEBHOOK_ENDPOINT_SOURCE"`
+- `"INVALID_WEBHOOK_EVENT"`
 - `"INVALID_WEBSITE_URL"`
 - `"INVALID_WEEKLY_PAYOUT_DAY"`
 - `"INVENTORY_ADJUSTMENT_NOT_FOUND"`
@@ -13271,11 +17708,15 @@ Variants: object, object, object.
 - `"INVENTORY_DEMAND_INVALID"`
 - `"INVENTORY_EVENT_PROVENANCE_INVALID"`
 - `"INVENTORY_INSUFFICIENT"`
+- `"INVENTORY_ITEM_INACTIVE"`
 - `"INVENTORY_ITEM_IN_USE"`
+- `"INVENTORY_ITEM_NAME_INVALID"`
 - `"INVENTORY_ITEM_NOT_FOUND"`
+- `"INVENTORY_ITEM_REFERENCE_REQUIRED"`
 - `"INVENTORY_ITEM_UNAVAILABLE"`
 - `"INVENTORY_LEVEL_NOT_FOUND"`
 - `"INVENTORY_LOCATION_ALLOCATION_INACTIVE"`
+- `"INVENTORY_LOCATION_INELIGIBLE"`
 - `"INVENTORY_LOCATION_NOT_CONFIGURED"`
 - `"INVENTORY_MOVEMENT_NOT_FOUND"`
 - `"INVENTORY_POLICY_INVALID"`
@@ -13288,6 +17729,7 @@ Variants: object, object, object.
 - `"INVENTORY_RESERVATION_EXPIRED"`
 - `"INVENTORY_RESERVATION_NOT_FOUND"`
 - `"INVENTORY_RESERVATION_OWNER_MISMATCH"`
+- `"INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED"`
 - `"INVENTORY_ROUTING_SOURCE_INVALID"`
 - `"INVENTORY_ROUTING_SOURCE_REQUIRED"`
 - `"INVENTORY_ROUTING_TOO_COMPLEX"`
@@ -13302,11 +17744,13 @@ Variants: object, object, object.
 - `"INVOICE_ACCESS_AUTH_UNAVAILABLE"`
 - `"INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED"`
 - `"INVOICE_AUTOPAY_PAYMENT_METHOD_UNSUPPORTED"`
+- `"INVOICE_AUTOPAY_RETRY_LIMIT_EXCEEDED"`
 - `"INVOICE_BALANCE_CHANGED"`
 - `"INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED"`
 - `"INVOICE_COLLECTION_BLOCKED"`
 - `"INVOICE_COLLECTION_CHANGED"`
 - `"INVOICE_COLLECTION_MODE_UNSUPPORTED"`
+- `"INVOICE_COST_COMPARISON_REQUIRES_OPTIONS"`
 - `"INVOICE_DRAFT_CHANGED"`
 - `"INVOICE_HAS_ISSUED_CREDIT_NOTE"`
 - `"INVOICE_ISSUE_IN_PROGRESS"`
@@ -13327,28 +17771,40 @@ Variants: object, object, object.
 - `"INVOICE_PAYMENT_ALREADY_SETTLED"`
 - `"INVOICE_PAYMENT_ATTEMPT_ACTIVE"`
 - `"INVOICE_PAYMENT_FAILED"`
+- `"INVOICE_PAYMENT_NOT_APPLIED"`
 - `"INVOICE_PAYMENT_OPTIONS_REQUIRED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
 - `"INVOICE_PAYMENT_PROCESSING"`
 - `"INVOICE_PAYMENT_RESOLVING"`
 - `"INVOICE_PAYMENT_TERM_CHANGED"`
+- `"INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH"`
 - `"INVOICE_PAYMENT_TERM_IN_USE"`
 - `"INVOICE_PAYMENT_TERM_UNAVAILABLE"`
 - `"INVOICE_PDF_UNAVAILABLE"`
+- `"INVOICE_REMINDER_CHANGED"`
 - `"INVOICE_REMINDER_RATE_LIMITED"`
+- `"INVOICE_REMINDER_RULE_LIMIT_EXCEEDED"`
 - `"INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE"`
 - `"INVOICE_SCHEDULE_INVALID"`
 - `"INVOICE_SOURCE_CONFLICT"`
 - `"INVOICE_SOURCE_REQUIRED"`
 - `"INVOICE_TAX_SNAPSHOT_MISSING"`
 - `"INVOICE_TAX_SNAPSHOT_STALE"`
+- `"INVOICE_TIMEZONE_REQUIRED"`
 - `"ITEMS_REQUIRED"`
 - `"LAST_NAME_REQUIRED"`
 - `"LATEST_REVISION"`
-- `"LAUNCH_TOKEN_SCOPE_MISMATCH"`
+- `"LINE_ITEM_AMOUNT_REQUIRED"`
+- `"LINE_ITEM_DISCOUNT_NO_CHARGE_IDS"`
+- `"LINE_ITEM_DISCOUNT_REQUIRES_IDS"`
 - `"LINE_ITEM_INVALID_QUANTITY"`
+- `"LINE_ITEM_KEY_WHITESPACE"`
 - `"LINE_ITEM_NAME_REQUIRED"`
 - `"LINE_ITEM_NAME_TOO_LONG"`
 - `"LINE_ITEM_NEGATIVE_PRICE"`
+- `"LINE_ITEM_NOT_FOUND"`
+- `"LINE_ITEM_NOT_ON_ORDER"`
 - `"LINE_ITEM_PRICE_REQUIRED"`
 - `"LINE_ITEM_QUANTITY_TOO_LARGE"`
 - `"LINE_ITEM_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
@@ -13368,8 +17824,14 @@ Variants: object, object, object.
 - `"LOCATION_IN_USE"`
 - `"LOCATION_NOT_ACTIVE"`
 - `"LOCATION_NOT_FOUND"`
+- `"LOCATION_TOO_LONG"`
+- `"LOCATION_UNAVAILABLE"`
+- `"MAX_BOUND_VIOLATION"`
+- `"MAX_LENGTH_NOT_APPLICABLE"`
+- `"MEMBERSHIP_REQUIRED"`
 - `"MERCHANTS_UNAVAILABLE"`
 - `"MERCHANT_ACCESS_REQUIRED"`
+- `"MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED"`
 - `"MERCHANT_ACCOUNT_NOT_READY"`
 - `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED"`
 - `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED"`
@@ -13386,11 +17848,14 @@ Variants: object, object, object.
 - `"MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
+- `"MERCHANT_ADDRESS_INCOMPLETE"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
+- `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
 - `"MERCHANT_FINANCE_READ_FAILED"`
 - `"MERCHANT_NOT_LOADED"`
 - `"MERCHANT_ONBOARDING_REQUIRED"`
+- `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
 - `"METADATA_KEY_TOO_LONG"`
@@ -13401,19 +17866,35 @@ Variants: object, object, object.
 - `"ME_CUSTOMER_ID_FORBIDDEN"`
 - `"MINIMUM_BALANCE_CURRENCY_MISMATCH"`
 - `"MINIMUM_BALANCE_REQUIRED"`
+- `"MIN_BOUND_VIOLATION"`
+- `"MISSING_CURRENCY"`
+- `"MISSING_DISPLAY_NAME"`
+- `"MISSING_EXCLUSIVITY_GROUP"`
 - `"MISSING_LINE_ITEMS"`
 - `"MISSING_REQUIRED_FIELD"`
+- `"MISSING_URL"`
 - `"MIXED_VARIANT_CURRENCIES"`
 - `"MODIFIERS_REQUIRED"`
 - `"MODIFIERS_UNAVAILABLE"`
 - `"MODIFIER_CURRENCY_MISMATCH"`
+- `"MODIFIER_DEFAULT_INVALID"`
 - `"MODIFIER_DUPLICATE_SELECTION"`
 - `"MODIFIER_GROUP_CHANGED"`
+- `"MODIFIER_GROUP_IN_USE"`
+- `"MODIFIER_GROUP_NAME_REQUIRED"`
 - `"MODIFIER_GROUP_REQUIRED"`
+- `"MODIFIER_GROUP_UNAVAILABLE"`
+- `"MODIFIER_IN_USE"`
 - `"MODIFIER_METADATA_UNSUPPORTED"`
+- `"MODIFIER_NAME_REQUIRED"`
 - `"MODIFIER_OVERRIDE_INVALID"`
 - `"MODIFIER_QUANTITY_INVALID"`
+- `"MODIFIER_SELECTION_ID_INVALID"`
 - `"MODIFIER_SELECTION_LIMIT_EXCEEDED"`
+- `"MODIFIER_SET_GROUP_SOURCE_INVALID"`
+- `"MODIFIER_SET_IN_USE"`
+- `"MODIFIER_SET_NAME_REQUIRED"`
+- `"MODIFIER_SET_VERSION_CONFLICT"`
 - `"MODIFIER_SOURCE_UNSUPPORTED"`
 - `"MODIFIER_TEXT_INVALID"`
 - `"MODIFIER_UNAVAILABLE"`
@@ -13425,15 +17906,18 @@ Variants: object, object, object.
 - `"MONTHLY_PAYOUT_DAYS_REQUIRED"`
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
+- `"NAME_TOO_LONG"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
+- `"NOTHING_TO_REFUND_FOR_CHARGE"`
 - `"NOTHING_TO_REFUND_FOR_LINE_ITEM"`
 - `"NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN"`
 - `"NO_DISCOUNTABLE_BALANCE"`
 - `"NO_FIELDS_TO_UPDATE"`
 - `"NO_PAYMENTS_FOR_ORDER"`
 - `"NULL_NOT_ALLOWED"`
+- `"OAUTH_CONTEXT_MISMATCH"`
 - `"OAUTH_UNAVAILABLE"`
 - `"ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED"`
 - `"ONBOARDING_DIRECT_OWNER_REQUIRED"`
@@ -13451,6 +17935,9 @@ Variants: object, object, object.
 - `"ORDERS_UNAVAILABLE"`
 - `"ORDER_ALREADY_CLOSED"`
 - `"ORDER_ALREADY_HAS_ACTIVE_INVOICE"`
+- `"ORDER_ALREADY_HAS_PAYMENTS"`
+- `"ORDER_ALREADY_HAS_REFUNDS"`
+- `"ORDER_ALREADY_PAID"`
 - `"ORDER_CHANGED_REFRESH_REQUIRED"`
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
@@ -13459,6 +17946,7 @@ Variants: object, object, object.
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
 - `"ORDER_CONFLICT"`
+- `"ORDER_CURRENCY_REQUIRED"`
 - `"ORDER_CUSTOMER_ALREADY_SET"`
 - `"ORDER_CUSTOMER_CHECKOUT_ACTIVE"`
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
@@ -13467,14 +17955,30 @@ Variants: object, object, object.
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
+- `"ORDER_HAS_ACTIVE_PAYMENT_INTENT"`
+- `"ORDER_HAS_MANUAL_PAYMENTS"`
+- `"ORDER_HAS_NO_CHARGES"`
+- `"ORDER_HAS_NO_LINE_ITEMS"`
+- `"ORDER_HAS_NO_REFUNDABLE_CHARGES"`
+- `"ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS"`
+- `"ORDER_HAS_OPEN_CHECKOUT"`
+- `"ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE"`
+- `"ORDER_INVENTORY_EXCEPTION_UNRESOLVED"`
 - `"ORDER_LINE_ITEM_ID_REQUIRED"`
+- `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
 - `"ORDER_NOT_FOUND"`
+- `"ORDER_NOT_FULFILLABLE"`
+- `"ORDER_NOT_OPEN"`
+- `"ORDER_NOT_PAYABLE"`
 - `"ORDER_OWNED_PAYMENT_INTENT_REQUIRED"`
 - `"ORDER_PAYMENT_ATTEMPT_ACTIVE"`
+- `"ORDER_PAYMENT_AUTHORIZATION_NOT_FOUND"`
+- `"ORDER_PAYMENT_CUSTOMER_MISMATCH"`
 - `"ORDER_PAYMENT_FLOW_REQUIRED"`
 - `"ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS"`
+- `"ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW"`
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
@@ -13483,7 +17987,6 @@ Variants: object, object, object.
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
-- `"ORDER_REFUNDED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
 - `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
 - `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
@@ -13491,6 +17994,7 @@ Variants: object, object, object.
 - `"ORDER_REVISION_REQUIRED"`
 - `"ORDER_STATUS_NOT_CLOSABLE"`
 - `"ORDER_TAX_CALCULATION_FAILED"`
+- `"ORDER_TAX_FULL_ADDRESS_REQUIRED"`
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
@@ -13500,11 +18004,25 @@ Variants: object, object, object.
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
+- `"ORGANIZATION_CYCLE"`
+- `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
+- `"ORGANIZATION_LINKED_TO_MERCHANT"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
+- `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
+- `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_REQUIRED"`
 - `"PACKAGE_ACTION_NOT_ALLOWED"`
 - `"PACKAGE_CHANGED"`
 - `"PACKAGE_PARENT_CHANGED"`
 - `"PACKAGE_REQUIRED"`
+- `"PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_REMOVAL_FORBIDDEN"`
+- `"PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN"`
+- `"PARTIAL_CAPTURE_NOT_SUPPORTED"`
 - `"PARTNER_APP_INSTALL_NOT_FOUND"`
 - `"PARTNER_APP_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"PARTNER_APP_NOT_FOUND"`
@@ -13515,6 +18033,10 @@ Variants: object, object, object.
 - `"PAUSE_NOT_ALLOWED"`
 - `"PAYMENT_ACTION_EXPIRED"`
 - `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
+- `"PAYMENT_ALREADY_CANCELED"`
+- `"PAYMENT_ALREADY_SETTLED"`
+- `"PAYMENT_ALREADY_SUCCEEDED"`
+- `"PAYMENT_AMOUNT_CHANGED"`
 - `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
 - `"PAYMENT_ATTEMPT_IN_PROGRESS"`
@@ -13523,19 +18045,34 @@ Variants: object, object, object.
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
+- `"PAYMENT_AUTHORIZATION_EXPIRED"`
+- `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
+- `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
+- `"PAYMENT_CONFIRM_IN_PROGRESS"`
+- `"PAYMENT_CONFLICT"`
+- `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
+- `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
 - `"PAYMENT_INTENT_DISPUTED"`
+- `"PAYMENT_INTENT_LIMIT_REACHED"`
+- `"PAYMENT_INTENT_NOT_CANCELABLE"`
 - `"PAYMENT_INTENT_NOT_FOUND"`
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"PAYMENT_INTENT_ORDER_MISMATCH"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
 - `"PAYMENT_LINK_CHANGED_RETRY"`
 - `"PAYMENT_LINK_FULFILLMENT_UNAVAILABLE"`
+- `"PAYMENT_LINK_INACTIVE"`
+- `"PAYMENT_LINK_LINE_ITEM_UNAVAILABLE"`
+- `"PAYMENT_LINK_MAX_COMPLETIONS_REACHED"`
+- `"PAYMENT_LINK_METADATA_TOO_LARGE"`
+- `"PAYMENT_LINK_METADATA_TOO_MANY_KEYS"`
 - `"PAYMENT_LINK_NOT_FOUND"`
 - `"PAYMENT_LINK_RESOLUTION_CONTEXT_INVALID"`
 - `"PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED"`
@@ -13564,22 +18101,33 @@ Variants: object, object, object.
 - `"PAYMENT_NOT_COMPLETED"`
 - `"PAYMENT_NOT_REQUIRED"`
 - `"PAYMENT_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_OPTIONS_NOT_COMPARABLE"`
 - `"PAYMENT_OPTIONS_REQUIRED"`
 - `"PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_UNAVAILABLE"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
+- `"PAYMENT_PROCESSOR_ERROR"`
+- `"PAYMENT_PROCESSOR_REJECTED"`
+- `"PAYMENT_PROCESSOR_UNAVAILABLE"`
+- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
+- `"PAYMENT_REVIEW_OPEN"`
 - `"PAYMENT_SOURCE_CONFLICT"`
 - `"PAYMENT_SOURCE_NOT_ALLOWED"`
+- `"PAYMENT_SOURCE_NOT_UPDATABLE"`
 - `"PAYMENT_SOURCE_OWNERSHIP_MISMATCH"`
 - `"PAYMENT_SOURCE_REQUIRED"`
 - `"PAYMENT_SOURCE_SELECTION_CONFLICT"`
 - `"PAYMENT_SOURCE_SELECTION_REQUIRED"`
 - `"PAYMENT_SOURCE_UNAVAILABLE"`
 - `"PAYMENT_START_SHAPE_CONFLICT"`
+- `"PAYMENT_UPDATE_REJECTED"`
+- `"PAYMENT_UPDATE_UNAVAILABLE"`
 - `"PAYOUTS_NOT_ENABLED"`
 - `"PAYOUT_DELAY_PROVIDER_CONTROLLED"`
 - `"PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE"`
@@ -13594,38 +18142,76 @@ Variants: object, object, object.
 - `"PAYOUT_SETTINGS_SNAPSHOT_UNAVAILABLE"`
 - `"PAYOUT_SETTINGS_UPDATE_EMPTY"`
 - `"PAYOUT_STATUS_NOT_CANCELABLE"`
+- `"PLAN_ARCHIVED"`
+- `"PLAN_HAS_ACTIVE_PAYMENT_LINKS"`
+- `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
-- `"POLICY_NOT_SUPPORTED_BY_COMPONENT"`
+- `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
 - `"PROCESSING_FEE_PRICING_UNAVAILABLE"`
+- `"PROCESSOR_NOT_CONFIGURED"`
+- `"PRODUCT_IN_ACTIVE_PLAN"`
+- `"PRODUCT_IN_ACTIVE_SUBSCRIPTION"`
+- `"PRODUCT_IN_OPEN_CHECKOUT_SESSION"`
+- `"PRODUCT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"PRODUCT_IN_OPEN_ORDER"`
+- `"PRODUCT_IN_USE"`
 - `"PRODUCT_LINE_ITEM_SOURCE_UNSUPPORTED"`
+- `"PRODUCT_OPTIONS_REQUIRED"`
+- `"PRODUCT_OPTION_ALREADY_EXISTS"`
+- `"PRODUCT_OPTION_VALUE_ALREADY_EXISTS"`
 - `"PROFILE_RECONCILIATION_PENDING"`
 - `"PROFILE_UPDATE_STATUS_UNKNOWN"`
 - `"PROFILE_WRITE_LIVE_MODE_REQUIRED"`
+- `"PROMOTION_CODES_DISABLED"`
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
 - `"PROMOTION_ID_REQUIRED"`
+- `"PROMOTION_NOT_CODE_GATED"`
+- `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
 - `"PROMOTION_NO_ACTIVE_CODES"`
+- `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
 - `"PROVISIONING_FAILED"`
+- `"QUANTITY_ABOVE_MAX"`
+- `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
-- `"READ_ONLY_REASON"`
+- `"RECEIPT_EMAIL_NOT_UPDATABLE"`
 - `"RECIPIENT_EMAIL_REQUIRED"`
+- `"REFUND_ADJUSTMENTS_EXCEED_AUTOMATIC"`
 - `"REFUND_ADJUSTMENT_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_LINE_ITEM_MISMATCH"`
+- `"REFUND_ADJUSTMENT_NOT_FOUND"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_MISMATCH"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_TOO_LONG"`
 - `"REFUND_ADJUSTMENT_REASON_REQUIRED"`
 - `"REFUND_ADJUSTMENT_REFUND_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING"`
+- `"REFUND_AMOUNT_NOT_ALLOCATED"`
 - `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
 - `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
 - `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"REFUND_TARGETS_NOT_ALLOCATED"`
 - `"REFUND_TENDER_CAPACITY_CONFLICT"`
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
@@ -13635,6 +18221,7 @@ Variants: object, object, object.
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
 - `"REQUEST_TIMEOUT"`
+- `"REQUIRED_CUSTOM_FIELD_MISSING"`
 - `"RESERVED_FIELD_NOT_YET_SUPPORTED"`
 - `"RESERVED_METADATA_KEY"`
 - `"RESOURCE_LIMIT_EXCEEDED"`
@@ -13653,18 +18240,33 @@ Variants: object, object, object.
 - `"RETURN_INVALID"`
 - `"RETURN_LINE_CANCELLATION_CONFLICT"`
 - `"RETURN_NOT_FOUND"`
+- `"RETURN_PACKAGE_ALLOCATION_EXCEEDS_SHIPMENT"`
+- `"RETURN_PACKAGE_LINE_DUPLICATED"`
+- `"RETURN_PACKAGE_LINE_ITEMS_REQUIRED"`
+- `"RETURN_PACKAGE_QUANTITY_INVALID"`
 - `"RETURN_POLICY_CONFLICT"`
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
+- `"RETURN_SHIPMENT_INVALID"`
+- `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
+- `"REVERSAL_EXCEEDS_MANUAL_PAYMENTS"`
 - `"REVIEW_ALREADY_CLOSED"`
 - `"REVIEW_NOT_FOUND"`
 - `"REVIEW_RESOLUTION_IN_PROGRESS"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION"`
 - `"RISK_CONTROL_CONFLICT"`
 - `"RISK_EVALUATION_UNAVAILABLE"`
 - `"RISK_LIST_ALIAS_ALREADY_EXISTS"`
 - `"RISK_RESOURCE_NOT_FOUND"`
+- `"ROLE_ASSIGNMENT_FORBIDDEN"`
+- `"ROLE_MANAGEMENT_FORBIDDEN"`
+- `"ROOT_ORGANIZATION_CREATION_FORBIDDEN"`
 - `"ROUTE_NOT_FOUND"`
+- `"RULES_REQUIRED"`
+- `"RULE_ACTION_UNAVAILABLE_AT_STAGE"`
 - `"RULE_LIMIT_EXCEEDED"`
 - `"RULE_RESERVED"`
 - `"SANDBOXES_UNAVAILABLE"`
@@ -13694,9 +18296,12 @@ Variants: object, object, object.
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
+- `"SCHEDULED_SEND_IN_PAST"`
 - `"SCOPES_REQUIRED"`
 - `"SCOPE_NOT_ALLOWED"`
 - `"SCOPE_NOT_ALLOWED_FOR_KEY_MODE"`
+- `"SELECTED_OPTIONS_REQUIRED"`
+- `"SELF_ROLE_EDITS_FORBIDDEN"`
 - `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_INVALID"`
 - `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_UNCONFIGURED"`
 - `"SENSITIVE_IDEMPOTENCY_RESULT_INVALID"`
@@ -13704,10 +18309,25 @@ Variants: object, object, object.
 - `"SERVICE_CHARGE_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"SERVICE_CHARGE_DISCOUNT_REQUIRES_CHARGE_IDS"`
 - `"SERVICE_CHARGE_DISCOUNT_SCOPE_INVALID"`
+- `"SERVICE_TIMEZONE_REQUIRED"`
 - `"SERVICE_UNAVAILABLE"`
 - `"SETTINGS_CONCURRENT_MODIFICATION"`
 - `"SETTINGS_UNAVAILABLE"`
+- `"SETTINGS_WRITE_FORBIDDEN"`
+- `"SETUP_SOURCE_NON_ZERO_ORDER"`
+- `"SETUP_SOURCE_SUBSCRIPTION_REQUIRED"`
 - `"SHIPMENT_CHANGED"`
+- `"SHIPMENT_CREATED_RANGE_INVALID"`
+- `"SHIPMENT_HANDOFF_RANGE_INVALID"`
+- `"SHIPMENT_PACKAGE_ITEM_LINE_ITEM_NOT_IN_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_NOT_MUTABLE"`
+- `"SHIPMENT_PACKAGE_NOT_VOIDABLE"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_CONFLICT"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"SHIPMENT_PACKAGE_TERMINAL"`
+- `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
@@ -13717,13 +18337,17 @@ Variants: object, object, object.
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
 - `"SUBSCRIPTION_INITIATED_BY_INVALID"`
+- `"SUBSCRIPTION_MODE"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
@@ -13732,52 +18356,1933 @@ Variants: object, object, object.
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
-- `"TARGETED_REMEDIATION_UNAVAILABLE"`
+- `"SUBSET_ONLY_VIOLATION"`
+- `"SUGGESTED_AMOUNT_ABOVE_MAX"`
+- `"SUGGESTED_AMOUNT_BELOW_MIN"`
+- `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRED"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_BREAKDOWN_ID_REQUIRED"`
+- `"TAX_BREAKDOWN_LINE_ITEM_MISMATCH"`
 - `"TAX_BREAKDOWN_NOT_ORDER_SCOPED_FLAT"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRE_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_REFUNDS_WITHOUT_TAX"`
+- `"TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING"`
 - `"TAX_BREAKDOWN_REFUND_MONEY_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"TAX_BREAKDOWN_UNAVAILABLE"`
 - `"TAX_CALCULATION_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
 - `"TAX_MODE_MISMATCH"`
+- `"TAX_MONEY_REQUIRED"`
+- `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
 - `"TIP_LIMIT_EXCEEDED"`
+- `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
 - `"TOO_MANY_PENDING_REPORTS"`
+- `"TOO_MANY_SUGGESTED_AMOUNTS"`
 - `"TRANSACTION_PURPOSE_NOT_APPLICABLE"`
 - `"TRANSACTION_PURPOSE_REQUIRED"`
+- `"TRIAL_NEGATIVE"`
+- `"TRIAL_TOO_LONG"`
+- `"UNKNOWN_ATTRIBUTE"`
 - `"UNKNOWN_BUNDLE_COMPONENT"`
+- `"UNKNOWN_CATEGORY_HANDLE"`
 - `"UNKNOWN_CLIENT_OPTION_VALUE"`
+- `"UNKNOWN_CUSTOM_FIELD_KEY"`
 - `"UNKNOWN_FIELD"`
+- `"UNKNOWN_LINE_ITEM_KEY"`
 - `"UNKNOWN_OPTION"`
 - `"UNKNOWN_OPTION_VALUE"`
+- `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"UNKNOWN_PREDICATE_FIELD"`
 - `"UNKNOWN_SCOPE"`
-- `"UNMAPPABLE_REQUIREMENT_ID"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
 - `"UNSUPPORTED_CONTENT_TYPE"`
 - `"UNSUPPORTED_CURRENCY"`
+- `"UNSUPPORTED_PREVIEW_DISCOUNT"`
+- `"UNSUPPORTED_PROCESSOR"`
 - `"UNSUPPORTED_PRODUCT_FIELD"`
 - `"UNSUPPORTED_QUERY_PARAM"`
 - `"UNSUPPORTED_RESOURCE_TYPE"`
 - `"UPDATE_MASK_REQUIRED"`
-- `"USE_CANCEL_SUBSCRIPTION"`
+- `"URL_TOO_LONG"`
 - `"VALIDATION_ERROR"`
+- `"VALUES_REQUIRED"`
 - `"VALUE_REQUIRED"`
+- `"VALUE_TOO_LONG"`
 - `"VARIANTS_REQUIRED"`
 - `"VARIANT_IN_ACTIVE_BUNDLE"`
+- `"VARIANT_IN_ACTIVE_PAYMENT_LINK"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"VARIANT_IN_OPEN_CHECKOUT_SESSION"`
+- `"VARIANT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"VARIANT_IN_OPEN_ORDER"`
 - `"VARIANT_NOT_SELLABLE"`
 - `"VARIANT_OPTION_COMBINATION_ALREADY_EXISTS"`
 - `"VERIFICATION_ALREADY_USED"`
+- `"VERIFICATION_ATTEMPTS_EXCEEDED"`
 - `"VERIFICATION_CODE_FAILED"`
 - `"VERIFICATION_EMAIL_FAILED"`
 - `"VERIFICATION_TOKEN_FAILED"`
+- `"VERSION_CONFLICT"`
 - `"WEBHOOKS_UNAVAILABLE"`
 - `"WEBHOOK_DELIVERY_IN_FLIGHT"`
 - `"WEBHOOK_DELIVERY_UNAVAILABLE"`
 - `"WEBHOOK_ENDPOINT_NOT_ACTIVE"`
 - `"WEBHOOK_EVENT_PAYLOAD_EXPIRED"`
+- `"WEBHOOK_SECRET_ROTATION_OVERLAP_ACTIVE"`
+- `"WEBHOOK_STREAM_CONNECTION_LIMIT"`
+- `"WEBHOOK_STREAM_LIMITER_UNAVAILABLE"`
+- `"WEBHOOK_STREAM_NOTIFIER_UNAVAILABLE"`
+- `"WEEKLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"WEEKLY_PAYOUT_DAYS_REQUIRED"`
+
+#### InventoryTransferActionConflictErrorDetail dependency_type values
+
+- `"devices"`
+- `"fulfillment"`
+- `"inventory_allocation_policies"`
+- `"inventory_capability"`
+- `"inventory_claims"`
+- `"inventory_counts"`
+- `"inventory_levels"`
+- `"inventory_transfers"`
+- `"settings"`
+
+#### InventoryTransferActionConflictErrorDetail eligibility_reason values
+
+- `"location_not_active"`
+- `"inventory_not_configured"`
+- `"inventory_allocation_inactive"`
+- `"forced_location_mismatch"`
+- `"fulfillment_incompatible"`
+- `"split_prohibited"`
+- `"insufficient_quantity"`
+
+#### InventoryTransferActionConflictErrorDetail payment_attempt_status values
+
+- `"open"`
+- `"requires_action"`
+- `"processing"`
+- `"requires_capture"`
+- `"requires_retry"`
+- `"finalizing"`
+- `"partially_succeeded"`
+- `"succeeded"`
+- `"failed"`
+- `"canceled"`
+- `"expired"`
+
+#### InventoryTransferActionConflictErrorDetail reason values
+
+- `"active"`
+- `"allow"`
+- `"already_applied"`
+- `"amount_out_of_range"`
+- `"applies_to"`
+- `"archived"`
+- `"automatic_disabled"`
+- `"block"`
+- `"bounded_inventory_guarantee_not_supported"`
+- `"buy_item_missing"`
+- `"capability_blocked"`
+- `"capability_pending"`
+- `"card_unavailable"`
+- `"checkout_order_ownership_required"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
+- `"country_not_supported"`
+- `"country_required"`
+- `"currency_mismatch"`
+- `"currency_not_supported"`
+- `"customer_unavailable"`
+- `"disabled"`
+- `"disabled_by_merchant_settings"`
+- `"disabled_by_platform_policy"`
+- `"exhausted"`
+- `"existing_order_checkout"`
+- `"expired"`
+- `"inactive"`
+- `"ineligible_origin"`
+- `"insufficient_available_balance"`
+- `"invalid_configuration"`
+- `"invoice_finalized"`
+- `"limited_benefit_capacity_not_supported"`
+- `"manual_capture_not_supported"`
+- `"max_promotions_reached"`
+- `"merchant_account_action_required"`
+- `"merchant_hosted_customer_accounts"`
+- `"merchant_payments_disabled"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_checkout_session"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_found"`
+- `"not_publishable"`
+- `"not_supported"`
+- `"not_yet_started"`
+- `"off_session_not_supported"`
+- `"partial_payment"`
+- `"payment_account_context_invalid"`
+- `"payment_account_setup_incomplete"`
+- `"payment_disputed"`
+- `"payment_option_access_not_provisioned"`
+- `"payment_option_activation_pending"`
+- `"payment_option_not_available"`
+- `"payment_option_not_in_plan"`
+- `"recurrence"`
+- `"recurring_ach_not_supported"`
+- `"recurring_not_supported"`
+- `"redirects_required"`
+- `"require_3ds"`
+- `"requirements_due"`
+- `"return_checkout"`
+- `"review"`
+- `"revision_unavailable"`
+- `"revoked"`
+- `"session_not_open"`
+- `"setting_off"`
+- `"source_delayed_settlement_not_supported"`
+- `"source_not_supported"`
+- `"split_payment_not_supported"`
+- `"subscription_checkout"`
+- `"subscription_terms_locked"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
+- `"surface_not_supported"`
+- `"unknown_type"`
+- `"unsupported_evaluation_schema"`
+- `"unsupported_use"`
+
+## InventoryTransferActionConflictErrorEnvelope
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `error` | Required | [InventoryTransferActionConflictErrorObject](MODELS.md#inventorytransferactionconflicterrorobject) |  |
+
+## InventoryTransferActionConflictErrorObject
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
+| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1649 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
+| `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
+| `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
+| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
+| `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
+| `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
+| `current_version` | Required | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected, repeated from the first item in details. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on INVENTORY_TRANSFER_ACTION_NOT_ALLOWED. When a later item in details carries current_version, such as on SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED, read it there. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `details` | Required | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
+| `doc_url` | Required | string | Developer error-handling documentation. |
+| `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
+| `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
+| `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
+| `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
+| `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `param` | Required | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
+| `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
+| `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
+| `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
+| `remediation` | Optional | object | Recovery guidance: whether retrying can succeed and what to do next. |
+| `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
+| `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
+| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
+| `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
+| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
+| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
+
+#### InventoryTransferActionConflictErrorObject capability values
+
+- `"accept_card_payments"`
+- `"save_payment_methods"`
+- `"accept_affirm_payments"`
+- `"receive_payouts"`
+- `"create_standard_payouts"`
+- `"manage_payout_destinations"`
+- `"manage_payout_settings"`
+
+#### InventoryTransferActionConflictErrorObject code values
+
+- `"ACCESS_LINK_CUSTOMER_REQUIRED"`
+- `"ACCESS_LINK_MERCHANT_HOSTED"`
+- `"ACCOUNT_SETUP_CONFIGURATION_CONFLICT"`
+- `"ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"ACCOUNT_SETUP_UNAVAILABLE"`
+- `"ACH_BILLING_DETAILS_REQUIRED"`
+- `"ACH_MANDATE_ACCEPTANCE_REQUIRED"`
+- `"ACH_TRANSACTION_PURPOSE_UNRESOLVED"`
+- `"ACTIVE_BUNDLE_COMPONENTS_IMMUTABLE"`
+- `"ACTIVE_DEMO_SESSION_EXISTS"`
+- `"ACTIVE_LINE_ITEM_SOURCE_CHANGE"`
+- `"ACTIVE_OPTIONS_REQUIRED"`
+- `"ACTIVE_OPTION_SELECTOR_COLLAPSE"`
+- `"ACTIVE_VARIANTS_REQUIRE_OPTION_BACKFILL"`
+- `"AFFIRM_REFUND_RETRY_NOT_ALLOWED"`
+- `"AMBIGUOUS_AUTH"`
+- `"AMBIGUOUS_CATEGORY"`
+- `"AMOUNT_ABOVE_MAX"`
+- `"AMOUNT_BELOW_LIMIT"`
+- `"AMOUNT_BELOW_MIN"`
+- `"AMOUNT_EXCEEDS_BALANCE"`
+- `"AMOUNT_EXCEEDS_LIMIT"`
+- `"AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"AMOUNT_MISMATCH"`
+- `"AMOUNT_MONEY_CURRENCY_REQUIRED"`
+- `"AMOUNT_MONEY_REQUIRED"`
+- `"AMOUNT_NOT_ADJUSTABLE"`
+- `"AMOUNT_NOT_UPDATABLE"`
+- `"AMOUNT_REQUIRED"`
+- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
+- `"AMOUNT_TOO_LARGE"`
+- `"AMOUNT_TOO_SMALL"`
+- `"API_KEYS_UNAVAILABLE"`
+- `"API_KEY_ALREADY_REVOKED"`
+- `"API_KEY_CHANGED"`
+- `"API_KEY_DATA_INVALID"`
+- `"API_KEY_EXPIRED"`
+- `"API_KEY_MANAGEMENT_FORBIDDEN"`
+- `"API_KEY_MODE_MISMATCH"`
+- `"API_KEY_NOT_FOUND"`
+- `"API_KEY_REQUIRED"`
+- `"API_KEY_REVOKED"`
+- `"API_KEY_SANDBOX_UNAVAILABLE"`
+- `"API_KEY_SCOPE_INVALID"`
+- `"API_KEY_SCOPE_UNSUPPORTED"`
+- `"API_VERSION_CHANGED"`
+- `"API_VERSION_RETIRED"`
+- `"APPLICATION_METHOD_REQUIRED"`
+- `"ATTRIBUTE_REQUIRED"`
+- `"ATTRIBUTE_UNAVAILABLE"`
+- `"AUTHENTICATION_FAILED"`
+- `"AUTHENTICATION_REQUIRED"`
+- `"AUTHORIZATION_FAILED"`
+- `"AUTH_CONTEXT_MISSING"`
+- `"AUTH_REQUIRED"`
+- `"AUTH_UNAVAILABLE"`
+- `"AUTH_VALIDATION_FAILED"`
+- `"AUTOMATIC_PAYOUT_NOT_CANCELABLE"`
+- `"AUTOMATIC_PROMOTIONS_DISABLED"`
+- `"AUTOMATIC_TAX_CATEGORY_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_CHARGE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_COMPONENTS_FORBIDDEN"`
+- `"AUTOMATIC_TAX_CONNECTION_REQUIRED"`
+- `"AUTOMATIC_TAX_DELAYED_CAPTURE_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_EXEMPTION_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INCLUSIVE_PRICING_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_INVOICE_INSTALLMENTS_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_MULTIPLE_DESTINATIONS"`
+- `"AUTOMATIC_TAX_MULTIPLE_ORIGINS"`
+- `"AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED"`
+- `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
+- `"BALANCE_SNAPSHOT_UNAVAILABLE"`
+- `"BALANCE_SOURCE_TYPE_REQUIRED"`
+- `"BALANCE_TRANSACTION_NOT_FOUND"`
+- `"BANK_ACCOUNT_CLOSED"`
+- `"BANK_ACCOUNT_NOT_FOUND"`
+- `"BANK_ACCOUNT_RESTRICTED"`
+- `"BANK_DEBIT_LIMIT_EXCEEDED"`
+- `"BANK_DEBIT_NOT_AUTHORIZED"`
+- `"BARCODE_ALREADY_EXISTS"`
+- `"BUNDLE_COMPONENTS_REQUIRED"`
+- `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
+- `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
+- `"BUNDLE_IN_ACTIVE_PAYMENT_LINK"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION"`
+- `"BUNDLE_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"BUNDLE_IN_OPEN_CHECKOUT_SESSION"`
+- `"BUNDLE_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"BUNDLE_IN_OPEN_ORDER"`
+- `"BUNDLE_NOT_SELLABLE"`
+- `"BUYER_FULFILLMENT_CORRELATION_FORBIDDEN"`
+- `"BUYER_INVOICE_CREDENTIAL_INVALID"`
+- `"BUYER_INVOICE_CREDENTIAL_REQUIRED"`
+- `"CALCULATION_BASIS_FORBIDDEN"`
+- `"CALCULATION_BASIS_NOT_APPLICABLE"`
+- `"CALCULATION_BASIS_REQUIRED"`
+- `"CANCELLATION_COMMENT_TOO_LONG"`
+- `"CANCELLATION_REASON_DUPLICATE"`
+- `"CANCELLATION_REASON_LIMIT_EXCEEDED"`
+- `"CANCELLATION_REASON_NOT_OFFERED"`
+- `"CANCEL_IMMEDIATELY_NOT_ALLOWED"`
+- `"CANNOT_CANCEL_EXPIRED_PAYMENT"`
+- `"CANNOT_CANCEL_SUCCEEDED_PAYMENT"`
+- `"CANNOT_PAUSE"`
+- `"CANNOT_RESUME"`
+- `"CANNOT_RESUME_INITIAL_PAYMENT_PENDING"`
+- `"CANNOT_RESUME_PAST_DUE_PAYMENT_REQUIRED"`
+- `"CAPABILITIES_IMMUTABLE"`
+- `"CAPABILITIES_UNAVAILABLE"`
+- `"CAPABILITY_DEPENDENCY_REQUIRED"`
+- `"CAPABILITY_NOT_REQUESTED"`
+- `"CAPABILITY_SET_UNSUPPORTED"`
+- `"CAPABILITY_SNAPSHOT_UNAVAILABLE"`
+- `"CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE"`
+- `"CAPTURE_AMOUNT_MISMATCH"`
+- `"CAPTURE_CURRENCY_MISMATCH"`
+- `"CARD_DECLINED"`
+- `"CATALOG_INVENTORY_RELATIONSHIP_INVALID"`
+- `"CATALOG_LINE_ITEM_CURRENCY_CHANGED"`
+- `"CATALOG_LINE_ITEM_FIELDS_READ_ONLY"`
+- `"CATALOG_LINE_ITEM_SOURCE_CHANGED"`
+- `"CATALOG_MODIFIERS_REQUIRED"`
+- `"CATEGORY_HANDLE_EXISTS"`
+- `"CATEGORY_MODIFIED"`
+- `"CATEGORY_REFERENCED"`
+- `"CHALLENGE_FAILED"`
+- `"CHALLENGE_REQUIRED"`
+- `"CHALLENGE_TOKEN_INVALID"`
+- `"CHARGE_NAME_REQUIRED"`
+- `"CHARGE_NOT_ON_ORDER"`
+- `"CHARGE_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"CHARGE_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"CHARGE_TYPE_REQUIRED"`
+- `"CHARGE_VALUE_REQUIRED"`
+- `"CHECKOUT_CREDENTIAL_CHANGED"`
+- `"CHECKOUT_CREDENTIAL_REQUIRED"`
+- `"CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED"`
+- `"CHECKOUT_CUSTOMER_CHANGED"`
+- `"CHECKOUT_CUSTOMER_CONFLICT"`
+- `"CHECKOUT_CUSTOMER_NOT_SET_ON_ORDER"`
+- `"CHECKOUT_DISCOUNT_ID_NOT_ALLOWED"`
+- `"CHECKOUT_DISCOUNT_NOT_REMOVABLE"`
+- `"CHECKOUT_LAUNCH_TOKEN_RESTRICTED"`
+- `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
+- `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
+- `"CHECKOUT_PAYMENT_RESOLVING"`
+- `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
+- `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
+- `"CHECKOUT_RECOVERY_RESTRICTED"`
+- `"CHECKOUT_REPLACEMENT_REQUIRES_ORDER"`
+- `"CHECKOUT_SAVED_PAYMENT_DETAILS_REQUIRES_MERCHANT_SCOPE"`
+- `"CHECKOUT_SESSIONS_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_ALREADY_EXISTS"`
+- `"CHECKOUT_SESSION_AUTH_REQUIRED"`
+- `"CHECKOUT_SESSION_AUTH_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_CURRENT_CHANGED"`
+- `"CHECKOUT_SESSION_CURRENT_STATE"`
+- `"CHECKOUT_SESSION_EXPIRED"`
+- `"CHECKOUT_SESSION_LOOKUP_FAILED"`
+- `"CHECKOUT_SESSION_MODIFIERS_READ_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_FIELDS_ONLY"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_LINE_ITEM_MISSING"`
+- `"CHECKOUT_SESSION_MODIFIER_UPDATE_MISSING_ORDER"`
+- `"CHECKOUT_SESSION_NOT_FOUND"`
+- `"CHECKOUT_SESSION_NOT_OPEN"`
+- `"CHECKOUT_SESSION_ORDER_MISMATCH"`
+- `"CHECKOUT_SESSION_PAYMENT_REQUIRED"`
+- `"CHECKOUT_SESSION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_CONFLICT"`
+- `"CHECKOUT_SESSION_REVISION_REQUIRED"`
+- `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
+- `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
+- `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
+- `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
+- `"CHECKOUT_TIPPING_DISABLED"`
+- `"CHECKOUT_TIP_NOT_ALLOWED"`
+- `"CODES_NOT_ALLOWED"`
+- `"CODES_REQUIRED"`
+- `"CODE_EMPTY"`
+- `"CODE_TOO_LONG"`
+- `"COMPONENT_REQUIRED"`
+- `"CONCURRENT_MODIFICATION"`
+- `"CONFIRMATION_RETURN_URL_INVALID"`
+- `"CONFIRMATION_RETURN_URL_NOT_ALLOWED"`
+- `"CONFIRMATION_RETURN_URL_REQUIRED"`
+- `"CONFIRMATION_TOKEN_ALREADY_USED"`
+- `"CONFIRMATION_TOKEN_EXPIRED"`
+- `"CONFIRMATION_TOKEN_REQUIRED"`
+- `"CONFIRMATION_TOKEN_SCOPE_MISMATCH"`
+- `"CONFIRMATION_TOKEN_SDK_REQUIRED"`
+- `"CONTEXT_NOT_FOUND"`
+- `"CONTRACT_TERM_REQUIRED"`
+- `"CONTRACT_TOO_LONG"`
+- `"CONTRACT_TOO_SHORT"`
+- `"COUNTRY_IMMUTABLE"`
+- `"COUNTRY_NOT_SUPPORTED"`
+- `"COUNTRY_REQUIRED"`
+- `"CREATE_ORDER_LINE_ITEM_DISCOUNT_UNSUPPORTED"`
+- `"CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED"`
+- `"CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_AMOUNT_EXCEEDS_CREDITABLE"`
+- `"CREDIT_NOTE_CHANGED"`
+- `"CREDIT_NOTE_CURRENCY_MISMATCH"`
+- `"CREDIT_NOTE_HAS_ALLOCATIONS"`
+- `"CREDIT_NOTE_ISSUE_IN_PROGRESS"`
+- `"CREDIT_NOTE_NOT_DRAFT"`
+- `"CREDIT_NOTE_NOT_ISSUED"`
+- `"CREDIT_NOTE_REFUND_EXCEEDS_BALANCE"`
+- `"CREDIT_NOTE_REFUND_INVALID"`
+- `"CURRENCY_MISMATCH"`
+- `"CURRENCY_REQUIRED"`
+- `"CURSOR_MISMATCH"`
+- `"CUSTOMER_ACCOUNTS_UNAVAILABLE"`
+- `"CUSTOMER_ACCOUNT_MODE_CONFLICT"`
+- `"CUSTOMER_ACCOUNT_RESOURCE_NOT_FOUND"`
+- `"CUSTOMER_ACCOUNT_URL_REQUIRED"`
+- `"CUSTOMER_DELETION_BLOCKED"`
+- `"CUSTOMER_DELETION_PROCESSING"`
+- `"CUSTOMER_EMAIL_ALREADY_USED"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
+- `"CUSTOMER_ID_NOT_CLEARABLE"`
+- `"CUSTOMER_NOT_UPDATABLE"`
+- `"CUSTOMER_PAYMENT_METHOD_MISMATCH"`
+- `"CUSTOMER_PAYMENT_TERM_UNAVAILABLE"`
+- `"CUSTOMER_SESSIONS_UNAVAILABLE"`
+- `"CUSTOMER_SESSION_EXPIRED"`
+- `"CUSTOMER_SESSION_NOT_FOUND"`
+- `"CUSTOMER_SESSION_REFRESH_EXPIRED"`
+- `"CUSTOMER_SESSION_REFRESH_REUSED"`
+- `"CUSTOMER_SESSION_REQUIRED"`
+- `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
+- `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
+- `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_NOT_VERIFIED"`
+- `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
+- `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_FIELD_KEY_REQUIRED"`
+- `"CUSTOM_FIELD_KEY_TOO_LONG"`
+- `"CUSTOM_FIELD_KEY_WHITESPACE"`
+- `"CUSTOM_FIELD_LABEL_REQUIRED"`
+- `"CUSTOM_FIELD_OPTION_TOO_LONG"`
+- `"CUSTOM_FIELD_OPTION_WHITESPACE"`
+- `"DAILY_LIMIT_EXCEEDED"`
+- `"DANGLING_EXPANSION_REFERENCE"`
+- `"DEFAULT_ENVIRONMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATIONS_MANAGED_EXTERNALLY"`
+- `"DEFAULT_PAYOUT_DESTINATION_INVALID"`
+- `"DEFAULT_PAYOUT_DESTINATION_REPLACEMENT_REQUIRED"`
+- `"DEFAULT_PAYOUT_DESTINATION_REQUIRED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_ARCHIVED"`
+- `"DEFAULT_SANDBOX_CANNOT_BE_RESET"`
+- `"DEFAULT_VARIANT_REQUIRED"`
+- `"DELIVERY_CALCULATION_EXPIRED"`
+- `"DELIVERY_CALLER_RATES_UNAVAILABLE_TO_BUYER"`
+- `"DELIVERY_COMMERCE_TREATMENT_UNSUPPORTED"`
+- `"DELIVERY_CONFIGURATION_INVALID"`
+- `"DELIVERY_DEPENDENCY_REVOKED"`
+- `"DELIVERY_DESTINATION_ADDRESS_INCOMPLETE"`
+- `"DELIVERY_DESTINATION_ADDRESS_REQUIRED"`
+- `"DELIVERY_DESTINATION_CONTROLLED_BY_SELECTION"`
+- `"DELIVERY_DESTINATION_COUNTRY_INVALID"`
+- `"DELIVERY_DESTINATION_FIELD_TOO_LONG"`
+- `"DELIVERY_DESTINATION_FROZEN"`
+- `"DELIVERY_DESTINATION_INVALID"`
+- `"DELIVERY_DESTINATION_NOT_APPLICABLE"`
+- `"DELIVERY_DESTINATION_UPDATE_CONFLICT"`
+- `"DELIVERY_ELIGIBILITY_CONTEXT_CHANGED"`
+- `"DELIVERY_EXPECTED_SELECTION_REQUIRED"`
+- `"DELIVERY_EXPECTED_VERSION_INVALID"`
+- `"DELIVERY_EXPECTED_VERSION_REQUIRED"`
+- `"DELIVERY_EXTERNAL_REFERENCE_REUSED"`
+- `"DELIVERY_FIELD_NOT_SUPPORTED"`
+- `"DELIVERY_FIELD_REQUIRED"`
+- `"DELIVERY_GROUPING_UNSUPPORTED"`
+- `"DELIVERY_MERCHANT_INPUT_REQUIRED"`
+- `"DELIVERY_METHODS_NOT_APPLICABLE"`
+- `"DELIVERY_METHOD_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_OPTION_ALREADY_SELECTED"`
+- `"DELIVERY_OPTION_EXPIRED"`
+- `"DELIVERY_OPTION_NOT_IN_CHOICE_GROUP"`
+- `"DELIVERY_PICKUP_AVAILABILITY_CHANGED"`
+- `"DELIVERY_PICKUP_AVAILABILITY_INVALID"`
+- `"DELIVERY_PICKUP_AVAILABILITY_UNAVAILABLE"`
+- `"DELIVERY_PICKUP_LOCATION_UNAVAILABLE"`
+- `"DELIVERY_PREVIEW_INVALID"`
+- `"DELIVERY_PREVIEW_METHOD_TYPES_INCOMPATIBLE"`
+- `"DELIVERY_PREVIEW_REQUIRES_CHECKOUT"`
+- `"DELIVERY_PREVIEW_UNAVAILABLE"`
+- `"DELIVERY_PROFILE_NOT_APPLICABLE"`
+- `"DELIVERY_QUOTE_BASIS_INVALID"`
+- `"DELIVERY_QUOTE_EXPIRED"`
+- `"DELIVERY_QUOTE_INCOMPLETE"`
+- `"DELIVERY_QUOTE_INPUT_CHANGED"`
+- `"DELIVERY_QUOTE_INVALID"`
+- `"DELIVERY_QUOTE_REVOKED"`
+- `"DELIVERY_QUOTE_STALE"`
+- `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RECIPIENT_REQUIRED"`
+- `"DELIVERY_REQUEST_INVALID"`
+- `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
+- `"DELIVERY_RESOURCE_NOT_FOUND"`
+- `"DELIVERY_RESOURCE_VERSION_CONFLICT"`
+- `"DELIVERY_SELECTION_CHANGED"`
+- `"DELIVERY_SELECTION_EXPIRED"`
+- `"DELIVERY_SELECTION_INCOMPLETE"`
+- `"DELIVERY_SELECTION_NOT_MUTABLE_AFTER_PAYMENT"`
+- `"DELIVERY_SELECTION_REPLACEMENT_LIMIT"`
+- `"DELIVERY_SELECTION_UNAVAILABLE"`
+- `"DELIVERY_SERVICE_UNAVAILABLE"`
+- `"DELIVERY_STATE_CONFLICT"`
+- `"DELIVERY_STATUS_COMBINATION_INVALID"`
+- `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_WINDOW_EXPIRED"`
+- `"DELIVERY_WINDOW_INVALID"`
+- `"DEMO_SESSIONS_UNAVAILABLE"`
+- `"DEMO_SESSION_ROUTE_NOT_ALLOWED"`
+- `"DEMO_SESSION_SECRET_REPLAY_EXPIRED"`
+- `"DESCRIPTION_TOO_LONG"`
+- `"DEVICE_DELETED"`
+- `"DEVICE_LOCATION_MISMATCH"`
+- `"DISCOUNTED_ITEM_RULES_REQUIRED"`
+- `"DISCOUNT_AMOUNT_INVALID"`
+- `"DISCOUNT_IDS_REQUIRED"`
+- `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_REQUIRED"`
+- `"DISPLAY_NAME_TOO_LONG"`
+- `"DISPUTES_UNAVAILABLE"`
+- `"DISPUTE_NOT_FOUND"`
+- `"DONATION_AMOUNT_REQUIRED"`
+- `"DONATION_CONFIG_NOT_APPLICABLE"`
+- `"DONATION_LINE_ITEMS_NOT_ALLOWED"`
+- `"DONATION_LINE_ITEM_MISSING"`
+- `"DONATION_PLAN_NOT_ALLOWED"`
+- `"DONATION_PROMOTION_NOT_ALLOWED"`
+- `"DONATION_TAX_NOT_ALLOWED"`
+- `"DONATION_TIP_NOT_ALLOWED"`
+- `"DROPDOWN_OPTIONS_REQUIRED"`
+- `"DUPLICATE_BUNDLE_COMPONENT_ID"`
+- `"DUPLICATE_CAPABILITY"`
+- `"DUPLICATE_CHARGE_TARGET"`
+- `"DUPLICATE_CLIENT_OPTION_KEY"`
+- `"DUPLICATE_CLIENT_VALUE_KEY"`
+- `"DUPLICATE_CODE"`
+- `"DUPLICATE_COMPONENT_VARIANT"`
+- `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
+- `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"DUPLICATE_IMAGE_SOURCE"`
+- `"DUPLICATE_INVOICE_LINE"`
+- `"DUPLICATE_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_INVOICE_REMINDER_OFFSET"`
+- `"DUPLICATE_LINE_ITEM_ID"`
+- `"DUPLICATE_LINE_ITEM_KEY"`
+- `"DUPLICATE_LINE_ITEM_TARGET"`
+- `"DUPLICATE_OPTION"`
+- `"DUPLICATE_OPTION_NAME"`
+- `"DUPLICATE_OPTION_SELECTION"`
+- `"DUPLICATE_OPTION_VALUE"`
+- `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
+- `"DUPLICATE_SCOPE"`
+- `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_COMPONENT"`
+- `"DUPLICATE_VALUE"`
+- `"EMAIL_ALREADY_LINKED"`
+- `"EMAIL_CHANGE_CONFIRMATION_EXPIRED"`
+- `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
+- `"EMAIL_CHANGE_DELIVERY_FAILED"`
+- `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_REQUIRED"`
+- `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
+- `"EMPTY_CAPABILITY_SET"`
+- `"EMPTY_UPDATE"`
+- `"ENVIRONMENT_GRANT_NOT_FOUND"`
+- `"ENVIRONMENT_LOOKUP_FAILED"`
+- `"ENVIRONMENT_LOOKUP_UNAVAILABLE"`
+- `"ENVIRONMENT_REQUIRED"`
+- `"ENVIRONMENT_SELECTION_FORBIDDEN"`
+- `"EVENT_CONFIG_NOT_APPLICABLE"`
+- `"EVENT_LINE_ITEMS_REQUIRED"`
+- `"EVENT_PLAN_NOT_ALLOWED"`
+- `"EVENT_SOLD_OUT"`
+- `"EVENT_TICKET_QUANTITY_REQUIRED"`
+- `"EVENT_TIMEZONE_REQUIRED"`
+- `"EXACTLY_ONE_REQUIRED"`
+- `"EXPANSION_DEPENDENCY_UNAVAILABLE"`
+- `"EXPANSION_LIMIT_EXCEEDED"`
+- `"EXPANSION_RESOLUTION_FAILED"`
+- `"EXPECTED_AMOUNT_REQUIRED"`
+- `"EXPECTED_VERSION_REQUIRED"`
+- `"EXPIRED_CARD"`
+- `"EXPLICIT_TAX_REFUND_NOOP"`
+- `"EXTERNAL_API_KEY_REQUIRED"`
+- `"EXTERNAL_IMAGE_NOT_ALLOWED"`
+- `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
+- `"EXTERNAL_SERVICE_ERROR"`
+- `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"FEEDBACK_REPORTS_UNAVAILABLE"`
+- `"FEEDBACK_REPORT_NOT_FOUND"`
+- `"FIELD_NOT_ALLOWED_FOR_CALLER"`
+- `"FIELD_NOT_UPDATABLE"`
+- `"FIELD_REQUIRED"`
+- `"FIRST_NAME_REQUIRED"`
+- `"FLAT_TAX_PAYMENT_ATTRIBUTION_UNAVAILABLE"`
+- `"FLAT_TAX_PRICE_MODE_INVALID"`
+- `"FLAT_TAX_REFUND_MUST_BE_FULL"`
+- `"FLAT_TAX_REFUND_STATE_INVALID"`
+- `"FLAT_TAX_SCOPE_INVALID"`
+- `"FLINT_WALLET_CARD_NOT_FOUND"`
+- `"FLINT_WALLET_NOT_FOUND"`
+- `"FLINT_WALLET_UNAVAILABLE"`
+- `"FRAUD_WARNING_NOT_FOUND"`
+- `"FULFILLMENT_ACTION_NOT_ALLOWED"`
+- `"FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION"`
+- `"FULFILLMENT_APPROVAL_REQUIRED"`
+- `"FULFILLMENT_BUNDLE_UNSUPPORTED"`
+- `"FULFILLMENT_CHANGED"`
+- `"FULFILLMENT_COMPLETED"`
+- `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
+- `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
+- `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
+- `"FULFILLMENT_EVENT_DEDUPE_CONFLICT"`
+- `"FULFILLMENT_EVENT_OCCURRED_RANGE_INVALID"`
+- `"FULFILLMENT_EVENT_PROVIDER_IDENTITY_INCOMPLETE"`
+- `"FULFILLMENT_EVENT_SUBJECT_INVALID"`
+- `"FULFILLMENT_FIELD_TOO_LONG"`
+- `"FULFILLMENT_INACTIVE"`
+- `"FULFILLMENT_LABEL_URL_EXTERNAL_SYSTEM_REQUIRED"`
+- `"FULFILLMENT_LABEL_URL_INVALID"`
+- `"FULFILLMENT_LINE_ITEMS_REQUIRED"`
+- `"FULFILLMENT_LINE_ITEM_ID_REQUIRED"`
+- `"FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE"`
+- `"FULFILLMENT_METHOD_DUPLICATE"`
+- `"FULFILLMENT_METHOD_LIMIT_EXCEEDED"`
+- `"FULFILLMENT_METHOD_UNAVAILABLE"`
+- `"FULFILLMENT_NOTIFICATION_BUILD_FAILED"`
+- `"FULFILLMENT_OBLIGATION_UNAVAILABLE"`
+- `"FULFILLMENT_PROFILE_REQUIRED"`
+- `"FULFILLMENT_PROFILE_REVISION_UNUSABLE"`
+- `"FULFILLMENT_PROFILE_UNAVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EFFECT_REQUIRED"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE"`
+- `"FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM"`
+- `"FULFILLMENT_QUANTITY_INVALID"`
+- `"FULFILLMENT_REASON_INVALID"`
+- `"FULFILLMENT_REQUIREMENT_REQUIRED"`
+- `"FULFILLMENT_SCHEDULE_INVALID"`
+- `"FULFILLMENT_SCHEDULE_NOT_ALLOWED"`
+- `"FULFILLMENT_SCHEDULE_REQUIRED"`
+- `"FULFILLMENT_SELECTION_REQUIRED"`
+- `"FULFILLMENT_SHIPMENT_NOT_MUTABLE"`
+- `"FULFILLMENT_SHIPMENT_NOT_VOIDABLE"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_CONFLICT"`
+- `"FULFILLMENT_SHIPMENT_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"FULFILLMENT_SHIPMENT_TERMINAL"`
+- `"FULFILLMENT_STATUS_CONFLICT"`
+- `"FULFILLMENT_STATUS_REASON_TOO_LONG"`
+- `"FULFILLMENT_TERMINAL"`
+- `"FULFILLMENT_TIMEZONE_REQUIRED"`
+- `"FULFILLMENT_TRACKING_URL_INVALID"`
+- `"FULFILLMENT_TYPE_NOT_ALLOWED"`
+- `"FULFILLMENT_TYPE_REQUIRED"`
+- `"FULFILLMENT_WINDOW_INVALID"`
+- `"GIFT_CARDS_UNAVAILABLE"`
+- `"GIFT_CARD_ALLOCATION_CHANGED"`
+- `"GIFT_CARD_ALLOCATION_REQUIRED"`
+- `"GIFT_CARD_BUNDLE_NOT_SUPPORTED"`
+- `"GIFT_CARD_BUYER_DEVICE_REQUIRED"`
+- `"GIFT_CARD_BUYER_REQUIRED"`
+- `"GIFT_CARD_CATALOG_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CHALLENGE_REQUIRED"`
+- `"GIFT_CARD_CONFIGURATION_INVALID"`
+- `"GIFT_CARD_CONFIGURATION_NOT_APPLICABLE"`
+- `"GIFT_CARD_CURRENCY_NOT_SUPPORTED"`
+- `"GIFT_CARD_CURRENCY_UNSUPPORTED"`
+- `"GIFT_CARD_INSUFFICIENT_VALUE"`
+- `"GIFT_CARD_INVENTORY_NOT_SUPPORTED"`
+- `"GIFT_CARD_MODIFIERS_NOT_SUPPORTED"`
+- `"GIFT_CARD_NOT_FOUND"`
+- `"GIFT_CARD_PRODUCT_TYPE_IMMUTABLE"`
+- `"GIFT_CARD_PURCHASE_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_INVALID"`
+- `"GIFT_CARD_PURCHASE_LIMIT_EXCEEDED"`
+- `"GIFT_CARD_PURCHASE_NOT_APPLICABLE"`
+- `"GIFT_CARD_PURCHASE_REFUND_CONFLICT"`
+- `"GIFT_CARD_PURCHASE_SOURCE_REQUIRED"`
+- `"GIFT_CARD_PURCHASE_VERIFICATION_UNAVAILABLE"`
+- `"GIFT_CARD_RECIPIENT_VERIFICATION_REQUIRED"`
+- `"GIFT_CARD_REFUND_DESTINATION_REQUIRED"`
+- `"GIFT_CARD_STATE_CONFLICT"`
+- `"GIFT_CARD_SUBSCRIPTION_NOT_SUPPORTED"`
+- `"GIFT_CARD_SUBSCRIPTION_TENDER_UNSUPPORTED"`
+- `"GIFT_CARD_TAX_NOT_SUPPORTED"`
+- `"GIFT_CARD_UNAVAILABLE"`
+- `"HOSTED_CHECKOUT_CALLER_RATES_UNSUPPORTED"`
+- `"HOSTED_INSTALL_UNAVAILABLE"`
+- `"IDEMPOTENCY_CLEAR_FAILED"`
+- `"IDEMPOTENCY_KEY_IN_PROGRESS"`
+- `"IDEMPOTENCY_KEY_REQUIRED"`
+- `"IDEMPOTENCY_KEY_REUSED"`
+- `"IDEMPOTENCY_KEY_TOO_LONG"`
+- `"IDEMPOTENCY_LOAD_FAILED"`
+- `"IDEMPOTENCY_PERSIST_FAILED"`
+- `"IDEMPOTENCY_RECORD_INVALID"`
+- `"IDEMPOTENCY_RECOVERY_REQUIRED"`
+- `"IDEMPOTENCY_REQUEST_IN_PROGRESS"`
+- `"IDENTITY_RESOLUTION_FAILED"`
+- `"IDENTITY_UNAVAILABLE"`
+- `"IMAGE_ANIMATION_UNSUPPORTED"`
+- `"IMAGE_ASSET_NOT_ATTACHABLE"`
+- `"IMAGE_ASSET_NOT_FOUND"`
+- `"IMAGE_DIMENSIONS_EXCEEDED"`
+- `"IMAGE_DIMENSIONS_UNSUPPORTED"`
+- `"IMAGE_FORMAT_UNSUPPORTED"`
+- `"IMAGE_GALLERY_LIMIT_EXCEEDED"`
+- `"IMAGE_INGESTION_COUNT_EXCEEDED"`
+- `"IMAGE_INGESTION_EXPIRED"`
+- `"IMAGE_INGESTION_IN_PROGRESS"`
+- `"IMAGE_INGESTION_RESTART_REQUIRED"`
+- `"IMAGE_NOT_ATTACHABLE"`
+- `"IMAGE_OWNER_NOT_MUTABLE"`
+- `"IMAGE_PIXEL_BUDGET_EXCEEDED"`
+- `"IMAGE_PROCESSING_CAPACITY_EXCEEDED"`
+- `"IMAGE_PROCESSING_FAILED"`
+- `"IMAGE_PROCESSING_TIMEOUT"`
+- `"IMAGE_REVISION_MISMATCH"`
+- `"IMAGE_SOURCE_FETCH_FAILED"`
+- `"IMAGE_SOURCE_NOT_PUBLIC"`
+- `"IMAGE_SOURCE_TIMEOUT"`
+- `"IMAGE_SOURCE_TOO_LARGE"`
+- `"IMAGE_SOURCE_UNAVAILABLE"`
+- `"IMAGE_SOURCE_URL_INVALID"`
+- `"IMAGE_STORAGE_QUOTA_EXCEEDED"`
+- `"IMAGE_URL_INVALID"`
+- `"IMAGE_URL_MUST_BE_CANONICAL"`
+- `"INCOMPLETE_OPTION_SELECTION"`
+- `"INCORRECT_CVC"`
+- `"INHERIT_ONLY_VIOLATION"`
+- `"INITIAL_API_KEY_ALREADY_CREATED"`
+- `"INSTANT_PAYOUTS_UNAVAILABLE"`
+- `"INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"INSUFFICIENT_FUNDS"`
+- `"INSUFFICIENT_SCOPE"`
+- `"INTERNAL_ERROR"`
+- `"INTERVAL_COUNT_TOO_LARGE"`
+- `"INTERVAL_REQUIRED"`
+- `"INVALID_ACTION"`
+- `"INVALID_ACTIONABLE"`
+- `"INVALID_ACTIVITY_TYPE"`
+- `"INVALID_ALLOCATION"`
+- `"INVALID_AMOUNT"`
+- `"INVALID_AMOUNT_OFF"`
+- `"INVALID_AMOUNT_RANGE"`
+- `"INVALID_API_KEY"`
+- `"INVALID_API_VERSION"`
+- `"INVALID_APPLICATION_METHOD"`
+- `"INVALID_AUTHORIZATION_HEADER"`
+- `"INVALID_AVAILABLE_PAYOUT_METHOD"`
+- `"INVALID_BALANCE_SOURCE_TYPE"`
+- `"INVALID_BEARER_TOKEN"`
+- `"INVALID_BILLING_ANCHOR_DAY"`
+- `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_SCHEDULE_OWNER"`
+- `"INVALID_BOGO_DISCOUNT_CLASS"`
+- `"INVALID_BOGO_QUANTITY"`
+- `"INVALID_BOOLEAN"`
+- `"INVALID_BOOTSTRAP_SCOPES"`
+- `"INVALID_BUNDLE_STATUS"`
+- `"INVALID_BUSINESS_NAME"`
+- `"INVALID_BUYER_CANCELLATION_TIMING"`
+- `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_CALCULATION_BASIS"`
+- `"INVALID_CANCELLATION_REASON"`
+- `"INVALID_CANCELLATION_REASON_CODE"`
+- `"INVALID_CAPABILITY"`
+- `"INVALID_CAPTURE_AMOUNT"`
+- `"INVALID_CAPTURE_METHOD"`
+- `"INVALID_CASE_TYPE"`
+- `"INVALID_CATEGORIES"`
+- `"INVALID_CATEGORY"`
+- `"INVALID_CATEGORY_DESCRIPTION"`
+- `"INVALID_CATEGORY_HANDLE"`
+- `"INVALID_CATEGORY_NAME"`
+- `"INVALID_CHANNEL"`
+- `"INVALID_CHARGE_AMOUNT"`
+- `"INVALID_CHARGE_PERCENT"`
+- `"INVALID_CHARGE_REFUND_AMOUNT"`
+- `"INVALID_CHARGE_TYPE"`
+- `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKOUT_SESSION"`
+- `"INVALID_CHECKOUT_SURFACE"`
+- `"INVALID_CODE"`
+- `"INVALID_COLOR"`
+- `"INVALID_COMPLETION_BEHAVIOR"`
+- `"INVALID_COMPONENT"`
+- `"INVALID_COMPONENTS"`
+- `"INVALID_COMPONENT_POSITION"`
+- `"INVALID_COMPONENT_QUANTITY"`
+- `"INVALID_CORNER_RADIUS"`
+- `"INVALID_COUNTRY"`
+- `"INVALID_CREATED_AFTER"`
+- `"INVALID_CREATED_BEFORE"`
+- `"INVALID_CREATED_RANGE"`
+- `"INVALID_CREDIT_NOTE"`
+- `"INVALID_CREDIT_NOTE_CORRECTION_TYPE"`
+- `"INVALID_CREDIT_NOTE_LINE"`
+- `"INVALID_CREDIT_NOTE_MEMO"`
+- `"INVALID_CREDIT_NOTE_REASON"`
+- `"INVALID_CREDIT_NOTE_STATUS"`
+- `"INVALID_CURRENCY"`
+- `"INVALID_CURRENCY_OPTION"`
+- `"INVALID_CURSOR"`
+- `"INVALID_CUSTOMER_ACCOUNT_REQUEST"`
+- `"INVALID_CUSTOMER_ACCOUNT_ROUTE_TEMPLATE"`
+- `"INVALID_CUSTOMER_ACCOUNT_URL"`
+- `"INVALID_CUSTOMER_SESSION"`
+- `"INVALID_CUSTOM_DOMAIN"`
+- `"INVALID_DEFAULT_FOR_CURRENCY"`
+- `"INVALID_DEFAULT_SMART_TIP_AMOUNT"`
+- `"INVALID_DEFAULT_TIP_PERCENTAGE"`
+- `"INVALID_DEFAULT_VARIANT"`
+- `"INVALID_DELAY_DAYS_OVERRIDE"`
+- `"INVALID_DELIVERY_CONFIGURATION_STATUS"`
+- `"INVALID_DELIVERY_EVALUATION_STATUS"`
+- `"INVALID_DELIVERY_MODE"`
+- `"INVALID_DELIVERY_PROFILE_ID"`
+- `"INVALID_DELIVERY_QUOTE_STATUS"`
+- `"INVALID_DELIVERY_STATUS"`
+- `"INVALID_DESCRIPTION"`
+- `"INVALID_DIGITAL_WALLET"`
+- `"INVALID_DISCOUNT"`
+- `"INVALID_DISCOUNT_CALCULATION_BASIS"`
+- `"INVALID_DISCOUNT_CLASS"`
+- `"INVALID_DISCOUNT_SCOPE"`
+- `"INVALID_DISPUTE_REQUEST"`
+- `"INVALID_DISPUTE_STATUS"`
+- `"INVALID_DOMAIN"`
+- `"INVALID_DOMAIN_NAME"`
+- `"INVALID_DONATION_AMOUNT"`
+- `"INVALID_DONATION_AMOUNT_RANGE"`
+- `"INVALID_DROPDOWN_VALUE"`
+- `"INVALID_DUNNING_RETRY_DAYS"`
+- `"INVALID_EMAIL_FORMAT"`
+- `"INVALID_ENVIRONMENT_SELECTION"`
+- `"INVALID_EVENT_AT"`
+- `"INVALID_EVENT_SOURCE"`
+- `"INVALID_EVENT_SOURCES"`
+- `"INVALID_EVENT_TYPE"`
+- `"INVALID_EXCLUSIVITY_SELECTION"`
+- `"INVALID_EXPAND"`
+- `"INVALID_EXPECTED_VERSION"`
+- `"INVALID_EXPIRATION"`
+- `"INVALID_EXPIRES_AT"`
+- `"INVALID_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_FEEDBACK_KIND"`
+- `"INVALID_FEEDBACK_SHAPE"`
+- `"INVALID_FEEDBACK_SURFACE"`
+- `"INVALID_FIELD_TYPE"`
+- `"INVALID_FLAT_TAX"`
+- `"INVALID_FONT_FAMILY"`
+- `"INVALID_FULFILLMENT_BUYER_NOTIFICATION_BEHAVIOR"`
+- `"INVALID_FULFILLMENT_DETAILS"`
+- `"INVALID_FULFILLMENT_EVENT_TYPE"`
+- `"INVALID_FULFILLMENT_REQUIREMENT"`
+- `"INVALID_FULFILLMENT_STATUS"`
+- `"INVALID_FULFILLMENT_TYPE"`
+- `"INVALID_GIFT_CARD_CODE"`
+- `"INVALID_GIFT_CARD_PURCHASE_REFUND"`
+- `"INVALID_GIFT_CARD_REQUEST"`
+- `"INVALID_GIFT_CARD_SELECTION"`
+- `"INVALID_HAS_PLAN"`
+- `"INVALID_ID"`
+- `"INVALID_IDEMPOTENCY_KEY"`
+- `"INVALID_IMAGE_ALT"`
+- `"INVALID_IMAGE_EXTERNAL_REFERENCE_ID"`
+- `"INVALID_IMAGE_GALLERY"`
+- `"INVALID_INCLUDE"`
+- `"INVALID_INCLUDE_DELETED"`
+- `"INVALID_INTERVAL"`
+- `"INVALID_INTERVAL_END_AT"`
+- `"INVALID_INTERVAL_START_AT"`
+- `"INVALID_INVENTORY_EXCEPTION_RESOLUTION_REASON"`
+- `"INVALID_INVENTORY_SOURCE_KEY"`
+- `"INVALID_INVOICE"`
+- `"INVALID_INVOICE_AUTOPAY_RETRY_OFFSETS"`
+- `"INVALID_INVOICE_COLLECTION"`
+- `"INVALID_INVOICE_COLLECTION_MODE"`
+- `"INVALID_INVOICE_DRAFT_SOURCE"`
+- `"INVALID_INVOICE_LATE_FEE_AMOUNT"`
+- `"INVALID_INVOICE_LATE_FEE_REASON"`
+- `"INVALID_INVOICE_LATE_FEE_SCHEDULE"`
+- `"INVALID_INVOICE_PAYMENT_DUE"`
+- `"INVALID_INVOICE_PAYMENT_DUE_TYPE"`
+- `"INVALID_INVOICE_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_INVOICE_PAYMENT_POLICY"`
+- `"INVALID_INVOICE_PAYMENT_TERM"`
+- `"INVALID_INVOICE_REMINDER_OFFSET"`
+- `"INVALID_INVOICE_REPLY_TO_EMAIL"`
+- `"INVALID_INVOICE_TIMEZONE"`
+- `"INVALID_JSON"`
+- `"INVALID_LINE_ITEM"`
+- `"INVALID_LINE_ITEMS"`
+- `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
+- `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
+- `"INVALID_LIST_ALIAS"`
+- `"INVALID_LIST_ITEM_COUNT"`
+- `"INVALID_LOW_STOCK_THRESHOLD"`
+- `"INVALID_MAX_AMOUNT"`
+- `"INVALID_MAX_APPLICATIONS_PER_ORDER"`
+- `"INVALID_MAX_COMPLETIONS"`
+- `"INVALID_MAX_DISCOUNTED_QUANTITY"`
+- `"INVALID_MAX_LENGTH"`
+- `"INVALID_MAX_PROMOTIONS_PER_ORDER"`
+- `"INVALID_MAX_TOTAL_QUANTITY"`
+- `"INVALID_MAX_USES"`
+- `"INVALID_MERCHANT_ADDRESS"`
+- `"INVALID_MERCHANT_SELECTION"`
+- `"INVALID_METADATA"`
+- `"INVALID_METADATA_KEY"`
+- `"INVALID_METHOD"`
+- `"INVALID_MINIMUM_BALANCE_AMOUNT"`
+- `"INVALID_MINIMUM_BALANCE_BY_CURRENCY"`
+- `"INVALID_MINIMUM_BALANCE_CURRENCY"`
+- `"INVALID_MIN_AMOUNT"`
+- `"INVALID_MODE"`
+- `"INVALID_MODIFIER_GROUP"`
+- `"INVALID_MODIFIER_GROUP_STATUS"`
+- `"INVALID_MODIFIER_GROUP_TYPE"`
+- `"INVALID_MODIFIER_SET"`
+- `"INVALID_MODIFIER_SET_ID"`
+- `"INVALID_MODIFIER_SET_STATUS"`
+- `"INVALID_MODIFIER_STATUS"`
+- `"INVALID_MONEY"`
+- `"INVALID_MONTHLY_PAYOUT_DAY"`
+- `"INVALID_NAME"`
+- `"INVALID_NOTIFICATION_TYPE"`
+- `"INVALID_OAUTH_TOKEN"`
+- `"INVALID_ONBOARDING_SESSION"`
+- `"INVALID_OPERAND"`
+- `"INVALID_OPERATOR"`
+- `"INVALID_OPTIONS"`
+- `"INVALID_OPTION_POSITION"`
+- `"INVALID_OPTION_STATUS"`
+- `"INVALID_OPTION_VALUE"`
+- `"INVALID_OPTION_VALUE_POSITION"`
+- `"INVALID_OPTION_VALUE_STATUS"`
+- `"INVALID_ORDER_STATUS"`
+- `"INVALID_ORGANIZATION_ID"`
+- `"INVALID_ORIGIN"`
+- `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_SIZE"`
+- `"INVALID_PAGE_TOKEN"`
+- `"INVALID_PARENT_ORGANIZATION"`
+- `"INVALID_PARTNER_APP"`
+- `"INVALID_PARTNER_TOKEN"`
+- `"INVALID_PAYMENTS"`
+- `"INVALID_PAYMENT_FLOW"`
+- `"INVALID_PAYMENT_LIMIT_RANGE"`
+- `"INVALID_PAYMENT_LINK_CUSTOM_FIELD_TYPE"`
+- `"INVALID_PAYMENT_LINK_TYPE"`
+- `"INVALID_PAYMENT_METHOD_TYPE"`
+- `"INVALID_PAYMENT_OPTIONS"`
+- `"INVALID_PAYMENT_OPTION_LIMIT"`
+- `"INVALID_PAYMENT_OPTION_RESOLVE_REQUEST"`
+- `"INVALID_PAYMENT_SOURCE"`
+- `"INVALID_PAYMENT_STATUS"`
+- `"INVALID_PERCENT_OFF"`
+- `"INVALID_PHONE_FORMAT"`
+- `"INVALID_PREDICATE"`
+- `"INVALID_PREDICATE_GROUP"`
+- `"INVALID_PREDICATE_NODE"`
+- `"INVALID_PRICE"`
+- `"INVALID_PRODUCT_CREATE_SHAPE"`
+- `"INVALID_PRODUCT_TYPE"`
+- `"INVALID_PURPOSE"`
+- `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_RANGE"`
+- `"INVALID_QUERY"`
+- `"INVALID_QUERY_PARAMETER"`
+- `"INVALID_RANGE"`
+- `"INVALID_REASON"`
+- `"INVALID_RECOVERY_EMAIL_DELAY"`
+- `"INVALID_RECURRENCE_TYPE"`
+- `"INVALID_REDEMPTION_TYPE"`
+- `"INVALID_REFUND_ADJUSTMENT_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_APPLIES_TO"`
+- `"INVALID_REFUND_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_REFUND_ADJUSTMENT_REFUND_AMOUNT"`
+- `"INVALID_REFUND_ADJUSTMENT_TARGET"`
+- `"INVALID_REFUND_ADJUSTMENT_TYPE"`
+- `"INVALID_REFUND_METHOD"`
+- `"INVALID_REFUND_REASON"`
+- `"INVALID_REFUND_STATUS"`
+- `"INVALID_REFUND_TENDER_ALLOCATION"`
+- `"INVALID_RELATED_OBJECT_ID"`
+- `"INVALID_RELATED_OBJECT_TYPE"`
+- `"INVALID_RELATED_REQUEST_ID"`
+- `"INVALID_RELATED_RESOURCE_ID"`
+- `"INVALID_REPORT_INTERVAL"`
+- `"INVALID_REPORT_TYPE"`
+- `"INVALID_REQUEST"`
+- `"INVALID_REQUEST_BODY"`
+- `"INVALID_RESOURCE_ID"`
+- `"INVALID_RESOURCE_TYPE"`
+- `"INVALID_RETENTION_OFFER_KIND"`
+- `"INVALID_RETENTION_OFFER_PAUSE_CYCLES"`
+- `"INVALID_RETURN_URL"`
+- `"INVALID_REVIEW_STATUS"`
+- `"INVALID_REWARD_SELECTION"`
+- `"INVALID_RISK_LEVEL"`
+- `"INVALID_RISK_LIST_ALIAS"`
+- `"INVALID_RISK_LIST_ITEM_TYPE"`
+- `"INVALID_ROLE"`
+- `"INVALID_RULE_ACTION"`
+- `"INVALID_RULE_GROUP"`
+- `"INVALID_RULE_OPERATOR"`
+- `"INVALID_RULE_VALUE"`
+- `"INVALID_SANDBOX_ID"`
+- `"INVALID_SCHEDULE"`
+- `"INVALID_SCOPE"`
+- `"INVALID_SHIPMENT_DIMENSIONS"`
+- `"INVALID_SHIPMENT_DIRECTION"`
+- `"INVALID_SHIPMENT_PACKAGE_ITEM_QUANTITY"`
+- `"INVALID_SHIPMENT_WEIGHT"`
+- `"INVALID_SMART_TIP_AMOUNT"`
+- `"INVALID_SMART_TIP_AMOUNTS_COUNT"`
+- `"INVALID_SORT_BY"`
+- `"INVALID_SORT_DIRECTION"`
+- `"INVALID_SORT_FIELD"`
+- `"INVALID_SOURCE"`
+- `"INVALID_SOURCE_CONTEXT"`
+- `"INVALID_STACKING_MODE"`
+- `"INVALID_STATEMENT_DESCRIPTOR"`
+- `"INVALID_STATUS"`
+- `"INVALID_STATUS_BUCKET"`
+- `"INVALID_STATUS_FOR_CAPTURE"`
+- `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
+- `"INVALID_SUGGESTED_AMOUNT"`
+- `"INVALID_SUPPORT_EMAIL"`
+- `"INVALID_SUPPORT_PHONE"`
+- `"INVALID_SUPPORT_URL"`
+- `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
+- `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
+- `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
+- `"INVALID_TAX_CALCULATION_TYPE"`
+- `"INVALID_TAX_CATEGORY"`
+- `"INVALID_TAX_IDENTITY"`
+- `"INVALID_TAX_JURISDICTION"`
+- `"INVALID_TAX_MODE"`
+- `"INVALID_TAX_MONEY"`
+- `"INVALID_TAX_PERCENTAGE"`
+- `"INVALID_TAX_PRICE_MODE"`
+- `"INVALID_TAX_REFUND_MODE"`
+- `"INVALID_TAX_TYPE"`
+- `"INVALID_TEMPLATE"`
+- `"INVALID_TIMESTAMP"`
+- `"INVALID_TIMEZONE"`
+- `"INVALID_TIP"`
+- `"INVALID_TIP_AMOUNT"`
+- `"INVALID_TIP_PERCENT"`
+- `"INVALID_TIP_PERCENTAGES_COUNT"`
+- `"INVALID_TOTALS"`
+- `"INVALID_TRANSACTION_PURPOSE"`
+- `"INVALID_TYPE"`
+- `"INVALID_UPDATED_AFTER"`
+- `"INVALID_UPDATED_BEFORE"`
+- `"INVALID_UPDATE_MASK"`
+- `"INVALID_URL"`
+- `"INVALID_URL_HOST"`
+- `"INVALID_URL_SCHEME"`
+- `"INVALID_USAGE"`
+- `"INVALID_VALUES"`
+- `"INVALID_VALUE_TYPE"`
+- `"INVALID_VARIANT_STATUS"`
+- `"INVALID_VERIFICATION"`
+- `"INVALID_WEBHOOK_ENDPOINT"`
+- `"INVALID_WEBHOOK_ENDPOINT_SOURCE"`
+- `"INVALID_WEBHOOK_EVENT"`
+- `"INVALID_WEBSITE_URL"`
+- `"INVALID_WEEKLY_PAYOUT_DAY"`
+- `"INVENTORY_ADJUSTMENT_NOT_FOUND"`
+- `"INVENTORY_ALLOCATION_POLICY_IN_USE"`
+- `"INVENTORY_CHANGED"`
+- `"INVENTORY_CONDITION_INVALID"`
+- `"INVENTORY_COUNT_CHANGED"`
+- `"INVENTORY_COUNT_NOT_FOUND"`
+- `"INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED"`
+- `"INVENTORY_DEMAND_DUPLICATE"`
+- `"INVENTORY_DEMAND_INVALID"`
+- `"INVENTORY_EVENT_PROVENANCE_INVALID"`
+- `"INVENTORY_INSUFFICIENT"`
+- `"INVENTORY_ITEM_INACTIVE"`
+- `"INVENTORY_ITEM_IN_USE"`
+- `"INVENTORY_ITEM_NAME_INVALID"`
+- `"INVENTORY_ITEM_NOT_FOUND"`
+- `"INVENTORY_ITEM_REFERENCE_REQUIRED"`
+- `"INVENTORY_ITEM_UNAVAILABLE"`
+- `"INVENTORY_LEVEL_NOT_FOUND"`
+- `"INVENTORY_LOCATION_ALLOCATION_INACTIVE"`
+- `"INVENTORY_LOCATION_INELIGIBLE"`
+- `"INVENTORY_LOCATION_NOT_CONFIGURED"`
+- `"INVENTORY_MOVEMENT_NOT_FOUND"`
+- `"INVENTORY_POLICY_INVALID"`
+- `"INVENTORY_POLICY_NOT_FOUND"`
+- `"INVENTORY_QUANTITY_CONFLICT"`
+- `"INVENTORY_RECEIPT_CONFLICT"`
+- `"INVENTORY_RECEIPT_INVALID"`
+- `"INVENTORY_RECEIPT_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_EXISTS"`
+- `"INVENTORY_RESERVATION_EXPIRED"`
+- `"INVENTORY_RESERVATION_NOT_FOUND"`
+- `"INVENTORY_RESERVATION_OWNER_MISMATCH"`
+- `"INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED"`
+- `"INVENTORY_ROUTING_SOURCE_INVALID"`
+- `"INVENTORY_ROUTING_SOURCE_REQUIRED"`
+- `"INVENTORY_ROUTING_TOO_COMPLEX"`
+- `"INVENTORY_ROUTING_UNAVAILABLE"`
+- `"INVENTORY_SHORTAGE"`
+- `"INVENTORY_SOURCE_SEQUENCE_CHANGED"`
+- `"INVENTORY_TRANSFER_ACTION_NOT_ALLOWED"`
+- `"INVENTORY_TRANSFER_CHANGED"`
+- `"INVENTORY_TRANSFER_INVALID"`
+- `"INVENTORY_TRANSFER_NOT_FOUND"`
+- `"INVENTORY_UNAVAILABLE"`
+- `"INVOICE_ACCESS_AUTH_UNAVAILABLE"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED"`
+- `"INVOICE_AUTOPAY_PAYMENT_METHOD_UNSUPPORTED"`
+- `"INVOICE_AUTOPAY_RETRY_LIMIT_EXCEEDED"`
+- `"INVOICE_BALANCE_CHANGED"`
+- `"INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED"`
+- `"INVOICE_COLLECTION_BLOCKED"`
+- `"INVOICE_COLLECTION_CHANGED"`
+- `"INVOICE_COLLECTION_MODE_UNSUPPORTED"`
+- `"INVOICE_COST_COMPARISON_REQUIRES_OPTIONS"`
+- `"INVOICE_DRAFT_CHANGED"`
+- `"INVOICE_HAS_ISSUED_CREDIT_NOTE"`
+- `"INVOICE_ISSUE_IN_PROGRESS"`
+- `"INVOICE_LATE_FEE_NOT_COLLECTIBLE"`
+- `"INVOICE_LATE_FEE_NOT_DUE"`
+- `"INVOICE_LATE_FEE_NOT_FOUND"`
+- `"INVOICE_LATE_FEE_POLICY_REQUIRED"`
+- `"INVOICE_LINK_UNAVAILABLE"`
+- `"INVOICE_LOCKED_ORDER_FINANCIALS"`
+- `"INVOICE_NOT_COLLECTIBLE"`
+- `"INVOICE_NOT_CREDITABLE"`
+- `"INVOICE_NOT_DRAFT"`
+- `"INVOICE_NOT_FOUND"`
+- `"INVOICE_NOT_ISSUED"`
+- `"INVOICE_NOT_MARKABLE_UNCOLLECTIBLE"`
+- `"INVOICE_NOT_REVERSIBLE"`
+- `"INVOICE_NOT_VOIDABLE"`
+- `"INVOICE_PAYMENT_ALREADY_SETTLED"`
+- `"INVOICE_PAYMENT_ATTEMPT_ACTIVE"`
+- `"INVOICE_PAYMENT_FAILED"`
+- `"INVOICE_PAYMENT_NOT_APPLIED"`
+- `"INVOICE_PAYMENT_OPTIONS_REQUIRED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"INVOICE_PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"INVOICE_PAYMENT_PROCESSING"`
+- `"INVOICE_PAYMENT_RESOLVING"`
+- `"INVOICE_PAYMENT_TERM_CHANGED"`
+- `"INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH"`
+- `"INVOICE_PAYMENT_TERM_IN_USE"`
+- `"INVOICE_PAYMENT_TERM_UNAVAILABLE"`
+- `"INVOICE_PDF_UNAVAILABLE"`
+- `"INVOICE_REMINDER_CHANGED"`
+- `"INVOICE_REMINDER_RATE_LIMITED"`
+- `"INVOICE_REMINDER_RULE_LIMIT_EXCEEDED"`
+- `"INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE"`
+- `"INVOICE_SCHEDULE_INVALID"`
+- `"INVOICE_SOURCE_CONFLICT"`
+- `"INVOICE_SOURCE_REQUIRED"`
+- `"INVOICE_TAX_SNAPSHOT_MISSING"`
+- `"INVOICE_TAX_SNAPSHOT_STALE"`
+- `"INVOICE_TIMEZONE_REQUIRED"`
+- `"ITEMS_REQUIRED"`
+- `"LAST_NAME_REQUIRED"`
+- `"LATEST_REVISION"`
+- `"LINE_ITEM_AMOUNT_REQUIRED"`
+- `"LINE_ITEM_DISCOUNT_NO_CHARGE_IDS"`
+- `"LINE_ITEM_DISCOUNT_REQUIRES_IDS"`
+- `"LINE_ITEM_INVALID_QUANTITY"`
+- `"LINE_ITEM_KEY_WHITESPACE"`
+- `"LINE_ITEM_NAME_REQUIRED"`
+- `"LINE_ITEM_NAME_TOO_LONG"`
+- `"LINE_ITEM_NEGATIVE_PRICE"`
+- `"LINE_ITEM_NOT_FOUND"`
+- `"LINE_ITEM_NOT_ON_ORDER"`
+- `"LINE_ITEM_PRICE_REQUIRED"`
+- `"LINE_ITEM_QUANTITY_TOO_LARGE"`
+- `"LINE_ITEM_REFUND_AMOUNT_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_QUANTITY_EXCEEDS_REFUNDABLE"`
+- `"LINE_ITEM_REFUND_TARGET_AMBIGUOUS"`
+- `"LINE_ITEM_SOURCE_CONFLICT"`
+- `"LINE_ITEM_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"LINE_ITEM_UNIT_PRICE_REQUIRED"`
+- `"LIST_IN_USE"`
+- `"LIST_RESERVED"`
+- `"LOCATION_CHANGED"`
+- `"LOCATION_CONFLICT"`
+- `"LOCATION_GEOGRAPHY_CHANGED"`
+- `"LOCATION_GEOGRAPHY_INVALID"`
+- `"LOCATION_INVALID"`
+- `"LOCATION_INVENTORY_CHANGED"`
+- `"LOCATION_IN_USE"`
+- `"LOCATION_NOT_ACTIVE"`
+- `"LOCATION_NOT_FOUND"`
+- `"LOCATION_TOO_LONG"`
+- `"LOCATION_UNAVAILABLE"`
+- `"MAX_BOUND_VIOLATION"`
+- `"MAX_LENGTH_NOT_APPLICABLE"`
+- `"MEMBERSHIP_REQUIRED"`
+- `"MERCHANTS_UNAVAILABLE"`
+- `"MERCHANT_ACCESS_REQUIRED"`
+- `"MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED"`
+- `"MERCHANT_ACCOUNT_NOT_READY"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED"`
+- `"MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_CONTROLLER_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_INELIGIBLE"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_LAUNCH_TOKEN"`
+- `"MERCHANT_ACCOUNT_SESSION_INVALID_POLICY_COMBINATION"`
+- `"MERCHANT_ACCOUNT_SESSION_LAUNCH_TOKEN_SCOPE_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_POLICY_NOT_SUPPORTED_BY_COMPONENT"`
+- `"MERCHANT_ACCOUNT_SESSION_PREPARATION_FAILED"`
+- `"MERCHANT_ACCOUNT_SESSION_PROVIDER_GRANT_MISMATCH"`
+- `"MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
+- `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
+- `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_CHANGED"`
+- `"MERCHANT_CONTEXT_MISSING"`
+- `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
+- `"MERCHANT_FINANCE_READ_FAILED"`
+- `"MERCHANT_NOT_LOADED"`
+- `"MERCHANT_ONBOARDING_REQUIRED"`
+- `"MERCHANT_PROCESSING_RESTRICTED"`
+- `"MERCHANT_READINESS_UNAVAILABLE"`
+- `"MERCHANT_SELECTION_REQUIRED"`
+- `"METADATA_KEY_TOO_LONG"`
+- `"METADATA_TOO_LARGE"`
+- `"METADATA_TOO_MANY_KEYS"`
+- `"METADATA_VALUE_TOO_LONG"`
+- `"METHOD_NOT_ALLOWED"`
+- `"ME_CUSTOMER_ID_FORBIDDEN"`
+- `"MINIMUM_BALANCE_CURRENCY_MISMATCH"`
+- `"MINIMUM_BALANCE_REQUIRED"`
+- `"MIN_BOUND_VIOLATION"`
+- `"MISSING_CURRENCY"`
+- `"MISSING_DISPLAY_NAME"`
+- `"MISSING_EXCLUSIVITY_GROUP"`
+- `"MISSING_LINE_ITEMS"`
+- `"MISSING_REQUIRED_FIELD"`
+- `"MISSING_URL"`
+- `"MIXED_VARIANT_CURRENCIES"`
+- `"MODIFIERS_REQUIRED"`
+- `"MODIFIERS_UNAVAILABLE"`
+- `"MODIFIER_CURRENCY_MISMATCH"`
+- `"MODIFIER_DEFAULT_INVALID"`
+- `"MODIFIER_DUPLICATE_SELECTION"`
+- `"MODIFIER_GROUP_CHANGED"`
+- `"MODIFIER_GROUP_IN_USE"`
+- `"MODIFIER_GROUP_NAME_REQUIRED"`
+- `"MODIFIER_GROUP_REQUIRED"`
+- `"MODIFIER_GROUP_UNAVAILABLE"`
+- `"MODIFIER_IN_USE"`
+- `"MODIFIER_METADATA_UNSUPPORTED"`
+- `"MODIFIER_NAME_REQUIRED"`
+- `"MODIFIER_OVERRIDE_INVALID"`
+- `"MODIFIER_QUANTITY_INVALID"`
+- `"MODIFIER_SELECTION_ID_INVALID"`
+- `"MODIFIER_SELECTION_LIMIT_EXCEEDED"`
+- `"MODIFIER_SET_GROUP_SOURCE_INVALID"`
+- `"MODIFIER_SET_IN_USE"`
+- `"MODIFIER_SET_NAME_REQUIRED"`
+- `"MODIFIER_SET_VERSION_CONFLICT"`
+- `"MODIFIER_SOURCE_UNSUPPORTED"`
+- `"MODIFIER_TEXT_INVALID"`
+- `"MODIFIER_UNAVAILABLE"`
+- `"MONEY_MOVEMENT_HISTORY_STATUS_INVALID"`
+- `"MONEY_MOVEMENT_OPERATION_BLOCKED"`
+- `"MONEY_MOVEMENT_PROVIDER_NOT_CONFIGURED"`
+- `"MONEY_MOVEMENT_PROVIDER_OPERATION_FAILED"`
+- `"MONTHLY_PAYOUT_DAYS_NOT_ALLOWED"`
+- `"MONTHLY_PAYOUT_DAYS_REQUIRED"`
+- `"MULTIPLE_IDENTITIES_FOUND"`
+- `"NAME_REQUIRED"`
+- `"NAME_TOO_LONG"`
+- `"NORMALIZED_IMAGE_TOO_LARGE"`
+- `"NOTE_TOO_LONG"`
+- `"NOTHING_TO_REFUND"`
+- `"NOTHING_TO_REFUND_FOR_CHARGE"`
+- `"NOTHING_TO_REFUND_FOR_LINE_ITEM"`
+- `"NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN"`
+- `"NO_DISCOUNTABLE_BALANCE"`
+- `"NO_FIELDS_TO_UPDATE"`
+- `"NO_PAYMENTS_FOR_ORDER"`
+- `"NULL_NOT_ALLOWED"`
+- `"OAUTH_CONTEXT_MISMATCH"`
+- `"OAUTH_UNAVAILABLE"`
+- `"ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED"`
+- `"ONBOARDING_DIRECT_OWNER_REQUIRED"`
+- `"ONBOARDING_PARTNER_AUTH_UNSUPPORTED"`
+- `"ONBOARDING_PROFILE_PROVIDER_MANAGED"`
+- `"ONBOARDING_SESSION_REQUIRED"`
+- `"ONBOARDING_SESSION_TOKEN_FAILED"`
+- `"ONBOARDING_UNAVAILABLE"`
+- `"OPTIONS_REQUIRED"`
+- `"OPTION_REQUIRED"`
+- `"OPTION_VALUES_REQUIRED"`
+- `"OPTION_VALUE_REFERENCE_REQUIRED"`
+- `"OPTION_VALUE_REQUIRED"`
+- `"OPTION_VALUE_TOO_LONG"`
+- `"ORDERS_UNAVAILABLE"`
+- `"ORDER_ALREADY_CLOSED"`
+- `"ORDER_ALREADY_HAS_ACTIVE_INVOICE"`
+- `"ORDER_ALREADY_HAS_PAYMENTS"`
+- `"ORDER_ALREADY_HAS_REFUNDS"`
+- `"ORDER_ALREADY_PAID"`
+- `"ORDER_CHANGED_REFRESH_REQUIRED"`
+- `"ORDER_CHARGE_ID_REQUIRED"`
+- `"ORDER_CHARGE_NOT_FOUND"`
+- `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CLOSED"`
+- `"ORDER_COLLECTION_ALREADY_ACTIVE"`
+- `"ORDER_COLLECTION_IN_PROGRESS"`
+- `"ORDER_CONFLICT"`
+- `"ORDER_CURRENCY_REQUIRED"`
+- `"ORDER_CUSTOMER_ALREADY_SET"`
+- `"ORDER_CUSTOMER_CHECKOUT_ACTIVE"`
+- `"ORDER_CUSTOMER_NOT_CLEARABLE"`
+- `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
+- `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
+- `"ORDER_HAS_ACTIVE_PAYMENT_INTENT"`
+- `"ORDER_HAS_MANUAL_PAYMENTS"`
+- `"ORDER_HAS_NO_CHARGES"`
+- `"ORDER_HAS_NO_LINE_ITEMS"`
+- `"ORDER_HAS_NO_REFUNDABLE_CHARGES"`
+- `"ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS"`
+- `"ORDER_HAS_OPEN_CHECKOUT"`
+- `"ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE"`
+- `"ORDER_INVENTORY_EXCEPTION_UNRESOLVED"`
+- `"ORDER_LINE_ITEM_ID_REQUIRED"`
+- `"ORDER_LINE_ITEM_NOT_FOUND"`
+- `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
+- `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_NOT_FOUND"`
+- `"ORDER_NOT_FULFILLABLE"`
+- `"ORDER_NOT_OPEN"`
+- `"ORDER_NOT_PAYABLE"`
+- `"ORDER_OWNED_PAYMENT_INTENT_REQUIRED"`
+- `"ORDER_PAYMENT_ATTEMPT_ACTIVE"`
+- `"ORDER_PAYMENT_AUTHORIZATION_NOT_FOUND"`
+- `"ORDER_PAYMENT_CUSTOMER_MISMATCH"`
+- `"ORDER_PAYMENT_FLOW_REQUIRED"`
+- `"ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS"`
+- `"ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW"`
+- `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
+- `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
+- `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
+- `"ORDER_RECEIPT_MERCHANT_MANAGED"`
+- `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
+- `"ORDER_RECONCILIATION_REQUIRED"`
+- `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
+- `"ORDER_REQUIRED_FOR_LINE_ITEM_REFUND"`
+- `"ORDER_REQUIRED_FOR_TAX_BREAKDOWN_REFUND"`
+- `"ORDER_REQUIRED_FOR_TENDER_REFUND"`
+- `"ORDER_REVISION_REQUIRED"`
+- `"ORDER_STATUS_NOT_CLOSABLE"`
+- `"ORDER_TAX_CALCULATION_FAILED"`
+- `"ORDER_TAX_FULL_ADDRESS_REQUIRED"`
+- `"ORDER_TAX_LOCATION_INVALID"`
+- `"ORDER_TAX_LOCATION_REQUIRED"`
+- `"ORDER_TAX_NOT_READY"`
+- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_RATE_UNAVAILABLE"`
+- `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
+- `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
+- `"ORDER_UNAVAILABLE"`
+- `"ORGANIZATION_CYCLE"`
+- `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
+- `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORG_SCOPE_RESOLUTION_FAILED"`
+- `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
+- `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_FORBIDDEN"`
+- `"OWNERSHIP_TRANSFER_REQUIRED"`
+- `"PACKAGE_ACTION_NOT_ALLOWED"`
+- `"PACKAGE_CHANGED"`
+- `"PACKAGE_PARENT_CHANGED"`
+- `"PACKAGE_REQUIRED"`
+- `"PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN"`
+- `"PAID_LINE_ITEM_REMOVAL_FORBIDDEN"`
+- `"PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN"`
+- `"PARTIAL_CAPTURE_NOT_SUPPORTED"`
+- `"PARTNER_APP_INSTALL_NOT_FOUND"`
+- `"PARTNER_APP_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"PARTNER_APP_NOT_FOUND"`
+- `"PARTNER_AUTH_UNSUPPORTED"`
+- `"PARTNER_TOKEN_VALIDATION_FAILED"`
+- `"PAUSE_DURATION_REQUIRED"`
+- `"PAUSE_DURATION_TOO_LONG"`
+- `"PAUSE_NOT_ALLOWED"`
+- `"PAYMENT_ACTION_EXPIRED"`
+- `"PAYMENT_ACTION_WINDOW_TOO_SHORT"`
+- `"PAYMENT_ALREADY_CANCELED"`
+- `"PAYMENT_ALREADY_SETTLED"`
+- `"PAYMENT_ALREADY_SUCCEEDED"`
+- `"PAYMENT_AMOUNT_CHANGED"`
+- `"PAYMENT_ATTEMPT_FROZEN"`
+- `"PAYMENT_ATTEMPT_ID_REQUIRED"`
+- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
+- `"PAYMENT_ATTEMPT_MISMATCH"`
+- `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
+- `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
+- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
+- `"PAYMENT_AUTHORIZATION_EXPIRED"`
+- `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
+- `"PAYMENT_BLOCKED"`
+- `"PAYMENT_CANCELED"`
+- `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
+- `"PAYMENT_CONFIRM_IN_PROGRESS"`
+- `"PAYMENT_CONFLICT"`
+- `"PAYMENT_EXPIRED"`
+- `"PAYMENT_FAILED"`
+- `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
+- `"PAYMENT_INTENT_DISPUTED"`
+- `"PAYMENT_INTENT_LIMIT_REACHED"`
+- `"PAYMENT_INTENT_NOT_CANCELABLE"`
+- `"PAYMENT_INTENT_NOT_FOUND"`
+- `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
+- `"PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_LEG_SELECTION_REQUIRED"`
+- `"PAYMENT_LINKS_UNAVAILABLE"`
+- `"PAYMENT_LINK_CHANGED"`
+- `"PAYMENT_LINK_CHANGED_RETRY"`
+- `"PAYMENT_LINK_FULFILLMENT_UNAVAILABLE"`
+- `"PAYMENT_LINK_INACTIVE"`
+- `"PAYMENT_LINK_LINE_ITEM_UNAVAILABLE"`
+- `"PAYMENT_LINK_MAX_COMPLETIONS_REACHED"`
+- `"PAYMENT_LINK_METADATA_TOO_LARGE"`
+- `"PAYMENT_LINK_METADATA_TOO_MANY_KEYS"`
+- `"PAYMENT_LINK_NOT_FOUND"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_INVALID"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_CONTEXT_REQUIRED"`
+- `"PAYMENT_LINK_RESOLUTION_RATE_LIMITED"`
+- `"PAYMENT_LINK_RESOLUTION_REPLAY_UNAVAILABLE"`
+- `"PAYMENT_LINK_RESOLUTION_UNAVAILABLE"`
+- `"PAYMENT_METHOD_CUSTOMER_MISMATCH"`
+- `"PAYMENT_METHOD_DECLINED"`
+- `"PAYMENT_METHOD_DOMAINS_UNAVAILABLE"`
+- `"PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS"`
+- `"PAYMENT_METHOD_DOMAIN_NOT_FOUND"`
+- `"PAYMENT_METHOD_DOMAIN_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_METHOD_DOMAIN_REGISTRATION_FAILED"`
+- `"PAYMENT_METHOD_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PAYMENT_METHOD_NOT_ACTIVE"`
+- `"PAYMENT_METHOD_NOT_READY"`
+- `"PAYMENT_METHOD_ON_SESSION_ONLY"`
+- `"PAYMENT_METHOD_REQUIRED"`
+- `"PAYMENT_METHOD_SAVE_CODE_LIMIT_REACHED"`
+- `"PAYMENT_METHOD_SAVE_EMAIL_UNAVAILABLE"`
+- `"PAYMENT_METHOD_SAVE_NOT_PENDING"`
+- `"PAYMENT_METHOD_SAVE_NOT_READY"`
+- `"PAYMENT_METHOD_TEMPORARILY_UNAVAILABLE"`
+- `"PAYMENT_METHOD_UNAVAILABLE"`
+- `"PAYMENT_NOT_COMPLETED"`
+- `"PAYMENT_NOT_REQUIRED"`
+- `"PAYMENT_OPERATION_IN_PROGRESS"`
+- `"PAYMENT_OPTIONS_NOT_COMPARABLE"`
+- `"PAYMENT_OPTIONS_REQUIRED"`
+- `"PAYMENT_OPTION_LIMIT_EXCEEDED"`
+- `"PAYMENT_OPTION_LIMIT_NOT_ENABLED"`
+- `"PAYMENT_OPTION_NOT_ALLOWED"`
+- `"PAYMENT_OPTION_NOT_READY"`
+- `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_UNAVAILABLE"`
+- `"PAYMENT_PROCESSOR_ERROR"`
+- `"PAYMENT_PROCESSOR_REJECTED"`
+- `"PAYMENT_PROCESSOR_UNAVAILABLE"`
+- `"PAYMENT_REQUIRED"`
+- `"PAYMENT_RETURN_URL_INVALID"`
+- `"PAYMENT_RETURN_URL_REQUIRED"`
+- `"PAYMENT_REVIEW_OPEN"`
+- `"PAYMENT_SOURCE_CONFLICT"`
+- `"PAYMENT_SOURCE_NOT_ALLOWED"`
+- `"PAYMENT_SOURCE_NOT_UPDATABLE"`
+- `"PAYMENT_SOURCE_OWNERSHIP_MISMATCH"`
+- `"PAYMENT_SOURCE_REQUIRED"`
+- `"PAYMENT_SOURCE_SELECTION_CONFLICT"`
+- `"PAYMENT_SOURCE_SELECTION_REQUIRED"`
+- `"PAYMENT_SOURCE_UNAVAILABLE"`
+- `"PAYMENT_START_SHAPE_CONFLICT"`
+- `"PAYMENT_UPDATE_REJECTED"`
+- `"PAYMENT_UPDATE_UNAVAILABLE"`
+- `"PAYOUTS_NOT_ENABLED"`
+- `"PAYOUT_DELAY_PROVIDER_CONTROLLED"`
+- `"PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_DESTINATION_NOT_FOUND"`
+- `"PAYOUT_DESTINATION_UPDATE_EMPTY"`
+- `"PAYOUT_ENTRIES_UNAVAILABLE"`
+- `"PAYOUT_FEE_NOT_DETERMINABLE"`
+- `"PAYOUT_NOT_CANCELABLE"`
+- `"PAYOUT_NOT_FOUND"`
+- `"PAYOUT_SETTINGS_MANAGED_EXTERNALLY"`
+- `"PAYOUT_SETTINGS_MANAGEMENT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_SNAPSHOT_UNAVAILABLE"`
+- `"PAYOUT_SETTINGS_UPDATE_EMPTY"`
+- `"PAYOUT_STATUS_NOT_CANCELABLE"`
+- `"PLAN_ARCHIVED"`
+- `"PLAN_HAS_ACTIVE_PAYMENT_LINKS"`
+- `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
+- `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
+- `"PLAN_NOT_ACTIVE"`
+- `"PRICE_TOO_HIGH"`
+- `"PROCESSING_ERROR"`
+- `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
+- `"PROCESSING_FEE_PRICING_UNAVAILABLE"`
+- `"PROCESSOR_NOT_CONFIGURED"`
+- `"PRODUCT_IN_ACTIVE_PLAN"`
+- `"PRODUCT_IN_ACTIVE_SUBSCRIPTION"`
+- `"PRODUCT_IN_OPEN_CHECKOUT_SESSION"`
+- `"PRODUCT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"PRODUCT_IN_OPEN_ORDER"`
+- `"PRODUCT_IN_USE"`
+- `"PRODUCT_LINE_ITEM_SOURCE_UNSUPPORTED"`
+- `"PRODUCT_OPTIONS_REQUIRED"`
+- `"PRODUCT_OPTION_ALREADY_EXISTS"`
+- `"PRODUCT_OPTION_VALUE_ALREADY_EXISTS"`
+- `"PROFILE_RECONCILIATION_PENDING"`
+- `"PROFILE_UPDATE_STATUS_UNKNOWN"`
+- `"PROFILE_WRITE_LIVE_MODE_REQUIRED"`
+- `"PROMOTION_CODES_DISABLED"`
+- `"PROMOTION_CONFLICT"`
+- `"PROMOTION_DECLINED"`
+- `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_ID_REQUIRED"`
+- `"PROMOTION_NOT_CODE_GATED"`
+- `"PROMOTION_NOT_FOUND"`
+- `"PROMOTION_NOT_REDEEMABLE"`
+- `"PROMOTION_NO_ACTIVE_CODES"`
+- `"PROMOTION_SHAPE_IMMUTABLE"`
+- `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
+- `"PROVIDER_READINESS_UNAVAILABLE"`
+- `"PROVISIONING_FAILED"`
+- `"QUANTITY_ABOVE_MAX"`
+- `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_NOT_ADJUSTABLE"`
+- `"RANGE_REQUIRED"`
+- `"RATE_LIMIT_EXCEEDED"`
+- `"RECEIPT_EMAIL_NOT_UPDATABLE"`
+- `"RECIPIENT_EMAIL_REQUIRED"`
+- `"REFUND_ADJUSTMENTS_EXCEED_AUTOMATIC"`
+- `"REFUND_ADJUSTMENT_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_ACTOR_ID_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_REQUIRED"`
+- `"REFUND_ADJUSTMENT_AUDIT_SOURCE_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_LINE_ITEM_MISMATCH"`
+- `"REFUND_ADJUSTMENT_NOT_FOUND"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_MISMATCH"`
+- `"REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REASON_DESCRIPTION_TOO_LONG"`
+- `"REFUND_ADJUSTMENT_REASON_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_AMOUNT_MONEY_REQUIRED"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE"`
+- `"REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING"`
+- `"REFUND_AMOUNT_NOT_ALLOCATED"`
+- `"REFUND_INSUFFICIENT_AVAILABLE_BALANCE"`
+- `"REFUND_LINE_ITEM_ADJUSTMENT_ID_REQUIRED"`
+- `"REFUND_SUBMISSION_DEADLINE_EXPIRED"`
+- `"REFUND_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"REFUND_TARGETS_NOT_ALLOCATED"`
+- `"REFUND_TENDER_CAPACITY_CONFLICT"`
+- `"REFUND_TENDER_NOT_FOUND"`
+- `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
+- `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPORTING_TIMEZONE_REQUIRED"`
+- `"REPORTING_UNAVAILABLE"`
+- `"REPORT_DOWNLOAD_EXPIRED"`
+- `"REPORT_INTERVAL_INCOMPLETE"`
+- `"REPORT_INTERVAL_TOO_LARGE"`
+- `"REPORT_NOT_FOUND"`
+- `"REQUEST_BODY_NOT_ALLOWED"`
+- `"REQUEST_BODY_TOO_LARGE"`
+- `"REQUEST_FAILED"`
+- `"REQUEST_TIMEOUT"`
+- `"REQUIRED_CUSTOM_FIELD_MISSING"`
+- `"RESERVED_FIELD_NOT_YET_SUPPORTED"`
+- `"RESERVED_METADATA_KEY"`
+- `"RESOURCE_LIMIT_EXCEEDED"`
+- `"RESOURCE_NOT_FOUND"`
+- `"RESOURCE_TIMELINE_TOKEN_INVALID"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_NOT_ALLOWED"`
+- `"RETENTION_OFFER_PAUSE_CYCLES_REQUIRED"`
+- `"RETENTION_OFFER_PAUSE_TOO_LONG"`
+- `"RETENTION_OFFER_REQUIRES_PAUSE"`
+- `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_COMPLETION_BLOCKED"`
+- `"RETURN_DECISION_SCOPE_REQUIRED"`
+- `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
+- `"RETURN_FULFILLMENT_ALLOCATION_AMBIGUOUS"`
+- `"RETURN_INSPECTION_QUANTITY_EXCEEDED"`
+- `"RETURN_INVALID"`
+- `"RETURN_LINE_CANCELLATION_CONFLICT"`
+- `"RETURN_NOT_FOUND"`
+- `"RETURN_PACKAGE_ALLOCATION_EXCEEDS_SHIPMENT"`
+- `"RETURN_PACKAGE_LINE_DUPLICATED"`
+- `"RETURN_PACKAGE_LINE_ITEMS_REQUIRED"`
+- `"RETURN_PACKAGE_QUANTITY_INVALID"`
+- `"RETURN_POLICY_CONFLICT"`
+- `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
+- `"RETURN_SHIPMENT_INVALID"`
+- `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_INVALID"`
+- `"RETURN_VALUE_EXCEEDED"`
+- `"RETURN_VERSION_CONFLICT"`
+- `"REVERSAL_EXCEEDS_MANUAL_PAYMENTS"`
+- `"REVIEW_ALREADY_CLOSED"`
+- `"REVIEW_NOT_FOUND"`
+- `"REVIEW_RESOLUTION_IN_PROGRESS"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW"`
+- `"RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION"`
+- `"RISK_CONTROL_CONFLICT"`
+- `"RISK_EVALUATION_UNAVAILABLE"`
+- `"RISK_LIST_ALIAS_ALREADY_EXISTS"`
+- `"RISK_RESOURCE_NOT_FOUND"`
+- `"ROLE_ASSIGNMENT_FORBIDDEN"`
+- `"ROLE_MANAGEMENT_FORBIDDEN"`
+- `"ROOT_ORGANIZATION_CREATION_FORBIDDEN"`
+- `"ROUTE_NOT_FOUND"`
+- `"RULES_REQUIRED"`
+- `"RULE_ACTION_UNAVAILABLE_AT_STAGE"`
+- `"RULE_LIMIT_EXCEEDED"`
+- `"RULE_RESERVED"`
+- `"SANDBOXES_UNAVAILABLE"`
+- `"SANDBOX_ALREADY_EXISTS"`
+- `"SANDBOX_ARCHIVED"`
+- `"SANDBOX_ARCHIVE_FAILED"`
+- `"SANDBOX_BOOTSTRAP_FAILED"`
+- `"SANDBOX_CREATE_FAILED"`
+- `"SANDBOX_ID_NOT_ALLOWED"`
+- `"SANDBOX_ID_REQUIRED"`
+- `"SANDBOX_INACTIVE"`
+- `"SANDBOX_LIST_FAILED"`
+- `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
+- `"SANDBOX_NOT_ACCESSIBLE"`
+- `"SANDBOX_NOT_FOUND"`
+- `"SANDBOX_PLANE_UNAVAILABLE"`
+- `"SANDBOX_RESET_FAILED"`
+- `"SANDBOX_RESET_UNAVAILABLE"`
+- `"SANDBOX_SELECTION_FORBIDDEN"`
+- `"SANDBOX_SELECTION_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_CREDENTIAL_REQUIRED"`
+- `"SAVE_PAYMENT_METHOD_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
+- `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
+- `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
+- `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
+- `"SCHEDULED_SEND_IN_PAST"`
+- `"SCOPES_REQUIRED"`
+- `"SCOPE_NOT_ALLOWED"`
+- `"SCOPE_NOT_ALLOWED_FOR_KEY_MODE"`
+- `"SELECTED_OPTIONS_REQUIRED"`
+- `"SELF_ROLE_EDITS_FORBIDDEN"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_INVALID"`
+- `"SENSITIVE_IDEMPOTENCY_ENCRYPTION_UNCONFIGURED"`
+- `"SENSITIVE_IDEMPOTENCY_RESULT_INVALID"`
+- `"SERVER_GENERATED_ID"`
+- `"SERVICE_CHARGE_DISCOUNT_NO_LINE_ITEM_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_REQUIRES_CHARGE_IDS"`
+- `"SERVICE_CHARGE_DISCOUNT_SCOPE_INVALID"`
+- `"SERVICE_TIMEZONE_REQUIRED"`
+- `"SERVICE_UNAVAILABLE"`
+- `"SETTINGS_CONCURRENT_MODIFICATION"`
+- `"SETTINGS_UNAVAILABLE"`
+- `"SETTINGS_WRITE_FORBIDDEN"`
+- `"SETUP_SOURCE_NON_ZERO_ORDER"`
+- `"SETUP_SOURCE_SUBSCRIPTION_REQUIRED"`
+- `"SHIPMENT_CHANGED"`
+- `"SHIPMENT_CREATED_RANGE_INVALID"`
+- `"SHIPMENT_HANDOFF_RANGE_INVALID"`
+- `"SHIPMENT_PACKAGE_ITEM_LINE_ITEM_NOT_IN_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT"`
+- `"SHIPMENT_PACKAGE_NOT_MUTABLE"`
+- `"SHIPMENT_PACKAGE_NOT_VOIDABLE"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_CONFLICT"`
+- `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
+- `"SHIPMENT_PACKAGE_TERMINAL"`
+- `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKU_ALREADY_EXISTS"`
+- `"SOURCE_CONTEXT_CONFLICT"`
+- `"STANDARD_PAYOUTS_UNAVAILABLE"`
+- `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
+- `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
+- `"SUBSCRIPTION_BILLING_START_INVALID"`
+- `"SUBSCRIPTION_CANCELED"`
+- `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
+- `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
+- `"SUBSCRIPTION_INITIATED_BY_INVALID"`
+- `"SUBSCRIPTION_MODE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
+- `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
+- `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
+- `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
+- `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
+- `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
+- `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
+- `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
+- `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSET_ONLY_VIOLATION"`
+- `"SUGGESTED_AMOUNT_ABOVE_MAX"`
+- `"SUGGESTED_AMOUNT_BELOW_MIN"`
+- `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
+- `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRED"`
+- `"TAX_ADJUSTMENT_REASON_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_ADJUSTMENT_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_ID_REQUIRED"`
+- `"TAX_BREAKDOWN_LINE_ITEM_MISMATCH"`
+- `"TAX_BREAKDOWN_NOT_ORDER_SCOPED_FLAT"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUNDS_REQUIRE_EXPLICIT_MODE"`
+- `"TAX_BREAKDOWN_REFUNDS_WITHOUT_TAX"`
+- `"TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING"`
+- `"TAX_BREAKDOWN_REFUND_MONEY_REQUIRED"`
+- `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
+- `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
+- `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_INPUT_CONFLICT"`
+- `"TAX_MODE_MISMATCH"`
+- `"TAX_MONEY_REQUIRED"`
+- `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
+- `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TICKET_PREFIX_TOO_LONG"`
+- `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
+- `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_LIMIT_EXCEEDED"`
+- `"TOO_MANY_CUSTOM_FIELDS"`
+- `"TOO_MANY_LINE_ITEMS"`
+- `"TOO_MANY_PENDING_REPORTS"`
+- `"TOO_MANY_SUGGESTED_AMOUNTS"`
+- `"TRANSACTION_PURPOSE_NOT_APPLICABLE"`
+- `"TRANSACTION_PURPOSE_REQUIRED"`
+- `"TRIAL_NEGATIVE"`
+- `"TRIAL_TOO_LONG"`
+- `"UNKNOWN_ATTRIBUTE"`
+- `"UNKNOWN_BUNDLE_COMPONENT"`
+- `"UNKNOWN_CATEGORY_HANDLE"`
+- `"UNKNOWN_CLIENT_OPTION_VALUE"`
+- `"UNKNOWN_CUSTOM_FIELD_KEY"`
+- `"UNKNOWN_FIELD"`
+- `"UNKNOWN_LINE_ITEM_KEY"`
+- `"UNKNOWN_OPTION"`
+- `"UNKNOWN_OPTION_VALUE"`
+- `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
+- `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
+- `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_SCOPE"`
+- `"UNSAFE_FEEDBACK_CONTENT"`
+- `"UNSUPPORTED_APPLICATION_TYPE"`
+- `"UNSUPPORTED_CONTENT_TYPE"`
+- `"UNSUPPORTED_CURRENCY"`
+- `"UNSUPPORTED_PREVIEW_DISCOUNT"`
+- `"UNSUPPORTED_PROCESSOR"`
+- `"UNSUPPORTED_PRODUCT_FIELD"`
+- `"UNSUPPORTED_QUERY_PARAM"`
+- `"UNSUPPORTED_RESOURCE_TYPE"`
+- `"UPDATE_MASK_REQUIRED"`
+- `"URL_TOO_LONG"`
+- `"VALIDATION_ERROR"`
+- `"VALUES_REQUIRED"`
+- `"VALUE_REQUIRED"`
+- `"VALUE_TOO_LONG"`
+- `"VARIANTS_REQUIRED"`
+- `"VARIANT_IN_ACTIVE_BUNDLE"`
+- `"VARIANT_IN_ACTIVE_PAYMENT_LINK"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION"`
+- `"VARIANT_IN_ACTIVE_SUBSCRIPTION_PLAN"`
+- `"VARIANT_IN_OPEN_CHECKOUT_SESSION"`
+- `"VARIANT_IN_OPEN_INVOICE_PAYMENT_ATTEMPT"`
+- `"VARIANT_IN_OPEN_ORDER"`
+- `"VARIANT_NOT_SELLABLE"`
+- `"VARIANT_OPTION_COMBINATION_ALREADY_EXISTS"`
+- `"VERIFICATION_ALREADY_USED"`
+- `"VERIFICATION_ATTEMPTS_EXCEEDED"`
+- `"VERIFICATION_CODE_FAILED"`
+- `"VERIFICATION_EMAIL_FAILED"`
+- `"VERIFICATION_TOKEN_FAILED"`
+- `"VERSION_CONFLICT"`
+- `"WEBHOOKS_UNAVAILABLE"`
+- `"WEBHOOK_DELIVERY_IN_FLIGHT"`
+- `"WEBHOOK_DELIVERY_UNAVAILABLE"`
+- `"WEBHOOK_ENDPOINT_NOT_ACTIVE"`
+- `"WEBHOOK_EVENT_PAYLOAD_EXPIRED"`
+- `"WEBHOOK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"WEBHOOK_STREAM_CONNECTION_LIMIT"`
 - `"WEBHOOK_STREAM_LIMITER_UNAVAILABLE"`
 - `"WEBHOOK_STREAM_NOTIFIER_UNAVAILABLE"`
@@ -13797,6 +20302,89 @@ Variants: object, object, object.
 - `"failed"`
 - `"canceled"`
 - `"expired"`
+
+#### InventoryTransferActionConflictErrorObject reason values
+
+- `"active"`
+- `"allow"`
+- `"already_applied"`
+- `"amount_out_of_range"`
+- `"applies_to"`
+- `"archived"`
+- `"automatic_disabled"`
+- `"block"`
+- `"bounded_inventory_guarantee_not_supported"`
+- `"buy_item_missing"`
+- `"capability_blocked"`
+- `"capability_pending"`
+- `"card_unavailable"`
+- `"checkout_order_ownership_required"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
+- `"country_not_supported"`
+- `"country_required"`
+- `"currency_mismatch"`
+- `"currency_not_supported"`
+- `"customer_unavailable"`
+- `"disabled"`
+- `"disabled_by_merchant_settings"`
+- `"disabled_by_platform_policy"`
+- `"exhausted"`
+- `"existing_order_checkout"`
+- `"expired"`
+- `"inactive"`
+- `"ineligible_origin"`
+- `"insufficient_available_balance"`
+- `"invalid_configuration"`
+- `"invoice_finalized"`
+- `"limited_benefit_capacity_not_supported"`
+- `"manual_capture_not_supported"`
+- `"max_promotions_reached"`
+- `"merchant_account_action_required"`
+- `"merchant_hosted_customer_accounts"`
+- `"merchant_payments_disabled"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_checkout_session"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_found"`
+- `"not_publishable"`
+- `"not_supported"`
+- `"not_yet_started"`
+- `"off_session_not_supported"`
+- `"partial_payment"`
+- `"payment_account_context_invalid"`
+- `"payment_account_setup_incomplete"`
+- `"payment_disputed"`
+- `"payment_option_access_not_provisioned"`
+- `"payment_option_activation_pending"`
+- `"payment_option_not_available"`
+- `"payment_option_not_in_plan"`
+- `"recurrence"`
+- `"recurring_ach_not_supported"`
+- `"recurring_not_supported"`
+- `"redirects_required"`
+- `"require_3ds"`
+- `"requirements_due"`
+- `"return_checkout"`
+- `"review"`
+- `"revision_unavailable"`
+- `"revoked"`
+- `"session_not_open"`
+- `"setting_off"`
+- `"source_delayed_settlement_not_supported"`
+- `"source_not_supported"`
+- `"split_payment_not_supported"`
+- `"subscription_checkout"`
+- `"subscription_terms_locked"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
+- `"surface_not_supported"`
+- `"unknown_type"`
+- `"unsupported_evaluation_schema"`
+- `"unsupported_use"`
 
 #### InventoryTransferActionConflictErrorObject type values
 
@@ -13956,7 +20544,8 @@ Variants: object, object, object, object, object.
 | `reference` | Optional | string |  |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `reminders_paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `reminders_paused` | Required | boolean | Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it. Response only. |
+| `reminders_paused_at` | Optional | string | When automatic reminders were paused. Absent while reminders are active. Format: `date-time`. Response only. |
 | `remit_to_address` | Optional | object | Response only. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntry](MODELS.md#invoicescheduleentry) | Response only. |
 | `scheduled_send_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -13970,6 +20559,77 @@ Variants: object, object, object, object, object.
 | `viewed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `written_off_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+
+## InvoiceActivity
+
+Read-only invoice history row for timeline rendering and debugging. Detail fields are present only on the activity types their descriptions list. The invoice and the referenced resources remain authoritative for state and money movement.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `activity_type` | Required | string | What happened. New values may be added; treat an unrecognized value like `updated`. Values: [25 declared values](#invoiceactivity-activity_type-values). |
+| `actor_id` | Optional | string | Merchant ID of the actor, when actor_type is merchant. Some system activities also carry the merchant ID. |
+| `actor_type` | Optional | string | Who performed the activity: the merchant (an API key or dashboard user), the buyer, or Flint on a schedule or in response to a payment event. Absent when no actor was recorded. Values: `"merchant"`, `"buyer"`, `"system"`. |
+| `amount_money` | Optional | object | Amount of the payment, refund, or late fee. Present on payment_applied, manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a credit note refund was requested. |
+| `channel` | Optional | string | Delivery channel. Present on delivery_sent and reminder_sent. Values: `"email"`. |
+| `checkout_session_id` | Optional | string | Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments. |
+| `collection_block_reason` | Optional | string | Why collection was blocked or unblocked. Present on collection_blocked and collection_block_resolved. Values: `"inventory_unavailable"`, `"inventory_restored"`. |
+| `created_at` | Required | string | When the activity happened. Format: `date-time`. |
+| `credit_money` | Optional | object | Total credit applied to the invoice. Present on credited. |
+| `credit_note_id` | Optional | string | Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. |
+| `description` | Required | string | Human-readable Flint description of the activity. |
+| `due_at` | Optional | string | Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: `date-time`. |
+| `error_code` | Optional | string | Error code of the failed scheduled issue. Present on issue_failed. |
+| `expected_amount_money` | Optional | object | Amount the processing payment is expected to settle. Present on payment_processing. |
+| `expected_settlement_at` | Optional | string | When the processing payment is expected to settle. Present on payment_processing when known. Format: `date-time`. |
+| `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. |
+| `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. |
+| `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. |
+| `invoice_payment_attempt_id` | Optional | string | The payment attempt. Present on payment_attempt_started and payment_processing. |
+| `invoice_schedule_entry_id` | Optional | string | Schedule entry the activity applies to. Present on overdue, reminder_due, late_fee_due, late_fee_assessed, and late_fee_waived when the invoice has a payment schedule. |
+| `payment_intent_id` | Optional | string | Payment intent whose funds were applied. Present on payment_applied. |
+| `payment_rail` | Optional | string | Payment rail of the attempt. Present on payment_processing. Values: `"card"`, `"ach_debit"`, `"manual"`. |
+| `refund_id` | Optional | string | Related refund. Present on refund_succeeded, and on updated when a card refund changed or a credit note refund was requested or changed. Read the refund for its current status. |
+| `to_email` | Optional | string | Recipient of the email. Present on delivery_sent and reminder_sent. |
+| `written_off_money` | Optional | object | Balance written off. Present on marked_uncollectible. |
+
+#### InvoiceActivity activity_type values
+
+- `"draft_created"`
+- `"issued"`
+- `"sent"`
+- `"delivery_sent"`
+- `"reminder_sent"`
+- `"viewed"`
+- `"payment_attempt_started"`
+- `"payment_applied"`
+- `"manual_payment_recorded"`
+- `"manual_payment_reversed"`
+- `"refund_succeeded"`
+- `"voided"`
+- `"token_regenerated"`
+- `"collection_blocked"`
+- `"collection_block_resolved"`
+- `"updated"`
+- `"marked_uncollectible"`
+- `"payment_processing"`
+- `"issue_failed"`
+- `"overdue"`
+- `"reminder_due"`
+- `"late_fee_due"`
+- `"late_fee_assessed"`
+- `"late_fee_waived"`
+- `"credited"`
+
+## InvoiceActivityListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [InvoiceActivity](MODELS.md#invoiceactivity) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
 
 ## InvoiceAutopayRetryPolicy
 
@@ -14062,58 +20722,6 @@ Variants: any, any, any, any.
 | `promotion_code` | Optional | string |  |
 | `promotion_id` | Optional | string |  |
 | `source` | Required | string | Values: `"manual"`, `"promotion"`. |
-
-## InvoiceEvent
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `actor_id` | Optional | string |  |
-| `actor_type` | Optional | string |  |
-| `description` | Required | string |  |
-| `event_type` | Required | string | Flint-normalized invoice event type. Unmapped internal values are returned as updated. Values: [24 declared values](#invoiceevent-event_type-values). |
-| `invoice_event_id` | Required | string |  |
-| `metadata` | Optional | object |  |
-| `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-
-#### InvoiceEvent event_type values
-
-- `"draft_created"`
-- `"issued"`
-- `"sent"`
-- `"delivery_sent"`
-- `"reminder_sent"`
-- `"viewed"`
-- `"payment_applied"`
-- `"manual_payment_recorded"`
-- `"manual_payment_reversed"`
-- `"refund_succeeded"`
-- `"voided"`
-- `"token_regenerated"`
-- `"collection_blocked"`
-- `"collection_block_resolved"`
-- `"updated"`
-- `"marked_uncollectible"`
-- `"payment_processing"`
-- `"issue_failed"`
-- `"overdue"`
-- `"reminder_due"`
-- `"late_fee_due"`
-- `"late_fee_assessed"`
-- `"late_fee_waived"`
-- `"credited"`
-
-## InvoiceEventListResponse
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `data` | Required | Array of [InvoiceEvent](MODELS.md#invoiceevent) |  |
-| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
-| `next_page_token` | Optional | string |  |
-| `request_id` | Optional | string |  |
 
 ## InvoiceLateFee
 
@@ -14792,7 +21400,6 @@ A physical or logical place a merchant operates from. Locations own geography an
 | `status` | Required | string | Current Location lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `timezone` | Required | string | IANA timezone for local schedules. |
 | `updated_at` | Required | string | Time the Location last changed. Format: `date-time`. |
-| `validation_failure_reason` | Optional | string | Normalized reason address validation failed. |
 | `validation_status` | Required | string | Address validation status. Values: `"not_validated"`, `"validated"`, `"merchant_verified"`. |
 | `version` | Required | exact numeric string | Optimistic-concurrency version for general Location writes. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 
@@ -14889,6 +21496,51 @@ The inventory capability on a Location. Present only when the caller holds comme
 | `order_line_item_ids` | Optional | Array of string |  |
 | `scope` | Optional | string | Values: `"order"`, `"line_item"`. |
 
+## MeFlintWalletCard
+
+An independent card saved with Flint that the current buyer can set up at this store. Store copies have their own consent and lifecycle.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `brand` | Required | string | Values: `"visa"`, `"mastercard"`, `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"unionpay"`. |
+| `exp_month` | Required | integer | Format: `int32`. |
+| `exp_year` | Required | integer | Format: `int32`. |
+| `id` | Required | string | Opaque handle for this card at this store. Handles differ across stores and cannot be used at another store. |
+| `last4` | Required | string |  |
+| `store_payment_method_id` | Required | string or null | The store's independent card copy, or null when this store does not hold a copy. A pending copy still needs confirmation before use. |
+
+## MeFlintWalletCardListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [MeFlintWalletCard](MODELS.md#meflintwalletcard) |  |
+| `has_more` | Required | boolean | Always false. This operation returns the full usable card collection. Values: `false`. Response only. |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Required | string |  |
+
+## MeFlintWalletStoreSetup
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `client_setup` | Optional | [StripeClientSetup](MODELS.md#stripeclientsetup) |  |
+| `payment_method_id` | Required | string |  |
+| `status` | Required | string | Values: `"pending"`, `"active"`, `"failed"`, `"expired"`. |
+| `store_setup_id` | Required | string |  |
+
+## MeFlintWalletStoreSetupResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [MeFlintWalletStoreSetup](MODELS.md#meflintwalletstoresetup) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Required | string |  |
+
 ## Merchant
 
 
@@ -14903,11 +21555,12 @@ The inventory capability on a Location. Present only when the caller holds comme
 | `api_version_rollback_expires_at` | Optional | string | When the 72-hour rollback offer expires. Explicit changes to any supported version remain available afterward. Format: `date-time`. Response only. |
 | `banners` | Optional | Array of [Banner](MODELS.md#banner) | Response only. |
 | `business_name` | Optional | string | Business name buyers see on checkout, payment links, and receipts. Once the merchant starts verification, it stays in sync with the business name on the live Stripe account: a change on either side applies, and the latest change wins. |
-| `business_type` | Optional | string | Flint-normalized business profile type. Unknown backend/provider values are returned as unknown. Values: `"individual"`, `"company"`, `"non_profit"`, `"government_entity"`, `"unknown"`. Response only. |
+| `business_type` | Optional | string | Merchant's business type. - `other`: A business type Flint does not map yet. Values: `"individual"`, `"company"`, `"non_profit"`, `"government_entity"`, `"other"`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `current_deadline_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `email` | Required | string |  |
 | `has_past_due` | Required | boolean | Whether Flint's synced readiness projection has past-due account requirements. Response only. |
+| `icon` | Optional | object | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [Image](MODELS.md#image) |  |
 | `merchant_id` | Required | string | Response only. |
 | `metadata` | Optional | object |  |
@@ -14926,7 +21579,7 @@ The inventory capability on a Location. Present only when the caller holds comme
 | `support_phone` | Optional | string |  |
 | `support_url` | Optional | string |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `version` | Required | exact numeric string | Profile version. Changes made through Flint to the business name, contact details, metadata, organization, support details, or logo advance this version. Readiness updates and business names synced from Stripe do not. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
+| `version` | Required | exact numeric string | Profile version. Changes made through Flint to the business name, contact details, metadata, organization, support details, logo, or icon advance this version. Readiness updates and business names synced from Stripe do not. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
 | `website_url` | Optional | string |  |
 
 ## MerchantAccountSession
@@ -14935,10 +21588,21 @@ The inventory capability on a Location. Present only when the caller holds comme
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `client_session` | Required | object | Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. |
 | `components` | Required | Array of string | minItems: `1`. |
 | `effective_policy` | Required | [MerchantAccountSessionEffectivePolicy](MODELS.md#merchantaccountsessioneffectivepolicy) |  |
-| `external_action` | Required | [OnboardingExternalAction](MODELS.md#onboardingexternalaction) |  |
+| `launch_token` | Required | string | Signed Flint token to exchange at POST /v1/merchant-account-sessions/refresh. Each successful refresh rotates this token. The caller must still authenticate and authorize the human using the session. |
+| `launch_token_expires_at` | Required | string | Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format: `date-time`. |
 | `requirements` | Required | [OnboardingRequirements](MODELS.md#onboardingrequirements) |  |
+
+## MerchantAccountSessionClientSession
+
+Short-lived browser initialization data for an embedded merchant account session.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expires_at` | Required | string | Expiry of the embedded account session client secret in UTC. Connect.js calls fetchClientSecret to obtain a new secret when needed. Format: `date-time`. |
+| `stripe` | Required | object | Stripe Connect initialization credentials and authorized component collection options. Connect initializes from the account session client secret and does not take a connected account ID. |
 
 ## MerchantAccountSessionCreateRequest
 
@@ -14980,42 +21644,43 @@ Refreshes a merchant account session from its signed launch token. No create fie
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## MerchantAccountSessionStripe
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `account_session` | Required | object | Account session authority for initializing Stripe Connect in the browser. |
+| `components` | Required | Array of [MerchantAccountSessionStripeComponent](MODELS.md#merchantaccountsessionstripecomponent) | Authorized Stripe component names and collection options to apply when mounting each component. |
+| `publishable_key` | Required | string | Stripe publishable key to pass as publishableKey to loadConnectAndInitialize. |
+
+## MerchantAccountSessionStripeAccountSession
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `client_secret` | Required | string | Short-lived account session client secret to return from fetchClientSecret. Return it only to an authenticated human authorized to manage this merchant. |
+| `stripe_js_call` | Required | string | Browser initialization operation to perform. load_connect_and_initialize means call loadConnectAndInitialize with publishableKey and fetchClientSecret. Values: `"load_connect_and_initialize"`. |
+
 ## MerchantAccountSessionStripeCollectionOptions
 
 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fields` | Required | string |  |
-| `futureRequirements` | Required | string |  |
-| `requirements` | Optional | [MerchantAccountSessionStripeRequirements](MODELS.md#merchantaccountsessionstriperequirements) |  |
+| `fields` | Required | string | Requirement collection breadth to pass as fields to setCollectionOptions. Values: `"currently_due"`, `"eventually_due"`. |
+| `future_requirements` | Required | string | Whether to collect future requirements. Pass this value as futureRequirements to setCollectionOptions. Values: `"omit"`, `"include"`. |
+| `requirements` | Optional | object | Targeted requirement collection restriction to pass as requirements to setCollectionOptions. Omitted when collection is not targeted. |
 
-## MerchantAccountSessionStripeComponentLaunch
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `component` | Required | string |  |
-| `component_props` | Required | [MerchantAccountSessionStripeComponentProps](MODELS.md#merchantaccountsessionstripecomponentprops) |  |
-
-## MerchantAccountSessionStripeComponentProps
+## MerchantAccountSessionStripeComponent
 
 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `collectionOptions` | Optional | [MerchantAccountSessionStripeCollectionOptions](MODELS.md#merchantaccountsessionstripecollectionoptions) |  |
-
-## MerchantAccountSessionStripeLaunch
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `client_secret` | Required | string |  |
-| `components` | Required | Array of [MerchantAccountSessionStripeComponentLaunch](MODELS.md#merchantaccountsessionstripecomponentlaunch) |  |
-| `publishable_key` | Required | string |  |
+| `collection_options` | Optional | object | Collection instructions for a policy-aware component. Omitted for other components. Map future_requirements to futureRequirements when calling setCollectionOptions. |
+| `component` | Required | string | Stripe component name authorized by this session. tax_documents uses the Stripe name documents. Convert underscores to hyphens when calling Connect.create. Values: `"account_onboarding"`, `"account_management"`, `"payouts"`, `"balances"`, `"documents"`, `"notification_banner"`. |
 
 ## MerchantAccountSessionStripeRequirements
 
@@ -15023,7 +21688,7 @@ Refreshes a merchant account session from its signed launch token. No create fie
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `only` | Required | Array of string |  |
+| `only` | Required | Array of string | Stripe requirement paths to collect exclusively when effective_policy.targeting is targeted. They come from the targeted_requirement_ids you sent or from Flint's remediation recommendation. |
 
 ## MerchantBillingBalance
 
@@ -15676,16 +22341,140 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string |  |
+| `action_type` | Required | string | Values: [25 declared values](#nextaction-action_type-values). |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `merchant_account_session` | Optional | object | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. |
 | `reason_code` | Optional | string |  |
 | `reason_message` | Optional | string |  |
 | `required_fields` | Optional | Array of string |  |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [93 declared values](#nextaction-required_scope-values). |
 | `requires_human_confirmation` | Optional | boolean |  |
 | `suggested_delay_milliseconds` | Optional | integer | Format: `int32`. |
 | `url` | Optional | string | Public endpoint or launch URL for this remediation action, when applicable. |
+
+#### NextAction action_type values
+
+- `"get_operation"`
+- `"get_checkout_session"`
+- `"get_payment_intent"`
+- `"confirm_payment_intent"`
+- `"capture_payment_intent"`
+- `"cancel_payment_intent"`
+- `"get_order"`
+- `"capture_order_payment"`
+- `"cancel_order_payment"`
+- `"pay_order"`
+- `"close_order"`
+- `"add_line_items"`
+- `"update_checkout_session"`
+- `"close_checkout_session"`
+- `"create_refund"`
+- `"get_refund"`
+- `"review_onboarding_state"`
+- `"review_merchant_readiness"`
+- `"list_capabilities"`
+- `"recreate_delivery_quote"`
+- `"create_merchant_account_session"`
+- `"issue_developer_sandbox_test_key"`
+- `"start_new_image_ingestion"`
+- `"get_payout_settings"`
+- `"payment_authentication"`
+
+#### NextAction required_scope values
+
+- `"accounts.api_keys.read"`
+- `"accounts.api_keys.write"`
+- `"accounts.devices.read"`
+- `"accounts.devices.write"`
+- `"accounts.organizations.read"`
+- `"accounts.organizations.write"`
+- `"analytics.read"`
+- `"capabilities.read"`
+- `"checkouts.checkout_sessions.read"`
+- `"checkouts.checkout_sessions.write"`
+- `"checkouts.payment_links.read"`
+- `"checkouts.payment_links.write"`
+- `"commerce.bundles.read"`
+- `"commerce.bundles.write"`
+- `"commerce.catalog.read"`
+- `"commerce.catalog.write"`
+- `"commerce.credit_notes.read"`
+- `"commerce.credit_notes.write"`
+- `"commerce.delivery.read"`
+- `"commerce.delivery.write"`
+- `"commerce.gift_cards.adjustments.write"`
+- `"commerce.gift_cards.read"`
+- `"commerce.gift_cards.redemptions.write"`
+- `"commerce.gift_cards.secrets.write"`
+- `"commerce.gift_cards.write"`
+- `"commerce.inventory.read"`
+- `"commerce.inventory.write"`
+- `"commerce.inventory_locations.write"`
+- `"commerce.inventory_policies.write"`
+- `"commerce.invoices.read"`
+- `"commerce.invoices.write"`
+- `"commerce.orders.read"`
+- `"commerce.orders.write"`
+- `"commerce.products.read"`
+- `"commerce.products.write"`
+- `"commerce.promotions.read"`
+- `"commerce.promotions.write"`
+- `"commerce.refunds.read"`
+- `"commerce.refunds.tax_overrides.write"`
+- `"commerce.refunds.write"`
+- `"commerce.return_policies.write"`
+- `"commerce.return_reasons.write"`
+- `"commerce.returns.operations.write"`
+- `"commerce.returns.read"`
+- `"commerce.returns.resolutions.write"`
+- `"commerce.returns.write"`
+- `"commerce.subscription_plans.read"`
+- `"commerce.subscription_plans.write"`
+- `"commerce.subscriptions.read"`
+- `"commerce.subscriptions.write"`
+- `"customers.read"`
+- `"customers.sessions.write"`
+- `"customers.write"`
+- `"developer.feedback_reports.read"`
+- `"developer.feedback_reports.write"`
+- `"developer.partner_apps.read"`
+- `"developer.partner_apps.write"`
+- `"developer.request_logs.self.detail.read"`
+- `"developer.request_logs.self.read"`
+- `"developer.resource_timelines.read"`
+- `"developer.sandboxes.read"`
+- `"developer.sandboxes.write"`
+- `"merchant_billing.read"`
+- `"merchants.account_sessions.write"`
+- `"merchants.locations.read"`
+- `"merchants.locations.write"`
+- `"merchants.onboarding.read"`
+- `"merchants.onboarding.write"`
+- `"merchants.profile.read"`
+- `"merchants.profile.write"`
+- `"money_movement.balance_transactions.read"`
+- `"money_movement.balances.read"`
+- `"money_movement.payout_settings.read"`
+- `"money_movement.payout_settings.write"`
+- `"money_movement.payouts.read"`
+- `"money_movement.payouts.write"`
+- `"payments.disputes.read"`
+- `"payments.payment_intents.read"`
+- `"payments.payment_intents.write"`
+- `"payments.payment_method_domains.read"`
+- `"payments.payment_method_domains.write"`
+- `"payments.payment_methods.read"`
+- `"payments.payment_methods.write"`
+- `"payments.payment_options.read"`
+- `"reports.read"`
+- `"reports.write"`
+- `"risk.controls.write"`
+- `"risk.read"`
+- `"risk.reviews.write"`
+- `"settings.read"`
+- `"settings.write"`
+- `"webhooks.read"`
+- `"webhooks.write"`
 
 ## NextActionMerchantAccountSession
 
@@ -15708,18 +22497,6 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `requested_capabilities` | Optional | Alternative shapes (see declared variants) | Exact initial Flint capability set. Include accept_card_payments and receive_payouts together. Optionally include accept_ach_debit_payments, or omit the field to use the card and payout default set. |
 | `sandbox_id` | Optional | string |  |
 
-## OnboardingExternalAction
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `kind` | Required | string | Values: `"embedded"`. |
-| `launch_token` | Required | string |  |
-| `launch_token_expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `provider_session_expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `stripe` | Required | [MerchantAccountSessionStripeLaunch](MODELS.md#merchantaccountsessionstripelaunch) |  |
-
 ## OnboardingLaunchRecommendedPolicy
 
 
@@ -15736,7 +22513,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `component` | Required | string | Values: `"account_onboarding"`. |
-| `endpoint` | Required | string |  |
+| `endpoint` | Required | string | Endpoint for creating the browser session. Uses the same public API base URL as submit_endpoint: absolute when configured, relative otherwise. |
 | `method` | Required | string | Values: `"POST"`. |
 | `recommended_policy` | Required | [OnboardingLaunchRecommendedPolicy](MODELS.md#onboardinglaunchrecommendedpolicy) |  |
 | `sandbox_id` | Optional | string |  |
@@ -15747,13 +22524,13 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string |  |
+| `code` | Required | string | Values: `"check_onboarding_state"`, `"start_onboarding"`, `"complete_business_profile"`, `"complete_verification_step"`, `"wait_for_review"`, `"create_api_key"`. |
 | `launch` | Optional | [OnboardingLaunchReference](MODELS.md#onboardinglaunchreference) |  |
 | `machine_completable` | Required | boolean |  |
-| `owner` | Required | string |  |
+| `owner` | Required | string | Values: `"agent"`, `"human"`, `"system"`. |
 | `required_fields` | Optional | Array of string |  |
 | `submit_endpoint` | Optional | string |  |
-| `submit_method` | Optional | string |  |
+| `submit_method` | Optional | string | HTTP method for submit_endpoint. |
 
 ## OnboardingProfile
 
@@ -15843,8 +22620,6 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `capabilities_synced_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `country` | Optional | string | Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. Values: `"US"`. |
 | `default_sandbox_id` | Optional | string |  |
-| `email_verified` | Required | boolean |  |
-| `merchant_created` | Required | boolean |  |
 | `merchant_id` | Required | string |  |
 | `next_step` | Optional | [OnboardingNextStep](MODELS.md#onboardingnextstep) |  |
 | `pending_steps` | Optional | Array of [OnboardingNextStep](MODELS.md#onboardingnextstep) |  |
@@ -15852,7 +22627,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `readiness_observed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `requested_capabilities` | Optional | Alternative shapes (see declared variants) | Canonical Flint capability intent persisted on the selected stable provider-account target. The initial merchant-account configuration always includes accept_card_payments and receive_payouts and may also include accept_ach_debit_payments. |
 | `requirements` | Required | [OnboardingRequirements](MODELS.md#onboardingrequirements) |  |
-| `status` | Required | string | Onboarding workflow status for activation and remediation, not a durable account-readiness boolean. |
+| `status` | Required | string | Onboarding workflow status for activation and remediation, not a durable account-readiness boolean. Values: `"ready_for_api_key"`, `"needs_external_action"`, `"waiting_for_review"`, `"complete"`, `"needs_input"`. |
 
 ## OnboardingStateResponse
 
@@ -15890,13 +22665,13 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `can_issue_api_key` | Required | boolean |  |
+| `can_issue_api_key` | Required | boolean | Whether the merchant has no external API key and a default sandbox exists. |
 | `default_sandbox_id` | Optional | string |  |
 | `merchant` | Required | [Merchant](MODELS.md#merchant) |  |
 | `merchant_created` | Required | boolean |  |
 | `next_step` | Optional | [OnboardingNextStep](MODELS.md#onboardingnextstep) |  |
+| `onboarding_session_expires_at` | Required | string | Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: `date-time`. |
 | `onboarding_session_token` | Required | string |  |
-| `status` | Required | string |  |
 | `user` | Required | [User](MODELS.md#user) |  |
 
 ## Order
@@ -15909,12 +22684,11 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `applied_discounts` | Optional | Array of [AppliedDiscount](MODELS.md#applieddiscount) | Response only. |
 | `authorization_amounts` | Optional | object | Response only. |
 | `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Example: `[]`. Response only. |
-| `buyer_email` | Optional | string | Response only. |
+| `buyer_contact` | Optional | object | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Response only. |
 | `buyer_note` | Optional | string |  |
-| `buyer_phone` | Optional | string | Phone the buyer gave when payment started, in E.164 format: the pay request's buyer_phone, or the phone saved on the paying checkout session. It does not change the linked customer. Response only. |
 | `charges` | Optional | Array of [OrderCharge](MODELS.md#ordercharge) | Response only. |
 | `checkout_session_ids` | Optional | Array of string | Response only. |
-| `closed_reason` | Optional | string | Internal reason supplied when the order was closed. This is not shown to the buyer. Response only. |
+| `closed_reason` | Optional | string | The note supplied when the order was closed. It is not shown to the buyer. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string |  |
@@ -15941,18 +22715,19 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `payment_intent_ids` | Optional | Array of string | Response only. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](MODELS.md#expandedpaymentintentsummary) | Response only. |
 | `payment_status` | Required | string | Values: `"unpaid"`, `"partially_paid"`, `"paid"`. Response only. |
-| `plan_id` | Optional | string | Response only. |
 | `pricing_amounts` | Required | object | Response only. |
 | `purchased_event` | Optional | object | Response only. |
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
+| `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | object | Response only. |
 | `setup_collection` | Optional | object | Response only. |
 | `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
 | `subscription` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `subscription_id` | Optional | string | Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `subscription_plan_id` | Optional | string | Response only. |
 | `tax` | Required | object | Response only. |
 | `tips` | Optional | Array of [Tip](MODELS.md#tip) | Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -15963,7 +22738,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `activity_type` | Required | string | Stable but open activity string. Flint documents exactly the values it emits today; clients must still render unknown future values gracefully. |
+| `activity_type` | Optional | string | The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Values: [27 declared values](#orderactivity-activity_type-values). |
 | `balance_delta_money` | Required | object | Change to the order balance narrated by this row. Informational rows have amount 0. Do not sum activity deltas to compute the order balance. |
 | `checkout_session_id` | Optional | string | Related checkout session when activity_type points at checkout session lifecycle. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -15977,6 +22752,36 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | `payment_intent_id` | Optional | string | Related payment intent when activity_type points at a payment attempt or payment outcome. |
 | `refund_id` | Optional | string | Related refund when activity_type points at a refund outcome. Read the refund for the authoritative outcome. |
 | `running_balance_money` | Required | object | Order balance after this activity in chronological time. This is context for reading the log, not a reconciliation ledger. |
+
+#### OrderActivity activity_type values
+
+- `"created"`
+- `"line_item_added"`
+- `"line_item_updated"`
+- `"line_item_removed"`
+- `"discount_applied"`
+- `"discount_removed"`
+- `"tax_updated"`
+- `"requested_tip_added"`
+- `"requested_tip_updated"`
+- `"requested_tip_removed"`
+- `"charge_added"`
+- `"charge_updated"`
+- `"charge_removed"`
+- `"charge_fulfillment_updated"`
+- `"order_updated"`
+- `"adjustment"`
+- `"closed"`
+- `"payment"`
+- `"payment_failed"`
+- `"refund"`
+- `"refund_failed"`
+- `"checkout_session_created"`
+- `"checkout_session_expired"`
+- `"checkout_session_invalidated"`
+- `"fulfillment_created"`
+- `"fulfillment_updated"`
+- `"fulfillment_state_changed"`
 
 ## OrderActivityListResponse
 
@@ -16237,7 +23042,7 @@ Variants: any, any.
 | `calculation_type` | Optional | string | Values: `"percentage"`. |
 | `flat_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `jurisdiction` | Required | [OrderDraftTaxJurisdictionRequest](MODELS.md#orderdrafttaxjurisdictionrequest) |  |
-| `percentage` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
+| `percent` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`. |
 
 ## OrderDraftTaxJurisdictionRequest
@@ -16258,7 +23063,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_card_id` | Required | string |  |
 
 ## OrderGiftCardAllocationAcceptance
@@ -16279,11 +23084,11 @@ Accept the exact gift_card_estimate returned on the current order, including all
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `can_pay` | Required | boolean |  |
-| `gift_card_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `gift_card_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_cards` | Required | Array of [OrderGiftCardAllocation](MODELS.md#ordergiftcardallocation) |  |
 | `is_reserved` | Required | boolean |  |
 | `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `processor_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `processor_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 
 ## OrderGiftCardSelection
 
@@ -16291,7 +23096,7 @@ Accept the exact gift_card_estimate returned on the current order, including all
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Required | [GiftCardMoney](MODELS.md#giftcardmoney) |  |
+| `available_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_card_id` | Required | string |  |
 | `last_characters` | Required | string |  |
 | `requires_authorization` | Required | boolean |  |
@@ -16302,12 +23107,12 @@ Accept the exact gift_card_estimate returned on the current order, including all
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Response only. |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_redemption_id` | Required | string | Response only. |
 | `last_characters` | Required | string | Response only. |
-| `tip_money` | Required | object | Response only. |
+| `tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## OrderInventoryRoutingSourceRequest
 
@@ -16335,7 +23140,7 @@ Accept the exact gift_card_estimate returned on the current order, including all
 | `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_card_purchase` | Optional | object | Response only. |
 | `image` | Optional | [Image](MODELS.md#image) |  |
-| `inventory_snapshot` | Optional | [LineItemInventorySnapshot](MODELS.md#lineiteminventorysnapshot) |  |
+| `inventory_snapshot` | Optional | Alternative shapes (see declared variants) |  |
 | `metadata` | Optional | object |  |
 | `modifier_total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `modifiers` | Optional | Array of [OrderLineItemModifier](MODELS.md#orderlineitemmodifier) |  |
@@ -16371,7 +23176,7 @@ Accept the exact gift_card_estimate returned on the current order, including all
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `show_on_fulfillment` | Required | boolean |  |
 | `show_on_receipt` | Required | boolean |  |
-| `source_type` | Required | string |  |
+| `source_type` | Required | string | Values: `"catalog_modifier"`, `"text"`. |
 | `text` | Optional | [TextModifierRequest](MODELS.md#textmodifierrequest) |  |
 | `text_value` | Optional | string |  |
 | `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -16437,9 +23242,9 @@ Variants: any, any.
 | `failure_code` | Optional | string | Reason code for an attempt failure or interrupted payment step, when available. For payment declines, inspect each payment leg's last_payment_error.code. Unmapped values are returned as attempt_failed. Values: [55 declared values](#orderpaymentattempt-failure_code-values). |
 | `failure_message` | Optional | string | Explanation of an attempt failure or interrupted payment step, when available. For payment declines, inspect each payment leg's last_payment_error.message. |
 | `gift_card_redemptions` | Optional | Array of [PaymentAttemptGiftCardRedemption](MODELS.md#paymentattemptgiftcardredemption) |  |
-| `is_resumable` | Required | boolean | Whether the attempt can continue through PayOrder with action: resume and this payment_attempt_id after any pending client action is complete. If false, check status before starting another payment; the attempt may still be in progress. |
+| `is_resumable` | Required | boolean | Whether the attempt can continue through PayOrder with action: resume and this order_payment_attempt_id after any pending client action is complete. If false, check status before starting another payment; the attempt may still be in progress. |
 | `mode` | Required | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
-| `payment_attempt_id` | Required | string |  |
+| `order_payment_attempt_id` | Required | string |  |
 | `payment_intents` | Optional | Array of [PaymentAttemptPaymentIntent](MODELS.md#paymentattemptpaymentintent) |  |
 | `pending_actions` | Optional | Array of [PendingPaymentAction](MODELS.md#pendingpaymentaction) |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -16594,6 +23399,17 @@ Variants: any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## OrderReturnCreditSettlement
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `return_id` | Required | string | Response only. |
+| `return_resolution_id` | Required | string | Response only. |
+
 ## OrderTax
 
 
@@ -16632,7 +23448,7 @@ Variants: object, Alternative shapes (see declared variants).
 | `calculation_type` | Optional | string | Values: `"flat_amount"`. |
 | `flat_money` | Required | any | Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise, Flint returns INVALID_FLAT_TAX. |
 | `jurisdiction` | Required | [OrderTaxJurisdictionRequest](MODELS.md#ordertaxjurisdictionrequest) |  |
-| `percentage` | Optional | number | multipleOf: `0.0001`. |
+| `percent` | Optional | number | multipleOf: `0.0001`. |
 | `tax_type` | Optional | string | Values: `"retail_delivery_fee"`. |
 
 ## OrderTaxExemption
@@ -16642,7 +23458,7 @@ Variants: object, Alternative shapes (see declared variants).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_id` | Optional | string |  |
-| `source` | Required | string |  |
+| `source` | Optional | string | The source of the tax exemption assessment. Omitted when the source has not been established. Values: `"none"`, `"customer"`. |
 | `tax_exempt` | Required | boolean |  |
 
 ## OrderTaxJurisdictionRequest
@@ -16927,7 +23743,7 @@ Variants: any, any.
 | `package_id` | Required | string |  |
 | `package_status_update_id` | Required | string |  |
 | `previous_status` | Required | string | Current package lifecycle state. Package states are the source used to derive shipment status. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | The note supplied when this action was requested. |
 | `shipment_id` | Required | string |  |
 
 ## PackageStatusUpdateResponse
@@ -16968,7 +23784,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkDeliveryAttempted
 
@@ -16980,7 +23796,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkException
 
@@ -16992,7 +23808,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkInTransit
 
@@ -17004,7 +23820,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkOutForDelivery
 
@@ -17016,7 +23832,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkPacked
 
@@ -17028,7 +23844,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkReturned
 
@@ -17040,7 +23856,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PackageTransitionRequestMarkShipped
 
@@ -17052,7 +23868,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `buyer_notification_behavior` | Optional | string | Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Resource version the caller last read. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `reason` | Optional | string | maxLength: `500`. |
+| `reason_message` | Optional | string | Your note explaining this transition. maxLength: `500`. |
 
 ## PartnerApp
 
@@ -17064,7 +23880,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `api_version` | Required | string |  |
 | `api_version_changed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `api_version_previous` | Optional | string | Response only. |
-| `app_type` | Required | string |  |
+| `app_type` | Required | string | Values: `"server"`, `"plugin"`. |
 | `client_id` | Required | string | Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `default_requested_permissions` | Required | Array of string |  |
@@ -17072,7 +23888,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `partner_app_id` | Required | string | Response only. |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntry](MODELS.md#partnerapppermissionmanifestentry) |  |
 | `redirect_uris` | Required | Array of string |  |
-| `status` | Required | string | Response only. |
+| `status` | Required | string | Values: `"active"`. Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `visibility` | Required | string |  |
 
@@ -17090,8 +23906,19 @@ Variants: object, object, object, object, object, object, object, object.
 | `partner_app_install_id` | Required | string |  |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `revoked_by_user_id` | Optional | string |  |
-| `status` | Required | string |  |
+| `status` | Required | string | Values: [8 declared values](#partnerappinstall-status-values). |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+
+#### PartnerAppInstall status values
+
+- `"pending_exchange"`
+- `"pending_consent"`
+- `"pending_onboarding"`
+- `"active"`
+- `"pending_permission_upgrade"`
+- `"flagged_for_review"`
+- `"revoked"`
+- `"errored"`
 
 ## PartnerAppInstallListResponse
 
@@ -17167,7 +23994,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `api_version` | Required | string |  |
 | `api_version_changed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `api_version_previous` | Optional | string | Response only. |
-| `app_type` | Required | string |  |
+| `app_type` | Required | string | Values: `"server"`, `"plugin"`. |
 | `client_id` | Required | string | Response only. |
 | `client_secret` | Required | string |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -17176,7 +24003,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `partner_app_id` | Required | string | Response only. |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntry](MODELS.md#partnerapppermissionmanifestentry) |  |
 | `redirect_uris` | Required | Array of string |  |
-| `status` | Required | string | Response only. |
+| `status` | Required | string | Values: `"active"`. Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `visibility` | Required | string |  |
 
@@ -17186,7 +24013,7 @@ Variants: object, object, object, object, object, object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `app_type` | Required | string |  |
+| `app_type` | Required | string | Values: `"server"`, `"plugin"`. |
 | `client_id` | Required | string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `name` | Required | string |  |
@@ -17229,7 +24056,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `revoked_by_user_id` | Optional | string |  |
-| `status` | Required | string |  |
+| `status` | Required | string | Values: `"pending_exchange"`, `"active"`, `"revoked"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
 ## PartnerEnvironmentGrantEventPayload
@@ -17291,7 +24118,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `client_id` | Required | string |  |
 | `client_secret` | Required | string |  |
 | `code` | Optional | string |  |
-| `grant_type` | Required | string |  |
+| `grant_type` | Required | string | Values: `"authorization_code"`, `"refresh_token"`. |
 | `redirect_uri` | Optional | string |  |
 | `refresh_token` | Optional | string |  |
 
@@ -17310,7 +24137,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `partner_app_install_id` | Required | string |  |
 | `refresh_token` | Optional | string |  |
 | `scope` | Optional | string |  |
-| `token_type` | Required | string |  |
+| `token_type` | Required | string | Values: `"bearer"`. |
 
 ## PartnerWebhookEnvelope
 
@@ -17783,11 +24610,11 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `payment_link_id` | Required | string | Response only. |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
-| `plan_id` | Optional | string |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
 | `status` | Required | string | Values: `"active"`, `"inactive"`. Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `subscription_plan_id` | Optional | string |  |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
 | `tip` | Optional | [CheckoutTipConfig](MODELS.md#checkouttipconfig) |  |
@@ -17812,10 +24639,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `payment_link_custom_field_id` | Required | string | Response only. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
@@ -17828,10 +24655,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `payment_link_custom_field_id` | Optional | string | Stable ID of an existing custom field. Omit it to create a new custom field. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
@@ -17844,10 +24671,10 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
-| `key` | Required | string |  |
+| `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
 | `label` | Required | string |  |
-| `max_length` | Optional | integer | Format: `int32`. |
-| `options` | Optional | Array of string |  |
+| `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
+| `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `placeholder` | Optional | string |  |
 | `position` | Optional | integer | Format: `int32`. |
 | `required` | Optional | boolean |  |
@@ -17876,7 +24703,7 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `is_catalog_item_unavailable` | Required | boolean | True when this line item references a variant or bundle that is missing, deleted, or inactive, so it cannot be sold right now. Always false on ad-hoc line items. Response only. |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -17903,7 +24730,7 @@ Variants: any, any, any, any.
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -17928,7 +24755,7 @@ Variants: any, any, any, any.
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `key` | Optional | string |  |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -17991,6 +24818,7 @@ Subscription terms shown before an active plan-backed payment link creates a che
 | `customer_id` | Required | string |  |
 | `merchant_id` | Optional | string | Response only. |
 | `payment_method_id` | Required | string | Response only. |
+| `saved_with` | Optional | string | Where the buyer saved this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support is enabled. Accept future values. Values: `"flint"`, `"store"`. Response only. |
 | `status` | Required | string | Values: `"pending"`, `"active"`, `"expired"`, `"removed"`, `"failed"`. Response only. |
 | `type` | Required | string | Values: `"card"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -18191,12 +25019,11 @@ Variants: object, object, object, object.
 | --- | --- | --- | --- |
 | `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"confirm_payment_intents"`. |
-| `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
-| `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
+| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `completion_behavior` | Optional | string | Values: `"complete_order"`, `"partial_payment"`. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `payment_intents` | Required | Array of [OrderPaymentIntentSelection](MODELS.md#orderpaymentintentselection) | minItems: `1`. |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
+| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
 | `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's save_payment_method_phone_offered is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
 
 ## PayOrderRequestPay
@@ -18207,11 +25034,10 @@ Variants: object, object, object, object.
 | --- | --- | --- | --- |
 | `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"pay"`. |
-| `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
-| `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
+| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `payment_source` | Optional | [PaymentSourceCredential](MODELS.md#paymentsourcecredential) |  |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
+| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
 | `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's save_payment_method_phone_offered is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
 
 ## PayOrderRequestResume
@@ -18221,10 +25047,9 @@ Variants: object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"resume"`. |
-| `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
-| `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
+| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `payment_attempt_id` | Required | string | minLength: `1`. |
+| `order_payment_attempt_id` | Required | string | minLength: `1`. |
 
 ## PayOrderRequestSetup
 
@@ -18233,8 +25058,7 @@ Variants: object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"setup"`. |
-| `buyer_email` | Optional | string | Buyer email for receipts and the order's buyer_email. A checkout session credential that omits it uses the email saved on the session's buyer_contact. |
-| `buyer_phone` | Optional | string | Buyer phone in E.164 format, recorded as the order's buyer_phone. A checkout session credential that omits it uses the phone saved on the session's buyer_contact. |
+| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `setup_payment_source` | Required | object |  |
 
@@ -18454,7 +25278,7 @@ Variants: object, object, object, object.
 | `statement_descriptor` | Optional | string |  |
 | `status` | Required | string | Values: `"enabled"`, `"disabled"`, `"blocked"`, `"pending"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `weekly_payout_days` | Optional | Array of string |  |
+| `weekly_payout_days` | Optional | Array of string | Days of the week on which weekly payouts are sent. Allowed values are monday, tuesday, wednesday, thursday, friday, saturday, and sunday. |
 
 ## PayoutSettingsResponse
 
@@ -18477,7 +25301,7 @@ Variants: object, object, object, object.
 
 ## PendingPaymentAction
 
-Client-side action required before continuing a payment. Resume an order through PayOrder with payment_attempt_id, or continue a standalone PaymentIntent through its confirm endpoint without a replacement credential.
+Client-side action required before continuing a payment. Resume an order through PayOrder with order_payment_attempt_id, or continue a standalone PaymentIntent through its confirm endpoint without a replacement credential.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -18937,24 +25761,24 @@ Variants: any, any, any.
 
 #### PromotionCandidate promotion_decline_reason values
 
-- `"not_eligible"`
-- `"minimum_not_met"`
-- `"expired"`
-- `"not_yet_started"`
-- `"exhausted"`
-- `"code_required"`
-- `"code_invalid"`
-- `"disabled"`
-- `"automatic_disabled"`
-- `"codes_disabled"`
 - `"already_applied"`
-- `"not_combinable"`
-- `"superseded_by_better_offer"`
-- `"superseded"`
-- `"max_promotions_reached"`
-- `"no_discountable_balance"`
+- `"automatic_disabled"`
 - `"buy_item_missing"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
 - `"currency_mismatch"`
+- `"disabled"`
+- `"exhausted"`
+- `"expired"`
+- `"max_promotions_reached"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_yet_started"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
 - `"unknown_type"`
 
 ## PromotionCode
@@ -18969,6 +25793,7 @@ Variants: any, any, any.
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `merchant_id` | Optional | string |  |
 | `metadata` | Optional | object |  |
+| `promotion` | Optional | object | The promotion this code belongs to. Present only when the list request asked for expand=promotion. |
 | `promotion_code_id` | Required | string |  |
 | `promotion_id` | Required | string |  |
 | `status` | Required | string | Read-only, computed from stored active or inactive state, expires_at, and max_uses: active, inactive, expired, or exhausted. Only active and inactive can be set via PATCH. Values: `"active"`, `"inactive"`, `"expired"`, `"exhausted"`. |
@@ -18985,25 +25810,6 @@ Variants: any, any, any.
 | `data` | Required | Array of [PromotionCode](MODELS.md#promotioncode) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `next_page_token` | Optional | string |  |
-| `request_id` | Optional | string |  |
-
-## PromotionCodeResolution
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `promotion` | Required | [Promotion](MODELS.md#promotion) |  |
-| `promotion_code` | Required | [PromotionCode](MODELS.md#promotioncode) |  |
-
-## PromotionCodeResolutionResponse
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `data` | Required | [PromotionCodeResolution](MODELS.md#promotioncoderesolution) |  |
-| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
 ## PromotionCodeResponse
@@ -19186,8 +25992,8 @@ Variants: string, number, boolean, object.
 | `payment_link_id` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
-| `plan_id` | Optional | string |  |
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
+| `subscription_plan_id` | Optional | string |  |
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 
@@ -19209,6 +26015,7 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `checkout_theme` | Optional | object | The theme a checkout opened from this link uses: your checkout branding settings, with the link's own `theme` over them. Use it to style a page that leads to the checkout. `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. |
 | `is_sold_out` | Optional | boolean |  |
+| `merchant_icon` | Optional | [Image](MODELS.md#image) |  |
 | `merchant_logo` | Optional | [Image](MODELS.md#image) |  |
 | `merchant_name` | Optional | string |  |
 | `payment_link` | Required | [PublicPaymentLink](MODELS.md#publicpaymentlink) |  |
@@ -19252,7 +26059,7 @@ Variants: string, number, boolean, object.
 | `available_modifiers` | Optional | Array of [PublicResolvedModifierGroup](MODELS.md#publicresolvedmodifiergroup) |  |
 | `bundle_components` | Optional | Array of [PublicResolvedBundleComponent](MODELS.md#publicresolvedbundlecomponent) |  |
 | `bundle_id` | Optional | string |  |
-| `catalog_object_type` | Optional | string | Values: `"unknown"`, `"variant"`, `"bundle"`. |
+| `catalog_object_type` | Optional | string | Values: `"variant"`, `"bundle"`. |
 | `image` | Optional | [Image](MODELS.md#image) |  |
 | `is_inventory_tracked` | Optional | boolean |  |
 | `key` | Required | string |  |
@@ -19276,11 +26083,11 @@ Variants: string, number, boolean, object.
 | `min_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `min_selected` | Optional | integer | Format: `int32`. |
 | `modifier_group_id` | Required | string |  |
-| `modifier_group_type` | Required | string | Values: `"unknown"`, `"list"`, `"text"`. |
+| `modifier_group_type` | Required | string | Values: `"list"`, `"text"`. |
 | `name` | Required | string |  |
 | `options` | Optional | Array of [PublicResolvedModifierOption](MODELS.md#publicresolvedmodifieroption) |  |
 | `position` | Optional | integer | Format: `int32`. |
-| `pricing_scope` | Optional | string | Values: `"unknown"`, `"per_item"`, `"per_line"`. |
+| `pricing_scope` | Optional | string | Values: `"per_item"`, `"per_line"`. |
 | `show_on_fulfillment` | Optional | boolean |  |
 | `show_on_receipt` | Optional | boolean |  |
 | `text` | Optional | [PublicResolvedTextModifier](MODELS.md#publicresolvedtextmodifier) |  |
@@ -19440,16 +26247,6 @@ Variants: string, number, boolean, object.
 | `original_gift_card_id` | Optional | string | Response only. |
 | `restoration_reason` | Optional | string | Values: `"manual_recollection"`, `"processor_recollection"`. Response only. |
 | `unit_ordinal` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
-
-## QueryDeliveryPickupAvailabilityRequest
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `buyer_location` | Optional | [DeliveryBuyerLocationRequest](MODELS.md#deliverybuyerlocationrequest) |  |
-| `expected_delivery_selection_id` | Optional | string | ID of the checkout's current delivery selection, as GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The search does not change or release the selection. |
-| `maximum_distance` | Optional | [DeliveryPickupAvailabilityMaximumDistanceRequest](MODELS.md#deliverypickupavailabilitymaximumdistancerequest) |  |
 
 ## QuotaDetails
 
@@ -19696,7 +26493,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `allocation_basis` | Required | string |  |
+| `allocation_basis` | Required | string | Values: `"quantity"`, `"amount"`. |
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `modifier_group_name` | Required | string |  |
 | `name` | Required | string |  |
@@ -19705,7 +26502,7 @@ Variants: string, number, boolean, object.
 | `refund_line_item_modifier_allocation_id` | Required | string |  |
 | `show_on_fulfillment` | Required | boolean |  |
 | `show_on_receipt` | Required | boolean |  |
-| `source_type` | Required | string |  |
+| `source_type` | Required | string | Values: `"catalog_modifier"`, `"text"`. |
 | `text_value` | Optional | string |  |
 
 ## RefundListResponse
@@ -19963,7 +26760,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | Your note explaining this action. |
 
 ## ReservationLine
 
@@ -20002,7 +26799,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | Your note explaining this action. |
 
 ## ResolvePaymentLinkLineItemModifierRequest
 
@@ -20062,8 +26859,59 @@ Variants: any, any, any.
 | `entries` | Required | Array of [ResourceTimelineEntry](MODELS.md#resourcetimelineentry) |  |
 | `environment_id` | Optional | string |  |
 | `resource_id` | Required | string |  |
-| `resource_type` | Required | string |  |
+| `resource_type` | Required | string | Values: [48 declared values](#resourcetimeline-resource_type-values). |
 | `test` | Required | boolean |  |
+
+#### ResourceTimeline resource_type values
+
+- `"balance"`
+- `"balance_transaction"`
+- `"bundle"`
+- `"capability"`
+- `"category"`
+- `"checkout_session"`
+- `"credit_note"`
+- `"credit_note_allocation"`
+- `"customer"`
+- `"dispute"`
+- `"fraud_warning"`
+- `"inventory_count"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_reservation_line"`
+- `"inventory_transfer"`
+- `"invoice"`
+- `"invoice_payment_term"`
+- `"merchant_billing_balance"`
+- `"merchant_subscription_invoice"`
+- `"modifier"`
+- `"modifier_group"`
+- `"modifier_set"`
+- `"order"`
+- `"payment_intent"`
+- `"payment_link"`
+- `"payment_method"`
+- `"payment_method_domain"`
+- `"payout"`
+- `"payout_destination"`
+- `"payout_settings"`
+- `"product"`
+- `"product_variant"`
+- `"promotion"`
+- `"promotion_code"`
+- `"refund"`
+- `"return"`
+- `"return_disposition"`
+- `"return_inspection"`
+- `"return_receipt"`
+- `"return_resolution"`
+- `"review"`
+- `"risk_list"`
+- `"risk_list_item"`
+- `"risk_rule"`
+- `"subscription"`
+- `"subscription_plan"`
 
 ## ResourceTimelineEntry
 
@@ -20080,13 +26928,13 @@ Variants: any, any, any.
 | `delivery_trigger` | Optional | string | Values: `"automatic_delivery"`, `"automatic_retry"`, `"manual_resend"`, `"test_event"`. |
 | `diagnostic_category` | Optional | string | Values: `"timeout"`, `"dns_error"`, `"tls_error"`, `"connection_error"`, `"blocked_target"`, `"request_error"`, `"http_error"`. |
 | `duration_milliseconds` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `entry_type` | Required | string |  |
+| `entry_type` | Required | string | Values: `"api_request"`, `"webhook_event"`, `"webhook_delivery_attempt"`, `"image_mutation"`. |
 | `environment_id` | Optional | string |  |
 | `error_category` | Optional | string | Values: [18 declared values](#resourcetimelineentry-error_category-values). |
 | `error_code` | Optional | string |  |
 | `error_summary` | Optional | string |  |
 | `event_source` | Optional | string | Values: `"business_event"`, `"test_api"`. |
-| `event_type` | Optional | string |  |
+| `event_type` | Optional | string | Values: [202 declared values](#resourcetimelineentry-event_type-values). |
 | `http_method` | Optional | string |  |
 | `image_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `last_error` | Optional | string |  |
@@ -20097,17 +26945,17 @@ Variants: any, any, any.
 | `next_retry_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `path` | Optional | string |  |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | The note supplied when this action was requested. |
 | `recommended_action` | Optional | string |  |
 | `reference_url` | Optional | string |  |
 | `request_id` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `resource_timeline_entry_id` | Required | string |  |
-| `resource_type` | Optional | string |  |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#resourcetimelineentry-resource_type-values). |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Optional | string |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `status` | Optional | string |  |
+| `status` | Optional | string | Values: `"delivered"`, `"failed"`, `"pending"`, `"queued"`, `"sending"`. |
 | `status_code` | Optional | integer | Format: `int32`. |
 | `test` | Required | boolean |  |
 | `webhook_delivery_attempt_id` | Optional | string |  |
@@ -20135,6 +26983,319 @@ Variants: any, any, any.
 - `"webhook_http_5xx"`
 - `"webhook_http_4xx"`
 - `"webhook_delivery"`
+
+#### ResourceTimelineEntry event_type values
+
+- `"balance.updated"`
+- `"balance_transaction.created"`
+- `"balance_transaction.updated"`
+- `"capability.updated"`
+- `"checkout_session.closed"`
+- `"checkout_session.completed"`
+- `"checkout_session.expired"`
+- `"checkout_session.invalidated"`
+- `"credit_note.allocation_created"`
+- `"credit_note.allocation_reversed"`
+- `"credit_note.created"`
+- `"credit_note.issued"`
+- `"credit_note.updated"`
+- `"credit_note.voided"`
+- `"customer.created"`
+- `"customer.deletion_completed"`
+- `"customer.deletion_rejected"`
+- `"customer.deletion_requested"`
+- `"customer.updated"`
+- `"delivery_location_set.activated"`
+- `"delivery_location_set.archived"`
+- `"delivery_location_set.created"`
+- `"delivery_location_set.deactivated"`
+- `"delivery_location_set.updated"`
+- `"delivery_method.activated"`
+- `"delivery_method.archived"`
+- `"delivery_method.created"`
+- `"delivery_method.deactivated"`
+- `"delivery_method.updated"`
+- `"delivery_profile.activated"`
+- `"delivery_profile.archived"`
+- `"delivery_profile.created"`
+- `"delivery_profile.deactivated"`
+- `"delivery_profile.updated"`
+- `"delivery_rate.archived"`
+- `"delivery_rate.created"`
+- `"delivery_rate.updated"`
+- `"delivery_rate_callback.activated"`
+- `"delivery_rate_callback.archived"`
+- `"delivery_rate_callback.created"`
+- `"delivery_rate_callback.deactivated"`
+- `"delivery_rate_callback.updated"`
+- `"delivery_revocation.created"`
+- `"delivery_selection.committed"`
+- `"delivery_zone.activated"`
+- `"delivery_zone.archived"`
+- `"delivery_zone.created"`
+- `"delivery_zone.deactivated"`
+- `"delivery_zone.updated"`
+- `"dispute.closed"`
+- `"dispute.created"`
+- `"dispute.lost"`
+- `"dispute.needs_response"`
+- `"dispute.prevented"`
+- `"dispute.updated"`
+- `"dispute.warning_closed"`
+- `"dispute.won"`
+- `"fraud_warning.created"`
+- `"fraud_warning.updated"`
+- `"gift_card.created"`
+- `"gift_card.updated"`
+- `"gift_card_load.created"`
+- `"gift_card_load.updated"`
+- `"gift_card_notification.created"`
+- `"gift_card_notification.updated"`
+- `"gift_card_redemption.created"`
+- `"gift_card_redemption.updated"`
+- `"gift_card_transaction.created"`
+- `"inventory.action_required"`
+- `"inventory.count.applied"`
+- `"inventory.level.updated"`
+- `"inventory.receipt.created"`
+- `"inventory.reservation.at_risk"`
+- `"inventory.reservation.closed"`
+- `"inventory.reservation.committed"`
+- `"inventory.reservation.consumed"`
+- `"inventory.reservation.created"`
+- `"inventory.reservation.hold_expired"`
+- `"inventory.reservation.released"`
+- `"inventory.shortage.detected"`
+- `"inventory.transfer.closed"`
+- `"inventory.transfer.departed"`
+- `"inventory.transfer.lost"`
+- `"inventory.transfer.received"`
+- `"inventory.transfer.returned"`
+- `"invoice.collection_block_resolved"`
+- `"invoice.collection_blocked"`
+- `"invoice.created"`
+- `"invoice.credited"`
+- `"invoice.delivery_failed"`
+- `"invoice.delivery_succeeded"`
+- `"invoice.issue_failed"`
+- `"invoice.issued"`
+- `"invoice.late_fee_assessed"`
+- `"invoice.late_fee_due"`
+- `"invoice.late_fee_waived"`
+- `"invoice.manual_payment_recorded"`
+- `"invoice.manual_payment_reversed"`
+- `"invoice.marked_uncollectible"`
+- `"invoice.overdue"`
+- `"invoice.paid"`
+- `"invoice.partially_paid"`
+- `"invoice.partially_refunded"`
+- `"invoice.payment_attempt_canceled"`
+- `"invoice.payment_attempt_expired"`
+- `"invoice.payment_failed"`
+- `"invoice.payment_processing"`
+- `"invoice.refunded"`
+- `"invoice.reminder_due"`
+- `"invoice.sent"`
+- `"invoice.updated"`
+- `"invoice.voided"`
+- `"merchant.readiness.updated"`
+- `"merchant_billing_balance.updated"`
+- `"merchant_subscription_invoice.issued"`
+- `"merchant_subscription_invoice.updated"`
+- `"order.closed"`
+- `"order.created"`
+- `"order.fulfillment.completed"`
+- `"order.fulfillment.created"`
+- `"order.fulfillment.event.created"`
+- `"order.fulfillment.package.created"`
+- `"order.fulfillment.package.updated"`
+- `"order.fulfillment.shipment.created"`
+- `"order.fulfillment.shipment.updated"`
+- `"order.fulfillment.status_changed"`
+- `"order.fulfillment.updated"`
+- `"order.inventory_action_required"`
+- `"order.inventory_exception.created"`
+- `"order.inventory_exception.resolved"`
+- `"order.paid"`
+- `"order.partially_paid"`
+- `"order.payment_authorization_canceled"`
+- `"order.payment_authorization_expired"`
+- `"order.payment_authorized"`
+- `"order.payment_captured"`
+- `"order.refunded"`
+- `"order.updated"`
+- `"partner_app.install.created"`
+- `"partner_app.install.environment_grant.created"`
+- `"partner_app.install.environment_grant.revoked"`
+- `"partner_app.install.permissions_updated"`
+- `"partner_app.install.revoked"`
+- `"partner_app.install.updated"`
+- `"payment_intent.canceled"`
+- `"payment_intent.fulfillment_hold.updated"`
+- `"payment_intent.payment_failed"`
+- `"payment_intent.processing"`
+- `"payment_intent.requires_action"`
+- `"payment_intent.requires_capture"`
+- `"payment_intent.succeeded"`
+- `"payment_method.failed"`
+- `"payment_method.removed"`
+- `"payment_method.saved"`
+- `"payout.canceled"`
+- `"payout.created"`
+- `"payout.failed"`
+- `"payout.paid"`
+- `"payout.reversed"`
+- `"payout.updated"`
+- `"payout_destination.created"`
+- `"payout_destination.deleted"`
+- `"payout_destination.disabled"`
+- `"payout_destination.updated"`
+- `"payout_settings.updated"`
+- `"refund.created"`
+- `"refund.failed"`
+- `"refund.updated"`
+- `"report.failed"`
+- `"report.succeeded"`
+- `"return.canceled"`
+- `"return.completed"`
+- `"return.created"`
+- `"return.decision_recorded"`
+- `"return.reopened"`
+- `"return.updated"`
+- `"return_disposition.created"`
+- `"return_disposition.updated"`
+- `"return_inspection.acceptance_decided"`
+- `"return_inspection.created"`
+- `"return_inspection.superseded"`
+- `"return_receipt.created"`
+- `"return_receipt.superseded"`
+- `"return_receipt.verified"`
+- `"return_resolution.created"`
+- `"return_resolution.updated"`
+- `"review.closed"`
+- `"review.opened"`
+- `"subscription.activated"`
+- `"subscription.canceled"`
+- `"subscription.cancellation_scheduled"`
+- `"subscription.created"`
+- `"subscription.dunning_exhausted"`
+- `"subscription.past_due"`
+- `"subscription.paused"`
+- `"subscription.payment_failed"`
+- `"subscription.payment_succeeded"`
+- `"subscription.reactivated"`
+- `"subscription.renewal_upcoming"`
+- `"subscription.resumed"`
+- `"subscription.trial_ending"`
+- `"subscription.updated"`
+
+#### ResourceTimelineEntry resource_type values
+
+- `"api_key"`
+- `"api_request_log"`
+- `"balance"`
+- `"balance_transaction"`
+- `"bundle"`
+- `"bundle_component"`
+- `"capability"`
+- `"category"`
+- `"checkout_session"`
+- `"credit_note"`
+- `"credit_note_allocation"`
+- `"customer"`
+- `"customer_address"`
+- `"customer_deletion_request"`
+- `"customer_session"`
+- `"customer_verification"`
+- `"delivery_location_set"`
+- `"delivery_method"`
+- `"delivery_profile"`
+- `"delivery_quote"`
+- `"delivery_rate"`
+- `"delivery_rate_callback"`
+- `"delivery_revocation"`
+- `"delivery_selection"`
+- `"delivery_zone"`
+- `"device"`
+- `"dispute"`
+- `"email_change_request"`
+- `"environment_grant"`
+- `"feedback_report"`
+- `"fraud_warning"`
+- `"fulfillment"`
+- `"fulfillment_event"`
+- `"fulfillment_notification"`
+- `"gift_card"`
+- `"gift_card_load"`
+- `"gift_card_notification"`
+- `"gift_card_redemption"`
+- `"inventory_allocation_policy"`
+- `"inventory_count"`
+- `"inventory_item"`
+- `"inventory_level"`
+- `"inventory_receipt"`
+- `"inventory_reservation"`
+- `"inventory_reservation_line"`
+- `"inventory_transfer"`
+- `"invoice"`
+- `"invoice_late_fee"`
+- `"invoice_payment_attempt"`
+- `"invoice_payment_term"`
+- `"location"`
+- `"merchant"`
+- `"merchant_billing_balance"`
+- `"merchant_subscription_invoice"`
+- `"modifier"`
+- `"modifier_group"`
+- `"modifier_set"`
+- `"order"`
+- `"order_charge"`
+- `"order_line_item"`
+- `"order_payment_attempt"`
+- `"organization"`
+- `"package"`
+- `"package_item"`
+- `"partner_app"`
+- `"partner_app_install"`
+- `"payment_intent"`
+- `"payment_link"`
+- `"payment_method"`
+- `"payment_method_domain"`
+- `"payout"`
+- `"payout_destination"`
+- `"payout_settings"`
+- `"product"`
+- `"product_option"`
+- `"product_variant"`
+- `"promotion"`
+- `"promotion_code"`
+- `"refund"`
+- `"report"`
+- `"report_download"`
+- `"return"`
+- `"return_disposition"`
+- `"return_inspection"`
+- `"return_inspection_line_item"`
+- `"return_line_item"`
+- `"return_policy"`
+- `"return_policy_revision"`
+- `"return_reason"`
+- `"return_receipt"`
+- `"return_receipt_line_item"`
+- `"return_resolution"`
+- `"review"`
+- `"risk_list"`
+- `"risk_list_item"`
+- `"risk_rule"`
+- `"sandbox"`
+- `"shipment"`
+- `"subscription"`
+- `"subscription_payment_retry"`
+- `"subscription_plan"`
+- `"user"`
+- `"webhook_delivery"`
+- `"webhook_endpoint"`
+- `"webhook_event"`
 
 ## ResourceTimelineResponse
 
@@ -20179,11 +27340,33 @@ Variants: any, any, any.
 | `next_actions` | Optional | Array of [NextAction](MODELS.md#nextaction) |  |
 | `observed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning. |
-| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. |
+| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Values: [19 declared values](#responsewarning-reason-values). |
 | `resource` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `severity` | Optional | string |  |
 | `would_have_applied_money` | Optional | object | Discount amount this promotion would have applied had it won, on a promotion_declined warning. |
+
+#### ResponseWarning reason values
+
+- `"already_applied"`
+- `"automatic_disabled"`
+- `"buy_item_missing"`
+- `"code_invalid"`
+- `"code_required"`
+- `"codes_disabled"`
+- `"currency_mismatch"`
+- `"disabled"`
+- `"exhausted"`
+- `"expired"`
+- `"max_promotions_reached"`
+- `"minimum_not_met"`
+- `"no_discountable_balance"`
+- `"not_combinable"`
+- `"not_eligible"`
+- `"not_yet_started"`
+- `"superseded"`
+- `"superseded_by_better_offer"`
+- `"unknown_type"`
 
 ## RetryReturnDispositionRequest
 
@@ -20430,7 +27613,7 @@ Variants: any, any.
 | `acceptance_decision_reason_message` | Optional | string |  |
 | `acceptance_status` | Required | string | Values: `"accepted"`, `"rejected"`, `"review_required"`. |
 | `available_disposition_quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `condition` | Required | string | Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"unknown"`. |
+| `condition` | Required | string | `undetermined`: The item's condition could not be assessed. Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"undetermined"`. |
 | `finding_codes` | Required | Array of string |  |
 | `internal_note` | Optional | string |  |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -20447,7 +27630,7 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `acceptance_status` | Required | string | Values: `"accepted"`, `"rejected"`, `"review_required"`. |
-| `condition` | Required | string | Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"unknown"`. |
+| `condition` | Required | string | `undetermined`: The item's condition could not be assessed. Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"undetermined"`. |
 | `finding_codes` | Optional | Array of string |  |
 | `internal_note` | Optional | string |  |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -20849,7 +28032,7 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `acceptance_status` | Required | string | Values: `"accepted"`, `"rejected"`, `"review_required"`. |
-| `condition` | Required | string | Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"unknown"`. |
+| `condition` | Required | string | `undetermined`: The item's condition could not be assessed. Values: `"new"`, `"unopened"`, `"opened"`, `"used"`, `"damaged"`, `"defective"`, `"incomplete"`, `"undetermined"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `finding_codes` | Optional | Array of string |  |
 | `inspected_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -21564,7 +28747,7 @@ Variants: object, object, object, object, object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `notification` | Optional | object | Explicitly send or schedule the replacement code through private recipient access. Requires commerce.gift_cards.recipients.write in addition to secret replacement authority. |
+| `notification` | Optional | object | Explicitly send or schedule the replacement code through private recipient access. Requires commerce.gift_cards.secrets.write. |
 
 ## RotatePartnerAppSecretResponse
 
@@ -21678,6 +28861,15 @@ Variants: object, object.
 | `mode` | Required | string | How the required scopes are evaluated. all requires every listed scope; any requires at least one listed scope. Example: `"all"`. Values: `"all"`, `"any"`. |
 | `scopes` | Required | Array of string | Canonical public scope names evaluated for this authorization decision. Example: `["developer.sandboxes.write","accounts.api_keys.write"]`. |
 
+## SelectableMerchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `business_name` | Required | string | Merchant business name. Empty when no business name is available. |
+| `merchant_id` | Required | string | Flint merchant ID available for selection. |
+
 ## SelectableOrderPaymentIntent
 
 
@@ -21708,7 +28900,7 @@ Variants: object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Required | string | Format: `email`. minLength: `1`. maxLength: `254`. |
+| `email` | Optional | string | Format: `email`. minLength: `1`. maxLength: `254`. |
 
 ## ServiceFulfillmentDetails
 
@@ -21939,8 +29131,8 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
 | `billing_schedule_owner` | Required | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, then update_payment_method, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all five every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
-| `cancel_at_period_end` | Required | boolean |  |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, then retry_payment, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all six every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
+| `cancel_at_period_end` | Required | boolean | True when the subscription is scheduled to cancel at the end of the current period. Schedule with the cancel route and undo with the reactivate route. Response only. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
 | `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -21950,6 +29142,7 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `current_period_start` | Optional | string | Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Required | string |  |
+| `early_termination_fee_money` | Optional | object | Early termination fee frozen in the subscription's contract terms. Present only before contract_end_at when those terms include a fee. Later plan changes do not change this fee. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `line_items` | Optional | Array of [SubscriptionLineItem](MODELS.md#subscriptionlineitem) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
@@ -21959,13 +29152,13 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `payment_method` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `payment_method_id` | Required | string |  |
-| `plan_id` | Required | string |  |
 | `recurring_amount_money` | Optional | object | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
 | `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) |  |
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. Response only. |
 | `subscription_id` | Required | string | Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `subscription_plan_id` | Required | string |  |
 | `trial_end` | Optional | string | Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
@@ -22062,7 +29255,7 @@ The cancellation request behind a scheduled or completed cancellation.
 | `failure` | Optional | [SubscriptionPaymentRetryFailure](MODELS.md#subscriptionpaymentretryfailure) |  |
 | `idempotency_key` | Required | string |  |
 | `order_id` | Optional | string |  |
-| `payment_attempt_id` | Optional | string |  |
+| `order_payment_attempt_id` | Optional | string |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `status` | Required | string | Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`. |
 | `subscription_id` | Required | string |  |
@@ -22139,9 +29332,9 @@ The cancellation request behind a scheduled or completed cancellation.
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
 | `name` | Required | string |  |
-| `plan_id` | Required | string | Response only. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. Response only. |
+| `subscription_plan_id` | Required | string | Response only. |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
@@ -22290,7 +29483,7 @@ Variants: object, object.
 | `location_id` | Optional | string | Response only. |
 | `order_charge_id` | Optional | string | Response only. |
 | `order_line_item_id` | Optional | string | Response only. |
-| `percentage` | Optional | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. Response only. |
+| `percent` | Optional | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. Response only. |
 | `price_mode` | Required | string | Values: `"additive"`, `"inclusive"`. Response only. |
 | `tax_breakdown_id` | Required | string | Response only. |
 | `tax_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
@@ -22321,7 +29514,7 @@ Variants: any, any.
 | `calculation_type` | Optional | string | Values: `"percentage"`. |
 | `flat_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `jurisdiction` | Required | [TaxJurisdiction](MODELS.md#taxjurisdiction) |  |
-| `percentage` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
+| `percent` | Required | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`. |
 
 ## TaxIdentity
@@ -22471,11 +29664,11 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Required | Alternative shapes (see declared variants) | The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. |
-| `default_tip_percentage` | Required | number or null | The preselected percentage, from 0.01 through 100. It must match one of the effective tip_percentages. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percent` | Required | number or null | The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
-| `tip_percentages` | Optional | Array of number | minItems: `3`. maxItems: `3`. |
+| `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: `3`. maxItems: `3`. |
 
 ## TippingSettingsPatch
 
@@ -22485,11 +29678,11 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | --- | --- | --- | --- |
 | `default_enabled` | Optional | boolean |  |
 | `default_smart_tip_money` | Optional | Alternative shapes (see declared variants) | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. |
-| `default_tip_percentage` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `0.01`. maximum: `100`. |
+| `default_tip_percent` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
 | `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
-| `tip_percentages` | Optional | Array of number | minItems: `3`. maxItems: `3`. |
+| `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: `3`. maxItems: `3`. |
 
 ## TipValueSettlementAllocation
 
@@ -22690,7 +29883,7 @@ Variants: any, any.
 | `courier_pickup_at` | Optional | string or null | Time at which the courier collected the order. Format: `date-time`. |
 | `courier_pickup_window_duration_seconds` | Optional | exact numeric string or null | Width of the promised courier pickup window, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `courier_provider_name` | Optional | string or null | Delivery network or merchant fleet provider handling the job. maxLength: `255`. |
-| `courier_support_phone_number` | Optional | string or null | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
+| `courier_support_phone` | Optional | string or null | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `dispatched_at` | Optional | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `dropoff_notes` | Optional | string or null | Driver-facing notes for the final handoff. maxLength: `2048`. |
@@ -22918,6 +30111,7 @@ Variants: any, any, any, any, any.
 | `po_number` | Optional | string |  |
 | `recipient_email` | Optional | string |  |
 | `reference` | Optional | string |  |
+| `reminders_paused` | Optional | boolean | Pauses (true) or resumes (false) the automatic reminder cadence. Accepted only on an open or partially paid invoice with a balance remaining, and only alone or with expected_version: every other field is draft-only. While paused, manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire. On resume, reminder times that passed while paused do not fire. Sending the current value succeeds without changing the invoice. |
 | `remit_to_address` | Optional | [PostalAddress](MODELS.md#postaladdress) |  |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWrite](MODELS.md#invoicescheduleentrywrite) | Complete draft payment schedule with at most 14 entries. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
 | `scheduled_send_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -22972,7 +30166,8 @@ Variants: any, any.
 | `api_version` | Optional | string | Set the merchant default to any supported API version. Omit to leave it unchanged. Null is not accepted. The default is shared across live and test environments; requests with Flint-Version use that header instead. |
 | `business_name` | Optional | string | Business name buyers see. Surrounding whitespace is trimmed, and the result must have 1 to 120 characters. The name cannot be cleared, and only live credentials can set it. minLength: `1`. maxLength: `120`. |
 | `email` | Optional | string |  |
-| `expected_version` | Optional | exact numeric string | Merchant profile version last read. A different current version returns MERCHANT_CHANGED. Send this value when saving a logo to detect concurrent profile edits. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | exact numeric string | Merchant profile version last read. A different current version returns MERCHANT_CHANGED. Send this value when saving a logo or icon to detect concurrent profile edits. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `icon` | Optional | object | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [ImageRequest](MODELS.md#imagerequest) |  |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `organization_id` | Optional | string |  |
@@ -23170,7 +30365,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](MODELS.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. |
+| `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](MODELS.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. maxItems: `20`. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
@@ -23188,7 +30383,7 @@ Variants: any, any.
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemPatchRequest](MODELS.md#paymentlinklineitempatchrequest) | Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted. minItems: `1`. |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
 | `name` | Optional | string |  |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
@@ -23226,7 +30421,7 @@ Variants: any, any.
 | `minimum_balance_by_currency` | Optional | object |  |
 | `monthly_payout_days` | Optional | Array of integer |  |
 | `statement_descriptor` | Optional | string |  |
-| `weekly_payout_days` | Optional | Array of string |  |
+| `weekly_payout_days` | Optional | Array of string | Weekdays on which weekly payouts are sent. Allowed values are monday, tuesday, wednesday, thursday, and friday. |
 
 ## UpdatePickupFulfillmentDetails
 
@@ -23617,10 +30812,8 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cancel_at_period_end` | Optional | boolean |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
-| `payment_method_id` | Optional | string |  |
 
 ## UpdateWebhookEndpointRequest
 
@@ -23684,7 +30877,7 @@ Variants: any, any, any.
 | `buyer_notification_behavior` | Optional | string | Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Optional resource version last read by the caller. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | Void event timestamp. Format: `date-time`. |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | Your note explaining this action. |
 
 ## VoidPackageResponse
 
@@ -23716,7 +30909,7 @@ Variants: any, any, any.
 | `buyer_notification_behavior` | Optional | string | Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Values: `"send"`, `"suppress"`. |
 | `expected_version` | Optional | exact numeric string | Optional resource version last read by the caller. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `occurred_at` | Optional | string | Void event timestamp. Format: `date-time`. |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | Your note explaining this action. |
 
 ## VoidShipmentResponse
 
@@ -23746,7 +30939,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Required | string |  |
+| `reason_message` | Required | string | Your note explaining this action. |
 
 ## WaiveReturnLineInspectionRequest
 
@@ -29202,7 +36395,7 @@ Variants: any, any, any.
 | `error_category` | Optional | string | Values: [18 declared values](#webhookdeliveryaction-error_category-values). |
 | `error_message` | Optional | string |  |
 | `error_summary` | Optional | string |  |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | The note supplied when this action was requested. |
 | `recommended_action` | Optional | string |  |
 | `reference_url` | Optional | string |  |
 | `response_body_excerpt` | Optional | string |  |
@@ -29261,7 +36454,7 @@ Variants: any, any, any.
 | `error_category` | Optional | string | Values: [18 declared values](#webhookdeliveryattempt-error_category-values). |
 | `error_message` | Optional | string |  |
 | `error_summary` | Optional | string |  |
-| `reason` | Optional | string |  |
+| `reason_message` | Optional | string | The note supplied when this action was requested. |
 | `recommended_action` | Optional | string |  |
 | `reference_url` | Optional | string |  |
 | `response_body_excerpt` | Optional | string |  |

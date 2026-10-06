@@ -1,9 +1,9 @@
-import { d806 as c0, d70 as c1, d336 as c2, d335 as c3, d71 as c4, d2385 as c5, d2386 as c6, d2388 as c7, d2389 as c8, d2391 as c9, d2370 as c10, d2384 as c11, d2392 as c12, d2387 as c13, d2390 as c14 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2392 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d814 as c0, d73 as c1, d344 as c2, d343 as c3, d74 as c4, d2400 as c5, d2401 as c6, d2403 as c7, d2404 as c8, d2406 as c9, d2385 as c10, d2399 as c11, d2407 as c12, d2402 as c13, d2405 as c14 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d2407 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2392;
+const read = d2407;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentRecipient"]:c0(),["PostalAddress"]:c1(),["SharedCodec112"]:c2(),["SharedCodec113"]:c3(),["SharedCodec18"]:c4(),["SharedCodec624"]:c5(),["SharedCodec625"]:c6(),["SharedCodec626"]:c7(),["SharedCodec627"]:c8(),["SharedCodec628"]:c9(),["UpdateDeliveryFulfillmentDetails"]:c10(),["UpdateDigitalFulfillmentDetails"]:c11(),["UpdateFulfillmentRequest"]:c12(),["UpdatePickupFulfillmentDetails"]:c13(),["UpdateServiceFulfillmentDetails"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentRecipient"]:c0(),["PostalAddress"]:c1(),["SharedCodec115"]:c2(),["SharedCodec116"]:c3(),["SharedCodec19"]:c4(),["SharedCodec636"]:c5(),["SharedCodec637"]:c6(),["SharedCodec638"]:c7(),["SharedCodec639"]:c8(),["SharedCodec640"]:c9(),["UpdateDeliveryFulfillmentDetails"]:c10(),["UpdateDigitalFulfillmentDetails"]:c11(),["UpdateFulfillmentRequest"]:c12(),["UpdatePickupFulfillmentDetails"]:c13(),["UpdateServiceFulfillmentDetails"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateFulfillmentRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

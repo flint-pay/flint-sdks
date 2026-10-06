@@ -1,4 +1,4 @@
 
+import type { ResendWebhookDeliveryRequest } from './ResendWebhookDeliveryRequest.js';
 
-
-export type ResolveOrderInventoryExceptionRequestInput = { "reason"?: string; };
+export type ResolveOrderInventoryExceptionRequestInput = ResendWebhookDeliveryRequest;

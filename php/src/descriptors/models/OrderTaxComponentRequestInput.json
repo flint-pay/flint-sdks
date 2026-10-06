@@ -1,1 +1,1 @@
-{"shared":"OrderTaxComponentRequest","dependencies":["MoneyValue","OrderTaxComponentRequest","OrderTaxJurisdictionRequest","SharedCodec157"]}
+{"shared":"OrderTaxComponentRequest","dependencies":["MoneyValue","OrderTaxComponentRequest","OrderTaxJurisdictionRequest","SharedCodec128"]}

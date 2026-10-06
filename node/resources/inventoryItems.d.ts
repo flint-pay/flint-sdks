@@ -7,6 +7,8 @@ import type { InventoryItemListResponse } from '../declarations/InventoryItemLis
 import type { InventoryItemResponse } from '../declarations/InventoryItemResponse.js';
 import type { InventoryItemsCreateInput } from '../declarations/InventoryItemsCreateInput.js';
 import type { InventoryItemsCreateResponse } from '../declarations/InventoryItemsCreateResponse.js';
+import type { InventoryItemsGetInput } from '../declarations/InventoryItemsGetInput.js';
+import type { InventoryItemsGetResponse } from '../declarations/InventoryItemsGetResponse.js';
 import type { InventoryItemsListInput } from '../declarations/InventoryItemsListInput.js';
 import type { InventoryItemsListResponse } from '../declarations/InventoryItemsListResponse.js';
 import type { InventoryItemsRemoveInput } from '../declarations/InventoryItemsRemoveInput.js';
@@ -30,7 +32,7 @@ export interface InventoryItemsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsCreateResponse>>;
     /**
- * Retire an inventory item. keeps the archived resource available in list results.
+ * Retire an inventory item. The item is archived: it stays readable by ID and appears in lists only when you filter by status archived.
  * DELETE /v1/inventory-items/{inventory_item_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -41,7 +43,16 @@ export interface InventoryItemsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     removeWithResponse(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsRemoveResponse>>;
     /**
- * List inventory items.
+ * Retrieve an inventory item by ID, including archived items.
+ * GET /v1/inventory-items/{inventory_item_id}
+ * @example
+ * client.inventoryItems.get("example")
+ */
+    get(inventory_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    getWithResponse(inventory_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemsGetResponse>>;
+    /**
+ * List inventory items. Archived items are excluded unless you filter by status archived.
  * GET /v1/inventory-items
  * @example
  * client.inventoryItems.list()
@@ -53,7 +64,7 @@ export interface InventoryItemsResource {
     listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryItemsListResponse>>;
     listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItem>;
     /**
- * Update an inventory item. accepts status active or inactive. Send sku or barcode as null to clear.
+ * Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to clear.
  * PATCH /v1/inventory-items/{inventory_item_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -78,12 +89,14 @@ export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { InventoryItemsCreateResponse } from '../declarations/InventoryItemsCreateResponse.js';
 export type { InventoryItemsRemoveResponse } from '../declarations/InventoryItemsRemoveResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { InventoryItemsGetResponse } from '../declarations/InventoryItemsGetResponse.js';
 export type { InventoryItemListResponse } from '../declarations/InventoryItemListResponse.js';
 export type { InventoryItemsListResponse } from '../declarations/InventoryItemsListResponse.js';
 export type { InventoryItem } from '../declarations/InventoryItem.js';
 export type { InventoryItemsUpdateResponse } from '../declarations/InventoryItemsUpdateResponse.js';
 export type { InventoryItemsCreateInput } from '../declarations/InventoryItemsCreateInput.js';
 export type { InventoryItemsRemoveInput } from '../declarations/InventoryItemsRemoveInput.js';
+export type { InventoryItemsGetInput } from '../declarations/InventoryItemsGetInput.js';
 export type { InventoryItemsListInput } from '../declarations/InventoryItemsListInput.js';
 export type { InventoryItemsUpdateInput } from '../declarations/InventoryItemsUpdateInput.js';
 export type { ClientOptions } from '../declarations/ClientOptions.js';

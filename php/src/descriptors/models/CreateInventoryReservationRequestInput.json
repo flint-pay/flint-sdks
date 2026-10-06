@@ -1,1 +1,1 @@
-{"shared":"CreateInventoryReservationRequest","dependencies":["CreateInventoryReservationRequest","InventoryAssignment","InventoryReservationOwner","InventoryRoutingDemand","InventoryRoutingSourceRequest","SharedCodec423","SharedCodec424","SharedCodec425"]}
+{"shared":"CreateInventoryReservationRequest","dependencies":["CreateInventoryReservationRequest","InventoryAssignment","InventoryReservationOwner","InventoryRoutingDemand","InventoryRoutingSourceRequest","SharedCodec428","SharedCodec429","SharedCodec430"]}

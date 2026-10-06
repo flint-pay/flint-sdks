@@ -11,7 +11,5 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->sendReceipt('example', [
-  'email' => 'example@example.invalid',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->orders->sendReceipt('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

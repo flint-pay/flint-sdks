@@ -24,7 +24,7 @@ export interface DemoSessionsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionsCreateResponse>>;
     /**
- * Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client daily limit as creation.
+ * Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client email failure limit as creation.
  * POST /v1/demo-sessions/reset
  * @example
  * client.demoSessions.reset({})

@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryAllocationPolicies.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/inventoryAllocationPolicies.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAllocationPolicy"]:r0,["deleteInventoryAllocationPolicy"]:r0,["listInventoryAllocationPolicies"]:r0,["updateInventoryAllocationPolicy"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAllocationPolicy"]:r0,["deleteInventoryAllocationPolicy"]:r0,["getInventoryAllocationPolicy"]:r0,["listInventoryAllocationPolicies"]:r0,["updateInventoryAllocationPolicy"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -32,6 +32,16 @@ this.inventoryAllocationPolicies = Object.freeze({
 ], [inventory_allocation_policy_id], [
   "expected_version",
   "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      get: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryAllocationPolicies", _sdkRequestInput([], [], [

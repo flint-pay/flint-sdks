@@ -7,12 +7,12 @@ namespace Flint;
  * @property-read Merchant $merchant
  * @property-read bool $merchant_created
  * @property-read OnboardingNextStep $next_step
+ * @property-read string $onboarding_session_expires_at
  * @property-read string $onboarding_session_token
- * @property-read string $status
  * @property-read User $user
  * Presence-aware response; omitted fields throw when accessed. */
 final class OnboardingVerifyEmailResult extends Model {
-    /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': mixed, 'merchant_created': bool, 'next_step'?: mixed, 'onboarding_session_token': string, 'status': string, 'user': mixed, ...}|object $values */
+    /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': mixed, 'merchant_created': bool, 'next_step'?: mixed, 'onboarding_session_expires_at': string, 'onboarding_session_token': string, 'user': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailResult')); }
     /** @return bool
      * @throws SdkError When can_issue_api_key is omitted; use hasCanIssueApiKey() or valueOrDefault().
@@ -40,15 +40,15 @@ final class OnboardingVerifyEmailResult extends Model {
     public function getNextStep(): OnboardingNextStep { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
     /** @return string
+     * @throws SdkError When onboarding_session_expires_at is omitted; use hasOnboardingSessionExpiresAt() or valueOrDefault().
+     */
+    public function getOnboardingSessionExpiresAt(): string { return $this->get('onboarding_session_expires_at'); }
+    public function hasOnboardingSessionExpiresAt(): bool { return $this->has('onboarding_session_expires_at'); }
+    /** @return string
      * @throws SdkError When onboarding_session_token is omitted; use hasOnboardingSessionToken() or valueOrDefault().
      */
     public function getOnboardingSessionToken(): string { return $this->get('onboarding_session_token'); }
     public function hasOnboardingSessionToken(): bool { return $this->has('onboarding_session_token'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
-     */
-    public function getStatus(): string { return $this->get('status'); }
-    public function hasStatus(): bool { return $this->has('status'); }
     /** @return User
      * @throws SdkError When user is omitted; use hasUser() or valueOrDefault().
      */

@@ -1,9 +1,9 @@
-import { d513 as c0, d70 as c1, d509 as c2, d510 as c3, d512 as c4, d511 as c5, d2296 as c6, d2297 as c7, d2320 as c8, d2321 as c9, d2295 as c10, d2298 as c11, d2322 as c12 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d513 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d518 as c0, d73 as c1, d514 as c2, d515 as c3, d517 as c4, d516 as c5, d2311 as c6, d2312 as c7, d2335 as c8, d2336 as c9, d2310 as c10, d2313 as c11, d2337 as c12 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d518 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d513;
+const read = d518;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateSubscriptionRequest"]:c0(),["PostalAddress"]:c1(),["SharedCodec193"]:c2(),["SharedCodec194"]:c3(),["SharedCodec195"]:c4(),["SharedCodec196"]:c5(),["SharedCodec592"]:c6(),["SharedCodec593"]:c7(),["SharedCodec601"]:c8(),["SharedCodec602"]:c9(),["SubscriptionBillingScheduleRequest"]:c10(),["SubscriptionBillingStartRequest"]:c11(),["SubscriptionServiceLocationRequest"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateSubscriptionRequest"]:c0(),["PostalAddress"]:c1(),["SharedCodec195"]:c2(),["SharedCodec196"]:c3(),["SharedCodec197"]:c4(),["SharedCodec198"]:c5(),["SharedCodec604"]:c6(),["SharedCodec605"]:c7(),["SharedCodec613"]:c8(),["SharedCodec614"]:c9(),["SubscriptionBillingScheduleRequest"]:c10(),["SubscriptionBillingStartRequest"]:c11(),["SubscriptionServiceLocationRequest"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateSubscriptionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

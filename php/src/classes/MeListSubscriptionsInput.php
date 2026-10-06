@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $billing_schedule_owner
  * @property-read bool $awaiting_billing_schedule
  * @property-read bool $cancel_at_period_end
- * @property-read string $plan_id
+ * @property-read string $subscription_plan_id
  * @property-read string $sort_by
  * @property-read string $sort_direction
  * @property-read string|\DateTimeInterface $created_after
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read bool $needs_attention
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListSubscriptionsInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'subscription_plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListSubscriptionsInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -53,10 +53,10 @@ final class MeListSubscriptionsInput extends Model {
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
     /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */

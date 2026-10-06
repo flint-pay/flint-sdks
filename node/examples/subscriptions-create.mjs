@@ -13,7 +13,7 @@ const result = await client.subscriptions.create(
       type: "immediate",
     },
     customer_id: "example",
-    plan_id: "example",
+    subscription_plan_id: "example",
     billing_schedule: {
       owner: "flint",
     },

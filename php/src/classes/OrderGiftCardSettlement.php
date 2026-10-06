@@ -2,20 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney $amount_money
+ * @property-read MoneyValue $amount_money
  * @property-read string $created_at
  * @property-read string $gift_card_id
  * @property-read string $gift_card_redemption_id
  * @property-read string $last_characters
- * @property-read GiftCardMoney $tip_money
+ * @property-read MoneyValue $tip_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderGiftCardSettlement extends Model {
     /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'created_at': string, 'gift_card_id': string, 'gift_card_redemption_id': string, 'last_characters': string, 'tip_money': object{'amount': string, 'currency': string}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardSettlement')); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): GiftCardMoney { return $this->get('amount_money'); }
+    public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -37,9 +37,9 @@ final class OrderGiftCardSettlement extends Model {
      */
     public function getLastCharacters(): string { return $this->get('last_characters'); }
     public function hasLastCharacters(): bool { return $this->has('last_characters'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When tip_money is omitted; use hasTipMoney() or valueOrDefault().
      */
-    public function getTipMoney(): GiftCardMoney { return $this->get('tip_money'); }
+    public function getTipMoney(): MoneyValue { return $this->get('tip_money'); }
     public function hasTipMoney(): bool { return $this->has('tip_money'); }
 }

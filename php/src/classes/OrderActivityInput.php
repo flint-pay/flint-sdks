@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read array{'amount': string, 'currency': string, ...}|object $running_balance_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderActivityInput extends Model {
-    /** @param array{'activity_type': string, 'balance_delta_money': array{'amount': string, 'currency': string, ...}|object, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': array{'amount': string, 'currency': string, ...}|object, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'balance_delta_money': array{'amount': string, 'currency': string, ...}|object, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': array{'amount': string, 'currency': string, ...}|object, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivityInput')); }
     /** @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().

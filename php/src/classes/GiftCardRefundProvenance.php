@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney|null $original_consideration_money
+ * @property-read MoneyValue|null $original_consideration_money
  * @property-read string $original_created_at
  * @property-read \stdClass $original_source
  * @property-read string|null $original_source_created_at
@@ -17,10 +17,10 @@ namespace Flint;
 final class GiftCardRefundProvenance extends Model {
     /** @param array{'original_consideration_money': mixed, 'original_created_at': string, 'original_source': \stdClass, 'original_source_created_at': string|null, 'refund_allocation_id': string, 'root_gift_card_id': string, 'root_gift_card_load_id': string, 'source_gift_card_id': string, 'source_gift_card_redemption_id': string, 'source_purchase_refund_allocation_id'?: string, 'source_refund_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRefundProvenance')); }
-    /** @return GiftCardMoney|null
+    /** @return MoneyValue|null
      * @throws SdkError When original_consideration_money is omitted; use hasOriginalConsiderationMoney() or valueOrDefault().
      */
-    public function getOriginalConsiderationMoney(): GiftCardMoney|null { return $this->get('original_consideration_money'); }
+    public function getOriginalConsiderationMoney(): MoneyValue|null { return $this->get('original_consideration_money'); }
     public function hasOriginalConsiderationMoney(): bool { return $this->has('original_consideration_money'); }
     /** @return string
      * @throws SdkError When original_created_at is omitted; use hasOriginalCreatedAt() or valueOrDefault().

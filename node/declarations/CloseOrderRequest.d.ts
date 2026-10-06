@@ -1,4 +1,4 @@
 
 
 
-export type CloseOrderRequest = { /** Internal reason for closing the order. This is not shown to the buyer. */ "reason"?: string; };
+export type CloseOrderRequest = { /** Your note explaining why you are closing the order. It is not shown to the buyer. */ "reason_message"?: string; };

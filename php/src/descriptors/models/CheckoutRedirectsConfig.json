@@ -1,1 +1,1 @@
-{"shared":"CheckoutRedirectsConfig","phpRepresentation":{"kind":"record","fields":{"cancel_redirect_url":{"kind":"value","type":"string"},"on_load_redirect_url":{"kind":"value","type":"string"},"success_redirect_url":{"kind":"value","type":"string"}}},"dependencies":["CheckoutRedirectsConfig"]}
+{"shared":"CheckoutRedirectsConfig","phpRepresentation":{"kind":"record","fields":{"cancel_redirect_url":{"kind":"value","type":"string"},"success_redirect_url":{"kind":"value","type":"string"}}},"dependencies":["CheckoutRedirectsConfig"]}

@@ -19,13 +19,13 @@ namespace Flint;
  * @property-read string $payment_link_id
  * @property-read string $payment_link_type
  * @property-read CheckoutPaymentConfig $payments
- * @property-read string $plan_id
  * @property-read string $status
+ * @property-read string $subscription_plan_id
  * @property-read ThemeConfig $theme
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class PublicPaymentLink extends Model {
-    /** @param array{'completed_count': int, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'image'?: mixed, 'inactive_message'?: string, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'plan_id'?: string, 'status': string, 'theme'?: mixed, 'version': string, ...}|object $values */
+    /** @param array{'completed_count': int, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'image'?: mixed, 'inactive_message'?: string, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'theme'?: mixed, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLink')); }
     /** @return int
      * @throws SdkError When completed_count is omitted; use hasCompletedCount() or valueOrDefault().
@@ -113,15 +113,15 @@ final class PublicPaymentLink extends Model {
     public function getPayments(): CheckoutPaymentConfig { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
     /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
-    /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return ThemeConfig
      * @throws SdkError When theme is omitted; use hasTheme() or valueOrDefault().
      */

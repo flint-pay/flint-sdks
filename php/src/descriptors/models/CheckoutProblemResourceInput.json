@@ -1,1 +1,1 @@
-{"shared":"CheckoutProblemResource","dependencies":["CheckoutProblemResource","ErrorRemediation","NextAction","NextActionMerchantAccountSession"]}
+{"shared":"CheckoutProblemResource","dependencies":["CheckoutProblemResource","ErrorRemediation","NextAction","NextActionMerchantAccountSession","SharedCodec1","SharedCodec485"]}

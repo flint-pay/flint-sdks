@@ -1,1 +1,1 @@
-{"shared":"DeliveryProfileAssignmentResponse","dependencies":["DeliveryProfileAssignment","DeliveryProfileAssignmentResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}
+{"shared":"DeliveryProfileAssignmentResponse","dependencies":["DeliveryProfileAssignment","DeliveryProfileAssignmentResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec485"]}

@@ -1,1 +1,1 @@
-{"shared":"SubscriptionPaymentRetryListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SubscriptionPaymentRetry","SubscriptionPaymentRetryFailure","SubscriptionPaymentRetryListResponse"]}
+{"shared":"SubscriptionPaymentRetryListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec485","SubscriptionPaymentRetry","SubscriptionPaymentRetryFailure","SubscriptionPaymentRetryListResponse"]}

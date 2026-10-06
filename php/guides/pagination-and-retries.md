@@ -1,4 +1,4 @@
-<!-- Package 3.0.0-beta.20261003024310; API 2026-09-07 -->
+<!-- Package 3.0.0-beta.20261006020957; API 2026-09-07 -->
 
 # Pagination and retries
 
@@ -40,7 +40,7 @@ Pagination can make multiple requests to fetch distinct pages; it does not autom
 
 ## Persist keys before writes
 
-Every write that declares `Idempotency-Key` in the pinned API contract supports `idempotencyKey` through request options (283 operations). Required-key endpoints accept the key here without duplicating it in the input; they still reject a missing key before dispatch. Supplying a key does not enable automatic retries. Pass `idempotencyKey` in request options, or the identical `Idempotency-Key` input/header. The SDK sends the supplied key and rejects conflicting key sources. Automatic key generation is disabled.
+Every write that declares `Idempotency-Key` in the pinned API contract supports `idempotencyKey` through request options (304 operations). Required-key endpoints accept the key here without duplicating it in the input; they still reject a missing key before dispatch. Supplying a key does not enable automatic retries. Pass `idempotencyKey` in request options, or the identical `Idempotency-Key` input/header. The SDK sends the supplied key and rejects conflicting key sources. Automatic key generation is disabled.
 
 Create and persist a key when your application decides on the business action. Reuse that saved key and the identical input when resuming after a crash or timeout. A different action or changed request needs a new key. Replay lifetime and semantics follow the endpoint contract. The general window is 24 hours; inventory command keys persist for at least as long as their inventory effects, and merchant account sessions mint fresh secrets on repeated success. Follow each endpoint's documented scope and retention. If the final outcome is unknown, reconcile the action before resubmitting. A deliberate retry must reuse the persisted key and identical request body.
 

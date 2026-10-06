@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read string $buyer_notification_behavior
  * @property-read string $expected_version
  * @property-read string|\DateTimeInterface $occurred_at
- * @property-read string $reason
+ * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class VoidPackageRequestInput extends Model {
-    /** @param array{'buyer_notification_behavior'?: string, 'expected_version'?: string, 'occurred_at'?: string|\DateTimeInterface, 'reason'?: string, ...}|object $values */
+    /** @param array{'buyer_notification_behavior'?: string, 'expected_version'?: string, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('VoidPackageRequestInput')); }
     /** @return string
      * @throws SdkError When buyer_notification_behavior is omitted; use hasBuyerNotificationBehavior() or valueOrDefault().
@@ -26,8 +26,8 @@ final class VoidPackageRequestInput extends Model {
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
     /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
 }

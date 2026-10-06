@@ -5,11 +5,11 @@ namespace Flint;
  * @property-read string $calculation_type
  * @property-read array{'amount': string, 'currency': string}|object $flat_money
  * @property-read OrderTaxJurisdictionRequestInput|array<array-key, mixed>|\stdClass $jurisdiction
- * @property-read int|float $percentage
+ * @property-read int|float $percent
  * @property-read string $tax_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxComponentRequestInput extends Model {
-    /** @param array{'calculation_type'?: string, 'flat_money': array{'amount': string, 'currency': string}|object, 'jurisdiction': OrderTaxJurisdictionRequestInput|array<array-key, mixed>|\stdClass, 'percentage'?: int|float, 'tax_type'?: string}|object $values */
+    /** @param array{'calculation_type'?: string, 'flat_money': array{'amount': string, 'currency': string}|object, 'jurisdiction': OrderTaxJurisdictionRequestInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'tax_type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxComponentRequestInput')); }
     /** @return string
      * @throws SdkError When calculation_type is omitted; use hasCalculationType() or valueOrDefault().
@@ -27,10 +27,10 @@ final class OrderTaxComponentRequestInput extends Model {
     public function getJurisdiction(): mixed { return $this->get('jurisdiction'); }
     public function hasJurisdiction(): bool { return $this->has('jurisdiction'); }
     /** @return int|float
-     * @throws SdkError When percentage is omitted; use hasPercentage() or valueOrDefault().
+     * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */
-    public function getPercentage(): int|float { return $this->get('percentage'); }
-    public function hasPercentage(): bool { return $this->has('percentage'); }
+    public function getPercent(): int|float { return $this->get('percent'); }
+    public function hasPercent(): bool { return $this->has('percent'); }
     /** @return string
      * @throws SdkError When tax_type is omitted; use hasTaxType() or valueOrDefault().
      */

@@ -8,7 +8,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   token: getenv('API_TOKEN') ?: '',
 ));
-$result = $client->merchants->get('example');
+$result = $client->merchants->get();
 echo $result->merchant_id . PHP_EOL;
 echo $result->payments->status . PHP_EOL;
 $client->close();

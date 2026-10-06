@@ -21,12 +21,13 @@ namespace Flint;
  * @property-read string $previous_status
  * @property-read string $quantity_effect
  * @property-read string $reason
+ * @property-read string $reason_message
  * @property-read string $received_at
  * @property-read string $shipment_id
  * @property-read string $subject_type
  * Presence-aware response; omitted fields throw when accessed. */
 final class FulfillmentEvent extends Model {
-    /** @param array{'buyer_notification_behavior': string, 'created_at'?: string, 'current_status'?: string, 'custom_details'?: \stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'fulfillment_event_id': string, 'fulfillment_id': string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'previous_status'?: string, 'quantity_effect'?: string, 'reason'?: string, 'received_at'?: string, 'shipment_id'?: string, 'subject_type': string, ...}|object $values */
+    /** @param array{'buyer_notification_behavior': string, 'created_at'?: string, 'current_status'?: string, 'custom_details'?: \stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'fulfillment_event_id': string, 'fulfillment_id': string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'previous_status'?: string, 'quantity_effect'?: string, 'reason'?: string, 'reason_message'?: string, 'received_at'?: string, 'shipment_id'?: string, 'subject_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentEvent')); }
     /** @return string
      * @throws SdkError When buyer_notification_behavior is omitted; use hasBuyerNotificationBehavior() or valueOrDefault().
@@ -123,6 +124,11 @@ final class FulfillmentEvent extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
+    /** @return string
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
+     */
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
     /** @return string
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */

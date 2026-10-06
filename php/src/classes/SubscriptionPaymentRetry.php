@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read SubscriptionPaymentRetryFailure $failure
  * @property-read string $idempotency_key
  * @property-read string $order_id
- * @property-read string $payment_attempt_id
+ * @property-read string $order_payment_attempt_id
  * @property-read string $started_at
  * @property-read string $status
  * @property-read string $subscription_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class SubscriptionPaymentRetry extends Model {
-    /** @param array{'completed_at'?: string, 'created_at': string, 'failure'?: mixed, 'idempotency_key': string, 'order_id'?: string, 'payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'created_at': string, 'failure'?: mixed, 'idempotency_key': string, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetry')); }
     /** @return string
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -43,10 +43,10 @@ final class SubscriptionPaymentRetry extends Model {
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
     /** @return string
-     * @throws SdkError When payment_attempt_id is omitted; use hasPaymentAttemptId() or valueOrDefault().
+     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
-    public function getPaymentAttemptId(): string { return $this->get('payment_attempt_id'); }
-    public function hasPaymentAttemptId(): bool { return $this->has('payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
     /** @return string
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
      */

@@ -16,5 +16,5 @@ const result = await client.subscriptionPlans.create(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.plan_id);
 console.log(result.status);
+console.log(result.subscription_plan_id);

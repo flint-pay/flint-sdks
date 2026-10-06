@@ -8,6 +8,8 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `3.0.0-beta.20261006020957` pins the current public API and adds buyer subscription payment retries, Flint wallet card setup, buyer access links, discount previews, gift card funding dispositions, inventory reads, and invoice activities. Review the generated migration notes before upgrading; removed operations and checkout fields change the beta interface.
+
 Version `3.0.0-beta.20261003024310` adds `me.listGiftCards`, `me.saveGiftCard`, `me.getGiftCard`, `me.listGiftCardTransactions`, and `me.removeGiftCard`. Each requires a full customer session. Saved access proves possession, can be shared, and permits balance reads without transferring ownership or authorizing checkout spending.
 
 Version `2.0.0` refreshes the generated runtimes, response typing and documentation. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^2.0`. List methods return `{ data, next_page_token }`; `listItems()` iterates resources and `listPages()` yields those page bodies. Full HTTP results remain available through `WithResponse` methods.
@@ -23,6 +25,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261006020957` | `2026-09-07` |
 | `3.0.0-beta.20261003024310` | `2026-09-07` |
 | `2.0.0`                  | `2026-09-07` |
 | `0.4.0-beta.1`             | `2026-09-07` |
@@ -32,7 +35,7 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages expose 538 operations from the pinned export, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
+The pinned API version is `2026-09-07`. The packages expose 542 operations from the pinned export, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
 
 Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 

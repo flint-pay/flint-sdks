@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read SubscriptionPaymentRetryFailureInput|array<array-key, mixed>|\stdClass $failure
  * @property-read string $idempotency_key
  * @property-read string $order_id
- * @property-read string $payment_attempt_id
+ * @property-read string $order_payment_attempt_id
  * @property-read string|\DateTimeInterface $started_at
  * @property-read string $status
  * @property-read string $subscription_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPaymentRetryInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'failure'?: SubscriptionPaymentRetryFailureInput|array<array-key, mixed>|\stdClass, 'idempotency_key': string, 'order_id'?: string, 'payment_attempt_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'failure'?: SubscriptionPaymentRetryFailureInput|array<array-key, mixed>|\stdClass, 'idempotency_key': string, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetryInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -43,10 +43,10 @@ final class SubscriptionPaymentRetryInput extends Model {
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
     /** @return string
-     * @throws SdkError When payment_attempt_id is omitted; use hasPaymentAttemptId() or valueOrDefault().
+     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
-    public function getPaymentAttemptId(): string { return $this->get('payment_attempt_id'); }
-    public function hasPaymentAttemptId(): bool { return $this->has('payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
      */

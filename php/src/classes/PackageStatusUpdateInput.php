@@ -12,11 +12,11 @@ namespace Flint;
  * @property-read string $package_id
  * @property-read string $package_status_update_id
  * @property-read string $previous_status
- * @property-read string $reason
+ * @property-read string $reason_message
  * @property-read string $shipment_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackageStatusUpdateInput extends Model {
-    /** @param array{'buyer_notification_behavior': string, 'created_at'?: string|\DateTimeInterface, 'current_status': string, 'fulfillment_id': string, 'occurred_at'?: string|\DateTimeInterface, 'order'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'package_id': string, 'package_status_update_id': string, 'previous_status': string, 'reason'?: string, 'shipment_id': string, ...}|object $values */
+    /** @param array{'buyer_notification_behavior': string, 'created_at'?: string|\DateTimeInterface, 'current_status': string, 'fulfillment_id': string, 'occurred_at'?: string|\DateTimeInterface, 'order'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'package_id': string, 'package_status_update_id': string, 'previous_status': string, 'reason_message'?: string, 'shipment_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageStatusUpdateInput')); }
     /** @return string
      * @throws SdkError When buyer_notification_behavior is omitted; use hasBuyerNotificationBehavior() or valueOrDefault().
@@ -69,10 +69,10 @@ final class PackageStatusUpdateInput extends Model {
     public function getPreviousStatus(): string { return $this->get('previous_status'); }
     public function hasPreviousStatus(): bool { return $this->has('previous_status'); }
     /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */

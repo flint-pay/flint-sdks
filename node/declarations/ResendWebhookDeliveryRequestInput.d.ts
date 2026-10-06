@@ -1,4 +1,4 @@
 
+import type { ResendWebhookDeliveryRequest } from './ResendWebhookDeliveryRequest.js';
 
-
-export type ResendWebhookDeliveryRequestInput = { "reason"?: string; };
+export type ResendWebhookDeliveryRequestInput = ResendWebhookDeliveryRequest;

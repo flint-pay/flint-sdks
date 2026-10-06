@@ -1,9 +1,9 @@
-import { d754 as c0, d755 as c1, d87 as c2, d42 as c3, d132 as c4, d74 as c5, d1784 as c6, d1783 as c7, d1953 as c8, d1954 as c9, d1956 as c10, d1993 as c11, d2118 as c12, d2119 as c13, d2280 as c14, d752 as c15, d753 as c16, d43 as c17, d1804 as c18 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d755 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d762 as c0, d763 as c1, d90 as c2, d45 as c3, d138 as c4, d77 as c5, d1797 as c6, d1796 as c7, d1967 as c8, d1968 as c9, d1970 as c10, d2008 as c11, d2131 as c12, d2132 as c13, d2294 as c14, d14 as c15, d760 as c16, d761 as c17, d1795 as c18, d46 as c19, d223 as c20 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d763 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d755;
+const read = d763;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Dispute"]:c0(),["DisputeListResponse"]:c1(),["ExpandedCustomerSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["ExpandedPaymentIntentSummary"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["PaymentSourceAchDebitSummary"]:c8(),["PaymentSourceCardSummary"]:c9(),["PaymentSourceSummary"]:c10(),["PricingAmounts"]:c11(),["ResponseMeta"]:c12(),["ResponseWarning"]:c13(),["SettlementAmounts"]:c14(),["SharedCodec239"]:c15(),["SharedCodec240"]:c16(),["SharedCodec7"]:c17(),["SignedMoney"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Dispute"]:c0(),["DisputeListResponse"]:c1(),["ExpandedCustomerSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["ExpandedPaymentIntentSummary"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["PaymentSourceAchDebitSummary"]:c8(),["PaymentSourceCardSummary"]:c9(),["PaymentSourceSummary"]:c10(),["PricingAmounts"]:c11(),["ResponseMeta"]:c12(),["ResponseWarning"]:c13(),["SettlementAmounts"]:c14(),["SharedCodec1"]:c15(),["SharedCodec245"]:c16(),["SharedCodec246"]:c17(),["SharedCodec485"]:c18(),["SharedCodec8"]:c19(),["SignedMoney"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDisputeListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -16,12 +16,11 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $timezone
  * @property-read string $updated_at
- * @property-read string $validation_failure_reason
  * @property-read string $validation_status
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class Location extends Model {
-    /** @param array{'address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'coordinate'?: object{'latitude'?: float, 'longitude'?: float}, 'coordinate_source'?: string|null, 'created_at': string, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: object{'allocation_status': string, 'created_at': string, 'inventory_revision': string, 'updated_at': string}, 'location_id': string, 'metadata': \stdClass, 'name': string, 'normalized_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'status': string, 'timezone': string, 'updated_at': string, 'validation_failure_reason'?: string, 'validation_status': string, 'version': string, ...}|object $values */
+    /** @param array{'address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'coordinate'?: object{'latitude'?: float, 'longitude'?: float}, 'coordinate_source'?: string|null, 'created_at': string, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: object{'allocation_status': string, 'created_at': string, 'inventory_revision': string, 'updated_at': string}, 'location_id': string, 'metadata': \stdClass, 'name': string, 'normalized_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'status': string, 'timezone': string, 'updated_at': string, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Location')); }
     /** @return LocationAddress
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
@@ -93,11 +92,6 @@ final class Location extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When validation_failure_reason is omitted; use hasValidationFailureReason() or valueOrDefault().
-     */
-    public function getValidationFailureReason(): string { return $this->get('validation_failure_reason'); }
-    public function hasValidationFailureReason(): bool { return $this->has('validation_failure_reason'); }
     /** @return string
      * @throws SdkError When validation_status is omitted; use hasValidationStatus() or valueOrDefault().
      */
