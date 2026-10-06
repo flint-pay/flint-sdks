@@ -1,9 +1,9 @@
-import { d830 as c0, d817 as c1, d818 as c2, d819 as c3, d820 as c4, d821 as c5, d822 as c6, d823 as c7, d824 as c8, d825 as c9, d826 as c10, d827 as c11, d828 as c12, d829 as c13 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d830 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d842 as c0, d829 as c1, d830 as c2, d831 as c3, d832 as c4, d833 as c5, d834 as c6, d835 as c7, d836 as c8, d837 as c9, d838 as c10, d839 as c11, d840 as c12, d841 as c13 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d842 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d830;
+const read = d842;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentTransitionRequest"]:c0(),["SharedCodec254"]:c1(),["SharedCodec255"]:c2(),["SharedCodec256"]:c3(),["SharedCodec257"]:c4(),["SharedCodec258"]:c5(),["SharedCodec259"]:c6(),["SharedCodec260"]:c7(),["SharedCodec261"]:c8(),["SharedCodec262"]:c9(),["SharedCodec263"]:c10(),["SharedCodec264"]:c11(),["SharedCodec265"]:c12(),["SharedCodec266"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentTransitionRequest"]:c0(),["SharedCodec255"]:c1(),["SharedCodec256"]:c2(),["SharedCodec257"]:c3(),["SharedCodec258"]:c4(),["SharedCodec259"]:c5(),["SharedCodec260"]:c6(),["SharedCodec261"]:c7(),["SharedCodec262"]:c8(),["SharedCodec263"]:c9(),["SharedCodec264"]:c10(),["SharedCodec265"]:c11(),["SharedCodec266"]:c12(),["SharedCodec267"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeFulfillmentTransitionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

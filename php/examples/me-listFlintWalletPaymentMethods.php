@@ -9,5 +9,4 @@ $client = new Client(new ClientOptions(
   customerToken: getenv('CUSTOMER_TOKEN') ?: '',
 ));
 $result = $client->me->listFlintWalletPaymentMethods();
-echo $result->request_id . PHP_EOL;
 $client->close();

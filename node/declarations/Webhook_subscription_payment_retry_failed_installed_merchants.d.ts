@@ -1,0 +1,4 @@
+
+import type { Webhook_subscription_payment_retry_created_installed_merchants } from './Webhook_subscription_payment_retry_created_installed_merchants.js';
+
+export type Webhook_subscription_payment_retry_failed_installed_merchants = Webhook_subscription_payment_retry_created_installed_merchants;

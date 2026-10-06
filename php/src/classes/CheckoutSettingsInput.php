@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $custom_domain
  * @property-read list<string> $default_delivery_method_ids
  * @property-read string $default_expires_in_seconds
  * @property-read list<string> $enabled_payment_options
@@ -13,8 +14,13 @@ namespace Flint;
  * @property-read array{'enabled'?: bool, ...}|object $saved_payment_details
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSettingsInput extends Model {
-    /** @param array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: array{'enabled'?: bool, ...}|object, ...}|object $values */
+    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: array{'enabled'?: bool, ...}|object, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettingsInput')); }
+    /** @return string|null
+     * @throws SdkError When custom_domain is omitted; use hasCustomDomain() or valueOrDefault().
+     */
+    public function getCustomDomain(): string|null { return $this->get('custom_domain'); }
+    public function hasCustomDomain(): bool { return $this->has('custom_domain'); }
     /** @return list<string>
      * @throws SdkError When default_delivery_method_ids is omitted; use hasDefaultDeliveryMethodIds() or valueOrDefault().
      */

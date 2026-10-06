@@ -1,1 +1,1 @@
-{"shared":"ReturnProcessResolutionRequest","dependencies":["MoneyValue","ReturnProcessResolutionRequest","ReturnReplacementLineItemRequest","SharedCodec513","SharedCodec590","SharedCodec591","SharedCodec592","SharedCodec593","SharedCodec594"]}
+{"shared":"ReturnProcessResolutionRequest","dependencies":["MoneyValue","ReturnProcessResolutionRequest","ReturnReplacementLineItemRequest","SharedCodec515","SharedCodec592","SharedCodec593","SharedCodec594","SharedCodec595","SharedCodec596"]}

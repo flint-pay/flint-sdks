@@ -7,6 +7,7 @@ import {
   cpSync,
   writeFileSync,
   readFileSync,
+  existsSync,
   rmSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -45,7 +46,7 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
     put(".tools/sdk-generator/dist/version.js", comparator);
     put(
       ".tools/sdk-generator/dist/cli.js",
-      `import fs from 'node:fs'; import path from 'node:path'; const [action,api,config,out] = process.argv.slice(2); fs.mkdirSync(out,{recursive:true}); fs.writeFileSync(path.join(out,'.sdk-generator.json'),JSON.stringify({api:fs.readFileSync(api,'utf8'),config:fs.readFileSync(config,'utf8')}));`,
+      `import fs from 'node:fs'; import path from 'node:path'; const [action,api,config,out] = process.argv.slice(2); fs.mkdirSync(out,{recursive:true}); fs.writeFileSync(path.join(out,'.sdk-generator.json'),JSON.stringify({api:fs.readFileSync(api,'utf8'),config:fs.readFileSync(config,'utf8')})); fs.writeFileSync(path.join(out,'artifact.txt'),'published SDK'); const count='.generated/baseline-builds.txt'; fs.writeFileSync(count,String(Number(fs.existsSync(count)?fs.readFileSync(count,'utf8'):0)+1));`,
     );
     put(".gitignore", ".tools/\n.generated/\n");
     put("sdk.lock.json", { generator: { revision: "a".repeat(40) } });
@@ -69,11 +70,65 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
       readFileSync(join(dir, ".generated/baseline.json")),
     );
     assert.equal(marker.tag, "v0.2.0-beta.2");
+    assert.match(marker.recordHash, /^[0-9a-f]{64}$/);
     const record = JSON.parse(
       readFileSync(join(dir, ".generated/sdk/.sdk-generator.json")),
     );
     assert.equal(record.api, '{"original":"second"}\n');
     assert.equal(run(process.execPath, ["scripts/baseline.mjs"]), ""); // retained baseline
+    const cached = join(
+      dir,
+      ".generated/baselines",
+      marker.commit,
+      "sdk/.sdk-generator.json",
+    );
+    assert.deepEqual(JSON.parse(readFileSync(cached)), record);
+    // Candidate records and package files must never become the next baseline,
+    // including when the unpublished candidate's version changes.
+    for (const version of ["0.2.0", "0.2.1"]) {
+      put("spec/profiles/full-common-sdk.json", { version });
+      put(".generated/sdk/.sdk-generator.json", {
+        api: '{"candidate":"unpublished"}',
+        version,
+      });
+      put(".generated/sdk/artifact.txt", "candidate SDK");
+      put(".generated/sdk/candidate-only.txt", "candidate artifact");
+      assert.equal(run(process.execPath, ["scripts/baseline.mjs"]), "");
+      assert.deepEqual(
+        JSON.parse(
+          readFileSync(join(dir, ".generated/sdk/.sdk-generator.json")),
+        ),
+        record,
+      );
+      assert.equal(
+        readFileSync(join(dir, ".generated/sdk/artifact.txt"), "utf8"),
+        "published SDK",
+      );
+      assert.equal(
+        existsSync(join(dir, ".generated/sdk/candidate-only.txt")),
+        false,
+      );
+      assert.deepEqual(JSON.parse(readFileSync(cached)), record);
+    }
+    assert.equal(
+      readFileSync(join(dir, ".generated/baseline-builds.txt"), "utf8"),
+      "1",
+    );
+    // A changed private record cannot silently redefine the published contract.
+    writeFileSync(cached, JSON.stringify({ ...record, api: "changed cache" }));
+    const failure = spawnSync(process.execPath, ["scripts/baseline.mjs"], {
+      cwd: dir,
+      encoding: "utf8",
+    });
+    assert.notEqual(failure.status, 0);
+    assert.match(
+      failure.stderr,
+      /Cached published SDK baseline record has changed/,
+    );
+    assert.deepEqual(
+      JSON.parse(readFileSync(join(dir, ".generated/sdk/.sdk-generator.json"))),
+      record,
+    );
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

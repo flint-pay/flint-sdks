@@ -1,9 +1,9 @@
-import { d2222 as c0, d2216 as c1, d2218 as c2, d2217 as c3, d2220 as c4, d2219 as c5, d2221 as c6 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d2222 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d2248 as c0, d2242 as c1, d2244 as c2, d2243 as c3, d2246 as c4, d2245 as c5, d2247 as c6 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d2248 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2222;
+const read = d2248;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ReturnReceiptLineItemRequest"]:c0(),["ReturnUnverifiedItem"]:c1(),["SharedCodec585"]:c2(),["SharedCodec586"]:c3(),["SharedCodec587"]:c4(),["SharedCodec588"]:c5(),["SharedCodec589"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ReturnReceiptLineItemRequest"]:c0(),["ReturnUnverifiedItem"]:c1(),["SharedCodec587"]:c2(),["SharedCodec588"]:c3(),["SharedCodec589"]:c4(),["SharedCodec590"]:c5(),["SharedCodec591"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnReceiptLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

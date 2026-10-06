@@ -1,7 +1,7 @@
-import { d914 as c0, d73 as c1, d2430 as c2 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d2430 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d928 as c0, d73 as c1, d2456 as c2 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d2456 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2430;
+const read = d2456;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["PostalAddress"]:c1(),["UpdateMerchantRequest"]:c2()}); }
 export { codec as _validate };

@@ -1,7 +1,7 @@
-import { d359 as c0, d369 as c1, d77 as c2, d350 as c3, d349 as c4, d360 as c5, d352 as c6, d351 as c7, d353 as c8, d354 as c9, d355 as c10, d356 as c11, d358 as c12, d357 as c13, d361 as c14, d362 as c15, d364 as c16, d363 as c17 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d369 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d364 as c0, d374 as c1, d77 as c2, d355 as c3, d354 as c4, d365 as c5, d357 as c6, d356 as c7, d358 as c8, d359 as c9, d360 as c10, d361 as c11, d363 as c12, d362 as c13, d366 as c14, d367 as c15, d369 as c16, d368 as c17 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d374 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d369;
+const read = d374;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["InitialGiftCardFunding"]:c1(),["MoneyValue"]:c2(),["SharedCodec117"]:c3(),["SharedCodec118"]:c4(),["SharedCodec119"]:c5(),["SharedCodec120"]:c6(),["SharedCodec121"]:c7(),["SharedCodec122"]:c8(),["SharedCodec123"]:c9(),["SharedCodec124"]:c10(),["SharedCodec125"]:c11(),["SharedCodec126"]:c12(),["SharedCodec127"]:c13(),["SharedCodec128"]:c14(),["SharedCodec129"]:c15(),["SharedCodec130"]:c16(),["SharedCodec131"]:c17()}); }
 export { codec as _validate };

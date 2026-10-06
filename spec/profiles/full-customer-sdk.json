@@ -1,7 +1,5 @@
 {
-  "profiles": [
-    "full-common-sdk.json"
-  ],
+  "profiles": ["full-common-sdk.json"],
   "include": [
     "cancelMeReturn",
     "cancelMeSubscription",
@@ -39,6 +37,7 @@
     "listMeCreditNotes",
     "listMeDeletionRequests",
     "listMeFlintWalletPaymentMethods",
+    "listMeFulfillmentEvents",
     "listMeFulfillments",
     "listMeGiftCardTransactions",
     "listMeGiftCards",
@@ -75,9 +74,7 @@
   "auth": {
     "modes": {
       "customer": {
-        "schemes": [
-          "CustomerSessionBearer"
-        ],
+        "schemes": ["CustomerSessionBearer"],
         "operations": [
           "cancelMeReturn",
           "cancelMeSubscription",
@@ -111,6 +108,7 @@
           "listMeCreditNotes",
           "listMeDeletionRequests",
           "listMeFlintWalletPaymentMethods",
+          "listMeFulfillmentEvents",
           "listMeFulfillments",
           "listMeGiftCardTransactions",
           "listMeGiftCards",

@@ -1,6 +1,6 @@
 # Pinned SDK inputs
 
-`openapi.json` is the complete, unmodified public API export from the upstream revision and path recorded in `../sdk.lock.json`. Its SHA-256 is checked before every generator invocation. All 546 operations and 202 incoming webhook declarations are retained. The generated packages select 542 operations; four form-only CLI OAuth operations are outside the generator's supported request formats.
+`openapi.json` is the complete, unmodified public API export from the upstream revision and path recorded in `../sdk.lock.json`. Its SHA-256 is checked before every generator invocation. All 553 operations and 206 incoming webhook declarations are retained. The generated packages select 549 operations; four form-only CLI OAuth operations are outside the generator's supported request formats.
 
 The profiles and example corrections originated from `flint-pay/sdk-generator` revision `bbb5101164bcaa188aaf890e2e9e0b43cafcfdad`, `tests/providers/flint/full-*-sdk.json`. Package names, version, namespace, targets and release policy are Flint's production configuration in `profiles/full-common-sdk.json`. `../sdk.json` composes the six authentication profiles and supplies operation examples and stream/media declarations.
 

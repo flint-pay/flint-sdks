@@ -1,9 +1,9 @@
-import { d327 as c0, d672 as c1, d666 as c2, d656 as c3, d664 as c4, d665 as c5, d668 as c6, d667 as c7, d669 as c8, d671 as c9, d670 as c10, d658 as c11 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d327 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d332 as c0, d681 as c1, d675 as c2, d665 as c3, d673 as c4, d674 as c5, d677 as c6, d676 as c7, d678 as c8, d680 as c9, d679 as c10, d667 as c11 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d332 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d327;
+const read = d332;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryProfileRequest"]:c0(),["DeliveryProfileConfigurationRequest"]:c1(),["DeliveryProfileOriginPolicyRequest"]:c2(),["Dimensions"]:c3(),["SharedCodec219"]:c4(),["SharedCodec220"]:c5(),["SharedCodec221"]:c6(),["SharedCodec222"]:c7(),["SharedCodec223"]:c8(),["SharedCodec224"]:c9(),["SharedCodec225"]:c10(),["Weight"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryProfileRequest"]:c0(),["DeliveryProfileConfigurationRequest"]:c1(),["DeliveryProfileOriginPolicyRequest"]:c2(),["Dimensions"]:c3(),["SharedCodec220"]:c4(),["SharedCodec221"]:c5(),["SharedCodec222"]:c6(),["SharedCodec223"]:c7(),["SharedCodec224"]:c8(),["SharedCodec225"]:c9(),["SharedCodec226"]:c10(),["Weight"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateDeliveryProfileRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,6 +1,4 @@
 
-import type { CheckoutAccessInput } from './CheckoutAccessInput.js';
 import type { CheckoutSessionInput } from './CheckoutSessionInput.js';
-import type { HostedCheckoutInput } from './HostedCheckoutInput.js';
 
-/** Checkout-session access returned for hosted or embedded checkout creation. */ export type CheckoutSessionLaunchResultInput = { "checkout_access": CheckoutAccessInput; "checkout_session": CheckoutSessionInput; "hosted_checkout"?: HostedCheckoutInput; };
+/** Checkout-session access returned for hosted or embedded checkout creation. */ export type CheckoutSessionLaunchResultInput = { /** Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. */ "checkout_access": { "checkout_auth_token": string; "hosted_url"?: string; }; "checkout_session": CheckoutSessionInput; /** Deprecated. Use checkout_access. Present only for hosted checkout. */ "hosted_checkout"?: { /** Checkout-session auth token for clients that operate the created checkout session directly. The hosted URL uses a separate launch credential. */ "checkout_auth_token": string; /** Hosted checkout URL for the created or reused checkout session. */ "url": string; }; /** True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. */ "reused_existing": boolean; };

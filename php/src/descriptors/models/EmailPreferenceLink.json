@@ -1,0 +1,1 @@
+{"shared":"EmailPreferenceLink","phpRepresentation":{"kind":"record","fields":{"customer_id":{"kind":"nullable","value":{"kind":"value","type":"string"}},"email":{"kind":"value","type":"string"},"email_preference":{"kind":"value","type":"string"},"enabled":{"kind":"value","type":"bool"}}},"dependencies":["EmailPreferenceLink"]}

@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006020957; API 2026-09-07.
+Package 3.0.0-beta.20261006210100; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -23,6 +23,7 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [creditNotes](#resource-creditnotes)
 - [customerDeletionRequests](#resource-customerdeletionrequests)
 - [customerSessions](#resource-customersessions)
+- [customerVerifications](#resource-customerverifications)
 - [customers](#resource-customers)
 - [deliveryLocationSets](#resource-deliverylocationsets)
 - [deliveryMethods](#resource-deliverymethods)
@@ -37,6 +38,7 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [devices](#resource-devices)
 - [discountPreviews](#resource-discountpreviews)
 - [disputes](#resource-disputes)
+- [emailPreferenceLinks](#resource-emailpreferencelinks)
 - [feedbackReports](#resource-feedbackreports)
 - [fraudWarnings](#resource-fraudwarnings)
 - [fulfillmentEvents](#resource-fulfillmentevents)
@@ -135,7 +137,7 @@ Returns the payload at `data` directly. Use `getOverviewWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/analytics-getOverview.php)
 
@@ -166,7 +168,7 @@ Returns the payload at `data` directly. Use `getPaymentVolumeTimeseriesWithRespo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/analytics-getPaymentVolumeTimeseries.php)
 
@@ -195,7 +197,7 @@ Returns the payload at `data` directly. Use `getSubscriptionWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/analytics-getSubscription.php)
 
@@ -242,7 +244,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -272,7 +274,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/apiKeys-get.php)
 
@@ -327,7 +329,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/apiKeys-list.php)
 
@@ -420,7 +422,7 @@ Returns the payload at `data` directly. Use `revokeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -469,7 +471,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -502,7 +504,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/balances-list.php)
 
@@ -534,7 +536,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/balanceTransactions-get.php)
 
@@ -617,7 +619,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/balanceTransactions-list.php)
 
@@ -751,7 +753,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -782,7 +784,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/bundles-get.php)
 
@@ -837,7 +839,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/bundles-list.php)
 
@@ -944,7 +946,7 @@ Returns the complete decoded body directly. Use `listComponentsWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/bundles-listComponents.php)
 
@@ -1039,7 +1041,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1072,7 +1074,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1131,7 +1133,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/capabilities-list.php)
 
@@ -1246,7 +1248,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1276,7 +1278,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/categories-get.php)
 
@@ -1307,7 +1309,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/categories-list.php)
 
@@ -1401,7 +1403,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1455,7 +1457,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1504,7 +1506,7 @@ Returns the payload at `data` directly. Use `closeSessionWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1557,7 +1559,7 @@ Returns the payload at `data` directly. Use `confirmCustomerVerificationWithResp
 
 Authentication modes: `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent.; scope: Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters..
 
@@ -1589,7 +1591,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1642,7 +1644,7 @@ Returns the payload at `data` directly. Use `createCustomerVerificationWithRespo
 
 Authentication modes: `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent.; scope: Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters..
 
@@ -1711,7 +1713,7 @@ Returns the payload at `data` directly. Use `createDeliveryQuoteWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1776,7 +1778,7 @@ Returns the payload at `data` directly. Use `createDeliverySelectionWithResponse
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1827,7 +1829,7 @@ Returns the payload at `data` directly. Use `deleteCurrentDeliverySelectionWithR
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -1870,7 +1872,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/checkoutSessions-get.php)
 
@@ -1900,7 +1902,7 @@ Returns the payload at `data` directly. Use `getCurrentDeliverySelectionWithResp
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/checkoutSessions-getCurrentDeliverySelection.php)
 
@@ -1941,7 +1943,7 @@ Returns the payload at `data` directly. Use `getDeliveryQuoteWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/checkoutSessions-getDeliveryQuote.php)
 
@@ -1970,7 +1972,7 @@ Returns the payload at `data` directly. Use `getDeliverySelectionHistoryWithResp
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/checkoutSessions-getDeliverySelectionHistory.php)
 
@@ -2043,7 +2045,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/checkoutSessions-list.php)
 
@@ -2114,7 +2116,7 @@ $client->close();
 
 ### checkoutSessions.update
 
-Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send only buyer_contact, which saves the email and phone the buyer entered while the session is open; send a field as null to clear it. Saving the same values again changes nothing.
+Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
 
 `PATCH /v1/checkout-sessions/{checkout_session_id}`
 
@@ -2146,6 +2148,7 @@ array{
     null>|
     \stdClass|
     null,
+    'timezone'?: string,
     ...
   }|
   object
@@ -2168,7 +2171,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2220,7 +2223,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2270,7 +2273,7 @@ Returns the payload at `data` directly. Use `createAllocationWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same allocation..
 
@@ -2321,7 +2324,7 @@ Returns the payload at `data` directly. Use `createRefundWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required caller-chosen command identity. Reuse it when retrying the same refund..
 
@@ -2351,7 +2354,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-get.php)
 
@@ -2380,7 +2383,7 @@ Returns the payload at `data` directly. Use `getAllocationWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-getAllocation.php)
 
@@ -2406,7 +2409,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-getPDF.php)
 
@@ -2453,7 +2456,7 @@ Returns the payload at `data` directly. Use `issueWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2500,7 +2503,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-list.php)
 
@@ -2595,7 +2598,7 @@ Returns the complete decoded body directly. Use `listAllocationsWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-listAllocations.php)
 
@@ -2690,7 +2693,7 @@ Returns the complete decoded body directly. Use `listRefundsWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/creditNotes-listRefunds.php)
 
@@ -2799,7 +2802,7 @@ Returns the payload at `data` directly. Use `reverseAllocationWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2831,7 +2834,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2876,7 +2879,7 @@ Returns the payload at `data` directly. Use `voidResourceWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -2923,7 +2926,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customerDeletionRequests-list.php)
 
@@ -3032,7 +3035,7 @@ Returns the payload at `data` directly. Use `resolveWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3102,7 +3105,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3157,7 +3160,7 @@ Returns the payload at `data` directly. Use `createAddressWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3189,7 +3192,7 @@ Returns the payload at `data` directly. Use `createDeletionRequestWithResponse` 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3222,7 +3225,7 @@ Returns the payload at `data` directly. Use `deleteAddressWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3253,7 +3256,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customers-get.php)
 
@@ -3283,7 +3286,7 @@ Returns the payload at `data` directly. Use `getAddressWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customers-getAddress.php)
 
@@ -3313,9 +3316,56 @@ Returns the payload at `data` directly. Use `getDeletionRequestWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customers-getDeletionRequest.php)
+
+
+### customers.linkGuestPurchases
+
+Links purchases with the verified email and no customer to the verification's customer in the same merchant environment. Purchases bound to another customer stay with that customer. The verification is single use; use the same Idempotency-Key to retry an uncertain result.
+
+`POST /v1/customers/{customer_id}/link-guest-purchases`
+
+Call: `linkGuestPurchases(string|Model $customer_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `customer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'customer_id': string,
+  'Idempotency-Key'?: string,
+  'X-Request-Id'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'customer_verification_id': string,
+    ...
+  }|
+  object
+}
+```
+
+Returned payload: `GuestPurchaseLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `linkGuestPurchasesWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/customers-linkGuestPurchases.php)
 
 
 ### customers.list
@@ -3374,7 +3424,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customers-list.php)
 
@@ -3469,7 +3519,7 @@ Returns the complete decoded body directly. Use `listAddressesWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/customers-listAddresses.php)
 
@@ -3563,7 +3613,7 @@ Returns the payload at `data` directly. Use `revokeSessionsWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
@@ -3612,7 +3662,7 @@ Returns the payload at `data` directly. Use `setDefaultAddressWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3702,7 +3752,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3757,7 +3807,7 @@ Returns the payload at `data` directly. Use `updateAddressWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3807,7 +3857,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
@@ -3839,7 +3889,7 @@ Returns the payload at `data` directly. Use `refreshWithResponse` for `body`, `m
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable key for safe refresh retries. Reuse it with the same refresh token until a response is received..
 
@@ -3871,11 +3921,108 @@ Returns the payload at `data` directly. Use `revokeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
 [Example](examples/customerSessions-revoke.php)
+
+
+## Resource: customerVerifications
+
+### customerVerifications.confirm
+
+Confirms the Flint-sent code and returns a verification that can link guest purchases for its customer. A confirmed verification expires in 15 minutes and can be redeemed once.
+
+`POST /v1/customer-verifications/{customer_verification_id}/confirm`
+
+Call: `confirm(string|Model $customer_verification_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `customer_verification_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'customer_verification_id': string,
+  'Idempotency-Key'?: string,
+  'X-Request-Id'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'code': string,
+    ...
+  }|
+  object
+}
+```
+
+Returned payload: `CustomerVerification`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_verification_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `confirmWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent.; scope: Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters..
+
+[Example](examples/customerVerifications-confirm.php)
+
+
+### customerVerifications.create
+
+Sends the buyer a Flint verification code for linking guest purchases. Set purpose to link_guest_purchases. The only channel is email, which is also the default. The response has the same shape whether a code was sent. Enter the code through the confirm operation before linking purchases.
+
+`POST /v1/customer-verifications`
+
+Call: `create(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'Idempotency-Key'?: string,
+  'X-Request-Id'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'channel'?: string,
+    'customer_id': string,
+    'email': string,
+    'purpose': string,
+    ...
+  }|
+  object
+}
+```
+
+Returned payload: `CustomerVerification`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent.; scope: Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters..
+
+[Example](examples/customerVerifications-create.php)
 
 
 ## Resource: deliveryLocationSets
@@ -3923,7 +4070,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -3953,7 +4100,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryLocationSets-get.php)
 
@@ -3998,7 +4145,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryLocationSets-list.php)
 
@@ -4092,7 +4239,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4124,7 +4271,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4157,7 +4304,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4187,7 +4334,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryMethods-get.php)
 
@@ -4240,7 +4387,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryMethods-list.php)
 
@@ -4334,7 +4481,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4366,7 +4513,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4445,7 +4592,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryPreviews-create.php)
 
@@ -4490,7 +4637,7 @@ Returns the payload at `data` directly. Use `assignToUnconfiguredWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4540,7 +4687,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4571,7 +4718,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryProfiles-get.php)
 
@@ -4618,7 +4765,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryProfiles-list.php)
 
@@ -4712,7 +4859,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4744,7 +4891,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4797,7 +4944,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryQuotes-list.php)
 
@@ -4892,7 +5039,7 @@ Returns the payload at `data` directly. Use `checkConnectionWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4939,7 +5086,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -4970,7 +5117,7 @@ Returns the payload at `data` directly. Use `createTestDeliveryWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5000,7 +5147,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryRateCallbacks-get.php)
 
@@ -5045,7 +5192,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryRateCallbacks-list.php)
 
@@ -5139,7 +5286,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5170,7 +5317,7 @@ Returns the payload at `data` directly. Use `rotateSigningKeyWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5202,7 +5349,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5234,7 +5381,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryRevocations-get.php)
 
@@ -5280,7 +5427,7 @@ Returns the payload at `data` directly. Use `revokeDeliveryDependencyWithRespons
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5329,7 +5476,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5359,7 +5506,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryZones-get.php)
 
@@ -5404,7 +5551,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/deliveryZones-list.php)
 
@@ -5498,7 +5645,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5530,7 +5677,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5579,7 +5726,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5611,7 +5758,7 @@ Returns the payload at `data` directly. Use `resetWithResponse` for `body`, `met
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/demoSessions-reset.php)
 
@@ -5665,7 +5812,7 @@ Returns the payload at `data` directly. Use `createPartnerAppWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5713,7 +5860,7 @@ Returns the payload at `data` directly. Use `createSandboxWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5745,7 +5892,7 @@ Returns the payload at `data` directly. Use `deleteSandboxWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -5774,7 +5921,7 @@ Returns the payload at `data` directly. Use `getAuthContextWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getAuthContext.php)
 
@@ -5802,7 +5949,7 @@ Returns the payload at `data` directly. Use `getCurrentAPIKeyRequestLogWithRespo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getCurrentAPIKeyRequestLog.php)
 
@@ -5831,7 +5978,7 @@ Returns the payload at `data` directly. Use `getPartnerAppWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getPartnerApp.php)
 
@@ -5861,7 +6008,7 @@ Returns the payload at `data` directly. Use `getPartnerAppInstallWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getPartnerAppInstall.php)
 
@@ -5910,7 +6057,7 @@ Returns the payload at `data` directly. Use `getResourceTimelineWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getResourceTimeline.php)
 
@@ -5940,7 +6087,7 @@ Returns the payload at `data` directly. Use `getSandboxWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-getSandbox.php)
 
@@ -5986,7 +6133,7 @@ Returns the payload at `data` directly. Use `issueSandboxTestKeyWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6043,7 +6190,7 @@ Returns the complete decoded body directly. Use `listCurrentAPIKeyRequestLogsWit
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-listCurrentAPIKeyRequestLogs.php)
 
@@ -6138,7 +6285,7 @@ Returns the complete decoded body directly. Use `listPartnerAppInstallsWithRespo
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-listPartnerAppInstalls.php)
 
@@ -6232,7 +6379,7 @@ Returns the complete decoded body directly. Use `listPartnerAppsWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-listPartnerApps.php)
 
@@ -6326,7 +6473,7 @@ Returns the complete decoded body directly. Use `listSandboxesWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/developer-listSandboxes.php)
 
@@ -6420,7 +6567,7 @@ Returns the payload at `data` directly. Use `resetSandboxWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6463,7 +6610,7 @@ Returns the payload at `data` directly. Use `revokePartnerAppInstallWithResponse
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6508,7 +6655,7 @@ Returns the payload at `data` directly. Use `revokePartnerEnvironmentGrantWithRe
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6540,7 +6687,7 @@ Returns the payload at `data` directly. Use `rotatePartnerAppSecretWithResponse`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6588,7 +6735,7 @@ Returns the payload at `data` directly. Use `updatePartnerAppWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6640,7 +6787,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6670,7 +6817,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/devices-get.php)
 
@@ -6715,7 +6862,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/devices-list.php)
 
@@ -6809,7 +6956,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6862,7 +7009,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -6915,7 +7062,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/discountPreviews-create.php)
 
@@ -6947,7 +7094,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/disputes-get.php)
 
@@ -7033,7 +7180,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/disputes-list.php)
 
@@ -7102,6 +7249,72 @@ $client->close();
 ```
 
 
+## Resource: emailPreferenceLinks
+
+### emailPreferenceLinks.lookup
+
+Reads an emailed preference token without signing the buyer in. The merchant key must match the token's merchant and environment. Tokens belong in the request body and must stay on your backend.
+
+`POST /v1/email-preference-links/lookup`
+
+Call: `lookup(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'token': string, ...}|object}`
+
+Returned payload: `EmailPreferenceLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `lookupWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/emailPreferenceLinks-lookup.php)
+
+
+### emailPreferenceLinks.unsubscribe
+
+Disables the email preference represented by an emailed token without signing the buyer in. Repeating the request keeps it disabled. The merchant key must match the token's merchant and environment.
+
+`POST /v1/email-preference-links/unsubscribe`
+
+Call: `unsubscribe(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'token': string, ...}|object}`
+
+Returned payload: `EmailPreferenceLink`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `unsubscribeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/emailPreferenceLinks-unsubscribe.php)
+
+
 ## Resource: feedbackReports
 
 ### feedbackReports.create
@@ -7129,7 +7342,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted. Do not include personal information or secrets..
 
@@ -7160,7 +7373,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/feedbackReports-get.php)
 
@@ -7190,7 +7403,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/feedbackReports-list.php)
 
@@ -7286,7 +7499,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fraudWarnings-get.php)
 
@@ -7329,7 +7542,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fraudWarnings-list.php)
 
@@ -7425,7 +7638,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillmentEvents-get.php)
 
@@ -7508,7 +7721,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillmentEvents-list.php)
 
@@ -7604,7 +7817,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillmentNotifications-get.php)
 
@@ -7679,7 +7892,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillmentNotifications-list.php)
 
@@ -7803,7 +8016,7 @@ Returns the payload at `data` directly. Use `createEventWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -7836,7 +8049,7 @@ Returns the payload at `data` directly. Use `createShipmentWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -7868,7 +8081,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillments-get.php)
 
@@ -7935,7 +8148,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/fulfillments-list.php)
 
@@ -8093,7 +8306,7 @@ Returns the payload at `data` directly. Use `transitionWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -8126,7 +8339,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -8179,7 +8392,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8232,7 +8445,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8280,7 +8493,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Keys are retained for the ledger's lifetime.; scope: Endpoint-defined command identity. Required durable command identity. Reuse this key after a lost or unconfirmed response; its identity is retained for the ledger's lifetime..
 
@@ -8315,7 +8528,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8346,7 +8559,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardLoads-get.php)
 
@@ -8411,7 +8624,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardLoads-list.php)
 
@@ -8520,7 +8733,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8569,7 +8782,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8600,7 +8813,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardNotifications-get.php)
 
@@ -8649,7 +8862,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardNotifications-list.php)
 
@@ -8759,7 +8972,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8805,7 +9018,7 @@ Returns the payload at `data` directly. Use `captureWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8837,7 +9050,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -8868,7 +9081,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardRedemptions-get.php)
 
@@ -8925,7 +9138,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardRedemptions-list.php)
 
@@ -9044,7 +9257,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -9075,7 +9288,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCards-get.php)
 
@@ -9126,7 +9339,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCards-list.php)
 
@@ -9219,7 +9432,7 @@ Returns the payload at `data` directly. Use `lookupWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCards-lookup.php)
 
@@ -9271,7 +9484,7 @@ Returns the payload at `data` directly. Use `rotateCodeWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -9304,7 +9517,7 @@ Returns the payload at `data` directly. Use `transitionWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -9354,7 +9567,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -9415,7 +9628,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/giftCardTransactions-list.php)
 
@@ -9534,7 +9747,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -9599,7 +9812,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryAdjustments-list.php)
 
@@ -9714,7 +9927,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -9744,7 +9957,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryAllocationPolicies-get.php)
 
@@ -9787,7 +10000,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryAllocationPolicies-list.php)
 
@@ -9881,7 +10094,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -9913,7 +10126,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -9947,7 +10160,7 @@ Returns the payload at `data` directly. Use `applyWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -9979,7 +10192,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -10010,7 +10223,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -10069,7 +10282,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryCounts-list.php)
 
@@ -10163,7 +10376,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -10215,7 +10428,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -10245,7 +10458,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryItems-get.php)
 
@@ -10292,7 +10505,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryItems-list.php)
 
@@ -10386,7 +10599,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -10444,7 +10657,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -10511,7 +10724,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryLevels-list.php)
 
@@ -10618,7 +10831,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -10699,7 +10912,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryMovements-list.php)
 
@@ -10816,7 +11029,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -10885,7 +11098,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryReceipts-list.php)
 
@@ -11000,7 +11213,7 @@ Returns the payload at `data` directly. Use `commitWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11062,7 +11275,7 @@ Returns the payload at `data` directly. Use `consumeWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11120,7 +11333,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11189,7 +11402,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryReservations-list.php)
 
@@ -11303,7 +11516,7 @@ Returns the payload at `data` directly. Use `releaseWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11354,7 +11567,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11427,7 +11640,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/inventoryTransfers-list.php)
 
@@ -11591,7 +11804,7 @@ Returns the payload at `data` directly. Use `transitionWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Retained for at least as long as this command's inventory effects.; scope: Endpoint-defined command identity. Required durable identity for this inventory command. The key is scoped to the authenticated merchant, environment, and endpoint; its fingerprint includes the canonical request body. Reuse it only for exact retries. Flint retains it for at least as long as the command's inventory effects, returns it in the response, and supports recovery through the relevant resource or movement list..
 
@@ -11657,7 +11870,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -11710,7 +11923,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -11740,7 +11953,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoicePaymentTerms-get.php)
 
@@ -11783,7 +11996,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoicePaymentTerms-list.php)
 
@@ -11877,7 +12090,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -11928,7 +12141,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -11975,7 +12188,7 @@ Returns the payload at `data` directly. Use `assessLateFeeWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12018,7 +12231,7 @@ Returns the payload at `data` directly. Use `cancelPaymentAttemptWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12066,7 +12279,7 @@ Returns the payload at `data` directly. Use `collectWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Caller-chosen idempotency key. Reuse it for retries of the same collection request..
 
@@ -12116,7 +12329,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12147,7 +12360,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-get.php)
 
@@ -12172,7 +12385,14 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
+    'redirects'?: array{
+      'cancel_redirect_url'?: string,
+      'success_redirect_url'?: string,
+      ...
+    }|
+    object,
     'return_url'?: string,
+    'surface'?: string,
     ...
   }|
   object
@@ -12193,7 +12413,7 @@ Returns the payload at `data` directly. Use `getOrCreateCheckoutSessionWithRespo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12224,7 +12444,7 @@ Returns the payload at `data` directly. Use `getPaymentAttemptWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-getPaymentAttempt.php)
 
@@ -12250,7 +12470,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-getPDF.php)
 
@@ -12296,7 +12516,7 @@ Returns the payload at `data` directly. Use `issueWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12365,7 +12585,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-list.php)
 
@@ -12472,7 +12692,7 @@ Returns the complete decoded body directly. Use `listActivitiesWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-listActivities.php)
 
@@ -12566,7 +12786,7 @@ Returns the complete decoded body directly. Use `listDeliveryAttemptsWithRespons
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-listDeliveryAttempts.php)
 
@@ -12661,7 +12881,7 @@ Returns the complete decoded body directly. Use `listPaymentAttemptsWithResponse
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/invoices-listPaymentAttempts.php)
 
@@ -12770,7 +12990,7 @@ Returns the payload at `data` directly. Use `markUncollectibleWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12825,7 +13045,7 @@ Returns the payload at `data` directly. Use `recordManualPaymentWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12872,7 +13092,7 @@ Returns the payload at `data` directly. Use `regeneratePublicLinkWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12927,7 +13147,7 @@ Returns the payload at `data` directly. Use `reverseManualPaymentWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12959,7 +13179,7 @@ Returns the payload at `data` directly. Use `sendReminderWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -12992,7 +13212,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13039,7 +13259,7 @@ Returns the payload at `data` directly. Use `voidResourceWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13086,7 +13306,7 @@ Returns the payload at `data` directly. Use `waiveLateFeeWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13151,7 +13371,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13181,7 +13401,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/locations-get.php)
 
@@ -13226,7 +13446,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/locations-list.php)
 
@@ -13344,7 +13564,7 @@ Returns the payload at `data` directly. Use `publishGeographyWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13376,7 +13596,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13430,7 +13650,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13475,7 +13695,7 @@ Returns the payload at `data` directly. Use `updateInventoryWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13523,7 +13743,7 @@ Returns the payload at `data` directly. Use `cancelReturnWithResponse` for `body
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13572,7 +13792,7 @@ Returns the payload at `data` directly. Use `cancelSubscriptionWithResponse` for
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13619,7 +13839,7 @@ Returns the payload at `data` directly. Use `changeSubscriptionPaymentMethodWith
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13667,7 +13887,7 @@ Returns the payload at `data` directly. Use `confirmEmailChangeRequestWithRespon
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13720,7 +13940,7 @@ Returns the payload at `data` directly. Use `createAddressWithResponse` for `bod
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13751,7 +13971,7 @@ Returns the payload at `data` directly. Use `createDeletionRequestWithResponse` 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13783,7 +14003,7 @@ Returns the payload at `data` directly. Use `createEmailChangeRequestWithRespons
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13814,7 +14034,7 @@ Returns the payload at `data` directly. Use `createFlintWalletStoreSetupWithResp
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Responses are retained for 24 hours.; scope: Endpoint-defined command identity. Required durable identity for this store card setup, scoped to the store, buyer, card handle and key..
 
@@ -13841,7 +14061,14 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
+    'redirects'?: array{
+      'cancel_redirect_url'?: string,
+      'success_redirect_url'?: string,
+      ...
+    }|
+    object,
     'return_url'?: string,
+    'surface'?: string,
     ...
   }|
   object
@@ -13862,7 +14089,7 @@ Returns the payload at `data` directly. Use `createInvoiceCheckoutSessionWithRes
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13912,7 +14139,7 @@ Returns the payload at `data` directly. Use `createReturnWithResponse` for `body
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -13942,14 +14169,14 @@ Returns the payload at `data` directly. Use `createReturnPreviewWithResponse` fo
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-createReturnPreview.php)
 
 
 ### me.createReturnResolutionCheckoutSession
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_redirect_url and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
 
 `POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session`
 
@@ -13957,7 +14184,25 @@ Call: `createReturnResolutionCheckoutSession(string|Model $return_resolution_id,
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'return_url'?: string}|object}`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'return_resolution_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body'?: array{
+    'redirects'?: array{
+      'cancel_redirect_url'?: string,
+      'success_redirect_url'?: string
+    }|
+    object,
+    'return_url'?: string,
+    'surface'?: string
+  }|
+  object
+}
+```
 
 Returned payload: `CheckoutSessionLaunchResult`
 
@@ -13972,7 +14217,7 @@ Returns the payload at `data` directly. Use `createReturnResolutionCheckoutSessi
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -14005,7 +14250,7 @@ Returns the payload at `data` directly. Use `createSubscriptionPaymentRetryWithR
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
@@ -14037,7 +14282,7 @@ Returns the payload at `data` directly. Use `deleteAddressWithResponse` for `bod
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -14066,7 +14311,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-get.php)
 
@@ -14095,7 +14340,7 @@ Returns the payload at `data` directly. Use `getAddressWithResponse` for `body`,
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getAddress.php)
 
@@ -14124,7 +14369,7 @@ Returns the payload at `data` directly. Use `getCreditNoteWithResponse` for `bod
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getCreditNote.php)
 
@@ -14151,7 +14396,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getCreditNotePDF.php)
 
@@ -14180,7 +14425,7 @@ Returns the payload at `data` directly. Use `getDeletionRequestWithResponse` for
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getDeletionRequest.php)
 
@@ -14208,7 +14453,7 @@ Returns the payload at `data` directly. Use `getEmailPreferencesWithResponse` fo
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getEmailPreferences.php)
 
@@ -14237,7 +14482,7 @@ Returns the payload at `data` directly. Use `getGiftCardWithResponse` for `body`
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getGiftCard.php)
 
@@ -14265,7 +14510,7 @@ Returns the payload at `data` directly. Use `getInvoiceWithResponse` for `body`,
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getInvoice.php)
 
@@ -14291,7 +14536,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getInvoicePDF.php)
 
@@ -14321,7 +14566,7 @@ Returns the payload at `data` directly. Use `getOrderWithResponse` for `body`, `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getOrder.php)
 
@@ -14349,7 +14594,7 @@ Returns the payload at `data` directly. Use `getPaymentMethodWithResponse` for `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getPaymentMethod.php)
 
@@ -14377,14 +14622,14 @@ Returns the payload at `data` directly. Use `getReturnWithResponse` for `body`, 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getReturn.php)
 
 
 ### me.getSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single subscription by ID. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single subscription by ID. A paid checkout session's credential can retrieve only the subscription created by its source order. Checkout credentials cannot expand related resources. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan.
 
 `GET /v1/me/subscriptions/{subscription_id}`
 
@@ -14392,20 +14637,22 @@ Call: `getSubscription(string|Model $subscription_id, array|Model|null $params =
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string}`
 
 Returned payload: `Subscription`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the payload at `data` directly. Use `getSubscriptionWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getSubscription.php)
 
@@ -14434,7 +14681,7 @@ Returns the payload at `data` directly. Use `getSubscriptionPaymentRetryWithResp
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-getSubscriptionPaymentRetry.php)
 
@@ -14464,7 +14711,7 @@ Returns the complete decoded body directly. Use `listAddressesWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listAddresses.php)
 
@@ -14558,7 +14805,7 @@ Returns the complete decoded body directly. Use `listCreditNotesWithResponse` fo
 
 Authentication modes: `customer`, `invoice`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listCreditNotes.php)
 
@@ -14653,7 +14900,7 @@ Returns the complete decoded body directly. Use `listDeletionRequestsWithRespons
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listDeletionRequests.php)
 
@@ -14734,19 +14981,128 @@ Path arguments: none. Params contain flat body fields and query/header fields.
 
 Canonical input schema (for configuration examples and HTTP fixtures): `array{'Flint-Version'?: string}`
 
-Returned payload: `MeListFlintWalletPaymentMethodsResponse200`
+Returned payload: `list<MeFlintWalletCard>`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
-Returns the complete decoded body directly. Use `listFlintWalletPaymentMethodsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+Returns the payload at `data` directly. Use `listFlintWalletPaymentMethodsWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listFlintWalletPaymentMethods.php)
+
+
+### me.listFulfillmentEvents
+
+Lists fulfillment events for an order owned by the current buyer, ordered by occurred_at descending. Internal merchant fields are omitted. order_id is required.
+
+`GET /v1/me/fulfillment-events`
+
+Call: `listFulfillmentEvents(array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'order_id'?: string,
+  'fulfillment_id'?: string,
+  'shipment_id'?: string,
+  'package_id'?: string,
+  'page_size'?: int,
+  'page_token'?: string,
+  'Flint-Version'?: string
+}
+```
+
+Returned payload: `MeListFulfillmentEventsResponse200`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Optional | string |  |
+| `fulfillment_id` | Optional | string |  |
+| `shipment_id` | Optional | string |  |
+| `package_id` | Optional | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listFulfillmentEventsWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/me-listFulfillmentEvents.php)
+
+#### me.listFulfillmentEventsItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  customerToken: getenv('CUSTOMER_TOKEN') ?: '',
+));
+foreach ($client->me->listFulfillmentEventsItems([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+  // Process $item before requesting the next page.
+}
+$client->close();
+```
+
+#### me.listFulfillmentEventsPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  customerToken: getenv('CUSTOMER_TOKEN') ?: '',
+));
+foreach ($client->me->listFulfillmentEventsPages([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'data'} before requesting the next page.
+}
+$client->close();
+```
+
+#### me.listFulfillmentEventsPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  customerToken: getenv('CUSTOMER_TOKEN') ?: '',
+));
+foreach ($client->me->listFulfillmentEventsPagesWithResponse([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'body'}->{'data'} before requesting the next page.
+  echo $page->meta['requestId'] ?? '';
+}
+$client->close();
+```
 
 
 ### me.listFulfillments
@@ -14809,7 +15165,7 @@ Returns the complete decoded body directly. Use `listFulfillmentsWithResponse` f
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listFulfillments.php)
 
@@ -14903,7 +15259,7 @@ Returns the complete decoded body directly. Use `listGiftCardsWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listGiftCards.php)
 
@@ -14998,7 +15354,7 @@ Returns the complete decoded body directly. Use `listGiftCardTransactionsWithRes
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listGiftCardTransactions.php)
 
@@ -15127,7 +15483,7 @@ Returns the complete decoded body directly. Use `listInvoicesWithResponse` for `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listInvoices.php)
 
@@ -15234,7 +15590,7 @@ Returns the complete decoded body directly. Use `listOrderActivitiesWithResponse
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listOrderActivities.php)
 
@@ -15380,7 +15736,7 @@ Returns the complete decoded body directly. Use `listOrdersWithResponse` for `bo
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listOrders.php)
 
@@ -15495,7 +15851,7 @@ Returns the complete decoded body directly. Use `listPackagesWithResponse` for `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listPackages.php)
 
@@ -15591,7 +15947,7 @@ Returns the complete decoded body directly. Use `listPaymentMethodsWithResponse`
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listPaymentMethods.php)
 
@@ -15738,7 +16094,7 @@ Returns the complete decoded body directly. Use `listPaymentsWithResponse` for `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listPayments.php)
 
@@ -15879,7 +16235,7 @@ Returns the complete decoded body directly. Use `listRefundsWithResponse` for `b
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listRefunds.php)
 
@@ -16016,7 +16372,7 @@ Returns the complete decoded body directly. Use `listReturnsWithResponse` for `b
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listReturns.php)
 
@@ -16143,7 +16499,7 @@ Returns the complete decoded body directly. Use `listShipmentsWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listShipments.php)
 
@@ -16278,7 +16634,7 @@ Returns the complete decoded body directly. Use `listSubscriptionsWithResponse` 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/me-listSubscriptions.php)
 
@@ -16387,7 +16743,7 @@ Returns the payload at `data` directly. Use `pauseSubscriptionWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16419,7 +16775,7 @@ Returns the payload at `data` directly. Use `reactivateSubscriptionWithResponse`
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16451,7 +16807,7 @@ Returns the payload at `data` directly. Use `removeGiftCardWithResponse` for `bo
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Keys are retained with the gift card ledger.; scope: Buyer, merchant, environment and operation..
 
@@ -16483,7 +16839,7 @@ Returns the payload at `data` directly. Use `removePaymentMethodWithResponse` fo
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16515,7 +16871,7 @@ Returns the payload at `data` directly. Use `resumeSubscriptionWithResponse` for
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16566,7 +16922,7 @@ Returns the payload at `data` directly. Use `saveGiftCardWithResponse` for `body
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Keys are retained with the gift card ledger.; scope: Buyer, merchant, environment and operation..
 
@@ -16598,7 +16954,7 @@ Returns the payload at `data` directly. Use `savePaymentMethodWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16630,7 +16986,7 @@ Returns the payload at `data` directly. Use `sendOrderReceiptWithResponse` for `
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16677,7 +17033,7 @@ Returns the payload at `data` directly. Use `setDefaultAddressWithResponse` for 
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16709,7 +17065,7 @@ Returns the payload at `data` directly. Use `setDefaultPaymentMethodWithResponse
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16755,7 +17111,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16808,7 +17164,7 @@ Returns the payload at `data` directly. Use `updateAddressWithResponse` for `bod
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16854,7 +17210,7 @@ Returns the payload at `data` directly. Use `updateEmailPreferencesWithResponse`
 
 Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16902,7 +17258,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Successful repeated requests mint a fresh launch session; prior client secrets are not replayed.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Completed retries create a fresh launch session instead of replaying a prior client secret..
 
@@ -16933,7 +17289,7 @@ Returns the payload at `data` directly. Use `refreshWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -16966,7 +17322,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/merchantBillingBalances-get.php)
 
@@ -16996,7 +17352,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/merchantBillingBalances-list.php)
 
@@ -17090,7 +17446,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/merchants-get.php)
 
@@ -17163,7 +17519,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17196,7 +17552,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/merchantSubscriptionInvoices-get.php)
 
@@ -17226,7 +17582,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/merchantSubscriptionInvoices-list.php)
 
@@ -17357,7 +17713,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17387,7 +17743,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/modifierGroups-get.php)
 
@@ -17432,7 +17788,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/modifierGroups-list.php)
 
@@ -17537,7 +17893,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17570,7 +17926,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17626,7 +17982,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17656,7 +18012,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/modifierSets-get.php)
 
@@ -17699,7 +18055,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/modifierSets-list.php)
 
@@ -17794,7 +18150,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17827,7 +18183,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -17878,7 +18234,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `merchant`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/oauth-authorizePartnerInstall.php)
 
@@ -17920,7 +18276,7 @@ Response body (inside Result.data): `mixed`
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/oauth-exchangePartnerInstallToken.php)
 
@@ -17951,7 +18307,7 @@ Returns the payload at `data` directly. Use `previewPartnerInstallAuthorizationW
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/oauth-previewPartnerInstallAuthorization.php)
 
@@ -17998,7 +18354,7 @@ Returns the payload at `data` directly. Use `advanceWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18041,7 +18397,7 @@ Returns the payload at `data` directly. Use `createAPIKeyWithResponse` for `body
 
 Authentication modes: `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18071,7 +18427,7 @@ Returns the payload at `data` directly. Use `getStateWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`, `onboarding`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/onboarding-getState.php)
 
@@ -18116,7 +18472,7 @@ Returns the payload at `data` directly. Use `startFlowWithResponse` for `body`, 
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18163,7 +18519,7 @@ Returns the payload at `data` directly. Use `verifyEmailCodeWithResponse` for `b
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18215,7 +18571,7 @@ Returns the payload at `data` directly. Use `addChargeWithResponse` for `body`, 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18264,7 +18620,7 @@ Returns the payload at `data` directly. Use `addLineItemsWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18311,7 +18667,7 @@ Returns the payload at `data` directly. Use `applyDiscountWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18364,7 +18720,7 @@ Returns the payload at `data` directly. Use `applyGiftCardWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -18418,7 +18774,7 @@ Returns the payload at `data` directly. Use `cancelPaymentWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18471,7 +18827,7 @@ Returns the payload at `data` directly. Use `cancelPaymentAttemptWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18524,7 +18880,7 @@ Returns the payload at `data` directly. Use `capturePaymentWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18571,7 +18927,7 @@ Returns the payload at `data` directly. Use `closeSessionWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18653,7 +19009,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18686,7 +19042,7 @@ Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
 
@@ -18719,7 +19075,7 @@ Returns the payload at `data` directly. Use `createFulfillmentWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18784,7 +19140,7 @@ Returns the payload at `data` directly. Use `createPaymentIntentWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18817,7 +19173,7 @@ Returns the payload at `data` directly. Use `deleteChargeWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18850,7 +19206,7 @@ Returns the payload at `data` directly. Use `deleteLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -18893,7 +19249,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-get.php)
 
@@ -18921,7 +19277,7 @@ Returns the payload at `data` directly. Use `getCurrentDeliverySelectionWithResp
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-getCurrentDeliverySelection.php)
 
@@ -18962,7 +19318,7 @@ Returns the payload at `data` directly. Use `getPaymentAttemptWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-getPaymentAttempt.php)
 
@@ -19046,7 +19402,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-list.php)
 
@@ -19153,7 +19509,7 @@ Returns the complete decoded body directly. Use `listActivitiesWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-listActivities.php)
 
@@ -19260,7 +19616,7 @@ Returns the complete decoded body directly. Use `listPaymentAttemptsWithResponse
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/orders-listPaymentAttempts.php)
 
@@ -19444,7 +19800,7 @@ Returns the payload at `data` directly. Use `payWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19495,7 +19851,7 @@ Returns the payload at `data` directly. Use `removeDiscountsWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19547,7 +19903,7 @@ Returns the payload at `data` directly. Use `removeGiftCardWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -19592,7 +19948,7 @@ Returns the payload at `data` directly. Use `repriceDiscountsWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19639,7 +19995,7 @@ Returns the payload at `data` directly. Use `resolveInventoryExceptionWithRespon
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19689,7 +20045,7 @@ Returns the payload at `data` directly. Use `sendReceiptWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
 
@@ -19768,7 +20124,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19836,7 +20192,7 @@ Returns the payload at `data` directly. Use `updateChargeWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19885,7 +20241,7 @@ Returns the payload at `data` directly. Use `updateLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19936,7 +20292,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -19967,7 +20323,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/organizations-get.php)
 
@@ -20013,7 +20369,7 @@ Returns the payload at `data` directly. Use `grantMembershipWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20072,7 +20428,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/organizations-list.php)
 
@@ -20166,7 +20522,7 @@ Returns the complete decoded body directly. Use `listMembershipsWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/organizations-listMemberships.php)
 
@@ -20260,7 +20616,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20293,7 +20649,7 @@ Returns the payload at `data` directly. Use `revokeMembershipWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20340,7 +20696,7 @@ Returns the payload at `data` directly. Use `transferOwnershipWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20393,7 +20749,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20446,7 +20802,7 @@ Returns the payload at `data` directly. Use `createItemWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20479,7 +20835,7 @@ Returns the payload at `data` directly. Use `deleteItemWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20511,7 +20867,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/packages-get.php)
 
@@ -20542,7 +20898,7 @@ Returns the payload at `data` directly. Use `getItemWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/packages-getItem.php)
 
@@ -20593,7 +20949,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/packages-list.php)
 
@@ -20688,7 +21044,7 @@ Returns the complete decoded body directly. Use `listPackageItemsWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/packages-listPackageItems.php)
 
@@ -20797,7 +21153,7 @@ Returns the payload at `data` directly. Use `transitionWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20886,7 +21242,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20940,7 +21296,7 @@ Returns the payload at `data` directly. Use `updateItemWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -20991,7 +21347,7 @@ Returns the payload at `data` directly. Use `voidResourceWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21040,7 +21396,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21090,7 +21446,7 @@ Returns the payload at `data` directly. Use `captureWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21141,7 +21497,7 @@ Returns the payload at `data` directly. Use `confirmWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21203,7 +21559,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21246,7 +21602,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentIntents-get.php)
 
@@ -21331,7 +21687,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentIntents-list.php)
 
@@ -21455,7 +21811,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21584,7 +21940,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21615,7 +21971,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentLinks-get.php)
 
@@ -21644,7 +22000,7 @@ Returns the payload at `data` directly. Use `getPublicWithResponse` for `body`, 
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentLinks-getPublic.php)
 
@@ -21701,7 +22057,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentLinks-list.php)
 
@@ -21828,7 +22184,7 @@ Returns the payload at `data` directly. Use `resolveWithResponse` for `body`, `m
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required idempotency key. Reuse it with the same resolution_context for uncertain retries..
 
@@ -21861,7 +22217,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -21895,7 +22251,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
@@ -21925,7 +22281,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentMethodDomains-get.php)
 
@@ -21954,7 +22310,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentMethodDomains-list.php)
 
@@ -22063,7 +22419,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
@@ -22108,7 +22464,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentMethods-get.php)
 
@@ -22157,7 +22513,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/paymentMethods-list.php)
 
@@ -22251,7 +22607,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22297,7 +22653,7 @@ Returns the payload at `data` directly. Use `saveWithResponse` for `body`, `meta
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22329,7 +22685,7 @@ Returns the payload at `data` directly. Use `setDefaultWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22376,7 +22732,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22433,7 +22789,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22465,7 +22821,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payouts-get.php)
 
@@ -22530,7 +22886,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payouts-list.php)
 
@@ -22625,7 +22981,7 @@ Returns the complete decoded body directly. Use `listEntriesWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payouts-listEntries.php)
 
@@ -22734,7 +23090,7 @@ Returns the payload at `data` directly. Use `deletePayoutDestinationWithResponse
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -22764,7 +23120,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payoutSettings-get.php)
 
@@ -22793,7 +23149,7 @@ Returns the payload at `data` directly. Use `getPayoutDestinationWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payoutSettings-getPayoutDestination.php)
 
@@ -22844,7 +23200,7 @@ Returns the complete decoded body directly. Use `listPayoutDestinationsWithRespo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/payoutSettings-listPayoutDestinations.php)
 
@@ -22967,7 +23323,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23018,7 +23374,7 @@ Returns the payload at `data` directly. Use `updatePayoutDestinationWithResponse
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23052,7 +23408,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23102,7 +23458,7 @@ Returns the payload at `data` directly. Use `createVariantWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23147,7 +23503,7 @@ Returns the payload at `data` directly. Use `deleteVariantWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23178,7 +23534,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-get.php)
 
@@ -23207,7 +23563,7 @@ Returns the payload at `data` directly. Use `getOptionWithResponse` for `body`, 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-getOption.php)
 
@@ -23237,7 +23593,7 @@ Returns the payload at `data` directly. Use `getVariantWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-getVariant.php)
 
@@ -23306,7 +23662,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-list.php)
 
@@ -23401,7 +23757,7 @@ Returns the complete decoded body directly. Use `listOptionsWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-listOptions.php)
 
@@ -23518,7 +23874,7 @@ Returns the complete decoded body directly. Use `listVariantsWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/products-listVariants.php)
 
@@ -23613,7 +23969,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23646,7 +24002,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23691,7 +24047,7 @@ Returns the payload at `data` directly. Use `updateVariantWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23834,7 +24190,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23888,7 +24244,7 @@ Returns the payload at `data` directly. Use `createCodeWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23921,7 +24277,7 @@ Returns the payload at `data` directly. Use `deleteCodeWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -23951,7 +24307,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/promotions-get.php)
 
@@ -24022,7 +24378,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/promotions-list.php)
 
@@ -24131,7 +24487,7 @@ Returns the complete decoded body directly. Use `listCodesWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/promotions-listCodes.php)
 
@@ -24225,7 +24581,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -24366,7 +24722,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -24424,7 +24780,7 @@ Returns the payload at `data` directly. Use `updateCodeWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -24458,7 +24814,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -24489,7 +24845,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/refunds-get.php)
 
@@ -24568,7 +24924,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/refunds-list.php)
 
@@ -24681,7 +25037,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -24712,7 +25068,7 @@ Response body (inside Result.data): `null`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/reportDownloads-get.php)
 
@@ -24763,7 +25119,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries. Flint generates and returns one when omitted..
 
@@ -24794,7 +25150,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/reports-get.php)
 
@@ -24866,7 +25222,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/reports-list.php)
 
@@ -24976,7 +25332,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25006,7 +25362,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnDispositions-get.php)
 
@@ -25081,7 +25437,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnDispositions-list.php)
 
@@ -25189,7 +25545,7 @@ Returns the payload at `data` directly. Use `retryWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25240,7 +25596,7 @@ Returns the payload at `data` directly. Use `decideLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25270,7 +25626,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnInspections-get.php)
 
@@ -25337,7 +25693,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnInspections-list.php)
 
@@ -25451,7 +25807,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25482,7 +25838,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnPolicies-get.php)
 
@@ -25511,7 +25867,7 @@ Returns the payload at `data` directly. Use `getRevisionWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnPolicies-getRevision.php)
 
@@ -25554,7 +25910,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnPolicies-list.php)
 
@@ -25648,7 +26004,7 @@ Returns the complete decoded body directly. Use `listRevisionsWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnPolicies-listRevisions.php)
 
@@ -25759,7 +26115,7 @@ Returns the payload at `data` directly. Use `publishRevisionWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25791,7 +26147,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25844,7 +26200,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25876,7 +26232,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnPreviews-create.php)
 
@@ -25923,7 +26279,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -25953,7 +26309,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnReasons-get.php)
 
@@ -25998,7 +26354,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnReasons-list.php)
 
@@ -26092,7 +26448,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26124,7 +26480,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26156,7 +26512,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnReceipts-get.php)
 
@@ -26223,7 +26579,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnReceipts-list.php)
 
@@ -26334,7 +26690,7 @@ Returns the payload at `data` directly. Use `verifyLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26382,7 +26738,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26426,7 +26782,7 @@ Returns the payload at `data` directly. Use `confirmWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26457,14 +26813,14 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnResolutions-get.php)
 
 
 ### returnResolutions.getOrCreateCheckoutSession
 
-Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_redirect_url and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
 
 `POST /v1/return-resolutions/{return_resolution_id}/checkout-session`
 
@@ -26472,7 +26828,25 @@ Call: `getOrCreateCheckoutSession(string|Model $return_resolution_id, array|Mode
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'return_url'?: string}|object}`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'return_resolution_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body'?: array{
+    'redirects'?: array{
+      'cancel_redirect_url'?: string,
+      'success_redirect_url'?: string
+    }|
+    object,
+    'return_url'?: string,
+    'surface'?: string
+  }|
+  object
+}
+```
 
 Returned payload: `CheckoutSessionLaunchResult`
 
@@ -26487,7 +26861,7 @@ Returns the payload at `data` directly. Use `getOrCreateCheckoutSessionWithRespo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26556,7 +26930,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returnResolutions-list.php)
 
@@ -26664,7 +27038,7 @@ Returns the payload at `data` directly. Use `releaseWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26710,7 +27084,7 @@ Returns the payload at `data` directly. Use `retryWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26742,7 +27116,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26792,7 +27166,7 @@ Returns the payload at `data` directly. Use `addLineItemWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26838,7 +27212,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26888,7 +27262,7 @@ Returns the payload at `data` directly. Use `cancelLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26934,7 +27308,7 @@ Returns the payload at `data` directly. Use `completeWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -26984,7 +27358,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27017,7 +27391,7 @@ Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
 
@@ -27049,7 +27423,7 @@ Returns the payload at `data` directly. Use `createDispositionWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27109,7 +27483,7 @@ Returns the payload at `data` directly. Use `createInspectionWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27169,7 +27543,7 @@ Returns the payload at `data` directly. Use `createReceiptWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27201,7 +27575,7 @@ Returns the payload at `data` directly. Use `createResolutionWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27250,7 +27624,7 @@ Returns the payload at `data` directly. Use `decideWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27282,7 +27656,7 @@ Returns the payload at `data` directly. Use `deleteLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27313,7 +27687,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returns-get.php)
 
@@ -27342,7 +27716,7 @@ Returns the payload at `data` directly. Use `getLineItemWithResponse` for `body`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returns-getLineItem.php)
 
@@ -27417,7 +27791,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returns-list.php)
 
@@ -27532,7 +27906,7 @@ Returns the complete decoded body directly. Use `listLineItemsWithResponse` for 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/returns-listLineItems.php)
 
@@ -27647,7 +28021,7 @@ Returns the payload at `data` directly. Use `processExistingWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable command identity. Exact replay returns the original resource graph..
 
@@ -27693,7 +28067,7 @@ Returns the payload at `data` directly. Use `reopenWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27743,7 +28117,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27795,7 +28169,7 @@ Returns the payload at `data` directly. Use `updateLineItemWithResponse` for `bo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27843,7 +28217,7 @@ Returns the payload at `data` directly. Use `waiveLineInspectionWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27877,7 +28251,7 @@ Returns the payload at `data` directly. Use `approveWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27924,7 +28298,7 @@ Returns the payload at `data` directly. Use `declineWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -27956,7 +28330,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/reviews-get.php)
 
@@ -28010,7 +28384,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/reviews-list.php)
 
@@ -28107,7 +28481,7 @@ Returns the payload at `data` directly. Use `addItemsWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28154,7 +28528,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28187,7 +28561,7 @@ Returns the payload at `data` directly. Use `deleteItemWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28218,7 +28592,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskLists-get.php)
 
@@ -28248,7 +28622,7 @@ Returns the payload at `data` directly. Use `getItemWithResponse` for `body`, `m
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskLists-getItem.php)
 
@@ -28279,7 +28653,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskLists-list.php)
 
@@ -28374,7 +28748,7 @@ Returns the complete decoded body directly. Use `listRiskListItemsWithResponse` 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskLists-listRiskListItems.php)
 
@@ -28468,7 +28842,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28515,7 +28889,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28548,7 +28922,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskPreviews-create.php)
 
@@ -28652,7 +29026,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28683,7 +29057,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskRules-get.php)
 
@@ -28711,7 +29085,7 @@ Returns the payload at `data` directly. Use `getAttributeRegistryWithResponse` f
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskRules-getAttributeRegistry.php)
 
@@ -28742,7 +29116,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/riskRules-list.php)
 
@@ -28837,7 +29211,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28870,7 +29244,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -28901,7 +29275,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/settings-get.php)
 
@@ -28930,7 +29304,7 @@ Returns the payload at `data` directly. Use `getEffectiveWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/settings-getEffective.php)
 
@@ -29106,11 +29480,43 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/settings-update.php)
+
+
+### settings.validateCustomDomain
+
+Rechecks ownership and restarts validation for the configured checkout or customer account hostname. Send no request body or an empty JSON object. Each domain can be checked once every 60 seconds; rate limited responses include Retry-After.
+
+`POST /v1/settings/custom-domains/{domain_type}/validate`
+
+Call: `validateCustomDomain(string|Model $domain_type, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `domain_type`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'domain_type': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}`
+
+Returned payload: `CustomDomainStatus`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `domain_type` | Required | string | Values: `"checkout"`, `"customer_account"`. |
+| `Idempotency-Key` | Optional | string |  |
+| `X-Request-Id` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `validateCustomDomainWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/settings-validateCustomDomain.php)
 
 
 ## Resource: shipments
@@ -29178,7 +29584,7 @@ Returns the payload at `data` directly. Use `createPackageWithResponse` for `bod
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29210,7 +29616,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/shipments-get.php)
 
@@ -29273,7 +29679,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/shipments-list.php)
 
@@ -29391,7 +29797,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29442,7 +29848,7 @@ Returns the payload at `data` directly. Use `voidResourceWithResponse` for `body
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29472,7 +29878,7 @@ Response body (inside Result.data): `\stdClass`
 
 Authentication modes: none (unauthenticated). See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/specification-get.php)
 
@@ -29543,7 +29949,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29573,7 +29979,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptionPlans-get.php)
 
@@ -29626,7 +30032,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptionPlans-list.php)
 
@@ -29731,7 +30137,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29764,7 +30170,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29815,7 +30221,7 @@ Returns the payload at `data` directly. Use `cancelWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29862,7 +30268,7 @@ Returns the payload at `data` directly. Use `changePaymentMethodWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29894,7 +30300,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -29927,7 +30333,7 @@ Returns the payload at `data` directly. Use `createAccessLinkWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
 
@@ -29960,7 +30366,7 @@ Returns the payload at `data` directly. Use `createPaymentRetryWithResponse` for
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
@@ -29969,7 +30375,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.get
 
-Returns a single subscription by ID.
+Returns a single subscription by ID. A paid checkout session's credential can retrieve only the subscription created by its source order. Checkout credentials cannot expand related resources.
 
 `GET /v1/subscriptions/{subscription_id}`
 
@@ -29977,21 +30383,33 @@ Call: `get(string|Model $subscription_id, array|Model|null $params = null, ?Requ
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'expand'?: list<string>, 'Flint-Version'?: string}`
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'X-Checkout-Session-ID'?: string,
+  'X-Checkout-Session-Secret'?: string,
+  'expand'?: list<string>,
+  'Flint-Version'?: string
+}
+```
 
 Returned payload: `Subscription`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string |  |
+| `X-Checkout-Session-ID` | Optional | string |  |
+| `X-Checkout-Session-Secret` | Optional | string |  |
 | `expand` | Optional | Array of string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
 
 Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptions-get.php)
 
@@ -30020,7 +30438,7 @@ Returns the payload at `data` directly. Use `getPaymentRetryWithResponse` for `b
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptions-getPaymentRetry.php)
 
@@ -30099,7 +30517,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptions-list.php)
 
@@ -30194,7 +30612,7 @@ Returns the complete decoded body directly. Use `listPaymentRetriesWithResponse`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/subscriptions-listPaymentRetries.php)
 
@@ -30303,7 +30721,7 @@ Returns the payload at `data` directly. Use `pauseWithResponse` for `body`, `met
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30335,7 +30753,7 @@ Returns the payload at `data` directly. Use `reactivateWithResponse` for `body`,
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30367,7 +30785,7 @@ Returns the payload at `data` directly. Use `resumeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30413,7 +30831,7 @@ Returns the payload at `data` directly. Use `skipCycleWithResponse` for `body`, 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30465,7 +30883,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30519,7 +30937,7 @@ Returns the payload at `data` directly. Use `updateBillingScheduleWithResponse` 
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30551,7 +30969,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookDeliveries-get.php)
 
@@ -30581,7 +30999,7 @@ Returns the complete decoded body directly. Use `listAttemptsWithResponse` for `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookDeliveries-listAttempts.php)
 
@@ -30688,7 +31106,7 @@ Returns the payload at `data` directly. Use `resendWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30742,7 +31160,7 @@ Returns the payload at `data` directly. Use `createWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30774,7 +31192,7 @@ Returns the payload at `data` directly. Use `createWebhookTestEventWithResponse`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30804,7 +31222,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEndpoints-get.php)
 
@@ -30835,7 +31253,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEndpoints-list.php)
 
@@ -30929,7 +31347,7 @@ Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -30961,7 +31379,7 @@ Returns the payload at `data` directly. Use `rotateWebhookSecretWithResponse` fo
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -31016,7 +31434,7 @@ Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `me
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
@@ -31048,7 +31466,7 @@ Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEvents-get.php)
 
@@ -31098,7 +31516,7 @@ Returned payload: `WebhookEventsListResponse200`
 | `delivery_status` | Optional | string | Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string |  |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | string | Values: [202 declared values](#webhookeventslist-input-event_type-values). |
+| `event_type` | Optional | string | Values: [206 declared values](#webhookeventslist-input-event_type-values). |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookeventslist-input-resource_type-values). |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
@@ -31125,6 +31543,7 @@ Returned payload: `WebhookEventsListResponse200`
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -31313,6 +31732,9 @@ Returned payload: `WebhookEventsListResponse200`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 #### webhookEvents.list input resource_type values
 
@@ -31350,7 +31772,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEvents-list.php)
 
@@ -31444,7 +31866,7 @@ Returns the complete decoded body directly. Use `listWebhookDeliveriesWithRespon
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEvents-listWebhookDeliveries.php)
 
@@ -31529,7 +31951,7 @@ Response body (inside Result.data): `null`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | string | Values: [196 declared values](#webhookeventsstream-input-event_type-values). |
+| `event_type` | Optional | string | Values: [200 declared values](#webhookeventsstream-input-event_type-values). |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -31550,6 +31972,7 @@ Response body (inside Result.data): `null`
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -31732,10 +32155,13 @@ Response body (inside Result.data): `null`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEvents-stream.php)
 
@@ -31766,7 +32192,7 @@ Returns the complete decoded body directly. Use `listWithResponse` for `body`, `
 
 Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
 
-Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation. 
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
 [Example](examples/webhookEventTypes-list.php)
 

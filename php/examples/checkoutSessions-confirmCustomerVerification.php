@@ -17,7 +17,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->confirmCustomerVerification('cs_example', 'cver_example', [
+$result = $client->checkoutSessions->confirmCustomerVerification('cs_example', 'cscv_example', [
   'code' => '123456',
   'X-Checkout-Session-ID' => 'cs_example',
   'X-Checkout-Session-Secret' => 'checkout_secret_example',

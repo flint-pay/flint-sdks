@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import r0 from '../descriptors/resources/customers.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import settings from '../descriptors/settings.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["setDefaultCustomerAddress"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["setDefaultCustomerAddress"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -106,6 +106,20 @@ this.customers = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      linkGuestPurchases: async (customer_id, params, options) => this.#runtime.request("linkCustomerGuestPurchases", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      linkGuestPurchasesWithResponse: async (customer_id, params, options) => this.#runtime.request("linkCustomerGuestPurchases", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       listAddresses: async (customer_id, params, options) => this.#runtime.request("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
@@ -289,6 +303,7 @@ export { makeCustomerResponse } from '../models/CustomerResponse.js';
 export { makeCustomerAddressResponse } from '../models/CustomerAddressResponse.js';
 export { makeCustomerDeletionRequestResponse } from '../models/CustomerDeletionRequestResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
+export { makeGuestPurchaseLinkResponse } from '../models/GuestPurchaseLinkResponse.js';
 export { makeCustomerAddressListResponse } from '../models/CustomerAddressListResponse.js';
 export { makeCustomerAddress } from '../models/CustomerAddress.js';
 export { makeCustomerListResponse } from '../models/CustomerListResponse.js';
@@ -299,6 +314,7 @@ export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
 export { makeActionResult } from '../models/ActionResult.js';
+export { makeGuestPurchaseLink } from '../models/GuestPurchaseLink.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeCardDetails } from '../models/CardDetails.js';
 export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';

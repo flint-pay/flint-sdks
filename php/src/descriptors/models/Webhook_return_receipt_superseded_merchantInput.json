@@ -1,1 +1,1 @@
-{"shared":"Webhook_return_receipt_superseded_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec281","Webhook_return_receipt_superseded_merchant"]}
+{"shared":"Webhook_return_receipt_superseded_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec282","Webhook_return_receipt_superseded_merchant"]}

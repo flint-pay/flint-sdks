@@ -1,1 +1,1 @@
-{"shared":"PaymentAttemptPaymentIntent","dependencies":["ErrorRemediation","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentAttemptPaymentIntent","PaymentErrorSummary","SharedCodec1","SharedCodec485"]}
+{"shared":"PaymentAttemptPaymentIntent","dependencies":["ErrorRemediation","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentAttemptPaymentIntent","PaymentErrorSummary","SharedCodec1","SharedCodec487"]}

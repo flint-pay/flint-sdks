@@ -7,4 +7,3 @@ const client = new Client({
 const result = await client.me.listFlintWalletPaymentMethods(
 
 );
-console.log(result.request_id);

@@ -103,14 +103,14 @@ export interface SubscriptionsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createPaymentRetryWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreatePaymentRetryResponse>>;
     /**
- * Returns a single subscription by ID.
+ * Returns a single subscription by ID. A paid checkout session's credential can retrieve only the subscription created by its source order. Checkout credentials cannot expand related resources.
  * GET /v1/subscriptions/{subscription_id}
  * @example
  * client.subscriptions.get("example")
  */
-    get(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    get(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetResponse>>;
+    getWithResponse(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetResponse>>;
     /**
  * Returns one durable manual subscription payment retry.
  * GET /v1/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}

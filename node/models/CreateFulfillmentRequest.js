@@ -1,7 +1,7 @@
-import { d276 as c0, d337 as c1, d345 as c2, d431 as c3, d449 as c4, d506 as c5, d807 as c6, d341 as c7, d814 as c8, d73 as c9, d2243 as c10, d342 as c11, d344 as c12, d343 as c13, d2297 as c14, d2298 as c15 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d345 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d281 as c0, d342 as c1, d350 as c2, d436 as c3, d454 as c4, d511 as c5, d819 as c6, d346 as c7, d826 as c8, d73 as c9, d2269 as c10, d347 as c11, d349 as c12, d348 as c13, d2323 as c14, d2324 as c15 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d350 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d345;
+const read = d350;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryFulfillmentDetails"]:c0(),["CreateDigitalFulfillmentDetails"]:c1(),["CreateFulfillmentRequest"]:c2(),["CreatePackageRequest"]:c3(),["CreatePickupFulfillmentDetails"]:c4(),["CreateServiceFulfillmentDetails"]:c5(),["FulfillmentLineItemRequest"]:c6(),["FulfillmentPackagingRequest"]:c7(),["FulfillmentRecipient"]:c8(),["PostalAddress"]:c9(),["ReturnShipmentLineItemAllocation"]:c10(),["SharedCodec114"]:c11(),["SharedCodec115"]:c12(),["SharedCodec116"]:c13(),["ShippingDimensions"]:c14(),["ShippingWeight"]:c15()}); }
 export { codec as _validate };

@@ -62,16 +62,22 @@ test(
       );
       run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', npmArchive], consumer);
       const api = json(join(root, 'spec/openapi.json'));
-      const operations = Object.values(api.paths)
-        .flatMap((item) => Object.values(item))
-        .filter((operation) => operation?.operationId);
+      const operationIds = Object.values(api.paths).flatMap((item) =>
+        Object.values(item).flatMap((operation) => operation.operationId ? [operation.operationId] : []),
+      );
       const cases = json(join(root, 'tests/full-model-cases.json'));
       const config = json(join(root, 'sdk.json'));
       const naming = json(join(root, 'spec/profiles/full-common-sdk.json')).operations;
       const selected = new Set(config.profiles.flatMap((path) => json(join(root, path)).include));
-      const expectedMethods = operations
-        .filter(({ operationId }) => selected.has(operationId))
-        .flatMap(({ operationId: id }) => {
+      assert.deepEqual(
+        operationIds.filter((id) => !selected.has(id)).sort(),
+        ['authorizeCLIDevice', 'listCLIContexts', 'reauthorizeCLIDevice', 'revokeCLIGrant'],
+        'Only form-encoded CLI OAuth operations are excluded from the SDK packages',
+      );
+      assert.ok([...selected].every((id) => operationIds.includes(id)), 'Selected SDK operation missing from the pinned API');
+      const expectedMethods = operationIds
+        .filter((id) => selected.has(id))
+        .flatMap((id) => {
           const { resource, method } = naming[id];
           const methods = [[resource, method]];
           if ((config.operations[id]?.response?.return ?? naming[id].response?.return) !== 'result')

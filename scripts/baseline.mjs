@@ -4,6 +4,7 @@ import { spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
+  cpSync,
   readFileSync,
   writeFileSync,
   renameSync,
@@ -11,7 +12,8 @@ import {
 } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { json, formatted } from "./packages.mjs";
+import { randomUUID } from "node:crypto";
+import { json, formatted, sha256 } from "./packages.mjs";
 const run = (cmd, args, options = {}) => {
   const r = spawnSync(cmd, args, {
     encoding: "utf8",
@@ -51,12 +53,46 @@ if (!tag) {
 const commit = run("git", ["rev-parse", `refs/tags/${tag}^{commit}`]).trim();
 const marker = ".generated/baseline.json";
 const output = resolve(".generated/sdk");
+const source = resolve(".generated/baselines", commit);
+const baselineOutput = join(source, "sdk");
+const baselineRecord = join(baselineOutput, ".sdk-generator.json");
+function replaceDirectory(stage, destination) {
+  const backup = destination + ".before-baseline-" + randomUUID();
+  let moved = false;
+  try {
+    if (existsSync(destination)) {
+      renameSync(destination, backup);
+      moved = true;
+    }
+    renameSync(stage, destination);
+  } catch (error) {
+    if (moved && !existsSync(destination)) renameSync(backup, destination);
+    throw error;
+  }
+  if (moved) rmSync(backup, { recursive: true, force: true });
+}
+function restoreBaseline() {
+  const stage = output + ".baseline-stage-" + randomUUID();
+  try {
+    cpSync(baselineOutput, stage, { recursive: true });
+    replaceDirectory(stage, output);
+  } finally {
+    rmSync(stage, { recursive: true, force: true });
+  }
+}
 if (
   existsSync(marker) &&
   json(marker).commit === commit &&
-  existsSync(join(output, ".sdk-generator.json"))
-)
+  json(marker).recordHash &&
+  existsSync(baselineRecord)
+) {
+  if (sha256(readFileSync(baselineRecord)) !== json(marker).recordHash)
+    throw new Error("Cached published SDK baseline record has changed.");
+  // The working output contains the last candidate. A version bump starts a
+  // new comparison in the generator, so always restore the published release.
+  restoreBaseline();
   process.exit(0);
+}
 const paths = run("git", [
   "ls-tree",
   "-r",
@@ -75,7 +111,6 @@ if (!paths.includes("sdk.lock.json")) {
   );
   process.exit(0);
 }
-const source = resolve(".generated/baselines", commit);
 for (const path of paths) {
   const target = join(source, path);
   mkdirSync(dirname(target), { recursive: true });
@@ -107,9 +142,7 @@ if (previous.generator.revision !== json("sdk.lock.json").generator.revision) {
   run("npm", ["ci"], { cwd: previousGenerator, stdio: "inherit" });
   run("npm", ["run", "build"], { cwd: previousGenerator, stdio: "inherit" });
 }
-const backup = output + "-before-baseline-" + Date.now();
-const hadOutput = existsSync(output);
-if (hadOutput) renameSync(output, backup);
+const stage = baselineOutput + ".stage-" + randomUUID();
 try {
   console.log(`Reconstructing compatibility baseline from ${tag} (${commit}).`);
   run(process.execPath, [
@@ -118,14 +151,19 @@ try {
     "generate",
     join(source, "spec/openapi.json"),
     join(source, "sdk.json"),
-    output,
+    stage,
   ]);
+  replaceDirectory(stage, baselineOutput);
+  restoreBaseline();
   writeFileSync(
     marker,
-    formatted({ tag, commit, generator: previous.generator.revision }),
+    formatted({
+      tag,
+      commit,
+      generator: previous.generator.revision,
+      recordHash: sha256(readFileSync(baselineRecord)),
+    }),
   );
-} catch (error) {
-  rmSync(output, { recursive: true, force: true });
-  if (hadOutput) renameSync(backup, output);
-  throw error;
+} finally {
+  rmSync(stage, { recursive: true, force: true });
 }

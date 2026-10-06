@@ -14,6 +14,7 @@ final class Client {
     public readonly CreditNotesResource $creditNotes;
     public readonly CustomerDeletionRequestsResource $customerDeletionRequests;
     public readonly CustomerSessionsResource $customerSessions;
+    public readonly CustomerVerificationsResource $customerVerifications;
     public readonly CustomersResource $customers;
     public readonly DeliveryLocationSetsResource $deliveryLocationSets;
     public readonly DeliveryMethodsResource $deliveryMethods;
@@ -28,6 +29,7 @@ final class Client {
     public readonly DevicesResource $devices;
     public readonly DiscountPreviewsResource $discountPreviews;
     public readonly DisputesResource $disputes;
+    public readonly EmailPreferenceLinksResource $emailPreferenceLinks;
     public readonly FeedbackReportsResource $feedbackReports;
     public readonly FraudWarningsResource $fraudWarnings;
     public readonly FulfillmentEventsResource $fulfillmentEvents;
@@ -110,6 +112,7 @@ final class Client {
         $this->creditNotes = new CreditNotesResource($this->runtime);
         $this->customerDeletionRequests = new CustomerDeletionRequestsResource($this->runtime);
         $this->customerSessions = new CustomerSessionsResource($this->runtime);
+        $this->customerVerifications = new CustomerVerificationsResource($this->runtime);
         $this->customers = new CustomersResource($this->runtime);
         $this->deliveryLocationSets = new DeliveryLocationSetsResource($this->runtime);
         $this->deliveryMethods = new DeliveryMethodsResource($this->runtime);
@@ -124,6 +127,7 @@ final class Client {
         $this->devices = new DevicesResource($this->runtime);
         $this->discountPreviews = new DiscountPreviewsResource($this->runtime);
         $this->disputes = new DisputesResource($this->runtime);
+        $this->emailPreferenceLinks = new EmailPreferenceLinksResource($this->runtime);
         $this->feedbackReports = new FeedbackReportsResource($this->runtime);
         $this->fraudWarnings = new FraudWarningsResource($this->runtime);
         $this->fulfillmentEvents = new FulfillmentEventsResource($this->runtime);
@@ -199,6 +203,6 @@ final class Client {
      * @param array<string, string|list<string>> $headers
      * @param string|array<array-key, string> $secrets
      * @param int|null $nowSeconds
-     * @return array{known: true, event: WebhookEventBalanceTransactionCreated|WebhookEventBalanceTransactionUpdated|WebhookEventBalanceUpdated|WebhookEventCapabilityUpdated|WebhookEventDisputeClosed|WebhookEventDisputeCreated|WebhookEventDisputeLost|WebhookEventDisputeNeedsResponse|WebhookEventDisputePrevented|WebhookEventDisputeUpdated|WebhookEventDisputeWarningClosed|WebhookEventDisputeWon|WebhookEventInventoryActionRequired|WebhookEventInventoryCountApplied|WebhookEventInventoryLevelUpdated|WebhookEventInventoryReceiptCreated|WebhookEventInventoryReservationAtRisk|WebhookEventInventoryReservationClosed|WebhookEventInventoryReservationCommitted|WebhookEventInventoryReservationConsumed|WebhookEventInventoryReservationCreated|WebhookEventInventoryReservationHoldExpired|WebhookEventInventoryReservationReleased|WebhookEventInventoryShortageDetected|WebhookEventInventoryTransferClosed|WebhookEventInventoryTransferDeparted|WebhookEventInventoryTransferLost|WebhookEventInventoryTransferReceived|WebhookEventInventoryTransferReturned|WebhookEventMerchantBillingBalanceUpdated|WebhookEventMerchantSubscriptionInvoiceIssued|WebhookEventMerchantSubscriptionInvoiceUpdated|WebhookEventMerchantReadinessUpdated|WebhookEventOrderInventoryActionRequired|WebhookEventPartnerAppInstallCreated|WebhookEventPartnerAppInstallEnvironmentGrantCreated|WebhookEventPartnerAppInstallEnvironmentGrantRevoked|WebhookEventPartnerAppInstallPermissionsUpdated|WebhookEventPartnerAppInstallRevoked|WebhookEventPartnerAppInstallUpdated|WebhookEventPayoutDestinationCreated|WebhookEventPayoutDestinationDeleted|WebhookEventPayoutDestinationDisabled|WebhookEventPayoutDestinationUpdated|WebhookEventPayoutSettingsUpdated|WebhookEventPayoutCanceled|WebhookEventPayoutCreated|WebhookEventPayoutFailed|WebhookEventPayoutPaid|WebhookEventPayoutReversed|WebhookEventPayoutUpdated|\stdClass|array}|array{known: false, event: mixed} */
+     * @return array{known: true, event: WebhookEventBalanceTransactionCreated|WebhookEventBalanceTransactionUpdated|WebhookEventBalanceUpdated|WebhookEventCapabilityUpdated|WebhookEventCustomDomainStatusChanged|WebhookEventDisputeClosed|WebhookEventDisputeCreated|WebhookEventDisputeLost|WebhookEventDisputeNeedsResponse|WebhookEventDisputePrevented|WebhookEventDisputeUpdated|WebhookEventDisputeWarningClosed|WebhookEventDisputeWon|WebhookEventInventoryActionRequired|WebhookEventInventoryCountApplied|WebhookEventInventoryLevelUpdated|WebhookEventInventoryReceiptCreated|WebhookEventInventoryReservationAtRisk|WebhookEventInventoryReservationClosed|WebhookEventInventoryReservationCommitted|WebhookEventInventoryReservationConsumed|WebhookEventInventoryReservationCreated|WebhookEventInventoryReservationHoldExpired|WebhookEventInventoryReservationReleased|WebhookEventInventoryShortageDetected|WebhookEventInventoryTransferClosed|WebhookEventInventoryTransferDeparted|WebhookEventInventoryTransferLost|WebhookEventInventoryTransferReceived|WebhookEventInventoryTransferReturned|WebhookEventMerchantBillingBalanceUpdated|WebhookEventMerchantSubscriptionInvoiceIssued|WebhookEventMerchantSubscriptionInvoiceUpdated|WebhookEventMerchantReadinessUpdated|WebhookEventOrderInventoryActionRequired|WebhookEventPartnerAppInstallCreated|WebhookEventPartnerAppInstallEnvironmentGrantCreated|WebhookEventPartnerAppInstallEnvironmentGrantRevoked|WebhookEventPartnerAppInstallPermissionsUpdated|WebhookEventPartnerAppInstallRevoked|WebhookEventPartnerAppInstallUpdated|WebhookEventPayoutDestinationCreated|WebhookEventPayoutDestinationDeleted|WebhookEventPayoutDestinationDisabled|WebhookEventPayoutDestinationUpdated|WebhookEventPayoutSettingsUpdated|WebhookEventPayoutCanceled|WebhookEventPayoutCreated|WebhookEventPayoutFailed|WebhookEventPayoutPaid|WebhookEventPayoutReversed|WebhookEventPayoutUpdated|\stdClass|array}|array{known: false, event: mixed} */
     public function verifyWebhook(mixed $rawBody, mixed $headers, mixed $secrets, mixed $nowSeconds = null): array { return $this->runtime->verifyWebhook($rawBody, $headers, $secrets, $nowSeconds); }
 }

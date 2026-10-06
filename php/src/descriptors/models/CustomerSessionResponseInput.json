@@ -1,1 +1,1 @@
-{"shared":"CustomerSessionResponse","dependencies":["CustomerSession","CustomerSessionResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec485"]}
+{"shared":"CustomerSessionResponse","dependencies":["CustomerSession","CustomerSessionResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}

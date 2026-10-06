@@ -1,1 +1,1 @@
-{"shared":"GetOrCreateReturnResolutionCheckoutSessionRequest","dependencies":["GetOrCreateReturnResolutionCheckoutSessionRequest"]}
+{"shared":"GetOrCreateReturnResolutionCheckoutSessionRequest","dependencies":["GetOrCreateReturnResolutionCheckoutSessionRequest","Redirects"]}

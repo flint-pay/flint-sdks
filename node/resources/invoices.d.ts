@@ -147,9 +147,9 @@ export interface InvoicesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
+    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
@@ -455,7 +455,6 @@ export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsC
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
-export type { HostedCheckout } from '../declarations/HostedCheckout.js';
 export type { IssueInvoiceResult } from '../declarations/IssueInvoiceResult.js';
 export type { InvoiceLateFee } from '../declarations/InvoiceLateFee.js';
 export type { InvoiceLateFeePolicy } from '../declarations/InvoiceLateFeePolicy.js';
@@ -562,7 +561,6 @@ export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirec
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
-export { makeHostedCheckout } from '../declarations/makeHostedCheckout.js';
 export { makeIssueInvoiceResult } from '../declarations/makeIssueInvoiceResult.js';
 export { makeInvoiceLateFee } from '../declarations/makeInvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../declarations/makeInvoiceLateFeePolicy.js';

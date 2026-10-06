@@ -1,4 +1,4 @@
 
 
 
-export type CustomerAccountDNSRecordInput = { "dns_record_type": "cname" | "txt"; "name": string; "value": string; };
+export type CustomerAccountDNSRecordInput = { "dns_record_type"?: never; "name"?: never; "value"?: never; };

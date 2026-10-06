@@ -1,7 +1,7 @@
-import { d1930 as c0, d2304 as c1, d2303 as c2 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
-import { d1930 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d1956 as c0, d2330 as c1, d2329 as c2 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d1956 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1930;
+const read = d1956;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["PaymentClientAction"]:c0(),["StripePaymentClientAction"]:c1(),["StripeSetupIntentClientAction"]:c2()}); }
 export { codec as _validate };

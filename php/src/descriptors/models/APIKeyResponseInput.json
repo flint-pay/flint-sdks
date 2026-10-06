@@ -1,1 +1,1 @@
-{"shared":"APIKeyResponse","dependencies":["APIKey","APIKeyResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec485"]}
+{"shared":"APIKeyResponse","dependencies":["APIKey","APIKeyResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec487"]}

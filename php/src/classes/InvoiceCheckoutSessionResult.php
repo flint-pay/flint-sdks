@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read CheckoutAccess $checkout_access
  * @property-read CheckoutSession $checkout_session
  * @property-read HostedCheckout $hosted_checkout
  * @property-read Invoice $invoice
@@ -9,8 +10,13 @@ namespace Flint;
  * @property-read bool $reused_existing
  * Presence-aware response; omitted fields throw when accessed. */
 final class InvoiceCheckoutSessionResult extends Model {
-    /** @param array{'checkout_session': mixed, 'hosted_checkout': mixed, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, 'reused_existing': bool, ...}|object $values */
+    /** @param array{'checkout_access': object{'checkout_auth_token': string, 'hosted_url'?: string}, 'checkout_session': mixed, 'hosted_checkout'?: object{'checkout_auth_token': string, 'url': string}, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, 'reused_existing': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCheckoutSessionResult')); }
+    /** @return CheckoutAccess
+     * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().
+     */
+    public function getCheckoutAccess(): CheckoutAccess { return $this->get('checkout_access'); }
+    public function hasCheckoutAccess(): bool { return $this->has('checkout_access'); }
     /** @return CheckoutSession
      * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
      */

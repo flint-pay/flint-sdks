@@ -237,7 +237,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#apirequestlog-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#apirequestlog-resource_type-values). |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Required | string |  |
@@ -278,6 +278,7 @@ Variants: any, any.
 - `"checkout_session"`
 - `"credit_note"`
 - `"credit_note_allocation"`
+- `"custom_domain"`
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
@@ -398,7 +399,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#apirequestlogdetail-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#apirequestlogdetail-resource_type-values). |
 | `response_body` | Optional | string |  |
 | `response_content_type` | Optional | string |  |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
@@ -441,6 +442,7 @@ Variants: any, any.
 - `"checkout_session"`
 - `"credit_note"`
 - `"credit_note_allocation"`
+- `"custom_domain"`
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
@@ -1191,6 +1193,100 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `mutable` | Required | boolean |  |
 | `source` | Required | string | Values: `"none"`, `"provisional"`, `"committed"`. |
 
+## BuyerFulfillmentEvent
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `current_status` | Optional | string | Values: [23 declared values](#buyerfulfillmentevent-current_status-values). Response only. |
+| `event_type` | Required | string | Values: [10 declared values](#buyerfulfillmentevent-event_type-values). |
+| `fulfillment_event_id` | Required | string |  |
+| `fulfillment_id` | Required | string |  |
+| `location_description` | Optional | string |  |
+| `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `order_id` | Required | string |  |
+| `package_id` | Optional | string |  |
+| `previous_status` | Optional | string | Values: [23 declared values](#buyerfulfillmentevent-previous_status-values). Response only. |
+| `shipment_id` | Optional | string |  |
+
+#### BuyerFulfillmentEvent current_status values
+
+- `"pending"`
+- `"on_hold"`
+- `"in_progress"`
+- `"ready"`
+- `"completed"`
+- `"canceled"`
+- `"failed"`
+- `"scheduled"`
+- `"accepted"`
+- `"preparing"`
+- `"picked"`
+- `"packed"`
+- `"dispatched"`
+- `"no_show"`
+- `"created"`
+- `"shipped"`
+- `"in_transit"`
+- `"out_for_delivery"`
+- `"delivered"`
+- `"delivery_attempted"`
+- `"exception"`
+- `"returned"`
+- `"voided"`
+
+#### BuyerFulfillmentEvent event_type values
+
+- `"status_changed"`
+- `"shipped"`
+- `"in_transit"`
+- `"out_for_delivery"`
+- `"delivered"`
+- `"delivery_attempted"`
+- `"tracking_updated"`
+- `"exception"`
+- `"returned"`
+- `"custom"`
+
+#### BuyerFulfillmentEvent previous_status values
+
+- `"pending"`
+- `"on_hold"`
+- `"in_progress"`
+- `"ready"`
+- `"completed"`
+- `"canceled"`
+- `"failed"`
+- `"scheduled"`
+- `"accepted"`
+- `"preparing"`
+- `"picked"`
+- `"packed"`
+- `"dispatched"`
+- `"no_show"`
+- `"created"`
+- `"shipped"`
+- `"in_transit"`
+- `"out_for_delivery"`
+- `"delivered"`
+- `"delivery_attempted"`
+- `"exception"`
+- `"returned"`
+- `"voided"`
+
+## BuyerFulfillmentEventListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [BuyerFulfillmentEvent](MODELS.md#buyerfulfillmentevent) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
 ## BuyerGiftCard
 
 
@@ -1346,11 +1442,12 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Required | [HostedCheckout](MODELS.md#hostedcheckout) |  |
+| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
 | `invoice` | Required | [BuyerInvoice](MODELS.md#buyerinvoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
-| `reused_existing` | Required | boolean |  |
+| `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
 
 ## BuyerInvoiceLateFee
 
@@ -2257,9 +2354,10 @@ Checkout-session access returned for hosted or embedded checkout creation.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
+| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | [HostedCheckout](MODELS.md#hostedcheckout) |  |
+| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
+| `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
 
 ## CheckoutSessionLineItemModifierUpdate
 
@@ -2311,7 +2409,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -2507,6 +2605,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
@@ -2565,16 +2664,24 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"CUSTOMER_SESSION_REFRESH_REUSED"`
 - `"CUSTOMER_SESSION_REQUIRED"`
 - `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_CUSTOMER_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_EXPIRED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_CONFIRMED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
 - `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_PURPOSE_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_USED"`
+- `"CUSTOM_DOMAIN_LIVE_MODE_REQUIRED"`
+- `"CUSTOM_DOMAIN_NOT_CONFIGURED"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
 - `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
 - `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_VALIDATION_RATE_LIMITED"`
 - `"CUSTOM_FIELD_KEY_REQUIRED"`
 - `"CUSTOM_FIELD_KEY_TOO_LONG"`
 - `"CUSTOM_FIELD_KEY_WHITESPACE"`
@@ -2710,6 +2817,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
 - `"EMAIL_CHANGE_DELIVERY_FAILED"`
 - `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_PREFERENCE_LINK_INVALID"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
 - `"EMPTY_CAPABILITY_SET"`
@@ -3760,6 +3868,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"RETENTION_OFFER_PAUSE_TOO_LONG"`
 - `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_CHECKOUT_REQUIRED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
 - `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
@@ -3984,6 +4093,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
 | `default_delivery_method_ids` | Optional | Array of string | Delivery methods a checkout offers when its creator names none: a checkout creation request that omits delivery_method_ids, and, when the order has items to deliver, a payment link without delivery_method_ids or an invoice checkout. Each checkout pins the methods when it is created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `enabled_payment_options` | Optional | Array of string |  |
@@ -4142,6 +4252,14 @@ The code the buyer typed.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `code` | Required | string | The six-digit code from the email or the text. minLength: `6`. maxLength: `6`. pattern: `^[0-9]{6}$`. |
+
+## ConfirmCustomerVerificationRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Required | string |  |
 
 ## ConfirmEmailChangeRequest
 
@@ -4432,6 +4550,17 @@ Variants: any, any, any.
 | `customer_id` | Required | string |  |
 | `expires_in_seconds` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `300`. maximum: `86400`. |
 | `refresh_expires_in_seconds` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `3600`. maximum: `2592000`. |
+
+## CreateCustomerVerificationRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `channel` | Optional | string | Defaults to email when omitted. Explicit null and an empty value are not accepted. Values: `"email"`. |
+| `customer_id` | Required | string |  |
+| `email` | Required | string |  |
+| `purpose` | Required | string | Values: `"link_guest_purchases"`. |
 
 ## CreateDeliveryFulfillmentDetails
 
@@ -5883,7 +6012,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [196 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Values: [200 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -5906,6 +6035,7 @@ Variants: any, any, any.
 - `"customer.deletion_rejected"`
 - `"customer.deletion_requested"`
 - `"customer.updated"`
+- `"custom_domain.status_changed"`
 - `"dispute.closed"`
 - `"dispute.created"`
 - `"dispute.lost"`
@@ -6078,6 +6208,9 @@ Variants: any, any, any.
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.succeeded"`
+- `"subscription_payment_retry.failed"`
 - `"subscription.reactivated"`
 - `"subscription.resumed"`
 - `"subscription.renewal_upcoming"`
@@ -6261,6 +6394,66 @@ One credited invoice line, with the discount and tax share Flint derived from th
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## CustomDomainStatus
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `active_payment_attempt_count` | Optional | exact numeric string or null | Payment attempts in progress whose hosted checkout started on this hostname. Present for checkout domains. Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `dns_records` | Required | Array of [CustomerAccountDNSRecord](MODELS.md#customeraccountdnsrecord) | Response only. |
+| `domain_status` | Required | string | Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"removed"`. Response only. |
+| `hostname` | Required | string | Response only. |
+| `last_checked_at` | Optional | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `payment_method_domain_id` | Optional | string or null | Response only. |
+| `redirect_expires_at` | Optional | string or null | End of the 30 day redirect window for a removed hostname. Format: `date-time`. Response only. |
+| `status_reason` | Optional | string or null | Values: [11 declared values](#customdomainstatus-status_reason-values). Response only. |
+
+#### CustomDomainStatus status_reason values
+
+- `"dns_record_missing"`
+- `"dns_record_mismatch"`
+- `"ownership_record_missing"`
+- `"ownership_record_mismatch"`
+- `"caa_record_blocks_certificate"`
+- `"proxied_by_another_provider"`
+- `"certificate_pending"`
+- `"custom_domains_inactive"`
+- `"removed_by_merchant"`
+- `"other"`
+- `null`
+
+## CustomDomainStatusChange
+
+A checkout or customer account hostname's status after a transition, with its previous status.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `active_payment_attempt_count` | Optional | exact numeric string or null | Payment attempts in progress whose hosted checkout started on this hostname. Present for checkout domains. Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `dns_records` | Required | Array of [CustomerAccountDNSRecord](MODELS.md#customeraccountdnsrecord) | Response only. |
+| `domain_status` | Required | string | Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"removed"`. Response only. |
+| `hostname` | Required | string | Response only. |
+| `last_checked_at` | Optional | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `payment_method_domain_id` | Optional | string or null | Response only. |
+| `redirect_expires_at` | Optional | string or null | End of the 30 day redirect window for a removed hostname. Format: `date-time`. Response only. |
+| `status_reason` | Optional | string or null | Values: [11 declared values](#customdomainstatuschange-status_reason-values). Response only. |
+| `domain_type` | Required | string | Values: `"checkout"`, `"customer_account"`. |
+| `previous_status` | Required | string | Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"removed"`. |
+
+#### CustomDomainStatusChange status_reason values
+
+- `"dns_record_missing"`
+- `"dns_record_mismatch"`
+- `"ownership_record_missing"`
+- `"ownership_record_mismatch"`
+- `"caa_record_blocks_certificate"`
+- `"proxied_by_another_provider"`
+- `"certificate_pending"`
+- `"custom_domains_inactive"`
+- `"removed_by_merchant"`
+- `"other"`
+- `null`
+
 ## Customer
 
 
@@ -6295,20 +6488,9 @@ One credited invoice line, with the discount and tax share Flint derived from th
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `dns_record_type` | Required | string | Values: `"cname"`, `"txt"`. |
-| `name` | Required | string |  |
-| `value` | Required | string |  |
-
-## CustomerAccountDomainStatus
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `dns_records` | Required | Array of [CustomerAccountDNSRecord](MODELS.md#customeraccountdnsrecord) |  |
-| `domain_status` | Required | string | Values: `"provisioning"`, `"active"`, `"attention_required"`. |
-| `hostname` | Required | string |  |
-| `last_checked_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `dns_record_type` | Required | string | Values: `"cname"`, `"txt"`. Response only. |
+| `name` | Required | string | Response only. |
+| `value` | Required | string | Response only. |
 
 ## CustomerAccountPresentation
 
@@ -6317,7 +6499,7 @@ One credited invoice line, with the discount and tax share Flint derived from th
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `account_name` | Optional | string |  |
-| `custom_domain` | Optional | string |  |
+| `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
 
 ## CustomerAccountRouteTemplates
 
@@ -6325,6 +6507,8 @@ One credited invoice line, with the discount and tax share Flint derived from th
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `email_preferences` | Optional | string |  |
+| `invoice` | Optional | string |  |
 | `order` | Optional | string |  |
 | `return` | Optional | string |  |
 | `subscription` | Optional | string |  |
@@ -6546,6 +6730,31 @@ One credited invoice line, with the discount and tax share Flint derived from th
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `data` | Required | [CustomerSessionsRevocation](MODELS.md#customersessionsrevocation) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## CustomerVerification
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `channel` | Required | string | Values: `"email"`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `customer_id` | Required | string |  |
+| `customer_verification_id` | Required | string |  |
+| `email` | Required | string |  |
+| `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `purpose` | Required | string | Values: `"link_guest_purchases"`. |
+| `status` | Required | string | Values: `"pending"`, `"confirmed"`. |
+
+## CustomerVerificationResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [CustomerVerification](MODELS.md#customerverification) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
@@ -8772,6 +8981,35 @@ Variants: any, any, any, any, any, any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## EmailPreferenceLink
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string or null | Flint customer ID when the email belongs to an active customer in this merchant environment. Null for a guest email. |
+| `email` | Required | string |  |
+| `email_preference` | Required | string | Values: `"shipping_updates"`, `"checkout_reminders"`, `"other"`. |
+| `enabled` | Required | boolean |  |
+
+## EmailPreferenceLinkRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `token` | Required | string |  |
+
+## EmailPreferenceLinkResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [EmailPreferenceLink](MODELS.md#emailpreferencelink) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
 ## ErrorDetail
 
 
@@ -8785,7 +9023,7 @@ Variants: any, any, any, any, any, any, any.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -8799,7 +9037,7 @@ Variants: any, any, any, any, any, any, any.
 | `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#errordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#errordetail-eligibility_reason-values). |
-| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
@@ -8823,6 +9061,7 @@ Variants: any, any, any, any, any, any, any.
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
@@ -8832,6 +9071,7 @@ Variants: any, any, any, any, any, any, any.
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Optional | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
+| `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
 #### ErrorDetail capability values
@@ -9025,6 +9265,7 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
@@ -9083,16 +9324,24 @@ Variants: any, any, any, any, any, any, any.
 - `"CUSTOMER_SESSION_REFRESH_REUSED"`
 - `"CUSTOMER_SESSION_REQUIRED"`
 - `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_CUSTOMER_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_EXPIRED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_CONFIRMED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
 - `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_PURPOSE_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_USED"`
+- `"CUSTOM_DOMAIN_LIVE_MODE_REQUIRED"`
+- `"CUSTOM_DOMAIN_NOT_CONFIGURED"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
 - `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
 - `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_VALIDATION_RATE_LIMITED"`
 - `"CUSTOM_FIELD_KEY_REQUIRED"`
 - `"CUSTOM_FIELD_KEY_TOO_LONG"`
 - `"CUSTOM_FIELD_KEY_WHITESPACE"`
@@ -9228,6 +9477,7 @@ Variants: any, any, any, any, any, any, any.
 - `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
 - `"EMAIL_CHANGE_DELIVERY_FAILED"`
 - `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_PREFERENCE_LINK_INVALID"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
 - `"EMPTY_CAPABILITY_SET"`
@@ -10278,6 +10528,7 @@ Variants: any, any, any, any, any, any, any.
 - `"RETENTION_OFFER_PAUSE_TOO_LONG"`
 - `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_CHECKOUT_REQUIRED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
 - `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
@@ -10633,7 +10884,7 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1649 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -10645,7 +10896,7 @@ Variants: any, any, any, any, any, any, any.
 | `details` | Optional | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
-| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -10665,11 +10916,13 @@ Variants: any, any, any, any, any, any, any.
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
+| `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#errorobject-type-values). |
 
@@ -10864,6 +11117,7 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
@@ -10922,16 +11176,24 @@ Variants: any, any, any, any, any, any, any.
 - `"CUSTOMER_SESSION_REFRESH_REUSED"`
 - `"CUSTOMER_SESSION_REQUIRED"`
 - `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_CUSTOMER_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_EXPIRED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_CONFIRMED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
 - `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_PURPOSE_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_USED"`
+- `"CUSTOM_DOMAIN_LIVE_MODE_REQUIRED"`
+- `"CUSTOM_DOMAIN_NOT_CONFIGURED"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
 - `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
 - `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_VALIDATION_RATE_LIMITED"`
 - `"CUSTOM_FIELD_KEY_REQUIRED"`
 - `"CUSTOM_FIELD_KEY_TOO_LONG"`
 - `"CUSTOM_FIELD_KEY_WHITESPACE"`
@@ -11067,6 +11329,7 @@ Variants: any, any, any, any, any, any, any.
 - `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
 - `"EMAIL_CHANGE_DELIVERY_FAILED"`
 - `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_PREFERENCE_LINK_INVALID"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
 - `"EMPTY_CAPABILITY_SET"`
@@ -12117,6 +12380,7 @@ Variants: any, any, any, any, any, any, any.
 - `"RETENTION_OFFER_PAUSE_TOO_LONG"`
 - `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_CHECKOUT_REQUIRED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
 - `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
@@ -12465,7 +12729,7 @@ Variants: any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the blocking resource. |
-| `resource_type` | Required | string | Stable public resource name for the blocking resource. Values: [106 declared values](#errorresourcereference-resource_type-values). |
+| `resource_type` | Required | string | Stable public resource name for the blocking resource. Values: [107 declared values](#errorresourcereference-resource_type-values). |
 | `status` | Optional | string | Current public status of the blocking resource when available. |
 
 #### ErrorResourceReference resource_type values
@@ -12481,6 +12745,7 @@ Variants: any, any, any, any, any, any, any.
 - `"checkout_session"`
 - `"credit_note"`
 - `"credit_note_allocation"`
+- `"custom_domain"`
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
@@ -13480,7 +13745,9 @@ Variants: object, object, object, object, object, object, object, object, object
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `redirects` | Optional | object | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the Return's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
+| `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
 
 ## GetOrCreateReturnResolutionCheckoutSessionResponse
 
@@ -14200,6 +14467,27 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 | `role` | Required | string | Values: `"owner"`, `"admin"`, `"operator"`, `"viewer"`. |
 | `user_id` | Required | string |  |
 
+## GuestPurchaseLink
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string |  |
+| `email` | Required | string |  |
+| `linked_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `linked_order_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+
+## GuestPurchaseLinkResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [GuestPurchaseLink](MODELS.md#guestpurchaselink) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
 ## HoldDetail
 
 
@@ -14677,6 +14965,12 @@ Variants: any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## IncomingWebhook3a84d3034c0dPayload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook3ae537b058b5Payload
 
 
@@ -14951,6 +15245,12 @@ Variants: any, any.
 Variants: any, any.
 
 ## IncomingWebhook63b2b06a26ecPayload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook63cd5f8b0721Payload
 
 
 
@@ -15279,6 +15579,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhook9647232e2632Payload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook968a85236406Payload
 
 
@@ -15469,6 +15775,23 @@ Variants: any, any.
 
 
 Variants: any, any.
+
+## IncomingWebhookb78f9b55b73fPayload
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"custom_domain.status_changed"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
 
 ## IncomingWebhookb85f38361fb8Payload
 
@@ -16739,7 +17062,7 @@ Variants: object, object, object.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1649 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -16753,7 +17076,7 @@ Variants: object, object, object.
 | `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#inventorytransferactionconflicterrordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#inventorytransferactionconflicterrordetail-eligibility_reason-values). |
-| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
@@ -16777,6 +17100,7 @@ Variants: object, object, object.
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
@@ -16786,6 +17110,7 @@ Variants: object, object, object.
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Required | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
+| `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
 #### InventoryTransferActionConflictErrorDetail capability values
@@ -16979,6 +17304,7 @@ Variants: object, object, object.
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
@@ -17037,16 +17363,24 @@ Variants: object, object, object.
 - `"CUSTOMER_SESSION_REFRESH_REUSED"`
 - `"CUSTOMER_SESSION_REQUIRED"`
 - `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_CUSTOMER_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_EXPIRED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_CONFIRMED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
 - `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_PURPOSE_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_USED"`
+- `"CUSTOM_DOMAIN_LIVE_MODE_REQUIRED"`
+- `"CUSTOM_DOMAIN_NOT_CONFIGURED"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
 - `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
 - `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_VALIDATION_RATE_LIMITED"`
 - `"CUSTOM_FIELD_KEY_REQUIRED"`
 - `"CUSTOM_FIELD_KEY_TOO_LONG"`
 - `"CUSTOM_FIELD_KEY_WHITESPACE"`
@@ -17182,6 +17516,7 @@ Variants: object, object, object.
 - `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
 - `"EMAIL_CHANGE_DELIVERY_FAILED"`
 - `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_PREFERENCE_LINK_INVALID"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
 - `"EMPTY_CAPABILITY_SET"`
@@ -18232,6 +18567,7 @@ Variants: object, object, object.
 - `"RETENTION_OFFER_PAUSE_TOO_LONG"`
 - `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_CHECKOUT_REQUIRED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
 - `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
@@ -18587,7 +18923,7 @@ Variants: object, object, object.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1649 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -18599,7 +18935,7 @@ Variants: object, object, object.
 | `details` | Required | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
-| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
+| `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -18619,11 +18955,13 @@ Variants: object, object, object.
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
 | `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
+| `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
 
@@ -18818,6 +19156,7 @@ Variants: object, object, object.
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
 - `"CHECKOUT_TAX_CALCULATION_LIMIT_REACHED"`
 - `"CHECKOUT_TIPPING_DISABLED"`
 - `"CHECKOUT_TIP_NOT_ALLOWED"`
@@ -18876,16 +19215,24 @@ Variants: object, object, object.
 - `"CUSTOMER_SESSION_REFRESH_REUSED"`
 - `"CUSTOMER_SESSION_REQUIRED"`
 - `"CUSTOMER_VERIFICATION_CODE_INVALID"`
+- `"CUSTOMER_VERIFICATION_CUSTOMER_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_EMAIL_NOT_ALLOWED"`
+- `"CUSTOMER_VERIFICATION_EXPIRED"`
 - `"CUSTOMER_VERIFICATION_LIMIT_REACHED"`
+- `"CUSTOMER_VERIFICATION_NOT_CONFIRMED"`
 - `"CUSTOMER_VERIFICATION_NOT_OFFERED"`
 - `"CUSTOMER_VERIFICATION_NOT_SENT"`
+- `"CUSTOMER_VERIFICATION_PURPOSE_MISMATCH"`
 - `"CUSTOMER_VERIFICATION_RATE_LIMITED"`
 - `"CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE"`
 - `"CUSTOMER_VERIFICATION_UNAVAILABLE"`
+- `"CUSTOMER_VERIFICATION_USED"`
+- `"CUSTOM_DOMAIN_LIVE_MODE_REQUIRED"`
+- `"CUSTOM_DOMAIN_NOT_CONFIGURED"`
 - `"CUSTOM_DOMAIN_NOT_VERIFIED"`
 - `"CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED"`
 - `"CUSTOM_DOMAIN_UNAVAILABLE"`
+- `"CUSTOM_DOMAIN_VALIDATION_RATE_LIMITED"`
 - `"CUSTOM_FIELD_KEY_REQUIRED"`
 - `"CUSTOM_FIELD_KEY_TOO_LONG"`
 - `"CUSTOM_FIELD_KEY_WHITESPACE"`
@@ -19021,6 +19368,7 @@ Variants: object, object, object.
 - `"EMAIL_CHANGE_CONFIRMATION_INVALID"`
 - `"EMAIL_CHANGE_DELIVERY_FAILED"`
 - `"EMAIL_CHANGE_RATE_LIMITED"`
+- `"EMAIL_PREFERENCE_LINK_INVALID"`
 - `"EMAIL_REQUIRED"`
 - `"EMBEDDED_PAYMENT_RETURN_URL_REQUIRED"`
 - `"EMPTY_CAPABILITY_SET"`
@@ -20071,6 +20419,7 @@ Variants: object, object, object.
 - `"RETENTION_OFFER_PAUSE_TOO_LONG"`
 - `"RETENTION_OFFER_REQUIRES_PAUSE"`
 - `"RETURN_ACTION_NOT_ALLOWED"`
+- `"RETURN_CHECKOUT_REQUIRED"`
 - `"RETURN_COMPLETION_BLOCKED"`
 - `"RETURN_DECISION_SCOPE_REQUIRED"`
 - `"RETURN_DISPOSITION_QUANTITY_EXCEEDED"`
@@ -20646,7 +20995,9 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_schedule_entry_id` | Optional | string |  |
+| `redirects` | Optional | object | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the invoice's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
+| `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
 
 ## InvoiceCheckoutSessionResponse
 
@@ -20664,11 +21015,12 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Required | [HostedCheckout](MODELS.md#hostedcheckout) |  |
+| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
 | `invoice` | Required | [Invoice](MODELS.md#invoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
-| `reused_existing` | Required | boolean |  |
+| `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
 
 ## InvoiceCollectionRequest
 
@@ -21281,6 +21633,14 @@ Variants: any, any, any.
 | `demands` | Required | Array of [LineItemInventoryDemand](MODELS.md#lineiteminventorydemand) |  |
 | `inventory_tracking` | Required | string | Values: `"not_tracked"`, `"tracked"`. |
 
+## LinkCustomerGuestPurchasesRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_verification_id` | Required | string |  |
+
 ## ListReturnDispositionsResponse
 
 
@@ -21843,7 +22203,7 @@ Current Flint merchant billing balance for one billing account and currency.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [196 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [200 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | minimum: `1`. |
@@ -21872,6 +22232,7 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"customer.deletion_rejected"`
 - `"customer.deletion_requested"`
 - `"customer.updated"`
+- `"custom_domain.status_changed"`
 - `"dispute.closed"`
 - `"dispute.created"`
 - `"dispute.lost"`
@@ -22044,6 +22405,9 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"subscription.paused"`
 - `"subscription.payment_failed"`
 - `"subscription.payment_succeeded"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.succeeded"`
+- `"subscription_payment_retry.failed"`
 - `"subscription.reactivated"`
 - `"subscription.resumed"`
 - `"subscription.renewal_upcoming"`
@@ -24148,7 +24512,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [202 declared values](#partnerwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [206 declared values](#partnerwebhookenvelope-event_type-values). |
 | `partner_app_id` | Required | string |  |
 | `webhook_event_id` | Required | string |  |
 
@@ -24168,6 +24532,7 @@ Variants: object, object, object, object, object, object, object, object.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -24356,6 +24721,9 @@ Variants: object, object, object, object, object, object, object, object.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 ## PauseSubscriptionRequest
 
@@ -26272,6 +26640,15 @@ Variants: string, number, boolean, object.
 | `is_auto_email_enabled` | Optional | boolean |  |
 | `is_itemized` | Optional | boolean |  |
 
+## Redirects
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `cancel_redirect_url` | Optional | string |  |
+| `success_redirect_url` | Optional | string |  |
+
 ## RefreshCustomerSessionRequest
 
 
@@ -26934,7 +27311,7 @@ Variants: any, any, any.
 | `error_code` | Optional | string |  |
 | `error_summary` | Optional | string |  |
 | `event_source` | Optional | string | Values: `"business_event"`, `"test_api"`. |
-| `event_type` | Optional | string | Values: [202 declared values](#resourcetimelineentry-event_type-values). |
+| `event_type` | Optional | string | Values: [206 declared values](#resourcetimelineentry-event_type-values). |
 | `http_method` | Optional | string |  |
 | `image_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `last_error` | Optional | string |  |
@@ -26951,7 +27328,7 @@ Variants: any, any, any.
 | `request_id` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `resource_timeline_entry_id` | Required | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [105 declared values](#resourcetimelineentry-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#resourcetimelineentry-resource_type-values). |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Optional | string |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -27000,6 +27377,7 @@ Variants: any, any, any.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -27188,6 +27566,9 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 #### ResourceTimelineEntry resource_type values
 
@@ -27202,6 +27583,7 @@ Variants: any, any, any.
 - `"checkout_session"`
 - `"credit_note"`
 - `"credit_note_allocation"`
+- `"custom_domain"`
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
@@ -28931,6 +29313,7 @@ Variants: object, object.
 | `branding` | Optional | [BrandingSettings](MODELS.md#brandingsettings) |  |
 | `catalog` | Optional | [CatalogSettings](MODELS.md#catalogsettings) |  |
 | `checkout` | Optional | [CheckoutSettings](MODELS.md#checkoutsettings) |  |
+| `checkout_domain_status` | Optional | object | Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer_account` | Optional | [CustomerAccountSettings](MODELS.md#customeraccountsettings) |  |
 | `customer_account_domain_status` | Optional | object | Response only. |
@@ -29820,6 +30203,7 @@ Variants: any, any.
 | `buyer_contact` | Optional | object | Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `timezone` | Optional | string | Checkout credentials only. A valid IANA timezone, such as America/Toronto, used for Flint-sent receipts. Omission keeps the previous observation; null is invalid. maxLength: `64`. |
 
 ## UpdateCreditNoteRequest
 
@@ -31320,6 +31704,23 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `data` | Required | [CreditNote](MODELS.md#creditnote) |  |
 | `event_type` | Required | any | Values: `"credit_note.voided"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_custom_domain_status_changed_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"custom_domain.status_changed"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `merchant_id` | Required | string |  |
@@ -36154,6 +36555,96 @@ Variants: any, any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## Webhook_subscription_payment_retry_created_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_payment_retry_created_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.created"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_payment_retry_failed_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.failed"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_payment_retry_failed_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.failed"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_payment_retry_succeeded_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.succeeded"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_payment_retry_succeeded_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_payment_retry.succeeded"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
 ## Webhook_subscription_payment_succeeded_installed_merchants
 
 
@@ -36574,7 +37065,7 @@ Variants: any, any, any.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `event_origin` | Required | string | Values: `"business_event"`, `"test_api"`. |
 | `event_source` | Optional | string | Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Values: [202 declared values](#webhookevent-event_type-values). |
+| `event_type` | Required | string | Values: [206 declared values](#webhookevent-event_type-values). |
 | `partner_app_id` | Optional | string |  |
 | `payload` | Optional | object | Stored webhook delivery payload as structured JSON. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired. |
 | `request_id` | Optional | string |  |
@@ -36599,6 +37090,7 @@ Variants: any, any, any.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -36787,6 +37279,9 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 #### WebhookEvent resource_type values
 
@@ -36849,7 +37344,7 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `description` | Required | string | Concise semantics for the state transition or event occurrence. |
 | `event_sources` | Required | Array of string | Event source buckets where this event type is valid. |
-| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [202 declared values](#webhookeventtype-event_type-values). |
+| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [206 declared values](#webhookeventtype-event_type-values). |
 
 #### WebhookEventType event_type values
 
@@ -36867,6 +37362,7 @@ Variants: any, any, any.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -37055,6 +37551,9 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 ## WebhookEventTypeListResponse
 
@@ -37117,7 +37616,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [202 declared values](#webhookstreamwithheld-event_type-values). |
+| `event_type` | Required | string | Values: [206 declared values](#webhookstreamwithheld-event_type-values). |
 | `reason` | Required | string | Values: `"missing_resource_scope"`, `"resource_unattributed"`. |
 | `required_scopes` | Optional | Array of string |  |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookstreamwithheld-resource_type-values). |
@@ -37139,6 +37638,7 @@ Variants: any, any, any.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"custom_domain.status_changed"`
 - `"customer.created"`
 - `"customer.deletion_completed"`
 - `"customer.deletion_rejected"`
@@ -37327,6 +37827,9 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_payment_retry.created"`
+- `"subscription_payment_retry.failed"`
+- `"subscription_payment_retry.succeeded"`
 
 #### WebhookStreamWithheld resource_type values
 

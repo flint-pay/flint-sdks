@@ -78,7 +78,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.confirmCustomerVerification("cs_example", "cver_example", {code: "123456", "X-Checkout-Session-ID": "cs_example", "X-Checkout-Session-Secret": "checkout_secret_example"}, { idempotencyKey: idempotencyKey })
+ * client.checkoutSessions.confirmCustomerVerification("cs_example", "cscv_example", {code: "123456", "X-Checkout-Session-ID": "cs_example", "X-Checkout-Session-Secret": "checkout_secret_example"}, { idempotencyKey: idempotencyKey })
  */
     confirmCustomerVerification(checkout_session_id: InputValue<string>, customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID": InputValue<string>; "X-Checkout-Session-Secret": InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout">): Promise<_SdkPayloadAt<CheckoutCustomerVerificationConfirmationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
@@ -187,16 +187,16 @@ export interface CheckoutSessionsResource {
     listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated">; "order_id"?: InputValue<string>; "payment_link_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expires_after"?: InputValue<string | globalThis.Date>; "expires_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CheckoutSessionsListResponse>>;
     listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated">; "order_id"?: InputValue<string>; "payment_link_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expires_after"?: InputValue<string | globalThis.Date>; "expires_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CheckoutSession>;
     /**
- * Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send only buyer_contact, which saves the email and phone the buyer entered while the session is open; send a field as null to clear it. Saving the same values again changes nothing.
+ * Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
  * PATCH /v1/checkout-sessions/{checkout_session_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.checkoutSessions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionResponse, ["data"]>>;
+    update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<CheckoutSessionsUpdateResponse>>;
+    updateWithResponse(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<CheckoutSessionsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -328,8 +328,6 @@ export type { PrefilledCustomerInfoInput } from '../declarations/PrefilledCustom
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { OrderLineItemTaxInput } from '../declarations/OrderLineItemTaxInput.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
-export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
-export type { HostedCheckout } from '../declarations/HostedCheckout.js';
 export type { CheckoutCustomerVerification } from '../declarations/CheckoutCustomerVerification.js';
 export type { DeliveryCoordinateRequestInput } from '../declarations/DeliveryCoordinateRequestInput.js';
 export type { CallerSuppliedDeliveryOutcomeRequestInput } from '../declarations/CallerSuppliedDeliveryOutcomeRequestInput.js';
@@ -469,8 +467,6 @@ export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js'
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
-export { makeHostedCheckout } from '../declarations/makeHostedCheckout.js';
 export { makeCheckoutCustomerVerification } from '../declarations/makeCheckoutCustomerVerification.js';
 export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';

@@ -1,4 +1,4 @@
 
-import type { InvoiceCheckoutSessionRequest } from './InvoiceCheckoutSessionRequest.js';
 
-export type InvoiceCheckoutSessionRequestInput = InvoiceCheckoutSessionRequest;
+
+export type InvoiceCheckoutSessionRequestInput = { "invoice_schedule_entry_id"?: string; /** Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. */ "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; /** Where the checkout sends the buyer after paying, such as the invoice's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: uri. maxLength: 2048. */ "return_url"?: string; /** Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. */ "surface"?: "hosted" | "embedded"; };
