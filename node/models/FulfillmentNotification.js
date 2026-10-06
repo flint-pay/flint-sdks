@@ -1,9 +1,9 @@
-import { d42 as c0, d802 as c1, d74 as c2, d1993 as c3, d2280 as c4, d801 as c5, d43 as c6, d1804 as c7 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d802 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d45 as c0, d822 as c1, d77 as c2, d2034 as c3, d2320 as c4, d821 as c5, d46 as c6, d226 as c7 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d822 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d802;
+const read = d822;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentNotification"]:c1(),["MoneyValue"]:c2(),["PricingAmounts"]:c3(),["SettlementAmounts"]:c4(),["SharedCodec246"]:c5(),["SharedCodec7"]:c6(),["SignedMoney"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentNotification"]:c1(),["MoneyValue"]:c2(),["PricingAmounts"]:c3(),["SettlementAmounts"]:c4(),["SharedCodec254"]:c5(),["SharedCodec8"]:c6(),["SignedMoney"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeFulfillmentNotification(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

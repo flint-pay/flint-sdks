@@ -1,4 +1,4 @@
 
-import type { InvoiceCheckoutSessionResponse } from './InvoiceCheckoutSessionResponse.js';
+import type { BuyerInvoiceCheckoutSessionResponse } from './BuyerInvoiceCheckoutSessionResponse.js';
 
-export type MeCreateInvoiceCheckoutSessionResponse = InvoiceCheckoutSessionResponse;
+export type MeCreateInvoiceCheckoutSessionResponse = BuyerInvoiceCheckoutSessionResponse;

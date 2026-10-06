@@ -3,11 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $order_id
- * @property-read string $payment_attempt_id
+ * @property-read string $order_payment_attempt_id
  * @property-read array{'cancellation_reason'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCancelPaymentAttemptInput extends Model {
-    /** @param array{'order_id': string, 'payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body'?: array{'cancellation_reason'?: string, ...}|object}|object $values */
+    /** @param array{'order_id': string, 'order_payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body'?: array{'cancellation_reason'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCancelPaymentAttemptInput')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
@@ -15,10 +15,10 @@ final class OrdersCancelPaymentAttemptInput extends Model {
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
     /** @return string
-     * @throws SdkError When payment_attempt_id is omitted; use hasPaymentAttemptId() or valueOrDefault().
+     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
-    public function getPaymentAttemptId(): string { return $this->get('payment_attempt_id'); }
-    public function hasPaymentAttemptId(): bool { return $this->has('payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
     /** @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

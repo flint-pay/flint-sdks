@@ -15,7 +15,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.checkoutSessions.confirmCustomerVerification(
   "cs_example",
-  "cver_example",
+  "cscv_example",
   {
     code: "123456",
     "X-Checkout-Session-ID": "cs_example",

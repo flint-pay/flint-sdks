@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["createSubscription"]:r0,["createSubscriptionPaymentRetry"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionPaymentRetry"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -50,6 +50,20 @@ this.subscriptions = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      createAccessLink: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createAccessLinkWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(_sdkResponse),
       createPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -67,12 +81,16 @@ this.subscriptions = Object.freeze({
       get: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
   "expand",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
   "expand",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
@@ -136,7 +154,7 @@ this.subscriptions = Object.freeze({
   "awaiting_billing_schedule",
   "cancel_at_period_end",
   "customer_id",
-  "plan_id",
+  "subscription_plan_id",
   "external_reference_id",
   "query",
   "sort_by",
@@ -159,7 +177,7 @@ this.subscriptions = Object.freeze({
   "awaiting_billing_schedule",
   "cancel_at_period_end",
   "customer_id",
-  "plan_id",
+  "subscription_plan_id",
   "external_reference_id",
   "query",
   "sort_by",
@@ -182,7 +200,7 @@ this.subscriptions = Object.freeze({
   "awaiting_billing_schedule",
   "cancel_at_period_end",
   "customer_id",
-  "plan_id",
+  "subscription_plan_id",
   "external_reference_id",
   "query",
   "sort_by",
@@ -205,7 +223,7 @@ this.subscriptions = Object.freeze({
   "awaiting_billing_schedule",
   "cancel_at_period_end",
   "customer_id",
-  "plan_id",
+  "subscription_plan_id",
   "external_reference_id",
   "query",
   "sort_by",
@@ -228,7 +246,7 @@ this.subscriptions = Object.freeze({
   "awaiting_billing_schedule",
   "cancel_at_period_end",
   "customer_id",
-  "plan_id",
+  "subscription_plan_id",
   "external_reference_id",
   "query",
   "sort_by",
@@ -319,18 +337,21 @@ this.subscriptions = Object.freeze({
 }
 close() { return this.#runtime.close(); }
 }
-export { makeCancelSubscriptionResponse } from '../models/CancelSubscriptionResponse.js';
 export { makeSubscriptionResponse } from '../models/SubscriptionResponse.js';
+export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
 export { makeSubscriptionPaymentRetryResponse } from '../models/SubscriptionPaymentRetryResponse.js';
 export { makeSubscriptionPaymentRetryListResponse } from '../models/SubscriptionPaymentRetryListResponse.js';
 export { makeSubscriptionPaymentRetry } from '../models/SubscriptionPaymentRetry.js';
 export { makeSubscriptionListResponse } from '../models/SubscriptionListResponse.js';
 export { makeSubscription } from '../models/Subscription.js';
-export { makeCancelSubscriptionResult } from '../models/CancelSubscriptionResult.js';
+export { makeResponseMeta } from '../models/ResponseMeta.js';
+export { makeResponseWarning } from '../models/ResponseWarning.js';
+export { makeNextAction } from '../models/NextAction.js';
+export { makeAccessLink } from '../models/AccessLink.js';
+export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeContractInfo } from '../models/ContractInfo.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
@@ -342,7 +363,3 @@ export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLo
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';

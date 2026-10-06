@@ -5,12 +5,12 @@ import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CollectInvoiceResponse } from '../declarations/CollectInvoiceResponse.js';
 import type { CreateInvoiceQuickPayRequestInput } from '../declarations/CreateInvoiceQuickPayRequestInput.js';
 import type { Invoice } from '../declarations/Invoice.js';
+import type { InvoiceActivity } from '../declarations/InvoiceActivity.js';
+import type { InvoiceActivityListResponse } from '../declarations/InvoiceActivityListResponse.js';
 import type { InvoiceCheckoutSessionResponse } from '../declarations/InvoiceCheckoutSessionResponse.js';
 import type { InvoiceCollectionRequestInput } from '../declarations/InvoiceCollectionRequestInput.js';
 import type { InvoiceDeliveryAttempt } from '../declarations/InvoiceDeliveryAttempt.js';
 import type { InvoiceDeliveryAttemptListResponse } from '../declarations/InvoiceDeliveryAttemptListResponse.js';
-import type { InvoiceEvent } from '../declarations/InvoiceEvent.js';
-import type { InvoiceEventListResponse } from '../declarations/InvoiceEventListResponse.js';
 import type { InvoiceListResponse } from '../declarations/InvoiceListResponse.js';
 import type { InvoicePaymentAttempt } from '../declarations/InvoicePaymentAttempt.js';
 import type { InvoicePaymentAttemptListResponse } from '../declarations/InvoicePaymentAttemptListResponse.js';
@@ -37,24 +37,20 @@ import type { InvoicesGetPaymentAttemptResponse } from '../declarations/Invoices
 import type { InvoicesGetResponse } from '../declarations/InvoicesGetResponse.js';
 import type { InvoicesIssueInput } from '../declarations/InvoicesIssueInput.js';
 import type { InvoicesIssueResponse } from '../declarations/InvoicesIssueResponse.js';
+import type { InvoicesListActivitiesInput } from '../declarations/InvoicesListActivitiesInput.js';
+import type { InvoicesListActivitiesResponse } from '../declarations/InvoicesListActivitiesResponse.js';
 import type { InvoicesListDeliveryAttemptsInput } from '../declarations/InvoicesListDeliveryAttemptsInput.js';
 import type { InvoicesListDeliveryAttemptsResponse } from '../declarations/InvoicesListDeliveryAttemptsResponse.js';
-import type { InvoicesListEventsInput } from '../declarations/InvoicesListEventsInput.js';
-import type { InvoicesListEventsResponse } from '../declarations/InvoicesListEventsResponse.js';
 import type { InvoicesListInput } from '../declarations/InvoicesListInput.js';
 import type { InvoicesListPaymentAttemptsInput } from '../declarations/InvoicesListPaymentAttemptsInput.js';
 import type { InvoicesListPaymentAttemptsResponse } from '../declarations/InvoicesListPaymentAttemptsResponse.js';
 import type { InvoicesListResponse } from '../declarations/InvoicesListResponse.js';
 import type { InvoicesMarkUncollectibleInput } from '../declarations/InvoicesMarkUncollectibleInput.js';
 import type { InvoicesMarkUncollectibleResponse } from '../declarations/InvoicesMarkUncollectibleResponse.js';
-import type { InvoicesPauseRemindersInput } from '../declarations/InvoicesPauseRemindersInput.js';
-import type { InvoicesPauseRemindersResponse } from '../declarations/InvoicesPauseRemindersResponse.js';
 import type { InvoicesRecordManualPaymentInput } from '../declarations/InvoicesRecordManualPaymentInput.js';
 import type { InvoicesRecordManualPaymentResponse } from '../declarations/InvoicesRecordManualPaymentResponse.js';
 import type { InvoicesRegeneratePublicLinkInput } from '../declarations/InvoicesRegeneratePublicLinkInput.js';
 import type { InvoicesRegeneratePublicLinkResponse } from '../declarations/InvoicesRegeneratePublicLinkResponse.js';
-import type { InvoicesResumeRemindersInput } from '../declarations/InvoicesResumeRemindersInput.js';
-import type { InvoicesResumeRemindersResponse } from '../declarations/InvoicesResumeRemindersResponse.js';
 import type { InvoicesReverseManualPaymentInput } from '../declarations/InvoicesReverseManualPaymentInput.js';
 import type { InvoicesReverseManualPaymentResponse } from '../declarations/InvoicesReverseManualPaymentResponse.js';
 import type { InvoicesSendReminderInput } from '../declarations/InvoicesSendReminderInput.js';
@@ -151,9 +147,9 @@ export interface InvoicesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
+    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "return_url"?: string; }> | { "invoice_schedule_entry_id"?: never; "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
@@ -166,6 +162,18 @@ export interface InvoicesResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     issueWithResponse(invoice_id: InputValue<string>, params: (InputValue<{ "delivery_mode"?: "merchant_default" | "email" | "caller_managed"; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesIssueResponse>>;
     /**
+ * Returns a read-only history of an invoice for timelines and debugging, newest first. Use sort_direction=asc for chronological order. Read the invoice and the resources each row references for authoritative state.
+ * GET /v1/invoices/{invoice_id}/activities
+ * @example
+ * client.invoices.listActivities("example")
+ */
+    listActivities(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceActivityListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    listActivitiesWithResponse(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicesListActivitiesResponse>>;
+    listActivitiesPages(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceActivityListResponse>;
+    listActivitiesPagesWithResponse(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicesListActivitiesResponse>>;
+    listActivitiesItems(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceActivity>;
+    /**
  * Returns email delivery attempts for send and reminder actions.
  * GET /v1/invoices/{invoice_id}/delivery-attempts
  * @example
@@ -177,18 +185,6 @@ export interface InvoicesResource {
     listDeliveryAttemptsPages(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceDeliveryAttemptListResponse>;
     listDeliveryAttemptsPagesWithResponse(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicesListDeliveryAttemptsResponse>>;
     listDeliveryAttemptsItems(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceDeliveryAttempt>;
-    /**
- * Returns the audit timeline for an invoice.
- * GET /v1/invoices/{invoice_id}/events
- * @example
- * client.invoices.listEvents("example")
- */
-    listEvents(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceEventListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listEventsWithResponse(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicesListEventsResponse>>;
-    listEventsPages(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceEventListResponse>;
-    listEventsPagesWithResponse(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicesListEventsResponse>>;
-    listEventsItems(invoice_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceEvent>;
     /**
  * Lists card and ACH collection attempts for an invoice in reverse chronological order.
  * GET /v1/invoices/{invoice_id}/payment-attempts
@@ -225,17 +221,6 @@ export interface InvoicesResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     markUncollectibleWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesMarkUncollectibleResponse>>;
     /**
- * Stops the automatic reminder cadence on a collectible invoice and sets reminders_paused_at. Manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire.
- * POST /v1/invoices/{invoice_id}/pause-reminders
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.invoices.pauseReminders("example", undefined, { idempotencyKey: idempotencyKey })
- */
-    pauseReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    pauseRemindersWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesPauseRemindersResponse>>;
-    /**
  * Applies an offline/manual payment to an issued invoice. Recording is rejected with INVOICE_PAYMENT_RESOLVING while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/manual-payments
  * @example
@@ -257,17 +242,6 @@ export interface InvoicesResource {
     regeneratePublicLink(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RegenerateInvoiceLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     regeneratePublicLinkWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesRegeneratePublicLinkResponse>>;
-    /**
- * Clears reminders_paused_at so the invoice resumes its reminder cadence. Reminder times that passed while it was paused do not fire retroactively.
- * POST /v1/invoices/{invoice_id}/resume-reminders
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.invoices.resumeReminders("example", undefined, { idempotencyKey: idempotencyKey })
- */
-    resumeReminders(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resumeRemindersWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesResumeRemindersResponse>>;
     /**
  * Reverses previously applied manual/offline payment amount from an invoice. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/manual-payments/reverse
@@ -291,16 +265,16 @@ export interface InvoicesResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     sendReminderWithResponse(invoice_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesSendReminderResponse>>;
     /**
- * Updates mutable fields on a draft invoice. Sent invoices are immutable except for delivery-related actions.
+ * Updates mutable fields on a draft invoice. After issue, the only writable field is reminders_paused, which pauses or resumes automatic reminders on an open or partially paid invoice.
  * PATCH /v1/invoices/{invoice_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
+    update(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "reminders_paused"?: boolean; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesUpdateResponse>>;
+    updateWithResponse(invoice_id: InputValue<string>, params: (InputValue<({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "expected_version"?: string; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string | null> | null; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "recipient_email"?: string; "reference"?: string; "reminders_paused"?: boolean; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & (((({ "schedule_entries"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesUpdateResponse>>;
     /**
  * Voids an unpaid invoice so the associated order can be edited or collected again. An invoice with an issued credit note against it cannot be voided until that credit note is voided.
  * POST /v1/invoices/{invoice_id}/void
@@ -318,11 +292,11 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.waiveLateFee("example", "example", {reason: "example"}, { idempotencyKey: idempotencyKey })
+ * client.invoices.waiveLateFee("example", "example", {reason_message: "example"}, { idempotencyKey: idempotencyKey })
  */
-    waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
+    waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason_message": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    waiveLateFeeWithResponse(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesWaiveLateFeeResponse>>;
+    waiveLateFeeWithResponse(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<{ "reason_message": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesWaiveLateFeeResponse>>;
   }
 export declare class Client {
 
@@ -353,12 +327,12 @@ export type { InvoiceCheckoutSessionResponse } from '../declarations/InvoiceChec
 export type { InvoicesGetOrCreateCheckoutSessionResponse } from '../declarations/InvoicesGetOrCreateCheckoutSessionResponse.js';
 export type { IssueInvoiceResponse } from '../declarations/IssueInvoiceResponse.js';
 export type { InvoicesIssueResponse } from '../declarations/InvoicesIssueResponse.js';
+export type { InvoiceActivityListResponse } from '../declarations/InvoiceActivityListResponse.js';
+export type { InvoicesListActivitiesResponse } from '../declarations/InvoicesListActivitiesResponse.js';
+export type { InvoiceActivity } from '../declarations/InvoiceActivity.js';
 export type { InvoiceDeliveryAttemptListResponse } from '../declarations/InvoiceDeliveryAttemptListResponse.js';
 export type { InvoicesListDeliveryAttemptsResponse } from '../declarations/InvoicesListDeliveryAttemptsResponse.js';
 export type { InvoiceDeliveryAttempt } from '../declarations/InvoiceDeliveryAttempt.js';
-export type { InvoiceEventListResponse } from '../declarations/InvoiceEventListResponse.js';
-export type { InvoicesListEventsResponse } from '../declarations/InvoicesListEventsResponse.js';
-export type { InvoiceEvent } from '../declarations/InvoiceEvent.js';
 export type { InvoicePaymentAttemptListResponse } from '../declarations/InvoicePaymentAttemptListResponse.js';
 export type { InvoicesListPaymentAttemptsResponse } from '../declarations/InvoicesListPaymentAttemptsResponse.js';
 export type { InvoicePaymentAttempt } from '../declarations/InvoicePaymentAttempt.js';
@@ -366,12 +340,10 @@ export type { InvoiceListResponse } from '../declarations/InvoiceListResponse.js
 export type { InvoicesListResponse } from '../declarations/InvoicesListResponse.js';
 export type { Invoice } from '../declarations/Invoice.js';
 export type { InvoicesMarkUncollectibleResponse } from '../declarations/InvoicesMarkUncollectibleResponse.js';
-export type { InvoicesPauseRemindersResponse } from '../declarations/InvoicesPauseRemindersResponse.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { InvoicesRecordManualPaymentResponse } from '../declarations/InvoicesRecordManualPaymentResponse.js';
 export type { RegenerateInvoiceLinkResponse } from '../declarations/RegenerateInvoiceLinkResponse.js';
 export type { InvoicesRegeneratePublicLinkResponse } from '../declarations/InvoicesRegeneratePublicLinkResponse.js';
-export type { InvoicesResumeRemindersResponse } from '../declarations/InvoicesResumeRemindersResponse.js';
 export type { InvoicesReverseManualPaymentResponse } from '../declarations/InvoicesReverseManualPaymentResponse.js';
 export type { InvoicesSendReminderResponse } from '../declarations/InvoicesSendReminderResponse.js';
 export type { InvoiceCollectionRequestInput } from '../declarations/InvoiceCollectionRequestInput.js';
@@ -388,15 +360,13 @@ export type { InvoicesGetPaymentAttemptInput } from '../declarations/InvoicesGet
 export type { InvoicesGetPDFInput } from '../declarations/InvoicesGetPDFInput.js';
 export type { InvoicesGetOrCreateCheckoutSessionInput } from '../declarations/InvoicesGetOrCreateCheckoutSessionInput.js';
 export type { InvoicesIssueInput } from '../declarations/InvoicesIssueInput.js';
+export type { InvoicesListActivitiesInput } from '../declarations/InvoicesListActivitiesInput.js';
 export type { InvoicesListDeliveryAttemptsInput } from '../declarations/InvoicesListDeliveryAttemptsInput.js';
-export type { InvoicesListEventsInput } from '../declarations/InvoicesListEventsInput.js';
 export type { InvoicesListPaymentAttemptsInput } from '../declarations/InvoicesListPaymentAttemptsInput.js';
 export type { InvoicesListInput } from '../declarations/InvoicesListInput.js';
 export type { InvoicesMarkUncollectibleInput } from '../declarations/InvoicesMarkUncollectibleInput.js';
-export type { InvoicesPauseRemindersInput } from '../declarations/InvoicesPauseRemindersInput.js';
 export type { InvoicesRecordManualPaymentInput } from '../declarations/InvoicesRecordManualPaymentInput.js';
 export type { InvoicesRegeneratePublicLinkInput } from '../declarations/InvoicesRegeneratePublicLinkInput.js';
-export type { InvoicesResumeRemindersInput } from '../declarations/InvoicesResumeRemindersInput.js';
 export type { InvoicesReverseManualPaymentInput } from '../declarations/InvoicesReverseManualPaymentInput.js';
 export type { InvoicesSendReminderInput } from '../declarations/InvoicesSendReminderInput.js';
 export type { InvoicesUpdateInput } from '../declarations/InvoicesUpdateInput.js';
@@ -485,7 +455,6 @@ export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsC
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
-export type { HostedCheckout } from '../declarations/HostedCheckout.js';
 export type { IssueInvoiceResult } from '../declarations/IssueInvoiceResult.js';
 export type { InvoiceLateFee } from '../declarations/InvoiceLateFee.js';
 export type { InvoiceLateFeePolicy } from '../declarations/InvoiceLateFeePolicy.js';
@@ -523,10 +492,10 @@ export { makeInvoicePaymentAttemptResponse } from '../declarations/makeInvoicePa
 export { makeCollectInvoiceResponse } from '../declarations/makeCollectInvoiceResponse.js';
 export { makeInvoiceCheckoutSessionResponse } from '../declarations/makeInvoiceCheckoutSessionResponse.js';
 export { makeIssueInvoiceResponse } from '../declarations/makeIssueInvoiceResponse.js';
+export { makeInvoiceActivityListResponse } from '../declarations/makeInvoiceActivityListResponse.js';
+export { makeInvoiceActivity } from '../declarations/makeInvoiceActivity.js';
 export { makeInvoiceDeliveryAttemptListResponse } from '../declarations/makeInvoiceDeliveryAttemptListResponse.js';
 export { makeInvoiceDeliveryAttempt } from '../declarations/makeInvoiceDeliveryAttempt.js';
-export { makeInvoiceEventListResponse } from '../declarations/makeInvoiceEventListResponse.js';
-export { makeInvoiceEvent } from '../declarations/makeInvoiceEvent.js';
 export { makeInvoicePaymentAttemptListResponse } from '../declarations/makeInvoicePaymentAttemptListResponse.js';
 export { makeInvoicePaymentAttempt } from '../declarations/makeInvoicePaymentAttempt.js';
 export { makeInvoiceListResponse } from '../declarations/makeInvoiceListResponse.js';
@@ -592,7 +561,6 @@ export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirec
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
-export { makeHostedCheckout } from '../declarations/makeHostedCheckout.js';
 export { makeIssueInvoiceResult } from '../declarations/makeIssueInvoiceResult.js';
 export { makeInvoiceLateFee } from '../declarations/makeInvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../declarations/makeInvoiceLateFeePolicy.js';

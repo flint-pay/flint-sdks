@@ -1,1 +1,1 @@
-{"shared":"MerchantBillingBalanceResponse","dependencies":["MerchantBillingBalance","MerchantBillingBalanceResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}
+{"shared":"MerchantBillingBalanceResponse","dependencies":["MerchantBillingBalance","MerchantBillingBalanceResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}

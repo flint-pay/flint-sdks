@@ -11,11 +11,11 @@ namespace Flint;
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $order_id
  * @property-read CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
- * @property-read string $plan_id
  * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass $quick_pay_item
  * @property-read CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string $replace_checkout_session_id
+ * @property-read string $subscription_plan_id
  * @property-read string $surface
  * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
  * @property-read ThemeConfigInput|array<array-key, mixed>|\stdClass $theme
@@ -69,11 +69,6 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getPayments(): mixed { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
@@ -94,6 +89,11 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getReplaceCheckoutSessionId(): string { return $this->get('replace_checkout_session_id'); }
     public function hasReplaceCheckoutSessionId(): bool { return $this->has('replace_checkout_session_id'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return string
      * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
      */

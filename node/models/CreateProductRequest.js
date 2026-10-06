@@ -1,9 +1,9 @@
-import { d445 as c0, d446 as c1, d450 as c2, d861 as c3, d883 as c4, d907 as c5, d1584 as c6, d74 as c7, d2011 as c8, d2013 as c9, d401 as c10, d448 as c11, d447 as c12, d449 as c13 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d450 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d455 as c0, d456 as c1, d460 as c2, d881 as c3, d904 as c4, d928 as c5, d1615 as c6, d77 as c7, d2052 as c8, d2054 as c9, d412 as c10, d458 as c11, d457 as c12, d459 as c13 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d460 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d450;
+const read = d460;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateProductOptionRequest"]:c0(),["CreateProductOptionValueRequest"]:c1(),["CreateProductRequest"]:c2(),["GiftCardCustomAmountBounds"]:c3(),["GiftCardProductConfiguration"]:c4(),["ImageRequest"]:c5(),["InventoryItemCreateRequest"]:c6(),["MoneyValue"]:c7(),["ProductVariantRequest"]:c8(),["ProductVariantSelectedOptionRequest"]:c9(),["SharedCodec146"]:c10(),["SharedCodec167"]:c11(),["SharedCodec168"]:c12(),["SharedCodec169"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateProductOptionRequest"]:c0(),["CreateProductOptionValueRequest"]:c1(),["CreateProductRequest"]:c2(),["GiftCardCustomAmountBounds"]:c3(),["GiftCardProductConfiguration"]:c4(),["ImageRequest"]:c5(),["InventoryItemCreateRequest"]:c6(),["MoneyValue"]:c7(),["ProductVariantRequest"]:c8(),["ProductVariantSelectedOptionRequest"]:c9(),["SharedCodec149"]:c10(),["SharedCodec169"]:c11(),["SharedCodec170"]:c12(),["SharedCodec171"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateProductRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

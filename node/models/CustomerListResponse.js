@@ -1,9 +1,9 @@
-import { d165 as c0, d534 as c1, d549 as c2, d550 as c3, d757 as c4, d157 as c5, d74 as c6, d1784 as c7, d1783 as c8, d70 as c9, d2118 as c10, d2119 as c11, d71 as c12, d532 as c13, d533 as c14, d158 as c15, d72 as c16 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d549 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d172 as c0, d549 as c1, d563 as c2, d564 as c3, d774 as c4, d545 as c5, d77 as c6, d1823 as c7, d1822 as c8, d73 as c9, d2157 as c10, d2158 as c11, d14 as c12, d74 as c13, d546 as c14, d547 as c15, d548 as c16, d1821 as c17, d75 as c18 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d563 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d549;
+const read = d563;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerListResponse"]:c2(),["CustomerReceivableBalance"]:c3(),["DocumentTaxID"]:c4(),["ExpandedPaymentMethodSummary"]:c5(),["MoneyValue"]:c6(),["NextAction"]:c7(),["NextActionMerchantAccountSession"]:c8(),["PostalAddress"]:c9(),["ResponseMeta"]:c10(),["ResponseWarning"]:c11(),["SharedCodec18"]:c12(),["SharedCodec200"]:c13(),["SharedCodec201"]:c14(),["SharedCodec45"]:c15(),["TaxIdentity"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerListResponse"]:c2(),["CustomerReceivableBalance"]:c3(),["DocumentTaxID"]:c4(),["ExpandedPaymentMethodSummary"]:c5(),["MoneyValue"]:c6(),["NextAction"]:c7(),["NextActionMerchantAccountSession"]:c8(),["PostalAddress"]:c9(),["ResponseMeta"]:c10(),["ResponseWarning"]:c11(),["SharedCodec1"]:c12(),["SharedCodec19"]:c13(),["SharedCodec203"]:c14(),["SharedCodec204"]:c15(),["SharedCodec205"]:c16(),["SharedCodec487"]:c17(),["TaxIdentity"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCustomerListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

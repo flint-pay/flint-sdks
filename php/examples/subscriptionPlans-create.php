@@ -17,6 +17,6 @@ $result = $client->subscriptionPlans->create([
   'currency' => 'USD',
   'name' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->plan_id . PHP_EOL;
 echo $result->status . PHP_EOL;
+echo $result->subscription_plan_id . PHP_EOL;
 $client->close();

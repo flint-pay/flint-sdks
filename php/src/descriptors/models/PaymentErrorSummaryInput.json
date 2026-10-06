@@ -1,1 +1,1 @@
-{"shared":"PaymentErrorSummary","dependencies":["ErrorRemediation","NextAction","NextActionMerchantAccountSession","PaymentErrorSummary"]}
+{"shared":"PaymentErrorSummary","dependencies":["ErrorRemediation","NextAction","NextActionMerchantAccountSession","PaymentErrorSummary","SharedCodec1","SharedCodec487"]}

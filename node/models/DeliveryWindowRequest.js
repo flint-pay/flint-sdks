@@ -1,7 +1,7 @@
-import { d722 as c0, d723 as c1, d74 as c2 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d722 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d740 as c0, d741 as c1, d77 as c2 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d740 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d722;
+const read = d740;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["DeliveryWindowRequest"]:c0(),["DeliveryWindowResource"]:c1(),["MoneyValue"]:c2()}); }
 export { codec as _validate };

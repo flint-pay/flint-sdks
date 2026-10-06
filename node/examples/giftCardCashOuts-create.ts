@@ -11,7 +11,7 @@ const result = await client.giftCardCashOuts.create(
   "example",
   {
     amount_money: {
-      amount: "100",
+      amount: "0",
       currency: "USD",
     },
     external_reference_id: "example",

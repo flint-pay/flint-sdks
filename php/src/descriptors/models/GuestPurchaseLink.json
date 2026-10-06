@@ -1,0 +1,1 @@
+{"shared":"GuestPurchaseLink","phpRepresentation":{"kind":"record","fields":{"customer_id":{"kind":"value","type":"string"},"email":{"kind":"value","type":"string"},"linked_at":{"kind":"value","type":"string"},"linked_order_count":{"kind":"value","type":"string"}}},"dependencies":["GuestPurchaseLink"]}

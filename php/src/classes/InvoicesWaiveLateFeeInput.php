@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read string $invoice_id
  * @property-read string $invoice_late_fee_id
- * @property-read array{'reason': string, ...}|object $body
+ * @property-read array{'reason_message': string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesWaiveLateFeeInput extends Model {
-    /** @param array{'invoice_id': string, 'invoice_late_fee_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'reason': string, ...}|object}|object $values */
+    /** @param array{'invoice_id': string, 'invoice_late_fee_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'reason_message': string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesWaiveLateFeeInput')); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
@@ -29,7 +29,7 @@ final class InvoicesWaiveLateFeeInput extends Model {
      */
     public function getFlintVersion(): string { return $this->get('Flint-Version'); }
     public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
-    /** @return array{'reason': string, ...}|object
+    /** @return array{'reason_message': string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

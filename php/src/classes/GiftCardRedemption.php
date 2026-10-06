@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $capture_mode
- * @property-read GiftCardMoney $captured_money
+ * @property-read MoneyValue $captured_money
  * @property-read string $created_at
  * @property-read string $expires_at
  * @property-read string $external_reference_id
@@ -11,10 +11,10 @@ namespace Flint;
  * @property-read string $gift_card_redemption_id
  * @property-read string $idempotency_key
  * @property-read string|null $order_id
- * @property-read GiftCardMoney $refunded_money
- * @property-read GiftCardMoney $remaining_refundable_money
- * @property-read GiftCardMoney $requested_money
- * @property-read GiftCardMoney $reserved_money
+ * @property-read MoneyValue $refunded_money
+ * @property-read MoneyValue $remaining_refundable_money
+ * @property-read MoneyValue $requested_money
+ * @property-read MoneyValue $reserved_money
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $version
@@ -27,10 +27,10 @@ final class GiftCardRedemption extends Model {
      */
     public function getCaptureMode(): string { return $this->get('capture_mode'); }
     public function hasCaptureMode(): bool { return $this->has('capture_mode'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When captured_money is omitted; use hasCapturedMoney() or valueOrDefault().
      */
-    public function getCapturedMoney(): GiftCardMoney { return $this->get('captured_money'); }
+    public function getCapturedMoney(): MoneyValue { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -67,25 +67,25 @@ final class GiftCardRedemption extends Model {
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */
-    public function getRefundedMoney(): GiftCardMoney { return $this->get('refunded_money'); }
+    public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When remaining_refundable_money is omitted; use hasRemainingRefundableMoney() or valueOrDefault().
      */
-    public function getRemainingRefundableMoney(): GiftCardMoney { return $this->get('remaining_refundable_money'); }
+    public function getRemainingRefundableMoney(): MoneyValue { return $this->get('remaining_refundable_money'); }
     public function hasRemainingRefundableMoney(): bool { return $this->has('remaining_refundable_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When requested_money is omitted; use hasRequestedMoney() or valueOrDefault().
      */
-    public function getRequestedMoney(): GiftCardMoney { return $this->get('requested_money'); }
+    public function getRequestedMoney(): MoneyValue { return $this->get('requested_money'); }
     public function hasRequestedMoney(): bool { return $this->has('requested_money'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When reserved_money is omitted; use hasReservedMoney() or valueOrDefault().
      */
-    public function getReservedMoney(): GiftCardMoney { return $this->get('reserved_money'); }
+    public function getReservedMoney(): MoneyValue { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

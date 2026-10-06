@@ -53,16 +53,16 @@ export interface ReturnResolutionsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     confirmWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsConfirmResponse>>;
     /**
- * Create or reuse the standard hosted checkout session for a buyer-owed replacement Order linked to this Return resolution. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+ * Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_redirect_url and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
  * POST /v1/return-resolutions/{return_resolution_id}/checkout-session
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.returnResolutions.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
+    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "return_url"?: string; }> | { "return_url"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds, payments, and replacement order. Supports expand for those links.
  * GET /v1/return-resolutions/{return_resolution_id}
@@ -159,7 +159,6 @@ export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
-export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
@@ -215,7 +214,6 @@ export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsC
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
-export type { HostedCheckout } from '../declarations/HostedCheckout.js';
 export type { ReturnResolutionAdjustment } from '../declarations/ReturnResolutionAdjustment.js';
 export type { ReturnActor } from '../declarations/ReturnActor.js';
 export type { ReturnResolutionExecutionBlocker } from '../declarations/ReturnResolutionExecutionBlocker.js';
@@ -250,7 +248,6 @@ export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
@@ -306,7 +303,6 @@ export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirec
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
-export { makeHostedCheckout } from '../declarations/makeHostedCheckout.js';
 export { makeReturnResolutionAdjustment } from '../declarations/makeReturnResolutionAdjustment.js';
 export { makeReturnActor } from '../declarations/makeReturnActor.js';
 export { makeReturnResolutionExecutionBlocker } from '../declarations/makeReturnResolutionExecutionBlocker.js';

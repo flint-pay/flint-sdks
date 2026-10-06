@@ -1,9 +1,9 @@
-import { d778 as c0, d779 as c1, d74 as c2, d1784 as c3, d1783 as c4, d1976 as c5, d1983 as c6, d2118 as c7, d2119 as c8, d38 as c9, d1971 as c10, d1972 as c11, d1973 as c12, d1974 as c13, d1975 as c14, d1804 as c15 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1983 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d798 as c0, d799 as c1, d77 as c2, d1823 as c3, d1822 as c4, d2017 as c5, d2024 as c6, d2157 as c7, d2158 as c8, d14 as c9, d888 as c10, d1821 as c11, d2013 as c12, d2014 as c13, d2015 as c14, d2016 as c15, d41 as c16, d226 as c17 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d2024 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1983;
+const read = d2024;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedPayoutDestinationSummary"]:c0(),["ExpandedPayoutSummary"]:c1(),["MoneyValue"]:c2(),["NextAction"]:c3(),["NextActionMerchantAccountSession"]:c4(),["Payout"]:c5(),["PayoutResponse"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SharedCodec5"]:c9(),["SharedCodec511"]:c10(),["SharedCodec512"]:c11(),["SharedCodec513"]:c12(),["SharedCodec514"]:c13(),["SharedCodec515"]:c14(),["SignedMoney"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedPayoutDestinationSummary"]:c0(),["ExpandedPayoutSummary"]:c1(),["MoneyValue"]:c2(),["NextAction"]:c3(),["NextActionMerchantAccountSession"]:c4(),["Payout"]:c5(),["PayoutResponse"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SharedCodec1"]:c9(),["SharedCodec274"]:c10(),["SharedCodec487"]:c11(),["SharedCodec524"]:c12(),["SharedCodec525"]:c13(),["SharedCodec526"]:c14(),["SharedCodec527"]:c15(),["SharedCodec6"]:c16(),["SignedMoney"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePayoutResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

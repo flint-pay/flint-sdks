@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/categories.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/categories.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createCategory"]:r0,["deleteCategory"]:r0,["getCategory"]:r0,["listCategories"]:r0,["updateCategory"]:r0});
 export class Client {
@@ -47,7 +47,6 @@ this.categories = Object.freeze({
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listCategories", _sdkRequestInput([], [], [
-  "status",
   "page_size",
   "page_token",
   "external_reference_id",
@@ -55,7 +54,6 @@ this.categories = Object.freeze({
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCategories", _sdkRequestInput([], [], [
-  "status",
   "page_size",
   "page_token",
   "external_reference_id",
@@ -63,7 +61,6 @@ this.categories = Object.freeze({
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCategories", _sdkRequestInput([], [], [
-  "status",
   "page_size",
   "page_token",
   "external_reference_id",
@@ -71,7 +68,6 @@ this.categories = Object.freeze({
   "Flint-Version"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCategories", _sdkRequestInput([], [], [
-  "status",
   "page_size",
   "page_token",
   "external_reference_id",
@@ -79,7 +75,6 @@ this.categories = Object.freeze({
   "Flint-Version"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCategories", _sdkRequestInput([], [], [
-  "status",
   "page_size",
   "page_token",
   "external_reference_id",

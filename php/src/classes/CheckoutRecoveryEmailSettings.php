@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read int $delay_minutes
+ * @property-read int $delay_seconds
  * @property-read bool $enabled
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutRecoveryEmailSettings extends Model {
-    /** @param array{'delay_minutes'?: int, 'enabled'?: bool, ...}|object $values */
+    /** @param array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutRecoveryEmailSettings')); }
     /** @return int
-     * @throws SdkError When delay_minutes is omitted; use hasDelayMinutes() or valueOrDefault().
+     * @throws SdkError When delay_seconds is omitted; use hasDelaySeconds() or valueOrDefault().
      */
-    public function getDelayMinutes(): int { return $this->get('delay_minutes'); }
-    public function hasDelayMinutes(): bool { return $this->has('delay_minutes'); }
+    public function getDelaySeconds(): int { return $this->get('delay_seconds'); }
+    public function hasDelaySeconds(): bool { return $this->has('delay_seconds'); }
     /** @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */

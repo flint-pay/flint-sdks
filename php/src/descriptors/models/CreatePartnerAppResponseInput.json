@@ -1,1 +1,1 @@
-{"shared":"CreatePartnerAppResponse","dependencies":["CreatePartnerAppResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAppPermissionManifestEntry","PartnerAppWithSecret","ResponseMeta","ResponseWarning"]}
+{"shared":"CreatePartnerAppResponse","dependencies":["CreatePartnerAppResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAppPermissionManifestEntry","PartnerAppWithSecret","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}

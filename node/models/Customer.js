@@ -1,9 +1,9 @@
-import { d165 as c0, d534 as c1, d550 as c2, d757 as c3, d157 as c4, d74 as c5, d70 as c6, d71 as c7, d532 as c8, d533 as c9, d158 as c10, d72 as c11 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d534 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d172 as c0, d549 as c1, d564 as c2, d774 as c3, d545 as c4, d77 as c5, d73 as c6, d74 as c7, d546 as c8, d547 as c9, d548 as c10, d75 as c11 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d549 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d534;
+const read = d549;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerReceivableBalance"]:c2(),["DocumentTaxID"]:c3(),["ExpandedPaymentMethodSummary"]:c4(),["MoneyValue"]:c5(),["PostalAddress"]:c6(),["SharedCodec18"]:c7(),["SharedCodec200"]:c8(),["SharedCodec201"]:c9(),["SharedCodec45"]:c10(),["TaxIdentity"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerReceivableBalance"]:c2(),["DocumentTaxID"]:c3(),["ExpandedPaymentMethodSummary"]:c4(),["MoneyValue"]:c5(),["PostalAddress"]:c6(),["SharedCodec19"]:c7(),["SharedCodec203"]:c8(),["SharedCodec204"]:c9(),["SharedCodec205"]:c10(),["TaxIdentity"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCustomer(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

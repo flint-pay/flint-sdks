@@ -4,6 +4,7 @@ import type { InputValue } from '../runtime.js';
 import type { BrandingSettingsInput } from '../declarations/BrandingSettingsInput.js';
 import type { CheckoutSettingsInput } from '../declarations/CheckoutSettingsInput.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
+import type { CustomDomainStatus } from '../declarations/CustomDomainStatus.js';
 import type { CustomerAccountSettingsInput } from '../declarations/CustomerAccountSettingsInput.js';
 import type { CustomerEmailDeliverySettingsInput } from '../declarations/CustomerEmailDeliverySettingsInput.js';
 import type { DocumentTaxIDInput } from '../declarations/DocumentTaxIDInput.js';
@@ -26,6 +27,8 @@ import type { SettingsResponse } from '../declarations/SettingsResponse.js';
 import type { SettingsResponseInput } from '../declarations/SettingsResponseInput.js';
 import type { SettingsUpdateInput } from '../declarations/SettingsUpdateInput.js';
 import type { SettingsUpdateResponse } from '../declarations/SettingsUpdateResponse.js';
+import type { SettingsValidateCustomDomainInput } from '../declarations/SettingsValidateCustomDomainInput.js';
+import type { SettingsValidateCustomDomainResponse } from '../declarations/SettingsValidateCustomDomainResponse.js';
 import type { SubscriptionSettingsInput } from '../declarations/SubscriptionSettingsInput.js';
 import type { TaxSettingsInput } from '../declarations/TaxSettingsInput.js';
 import type { TippingSettingsPatchInput } from '../declarations/TippingSettingsPatchInput.js';
@@ -62,6 +65,17 @@ export interface SettingsResource {
     update(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: CustomerAccountSettingsInput; "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     updateWithResponse(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: CustomerAccountSettingsInput; "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsUpdateResponse>>;
+    /**
+ * Rechecks ownership and restarts validation for the configured checkout or customer account hostname. Send no request body or an empty JSON object. Each domain can be checked once every 60 seconds; rate limited responses include Retry-After.
+ * POST /v1/settings/custom-domains/{domain_type}/validate
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.settings.validateCustomDomain("checkout", {}, { idempotencyKey: idempotencyKey })
+ */
+    validateCustomDomain(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<{ "data": CustomDomainStatus; "request_id": string; }, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    validateCustomDomainWithResponse(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsValidateCustomDomainResponse>>;
   }
 export declare class Client {
 
@@ -94,12 +108,15 @@ export type { TaxSettingsInput } from '../declarations/TaxSettingsInput.js';
 export type { DocumentTaxIDInput } from '../declarations/DocumentTaxIDInput.js';
 export type { TippingSettingsPatchInput } from '../declarations/TippingSettingsPatchInput.js';
 export type { SettingsUpdateResponse } from '../declarations/SettingsUpdateResponse.js';
+export type { CustomDomainStatus } from '../declarations/CustomDomainStatus.js';
+export type { SettingsValidateCustomDomainResponse } from '../declarations/SettingsValidateCustomDomainResponse.js';
 export type { Settings } from '../declarations/Settings.js';
 export type { SettingsInput } from '../declarations/SettingsInput.js';
 export type { SettingsResponseInput } from '../declarations/SettingsResponseInput.js';
 export type { SettingsGetEffectiveInput } from '../declarations/SettingsGetEffectiveInput.js';
 export type { SettingsGetInput } from '../declarations/SettingsGetInput.js';
 export type { SettingsUpdateInput } from '../declarations/SettingsUpdateInput.js';
+export type { SettingsValidateCustomDomainInput } from '../declarations/SettingsValidateCustomDomainInput.js';
 export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
@@ -110,13 +127,13 @@ export type { CustomerAccountPresentationInput } from '../declarations/CustomerA
 export type { CustomerAccountRouteTemplatesInput } from '../declarations/CustomerAccountRouteTemplatesInput.js';
 export type { InventoryOriginPolicyInput } from '../declarations/InventoryOriginPolicyInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
+export type { CustomerAccountDNSRecord } from '../declarations/CustomerAccountDNSRecord.js';
 export type { BrandingSettings } from '../declarations/BrandingSettings.js';
 export type { CatalogSettings } from '../declarations/CatalogSettings.js';
 export type { CheckoutSettings } from '../declarations/CheckoutSettings.js';
 export type { CustomerAccountSettings } from '../declarations/CustomerAccountSettings.js';
 export type { CustomerAccountPresentation } from '../declarations/CustomerAccountPresentation.js';
 export type { CustomerAccountRouteTemplates } from '../declarations/CustomerAccountRouteTemplates.js';
-export type { CustomerAccountDNSRecord } from '../declarations/CustomerAccountDNSRecord.js';
 export type { CustomerEmailDeliverySettings } from '../declarations/CustomerEmailDeliverySettings.js';
 export type { FulfillmentSettings } from '../declarations/FulfillmentSettings.js';
 export type { InventorySettings } from '../declarations/InventorySettings.js';
@@ -148,17 +165,18 @@ export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.
 export type { NextActionInput } from '../declarations/NextActionInput.js';
 export type { UpdateSettingsRequestInput } from '../declarations/UpdateSettingsRequestInput.js';
 export { makeSettingsResponse } from '../declarations/makeSettingsResponse.js';
+export { makeCustomDomainStatus } from '../declarations/makeCustomDomainStatus.js';
 export { makeSettings } from '../declarations/makeSettings.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeCustomerAccountDNSRecord } from '../declarations/makeCustomerAccountDNSRecord.js';
 export { makeBrandingSettings } from '../declarations/makeBrandingSettings.js';
 export { makeCatalogSettings } from '../declarations/makeCatalogSettings.js';
 export { makeCheckoutSettings } from '../declarations/makeCheckoutSettings.js';
 export { makeCustomerAccountSettings } from '../declarations/makeCustomerAccountSettings.js';
 export { makeCustomerAccountPresentation } from '../declarations/makeCustomerAccountPresentation.js';
 export { makeCustomerAccountRouteTemplates } from '../declarations/makeCustomerAccountRouteTemplates.js';
-export { makeCustomerAccountDNSRecord } from '../declarations/makeCustomerAccountDNSRecord.js';
 export { makeCustomerEmailDeliverySettings } from '../declarations/makeCustomerEmailDeliverySettings.js';
 export { makeFulfillmentSettings } from '../declarations/makeFulfillmentSettings.js';
 export { makeInventorySettings } from '../declarations/makeInventorySettings.js';

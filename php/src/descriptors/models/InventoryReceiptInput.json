@@ -1,1 +1,1 @@
-{"shared":"InventoryReceipt","dependencies":["InventoryReceipt","InventoryReceiptLine","InventorySourceSystem","SharedCodec64"]}
+{"shared":"InventoryReceipt","dependencies":["InventoryReceipt","InventoryReceiptLine","InventorySourceSystem","SharedCodec65"]}

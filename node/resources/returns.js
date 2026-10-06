@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/returns.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -70,6 +70,20 @@ this.returns = Object.freeze({
   "Idempotency-Key",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      createAccessLink: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createAccessLinkWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(_sdkResponse),
       createDisposition: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -412,6 +426,7 @@ this.returns = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeAddReturnLineItemResponse } from '../models/AddReturnLineItemResponse.js';
+export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
 export { makeCancelReturnDispositionResponse } from '../models/CancelReturnDispositionResponse.js';
 export { makeCreateReturnInspectionResponse } from '../models/CreateReturnInspectionResponse.js';
 export { makeCreateReturnReceiptResponse } from '../models/CreateReturnReceiptResponse.js';
@@ -425,6 +440,7 @@ export { makeProcessExistingReturnResponse } from '../models/ProcessExistingRetu
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeAccessLink } from '../models/AccessLink.js';
 export { makeReturnDisposition } from '../models/ReturnDisposition.js';
 export { makeReturnActor } from '../models/ReturnActor.js';
 export { makeReturnInspection } from '../models/ReturnInspection.js';

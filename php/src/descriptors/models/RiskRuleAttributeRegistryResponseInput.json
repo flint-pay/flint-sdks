@@ -1,1 +1,1 @@
-{"shared":"RiskRuleAttributeRegistryResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PublicRiskAttribute","PublicRiskAttributeRegistry","ResponseMeta","ResponseWarning","RiskRuleAttributeRegistryResponse"]}
+{"shared":"RiskRuleAttributeRegistryResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PublicRiskAttribute","PublicRiskAttributeRegistry","ResponseMeta","ResponseWarning","RiskRuleAttributeRegistryResponse","SharedCodec1","SharedCodec487"]}

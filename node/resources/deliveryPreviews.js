@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryPreview"]:r0});
 export class Client {
@@ -12,18 +12,13 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createDeliveryPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createWithResponse: async (params, options) => this.#runtime.request("createDeliveryPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
+      create: (input = {}, options) => this.#runtime.request("createDeliveryPreview", input, options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: (input = {}, options) => this.#runtime.request("createDeliveryPreview", input, options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
 }
 export { makeDeliveryPreviewResponse } from '../models/DeliveryPreviewResponse.js';
-export { makeDeliveryPreview } from '../models/DeliveryPreview.js';
 export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
@@ -60,6 +55,11 @@ export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxCompon
 export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
 export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
 export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
+export { makeDeliveryPickupAvailabilityLocationResource } from '../models/DeliveryPickupAvailabilityLocationResource.js';
+export { makeDeliveryPickupAvailabilityCandidateOutcome } from '../models/DeliveryPickupAvailabilityCandidateOutcome.js';
+export { makeDeliveryPickupAvailabilityMethodResource } from '../models/DeliveryPickupAvailabilityMethodResource.js';
+export { makeDeliveryPickupAvailabilityLocationSummary } from '../models/DeliveryPickupAvailabilityLocationSummary.js';
+export { makeDeliveryPickupAvailabilityDiagnostic } from '../models/DeliveryPickupAvailabilityDiagnostic.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';

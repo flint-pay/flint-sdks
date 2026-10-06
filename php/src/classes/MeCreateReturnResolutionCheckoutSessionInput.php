@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $resolution_id
- * @property-read array{'return_url'?: string}|object $body
+ * @property-read string $return_resolution_id
+ * @property-read array{'redirects'?: array{'cancel_redirect_url'?: string, 'success_redirect_url'?: string}|object, 'return_url'?: string, 'surface'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeCreateReturnResolutionCheckoutSessionInput extends Model {
-    /** @param array{'resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'return_url'?: string}|object}|object $values */
+    /** @param array{'return_resolution_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'redirects'?: array{'cancel_redirect_url'?: string, 'success_redirect_url'?: string}|object, 'return_url'?: string, 'surface'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateReturnResolutionCheckoutSessionInput')); }
     /** @return string
-     * @throws SdkError When resolution_id is omitted; use hasResolutionId() or valueOrDefault().
+     * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
-    public function getResolutionId(): string { return $this->get('resolution_id'); }
-    public function hasResolutionId(): bool { return $this->has('resolution_id'); }
+    public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
+    public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
     /** @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class MeCreateReturnResolutionCheckoutSessionInput extends Model {
      */
     public function getFlintVersion(): string { return $this->get('Flint-Version'); }
     public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
-    /** @return array{'return_url'?: string}|object
+    /** @return array{'redirects'?: array{'cancel_redirect_url'?: string, 'success_redirect_url'?: string}|object, 'return_url'?: string, 'surface'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

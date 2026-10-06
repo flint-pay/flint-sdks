@@ -13,7 +13,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardCashOuts->create('example', [
   'amount_money' => (object) [
-    'amount' => '100',
+    'amount' => '0',
     'currency' => 'USD',
   ],
   'external_reference_id' => 'example',

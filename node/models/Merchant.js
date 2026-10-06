@@ -1,9 +1,9 @@
-import { d55 as c0, d776 as c1, d905 as c2, d1747 as c3, d1784 as c4, d1783 as c5, d70 as c6, d1744 as c7, d1745 as c8, d1746 as c9 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1747 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d58 as c0, d796 as c1, d926 as c2, d1784 as c3, d1823 as c4, d1822 as c5, d73 as c6, d14 as c7, d1781 as c8, d1782 as c9, d1783 as c10, d1821 as c11 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d1784 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1747;
+const read = d1784;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Banner"]:c0(),["ExpandedOrganizationSummary"]:c1(),["Image"]:c2(),["Merchant"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PostalAddress"]:c6(),["SharedCodec475"]:c7(),["SharedCodec476"]:c8(),["SharedCodec477"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Banner"]:c0(),["ExpandedOrganizationSummary"]:c1(),["Image"]:c2(),["Merchant"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PostalAddress"]:c6(),["SharedCodec1"]:c7(),["SharedCodec483"]:c8(),["SharedCodec484"]:c9(),["SharedCodec485"]:c10(),["SharedCodec487"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeMerchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

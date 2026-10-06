@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $refund_id
  * @property-read string $root_gift_card_id
  * @property-read string $root_gift_card_load_id
- * @property-read GiftCardMoney $value_money
+ * @property-read MoneyValue $value_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardPurchaseRefundValueHold extends Model {
     /** @param array{'purchase_refund_allocation_id': string, 'refund_id': string, 'root_gift_card_id': string, 'root_gift_card_load_id': string, 'value_money': object{'amount': string, 'currency': string}, ...}|object $values */
@@ -31,9 +31,9 @@ final class GiftCardPurchaseRefundValueHold extends Model {
      */
     public function getRootGiftCardLoadId(): string { return $this->get('root_gift_card_load_id'); }
     public function hasRootGiftCardLoadId(): bool { return $this->has('root_gift_card_load_id'); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
      */
-    public function getValueMoney(): GiftCardMoney { return $this->get('value_money'); }
+    public function getValueMoney(): MoneyValue { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
 }

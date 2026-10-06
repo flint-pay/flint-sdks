@@ -7,8 +7,6 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $capabilities_synced_at
  * @property-read string $country
  * @property-read string $default_sandbox_id
- * @property-read bool $email_verified
- * @property-read bool $merchant_created
  * @property-read string $merchant_id
  * @property-read OnboardingNextStepInput|array<array-key, mixed>|\stdClass $next_step
  * @property-read list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass> $pending_steps
@@ -19,7 +17,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStateInput extends Model {
-    /** @param array{'available_actions'?: list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass>, 'can_issue_api_key': bool, 'capabilities_synced_at'?: string|\DateTimeInterface, 'country'?: string, 'default_sandbox_id'?: string, 'email_verified': bool, 'merchant_created': bool, 'merchant_id': string, 'next_step'?: OnboardingNextStepInput|array<array-key, mixed>|\stdClass, 'pending_steps'?: list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass>, 'profile': OnboardingProfileInput|array<array-key, mixed>|\stdClass, 'readiness_observed_at'?: string|\DateTimeInterface, 'requested_capabilities'?: list<string>, 'requirements': OnboardingRequirementsInput|array<array-key, mixed>|\stdClass, 'status': string, ...}|object $values */
+    /** @param array{'available_actions'?: list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass>, 'can_issue_api_key': bool, 'capabilities_synced_at'?: string|\DateTimeInterface, 'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: OnboardingNextStepInput|array<array-key, mixed>|\stdClass, 'pending_steps'?: list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass>, 'profile': OnboardingProfileInput|array<array-key, mixed>|\stdClass, 'readiness_observed_at'?: string|\DateTimeInterface, 'requested_capabilities'?: list<string>, 'requirements': OnboardingRequirementsInput|array<array-key, mixed>|\stdClass, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStateInput')); }
     /** @return list<OnboardingNextStepInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When available_actions is omitted; use hasAvailableActions() or valueOrDefault().
@@ -46,16 +44,6 @@ final class OnboardingStateInput extends Model {
      */
     public function getDefaultSandboxId(): string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** @return bool
-     * @throws SdkError When email_verified is omitted; use hasEmailVerified() or valueOrDefault().
-     */
-    public function getEmailVerified(): bool { return $this->get('email_verified'); }
-    public function hasEmailVerified(): bool { return $this->has('email_verified'); }
-    /** @return bool
-     * @throws SdkError When merchant_created is omitted; use hasMerchantCreated() or valueOrDefault().
-     */
-    public function getMerchantCreated(): bool { return $this->get('merchant_created'); }
-    public function hasMerchantCreated(): bool { return $this->has('merchant_created'); }
     /** @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */

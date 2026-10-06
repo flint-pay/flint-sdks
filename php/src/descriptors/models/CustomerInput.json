@@ -1,1 +1,1 @@
-{"shared":"Customer","dependencies":["CardDetails","Customer","CustomerReceivableBalance","DocumentTaxID","ExpandedPaymentMethodSummary","MoneyValue","PostalAddress","SharedCodec18","SharedCodec200","SharedCodec201","SharedCodec45","TaxIdentity"]}
+{"shared":"Customer","dependencies":["CardDetails","Customer","CustomerReceivableBalance","DocumentTaxID","ExpandedPaymentMethodSummary","MoneyValue","PostalAddress","SharedCodec19","SharedCodec203","SharedCodec204","SharedCodec205","TaxIdentity"]}

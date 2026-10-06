@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/me.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resendMeOrderReceipt"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -96,6 +96,18 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      createFlintWalletStoreSetup: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
+  "id"
+], [id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createFlintWalletStoreSetupWithResponse: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
+  "id"
+], [id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       createInvoiceCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -124,16 +136,30 @@ this.me = Object.freeze({
       createReturnPreviewWithResponse: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
-      createReturnResolutionCheckoutSession: async (resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
-  "resolution_id"
-], [resolution_id], [
+      createReturnResolutionCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [
   "Idempotency-Key",
   "Flint-Version"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      createReturnResolutionCheckoutSessionWithResponse: async (resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
-  "resolution_id"
-], [resolution_id], [
+      createReturnResolutionCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [
   "Idempotency-Key",
+  "Flint-Version"
+], true, false, params), options).then(_sdkResponse),
+      createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createSubscriptionPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
@@ -270,11 +296,27 @@ this.me = Object.freeze({
       getSubscription: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
+  "X-Checkout-Session-ID",
+  "X-Checkout-Session-Secret",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      getSubscriptionPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id",
+  "subscription_payment_retry_id"
+], [subscription_id, subscription_payment_retry_id], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getSubscriptionPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
+  "subscription_id",
+  "subscription_payment_retry_id"
+], [subscription_id, subscription_payment_retry_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       listAddresses: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
@@ -375,6 +417,57 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options),
+      listFlintWalletPaymentMethods: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      listFlintWalletPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listFulfillmentEvents: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
+  "order_id",
+  "fulfillment_id",
+  "shipment_id",
+  "package_id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listFulfillmentEventsWithResponse: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
+  "order_id",
+  "fulfillment_id",
+  "shipment_id",
+  "package_id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listFulfillmentEventsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeFulfillmentEvents", _sdkRequestInput([], [], [
+  "order_id",
+  "fulfillment_id",
+  "shipment_id",
+  "package_id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options), []),
+      listFulfillmentEventsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeFulfillmentEvents", _sdkRequestInput([], [], [
+  "order_id",
+  "fulfillment_id",
+  "shipment_id",
+  "package_id",
+  "page_size",
+  "page_token",
+  "Flint-Version"
+], false, false, params), options)),
+      listFulfillmentEventsItems: (params, options) => this.#runtime.items("listMeFulfillmentEvents", _sdkRequestInput([], [], [
+  "order_id",
+  "fulfillment_id",
+  "shipment_id",
+  "package_id",
+  "page_size",
+  "page_token",
   "Flint-Version"
 ], false, false, params), options),
       listFulfillments: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
@@ -903,7 +996,8 @@ this.me = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -928,7 +1022,8 @@ this.me = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -953,7 +1048,8 @@ this.me = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -978,7 +1074,8 @@ this.me = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1003,7 +1100,8 @@ this.me = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1319,7 +1417,7 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
-  "plan_id",
+  "subscription_plan_id",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1338,7 +1436,7 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
-  "plan_id",
+  "subscription_plan_id",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1357,7 +1455,7 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
-  "plan_id",
+  "subscription_plan_id",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1376,7 +1474,7 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
-  "plan_id",
+  "subscription_plan_id",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1395,7 +1493,7 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
-  "plan_id",
+  "subscription_plan_id",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1463,20 +1561,6 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      resendOrderReceipt: async (order_id, params, options) => this.#runtime.request("resendMeOrderReceipt", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      resendOrderReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("resendMeOrderReceipt", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
       resumeSubscription: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -1511,6 +1595,20 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      sendOrderReceipt: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      sendOrderReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
       setDefaultAddress: async (customer_address_id, params, options) => this.#runtime.request("setDefaultMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
@@ -1578,14 +1676,15 @@ this.me = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeAddReturnLineItemResponse } from '../models/AddReturnLineItemResponse.js';
-export { makeCancelSubscriptionResponse } from '../models/CancelSubscriptionResponse.js';
 export { makeSubscriptionResponse } from '../models/SubscriptionResponse.js';
 export { makeEmailChangeRequestResponse } from '../models/EmailChangeRequestResponse.js';
 export { makeCustomerAddressResponse } from '../models/CustomerAddressResponse.js';
 export { makeCustomerDeletionRequestResponse } from '../models/CustomerDeletionRequestResponse.js';
-export { makeInvoiceCheckoutSessionResponse } from '../models/InvoiceCheckoutSessionResponse.js';
+export { makeMeFlintWalletStoreSetupResponse } from '../models/MeFlintWalletStoreSetupResponse.js';
+export { makeBuyerInvoiceCheckoutSessionResponse } from '../models/BuyerInvoiceCheckoutSessionResponse.js';
 export { makeCreateReturnPreviewResponse } from '../models/CreateReturnPreviewResponse.js';
 export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
+export { makeBuyerSubscriptionPaymentRetryResponse } from '../models/BuyerSubscriptionPaymentRetryResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeCustomerResponse } from '../models/CustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../models/BuyerCreditNoteResponse.js';
@@ -1600,6 +1699,9 @@ export { makeBuyerCreditNoteListResponse } from '../models/BuyerCreditNoteListRe
 export { makeBuyerCreditNote } from '../models/BuyerCreditNote.js';
 export { makeCustomerDeletionRequestListResponse } from '../models/CustomerDeletionRequestListResponse.js';
 export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
+export { makeMeFlintWalletCardListResponse } from '../models/MeFlintWalletCardListResponse.js';
+export { makeBuyerFulfillmentEventListResponse } from '../models/BuyerFulfillmentEventListResponse.js';
+export { makeBuyerFulfillmentEvent } from '../models/BuyerFulfillmentEvent.js';
 export { makeFulfillmentListResponse } from '../models/FulfillmentListResponse.js';
 export { makeFulfillment } from '../models/Fulfillment.js';
 export { makeBuyerGiftCardListResponse } from '../models/BuyerGiftCardListResponse.js';
@@ -1627,16 +1729,19 @@ export { makeShipment } from '../models/Shipment.js';
 export { makeSubscriptionListResponse } from '../models/SubscriptionListResponse.js';
 export { makeSubscription } from '../models/Subscription.js';
 export { makeSavePaymentMethodResponse } from '../models/SavePaymentMethodResponse.js';
+export { makeMeFlintWalletCard } from '../models/MeFlintWalletCard.js';
+export { makeMeFlintWalletStoreSetup } from '../models/MeFlintWalletStoreSetup.js';
 export { makeMerchant } from '../models/Merchant.js';
 export { makeMerchantAccountSession } from '../models/MerchantAccountSession.js';
+export { makeMerchantAccountSessionClientSession } from '../models/MerchantAccountSessionClientSession.js';
 export { makeMerchantAccountSessionCreateRequest } from '../models/MerchantAccountSessionCreateRequest.js';
 export { makeMerchantAccountSessionEffectivePolicy } from '../models/MerchantAccountSessionEffectivePolicy.js';
 export { makeMerchantAccountSessionRefreshRequest } from '../models/MerchantAccountSessionRefreshRequest.js';
 export { makeMerchantAccountSessionResponse } from '../models/MerchantAccountSessionResponse.js';
+export { makeMerchantAccountSessionStripe } from '../models/MerchantAccountSessionStripe.js';
+export { makeMerchantAccountSessionStripeAccountSession } from '../models/MerchantAccountSessionStripeAccountSession.js';
 export { makeMerchantAccountSessionStripeCollectionOptions } from '../models/MerchantAccountSessionStripeCollectionOptions.js';
-export { makeMerchantAccountSessionStripeComponentLaunch } from '../models/MerchantAccountSessionStripeComponentLaunch.js';
-export { makeMerchantAccountSessionStripeComponentProps } from '../models/MerchantAccountSessionStripeComponentProps.js';
-export { makeMerchantAccountSessionStripeLaunch } from '../models/MerchantAccountSessionStripeLaunch.js';
+export { makeMerchantAccountSessionStripeComponent } from '../models/MerchantAccountSessionStripeComponent.js';
 export { makeMerchantAccountSessionStripeRequirements } from '../models/MerchantAccountSessionStripeRequirements.js';
 export { makeMerchantBillingBalance } from '../models/MerchantBillingBalance.js';
 export { makeMerchantBillingBalanceListResponse } from '../models/MerchantBillingBalanceListResponse.js';
@@ -1652,25 +1757,10 @@ export { makeMerchantWebhookEnvelope } from '../models/MerchantWebhookEnvelope.j
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
-export { makeCancelSubscriptionResult } from '../models/CancelSubscriptionResult.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeContractInfo } from '../models/ContractInfo.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeImage } from '../models/Image.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeCardDetails } from '../models/CardDetails.js';
-export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeEmailChangeRequest } from '../models/EmailChangeRequest.js';
-export { makeInvoiceCheckoutSessionResult } from '../models/InvoiceCheckoutSessionResult.js';
+export { makeBuyerInvoiceCheckoutSessionResult } from '../models/BuyerInvoiceCheckoutSessionResult.js';
 export { makeCheckoutSession } from '../models/CheckoutSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
@@ -1680,6 +1770,7 @@ export { makeStripePaymentClientAction } from '../models/StripePaymentClientActi
 export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
 export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
 export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
+export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
 export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
 export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
@@ -1723,31 +1814,18 @@ export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.j
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeHostedCheckout } from '../models/HostedCheckout.js';
-export { makeInvoice } from '../models/Invoice.js';
-export { makeInvoiceLateFee } from '../models/InvoiceLateFee.js';
-export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
-export { makeInvoicePaymentOptionLimit } from '../models/InvoicePaymentOptionLimit.js';
-export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
-export { makeInvoiceScheduleEntry } from '../models/InvoiceScheduleEntry.js';
-export { makeInvoiceScheduleAmountSpecification } from '../models/InvoiceScheduleAmountSpecification.js';
-export { makeInvoiceScheduleDue } from '../models/InvoiceScheduleDue.js';
-export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
-export { makeOrderCharge } from '../models/OrderCharge.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
-export { makeInvoiceDiscount } from '../models/InvoiceDiscount.js';
-export { makeInvoiceLineItem } from '../models/InvoiceLineItem.js';
-export { makeInvoiceTip } from '../models/InvoiceTip.js';
 export { makeInvoicePaymentAttempt } from '../models/InvoicePaymentAttempt.js';
 export { makeCreateReturnPreviewData } from '../models/CreateReturnPreviewData.js';
 export { makeReturnEligibilityCheck } from '../models/ReturnEligibilityCheck.js';
 export { makeReturnEligibilityCheckLineItem } from '../models/ReturnEligibilityCheckLineItem.js';
+export { makeBundleComponent } from '../models/BundleComponent.js';
+export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
 export { makeReturnLineItemDecisionProposal } from '../models/ReturnLineItemDecisionProposal.js';
 export { makeReturnPolicyAdjustmentProposal } from '../models/ReturnPolicyAdjustmentProposal.js';
+export { makeImage } from '../models/Image.js';
+export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeReturnReasonSummary } from '../models/ReturnReasonSummary.js';
 export { makeReturnPolicyEvaluation } from '../models/ReturnPolicyEvaluation.js';
 export { makeReturnPolicyEvaluationLineItem } from '../models/ReturnPolicyEvaluationLineItem.js';
@@ -1760,10 +1838,13 @@ export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem
 export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
 export { makeReturnResolutionWarning } from '../models/ReturnResolutionWarning.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
+export { makeBuyerSubscriptionPaymentRetry } from '../models/BuyerSubscriptionPaymentRetry.js';
+export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeCustomer } from '../models/Customer.js';
+export { makeCardDetails } from '../models/CardDetails.js';
 export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
+export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
 export { makeCustomerEmailPreferences } from '../models/CustomerEmailPreferences.js';
 export { makeCreditNoteLine } from '../models/CreditNoteLine.js';
 export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
@@ -1775,8 +1856,22 @@ export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
+export { makeBuyerAction } from '../models/BuyerAction.js';
 export { makeBuyerInvoiceLateFee } from '../models/BuyerInvoiceLateFee.js';
+export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
+export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
+export { makeInvoiceScheduleEntry } from '../models/InvoiceScheduleEntry.js';
+export { makeInvoiceScheduleAmountSpecification } from '../models/InvoiceScheduleAmountSpecification.js';
+export { makeInvoiceScheduleDue } from '../models/InvoiceScheduleDue.js';
+export { makeOrderCharge } from '../models/OrderCharge.js';
+export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
+export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
+export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
+export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeInvoiceDiscount } from '../models/InvoiceDiscount.js';
+export { makeInvoiceLineItem } from '../models/InvoiceLineItem.js';
+export { makeCategoryReference } from '../models/CategoryReference.js';
+export { makeInvoiceTip } from '../models/InvoiceTip.js';
 export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
 export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
 export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
@@ -1787,11 +1882,13 @@ export { makeOrderLineItem } from '../models/OrderLineItem.js';
 export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
 export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
 export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
-export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
+export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
 export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
 export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
@@ -1817,10 +1914,11 @@ export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement
 export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination.js';
 export { makeReturnLineItem } from '../models/ReturnLineItem.js';
 export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
+export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
+export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
 export { makeSavePaymentMethodResult } from '../models/SavePaymentMethodResult.js';
 export { makeStripeClientSetup } from '../models/StripeClientSetup.js';
 export { makeStripeClientSetupStripe } from '../models/StripeClientSetupStripe.js';
 export { makeStripeClientAuthority } from '../models/StripeClientAuthority.js';
 export { makeBanner } from '../models/Banner.js';
-export { makeOnboardingExternalAction } from '../models/OnboardingExternalAction.js';
 export { makeOnboardingRequirements } from '../models/OnboardingRequirements.js';

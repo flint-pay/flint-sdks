@@ -1,9 +1,9 @@
-import { d1845 as c0, d1851 as c1, d1853 as c2, d70 as c3, d38 as c4, d2327 as c5, d2328 as c6, d2329 as c7, d2330 as c8 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1845 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1885 as c0, d1891 as c1, d1893 as c2, d73 as c3, d41 as c4, d2368 as c5, d2369 as c6, d2370 as c7, d2371 as c8 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d1885 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1845;
+const read = d1885;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OrderTax"]:c0(),["OrderTaxExemption"]:c1(),["OrderTaxLocation"]:c2(),["PostalAddress"]:c3(),["SharedCodec5"]:c4(),["SharedCodec603"]:c5(),["SharedCodec604"]:c6(),["SharedCodec605"]:c7(),["TaxBreakdown"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OrderTax"]:c0(),["OrderTaxExemption"]:c1(),["OrderTaxLocation"]:c2(),["PostalAddress"]:c3(),["SharedCodec6"]:c4(),["SharedCodec617"]:c5(),["SharedCodec618"]:c6(),["SharedCodec619"]:c7(),["TaxBreakdown"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderTax(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

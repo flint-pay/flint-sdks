@@ -1,1 +1,1 @@
-{"shared":"InventoryReceiptListResponse","dependencies":["InventoryReceipt","InventoryReceiptLine","InventoryReceiptListResponse","InventorySourceSystem","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec64"]}
+{"shared":"InventoryReceiptListResponse","dependencies":["InventoryReceipt","InventoryReceiptLine","InventoryReceiptListResponse","InventorySourceSystem","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487","SharedCodec65"]}

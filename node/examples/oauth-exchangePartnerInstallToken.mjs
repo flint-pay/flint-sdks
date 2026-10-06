@@ -7,7 +7,7 @@ const result = await client.oauth.exchangePartnerInstallToken(
   {
     client_id: "example",
     client_secret: "example",
-    grant_type: "example",
+    grant_type: "authorization_code",
   }
 );
 console.log(result.meta.requestId);

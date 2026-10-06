@@ -1,1 +1,1 @@
-{"shared":"CustomerAccountPresentation","phpRepresentation":{"kind":"record","fields":{"account_name":{"kind":"value","type":"string"},"custom_domain":{"kind":"value","type":"string"}}},"dependencies":["CustomerAccountPresentation"]}
+{"shared":"CustomerAccountPresentation","phpRepresentation":{"kind":"record","fields":{"account_name":{"kind":"value","type":"string"},"custom_domain":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["CustomerAccountPresentation"]}

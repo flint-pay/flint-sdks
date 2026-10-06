@@ -3,18 +3,18 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $external_reference_id
- * @property-read string|\DateTimeInterface $from_at
  * @property-read string $gift_card_id
  * @property-read string $idempotency_key
  * @property-read string $order_id
  * @property-read int $page_size
  * @property-read string $page_token
+ * @property-read string|\DateTimeInterface $posted_after
+ * @property-read string|\DateTimeInterface $posted_before
  * @property-read string $source_id
  * @property-read string $source_type
- * @property-read string|\DateTimeInterface $until_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardTransactionsListInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'external_reference_id'?: string, 'from_at'?: string|\DateTimeInterface, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'source_id'?: string, 'source_type'?: string, 'until_at'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'X-Request-Id'?: string, 'external_reference_id'?: string, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'posted_after'?: string|\DateTimeInterface, 'posted_before'?: string|\DateTimeInterface, 'source_id'?: string, 'source_type'?: string, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardTransactionsListInput')); }
     /** @return string
      * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
@@ -26,11 +26,6 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string|\DateTimeInterface
-     * @throws SdkError When from_at is omitted; use hasFromAt() or valueOrDefault().
-     */
-    public function getFromAt(): string|\DateTimeInterface { return $this->get('from_at'); }
-    public function hasFromAt(): bool { return $this->has('from_at'); }
     /** @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
@@ -56,6 +51,16 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
+    /** @return string|\DateTimeInterface
+     * @throws SdkError When posted_after is omitted; use hasPostedAfter() or valueOrDefault().
+     */
+    public function getPostedAfter(): string|\DateTimeInterface { return $this->get('posted_after'); }
+    public function hasPostedAfter(): bool { return $this->has('posted_after'); }
+    /** @return string|\DateTimeInterface
+     * @throws SdkError When posted_before is omitted; use hasPostedBefore() or valueOrDefault().
+     */
+    public function getPostedBefore(): string|\DateTimeInterface { return $this->get('posted_before'); }
+    public function hasPostedBefore(): bool { return $this->has('posted_before'); }
     /** @return string
      * @throws SdkError When source_id is omitted; use hasSourceId() or valueOrDefault().
      */
@@ -66,11 +71,6 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getSourceType(): string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** @return string|\DateTimeInterface
-     * @throws SdkError When until_at is omitted; use hasUntilAt() or valueOrDefault().
-     */
-    public function getUntilAt(): string|\DateTimeInterface { return $this->get('until_at'); }
-    public function hasUntilAt(): bool { return $this->has('until_at'); }
     /** @return string
      * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
      */

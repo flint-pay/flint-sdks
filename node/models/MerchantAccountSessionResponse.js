@@ -1,9 +1,9 @@
-import { d1748 as c0, d1750 as c1, d1752 as c2, d1753 as c3, d1754 as c4, d1755 as c5, d1756 as c6, d1757 as c7, d74 as c8, d1784 as c9, d1783 as c10, d1787 as c11, d1795 as c12, d2118 as c13, d2119 as c14, d1794 as c15, d1793 as c16 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1752 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1788 as c0, d1787 as c1, d1790 as c2, d1792 as c3, d1786 as c4, d1785 as c5, d1794 as c6, d1795 as c7, d1793 as c8, d77 as c9, d1823 as c10, d1822 as c11, d1833 as c12, d2157 as c13, d2158 as c14, d14 as c15, d1821 as c16, d1832 as c17, d1831 as c18 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d1792 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1752;
+const read = d1792;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MerchantAccountSession"]:c0(),["MerchantAccountSessionEffectivePolicy"]:c1(),["MerchantAccountSessionResponse"]:c2(),["MerchantAccountSessionStripeCollectionOptions"]:c3(),["MerchantAccountSessionStripeComponentLaunch"]:c4(),["MerchantAccountSessionStripeComponentProps"]:c5(),["MerchantAccountSessionStripeLaunch"]:c6(),["MerchantAccountSessionStripeRequirements"]:c7(),["MoneyValue"]:c8(),["NextAction"]:c9(),["NextActionMerchantAccountSession"]:c10(),["OnboardingExternalAction"]:c11(),["OnboardingRequirements"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SharedCodec480"]:c15(),["SharedCodec481"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantAccountSession"]:c0(),["MerchantAccountSessionClientSession"]:c1(),["MerchantAccountSessionEffectivePolicy"]:c2(),["MerchantAccountSessionResponse"]:c3(),["MerchantAccountSessionStripe"]:c4(),["MerchantAccountSessionStripeAccountSession"]:c5(),["MerchantAccountSessionStripeCollectionOptions"]:c6(),["MerchantAccountSessionStripeComponent"]:c7(),["MerchantAccountSessionStripeRequirements"]:c8(),["MoneyValue"]:c9(),["NextAction"]:c10(),["NextActionMerchantAccountSession"]:c11(),["OnboardingRequirements"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SharedCodec1"]:c15(),["SharedCodec487"]:c16(),["SharedCodec489"]:c17(),["SharedCodec490"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeMerchantAccountSessionResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

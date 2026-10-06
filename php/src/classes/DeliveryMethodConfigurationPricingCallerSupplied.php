@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryCalculatedPricingStrategyRequest $calculated
+ * @property-read DeliveryCalculatedPricingStrategy $calculated
  * @property-read DeliveryExternalPricingStrategy $callback
  * @property-read DeliveryExternalPricingStrategy $caller_supplied
  * @property-read DeliveryFixedPricingStrategyRequest $fixed
@@ -13,10 +13,10 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCallerSupplied extends Model {
     /** @param array{'calculated'?: mixed, 'callback'?: mixed, 'caller_supplied': mixed, 'fixed'?: mixed, 'rate_table'?: mixed, 'tiered'?: mixed, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCallerSupplied')); }
-    /** @return DeliveryCalculatedPricingStrategyRequest
+    /** @return DeliveryCalculatedPricingStrategy
      * @throws SdkError When calculated is omitted; use hasCalculated() or valueOrDefault().
      */
-    public function getCalculated(): DeliveryCalculatedPricingStrategyRequest { return $this->get('calculated'); }
+    public function getCalculated(): DeliveryCalculatedPricingStrategy { return $this->get('calculated'); }
     public function hasCalculated(): bool { return $this->has('calculated'); }
     /** @return DeliveryExternalPricingStrategy
      * @throws SdkError When callback is omitted; use hasCallback() or valueOrDefault().

@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read MoneyValue $discount_money
  * @property-read GiftCardPurchaseSnapshot $gift_card_purchase
  * @property-read Image $image
- * @property-read LineItemInventorySnapshot $inventory_snapshot
+ * @property-read LineItemInventorySnapshot|null $inventory_snapshot
  * @property-read array<array-key, string> $metadata
  * @property-read MoneyValue $modifier_total_money
  * @property-read list<OrderLineItemModifier> $modifiers
@@ -75,10 +75,10 @@ final class OrderLineItem extends Model {
      */
     public function getImage(): Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** @return LineItemInventorySnapshot
+    /** @return LineItemInventorySnapshot|null
      * @throws SdkError When inventory_snapshot is omitted; use hasInventorySnapshot() or valueOrDefault().
      */
-    public function getInventorySnapshot(): LineItemInventorySnapshot { return $this->get('inventory_snapshot'); }
+    public function getInventorySnapshot(): LineItemInventorySnapshot|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
     /** @return array<array-key, string>
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().

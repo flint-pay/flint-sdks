@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCardNotifications.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/giftCardNotifications.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelGiftCardNotification"]:r0,["createGiftCardNotification"]:r0,["getGiftCardNotification"]:r0,["listGiftCardNotifications"]:r0});
 export class Client {
@@ -50,52 +50,52 @@ this.giftCardNotifications = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "from_at",
+  "created_after",
+  "created_before",
   "gift_card_id",
   "page_size",
   "page_token",
   "status",
-  "until_at",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "from_at",
+  "created_after",
+  "created_before",
   "gift_card_id",
   "page_size",
   "page_token",
   "status",
-  "until_at",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "from_at",
+  "created_after",
+  "created_before",
   "gift_card_id",
   "page_size",
   "page_token",
   "status",
-  "until_at",
   "Flint-Version"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "from_at",
+  "created_after",
+  "created_before",
   "gift_card_id",
   "page_size",
   "page_token",
   "status",
-  "until_at",
   "Flint-Version"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "from_at",
+  "created_after",
+  "created_before",
   "gift_card_id",
   "page_size",
   "page_token",
   "status",
-  "until_at",
   "Flint-Version"
 ], false, false, params), options),
     });
@@ -107,7 +107,6 @@ export { makeGiftCardNotificationResponse } from '../models/GiftCardNotification
 export { makeGiftCardNotificationListResponse } from '../models/GiftCardNotificationListResponse.js';
 export { makeGiftCardNotification } from '../models/GiftCardNotification.js';
 export { makeGiftCardCommandResult } from '../models/GiftCardCommandResult.js';
-export { makeGiftCardFundingLossDisposition } from '../models/GiftCardFundingLossDisposition.js';
 export { makeGiftCard } from '../models/GiftCard.js';
 export { makeGiftCardLoad } from '../models/GiftCardLoad.js';
 export { makeGiftCardFundingDispute } from '../models/GiftCardFundingDispute.js';

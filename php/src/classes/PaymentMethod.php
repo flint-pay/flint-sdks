@@ -8,13 +8,14 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $merchant_id
  * @property-read string $payment_method_id
+ * @property-read string $saved_with
  * @property-read string $status
  * @property-read string $type
  * @property-read string $updated_at
  * @property-read string $usage
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentMethod extends Model {
-    /** @param array{'card'?: object{'brand': string, 'exp_month': int, 'exp_year': int, 'last4': string, 'wallet'?: string}, 'created_at'?: string, 'customer'?: mixed, 'customer_id': string, 'merchant_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: object{'brand': string, 'exp_month': int, 'exp_year': int, 'last4': string, 'wallet'?: string}, 'created_at'?: string, 'customer'?: mixed, 'customer_id': string, 'merchant_id'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at'?: string, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethod')); }
     /** @return CardDetails
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
@@ -46,6 +47,11 @@ final class PaymentMethod extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** @return string
+     * @throws SdkError When saved_with is omitted; use hasSavedWith() or valueOrDefault().
+     */
+    public function getSavedWith(): string { return $this->get('saved_with'); }
+    public function hasSavedWith(): bool { return $this->has('saved_with'); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

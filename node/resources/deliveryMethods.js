@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryMethods.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/deliveryMethods.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryMethod"]:r0,["deleteDeliveryMethod"]:r0,["getDeliveryMethod"]:r0,["listDeliveryMethods"]:r0,["updateDeliveryMethod"]:r0});
 export class Client {
@@ -149,14 +149,14 @@ export { makeDeliveryBlackoutInterval } from '../models/DeliveryBlackoutInterval
 export { makeDeliveryWeeklyInterval } from '../models/DeliveryWeeklyInterval.js';
 export { makeDeliveryTransitTimeRule } from '../models/DeliveryTransitTimeRule.js';
 export { makeDeliveryBusinessDayRange } from '../models/DeliveryBusinessDayRange.js';
-export { makeDeliveryCalculatedPricingStrategyRequest } from '../models/DeliveryCalculatedPricingStrategyRequest.js';
+export { makeDeliveryCalculatedPricingStrategy } from '../models/DeliveryCalculatedPricingStrategy.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryDistanceUnitPriceRequest } from '../models/DeliveryDistanceUnitPriceRequest.js';
-export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
+export { makeDeliveryDistanceUnitPrice } from '../models/DeliveryDistanceUnitPrice.js';
+export { makeDeliveryWeightUnitPrice } from '../models/DeliveryWeightUnitPrice.js';
 export { makeDeliveryExternalPricingStrategy } from '../models/DeliveryExternalPricingStrategy.js';
 export { makeDeliveryFixedPricingStrategyRequest } from '../models/DeliveryFixedPricingStrategyRequest.js';
 export { makeDeliveryRateTablePricingStrategy } from '../models/DeliveryRateTablePricingStrategy.js';
 export { makeDeliveryPricingRate } from '../models/DeliveryPricingRate.js';
-export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
+export { makeDeliveryTieredPricingStrategy } from '../models/DeliveryTieredPricingStrategy.js';
 export { makeDeliveryPricingTierBandRequest } from '../models/DeliveryPricingTierBandRequest.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';

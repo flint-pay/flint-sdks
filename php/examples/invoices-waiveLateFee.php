@@ -12,7 +12,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->waiveLateFee('example', 'example', [
-  'reason' => 'example',
+  'reason_message' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;

@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read ThemeConfig $checkout_theme
  * @property-read bool $is_sold_out
+ * @property-read Image $merchant_icon
  * @property-read Image $merchant_logo
  * @property-read string $merchant_name
  * @property-read PublicPaymentLink $payment_link
@@ -15,7 +16,7 @@ namespace Flint;
  * @property-read PaymentLinkSubscriptionPreview $subscription_preview
  * Presence-aware response; omitted fields throw when accessed. */
 final class PublicPaymentLinkResult extends Model {
-    /** @param array{'checkout_theme'?: object{'accent_color'?: string, 'primary_color'?: string, 'title'?: string}, 'is_sold_out'?: bool, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolution_context_start_deadline_at': string, 'resolved_line_items'?: list<mixed>, 'subscription_preview'?: object{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_image'?: object{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int}, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'trial_period_days'?: int}, ...}|object $values */
+    /** @param array{'checkout_theme'?: object{'accent_color'?: string, 'primary_color'?: string, 'title'?: string}, 'is_sold_out'?: bool, 'merchant_icon'?: mixed, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolution_context_start_deadline_at': string, 'resolved_line_items'?: list<mixed>, 'subscription_preview'?: object{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_image'?: object{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int}, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'trial_period_days'?: int}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResult')); }
     /** @return ThemeConfig
      * @throws SdkError When checkout_theme is omitted; use hasCheckoutTheme() or valueOrDefault().
@@ -27,6 +28,11 @@ final class PublicPaymentLinkResult extends Model {
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
     public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
+    /** @return Image
+     * @throws SdkError When merchant_icon is omitted; use hasMerchantIcon() or valueOrDefault().
+     */
+    public function getMerchantIcon(): Image { return $this->get('merchant_icon'); }
+    public function hasMerchantIcon(): bool { return $this->has('merchant_icon'); }
     /** @return Image
      * @throws SdkError When merchant_logo is omitted; use hasMerchantLogo() or valueOrDefault().
      */

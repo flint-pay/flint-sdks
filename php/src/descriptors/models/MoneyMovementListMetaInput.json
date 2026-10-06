@@ -1,1 +1,1 @@
-{"shared":"MoneyMovementListMeta","dependencies":["MoneyMovementHistoryMeta","MoneyMovementListMeta","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseWarning"]}
+{"shared":"MoneyMovementListMeta","dependencies":["MoneyMovementHistoryMeta","MoneyMovementListMeta","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseWarning","SharedCodec1","SharedCodec487"]}

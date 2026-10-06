@@ -25,6 +25,8 @@ import type { CustomersGetDeletionRequestInput } from '../declarations/Customers
 import type { CustomersGetDeletionRequestResponse } from '../declarations/CustomersGetDeletionRequestResponse.js';
 import type { CustomersGetInput } from '../declarations/CustomersGetInput.js';
 import type { CustomersGetResponse } from '../declarations/CustomersGetResponse.js';
+import type { CustomersLinkGuestPurchasesInput } from '../declarations/CustomersLinkGuestPurchasesInput.js';
+import type { CustomersLinkGuestPurchasesResponse } from '../declarations/CustomersLinkGuestPurchasesResponse.js';
 import type { CustomersListAddressesInput } from '../declarations/CustomersListAddressesInput.js';
 import type { CustomersListAddressesResponse } from '../declarations/CustomersListAddressesResponse.js';
 import type { CustomersListInput } from '../declarations/CustomersListInput.js';
@@ -38,6 +40,7 @@ import type { CustomersUpdateAddressResponse } from '../declarations/CustomersUp
 import type { CustomersUpdateInput } from '../declarations/CustomersUpdateInput.js';
 import type { CustomersUpdateResponse } from '../declarations/CustomersUpdateResponse.js';
 import type { DocumentTaxIDInput } from '../declarations/DocumentTaxIDInput.js';
+import type { GuestPurchaseLinkResponse } from '../declarations/GuestPurchaseLinkResponse.js';
 import type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
@@ -116,6 +119,17 @@ export interface CustomersResource {
     getDeletionRequest(customer_id: InputValue<string>, customer_deletion_request_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getDeletionRequestWithResponse(customer_id: InputValue<string>, customer_deletion_request_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersGetDeletionRequestResponse>>;
+    /**
+ * Links purchases with the verified email and no customer to the verification's customer in the same merchant environment. Purchases bound to another customer stay with that customer. The verification is single use; use the same Idempotency-Key to retry an uncertain result.
+ * POST /v1/customers/{customer_id}/link-guest-purchases
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customers.linkGuestPurchases("cus_example", {customer_verification_id: "cver_example"}, { idempotencyKey: idempotencyKey })
+ */
+    linkGuestPurchases(customer_id: InputValue<string>, params: (InputValue<{ "customer_verification_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GuestPurchaseLinkResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    linkGuestPurchasesWithResponse(customer_id: InputValue<string>, params: (InputValue<{ "customer_verification_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersLinkGuestPurchasesResponse>>;
     /**
  * Lists the customer's saved addresses with billing and shipping default flags.
  * GET /v1/customers/{customer_id}/addresses
@@ -209,6 +223,8 @@ export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempote
 export type { CustomersGetResponse } from '../declarations/CustomersGetResponse.js';
 export type { CustomersGetAddressResponse } from '../declarations/CustomersGetAddressResponse.js';
 export type { CustomersGetDeletionRequestResponse } from '../declarations/CustomersGetDeletionRequestResponse.js';
+export type { GuestPurchaseLinkResponse } from '../declarations/GuestPurchaseLinkResponse.js';
+export type { CustomersLinkGuestPurchasesResponse } from '../declarations/CustomersLinkGuestPurchasesResponse.js';
 export type { CustomerAddressListResponse } from '../declarations/CustomerAddressListResponse.js';
 export type { CustomersListAddressesResponse } from '../declarations/CustomersListAddressesResponse.js';
 export type { CustomerAddress } from '../declarations/CustomerAddress.js';
@@ -228,6 +244,7 @@ export type { CustomersDeleteAddressInput } from '../declarations/CustomersDelet
 export type { CustomersGetInput } from '../declarations/CustomersGetInput.js';
 export type { CustomersGetAddressInput } from '../declarations/CustomersGetAddressInput.js';
 export type { CustomersGetDeletionRequestInput } from '../declarations/CustomersGetDeletionRequestInput.js';
+export type { CustomersLinkGuestPurchasesInput } from '../declarations/CustomersLinkGuestPurchasesInput.js';
 export type { CustomersListAddressesInput } from '../declarations/CustomersListAddressesInput.js';
 export type { CustomersListInput } from '../declarations/CustomersListInput.js';
 export type { CustomersRevokeSessionsInput } from '../declarations/CustomersRevokeSessionsInput.js';
@@ -242,6 +259,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { CustomerDeletionRequest } from '../declarations/CustomerDeletionRequest.js';
 export type { ActionResult } from '../declarations/ActionResult.js';
+export type { GuestPurchaseLink } from '../declarations/GuestPurchaseLink.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { CardDetails } from '../declarations/CardDetails.js';
 export type { CustomerReceivableBalance } from '../declarations/CustomerReceivableBalance.js';
@@ -250,6 +268,7 @@ export type { DocumentTaxID } from '../declarations/DocumentTaxID.js';
 export type { CustomerSessionsRevocation } from '../declarations/CustomerSessionsRevocation.js';
 export type { CreateCustomerRequestInput } from '../declarations/CreateCustomerRequestInput.js';
 export type { CreateCustomerAddressRequestInput } from '../declarations/CreateCustomerAddressRequestInput.js';
+export type { LinkCustomerGuestPurchasesRequestInput } from '../declarations/LinkCustomerGuestPurchasesRequestInput.js';
 export type { SetDefaultCustomerAddressRequestInput } from '../declarations/SetDefaultCustomerAddressRequestInput.js';
 export type { UpdateCustomerRequestInput } from '../declarations/UpdateCustomerRequestInput.js';
 export type { UpdateCustomerAddressRequestInput } from '../declarations/UpdateCustomerAddressRequestInput.js';
@@ -257,6 +276,7 @@ export { makeCustomerResponse } from '../declarations/makeCustomerResponse.js';
 export { makeCustomerAddressResponse } from '../declarations/makeCustomerAddressResponse.js';
 export { makeCustomerDeletionRequestResponse } from '../declarations/makeCustomerDeletionRequestResponse.js';
 export { makeActionResponse } from '../declarations/makeActionResponse.js';
+export { makeGuestPurchaseLinkResponse } from '../declarations/makeGuestPurchaseLinkResponse.js';
 export { makeCustomerAddressListResponse } from '../declarations/makeCustomerAddressListResponse.js';
 export { makeCustomerAddress } from '../declarations/makeCustomerAddress.js';
 export { makeCustomerListResponse } from '../declarations/makeCustomerListResponse.js';
@@ -267,6 +287,7 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeCustomerDeletionRequest } from '../declarations/makeCustomerDeletionRequest.js';
 export { makeActionResult } from '../declarations/makeActionResult.js';
+export { makeGuestPurchaseLink } from '../declarations/makeGuestPurchaseLink.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeCardDetails } from '../declarations/makeCardDetails.js';
 export { makeCustomerReceivableBalance } from '../declarations/makeCustomerReceivableBalance.js';

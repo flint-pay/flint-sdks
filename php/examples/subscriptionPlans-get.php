@@ -9,6 +9,6 @@ $client = new Client(new ClientOptions(
   token: getenv('API_TOKEN') ?: '',
 ));
 $result = $client->subscriptionPlans->get('example');
-echo $result->plan_id . PHP_EOL;
 echo $result->status . PHP_EOL;
+echo $result->subscription_plan_id . PHP_EOL;
 $client->close();

@@ -1,0 +1,4 @@
+
+
+
+/** A link that opens one order, subscription, or Return in the merchant's Flint-hosted customer account without a sign-in. Its url is a bearer credential, returned only when the link is created. */ export type AccessLinkInput = { /** When the link stops opening the resource without a sign-in. Format: date-time. */ "expires_at"?: never; /** What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. */ "purpose"?: never; /** The link to send the buyer. It carries an access grant in its fragment, so anyone with it can open the resource until expires_at or until it reaches its open limit. The link follows the customer account's current custom domain when the buyer opens it. Format: uri. */ "url"?: never; };

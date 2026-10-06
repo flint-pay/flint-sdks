@@ -1,1 +1,1 @@
-{"shared":"InvoiceCheckoutSessionRequest","dependencies":["InvoiceCheckoutSessionRequest"]}
+{"shared":"InvoiceCheckoutSessionRequest","dependencies":["CheckoutRedirectsConfig","InvoiceCheckoutSessionRequest"]}

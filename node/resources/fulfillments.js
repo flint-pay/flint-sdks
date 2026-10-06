@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createFulfillmentEvent"]:r0,["createShipment"]:r0,["getFulfillment"]:r0,["listFulfillments"]:r0,["transitionFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
@@ -216,7 +216,6 @@ export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
 export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
 export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
 export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
-export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
 export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
 export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
 export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
@@ -228,7 +227,6 @@ export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfi
 export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
 export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeImage } from '../models/Image.js';
-export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
@@ -240,6 +238,7 @@ export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';

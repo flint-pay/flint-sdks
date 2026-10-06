@@ -1,9 +1,9 @@
-import { d87 as c0, d74 as c1, d1784 as c2, d1783 as c3, d1945 as c4, d2118 as c5, d2119 as c6, d2269 as c7, d2270 as c8, d88 as c9, d1944 as c10, d2286 as c11, d2287 as c12, d2288 as c13 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2269 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d90 as c0, d77 as c1, d1823 as c2, d1822 as c3, d1985 as c4, d2157 as c5, d2158 as c6, d2308 as c7, d2309 as c8, d14 as c9, d91 as c10, d1821 as c11, d1984 as c12, d2326 as c13, d2327 as c14, d2328 as c15 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d2308 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2269;
+const read = d2308;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedCustomerSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PaymentMethod"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["SavePaymentMethodResponse"]:c7(),["SavePaymentMethodResult"]:c8(),["SharedCodec21"]:c9(),["SharedCodec506"]:c10(),["StripeClientAuthority"]:c11(),["StripeClientSetup"]:c12(),["StripeClientSetupStripe"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedCustomerSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PaymentMethod"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["SavePaymentMethodResponse"]:c7(),["SavePaymentMethodResult"]:c8(),["SharedCodec1"]:c9(),["SharedCodec22"]:c10(),["SharedCodec487"]:c11(),["SharedCodec517"]:c12(),["StripeClientAuthority"]:c13(),["StripeClientSetup"]:c14(),["StripeClientSetupStripe"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSavePaymentMethodResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,6 +1,7 @@
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
+import type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
 import type { AddReturnLineItemResponse } from '../declarations/AddReturnLineItemResponse.js';
 import type { CancelReturnDispositionResponse } from '../declarations/CancelReturnDispositionResponse.js';
 import type { CancelReturnResolutionResponse } from '../declarations/CancelReturnResolutionResponse.js';
@@ -32,6 +33,8 @@ import type { ReturnsCancelLineItemResponse } from '../declarations/ReturnsCance
 import type { ReturnsCancelResponse } from '../declarations/ReturnsCancelResponse.js';
 import type { ReturnsCompleteInput } from '../declarations/ReturnsCompleteInput.js';
 import type { ReturnsCompleteResponse } from '../declarations/ReturnsCompleteResponse.js';
+import type { ReturnsCreateAccessLinkInput } from '../declarations/ReturnsCreateAccessLinkInput.js';
+import type { ReturnsCreateAccessLinkResponse } from '../declarations/ReturnsCreateAccessLinkResponse.js';
 import type { ReturnsCreateDispositionInput } from '../declarations/ReturnsCreateDispositionInput.js';
 import type { ReturnsCreateDispositionResponse } from '../declarations/ReturnsCreateDispositionResponse.js';
 import type { ReturnsCreateInput } from '../declarations/ReturnsCreateInput.js';
@@ -123,6 +126,17 @@ export interface ReturnsResource {
     create(params: (InputValue<{ "external_reference_id"?: string; "line_items": Array<ReturnLineItemRequestInput>; "metadata"?: Record<string, string>; "order_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AddReturnLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<{ "external_reference_id"?: string; "line_items": Array<ReturnLineItemRequestInput>; "metadata"?: Record<string, string>; "order_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnsCreateResponse>>;
+    /**
+ * Creates the link Flint's email about a Return carries, to put in buyer email or messages you send yourself. It opens the Return and its order in your Flint-hosted customer account without a sign-in. Withdrawing the Return needs the buyer to sign in. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the Return. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for a Return whose order has no customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+ * POST /v1/returns/{return_id}/access-links
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.returns.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
+ */
+    createAccessLink(return_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AccessLinkResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createAccessLinkWithResponse(return_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnsCreateAccessLinkResponse>>;
     /**
  * Record an auditable merchandise disposition from either a receipt line or an inspection line.
  * POST /v1/returns/{return_id}/dispositions
@@ -232,7 +246,7 @@ export interface ReturnsResource {
     listPagesWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "customer_id"?: InputValue<string>; "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>; "external_reference_id"?: InputValue<string>; "merchandise_status"?: InputValue<Array<"not_required" | "awaiting_handoff" | "in_transit" | "partially_received" | "received" | "inspection_required" | "partially_inspected" | "inspection_review_required" | "disposition_required" | "resolved" | "exception">>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "receiving_location_id"?: InputValue<string>; "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>; "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "correction">>; "return_number"?: InputValue<string>; "return_reason_id"?: InputValue<string>; "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnsListResponse>>;
     listItems(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "customer_id"?: InputValue<string>; "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>; "external_reference_id"?: InputValue<string>; "merchandise_status"?: InputValue<Array<"not_required" | "awaiting_handoff" | "in_transit" | "partially_received" | "received" | "inspection_required" | "partially_inspected" | "inspection_review_required" | "disposition_required" | "resolved" | "exception">>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "receiving_location_id"?: InputValue<string>; "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed">>; "resolution_type"?: InputValue<Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "correction">>; "return_number"?: InputValue<string>; "return_reason_id"?: InputValue<string>; "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnResource>;
     /**
- * Process an existing requested Return atomically at the Flint facts layer. Requires the current Return version and Idempotency-Key. Linked effects remain asynchronous.
+ * Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested or open Return in one request. Refunds, payments, replacement orders, and inventory updates complete asynchronously. expected_version is optional and checked only when sent. If the Return has changed since that version, the request fails with RETURN_VERSION_CONFLICT. Requires Idempotency-Key and all three scopes: commerce.returns.write, commerce.returns.operations.write, and commerce.returns.resolutions.write.
  * POST /v1/returns/{return_id}/process
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -304,6 +318,8 @@ export type { ReturnsCancelResponse } from '../declarations/ReturnsCancelRespons
 export type { ReturnsCancelLineItemResponse } from '../declarations/ReturnsCancelLineItemResponse.js';
 export type { ReturnsCompleteResponse } from '../declarations/ReturnsCompleteResponse.js';
 export type { ReturnsCreateResponse } from '../declarations/ReturnsCreateResponse.js';
+export type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
+export type { ReturnsCreateAccessLinkResponse } from '../declarations/ReturnsCreateAccessLinkResponse.js';
 export type { CancelReturnDispositionResponse } from '../declarations/CancelReturnDispositionResponse.js';
 export type { ReturnsCreateDispositionResponse } from '../declarations/ReturnsCreateDispositionResponse.js';
 export type { ReturnInspectionLineItemRequestInput } from '../declarations/ReturnInspectionLineItemRequestInput.js';
@@ -344,6 +360,7 @@ export type { ReturnsCancelInput } from '../declarations/ReturnsCancelInput.js';
 export type { ReturnsCancelLineItemInput } from '../declarations/ReturnsCancelLineItemInput.js';
 export type { ReturnsCompleteInput } from '../declarations/ReturnsCompleteInput.js';
 export type { ReturnsCreateInput } from '../declarations/ReturnsCreateInput.js';
+export type { ReturnsCreateAccessLinkInput } from '../declarations/ReturnsCreateAccessLinkInput.js';
 export type { ReturnsCreateDispositionInput } from '../declarations/ReturnsCreateDispositionInput.js';
 export type { ReturnsCreateInspectionInput } from '../declarations/ReturnsCreateInspectionInput.js';
 export type { ReturnsCreateReceiptInput } from '../declarations/ReturnsCreateReceiptInput.js';
@@ -365,6 +382,7 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { AccessLink } from '../declarations/AccessLink.js';
 export type { ReturnDisposition } from '../declarations/ReturnDisposition.js';
 export type { ReturnActor } from '../declarations/ReturnActor.js';
 export type { ReturnInspection } from '../declarations/ReturnInspection.js';
@@ -446,6 +464,7 @@ export type { UpdateReturnRequestInput } from '../declarations/UpdateReturnReque
 export type { UpdateReturnLineItemRequestInput } from '../declarations/UpdateReturnLineItemRequestInput.js';
 export type { WaiveReturnLineInspectionRequestInput } from '../declarations/WaiveReturnLineInspectionRequestInput.js';
 export { makeAddReturnLineItemResponse } from '../declarations/makeAddReturnLineItemResponse.js';
+export { makeAccessLinkResponse } from '../declarations/makeAccessLinkResponse.js';
 export { makeCancelReturnDispositionResponse } from '../declarations/makeCancelReturnDispositionResponse.js';
 export { makeCreateReturnInspectionResponse } from '../declarations/makeCreateReturnInspectionResponse.js';
 export { makeCreateReturnReceiptResponse } from '../declarations/makeCreateReturnReceiptResponse.js';
@@ -459,6 +478,7 @@ export { makeProcessExistingReturnResponse } from '../declarations/makeProcessEx
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeAccessLink } from '../declarations/makeAccessLink.js';
 export { makeReturnDisposition } from '../declarations/makeReturnDisposition.js';
 export { makeReturnActor } from '../declarations/makeReturnActor.js';
 export { makeReturnInspection } from '../declarations/makeReturnInspection.js';

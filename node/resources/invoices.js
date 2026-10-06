@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/invoices.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["assessInvoiceLateFee"]:r0,["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["getInvoice"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceEvents"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["pauseInvoiceReminders"]:r0,["recordManualInvoicePayment"]:r0,["regenerateInvoicePublicLink"]:r0,["resumeInvoiceReminders"]:r0,["reverseManualInvoicePayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["assessInvoiceLateFee"]:r0,["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["getInvoice"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["recordManualInvoicePayment"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseManualInvoicePayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -121,6 +121,51 @@ this.invoices = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      listActivities: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "type",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, [])),
+      listActivitiesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "type",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
+      listActivitiesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "type",
+  "Flint-Version"
+], false, false, params), options), []),
+      listActivitiesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "type",
+  "Flint-Version"
+], false, false, params), options)),
+      listActivitiesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceActivities", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "type",
+  "Flint-Version"
+], false, false, params), options),
       listDeliveryAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -150,41 +195,6 @@ this.invoices = Object.freeze({
   "Flint-Version"
 ], false, false, params), options)),
       listDeliveryAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceDeliveryAttempts", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "Flint-Version"
-], false, false, params), options),
-      listEvents: async (invoice_id, params, options) => this.#runtime.request("listInvoiceEvents", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
-      listEventsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceEvents", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
-      listEventsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceEvents", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "Flint-Version"
-], false, false, params), options), []),
-      listEventsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceEvents", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "page_size",
-  "page_token",
-  "Flint-Version"
-], false, false, params), options)),
-      listEventsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceEvents", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
@@ -335,18 +345,6 @@ this.invoices = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
-      pauseReminders: async (invoice_id, params, options) => this.#runtime.request("pauseInvoiceReminders", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "Flint-Version"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      pauseRemindersWithResponse: async (invoice_id, params, options) => this.#runtime.request("pauseInvoiceReminders", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "Flint-Version"
-], true, false, params), options).then(_sdkResponse),
       recordManualPayment: async (invoice_id, params, options) => this.#runtime.request("recordManualInvoicePayment", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -373,18 +371,6 @@ this.invoices = Object.freeze({
 ], [invoice_id], [
   "Idempotency-Key",
   "X-Request-Id",
-  "Flint-Version"
-], true, false, params), options).then(_sdkResponse),
-      resumeReminders: async (invoice_id, params, options) => this.#runtime.request("resumeInvoiceReminders", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "Flint-Version"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      resumeRemindersWithResponse: async (invoice_id, params, options) => this.#runtime.request("resumeInvoiceReminders", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
       reverseManualPayment: async (invoice_id, params, options) => this.#runtime.request("reverseManualInvoicePayment", _sdkRequestInput([
@@ -466,10 +452,10 @@ export { makeInvoicePaymentAttemptResponse } from '../models/InvoicePaymentAttem
 export { makeCollectInvoiceResponse } from '../models/CollectInvoiceResponse.js';
 export { makeInvoiceCheckoutSessionResponse } from '../models/InvoiceCheckoutSessionResponse.js';
 export { makeIssueInvoiceResponse } from '../models/IssueInvoiceResponse.js';
+export { makeInvoiceActivityListResponse } from '../models/InvoiceActivityListResponse.js';
+export { makeInvoiceActivity } from '../models/InvoiceActivity.js';
 export { makeInvoiceDeliveryAttemptListResponse } from '../models/InvoiceDeliveryAttemptListResponse.js';
 export { makeInvoiceDeliveryAttempt } from '../models/InvoiceDeliveryAttempt.js';
-export { makeInvoiceEventListResponse } from '../models/InvoiceEventListResponse.js';
-export { makeInvoiceEvent } from '../models/InvoiceEvent.js';
 export { makeInvoicePaymentAttemptListResponse } from '../models/InvoicePaymentAttemptListResponse.js';
 export { makeInvoicePaymentAttempt } from '../models/InvoicePaymentAttempt.js';
 export { makeInvoiceListResponse } from '../models/InvoiceListResponse.js';
@@ -535,7 +521,6 @@ export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.j
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeHostedCheckout } from '../models/HostedCheckout.js';
 export { makeIssueInvoiceResult } from '../models/IssueInvoiceResult.js';
 export { makeInvoiceLateFee } from '../models/InvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';

@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read SignedMoney $running_balance_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderActivity extends Model {
-    /** @param array{'activity_type': string, 'balance_delta_money': object{'amount': string, 'currency': string}, 'checkout_session_id'?: string, 'created_at'?: string, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'balance_delta_money': object{'amount': string, 'currency': string}, 'checkout_session_id'?: string, 'created_at'?: string, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': object{'amount': string, 'currency': string}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivity')); }
     /** @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().

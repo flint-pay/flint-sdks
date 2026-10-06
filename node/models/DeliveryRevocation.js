@@ -1,9 +1,9 @@
-import { d689 as c0, d690 as c1, d704 as c2, d693 as c3, d692 as c4, d695 as c5, d694 as c6, d697 as c7, d696 as c8, d699 as c9, d698 as c10, d701 as c11, d700 as c12, d703 as c13, d702 as c14 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d689 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d707 as c0, d708 as c1, d722 as c2, d711 as c3, d710 as c4, d713 as c5, d712 as c6, d715 as c7, d714 as c8, d717 as c9, d716 as c10, d719 as c11, d718 as c12, d721 as c13, d720 as c14 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d707 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d689;
+const read = d707;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocation"]:c0(),["DeliveryRevocationImpact"]:c1(),["DeliveryRevocationTarget"]:c2(),["SharedCodec220"]:c3(),["SharedCodec221"]:c4(),["SharedCodec222"]:c5(),["SharedCodec223"]:c6(),["SharedCodec224"]:c7(),["SharedCodec225"]:c8(),["SharedCodec226"]:c9(),["SharedCodec227"]:c10(),["SharedCodec228"]:c11(),["SharedCodec229"]:c12(),["SharedCodec230"]:c13(),["SharedCodec231"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocation"]:c0(),["DeliveryRevocationImpact"]:c1(),["DeliveryRevocationTarget"]:c2(),["SharedCodec227"]:c3(),["SharedCodec228"]:c4(),["SharedCodec229"]:c5(),["SharedCodec230"]:c6(),["SharedCodec231"]:c7(),["SharedCodec232"]:c8(),["SharedCodec233"]:c9(),["SharedCodec234"]:c10(),["SharedCodec235"]:c11(),["SharedCodec236"]:c12(),["SharedCodec237"]:c13(),["SharedCodec238"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryRevocation(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

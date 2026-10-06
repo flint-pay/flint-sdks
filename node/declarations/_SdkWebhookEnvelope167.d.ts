@@ -1,3 +1,3 @@
 
-import type { _SdkWebhookEnvelope165 } from './_SdkWebhookEnvelope165.js';
-export type _SdkWebhookEnvelope167 = _SdkWebhookEnvelope165;
+import type { _SdkWebhookEnvelope166 } from './_SdkWebhookEnvelope166.js';
+export type _SdkWebhookEnvelope167 = _SdkWebhookEnvelope166;

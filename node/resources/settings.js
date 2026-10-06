@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getEffectiveSettings"]:r0,["getSettings"]:r0,["updateSettings"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["getEffectiveSettings"]:r0,["getSettings"]:r0,["updateSettings"]:r0,["validateCustomDomain"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -38,22 +38,37 @@ this.settings = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      validateCustomDomain: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
+  "domain_type"
+], [domain_type], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      validateCustomDomainWithResponse: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
+  "domain_type"
+], [domain_type], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], false, false, params), options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
 }
 export { makeSettingsResponse } from '../models/SettingsResponse.js';
+export { makeCustomDomainStatus } from '../models/CustomDomainStatus.js';
 export { makeSettings } from '../models/Settings.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeCustomerAccountDNSRecord } from '../models/CustomerAccountDNSRecord.js';
 export { makeBrandingSettings } from '../models/BrandingSettings.js';
 export { makeCatalogSettings } from '../models/CatalogSettings.js';
 export { makeCheckoutSettings } from '../models/CheckoutSettings.js';
 export { makeCustomerAccountSettings } from '../models/CustomerAccountSettings.js';
 export { makeCustomerAccountPresentation } from '../models/CustomerAccountPresentation.js';
 export { makeCustomerAccountRouteTemplates } from '../models/CustomerAccountRouteTemplates.js';
-export { makeCustomerAccountDNSRecord } from '../models/CustomerAccountDNSRecord.js';
 export { makeCustomerEmailDeliverySettings } from '../models/CustomerEmailDeliverySettings.js';
 export { makeFulfillmentSettings } from '../models/FulfillmentSettings.js';
 export { makeInventorySettings } from '../models/InventorySettings.js';

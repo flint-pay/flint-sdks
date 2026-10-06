@@ -1,9 +1,9 @@
-import { d74 as c0, d2251 as c1, d497 as c2, d488 as c3, d489 as c4, d491 as c5, d490 as c6, d492 as c7, d494 as c8, d493 as c9, d495 as c10, d496 as c11, d2248 as c12, d2247 as c13, d2249 as c14, d2250 as c15 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2251 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d77 as c0, d2290 as c1, d507 as c2, d498 as c3, d499 as c4, d501 as c5, d500 as c6, d502 as c7, d504 as c8, d503 as c9, d505 as c10, d506 as c11, d2287 as c12, d2286 as c13, d2288 as c14, d2289 as c15 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d2290 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2251;
+const read = d2290;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["RiskPredicateNode"]:c1(),["SharedCodec180"]:c2(),["SharedCodec181"]:c3(),["SharedCodec182"]:c4(),["SharedCodec183"]:c5(),["SharedCodec184"]:c6(),["SharedCodec185"]:c7(),["SharedCodec186"]:c8(),["SharedCodec187"]:c9(),["SharedCodec188"]:c10(),["SharedCodec189"]:c11(),["SharedCodec584"]:c12(),["SharedCodec585"]:c13(),["SharedCodec586"]:c14(),["SharedCodec587"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["RiskPredicateNode"]:c1(),["SharedCodec182"]:c2(),["SharedCodec183"]:c3(),["SharedCodec184"]:c4(),["SharedCodec185"]:c5(),["SharedCodec186"]:c6(),["SharedCodec187"]:c7(),["SharedCodec188"]:c8(),["SharedCodec189"]:c9(),["SharedCodec190"]:c10(),["SharedCodec191"]:c11(),["SharedCodec597"]:c12(),["SharedCodec598"]:c13(),["SharedCodec599"]:c14(),["SharedCodec600"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeRiskPredicateNode(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

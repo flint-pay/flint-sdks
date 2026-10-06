@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $available_money
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $balance_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $available_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $balance_money
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
  * @property-read string $gift_card_id
@@ -11,20 +11,20 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $last_loaded_at
  * @property-read string|\DateTimeInterface|null $last_redeemed_at
  * @property-read string $merchant_id
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $reserved_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $reserved_money
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerGiftCardInput extends Model {
-    /** @param array{'available_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'balance_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'currency': string, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|\DateTimeInterface|null, 'last_redeemed_at': string|\DateTimeInterface|null, 'merchant_id': string, 'reserved_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'currency': string, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|\DateTimeInterface|null, 'last_redeemed_at': string|\DateTimeInterface|null, 'merchant_id': string, 'reserved_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardInput')); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
      */
     public function getAvailableMoney(): mixed { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_money is omitted; use hasBalanceMoney() or valueOrDefault().
      */
     public function getBalanceMoney(): mixed { return $this->get('balance_money'); }
@@ -64,7 +64,7 @@ final class BuyerGiftCardInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When reserved_money is omitted; use hasReservedMoney() or valueOrDefault().
      */
     public function getReservedMoney(): mixed { return $this->get('reserved_money'); }

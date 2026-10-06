@@ -1,7 +1,7 @@
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { CancelSubscriptionResponse } from '../declarations/CancelSubscriptionResponse.js';
+import type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
@@ -18,6 +18,8 @@ import type { SubscriptionsCancelInput } from '../declarations/SubscriptionsCanc
 import type { SubscriptionsCancelResponse } from '../declarations/SubscriptionsCancelResponse.js';
 import type { SubscriptionsChangePaymentMethodInput } from '../declarations/SubscriptionsChangePaymentMethodInput.js';
 import type { SubscriptionsChangePaymentMethodResponse } from '../declarations/SubscriptionsChangePaymentMethodResponse.js';
+import type { SubscriptionsCreateAccessLinkInput } from '../declarations/SubscriptionsCreateAccessLinkInput.js';
+import type { SubscriptionsCreateAccessLinkResponse } from '../declarations/SubscriptionsCreateAccessLinkResponse.js';
 import type { SubscriptionsCreateInput } from '../declarations/SubscriptionsCreateInput.js';
 import type { SubscriptionsCreatePaymentRetryInput } from '../declarations/SubscriptionsCreatePaymentRetryInput.js';
 import type { SubscriptionsCreatePaymentRetryResponse } from '../declarations/SubscriptionsCreatePaymentRetryResponse.js';
@@ -46,14 +48,14 @@ import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface SubscriptionsResource {
     /**
- * Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Response may include advisory contract information.
+ * Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities.
  * POST /v1/subscriptions/{subscription_id}/cancel
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.cancel("example", {}, { idempotencyKey: idempotencyKey })
  */
-    cancel(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelSubscriptionResponse, ["data"]>>;
+    cancel(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     cancelWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCancelResponse>>;
     /**
@@ -73,11 +75,22 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.create({billing_start: {type: "immediate"}, customer_id: "example", plan_id: "example", billing_schedule: {owner: "flint"}}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.create({billing_start: {type: "immediate"}, customer_id: "example", subscription_plan_id: "example", billing_schedule: {owner: "flint"}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "plan_id": string; "service_location"?: SubscriptionServiceLocationRequestInput; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "plan_id": string; "service_location"?: SubscriptionServiceLocationRequestInput; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateResponse>>;
+    createWithResponse(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateResponse>>;
+    /**
+ * Creates a link like the ones in Flint's subscription email, to put in buyer email or messages you send yourself. It opens the subscription in your Flint-hosted customer account without a sign-in. Changing it, such as pausing or canceling, needs the buyer to sign in. It works for 14 days or 5 opens, whichever comes first; after that the buyer signs in to see the subscription. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+ * POST /v1/subscriptions/{subscription_id}/access-links
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.subscriptions.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
+ */
+    createAccessLink(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AccessLinkResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createAccessLinkWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateAccessLinkResponse>>;
     /**
  * Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome.
  * POST /v1/subscriptions/{subscription_id}/payment-retries
@@ -90,14 +103,14 @@ export interface SubscriptionsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createPaymentRetryWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreatePaymentRetryResponse>>;
     /**
- * Returns a single subscription by ID.
+ * Returns a single subscription by ID. A paid checkout session's credential can retrieve only the subscription created by its source order. Checkout credentials cannot expand related resources.
  * GET /v1/subscriptions/{subscription_id}
  * @example
  * client.subscriptions.get("example")
  */
-    get(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    get(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetResponse>>;
+    getWithResponse(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetResponse>>;
     /**
  * Returns one durable manual subscription payment retry.
  * GET /v1/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
@@ -125,12 +138,12 @@ export interface SubscriptionsResource {
  * @example
  * client.subscriptions.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Subscription>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Subscription>;
     /**
  * Pauses a subscription immediately, optionally for a fixed number of billing cycles. A buyer's pause follows the store's customer_account.buyer_capabilities.
  * POST /v1/subscriptions/{subscription_id}/pause
@@ -176,16 +189,16 @@ export interface SubscriptionsResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     skipCycleWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "initiated_by"?: "buyer" | "merchant" | "integration"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsSkipCycleResponse>>;
     /**
- * Updates mutable subscription fields such as payment_method_id and metadata.
+ * Updates subscription metadata and external_reference_id. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
  * PATCH /v1/subscriptions/{subscription_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_at_period_end"?: boolean; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "payment_method_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    update(subscription_id: InputValue<string>, params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_at_period_end"?: boolean; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "payment_method_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsUpdateResponse>>;
+    updateWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsUpdateResponse>>;
     /**
  * Sets the next billing date, clears an external schedule while it awaits a date, or transfers schedule ownership. The response carries the updated subscription.
  * PATCH /v1/subscriptions/{subscription_id}/billing-schedule
@@ -207,15 +220,16 @@ readonly subscriptions: SubscriptionsResource;
 }
 export type { RequestOptions } from '../declarations/RequestOptions.js';
 export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CancelSubscriptionResponse } from '../declarations/CancelSubscriptionResponse.js';
+export type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { SubscriptionsCancelResponse } from '../declarations/SubscriptionsCancelResponse.js';
-export type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
 export type { SubscriptionsChangePaymentMethodResponse } from '../declarations/SubscriptionsChangePaymentMethodResponse.js';
 export type { SubscriptionBillingScheduleRequestInput } from '../declarations/SubscriptionBillingScheduleRequestInput.js';
 export type { SubscriptionBillingStartRequestInput } from '../declarations/SubscriptionBillingStartRequestInput.js';
 export type { SubscriptionServiceLocationRequestInput } from '../declarations/SubscriptionServiceLocationRequestInput.js';
 export type { SubscriptionsCreateResponse } from '../declarations/SubscriptionsCreateResponse.js';
+export type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
+export type { SubscriptionsCreateAccessLinkResponse } from '../declarations/SubscriptionsCreateAccessLinkResponse.js';
 export type { SubscriptionPaymentRetryResponse } from '../declarations/SubscriptionPaymentRetryResponse.js';
 export type { SubscriptionsCreatePaymentRetryResponse } from '../declarations/SubscriptionsCreatePaymentRetryResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
@@ -237,6 +251,7 @@ export type { SubscriptionsUpdateBillingScheduleResponse } from '../declarations
 export type { SubscriptionsCancelInput } from '../declarations/SubscriptionsCancelInput.js';
 export type { SubscriptionsChangePaymentMethodInput } from '../declarations/SubscriptionsChangePaymentMethodInput.js';
 export type { SubscriptionsCreateInput } from '../declarations/SubscriptionsCreateInput.js';
+export type { SubscriptionsCreateAccessLinkInput } from '../declarations/SubscriptionsCreateAccessLinkInput.js';
 export type { SubscriptionsCreatePaymentRetryInput } from '../declarations/SubscriptionsCreatePaymentRetryInput.js';
 export type { SubscriptionsGetInput } from '../declarations/SubscriptionsGetInput.js';
 export type { SubscriptionsGetPaymentRetryInput } from '../declarations/SubscriptionsGetPaymentRetryInput.js';
@@ -250,11 +265,15 @@ export type { SubscriptionsUpdateInput } from '../declarations/SubscriptionsUpda
 export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
-export type { CancelSubscriptionResult } from '../declarations/CancelSubscriptionResult.js';
+export type { ResponseMeta } from '../declarations/ResponseMeta.js';
+export type { ResponseWarning } from '../declarations/ResponseWarning.js';
+export type { NextAction } from '../declarations/NextAction.js';
+export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
+export type { AccessLink } from '../declarations/AccessLink.js';
+export type { SubscriptionPaymentRetryFailure } from '../declarations/SubscriptionPaymentRetryFailure.js';
 export type { BuyerAction } from '../declarations/BuyerAction.js';
-export type { ContractInfo } from '../declarations/ContractInfo.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { SubscriptionLineItem } from '../declarations/SubscriptionLineItem.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
@@ -266,11 +285,6 @@ export type { SubscriptionServiceLocation } from '../declarations/SubscriptionSe
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-export type { SubscriptionPaymentRetryFailure } from '../declarations/SubscriptionPaymentRetryFailure.js';
 export type { UpdateSubscriptionBillingScheduleRequestInput } from '../declarations/UpdateSubscriptionBillingScheduleRequestInput.js';
 export type { CancelSubscriptionRequestInput } from '../declarations/CancelSubscriptionRequestInput.js';
 export type { ChangeSubscriptionPaymentMethodRequestInput } from '../declarations/ChangeSubscriptionPaymentMethodRequestInput.js';
@@ -278,18 +292,21 @@ export type { CreateSubscriptionRequestInput } from '../declarations/CreateSubsc
 export type { PauseSubscriptionRequestInput } from '../declarations/PauseSubscriptionRequestInput.js';
 export type { SkipSubscriptionCycleRequestInput } from '../declarations/SkipSubscriptionCycleRequestInput.js';
 export type { UpdateSubscriptionRequestInput } from '../declarations/UpdateSubscriptionRequestInput.js';
-export { makeCancelSubscriptionResponse } from '../declarations/makeCancelSubscriptionResponse.js';
 export { makeSubscriptionResponse } from '../declarations/makeSubscriptionResponse.js';
+export { makeAccessLinkResponse } from '../declarations/makeAccessLinkResponse.js';
 export { makeSubscriptionPaymentRetryResponse } from '../declarations/makeSubscriptionPaymentRetryResponse.js';
 export { makeSubscriptionPaymentRetryListResponse } from '../declarations/makeSubscriptionPaymentRetryListResponse.js';
 export { makeSubscriptionPaymentRetry } from '../declarations/makeSubscriptionPaymentRetry.js';
 export { makeSubscriptionListResponse } from '../declarations/makeSubscriptionListResponse.js';
 export { makeSubscription } from '../declarations/makeSubscription.js';
-export { makeCancelSubscriptionResult } from '../declarations/makeCancelSubscriptionResult.js';
+export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
+export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
+export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeAccessLink } from '../declarations/makeAccessLink.js';
+export { makeSubscriptionPaymentRetryFailure } from '../declarations/makeSubscriptionPaymentRetryFailure.js';
 export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
-export { makeContractInfo } from '../declarations/makeContractInfo.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeSubscriptionLineItem } from '../declarations/makeSubscriptionLineItem.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
@@ -301,7 +318,3 @@ export { makeSubscriptionServiceLocation } from '../declarations/makeSubscriptio
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeSubscriptionPaymentRetryFailure } from '../declarations/makeSubscriptionPaymentRetryFailure.js';

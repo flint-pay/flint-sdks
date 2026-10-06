@@ -2,19 +2,25 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $custom_domain
  * @property-read list<string> $default_delivery_method_ids
  * @property-read string $default_expires_in_seconds
  * @property-read list<string> $enabled_payment_options
  * @property-read bool $promotion_code_entry_enabled
- * @property-read array{'delay_minutes'?: int, 'enabled'?: bool, ...}|object $recovery_email
+ * @property-read array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object $recovery_email
  * @property-read bool $require_billing_address
  * @property-read bool $require_email
  * @property-read bool $require_phone
  * @property-read array{'enabled'?: bool, ...}|object $saved_payment_details
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSettingsInput extends Model {
-    /** @param array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: array{'delay_minutes'?: int, 'enabled'?: bool, ...}|object, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: array{'enabled'?: bool, ...}|object, ...}|object $values */
+    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: array{'enabled'?: bool, ...}|object, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettingsInput')); }
+    /** @return string|null
+     * @throws SdkError When custom_domain is omitted; use hasCustomDomain() or valueOrDefault().
+     */
+    public function getCustomDomain(): string|null { return $this->get('custom_domain'); }
+    public function hasCustomDomain(): bool { return $this->has('custom_domain'); }
     /** @return list<string>
      * @throws SdkError When default_delivery_method_ids is omitted; use hasDefaultDeliveryMethodIds() or valueOrDefault().
      */
@@ -35,7 +41,7 @@ final class CheckoutSettingsInput extends Model {
      */
     public function getPromotionCodeEntryEnabled(): bool { return $this->get('promotion_code_entry_enabled'); }
     public function hasPromotionCodeEntryEnabled(): bool { return $this->has('promotion_code_entry_enabled'); }
-    /** @return array{'delay_minutes'?: int, 'enabled'?: bool, ...}|object
+    /** @return array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object
      * @throws SdkError When recovery_email is omitted; use hasRecoveryEmail() or valueOrDefault().
      */
     public function getRecoveryEmail(): array|object { return $this->get('recovery_email'); }

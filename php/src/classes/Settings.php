@@ -5,9 +5,10 @@ namespace Flint;
  * @property-read BrandingSettings $branding
  * @property-read CatalogSettings $catalog
  * @property-read CheckoutSettings $checkout
+ * @property-read CustomDomainStatus $checkout_domain_status
  * @property-read string $created_at
  * @property-read CustomerAccountSettings $customer_account
- * @property-read CustomerAccountDomainStatus $customer_account_domain_status
+ * @property-read CustomDomainStatus $customer_account_domain_status
  * @property-read CustomerEmailDeliverySettings $customer_email_delivery
  * @property-read string $device_id
  * @property-read FulfillmentSettings $fulfillment
@@ -31,7 +32,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class Settings extends Model {
-    /** @param array{'branding'?: mixed, 'catalog'?: mixed, 'checkout'?: mixed, 'created_at'?: string, 'customer_account'?: mixed, 'customer_account_domain_status'?: object{'dns_records': list<mixed>, 'domain_status': string, 'hostname': string, 'last_checked_at': string}, 'customer_email_delivery'?: mixed, 'device_id'?: string, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'location_id'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'organization_id'?: string, 'payment_limits'?: object{'max_amounts'?: \stdClass, 'min_amounts'?: \stdClass}, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'settings_scope': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity'?: mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'branding'?: mixed, 'catalog'?: mixed, 'checkout'?: mixed, 'checkout_domain_status'?: object{'active_payment_attempt_count'?: string|null, 'dns_records': list<mixed>, 'domain_status': string, 'hostname': string, 'last_checked_at'?: string|null, 'payment_method_domain_id'?: string|null, 'redirect_expires_at'?: string|null, 'status_reason'?: string|null}, 'created_at'?: string, 'customer_account'?: mixed, 'customer_account_domain_status'?: object{'active_payment_attempt_count'?: string|null, 'dns_records': list<mixed>, 'domain_status': string, 'hostname': string, 'last_checked_at'?: string|null, 'payment_method_domain_id'?: string|null, 'redirect_expires_at'?: string|null, 'status_reason'?: string|null}, 'customer_email_delivery'?: mixed, 'device_id'?: string, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'location_id'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'organization_id'?: string, 'payment_limits'?: object{'max_amounts'?: \stdClass, 'min_amounts'?: \stdClass}, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'settings_scope': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity'?: mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Settings')); }
     /** @return BrandingSettings
      * @throws SdkError When branding is omitted; use hasBranding() or valueOrDefault().
@@ -48,6 +49,11 @@ final class Settings extends Model {
      */
     public function getCheckout(): CheckoutSettings { return $this->get('checkout'); }
     public function hasCheckout(): bool { return $this->has('checkout'); }
+    /** @return CustomDomainStatus
+     * @throws SdkError When checkout_domain_status is omitted; use hasCheckoutDomainStatus() or valueOrDefault().
+     */
+    public function getCheckoutDomainStatus(): CustomDomainStatus { return $this->get('checkout_domain_status'); }
+    public function hasCheckoutDomainStatus(): bool { return $this->has('checkout_domain_status'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -58,10 +64,10 @@ final class Settings extends Model {
      */
     public function getCustomerAccount(): CustomerAccountSettings { return $this->get('customer_account'); }
     public function hasCustomerAccount(): bool { return $this->has('customer_account'); }
-    /** @return CustomerAccountDomainStatus
+    /** @return CustomDomainStatus
      * @throws SdkError When customer_account_domain_status is omitted; use hasCustomerAccountDomainStatus() or valueOrDefault().
      */
-    public function getCustomerAccountDomainStatus(): CustomerAccountDomainStatus { return $this->get('customer_account_domain_status'); }
+    public function getCustomerAccountDomainStatus(): CustomDomainStatus { return $this->get('customer_account_domain_status'); }
     public function hasCustomerAccountDomainStatus(): bool { return $this->has('customer_account_domain_status'); }
     /** @return CustomerEmailDeliverySettings
      * @throws SdkError When customer_email_delivery is omitted; use hasCustomerEmailDelivery() or valueOrDefault().

@@ -46,9 +46,9 @@ export interface WebhookDeliveriesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.webhookDeliveries.resend("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<WebhookDeliveryActionResponse, ["data"]>>;
+    resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<WebhookDeliveryActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resendWithResponse(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveriesResendResponse>>;
+    resendWithResponse(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveriesResendResponse>>;
   }
 export declare class Client {
 

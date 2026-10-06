@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/orders.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["previewOrderDiscounts"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resendOrderReceipt"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -98,20 +98,20 @@ this.orders = Object.freeze({
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
-      cancelPaymentAttempt: async (order_id, payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
+      cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
-  "payment_attempt_id"
-], [order_id, payment_attempt_id], [
+  "order_payment_attempt_id"
+], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      cancelPaymentAttemptWithResponse: async (order_id, payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
+      cancelPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
-  "payment_attempt_id"
-], [order_id, payment_attempt_id], [
+  "order_payment_attempt_id"
+], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
@@ -176,6 +176,20 @@ this.orders = Object.freeze({
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      createAccessLink: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      createAccessLinkWithResponse: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Idempotency-Key",
+  "X-Request-Id",
+  "Flint-Version"
+], true, false, params), options).then(_sdkResponse),
       createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -252,18 +266,18 @@ this.orders = Object.freeze({
 ], [order_id], [
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      getPaymentAttempt: async (order_id, payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
+      getPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
-  "payment_attempt_id"
-], [order_id, payment_attempt_id], [
+  "order_payment_attempt_id"
+], [order_id, order_payment_attempt_id], [
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getPaymentAttemptWithResponse: async (order_id, payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
+      getPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
-  "payment_attempt_id"
-], [order_id, payment_attempt_id], [
+  "order_payment_attempt_id"
+], [order_id, order_payment_attempt_id], [
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
@@ -490,22 +504,6 @@ this.orders = Object.freeze({
 ], false, false, params), options),
       pay: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(result => _sdkPayload(result, ["data"])),
       payWithResponse: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(_sdkResponse),
-      previewDiscounts: async (order_id, params, options) => this.#runtime.request("previewOrderDiscounts", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      previewDiscountsWithResponse: async (order_id, params, options) => this.#runtime.request("previewOrderDiscounts", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], true, false, params), options).then(_sdkResponse),
       removeDiscounts: async (order_id, params, options) => this.#runtime.request("removeOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -562,24 +560,6 @@ this.orders = Object.freeze({
   "X-Checkout-Session-Secret",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      resendReceipt: async (order_id, params, options) => this.#runtime.request("resendOrderReceipt", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      resendReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("resendOrderReceipt", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
       resolveInventoryException: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -602,7 +582,7 @@ this.orders = Object.freeze({
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       sendReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -611,7 +591,7 @@ this.orders = Object.freeze({
   "X-Checkout-Session-ID",
   "X-Checkout-Session-Secret",
   "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       update: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -673,7 +653,8 @@ close() { return this.#runtime.close(); }
 export { makeOrderResponse } from '../models/OrderResponse.js';
 export { makeOrderPaymentLifecycleResponse } from '../models/OrderPaymentLifecycleResponse.js';
 export { makeCancelOrderPaymentAttemptResponse } from '../models/CancelOrderPaymentAttemptResponse.js';
-export { makeCreateFulfillmentResponse } from '../models/CreateFulfillmentResponse.js';
+export { makeFulfillmentResponse } from '../models/FulfillmentResponse.js';
+export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
 export { makeCreateOrderPaymentIntentResponse } from '../models/CreateOrderPaymentIntentResponse.js';
 export { makeDeliverySelectionResponse } from '../models/DeliverySelectionResponse.js';
 export { makeOrderPaymentAttemptResponse } from '../models/OrderPaymentAttemptResponse.js';
@@ -683,7 +664,6 @@ export { makeOrderPaymentAttemptListResponse } from '../models/OrderPaymentAttem
 export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
 export { makeOrderListResponse } from '../models/OrderListResponse.js';
 export { makeOrder } from '../models/Order.js';
-export { makeDiscountPreviewResponse } from '../models/DiscountPreviewResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeCheckoutSessionLineItemModifierUpdate } from '../models/CheckoutSessionLineItemModifierUpdate.js';
@@ -700,20 +680,6 @@ export { makeSignedMoney } from '../models/SignedMoney.js';
 export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
 export { makePayOrderResult } from '../models/PayOrderResult.js';
-export { makeCreateFulfillmentResult } from '../models/CreateFulfillmentResult.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeOrderCharge } from '../models/OrderCharge.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
-export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
-export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
 export { makeFulfillment } from '../models/Fulfillment.js';
 export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
@@ -727,38 +693,12 @@ export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
-export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
-export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
-export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
-export { makeOrderLineItem } from '../models/OrderLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
-export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
-export { makeImage } from '../models/Image.js';
-export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
-export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
-export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
-export { makePackageItem } from '../models/PackageItem.js';
+export { makeAccessLink } from '../models/AccessLink.js';
+export { makeCreatePaymentIntentResult } from '../models/CreatePaymentIntentResult.js';
+export { makePaymentCollection } from '../models/PaymentCollection.js';
 export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
 export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makeRequestedTip } from '../models/RequestedTip.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
-export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
-export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
-export { makeTip } from '../models/Tip.js';
-export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
-export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
-export { makeCreatePaymentIntentResult } from '../models/CreatePaymentIntentResult.js';
+export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeDeliverySelection } from '../models/DeliverySelection.js';
 export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
@@ -772,11 +712,44 @@ export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
 export { makeDeliverySelectionLifecycleEventResource } from '../models/DeliverySelectionLifecycleEventResource.js';
-export { makeDiscountPreviewData } from '../models/DiscountPreviewData.js';
-export { makeDiscountPreview } from '../models/DiscountPreview.js';
-export { makePromotionCandidate } from '../models/PromotionCandidate.js';
-export { makePromotionCombinesWith } from '../models/PromotionCombinesWith.js';
-export { makePromotionExclusivity } from '../models/PromotionExclusivity.js';
+export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
+export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
+export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
+export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
+export { makeBuyerAction } from '../models/BuyerAction.js';
+export { makeOrderCharge } from '../models/OrderCharge.js';
+export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
+export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
+export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
+export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
+export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
+export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
+export { makeOrderLineItem } from '../models/OrderLineItem.js';
+export { makeBundleComponent } from '../models/BundleComponent.js';
+export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
+export { makeCategoryReference } from '../models/CategoryReference.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
+export { makeImage } from '../models/Image.js';
+export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
+export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
+export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
+export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
+export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
+export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
+export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
+export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
+export { makeTip } from '../models/Tip.js';
+export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { isOrdersUpdateLineItemResponseKnown } from '../predicates/OrdersUpdateLineItemResponse.js';

@@ -1,1 +1,1 @@
-{"shared":"CustomerSessionRevocationResponse","dependencies":["CustomerSessionRevocation","CustomerSessionRevocationResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}
+{"shared":"CustomerSessionRevocationResponse","dependencies":["CustomerSessionRevocation","CustomerSessionRevocationResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}

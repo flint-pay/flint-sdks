@@ -9,14 +9,14 @@ namespace Flint;
  * @property-read list<PaymentAttemptGiftCardRedemption> $gift_card_redemptions
  * @property-read bool $is_resumable
  * @property-read string $mode
- * @property-read string $payment_attempt_id
+ * @property-read string $order_payment_attempt_id
  * @property-read list<PaymentAttemptPaymentIntent> $payment_intents
  * @property-read list<PendingPaymentAction> $pending_actions
  * @property-read string $started_at
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderPaymentAttempt extends Model {
-    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttempt')); }
     /** @return string
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -54,10 +54,10 @@ final class OrderPaymentAttempt extends Model {
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
     /** @return string
-     * @throws SdkError When payment_attempt_id is omitted; use hasPaymentAttemptId() or valueOrDefault().
+     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
-    public function getPaymentAttemptId(): string { return $this->get('payment_attempt_id'); }
-    public function hasPaymentAttemptId(): bool { return $this->has('payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
     /** @return list<PaymentAttemptPaymentIntent>
      * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
      */

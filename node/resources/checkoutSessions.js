@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["queryCheckoutSessionPickupAvailability"]:r0,["updateCheckoutSession"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -282,20 +282,6 @@ this.checkoutSessions = Object.freeze({
   "expires_before",
   "Flint-Version"
 ], false, false, params), options),
-      queryPickupAvailability: async (checkout_session_id, params, options) => this.#runtime.request("queryCheckoutSessionPickupAvailability", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      queryPickupAvailabilityWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("queryCheckoutSessionPickupAvailability", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
       update: async (checkout_session_id, params, options) => this.#runtime.request("updateCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
@@ -328,7 +314,6 @@ export { makeCheckoutEffectiveDeliverySelectionResponse } from '../models/Checko
 export { makeDeliverySelectionResponse } from '../models/DeliverySelectionResponse.js';
 export { makeCheckoutSessionListResponse } from '../models/CheckoutSessionListResponse.js';
 export { makeCheckoutSession } from '../models/CheckoutSession.js';
-export { makeDeliveryPickupAvailabilityResponse } from '../models/DeliveryPickupAvailabilityResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
@@ -388,8 +373,6 @@ export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
-export { makeHostedCheckout } from '../models/HostedCheckout.js';
 export { makeCheckoutCustomerVerification } from '../models/CheckoutCustomerVerification.js';
 export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
@@ -422,7 +405,6 @@ export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeGiftCardMoney } from '../models/GiftCardMoney.js';
 export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
 export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
 export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
@@ -434,11 +416,11 @@ export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfi
 export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
 export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeImage } from '../models/Image.js';
-export { makeLineItemInventorySnapshot } from '../models/LineItemInventorySnapshot.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
@@ -450,9 +432,3 @@ export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAl
 export { makeBuyerDeliverySelection } from '../models/BuyerDeliverySelection.js';
 export { makeBuyerDeliverySelectionChoiceResource } from '../models/BuyerDeliverySelectionChoiceResource.js';
 export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';
-export { makeDeliveryPickupAvailability } from '../models/DeliveryPickupAvailability.js';
-export { makeDeliveryPickupAvailabilityLocationResource } from '../models/DeliveryPickupAvailabilityLocationResource.js';
-export { makeDeliveryPickupAvailabilityCandidateOutcome } from '../models/DeliveryPickupAvailabilityCandidateOutcome.js';
-export { makeDeliveryPickupAvailabilityMethodResource } from '../models/DeliveryPickupAvailabilityMethodResource.js';
-export { makeDeliveryPickupAvailabilityLocationSummary } from '../models/DeliveryPickupAvailabilityLocationSummary.js';
-export { makeDeliveryPickupAvailabilityDiagnostic } from '../models/DeliveryPickupAvailabilityDiagnostic.js';

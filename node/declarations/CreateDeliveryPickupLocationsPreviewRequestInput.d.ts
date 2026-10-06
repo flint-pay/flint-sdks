@@ -1,0 +1,5 @@
+
+import type { DeliveryBuyerLocationRequestInput } from './DeliveryBuyerLocationRequestInput.js';
+import type { DeliveryPickupAvailabilityMaximumDistanceRequestInput } from './DeliveryPickupAvailabilityMaximumDistanceRequestInput.js';
+
+export type CreateDeliveryPickupLocationsPreviewRequestInput = { "buyer_location"?: DeliveryBuyerLocationRequestInput; /** Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. */ "checkout_session_id": string; /** ID of the checkout's current delivery selection, as GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The search does not change or release the selection. */ "expected_delivery_selection_id"?: string | null; "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput; /** The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. */ "mode": "pickup_locations"; };

@@ -2,18 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryCalculatedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass $calculated
+ * @property-read DeliveryCalculatedPricingStrategyInput|array<array-key, mixed>|\stdClass $calculated
  * @property-read DeliveryExternalPricingStrategyInput|array<array-key, mixed>|\stdClass $callback
  * @property-read DeliveryExternalPricingStrategyInput|array<array-key, mixed>|\stdClass $caller_supplied
  * @property-read DeliveryFixedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass $fixed
  * @property-read DeliveryRateTablePricingStrategyInput|array<array-key, mixed>|\stdClass $rate_table
- * @property-read DeliveryTieredPricingStrategyRequestInput|array<array-key, mixed>|\stdClass $tiered
+ * @property-read DeliveryTieredPricingStrategyInput|array<array-key, mixed>|\stdClass $tiered
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPricingStrategyInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPricingStrategyInput')); }
-    /** @return DeliveryCalculatedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
+    /** @return DeliveryCalculatedPricingStrategyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculated is omitted; use hasCalculated() or valueOrDefault().
      */
     public function getCalculated(): mixed { return $this->get('calculated'); }
@@ -38,7 +38,7 @@ final class DeliveryPricingStrategyInput extends Model {
      */
     public function getRateTable(): mixed { return $this->get('rate_table'); }
     public function hasRateTable(): bool { return $this->has('rate_table'); }
-    /** @return DeliveryTieredPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
+    /** @return DeliveryTieredPricingStrategyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tiered is omitted; use hasTiered() or valueOrDefault().
      */
     public function getTiered(): mixed { return $this->get('tiered'); }

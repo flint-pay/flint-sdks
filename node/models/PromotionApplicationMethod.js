@@ -1,9 +1,9 @@
-import { d74 as c0, d2018 as c1, d2016 as c2, d453 as c3, d2036 as c4, d2037 as c5, d458 as c6, d456 as c7, d455 as c8, d454 as c9, d457 as c10, d2017 as c11, d2034 as c12, d2033 as c13, d2032 as c14, d2035 as c15 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2018 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d77 as c0, d2059 as c1, d2057 as c2, d463 as c3, d2075 as c4, d2076 as c5, d468 as c6, d466 as c7, d465 as c8, d464 as c9, d467 as c10, d2058 as c11, d2073 as c12, d2072 as c13, d2071 as c14, d2074 as c15 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
+import { d2059 } from '../descriptors/data.js?sdk=23304d0710327c07c2c4a303230dbb22d6b14f651af3363cdef910b4916b65b9';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2018;
+const read = d2059;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethod"]:c1(),["PromotionRecurrence"]:c2(),["PromotionRule"]:c3(),["PromotionRuleGroup"]:c4(),["PromotionRuleValue"]:c5(),["SharedCodec170"]:c6(),["SharedCodec171"]:c7(),["SharedCodec172"]:c8(),["SharedCodec173"]:c9(),["SharedCodec174"]:c10(),["SharedCodec519"]:c11(),["SharedCodec522"]:c12(),["SharedCodec523"]:c13(),["SharedCodec524"]:c14(),["SharedCodec525"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethod"]:c1(),["PromotionRecurrence"]:c2(),["PromotionRule"]:c3(),["PromotionRuleGroup"]:c4(),["PromotionRuleValue"]:c5(),["SharedCodec172"]:c6(),["SharedCodec173"]:c7(),["SharedCodec174"]:c8(),["SharedCodec175"]:c9(),["SharedCodec176"]:c10(),["SharedCodec531"]:c11(),["SharedCodec534"]:c12(),["SharedCodec535"]:c13(),["SharedCodec536"]:c14(),["SharedCodec537"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionApplicationMethod(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

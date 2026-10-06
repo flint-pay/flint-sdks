@@ -1,1 +1,1 @@
-{"shared":"GiftCardRefundProvenance","dependencies":["GiftCardFundingSource","GiftCardMoney","GiftCardRefundProvenance","SharedCodec117","SharedCodec118","SharedCodec119","SharedCodec120","SharedCodec121","SharedCodec122","SharedCodec123","SharedCodec124","SharedCodec267","SharedCodec270"]}
+{"shared":"GiftCardRefundProvenance","dependencies":["GiftCardFundingSource","GiftCardRefundProvenance","MoneyValue","SharedCodec120","SharedCodec121","SharedCodec122","SharedCodec123","SharedCodec124","SharedCodec125","SharedCodec126","SharedCodec127","SharedCodec274","SharedCodec277"]}

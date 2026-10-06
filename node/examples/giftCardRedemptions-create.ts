@@ -14,8 +14,8 @@ const result = await client.giftCardRedemptions.create(
       currency: "USD",
     },
     capture_mode: "automatic",
-    external_reference_id: "example",
-    gift_card_id: "example",
+    external_reference_id: "sdk-example",
+    gift_card_id: "gc_01J00000000000000000000001",
   },
   { idempotencyKey: idempotencyKey },
 );

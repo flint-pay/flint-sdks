@@ -1,1 +1,1 @@
-{"shared":"Capability","dependencies":["Capability","CapabilityRequirements","MoneyMovementBlockedReason","NextAction","NextActionMerchantAccountSession"]}
+{"shared":"Capability","dependencies":["Capability","CapabilityRequirements","MoneyMovementBlockedReason","NextAction","NextActionMerchantAccountSession","SharedCodec1","SharedCodec487"]}

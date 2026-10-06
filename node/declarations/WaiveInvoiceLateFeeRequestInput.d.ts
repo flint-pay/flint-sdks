@@ -1,4 +1,4 @@
 
+import type { WaiveInvoiceLateFeeRequest } from './WaiveInvoiceLateFeeRequest.js';
 
-
-export type WaiveInvoiceLateFeeRequestInput = { "reason": string; };
+export type WaiveInvoiceLateFeeRequestInput = WaiveInvoiceLateFeeRequest;

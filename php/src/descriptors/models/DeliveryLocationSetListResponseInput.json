@@ -1,1 +1,1 @@
-{"shared":"DeliveryLocationSetListResponse","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration","DeliveryLocationSetListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}
+{"shared":"DeliveryLocationSetListResponse","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration","DeliveryLocationSetListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}

@@ -80,9 +80,9 @@ export interface DeveloperResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.createPartnerApp({name: "example", permission_manifest: [], redirect_uris: []}, { idempotencyKey: idempotencyKey })
  */
-    createPartnerApp(params: (InputValue<{ "api_version"?: string; "app_type"?: string; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<CreatePartnerAppResponse, ["data"]>>;
+    createPartnerApp(params: (InputValue<{ "api_version"?: string; "app_type"?: "server" | "plugin"; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<CreatePartnerAppResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createPartnerAppWithResponse(params: (InputValue<{ "api_version"?: string; "app_type"?: string; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperCreatePartnerAppResponse>>;
+    createPartnerAppWithResponse(params: (InputValue<{ "api_version"?: string; "app_type"?: "server" | "plugin"; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperCreatePartnerAppResponse>>;
     /**
  * Creates a new test sandbox for the current merchant. Optionally seeds the new empty sandbox with the merchant's live defaults and issues a sandbox-bound test key as part of creation.
  * POST /v1/developer/sandboxes
@@ -239,9 +239,9 @@ export interface DeveloperResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.revokePartnerAppInstall("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
+    revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokePartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperRevokePartnerAppInstallResponse>>;
+    revokePartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRevokePartnerAppInstallResponse>>;
     /**
  * Revokes a single test or live environment grant for a partner app install.
  * POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke
@@ -250,9 +250,9 @@ export interface DeveloperResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.revokePartnerEnvironmentGrant("example", "example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
+    revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokePartnerEnvironmentGrantWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperRevokePartnerEnvironmentGrantResponse>>;
+    revokePartnerEnvironmentGrantWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRevokePartnerEnvironmentGrantResponse>>;
     /**
  * Rotates the client secret for a partner app owned by the authenticated merchant. The new client_secret is only returned once.
  * POST /v1/developer/partner/apps/{partner_app_id}/rotate-secret
@@ -261,9 +261,9 @@ export interface DeveloperResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.rotatePartnerAppSecret("example", {}, { idempotencyKey: idempotencyKey })
  */
-    rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<RotatePartnerAppSecretResponse, ["data"]>>;
+    rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RotatePartnerAppSecretResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    rotatePartnerAppSecretWithResponse(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperRotatePartnerAppSecretResponse>>;
+    rotatePartnerAppSecretWithResponse(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRotatePartnerAppSecretResponse>>;
     /**
  * Updates the API version for a partner app owned by the authenticated merchant. Any supported version can be selected.
  * PATCH /v1/developer/partner/apps/{partner_app_id}

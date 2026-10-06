@@ -1,0 +1,1 @@
+{"shared":"InvoiceActivityListResponse","dependencies":["InvoiceActivity","InvoiceActivityListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec455","SharedCodec487"]}

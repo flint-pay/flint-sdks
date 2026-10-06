@@ -1,4 +1,4 @@
 
+import type { MerchantAccountSessionStripeRequirements } from './MerchantAccountSessionStripeRequirements.js';
 
-
-export type MerchantAccountSessionStripeRequirementsInput = { "only": Array<string>; };
+export type MerchantAccountSessionStripeRequirementsInput = MerchantAccountSessionStripeRequirements;

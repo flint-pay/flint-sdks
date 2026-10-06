@@ -1,0 +1,1 @@
+{"shared":"AccessLink","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"value","type":"string"},"purpose":{"kind":"value","type":"string"},"url":{"kind":"value","type":"string"}}},"dependencies":["AccessLink"]}
