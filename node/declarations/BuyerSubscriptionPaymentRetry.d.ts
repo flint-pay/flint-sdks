@@ -1,0 +1,4 @@
+
+import type { SubscriptionPaymentRetryFailure } from './SubscriptionPaymentRetryFailure.js';
+
+/** A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs. */ export type BuyerSubscriptionPaymentRetry = { /** RFC3339 timestamp. Format: date-time. */ "completed_at"?: string; /** RFC3339 timestamp. Format: date-time. */ "created_at": string; "failure"?: SubscriptionPaymentRetryFailure; "order_id"?: string; /** RFC3339 timestamp. Format: date-time. */ "started_at"?: string; "status": "pending" | "processing" | "succeeded" | "failed" | (string & {}); "subscription_id": string; "subscription_payment_retry_id": string; /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; };

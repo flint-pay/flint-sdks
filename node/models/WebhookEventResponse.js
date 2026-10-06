@@ -1,9 +1,9 @@
-import { d74 as c0, d1784 as c1, d1783 as c2, d2118 as c3, d2119 as c4, d916 as c5, d2550 as c6, d2551 as c7, d2553 as c8 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2553 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d77 as c0, d1797 as c1, d1796 as c2, d2131 as c3, d2132 as c4, d14 as c5, d923 as c6, d1795 as c7, d2565 as c8, d2566 as c9, d2568 as c10 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d2568 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2553;
+const read = d2568;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["SharedCodec280"]:c5(),["SharedCodec657"]:c6(),["WebhookEvent"]:c7(),["WebhookEventResponse"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["SharedCodec1"]:c5(),["SharedCodec286"]:c6(),["SharedCodec485"]:c7(),["SharedCodec669"]:c8(),["WebhookEvent"]:c9(),["WebhookEventResponse"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhookEventResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

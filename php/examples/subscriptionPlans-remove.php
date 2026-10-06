@@ -12,6 +12,6 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptionPlans->remove('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->plan_id . PHP_EOL;
 echo $result->status . PHP_EOL;
+echo $result->subscription_plan_id . PHP_EOL;
 $client->close();

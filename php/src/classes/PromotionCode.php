@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $max_uses
  * @property-read string $merchant_id
  * @property-read array<array-key, string> $metadata
+ * @property-read Promotion $promotion
  * @property-read string $promotion_code_id
  * @property-read string $promotion_id
  * @property-read string $status
@@ -16,7 +17,7 @@ namespace Flint;
  * @property-read string $uses_count
  * Presence-aware response; omitted fields throw when accessed. */
 final class PromotionCode extends Model {
-    /** @param array{'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
+    /** @param array{'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'promotion'?: object{'application_method': mixed, 'codes_summary'?: object{'active_count': int, 'newest_active_code'?: string, 'total_count': int}, 'combines_with'?: mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'stacking_mode': string, 'status': string, 'updated_at'?: string, 'uses_count': string}, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCode')); }
     /** @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
@@ -48,6 +49,11 @@ final class PromotionCode extends Model {
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** @return Promotion
+     * @throws SdkError When promotion is omitted; use hasPromotion() or valueOrDefault().
+     */
+    public function getPromotion(): Promotion { return $this->get('promotion'); }
+    public function hasPromotion(): bool { return $this->has('promotion'); }
     /** @return string
      * @throws SdkError When promotion_code_id is omitted; use hasPromotionCodeId() or valueOrDefault().
      */

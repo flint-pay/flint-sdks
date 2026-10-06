@@ -9,8 +9,8 @@ namespace Flint;
  * @property-read string $external_reference_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $payment_method_id
- * @property-read string $plan_id
  * @property-read SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass $service_location
+ * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionRequestInput extends Model {
     /** @param mixed $values */
@@ -50,14 +50,14 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
      */
     public function getServiceLocation(): mixed { return $this->get('service_location'); }
     public function hasServiceLocation(): bool { return $this->has('service_location'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
 }

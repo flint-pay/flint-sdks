@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read string $disposition
  * @property-read string $gift_card_funding_disposition_id
- * @property-read string $reason
+ * @property-read string $reason_message
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardFundingLossResolution extends Model {
-    /** @param array{'created_at': string, 'disposition': string, 'gift_card_funding_disposition_id': string, 'reason': string, ...}|object $values */
+    /** @param array{'created_at': string, 'disposition': string, 'gift_card_funding_disposition_id': string, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingLossResolution')); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -26,8 +26,8 @@ final class GiftCardFundingLossResolution extends Model {
     public function getGiftCardFundingDispositionId(): string { return $this->get('gift_card_funding_disposition_id'); }
     public function hasGiftCardFundingDispositionId(): bool { return $this->has('gift_card_funding_disposition_id'); }
     /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
 }

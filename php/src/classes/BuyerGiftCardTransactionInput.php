@@ -2,9 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $amount_money
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $balance_after_money
- * @property-read GiftCardMoneyInput|array<array-key, mixed>|\stdClass $balance_before_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $balance_after_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $balance_before_money
  * @property-read string $gift_card_id
  * @property-read string $gift_card_transaction_id
  * @property-read string|\DateTimeInterface $posted_at
@@ -12,19 +11,14 @@ namespace Flint;
  * @property-read string $transaction_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerGiftCardTransactionInput extends Model {
-    /** @param array{'amount_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'balance_after_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'balance_before_money': GiftCardMoneyInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string|\DateTimeInterface, 'sequence': string, 'transaction_type': string}|object $values */
+    /** @param array{'balance_after_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_before_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string|\DateTimeInterface, 'sequence': string, 'transaction_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardTransactionInput')); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
-     */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
-    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_after_money is omitted; use hasBalanceAfterMoney() or valueOrDefault().
      */
     public function getBalanceAfterMoney(): mixed { return $this->get('balance_after_money'); }
     public function hasBalanceAfterMoney(): bool { return $this->has('balance_after_money'); }
-    /** @return GiftCardMoneyInput|array<array-key, mixed>|\stdClass
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_before_money is omitted; use hasBalanceBeforeMoney() or valueOrDefault().
      */
     public function getBalanceBeforeMoney(): mixed { return $this->get('balance_before_money'); }

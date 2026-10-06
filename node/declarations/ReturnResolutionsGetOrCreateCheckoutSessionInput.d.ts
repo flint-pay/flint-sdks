@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
-import type { GetOrCreateReturnResolutionCheckoutSessionRequestInput } from './GetOrCreateReturnResolutionCheckoutSessionRequestInput.js';
+import type { MeCreateReturnResolutionCheckoutSessionInput } from './MeCreateReturnResolutionCheckoutSessionInput.js';
 
-export type ReturnResolutionsGetOrCreateCheckoutSessionInput = { "return_resolution_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; "body"?: InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput>; };
+export type ReturnResolutionsGetOrCreateCheckoutSessionInput = MeCreateReturnResolutionCheckoutSessionInput;

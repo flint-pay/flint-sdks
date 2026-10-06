@@ -13,11 +13,11 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardRedemptions->create([
   'amount_money' => (object) [
-    'amount' => '100',
+    'amount' => '500',
     'currency' => 'USD',
   ],
   'capture_mode' => 'automatic',
-  'external_reference_id' => 'example',
-  'gift_card_id' => 'example',
+  'external_reference_id' => 'synthetic-redemption-reference',
+  'gift_card_id' => 'gc_01JZXK4G8Q5V3N7M2P9R6T1W0Y',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 $client->close();

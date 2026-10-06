@@ -7,8 +7,6 @@ namespace Flint;
  * @property-read string $capabilities_synced_at
  * @property-read string $country
  * @property-read string $default_sandbox_id
- * @property-read bool $email_verified
- * @property-read bool $merchant_created
  * @property-read string $merchant_id
  * @property-read OnboardingNextStep $next_step
  * @property-read list<OnboardingNextStep> $pending_steps
@@ -19,7 +17,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class OnboardingState extends Model {
-    /** @param array{'available_actions'?: list<mixed>, 'can_issue_api_key': bool, 'capabilities_synced_at'?: string, 'country'?: string, 'default_sandbox_id'?: string, 'email_verified': bool, 'merchant_created': bool, 'merchant_id': string, 'next_step'?: mixed, 'pending_steps'?: list<mixed>, 'profile': mixed, 'readiness_observed_at'?: string, 'requested_capabilities'?: mixed, 'requirements': mixed, 'status': string, ...}|object $values */
+    /** @param array{'available_actions'?: list<mixed>, 'can_issue_api_key': bool, 'capabilities_synced_at'?: string, 'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: mixed, 'pending_steps'?: list<mixed>, 'profile': mixed, 'readiness_observed_at'?: string, 'requested_capabilities'?: mixed, 'requirements': mixed, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingState')); }
     /** @return list<OnboardingNextStep>
      * @throws SdkError When available_actions is omitted; use hasAvailableActions() or valueOrDefault().
@@ -46,16 +44,6 @@ final class OnboardingState extends Model {
      */
     public function getDefaultSandboxId(): string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** @return bool
-     * @throws SdkError When email_verified is omitted; use hasEmailVerified() or valueOrDefault().
-     */
-    public function getEmailVerified(): bool { return $this->get('email_verified'); }
-    public function hasEmailVerified(): bool { return $this->has('email_verified'); }
-    /** @return bool
-     * @throws SdkError When merchant_created is omitted; use hasMerchantCreated() or valueOrDefault().
-     */
-    public function getMerchantCreated(): bool { return $this->get('merchant_created'); }
-    public function hasMerchantCreated(): bool { return $this->has('merchant_created'); }
     /** @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */

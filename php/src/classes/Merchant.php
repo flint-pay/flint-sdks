@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read string $current_deadline_at
  * @property-read string $email
  * @property-read bool $has_past_due
+ * @property-read Image $icon
  * @property-read Image $logo
  * @property-read string $merchant_id
  * @property-read array<array-key, string> $metadata
@@ -37,7 +38,7 @@ namespace Flint;
  * @property-read string $website_url
  * Presence-aware response; omitted fields throw when accessed. */
 final class Merchant extends Model {
-    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'banners'?: list<mixed>, 'business_name'?: string, 'business_type'?: string, 'created_at'?: string, 'current_deadline_at'?: string, 'email': string, 'has_past_due': bool, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: \stdClass, 'observed_at': string, 'onboarding_status': string, 'organization'?: mixed, 'organization_id'?: string, 'payments': object{'next_actions': list<mixed>, 'status': string, 'status_reason'?: string|null}, 'payouts': object{'next_actions': list<mixed>, 'status': string, 'status_reason'?: string|null}, 'phone'?: string, 'reporting_timezone'?: string, 'requirements': object{'current_deadline_at'?: string, 'currently_due': list<string>, 'disabled_reason'?: string|null, 'eventually_due': list<string>, 'past_due': list<string>, 'pending_verification': list<string>}, 'status': string, 'status_reason'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'updated_at'?: string, 'version': string, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'banners'?: list<mixed>, 'business_name'?: string, 'business_type'?: string, 'created_at'?: string, 'current_deadline_at'?: string, 'email': string, 'has_past_due': bool, 'icon'?: object{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int}, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: \stdClass, 'observed_at': string, 'onboarding_status': string, 'organization'?: mixed, 'organization_id'?: string, 'payments': object{'next_actions': list<mixed>, 'status': string, 'status_reason'?: string|null}, 'payouts': object{'next_actions': list<mixed>, 'status': string, 'status_reason'?: string|null}, 'phone'?: string, 'reporting_timezone'?: string, 'requirements': object{'current_deadline_at'?: string, 'currently_due': list<string>, 'disabled_reason'?: string|null, 'eventually_due': list<string>, 'past_due': list<string>, 'pending_verification': list<string>}, 'status': string, 'status_reason'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'updated_at'?: string, 'version': string, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Merchant')); }
     /** @return PostalAddress
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
@@ -104,6 +105,11 @@ final class Merchant extends Model {
      */
     public function getHasPastDue(): bool { return $this->get('has_past_due'); }
     public function hasHasPastDue(): bool { return $this->has('has_past_due'); }
+    /** @return Image
+     * @throws SdkError When icon is omitted; use hasIcon() or valueOrDefault().
+     */
+    public function getIcon(): Image { return $this->get('icon'); }
+    public function hasIcon(): bool { return $this->has('icon'); }
     /** @return Image
      * @throws SdkError When logo is omitted; use hasLogo() or valueOrDefault().
      */

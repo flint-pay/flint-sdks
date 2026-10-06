@@ -1,1 +1,1 @@
-{"shared":"TaxIdentity","dependencies":["DocumentTaxID","PostalAddress","SharedCodec18","TaxIdentity"]}
+{"shared":"TaxIdentity","dependencies":["DocumentTaxID","PostalAddress","SharedCodec19","TaxIdentity"]}

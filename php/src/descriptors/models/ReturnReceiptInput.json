@@ -1,1 +1,1 @@
-{"shared":"ReturnReceipt","dependencies":["ReturnActor","ReturnDisposition","ReturnReceipt","ReturnReceiptLineItem","ReturnSourceSystem","ReturnUnverifiedItem","SharedCodec534"]}
+{"shared":"ReturnReceipt","dependencies":["ReturnActor","ReturnDisposition","ReturnReceipt","ReturnReceiptLineItem","ReturnSourceSystem","ReturnUnverifiedItem","SharedCodec545"]}

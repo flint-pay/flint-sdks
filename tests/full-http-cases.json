@@ -1727,7 +1727,7 @@
       "order_id": "ord_test",
       "body": {
         "action": "resume",
-        "payment_attempt_id": "pat_test"
+        "order_payment_attempt_id": "opat_test"
       }
     },
     "options": {
@@ -1747,7 +1747,7 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"action\":\"resume\",\"payment_attempt_id\":\"pat_test\"}"
+      "body": "{\"action\":\"resume\",\"order_payment_attempt_id\":\"opat_test\"}"
     },
     "responses": [
       {
@@ -2222,7 +2222,7 @@
       "invoice_id": "inv_test",
       "invoice_late_fee_id": "ilf_test",
       "body": {
-        "reason": "courtesy"
+        "reason_message": "Courtesy waiver"
       }
     },
     "options": {
@@ -2239,7 +2239,7 @@
         "authorization": "Bearer merchant-test",
         "flint-version": "2026-09-07"
       },
-      "body": "{\"reason\":\"courtesy\"}"
+      "body": "{\"reason_message\":\"Courtesy waiver\"}"
     },
     "responses": [
       {

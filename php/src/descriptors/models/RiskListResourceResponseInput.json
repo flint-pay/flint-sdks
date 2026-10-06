@@ -1,1 +1,1 @@
-{"shared":"RiskListResourceResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RiskList","RiskListResourceResponse"]}
+{"shared":"RiskListResourceResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RiskList","RiskListResourceResponse","SharedCodec1","SharedCodec485"]}

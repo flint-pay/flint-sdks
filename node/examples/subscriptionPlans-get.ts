@@ -7,5 +7,5 @@ const client = new Client({
 const result = await client.subscriptionPlans.get(
   "example"
 );
-console.log(result.plan_id);
 console.log(result.status);
+console.log(result.subscription_plan_id);

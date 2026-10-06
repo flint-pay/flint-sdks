@@ -26,7 +26,9 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": ["sdk-example"]
+          "values": [
+            "sdk-example"
+          ]
         }
       }
     },
@@ -95,7 +97,9 @@
         "body": {
           "configuration": {
             "country": {
-              "values": ["example"]
+              "values": [
+                "example"
+              ]
             }
           },
           "name": "Standard delivery"
@@ -148,6 +152,28 @@
             "reference_id": "synthetic-funding-reference",
             "buyer_id": "synthetic-buyer"
           }
+        }
+      }
+    },
+    "createGiftCardFundingDisposition": {
+      "example": {
+        "body": {
+          "disposition": "honor_value",
+          "dispute_id": "du_01JZXK4G8Q5V3N7M2P9R6T1W0Y",
+          "reason_message": "Honored after the dispute review."
+        }
+      }
+    },
+    "createGiftCardRedemption": {
+      "example": {
+        "body": {
+          "amount_money": {
+            "amount": "500",
+            "currency": "USD"
+          },
+          "capture_mode": "automatic",
+          "external_reference_id": "synthetic-redemption-reference",
+          "gift_card_id": "gc_01JZXK4G8Q5V3N7M2P9R6T1W0Y"
         }
       }
     }

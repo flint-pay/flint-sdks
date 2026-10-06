@@ -4,6 +4,8 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { InventoryAllocationPoliciesCreateInput } from '../declarations/InventoryAllocationPoliciesCreateInput.js';
 import type { InventoryAllocationPoliciesCreateResponse } from '../declarations/InventoryAllocationPoliciesCreateResponse.js';
+import type { InventoryAllocationPoliciesGetInput } from '../declarations/InventoryAllocationPoliciesGetInput.js';
+import type { InventoryAllocationPoliciesGetResponse } from '../declarations/InventoryAllocationPoliciesGetResponse.js';
 import type { InventoryAllocationPoliciesListInput } from '../declarations/InventoryAllocationPoliciesListInput.js';
 import type { InventoryAllocationPoliciesListResponse } from '../declarations/InventoryAllocationPoliciesListResponse.js';
 import type { InventoryAllocationPoliciesRemoveInput } from '../declarations/InventoryAllocationPoliciesRemoveInput.js';
@@ -31,7 +33,7 @@ export interface InventoryAllocationPoliciesResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesCreateResponse>>;
     /**
- * Retire an allocation policy. keeps the archived resource available in list results.
+ * Retire an allocation policy. The policy is archived: it stays readable by ID and appears in lists only when you filter by status archived.
  * DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -42,7 +44,16 @@ export interface InventoryAllocationPoliciesResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     removeWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesRemoveResponse>>;
     /**
- * List inventory allocation policies.
+ * Retrieve an allocation policy by ID, including archived policies.
+ * GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
+ * @example
+ * client.inventoryAllocationPolicies.get("example")
+ */
+    get(inventory_allocation_policy_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    getWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAllocationPoliciesGetResponse>>;
+    /**
+ * List allocation policies. Archived policies are excluded unless you filter by status archived.
  * GET /v1/inventory-allocation-policies
  * @example
  * client.inventoryAllocationPolicies.list()
@@ -80,12 +91,14 @@ export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { InventoryAllocationPoliciesCreateResponse } from '../declarations/InventoryAllocationPoliciesCreateResponse.js';
 export type { InventoryAllocationPoliciesRemoveResponse } from '../declarations/InventoryAllocationPoliciesRemoveResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { InventoryAllocationPoliciesGetResponse } from '../declarations/InventoryAllocationPoliciesGetResponse.js';
 export type { InventoryAllocationPolicyListResponse } from '../declarations/InventoryAllocationPolicyListResponse.js';
 export type { InventoryAllocationPoliciesListResponse } from '../declarations/InventoryAllocationPoliciesListResponse.js';
 export type { InventoryAllocationPolicy } from '../declarations/InventoryAllocationPolicy.js';
 export type { InventoryAllocationPoliciesUpdateResponse } from '../declarations/InventoryAllocationPoliciesUpdateResponse.js';
 export type { InventoryAllocationPoliciesCreateInput } from '../declarations/InventoryAllocationPoliciesCreateInput.js';
 export type { InventoryAllocationPoliciesRemoveInput } from '../declarations/InventoryAllocationPoliciesRemoveInput.js';
+export type { InventoryAllocationPoliciesGetInput } from '../declarations/InventoryAllocationPoliciesGetInput.js';
 export type { InventoryAllocationPoliciesListInput } from '../declarations/InventoryAllocationPoliciesListInput.js';
 export type { InventoryAllocationPoliciesUpdateInput } from '../declarations/InventoryAllocationPoliciesUpdateInput.js';
 export type { ClientOptions } from '../declarations/ClientOptions.js';

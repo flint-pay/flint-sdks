@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntents"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -99,7 +99,8 @@ this.paymentIntents = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -125,7 +126,8 @@ this.paymentIntents = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -151,7 +153,8 @@ this.paymentIntents = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -177,7 +180,8 @@ this.paymentIntents = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -203,7 +207,8 @@ this.paymentIntents = Object.freeze({
   "min_amount",
   "max_amount",
   "currency",
-  "state",
+  "refund_status",
+  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",

@@ -11,7 +11,7 @@ const result = await client.invoices.waiveLateFee(
   "example",
   "example",
   {
-    reason: "example",
+    reason_message: "example",
   },
   { idempotencyKey: idempotencyKey },
 );

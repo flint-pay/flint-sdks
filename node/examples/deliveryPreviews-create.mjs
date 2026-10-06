@@ -6,12 +6,15 @@ const client = new Client({
 });
 const result = await client.deliveryPreviews.create(
   {
-    currency: "USD",
-    delivery_method_ids: [],
-    line_items: [
-      {
-        variant_id: "example",
-      },
-    ],
+    body: {
+      currency: "USD",
+      delivery_method_ids: [],
+      line_items: [
+        {
+          variant_id: "example",
+        },
+      ],
+      mode: "delivery_options",
+    },
   }
 );

@@ -1,1 +1,1 @@
-{"shared":"DeliveryRateCallbackListResponse","dependencies":["DeliveryRateCallback","DeliveryRateCallbackConfiguration","DeliveryRateCallbackListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning"]}
+{"shared":"DeliveryRateCallbackListResponse","dependencies":["DeliveryRateCallback","DeliveryRateCallbackConfiguration","DeliveryRateCallbackListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec485"]}

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read DeliveryCountryConditionInput|array<array-key, mixed>|\stdClass $country
  * @property-read DeliveryCustomerGroupConditionInput|array<array-key, mixed>|\stdClass $customer_group
  * @property-read DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass $customer_has_email
- * @property-read DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass $customer_has_phone_number
+ * @property-read DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass $customer_has_phone
  * @property-read DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass $customer_verified
  * @property-read mixed $not
  * @property-read DeliveryPostalCodeConditionInput|array<array-key, mixed>|\stdClass $postal_code
@@ -45,10 +45,10 @@ final class DeliveryEligibilityExpressionInput extends Model {
     public function getCustomerHasEmail(): mixed { return $this->get('customer_has_email'); }
     public function hasCustomerHasEmail(): bool { return $this->has('customer_has_email'); }
     /** @return DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When customer_has_phone_number is omitted; use hasCustomerHasPhoneNumber() or valueOrDefault().
+     * @throws SdkError When customer_has_phone is omitted; use hasCustomerHasPhone() or valueOrDefault().
      */
-    public function getCustomerHasPhoneNumber(): mixed { return $this->get('customer_has_phone_number'); }
-    public function hasCustomerHasPhoneNumber(): bool { return $this->has('customer_has_phone_number'); }
+    public function getCustomerHasPhone(): mixed { return $this->get('customer_has_phone'); }
+    public function hasCustomerHasPhone(): bool { return $this->has('customer_has_phone'); }
     /** @return DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When customer_verified is omitted; use hasCustomerVerified() or valueOrDefault().
      */

@@ -16,12 +16,11 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $timezone
  * @property-read string|\DateTimeInterface $updated_at
- * @property-read string $validation_failure_reason
  * @property-read string $validation_status
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationInput extends Model {
-    /** @param array{'address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'coordinate'?: array{'latitude'?: int|float, 'longitude'?: int|float, ...}|object, 'coordinate_source'?: string|null, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: array{'allocation_status': string, 'created_at': string|\DateTimeInterface, 'inventory_revision': string, 'updated_at': string|\DateTimeInterface, ...}|object, 'location_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'normalized_address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'status': string, 'timezone': string, 'updated_at': string|\DateTimeInterface, 'validation_failure_reason'?: string, 'validation_status': string, 'version': string, ...}|object $values */
+    /** @param array{'address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'coordinate'?: array{'latitude'?: int|float, 'longitude'?: int|float, ...}|object, 'coordinate_source'?: string|null, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: array{'allocation_status': string, 'created_at': string|\DateTimeInterface, 'inventory_revision': string, 'updated_at': string|\DateTimeInterface, ...}|object, 'location_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'normalized_address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'status': string, 'timezone': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationInput')); }
     /** @return array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
@@ -93,11 +92,6 @@ final class LocationInput extends Model {
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When validation_failure_reason is omitted; use hasValidationFailureReason() or valueOrDefault().
-     */
-    public function getValidationFailureReason(): string { return $this->get('validation_failure_reason'); }
-    public function hasValidationFailureReason(): bool { return $this->has('validation_failure_reason'); }
     /** @return string
      * @throws SdkError When validation_status is omitted; use hasValidationStatus() or valueOrDefault().
      */

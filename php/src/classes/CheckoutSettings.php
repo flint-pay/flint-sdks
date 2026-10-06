@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read CheckoutSavedPaymentDetailsSettings $saved_payment_details
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSettings extends Model {
-    /** @param array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: object{'delay_minutes'?: int, 'enabled'?: bool}, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: object{'enabled'?: bool}, ...}|object $values */
+    /** @param array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: object{'delay_seconds'?: int, 'enabled'?: bool}, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: object{'enabled'?: bool}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettings')); }
     /** @return list<string>
      * @throws SdkError When default_delivery_method_ids is omitted; use hasDefaultDeliveryMethodIds() or valueOrDefault().

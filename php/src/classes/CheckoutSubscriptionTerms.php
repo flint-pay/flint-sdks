@@ -6,14 +6,14 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read int $contract_term_months
  * @property-read MoneyValue $early_termination_fee_money
- * @property-read string $plan_id
  * @property-read string $plan_name
  * @property-read MoneyValue $recurring_total_money
  * @property-read MoneyValue $setup_fee_money
+ * @property-read string $subscription_plan_id
  * @property-read int $trial_period_days
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTerms extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_id': string, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTerms')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -36,11 +36,6 @@ final class CheckoutSubscriptionTerms extends Model {
     public function getEarlyTerminationFeeMoney(): MoneyValue { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
     /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
-    /** @return string
      * @throws SdkError When plan_name is omitted; use hasPlanName() or valueOrDefault().
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
@@ -55,6 +50,11 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getSetupFeeMoney(): MoneyValue { return $this->get('setup_fee_money'); }
     public function hasSetupFeeMoney(): bool { return $this->has('setup_fee_money'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return int
      * @throws SdkError When trial_period_days is omitted; use hasTrialPeriodDays() or valueOrDefault().
      */

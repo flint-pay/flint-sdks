@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string $business_name
  * @property-read string $email
  * @property-read string $expected_version
+ * @property-read array{'alt'?: string, 'external_reference_id'?: string, 'source_url': string, ...}|object $icon
  * @property-read ImageRequestInput|array<array-key, mixed>|\stdClass $logo
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $organization_id
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateMerchantRequestInput extends Model {
-    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string, 'expected_version'?: string, 'logo'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'organization_id'?: string, 'phone'?: string, 'reporting_timezone'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string, 'expected_version'?: string, 'icon'?: array{'alt'?: string, 'external_reference_id'?: string, 'source_url': string, ...}|object, 'logo'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'organization_id'?: string, 'phone'?: string, 'reporting_timezone'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMerchantRequestInput')); }
     /** @return PostalAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
@@ -45,6 +46,11 @@ final class UpdateMerchantRequestInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** @return array{'alt'?: string, 'external_reference_id'?: string, 'source_url': string, ...}|object
+     * @throws SdkError When icon is omitted; use hasIcon() or valueOrDefault().
+     */
+    public function getIcon(): array|object { return $this->get('icon'); }
+    public function hasIcon(): bool { return $this->has('icon'); }
     /** @return ImageRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When logo is omitted; use hasLogo() or valueOrDefault().
      */

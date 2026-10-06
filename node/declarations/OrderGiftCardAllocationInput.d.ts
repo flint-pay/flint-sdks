@@ -1,4 +1,4 @@
 
-import type { GiftCardMoneyInput } from './GiftCardMoneyInput.js';
+import type { MoneyValueInput } from './MoneyValueInput.js';
 
-export type OrderGiftCardAllocationInput = { "amount_money": GiftCardMoneyInput; "gift_card_id": string; };
+export type OrderGiftCardAllocationInput = { "amount_money": MoneyValueInput; "gift_card_id": string; };

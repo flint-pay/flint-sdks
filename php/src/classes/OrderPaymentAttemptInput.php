@@ -9,14 +9,14 @@ namespace Flint;
  * @property-read list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass> $gift_card_redemptions
  * @property-read bool $is_resumable
  * @property-read string $mode
- * @property-read string $payment_attempt_id
+ * @property-read string $order_payment_attempt_id
  * @property-read list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass> $payment_intents
  * @property-read list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass> $pending_actions
  * @property-read string|\DateTimeInterface $started_at
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderPaymentAttemptInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'mode': string, 'payment_attempt_id': string, 'payment_intents'?: list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'pending_actions'?: list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents'?: list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'pending_actions'?: list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttemptInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -54,10 +54,10 @@ final class OrderPaymentAttemptInput extends Model {
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
     /** @return string
-     * @throws SdkError When payment_attempt_id is omitted; use hasPaymentAttemptId() or valueOrDefault().
+     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
-    public function getPaymentAttemptId(): string { return $this->get('payment_attempt_id'); }
-    public function hasPaymentAttemptId(): bool { return $this->has('payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
     /** @return list<PaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
      */

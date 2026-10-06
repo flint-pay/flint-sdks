@@ -1,9 +1,9 @@
-import { d59 as c0, d61 as c1, d169 as c2, d905 as c3, d1768 as c4, d1769 as c5, d1772 as c6, d57 as c7, d1775 as c8, d74 as c9, d2272 as c10, d397 as c11, d58 as c12, d60 as c13, d1774 as c14, d2337 as c15 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d59 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d62 as c0, d64 as c1, d172 as c2, d912 as c3, d1780 as c4, d1781 as c5, d1784 as c6, d60 as c7, d1787 as c8, d77 as c9, d2286 as c10, d403 as c11, d61 as c12, d63 as c13, d1786 as c14, d2352 as c15 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d62 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d59;
+const read = d62;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["CategoryReference"]:c2(),["Image"]:c3(),["Modifier"]:c4(),["ModifierGroup"]:c5(),["ModifierOverride"]:c6(),["ModifierSet"]:c7(),["ModifierSetGroup"]:c8(),["MoneyValue"]:c9(),["SelectedProductOption"]:c10(),["SharedCodec145"]:c11(),["SharedCodec15"]:c12(),["SharedCodec16"]:c13(),["SharedCodec478"]:c14(),["TextModifierConfig"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["CategoryReference"]:c2(),["Image"]:c3(),["Modifier"]:c4(),["ModifierGroup"]:c5(),["ModifierOverride"]:c6(),["ModifierSet"]:c7(),["ModifierSetGroup"]:c8(),["MoneyValue"]:c9(),["SelectedProductOption"]:c10(),["SharedCodec148"]:c11(),["SharedCodec16"]:c12(),["SharedCodec17"]:c13(),["SharedCodec484"]:c14(),["TextModifierConfig"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeBundle(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -61,14 +61,17 @@ test(
         JSON.stringify({ private: true, type: 'module' }),
       );
       run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', npmArchive], consumer);
-      const inventory = json(join(root, 'tests/full-inventory.json'));
+      const api = json(join(root, 'spec/openapi.json'));
+      const operations = Object.values(api.paths)
+        .flatMap((item) => Object.values(item))
+        .filter((operation) => operation?.operationId);
       const cases = json(join(root, 'tests/full-model-cases.json'));
       const config = json(join(root, 'sdk.json'));
       const naming = json(join(root, 'spec/profiles/full-common-sdk.json')).operations;
       const selected = new Set(config.profiles.flatMap((path) => json(join(root, path)).include));
-      const expectedMethods = inventory.operations
-        .filter(({ id }) => selected.has(id))
-        .flatMap(({ id }) => {
+      const expectedMethods = operations
+        .filter(({ operationId }) => selected.has(operationId))
+        .flatMap(({ operationId: id }) => {
           const { resource, method } = naming[id];
           const methods = [[resource, method]];
           if ((config.operations[id]?.response?.return ?? naming[id].response?.return) !== 'result')

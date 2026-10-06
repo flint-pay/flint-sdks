@@ -5,7 +5,7 @@ import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { GiftCardCashOutsCreateInput } from '../declarations/GiftCardCashOutsCreateInput.js';
 import type { GiftCardCashOutsCreateResponse } from '../declarations/GiftCardCashOutsCreateResponse.js';
 import type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
-import type { GiftCardMoneyInput } from '../declarations/GiftCardMoneyInput.js';
+import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
@@ -16,11 +16,11 @@ export interface GiftCardCashOutsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardCashOuts.create("example", {amount_money: {amount: "100", currency: "USD"}, external_reference_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.giftCardCashOuts.create("example", {amount_money: {amount: "0", currency: "USD"}, external_reference_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
+    create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": GiftCardMoneyInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardCashOutsCreateResponse>>;
+    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardCashOutsCreateResponse>>;
   }
 export declare class Client {
 
@@ -29,7 +29,7 @@ export declare class Client {
   close(): Promise<void>;
 readonly giftCardCashOuts: GiftCardCashOutsResource;
 }
-export type { GiftCardMoneyInput } from '../declarations/GiftCardMoneyInput.js';
+export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { RequestOptions } from '../declarations/RequestOptions.js';
 export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 export type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
@@ -40,7 +40,6 @@ export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
 export type { GiftCardCommandResult } from '../declarations/GiftCardCommandResult.js';
-export type { GiftCardFundingLossDisposition } from '../declarations/GiftCardFundingLossDisposition.js';
 export type { GiftCard } from '../declarations/GiftCard.js';
 export type { GiftCardLoad } from '../declarations/GiftCardLoad.js';
 export type { GiftCardFundingDispute } from '../declarations/GiftCardFundingDispute.js';
@@ -58,7 +57,6 @@ export type { NextAction } from '../declarations/NextAction.js';
 export type { CreateGiftCardCashOutRequestInput } from '../declarations/CreateGiftCardCashOutRequestInput.js';
 export { makeGiftCardCommandResponse } from '../declarations/makeGiftCardCommandResponse.js';
 export { makeGiftCardCommandResult } from '../declarations/makeGiftCardCommandResult.js';
-export { makeGiftCardFundingLossDisposition } from '../declarations/makeGiftCardFundingLossDisposition.js';
 export { makeGiftCard } from '../declarations/makeGiftCard.js';
 export { makeGiftCardLoad } from '../declarations/makeGiftCardLoad.js';
 export { makeGiftCardFundingDispute } from '../declarations/makeGiftCardFundingDispute.js';

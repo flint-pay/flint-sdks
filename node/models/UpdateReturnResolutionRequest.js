@@ -1,9 +1,9 @@
-import { d74 as c0, d2216 as c1, d2220 as c2, d2221 as c3, d2224 as c4, d1935 as c5, d2212 as c6, d2211 as c7, d2214 as c8, d2213 as c9, d2215 as c10, d2433 as c11, d2457 as c12, d2458 as c13, d2459 as c14 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2459 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d77 as c0, d2229 as c1, d2233 as c2, d2234 as c3, d2237 as c4, d1949 as c5, d2225 as c6, d2224 as c7, d2227 as c8, d2226 as c9, d2228 as c10, d2448 as c11, d2472 as c12, d2473 as c13, d2474 as c14 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d2474 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2459;
+const read = d2474;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnReplacementLineItemReplacementRequest"]:c1(),["ReturnResolutionAdjustmentRequest"]:c2(),["ReturnResolutionAdjustmentSet"]:c3(),["ReturnResolutionLineItemReplacementRequest"]:c4(),["SharedCodec504"]:c5(),["SharedCodec579"]:c6(),["SharedCodec580"]:c7(),["SharedCodec581"]:c8(),["SharedCodec582"]:c9(),["SharedCodec583"]:c10(),["SharedCodec645"]:c11(),["SharedCodec651"]:c12(),["SharedCodec652"]:c13(),["UpdateReturnResolutionRequest"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnReplacementLineItemReplacementRequest"]:c1(),["ReturnResolutionAdjustmentRequest"]:c2(),["ReturnResolutionAdjustmentSet"]:c3(),["ReturnResolutionLineItemReplacementRequest"]:c4(),["SharedCodec513"]:c5(),["SharedCodec590"]:c6(),["SharedCodec591"]:c7(),["SharedCodec592"]:c8(),["SharedCodec593"]:c9(),["SharedCodec594"]:c10(),["SharedCodec657"]:c11(),["SharedCodec663"]:c12(),["SharedCodec664"]:c13(),["UpdateReturnResolutionRequest"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateReturnResolutionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

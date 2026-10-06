@@ -1,5 +1,5 @@
 
-import type { DiscountPreviewDataInput } from './DiscountPreviewDataInput.js';
+import type { DiscountPreviewInput } from './DiscountPreviewInput.js';
 import type { ResponseMetaInput } from './ResponseMetaInput.js';
 
-export type DiscountPreviewResponseInput = { "data": DiscountPreviewDataInput; "meta"?: ResponseMetaInput; "request_id"?: string; };
+export type DiscountPreviewResponseInput = { "data": DiscountPreviewInput; "meta"?: ResponseMetaInput; "request_id"?: string; };

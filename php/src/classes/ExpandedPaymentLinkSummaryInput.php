@@ -8,13 +8,13 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $payment_link_id
  * @property-read string $payment_link_type
- * @property-read string $plan_id
  * @property-read string $status
+ * @property-read string $subscription_plan_id
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedPaymentLinkSummaryInput extends Model {
-    /** @param array{'completed_count': int, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'plan_id'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, ...}|object $values */
+    /** @param array{'completed_count': int, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'status': string, 'subscription_plan_id'?: string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentLinkSummaryInput')); }
     /** @return int
      * @throws SdkError When completed_count is omitted; use hasCompletedCount() or valueOrDefault().
@@ -47,15 +47,15 @@ final class ExpandedPaymentLinkSummaryInput extends Model {
     public function getPaymentLinkType(): string { return $this->get('payment_link_type'); }
     public function hasPaymentLinkType(): bool { return $this->has('payment_link_type'); }
     /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
-    /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -9,8 +9,6 @@ import type { OnboardingAdvanceRequestInput } from '../declarations/OnboardingAd
 import type { OnboardingAdvanceResponse } from '../declarations/OnboardingAdvanceResponse.js';
 import type { OnboardingCreateAPIKeyInput } from '../declarations/OnboardingCreateAPIKeyInput.js';
 import type { OnboardingCreateAPIKeyResponse } from '../declarations/OnboardingCreateAPIKeyResponse.js';
-import type { OnboardingExternalAction } from '../declarations/OnboardingExternalAction.js';
-import type { OnboardingExternalActionInput } from '../declarations/OnboardingExternalActionInput.js';
 import type { OnboardingGetStateInput } from '../declarations/OnboardingGetStateInput.js';
 import type { OnboardingGetStateResponse } from '../declarations/OnboardingGetStateResponse.js';
 import type { OnboardingLaunchRecommendedPolicy } from '../declarations/OnboardingLaunchRecommendedPolicy.js';
@@ -51,7 +49,7 @@ import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface OnboardingResource {
     /**
- * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements.
+ * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key.
  * POST /v1/onboarding/advance
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -62,18 +60,18 @@ export interface OnboardingResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     advanceWithResponse(input: OnboardingAdvanceInput, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<OnboardingAdvanceResponse>>;
     /**
- * Creates the first long-lived external API key and exits onboarding.
+ * Creates the first long-lived sandbox API key. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key created in the dashboard.
  * POST /v1/onboarding/api-key
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.createAPIKey({name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.onboarding.createAPIKey({body: {name: "example"}}, { idempotencyKey: idempotencyKey })
  */
-    createAPIKey(params: (InputValue<{ "name": string; "sandbox_id"?: string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"onboarding">): Promise<_SdkPayloadAt<CreateAPIKeyResponse, ["data"]>>;
+    createAPIKey(input: OnboardingCreateAPIKeyInput, options?: RequestOptions<"onboarding">): Promise<_SdkPayloadAt<CreateAPIKeyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createAPIKeyWithResponse(params: (InputValue<{ "name": string; "sandbox_id"?: string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"onboarding">): Promise<SdkResponse<OnboardingCreateAPIKeyResponse>>;
+    createAPIKeyWithResponse(input: OnboardingCreateAPIKeyInput, options?: RequestOptions<"onboarding">): Promise<SdkResponse<OnboardingCreateAPIKeyResponse>>;
     /**
- * Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only.
+ * Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only. An onboarding session is limited to the merchant's default sandbox unless sandbox_id names another sandbox of the same merchant. Live onboarding requires a live API key.
  * GET /v1/onboarding/state
  * @example
  * client.onboarding.getState()
@@ -89,11 +87,11 @@ export interface OnboardingResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.onboarding.startFlow({email: "example", first_name: "example", last_name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingStartResponse, ["data"]>>;
+    startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingStartResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    startFlowWithResponse(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingStartFlowResponse>>;
+    startFlowWithResponse(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingStartFlowResponse>>;
     /**
- * Verifies the emailed code, provisions the Flint user and merchant if needed, and returns a short-lived session token for the rest of onboarding.
+ * Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one.
  * POST /v1/onboarding/verify-email
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -117,6 +115,7 @@ export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 export type { OnboardingStateResponse } from '../declarations/OnboardingStateResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { OnboardingAdvanceResponse } from '../declarations/OnboardingAdvanceResponse.js';
+export type { OnboardingCreateAPIKeyInput } from '../declarations/OnboardingCreateAPIKeyInput.js';
 export type { CreateAPIKeyResponse } from '../declarations/CreateAPIKeyResponse.js';
 export type { OnboardingCreateAPIKeyResponse } from '../declarations/OnboardingCreateAPIKeyResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
@@ -127,8 +126,6 @@ export type { OnboardingVerifyEmailResponse } from '../declarations/OnboardingVe
 export type { OnboardingVerifyEmailCodeResponse } from '../declarations/OnboardingVerifyEmailCodeResponse.js';
 export type { OnboardingAdvanceRequest } from '../declarations/OnboardingAdvanceRequest.js';
 export type { OnboardingAdvanceRequestInput } from '../declarations/OnboardingAdvanceRequestInput.js';
-export type { OnboardingExternalAction } from '../declarations/OnboardingExternalAction.js';
-export type { OnboardingExternalActionInput } from '../declarations/OnboardingExternalActionInput.js';
 export type { OnboardingLaunchRecommendedPolicy } from '../declarations/OnboardingLaunchRecommendedPolicy.js';
 export type { OnboardingLaunchRecommendedPolicyInput } from '../declarations/OnboardingLaunchRecommendedPolicyInput.js';
 export type { OnboardingLaunchReference } from '../declarations/OnboardingLaunchReference.js';
@@ -154,7 +151,6 @@ export type { OnboardingVerifyEmailRequestInput } from '../declarations/Onboardi
 export type { OnboardingVerifyEmailResponseInput } from '../declarations/OnboardingVerifyEmailResponseInput.js';
 export type { OnboardingVerifyEmailResult } from '../declarations/OnboardingVerifyEmailResult.js';
 export type { OnboardingVerifyEmailResultInput } from '../declarations/OnboardingVerifyEmailResultInput.js';
-export type { OnboardingCreateAPIKeyInput } from '../declarations/OnboardingCreateAPIKeyInput.js';
 export type { OnboardingGetStateInput } from '../declarations/OnboardingGetStateInput.js';
 export type { OnboardingStartFlowInput } from '../declarations/OnboardingStartFlowInput.js';
 export type { OnboardingVerifyEmailCodeInput } from '../declarations/OnboardingVerifyEmailCodeInput.js';
@@ -164,17 +160,8 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { DeveloperInitialAPIKeyRequestInput } from '../declarations/DeveloperInitialAPIKeyRequestInput.js';
 export type { APIKeyWithSecret } from '../declarations/APIKeyWithSecret.js';
-export type { MerchantAccountSessionStripeLaunch } from '../declarations/MerchantAccountSessionStripeLaunch.js';
-export type { MerchantAccountSessionStripeComponentLaunch } from '../declarations/MerchantAccountSessionStripeComponentLaunch.js';
-export type { MerchantAccountSessionStripeComponentProps } from '../declarations/MerchantAccountSessionStripeComponentProps.js';
-export type { MerchantAccountSessionStripeCollectionOptions } from '../declarations/MerchantAccountSessionStripeCollectionOptions.js';
-export type { MerchantAccountSessionStripeRequirements } from '../declarations/MerchantAccountSessionStripeRequirements.js';
-export type { MerchantAccountSessionStripeLaunchInput } from '../declarations/MerchantAccountSessionStripeLaunchInput.js';
-export type { MerchantAccountSessionStripeComponentLaunchInput } from '../declarations/MerchantAccountSessionStripeComponentLaunchInput.js';
-export type { MerchantAccountSessionStripeComponentPropsInput } from '../declarations/MerchantAccountSessionStripeComponentPropsInput.js';
-export type { MerchantAccountSessionStripeCollectionOptionsInput } from '../declarations/MerchantAccountSessionStripeCollectionOptionsInput.js';
-export type { MerchantAccountSessionStripeRequirementsInput } from '../declarations/MerchantAccountSessionStripeRequirementsInput.js';
 export type { ResponseMetaInput } from '../declarations/ResponseMetaInput.js';
 export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.js';
 export type { NextActionInput } from '../declarations/NextActionInput.js';
@@ -187,13 +174,11 @@ export type { MerchantInput } from '../declarations/MerchantInput.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
 export type { ImageInput } from '../declarations/ImageInput.js';
 export type { UserInput } from '../declarations/UserInput.js';
-export type { DeveloperInitialAPIKeyRequestInput } from '../declarations/DeveloperInitialAPIKeyRequestInput.js';
 export { makeOnboardingStateResponse } from '../declarations/makeOnboardingStateResponse.js';
 export { makeCreateAPIKeyResponse } from '../declarations/makeCreateAPIKeyResponse.js';
 export { makeOnboardingStartResponse } from '../declarations/makeOnboardingStartResponse.js';
 export { makeOnboardingVerifyEmailResponse } from '../declarations/makeOnboardingVerifyEmailResponse.js';
 export { makeOnboardingAdvanceRequest } from '../declarations/makeOnboardingAdvanceRequest.js';
-export { makeOnboardingExternalAction } from '../declarations/makeOnboardingExternalAction.js';
 export { makeOnboardingLaunchRecommendedPolicy } from '../declarations/makeOnboardingLaunchRecommendedPolicy.js';
 export { makeOnboardingLaunchReference } from '../declarations/makeOnboardingLaunchReference.js';
 export { makeOnboardingNextStep } from '../declarations/makeOnboardingNextStep.js';
@@ -209,11 +194,6 @@ export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeAPIKeyWithSecret } from '../declarations/makeAPIKeyWithSecret.js';
-export { makeMerchantAccountSessionStripeLaunch } from '../declarations/makeMerchantAccountSessionStripeLaunch.js';
-export { makeMerchantAccountSessionStripeComponentLaunch } from '../declarations/makeMerchantAccountSessionStripeComponentLaunch.js';
-export { makeMerchantAccountSessionStripeComponentProps } from '../declarations/makeMerchantAccountSessionStripeComponentProps.js';
-export { makeMerchantAccountSessionStripeCollectionOptions } from '../declarations/makeMerchantAccountSessionStripeCollectionOptions.js';
-export { makeMerchantAccountSessionStripeRequirements } from '../declarations/makeMerchantAccountSessionStripeRequirements.js';
 export { makeMerchant } from '../declarations/makeMerchant.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeBanner } from '../declarations/makeBanner.js';

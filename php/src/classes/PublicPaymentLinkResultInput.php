@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object $checkout_theme
  * @property-read bool $is_sold_out
+ * @property-read ImageInput|array<array-key, mixed>|\stdClass $merchant_icon
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $merchant_logo
  * @property-read string $merchant_name
  * @property-read PublicPaymentLinkInput|array<array-key, mixed>|\stdClass $payment_link
@@ -15,7 +16,7 @@ namespace Flint;
  * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: array{'amount': string, 'currency': string}|object, 'plan_image'?: array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object, 'plan_name': string, 'recurring_total_money': array{'amount': string, 'currency': string}|object, 'setup_fee_money'?: array{'amount': string, 'currency': string}|object, 'trial_period_days'?: int, ...}|object $subscription_preview
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicPaymentLinkResultInput extends Model {
-    /** @param array{'checkout_theme'?: array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object, 'is_sold_out'?: bool, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolution_context_start_deadline_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'subscription_preview'?: array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: array{'amount': string, 'currency': string}|object, 'plan_image'?: array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object, 'plan_name': string, 'recurring_total_money': array{'amount': string, 'currency': string}|object, 'setup_fee_money'?: array{'amount': string, 'currency': string}|object, 'trial_period_days'?: int, ...}|object, ...}|object $values */
+    /** @param array{'checkout_theme'?: array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object, 'is_sold_out'?: bool, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolution_context_start_deadline_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'subscription_preview'?: array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: array{'amount': string, 'currency': string}|object, 'plan_image'?: array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object, 'plan_name': string, 'recurring_total_money': array{'amount': string, 'currency': string}|object, 'setup_fee_money'?: array{'amount': string, 'currency': string}|object, 'trial_period_days'?: int, ...}|object, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResultInput')); }
     /** @return array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object
      * @throws SdkError When checkout_theme is omitted; use hasCheckoutTheme() or valueOrDefault().
@@ -27,6 +28,11 @@ final class PublicPaymentLinkResultInput extends Model {
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
     public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
+    /** @return ImageInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When merchant_icon is omitted; use hasMerchantIcon() or valueOrDefault().
+     */
+    public function getMerchantIcon(): mixed { return $this->get('merchant_icon'); }
+    public function hasMerchantIcon(): bool { return $this->has('merchant_icon'); }
     /** @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When merchant_logo is omitted; use hasMerchantLogo() or valueOrDefault().
      */

@@ -2,15 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|\DateTimeInterface $from_at
+ * @property-read string|\DateTimeInterface $created_after
+ * @property-read string|\DateTimeInterface $created_before
  * @property-read string $gift_card_id
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $status
- * @property-read string|\DateTimeInterface $until_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardNotificationsListInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'from_at'?: string|\DateTimeInterface, 'gift_card_id'?: string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'until_at'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'X-Request-Id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'gift_card_id'?: string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationsListInput')); }
     /** @return string
      * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
@@ -18,10 +18,15 @@ final class GiftCardNotificationsListInput extends Model {
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
     /** @return string|\DateTimeInterface
-     * @throws SdkError When from_at is omitted; use hasFromAt() or valueOrDefault().
+     * @throws SdkError When created_after is omitted; use hasCreatedAfter() or valueOrDefault().
      */
-    public function getFromAt(): string|\DateTimeInterface { return $this->get('from_at'); }
-    public function hasFromAt(): bool { return $this->has('from_at'); }
+    public function getCreatedAfter(): string|\DateTimeInterface { return $this->get('created_after'); }
+    public function hasCreatedAfter(): bool { return $this->has('created_after'); }
+    /** @return string|\DateTimeInterface
+     * @throws SdkError When created_before is omitted; use hasCreatedBefore() or valueOrDefault().
+     */
+    public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
+    public function hasCreatedBefore(): bool { return $this->has('created_before'); }
     /** @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
@@ -42,11 +47,6 @@ final class GiftCardNotificationsListInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string|\DateTimeInterface
-     * @throws SdkError When until_at is omitted; use hasUntilAt() or valueOrDefault().
-     */
-    public function getUntilAt(): string|\DateTimeInterface { return $this->get('until_at'); }
-    public function hasUntilAt(): bool { return $this->has('until_at'); }
     /** @return string
      * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
      */

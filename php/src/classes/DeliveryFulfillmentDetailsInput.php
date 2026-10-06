@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $courier_pickup_at
  * @property-read string $courier_pickup_window_duration_seconds
  * @property-read string $courier_provider_name
- * @property-read string $courier_support_phone_number
+ * @property-read string $courier_support_phone
  * @property-read string|\DateTimeInterface $delivered_at
  * @property-read string|\DateTimeInterface $dispatched_at
  * @property-read string $dropoff_notes
@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryFulfillmentDetailsInput extends Model {
-    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string|\DateTimeInterface, 'courier_pickup_window_duration_seconds'?: string, 'courier_provider_name'?: string, 'courier_support_phone_number'?: string, 'delivered_at'?: string|\DateTimeInterface, 'dispatched_at'?: string|\DateTimeInterface, 'dropoff_notes'?: string, 'expires_at'?: string|\DateTimeInterface, 'external_delivery_id'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: string, 'ready_at'?: string|\DateTimeInterface, 'service_area_id'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string|\DateTimeInterface, 'courier_pickup_window_duration_seconds'?: string, 'courier_provider_name'?: string, 'courier_support_phone'?: string, 'delivered_at'?: string|\DateTimeInterface, 'dispatched_at'?: string|\DateTimeInterface, 'dropoff_notes'?: string, 'expires_at'?: string|\DateTimeInterface, 'external_delivery_id'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: string, 'ready_at'?: string|\DateTimeInterface, 'service_area_id'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryFulfillmentDetailsInput')); }
     /** @return string
      * @throws SdkError When carrier is omitted; use hasCarrier() or valueOrDefault().
@@ -46,10 +46,10 @@ final class DeliveryFulfillmentDetailsInput extends Model {
     public function getCourierProviderName(): string { return $this->get('courier_provider_name'); }
     public function hasCourierProviderName(): bool { return $this->has('courier_provider_name'); }
     /** @return string
-     * @throws SdkError When courier_support_phone_number is omitted; use hasCourierSupportPhoneNumber() or valueOrDefault().
+     * @throws SdkError When courier_support_phone is omitted; use hasCourierSupportPhone() or valueOrDefault().
      */
-    public function getCourierSupportPhoneNumber(): string { return $this->get('courier_support_phone_number'); }
-    public function hasCourierSupportPhoneNumber(): bool { return $this->has('courier_support_phone_number'); }
+    public function getCourierSupportPhone(): string { return $this->get('courier_support_phone'); }
+    public function hasCourierSupportPhone(): bool { return $this->has('courier_support_phone'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */

@@ -27,11 +27,11 @@ namespace Flint;
  * @property-read string $payment_link_id
  * @property-read string $payment_link_type
  * @property-read CheckoutPaymentConfig $payments
- * @property-read string $plan_id
  * @property-read CheckoutPromotionConfig $promotion_config
  * @property-read CheckoutRedirectsConfig $redirects
  * @property-read string $status
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
+ * @property-read string $subscription_plan_id
  * @property-read CheckoutTaxConfig $tax
  * @property-read ThemeConfig $theme
  * @property-read CheckoutTipConfig $tip
@@ -41,7 +41,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentLink extends Model {
-    /** @param array{'completed_count': int, 'created_at'?: string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'customer_collection'?: mixed, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'expiration'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'plan_id'?: string, 'promotion_config'?: mixed, 'redirects'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: int, 'updated_at'?: string, 'url': string, 'version': string, ...}|object $values */
+    /** @param array{'completed_count': int, 'created_at'?: string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'customer_collection'?: mixed, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'expiration'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: int, 'updated_at'?: string, 'url': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLink')); }
     /** @return int
      * @throws SdkError When completed_count is omitted; use hasCompletedCount() or valueOrDefault().
@@ -168,11 +168,6 @@ final class PaymentLink extends Model {
      */
     public function getPayments(): CheckoutPaymentConfig { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** @return string
-     * @throws SdkError When plan_id is omitted; use hasPlanId() or valueOrDefault().
-     */
-    public function getPlanId(): string { return $this->get('plan_id'); }
-    public function hasPlanId(): bool { return $this->has('plan_id'); }
     /** @return CheckoutPromotionConfig
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
@@ -193,6 +188,11 @@ final class PaymentLink extends Model {
      */
     public function getSubscriptionPlan(): ExpandedSubscriptionPlanSummary|null { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
     /** @return CheckoutTaxConfig
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

@@ -1,4 +1,4 @@
 
-import type { CancelSubscriptionResponse } from './CancelSubscriptionResponse.js';
+import type { SubscriptionResponse } from './SubscriptionResponse.js';
 
-export type MeCancelSubscriptionResponse = CancelSubscriptionResponse;
+export type MeCancelSubscriptionResponse = SubscriptionResponse;

@@ -232,6 +232,7 @@ readonly deliveryZones: import('../resources/deliveryZones.js').DeliveryZonesRes
 readonly demoSessions: import('../resources/demoSessions.js').DemoSessionsResource;
 readonly developer: import('../resources/developer.js').DeveloperResource;
 readonly devices: import('../resources/devices.js').DevicesResource;
+readonly discountPreviews: import('../resources/discountPreviews.js').DiscountPreviewsResource;
 readonly disputes: import('../resources/disputes.js').DisputesResource;
 readonly feedbackReports: import('../resources/feedbackReports.js').FeedbackReportsResource;
 readonly fraudWarnings: import('../resources/fraudWarnings.js').FraudWarningsResource;
@@ -240,7 +241,7 @@ readonly fulfillmentNotifications: import('../resources/fulfillmentNotifications
 readonly fulfillments: import('../resources/fulfillments.js').FulfillmentsResource;
 readonly giftCardAdjustments: import('../resources/giftCardAdjustments.js').GiftCardAdjustmentsResource;
 readonly giftCardCashOuts: import('../resources/giftCardCashOuts.js').GiftCardCashOutsResource;
-readonly giftCardFundingDisputes: import('../resources/giftCardFundingDisputes.js').GiftCardFundingDisputesResource;
+readonly giftCardFundingDispositions: import('../resources/giftCardFundingDispositions.js').GiftCardFundingDispositionsResource;
 readonly giftCardLoads: import('../resources/giftCardLoads.js').GiftCardLoadsResource;
 readonly giftCardNotifications: import('../resources/giftCardNotifications.js').GiftCardNotificationsResource;
 readonly giftCardRedemptions: import('../resources/giftCardRedemptions.js').GiftCardRedemptionsResource;

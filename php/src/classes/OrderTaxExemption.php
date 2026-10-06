@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read bool $tax_exempt
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderTaxExemption extends Model {
-    /** @param array{'customer_id'?: string, 'source': string, 'tax_exempt': bool, ...}|object $values */
+    /** @param array{'customer_id'?: string, 'source'?: string, 'tax_exempt': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxExemption')); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().

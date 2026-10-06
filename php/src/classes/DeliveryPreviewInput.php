@@ -13,11 +13,12 @@ namespace Flint;
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
  * @property-read list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass> $merchant_diagnostics
+ * @property-read string $mode
  * @property-read string $pickup_location_id
  * @property-read bool $selection_authority
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPreviewInput extends Model {
-    /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics': list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'pickup_location_id'?: string, 'selection_authority': bool, ...}|object $values */
+    /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics': list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string, 'selection_authority': bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewInput')); }
     /** @return DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
@@ -74,6 +75,11 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getMerchantDiagnostics(): array { return $this->get('merchant_diagnostics'); }
     public function hasMerchantDiagnostics(): bool { return $this->has('merchant_diagnostics'); }
+    /** @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
     /** @return string
      * @throws SdkError When pickup_location_id is omitted; use hasPickupLocationId() or valueOrDefault().
      */

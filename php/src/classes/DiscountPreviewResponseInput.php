@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DiscountPreviewDataInput|array<array-key, mixed>|\stdClass $data
+ * @property-read DiscountPreviewInput|array<array-key, mixed>|\stdClass $data
  * @property-read ResponseMetaInput|array<array-key, mixed>|\stdClass $meta
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DiscountPreviewResponseInput extends Model {
-    /** @param array{'data': DiscountPreviewDataInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': DiscountPreviewInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreviewResponseInput')); }
-    /** @return DiscountPreviewDataInput|array<array-key, mixed>|\stdClass
+    /** @return DiscountPreviewInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): mixed { return $this->get('data'); }

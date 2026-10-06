@@ -1,9 +1,9 @@
-import { d1788 as c0, d1789 as c1, d1790 as c2, d1791 as c3, d1795 as c4, d1799 as c5, d1785 as c6, d1794 as c7, d1793 as c8 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d1799 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d1800 as c0, d1801 as c1, d1802 as c2, d1803 as c3, d1807 as c4, d1811 as c5, d1798 as c6, d1806 as c7, d1805 as c8 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d1811 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1799;
+const read = d1811;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OnboardingLaunchRecommendedPolicy"]:c0(),["OnboardingLaunchReference"]:c1(),["OnboardingNextStep"]:c2(),["OnboardingProfile"]:c3(),["OnboardingRequirements"]:c4(),["OnboardingState"]:c5(),["SharedCodec479"]:c6(),["SharedCodec480"]:c7(),["SharedCodec481"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OnboardingLaunchRecommendedPolicy"]:c0(),["OnboardingLaunchReference"]:c1(),["OnboardingNextStep"]:c2(),["OnboardingProfile"]:c3(),["OnboardingRequirements"]:c4(),["OnboardingState"]:c5(),["SharedCodec486"]:c6(),["SharedCodec487"]:c7(),["SharedCodec488"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOnboardingState(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -26,6 +26,7 @@ final class Client {
     public readonly DemoSessionsResource $demoSessions;
     public readonly DeveloperResource $developer;
     public readonly DevicesResource $devices;
+    public readonly DiscountPreviewsResource $discountPreviews;
     public readonly DisputesResource $disputes;
     public readonly FeedbackReportsResource $feedbackReports;
     public readonly FraudWarningsResource $fraudWarnings;
@@ -34,7 +35,7 @@ final class Client {
     public readonly FulfillmentsResource $fulfillments;
     public readonly GiftCardAdjustmentsResource $giftCardAdjustments;
     public readonly GiftCardCashOutsResource $giftCardCashOuts;
-    public readonly GiftCardFundingDisputesResource $giftCardFundingDisputes;
+    public readonly GiftCardFundingDispositionsResource $giftCardFundingDispositions;
     public readonly GiftCardLoadsResource $giftCardLoads;
     public readonly GiftCardNotificationsResource $giftCardNotifications;
     public readonly GiftCardRedemptionsResource $giftCardRedemptions;
@@ -121,6 +122,7 @@ final class Client {
         $this->demoSessions = new DemoSessionsResource($this->runtime);
         $this->developer = new DeveloperResource($this->runtime);
         $this->devices = new DevicesResource($this->runtime);
+        $this->discountPreviews = new DiscountPreviewsResource($this->runtime);
         $this->disputes = new DisputesResource($this->runtime);
         $this->feedbackReports = new FeedbackReportsResource($this->runtime);
         $this->fraudWarnings = new FraudWarningsResource($this->runtime);
@@ -129,7 +131,7 @@ final class Client {
         $this->fulfillments = new FulfillmentsResource($this->runtime);
         $this->giftCardAdjustments = new GiftCardAdjustmentsResource($this->runtime);
         $this->giftCardCashOuts = new GiftCardCashOutsResource($this->runtime);
-        $this->giftCardFundingDisputes = new GiftCardFundingDisputesResource($this->runtime);
+        $this->giftCardFundingDispositions = new GiftCardFundingDispositionsResource($this->runtime);
         $this->giftCardLoads = new GiftCardLoadsResource($this->runtime);
         $this->giftCardNotifications = new GiftCardNotificationsResource($this->runtime);
         $this->giftCardRedemptions = new GiftCardRedemptionsResource($this->runtime);

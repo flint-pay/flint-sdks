@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string $api_version
  * @property-read string $business_name
  * @property-read string $email
+ * @property-read array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object $icon
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $logo
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $organization_id
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read string $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantInput extends Model {
-    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email': string, 'logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'organization_id'?: string, 'phone'?: string, 'reporting_timezone'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email': string, 'icon'?: array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object, 'logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'organization_id'?: string, 'phone'?: string, 'reporting_timezone'?: string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantInput')); }
     /** @return PostalAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
@@ -39,6 +40,11 @@ final class MerchantInput extends Model {
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
+    /** @return array{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int, ...}|object
+     * @throws SdkError When icon is omitted; use hasIcon() or valueOrDefault().
+     */
+    public function getIcon(): array|object { return $this->get('icon'); }
+    public function hasIcon(): bool { return $this->has('icon'); }
     /** @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When logo is omitted; use hasLogo() or valueOrDefault().
      */

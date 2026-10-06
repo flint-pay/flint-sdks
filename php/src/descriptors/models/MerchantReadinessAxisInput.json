@@ -1,1 +1,1 @@
-{"shared":"MerchantReadinessAxis","dependencies":["MerchantReadinessAxis","NextAction","NextActionMerchantAccountSession"]}
+{"shared":"MerchantReadinessAxis","dependencies":["MerchantReadinessAxis","NextAction","NextActionMerchantAccountSession","SharedCodec1","SharedCodec485"]}

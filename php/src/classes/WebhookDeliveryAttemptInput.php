@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $error_category
  * @property-read string $error_message
  * @property-read string $error_summary
- * @property-read string $reason
+ * @property-read string $reason_message
  * @property-read string $recommended_action
  * @property-read string $reference_url
  * @property-read string $response_body_excerpt
@@ -26,7 +26,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveryAttemptInput extends Model {
-    /** @param array{'api_version'?: string, 'attempt_number': int, 'completed_at'?: string|\DateTimeInterface, 'delivery_trigger': string, 'diagnostic_category'?: string, 'duration_milliseconds'?: string, 'error_category'?: string, 'error_message'?: string, 'error_summary'?: string, 'reason'?: string, 'recommended_action'?: string, 'reference_url'?: string, 'response_body_excerpt'?: string, 'response_content_type'?: string, 'response_headers'?: string, 'retryable'?: bool, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version'?: string, 'attempt_number': int, 'completed_at'?: string|\DateTimeInterface, 'delivery_trigger': string, 'diagnostic_category'?: string, 'duration_milliseconds'?: string, 'error_category'?: string, 'error_message'?: string, 'error_summary'?: string, 'reason_message'?: string, 'recommended_action'?: string, 'reference_url'?: string, 'response_body_excerpt'?: string, 'response_content_type'?: string, 'response_headers'?: string, 'retryable'?: bool, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveryAttemptInput')); }
     /** @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
@@ -74,10 +74,10 @@ final class WebhookDeliveryAttemptInput extends Model {
     public function getErrorSummary(): string { return $this->get('error_summary'); }
     public function hasErrorSummary(): bool { return $this->has('error_summary'); }
     /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
     /** @return string
      * @throws SdkError When recommended_action is omitted; use hasRecommendedAction() or valueOrDefault().
      */

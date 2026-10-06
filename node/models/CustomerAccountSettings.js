@@ -1,7 +1,7 @@
-import { d69 as c0, d67 as c1, d68 as c2, d537 as c3, d538 as c4, d539 as c5 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d539 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d72 as c0, d70 as c1, d71 as c2, d544 as c3, d545 as c4, d546 as c5 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d546 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d539;
+const read = d546;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerCapabilities"]:c0(),["BuyerPauseCapability"]:c1(),["BuyerRetentionOffer"]:c2(),["CustomerAccountPresentation"]:c3(),["CustomerAccountRouteTemplates"]:c4(),["CustomerAccountSettings"]:c5()}); }
 export { codec as _validate };

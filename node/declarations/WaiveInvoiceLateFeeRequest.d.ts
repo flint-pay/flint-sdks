@@ -1,4 +1,4 @@
 
 
 
-export type WaiveInvoiceLateFeeRequest = { "reason": string; };
+export type WaiveInvoiceLateFeeRequest = { /** Your note explaining this action. */ "reason_message": string; };

@@ -1,9 +1,9 @@
-import { d74 as c0, d2058 as c1, d2190 as c2, d2193 as c3, d2229 as c4, d2231 as c5, d2232 as c6, d2144 as c7, d2143 as c8, d2184 as c9, d2183 as c10, d2189 as c11, d2187 as c12, d2186 as c13, d2185 as c14, d2188 as c15, d2191 as c16, d2192 as c17 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
-import { d2058 } from '../descriptors/data.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import { d77 as c0, d2071 as c1, d2203 as c2, d2206 as c3, d2242 as c4, d2244 as c5, d2245 as c6, d2157 as c7, d2156 as c8, d2197 as c9, d2196 as c10, d2202 as c11, d2200 as c12, d2199 as c13, d2198 as c14, d2201 as c15, d2204 as c16, d2205 as c17 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
+import { d2071 } from '../descriptors/data.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2058;
+const read = d2071;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PublishReturnPolicyRevisionRequest"]:c1(),["ReturnPolicyRevisionRequest"]:c2(),["ReturnPolicyScope"]:c3(),["ReturnRestockingFeePolicy"]:c4(),["ReturnShippingPolicy"]:c5(),["ReturnWindow"]:c6(),["SharedCodec538"]:c7(),["SharedCodec539"]:c8(),["SharedCodec565"]:c9(),["SharedCodec566"]:c10(),["SharedCodec567"]:c11(),["SharedCodec568"]:c12(),["SharedCodec569"]:c13(),["SharedCodec570"]:c14(),["SharedCodec571"]:c15(),["SharedCodec572"]:c16(),["SharedCodec573"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PublishReturnPolicyRevisionRequest"]:c1(),["ReturnPolicyRevisionRequest"]:c2(),["ReturnPolicyScope"]:c3(),["ReturnRestockingFeePolicy"]:c4(),["ReturnShippingPolicy"]:c5(),["ReturnWindow"]:c6(),["SharedCodec549"]:c7(),["SharedCodec550"]:c8(),["SharedCodec576"]:c9(),["SharedCodec577"]:c10(),["SharedCodec578"]:c11(),["SharedCodec579"]:c12(),["SharedCodec580"]:c13(),["SharedCodec581"]:c14(),["SharedCodec582"]:c15(),["SharedCodec583"]:c16(),["SharedCodec584"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePublishReturnPolicyRevisionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,4 +1,4 @@
 
 
 
-export type ResendWebhookDeliveryRequest = { "reason"?: string; };
+export type ResendWebhookDeliveryRequest = { /** Your note explaining this action. */ "reason_message"?: string; };

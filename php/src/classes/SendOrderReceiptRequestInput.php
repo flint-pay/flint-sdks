@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $email
  * Presence-aware input; omitted fields throw when accessed. */
 final class SendOrderReceiptRequestInput extends Model {
-    /** @param array{'email': string}|object $values */
+    /** @param array{'email'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SendOrderReceiptRequestInput')); }
     /** @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().

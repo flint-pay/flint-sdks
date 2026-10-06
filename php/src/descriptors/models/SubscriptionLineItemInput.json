@@ -1,1 +1,1 @@
-{"shared":"SubscriptionLineItem","dependencies":["BundleComponent","CategoryReference","Image","MoneyValue","OrderLineItemModifier","SelectedProductOption","SharedCodec16","SubscriptionLineItem","TextModifierRequest"]}
+{"shared":"SubscriptionLineItem","dependencies":["BundleComponent","CategoryReference","Image","MoneyValue","OrderLineItemModifier","SelectedProductOption","SharedCodec17","SubscriptionLineItem","TextModifierRequest"]}

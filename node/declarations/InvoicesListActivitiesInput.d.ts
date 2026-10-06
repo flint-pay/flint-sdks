@@ -1,0 +1,4 @@
+import type { InputValue } from '../runtime.js';
+
+
+export type InvoicesListActivitiesInput = { "invoice_id": InputValue<string>; /** minimum: 1. maximum: 100. */ "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_direction"?: InputValue<"asc" | "desc">; "type"?: InputValue<Array<"draft_created" | "issued" | "sent" | "delivery_sent" | "reminder_sent" | "viewed" | "payment_attempt_started" | "payment_applied" | "manual_payment_recorded" | "manual_payment_reversed" | "refund_succeeded" | "voided" | "token_regenerated" | "collection_blocked" | "collection_block_resolved" | "updated" | "marked_uncollectible" | "payment_processing" | "issue_failed" | "overdue" | "reminder_due" | "late_fee_due" | "late_fee_assessed" | "late_fee_waived" | "credited">>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };

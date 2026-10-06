@@ -1,4 +1,4 @@
 
 
 
-export type CancelOrderPaymentRequestInput = { /** Optional merchant-supplied cancellation reason. */ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; /** Owning Flint payment attempt ID. Required while the payment leg belongs to an active attempt. */ "payment_attempt_id"?: string; };
+export type CancelOrderPaymentRequestInput = { /** Optional merchant-supplied cancellation reason. */ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; /** Owning Flint payment attempt ID. Required while the payment leg belongs to an active attempt. */ "order_payment_attempt_id"?: string; };

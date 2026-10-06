@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/merchants.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import r0 from '../descriptors/resources/merchants.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1062b2a87ddfc25f3a8458c3e67aea98a29a33dcad943f63dceff9390190307c';
+import settings from '../descriptors/settings.js?sdk=f67f6eaf1051f21ec6ba8a2fb3534a619d1f5d2afe43c079dcee44663fec8859';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getMerchant"]:r0,["updateMerchant"]:r0});
 export class Client {
@@ -12,28 +12,20 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.merchants = Object.freeze({
-      get: async (merchant_id, params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([
-  "merchant_id"
-], [merchant_id], [
+      get: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
   "expand",
   "Flint-Version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (merchant_id, params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([
-  "merchant_id"
-], [merchant_id], [
+      getWithResponse: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
   "expand",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
-      update: async (merchant_id, params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([
-  "merchant_id"
-], [merchant_id], [
+      update: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      updateWithResponse: async (merchant_id, params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([
-  "merchant_id"
-], [merchant_id], [
+      updateWithResponse: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "Flint-Version"

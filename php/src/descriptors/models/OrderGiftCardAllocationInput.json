@@ -1,1 +1,1 @@
-{"shared":"OrderGiftCardAllocation","dependencies":["GiftCardMoney","OrderGiftCardAllocation"]}
+{"shared":"OrderGiftCardAllocation","dependencies":["MoneyValue","OrderGiftCardAllocation"]}

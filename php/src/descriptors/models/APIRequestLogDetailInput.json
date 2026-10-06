@@ -1,1 +1,1 @@
-{"shared":"APIRequestLogDetail","dependencies":["APIRequestLogDetail","APIRequestLogQueryParam","APIRequestLogReproduction","ApiRequestLogExpansionShape","ApiRequestLogResponseShapeMetadata"]}
+{"shared":"APIRequestLogDetail","dependencies":["APIRequestLogDetail","APIRequestLogQueryParam","APIRequestLogReproduction","ApiRequestLogExpansionShape","ApiRequestLogResponseShapeMetadata","SharedCodec2"]}

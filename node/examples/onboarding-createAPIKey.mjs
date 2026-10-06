@@ -9,7 +9,9 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.onboarding.createAPIKey(
   {
-    name: "example",
+    body: {
+      name: "example",
+    },
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -1,1 +1,1 @@
-{"shared":"SandboxWithAPIKeyResponse","dependencies":["APIKey","DeveloperSandboxWithAPIKey","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SandboxWithAPIKeyResponse","SharedCodec0","SharedCodec1"]}
+{"shared":"SandboxWithAPIKeyResponse","dependencies":["APIKey","DeveloperSandboxWithAPIKey","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SandboxWithAPIKeyResponse","SharedCodec0","SharedCodec1","SharedCodec485"]}

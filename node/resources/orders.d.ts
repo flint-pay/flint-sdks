@@ -1,13 +1,13 @@
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
+import type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
 import type { ActionResponse } from '../declarations/ActionResponse.js';
 import type { CancelOrderPaymentAttemptResponse } from '../declarations/CancelOrderPaymentAttemptResponse.js';
 import type { CheckoutSessionLineItemModifierUpdate } from '../declarations/CheckoutSessionLineItemModifierUpdate.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CreateDeliveryFulfillmentDetailsInput } from '../declarations/CreateDeliveryFulfillmentDetailsInput.js';
 import type { CreateDigitalFulfillmentDetailsInput } from '../declarations/CreateDigitalFulfillmentDetailsInput.js';
-import type { CreateFulfillmentResponse } from '../declarations/CreateFulfillmentResponse.js';
 import type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
 import type { CreateOrderLineItemInput } from '../declarations/CreateOrderLineItemInput.js';
 import type { CreateOrderPaymentIntentResponse } from '../declarations/CreateOrderPaymentIntentResponse.js';
@@ -15,9 +15,9 @@ import type { CreatePackageRequestInput } from '../declarations/CreatePackageReq
 import type { CreatePickupFulfillmentDetailsInput } from '../declarations/CreatePickupFulfillmentDetailsInput.js';
 import type { CreateServiceFulfillmentDetailsInput } from '../declarations/CreateServiceFulfillmentDetailsInput.js';
 import type { DeliverySelectionResponse } from '../declarations/DeliverySelectionResponse.js';
-import type { DiscountPreviewResponse } from '../declarations/DiscountPreviewResponse.js';
 import type { FulfillmentLineItemRequestInput } from '../declarations/FulfillmentLineItemRequestInput.js';
 import type { FulfillmentRecipientInput } from '../declarations/FulfillmentRecipientInput.js';
+import type { FulfillmentResponse } from '../declarations/FulfillmentResponse.js';
 import type { ManualDiscountRequestInput } from '../declarations/ManualDiscountRequestInput.js';
 import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 import type { Order } from '../declarations/Order.js';
@@ -54,6 +54,8 @@ import type { OrdersCapturePaymentInput } from '../declarations/OrdersCapturePay
 import type { OrdersCapturePaymentResponse } from '../declarations/OrdersCapturePaymentResponse.js';
 import type { OrdersCloseSessionInput } from '../declarations/OrdersCloseSessionInput.js';
 import type { OrdersCloseSessionResponse } from '../declarations/OrdersCloseSessionResponse.js';
+import type { OrdersCreateAccessLinkInput } from '../declarations/OrdersCreateAccessLinkInput.js';
+import type { OrdersCreateAccessLinkResponse } from '../declarations/OrdersCreateAccessLinkResponse.js';
 import type { OrdersCreateFulfillmentInput } from '../declarations/OrdersCreateFulfillmentInput.js';
 import type { OrdersCreateFulfillmentResponse } from '../declarations/OrdersCreateFulfillmentResponse.js';
 import type { OrdersCreateInput } from '../declarations/OrdersCreateInput.js';
@@ -78,16 +80,12 @@ import type { OrdersListPaymentAttemptsResponse } from '../declarations/OrdersLi
 import type { OrdersListResponse } from '../declarations/OrdersListResponse.js';
 import type { OrdersPayInput } from '../declarations/OrdersPayInput.js';
 import type { OrdersPayResponse } from '../declarations/OrdersPayResponse.js';
-import type { OrdersPreviewDiscountsInput } from '../declarations/OrdersPreviewDiscountsInput.js';
-import type { OrdersPreviewDiscountsResponse } from '../declarations/OrdersPreviewDiscountsResponse.js';
 import type { OrdersRemoveDiscountsInput } from '../declarations/OrdersRemoveDiscountsInput.js';
 import type { OrdersRemoveDiscountsResponse } from '../declarations/OrdersRemoveDiscountsResponse.js';
 import type { OrdersRemoveGiftCardInput } from '../declarations/OrdersRemoveGiftCardInput.js';
 import type { OrdersRemoveGiftCardResponse } from '../declarations/OrdersRemoveGiftCardResponse.js';
 import type { OrdersRepriceDiscountsInput } from '../declarations/OrdersRepriceDiscountsInput.js';
 import type { OrdersRepriceDiscountsResponse } from '../declarations/OrdersRepriceDiscountsResponse.js';
-import type { OrdersResendReceiptInput } from '../declarations/OrdersResendReceiptInput.js';
-import type { OrdersResendReceiptResponse } from '../declarations/OrdersResendReceiptResponse.js';
 import type { OrdersResolveInventoryExceptionInput } from '../declarations/OrdersResolveInventoryExceptionInput.js';
 import type { OrdersResolveInventoryExceptionResponse } from '../declarations/OrdersResolveInventoryExceptionResponse.js';
 import type { OrdersSendReceiptInput } from '../declarations/OrdersSendReceiptInput.js';
@@ -151,27 +149,27 @@ export interface OrdersResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     applyGiftCardWithResponse(order_id: InputValue<string>, params: (InputValue<{ "gift_card_code": string; "order_revision": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Gift-Card-Challenge"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersApplyGiftCardResponse>>;
     /**
- * Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
+ * Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching order_payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
  * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/cancel
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.cancelPayment("example", "example", undefined, { idempotencyKey: idempotencyKey })
  */
-    cancelPayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderPaymentLifecycleResponse, ["data"]>>;
+    cancelPayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "order_payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderPaymentLifecycleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    cancelPaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersCancelPaymentResponse>>;
+    cancelPaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; "order_payment_attempt_id"?: string; }> | { "cancellation_reason"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersCancelPaymentResponse>>;
     /**
  * Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
- * POST /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}/cancel
+ * POST /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}/cancel
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.cancelPaymentAttempt("example", "example", undefined, { idempotencyKey: idempotencyKey })
  */
-    cancelPaymentAttempt(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelOrderPaymentAttemptResponse, ["data"]>>;
+    cancelPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelOrderPaymentAttemptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    cancelPaymentAttemptWithResponse(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersCancelPaymentAttemptResponse>>;
+    cancelPaymentAttemptWithResponse(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: (InputValue<{ "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned"; }> | { "cancellation_reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersCancelPaymentAttemptResponse>>;
     /**
  * Captures an active payment authorization for an order and updates the order payment lifecycle.
  * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/capture
@@ -180,20 +178,20 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.capturePayment("example", "example", undefined, { idempotencyKey: idempotencyKey })
  */
-    capturePayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "payment_attempt_id"?: string; }> | { "amount_money"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderPaymentLifecycleResponse, ["data"]>>;
+    capturePayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "order_payment_attempt_id"?: string; }> | { "amount_money"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderPaymentLifecycleResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    capturePaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "payment_attempt_id"?: string; }> | { "amount_money"?: never; "payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCapturePaymentResponse>>;
+    capturePaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<{ "amount_money"?: MoneyValueInput; "order_payment_attempt_id"?: string; }> | { "amount_money"?: never; "order_payment_attempt_id"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCapturePaymentResponse>>;
     /**
- * Closes an eligible open, paid, or partially refunded order. Closing cancels pending discounts, releases pending promotion reservations, and recalculates totals from the current surviving pricing economics; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Closing is blocked while payment collection is in progress.
+ * Closes an open order. Closing cancels pending discounts, releases pending promotion reservations, and recalculates totals from the current surviving pricing economics; canceled discounts remain visible with status: "canceled" but no longer reduce the total. Closing is blocked while payment collection is in progress.
  * POST /v1/orders/{order_id}/close
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.closeSession("example", {}, { idempotencyKey: idempotencyKey })
  */
-    closeSession(order_id: InputValue<string>, params: (InputValue<{ "reason"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
+    closeSession(order_id: InputValue<string>, params: (InputValue<{ "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    closeSessionWithResponse(order_id: InputValue<string>, params: (InputValue<{ "reason"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCloseSessionResponse>>;
+    closeSessionWithResponse(order_id: InputValue<string>, params: (InputValue<{ "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCloseSessionResponse>>;
     /**
  * Creates an explicit fulfillment for an order.
  * POST /v1/orders/{order_id}/fulfillments
@@ -202,7 +200,7 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.createFulfillment("example", {line_items: [{order_line_item_id: "example", quantity: "100"}], type: "shipment"}, { idempotencyKey: idempotencyKey })
  */
-    createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateFulfillmentResponse, ["data"]>>;
+    createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FulfillmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createFulfillmentWithResponse(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateFulfillmentResponse>>;
     /**
@@ -216,6 +214,17 @@ export interface OrdersResource {
     create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: { "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: ({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never })))); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createWithResponse(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: { "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: ({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never })))); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateResponse>>;
+    /**
+ * Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for an order without a customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+ * POST /v1/orders/{order_id}/access-links
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.orders.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
+ */
+    createAccessLink(order_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AccessLinkResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createAccessLinkWithResponse(order_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateAccessLinkResponse>>;
     /**
  * Creates an immutable payment leg owned by the order. Collect a payment source using payment_collection, then submit that source through payOrder. This route requires commerce.orders.write; standalone payment-intent routes require payments.payment_intents.write.
  * POST /v1/orders/{order_id}/payment-intents
@@ -269,13 +278,13 @@ export interface OrdersResource {
     getCurrentDeliverySelectionWithResponse(order_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrdersGetCurrentDeliverySelectionResponse>>;
     /**
  * Returns one durable payment attempt for the order. Checkout-session callers can read only attempts created by their own session.
- * GET /v1/orders/{order_id}/payment-attempts/{payment_attempt_id}
+ * GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id}
  * @example
  * client.orders.getPaymentAttempt("example", "example")
  */
-    getPaymentAttempt(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrderPaymentAttemptResponse, ["data"]>>;
+    getPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrderPaymentAttemptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPaymentAttemptWithResponse(order_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrdersGetPaymentAttemptResponse>>;
+    getPaymentAttemptWithResponse(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrdersGetPaymentAttemptResponse>>;
     /**
  * Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource.
  * GET /v1/orders/{order_id}/activities
@@ -313,7 +322,7 @@ export interface OrdersResource {
     listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrdersListResponse>>;
     listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Order>;
     /**
- * Starts or resumes a payment attempt on the order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with payment_attempt_id and a new Idempotency-Key. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately.
+ * Starts or resumes a payment attempt on the order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately.
  * POST /v1/orders/{order_id}/pay
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -323,15 +332,6 @@ export interface OrdersResource {
     pay(input: OrdersPayInput, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelOrderPaymentAttemptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     payWithResponse(input: OrdersPayInput, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersPayResponse>>;
-    /**
- * Evaluates promotion outcomes for an order without mutating it. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
- * POST /v1/orders/{order_id}/discounts/preview
- * @example
- * client.orders.previewDiscounts("example")
- */
-    previewDiscounts(order_id: InputValue<string>, params?: (InputValue<{ "discount"?: CreateOrderDiscountInput; }> | { "discount"?: never }) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DiscountPreviewResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    previewDiscountsWithResponse(order_id: InputValue<string>, params?: (InputValue<{ "discount"?: CreateOrderDiscountInput; }> | { "discount"?: never }) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrdersPreviewDiscountsResponse>>;
     /**
  * Removes one or more pending applied discounts from an order. Redeemed or canceled discounts are settlement history and cannot be removed.
  * POST /v1/orders/{order_id}/discounts/remove
@@ -366,17 +366,6 @@ export interface OrdersResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     repriceDiscountsWithResponse(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersRepriceDiscountsResponse>>;
     /**
- * Queues another receipt email for a paid order when Flint manages receipt delivery. The recipient is derived from the order and cannot be supplied by the caller. When the merchant manages receipt delivery, ask the merchant for another copy.
- * POST /v1/orders/{order_id}/receipt
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.orders.resendReceipt("example", {}, { idempotencyKey: idempotencyKey })
- */
-    resendReceipt(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resendReceiptWithResponse(order_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersResendReceiptResponse>>;
-    /**
  * Marks a paid inventory failure as resolved after an operator has completed manual inventory remediation.
  * POST /v1/orders/{order_id}/inventory-exception/resolve
  * @example
@@ -384,20 +373,20 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.resolveInventoryException("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    resolveInventoryException(order_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
+    resolveInventoryException(order_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resolveInventoryExceptionWithResponse(order_id: InputValue<string>, params?: (InputValue<{ "reason"?: string; }> | { "reason"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersResolveInventoryExceptionResponse>>;
+    resolveInventoryExceptionWithResponse(order_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersResolveInventoryExceptionResponse>>;
     /**
- * Queues a receipt for a paid order to the email you provide, including original gift card tenders and settled processor payments. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+ * Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
  * POST /v1/orders/{order_id}/send-receipt
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.orders.sendReceipt("example", {email: "example@example.invalid"}, { idempotencyKey: idempotencyKey })
+ * client.orders.sendReceipt("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    sendReceipt(order_id: InputValue<string>, params: (InputValue<{ "email": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
+    sendReceipt(order_id: InputValue<string>, params?: (InputValue<{ "email"?: string; }> | { "email"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    sendReceiptWithResponse(order_id: InputValue<string>, params: (InputValue<{ "email": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersSendReceiptResponse>>;
+    sendReceiptWithResponse(order_id: InputValue<string>, params?: (InputValue<{ "email"?: string; }> | { "email"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrdersSendReceiptResponse>>;
     /**
  * Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip.
  * PATCH /v1/orders/{order_id}
@@ -465,7 +454,7 @@ export type { CreatePickupFulfillmentDetailsInput } from '../declarations/Create
 export type { FulfillmentRecipientInput } from '../declarations/FulfillmentRecipientInput.js';
 export type { CreateServiceFulfillmentDetailsInput } from '../declarations/CreateServiceFulfillmentDetailsInput.js';
 export type { CreatePackageRequestInput } from '../declarations/CreatePackageRequestInput.js';
-export type { CreateFulfillmentResponse } from '../declarations/CreateFulfillmentResponse.js';
+export type { FulfillmentResponse } from '../declarations/FulfillmentResponse.js';
 export type { OrdersCreateFulfillmentResponse } from '../declarations/OrdersCreateFulfillmentResponse.js';
 export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
 export type { OrderDeliveryDestinationRecipientRequestInput } from '../declarations/OrderDeliveryDestinationRecipientRequestInput.js';
@@ -473,6 +462,8 @@ export type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscou
 export type { OrderInventoryRoutingSourceRequestInput } from '../declarations/OrderInventoryRoutingSourceRequestInput.js';
 export type { OrderTaxRequestInput } from '../declarations/OrderTaxRequestInput.js';
 export type { OrdersCreateResponse } from '../declarations/OrdersCreateResponse.js';
+export type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
+export type { OrdersCreateAccessLinkResponse } from '../declarations/OrdersCreateAccessLinkResponse.js';
 export type { OrderPaymentSourceSelectionInput } from '../declarations/OrderPaymentSourceSelectionInput.js';
 export type { CreateOrderPaymentIntentResponse } from '../declarations/CreateOrderPaymentIntentResponse.js';
 export type { OrdersCreatePaymentIntentResponse } from '../declarations/OrdersCreatePaymentIntentResponse.js';
@@ -495,14 +486,11 @@ export type { OrdersListResponse } from '../declarations/OrdersListResponse.js';
 export type { Order } from '../declarations/Order.js';
 export type { OrdersPayInput } from '../declarations/OrdersPayInput.js';
 export type { OrdersPayResponse } from '../declarations/OrdersPayResponse.js';
-export type { DiscountPreviewResponse } from '../declarations/DiscountPreviewResponse.js';
-export type { OrdersPreviewDiscountsResponse } from '../declarations/OrdersPreviewDiscountsResponse.js';
 export type { OrdersRemoveDiscountsResponse } from '../declarations/OrdersRemoveDiscountsResponse.js';
 export type { OrdersRemoveGiftCardResponse } from '../declarations/OrdersRemoveGiftCardResponse.js';
 export type { OrdersRepriceDiscountsResponse } from '../declarations/OrdersRepriceDiscountsResponse.js';
-export type { ActionResponse } from '../declarations/ActionResponse.js';
-export type { OrdersResendReceiptResponse } from '../declarations/OrdersResendReceiptResponse.js';
 export type { OrdersResolveInventoryExceptionResponse } from '../declarations/OrdersResolveInventoryExceptionResponse.js';
+export type { ActionResponse } from '../declarations/ActionResponse.js';
 export type { OrdersSendReceiptResponse } from '../declarations/OrdersSendReceiptResponse.js';
 export type { OrdersUpdateResponse } from '../declarations/OrdersUpdateResponse.js';
 export type { OrderCalculatedChargeTaxInput } from '../declarations/OrderCalculatedChargeTaxInput.js';
@@ -522,6 +510,7 @@ export type { OrdersCapturePaymentInput } from '../declarations/OrdersCapturePay
 export type { OrdersCloseSessionInput } from '../declarations/OrdersCloseSessionInput.js';
 export type { OrdersCreateFulfillmentInput } from '../declarations/OrdersCreateFulfillmentInput.js';
 export type { OrdersCreateInput } from '../declarations/OrdersCreateInput.js';
+export type { OrdersCreateAccessLinkInput } from '../declarations/OrdersCreateAccessLinkInput.js';
 export type { OrdersCreatePaymentIntentInput } from '../declarations/OrdersCreatePaymentIntentInput.js';
 export type { OrdersDeleteChargeInput } from '../declarations/OrdersDeleteChargeInput.js';
 export type { OrdersDeleteLineItemInput } from '../declarations/OrdersDeleteLineItemInput.js';
@@ -531,11 +520,9 @@ export type { OrdersGetPaymentAttemptInput } from '../declarations/OrdersGetPaym
 export type { OrdersListActivitiesInput } from '../declarations/OrdersListActivitiesInput.js';
 export type { OrdersListPaymentAttemptsInput } from '../declarations/OrdersListPaymentAttemptsInput.js';
 export type { OrdersListInput } from '../declarations/OrdersListInput.js';
-export type { OrdersPreviewDiscountsInput } from '../declarations/OrdersPreviewDiscountsInput.js';
 export type { OrdersRemoveDiscountsInput } from '../declarations/OrdersRemoveDiscountsInput.js';
 export type { OrdersRemoveGiftCardInput } from '../declarations/OrdersRemoveGiftCardInput.js';
 export type { OrdersRepriceDiscountsInput } from '../declarations/OrdersRepriceDiscountsInput.js';
-export type { OrdersResendReceiptInput } from '../declarations/OrdersResendReceiptInput.js';
 export type { OrdersResolveInventoryExceptionInput } from '../declarations/OrdersResolveInventoryExceptionInput.js';
 export type { OrdersSendReceiptInput } from '../declarations/OrdersSendReceiptInput.js';
 export type { OrdersUpdateInput } from '../declarations/OrdersUpdateInput.js';
@@ -574,20 +561,6 @@ export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
 export type { ShippingDimensionsInput } from '../declarations/ShippingDimensionsInput.js';
 export type { ReturnShipmentLineItemAllocationInput } from '../declarations/ReturnShipmentLineItemAllocationInput.js';
 export type { ShippingWeightInput } from '../declarations/ShippingWeightInput.js';
-export type { CreateFulfillmentResult } from '../declarations/CreateFulfillmentResult.js';
-export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
-export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
-export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
-export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
-export type { AppliedDiscount } from '../declarations/AppliedDiscount.js';
-export type { BuyerAction } from '../declarations/BuyerAction.js';
-export type { OrderCharge } from '../declarations/OrderCharge.js';
-export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
-export type { TaxCalculationRequest } from '../declarations/TaxCalculationRequest.js';
-export type { TaxComponentRequest } from '../declarations/TaxComponentRequest.js';
-export type { TaxJurisdiction } from '../declarations/TaxJurisdiction.js';
-export type { OrderDeliveryDestinationAddress } from '../declarations/OrderDeliveryDestinationAddress.js';
-export type { OrderDeliveryDestinationRecipient } from '../declarations/OrderDeliveryDestinationRecipient.js';
 export type { Fulfillment } from '../declarations/Fulfillment.js';
 export type { FulfillmentChargeLink } from '../declarations/FulfillmentChargeLink.js';
 export type { DigitalFulfillmentDetails } from '../declarations/DigitalFulfillmentDetails.js';
@@ -601,45 +574,19 @@ export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
-export type { GiftCardMoney } from '../declarations/GiftCardMoney.js';
-export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
-export type { OrderGiftCardSettlement } from '../declarations/OrderGiftCardSettlement.js';
-export type { OrderGiftCardSelection } from '../declarations/OrderGiftCardSelection.js';
-export type { OrderLineItem } from '../declarations/OrderLineItem.js';
-export type { BundleComponent } from '../declarations/BundleComponent.js';
-export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
-export type { CategoryReference } from '../declarations/CategoryReference.js';
-export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
-export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
-export type { Image } from '../declarations/Image.js';
-export type { LineItemInventorySnapshot } from '../declarations/LineItemInventorySnapshot.js';
-export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryDemand.js';
-export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
-export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
-export type { PackageItem } from '../declarations/PackageItem.js';
-export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionStripe.js';
-export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
-export type { PaymentCollection } from '../declarations/PaymentCollection.js';
-export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
-export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
-export type { RequestedTip } from '../declarations/RequestedTip.js';
-export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
-export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
-export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
-export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
-export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
-export type { Tip } from '../declarations/Tip.js';
-export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentIntentAllocation.js';
-export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
 export type { OrderTaxCalculationRequestInput } from '../declarations/OrderTaxCalculationRequestInput.js';
 export type { OrderTaxComponentRequestInput } from '../declarations/OrderTaxComponentRequestInput.js';
 export type { OrderTaxJurisdictionRequestInput } from '../declarations/OrderTaxJurisdictionRequestInput.js';
 export type { OrderTaxLocationRequestInput } from '../declarations/OrderTaxLocationRequestInput.js';
 export type { OrderTaxLocationPostalAddressRequestInput } from '../declarations/OrderTaxLocationPostalAddressRequestInput.js';
 export type { OrderTaxLocationFullAddressRequestInput } from '../declarations/OrderTaxLocationFullAddressRequestInput.js';
+export type { AccessLink } from '../declarations/AccessLink.js';
 export type { OrderPaymentSourceCardSelectionInput } from '../declarations/OrderPaymentSourceCardSelectionInput.js';
 export type { CreatePaymentIntentResult } from '../declarations/CreatePaymentIntentResult.js';
+export type { PaymentCollection } from '../declarations/PaymentCollection.js';
+export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionStripe.js';
+export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
+export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { DeliverySelection } from '../declarations/DeliverySelection.js';
 export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
 export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
@@ -653,15 +600,48 @@ export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequ
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
 export type { DeliverySelectionLifecycleEventResource } from '../declarations/DeliverySelectionLifecycleEventResource.js';
+export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
+export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
+export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
+export type { AppliedDiscount } from '../declarations/AppliedDiscount.js';
+export type { BuyerAction } from '../declarations/BuyerAction.js';
+export type { OrderCharge } from '../declarations/OrderCharge.js';
+export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
+export type { TaxCalculationRequest } from '../declarations/TaxCalculationRequest.js';
+export type { TaxComponentRequest } from '../declarations/TaxComponentRequest.js';
+export type { TaxJurisdiction } from '../declarations/TaxJurisdiction.js';
+export type { OrderDeliveryDestinationAddress } from '../declarations/OrderDeliveryDestinationAddress.js';
+export type { OrderDeliveryDestinationRecipient } from '../declarations/OrderDeliveryDestinationRecipient.js';
+export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
+export type { OrderGiftCardSettlement } from '../declarations/OrderGiftCardSettlement.js';
+export type { OrderGiftCardSelection } from '../declarations/OrderGiftCardSelection.js';
+export type { OrderLineItem } from '../declarations/OrderLineItem.js';
+export type { BundleComponent } from '../declarations/BundleComponent.js';
+export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
+export type { CategoryReference } from '../declarations/CategoryReference.js';
+export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
+export type { Image } from '../declarations/Image.js';
+export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryDemand.js';
+export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
+export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
+export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
+export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
+export type { RequestedTip } from '../declarations/RequestedTip.js';
+export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
+export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
+export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
+export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
+export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
+export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
+export type { Tip } from '../declarations/Tip.js';
+export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentIntentAllocation.js';
+export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
 export type { PayOrderRequestInput } from '../declarations/PayOrderRequestInput.js';
 export type { OrderGiftCardAllocationAcceptanceInput } from '../declarations/OrderGiftCardAllocationAcceptanceInput.js';
 export type { PaymentSourceCredentialInput } from '../declarations/PaymentSourceCredentialInput.js';
 export type { OrderPaymentIntentSelectionInput } from '../declarations/OrderPaymentIntentSelectionInput.js';
-export type { DiscountPreviewData } from '../declarations/DiscountPreviewData.js';
-export type { DiscountPreview } from '../declarations/DiscountPreview.js';
-export type { PromotionCandidate } from '../declarations/PromotionCandidate.js';
-export type { PromotionCombinesWith } from '../declarations/PromotionCombinesWith.js';
-export type { PromotionExclusivity } from '../declarations/PromotionExclusivity.js';
 export type { ActionResult } from '../declarations/ActionResult.js';
 export type { TaxCalculationRequestInput } from '../declarations/TaxCalculationRequestInput.js';
 export type { TaxComponentRequestInput } from '../declarations/TaxComponentRequestInput.js';
@@ -678,7 +658,6 @@ export type { CloseOrderRequestInput } from '../declarations/CloseOrderRequestIn
 export type { CreateFulfillmentRequestInput } from '../declarations/CreateFulfillmentRequestInput.js';
 export type { CreateOrderRequestInput } from '../declarations/CreateOrderRequestInput.js';
 export type { CreateOrderPaymentIntentRequestInput } from '../declarations/CreateOrderPaymentIntentRequestInput.js';
-export type { DiscountPreviewRequestInput } from '../declarations/DiscountPreviewRequestInput.js';
 export type { RemoveDiscountsRequestInput } from '../declarations/RemoveDiscountsRequestInput.js';
 export type { RemoveOrderGiftCardRequestInput } from '../declarations/RemoveOrderGiftCardRequestInput.js';
 export type { ResendWebhookDeliveryRequestInput } from '../declarations/ResendWebhookDeliveryRequestInput.js';
@@ -689,7 +668,8 @@ export type { UpdateLineItemRequestInput } from '../declarations/UpdateLineItemR
 export { makeOrderResponse } from '../declarations/makeOrderResponse.js';
 export { makeOrderPaymentLifecycleResponse } from '../declarations/makeOrderPaymentLifecycleResponse.js';
 export { makeCancelOrderPaymentAttemptResponse } from '../declarations/makeCancelOrderPaymentAttemptResponse.js';
-export { makeCreateFulfillmentResponse } from '../declarations/makeCreateFulfillmentResponse.js';
+export { makeFulfillmentResponse } from '../declarations/makeFulfillmentResponse.js';
+export { makeAccessLinkResponse } from '../declarations/makeAccessLinkResponse.js';
 export { makeCreateOrderPaymentIntentResponse } from '../declarations/makeCreateOrderPaymentIntentResponse.js';
 export { makeDeliverySelectionResponse } from '../declarations/makeDeliverySelectionResponse.js';
 export { makeOrderPaymentAttemptResponse } from '../declarations/makeOrderPaymentAttemptResponse.js';
@@ -699,7 +679,6 @@ export { makeOrderPaymentAttemptListResponse } from '../declarations/makeOrderPa
 export { makeOrderPaymentAttempt } from '../declarations/makeOrderPaymentAttempt.js';
 export { makeOrderListResponse } from '../declarations/makeOrderListResponse.js';
 export { makeOrder } from '../declarations/makeOrder.js';
-export { makeDiscountPreviewResponse } from '../declarations/makeDiscountPreviewResponse.js';
 export { makeActionResponse } from '../declarations/makeActionResponse.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeCheckoutSessionLineItemModifierUpdate } from '../declarations/makeCheckoutSessionLineItemModifierUpdate.js';
@@ -716,20 +695,6 @@ export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
 export { makePaymentSourceAchDebitSummary } from '../declarations/makePaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../declarations/makePaymentSourceCardSummary.js';
 export { makePayOrderResult } from '../declarations/makePayOrderResult.js';
-export { makeCreateFulfillmentResult } from '../declarations/makeCreateFulfillmentResult.js';
-export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
-export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
-export { makeAppliedDiscount } from '../declarations/makeAppliedDiscount.js';
-export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
-export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
-export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
-export { makeTaxCalculationRequest } from '../declarations/makeTaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../declarations/makeTaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../declarations/makeTaxJurisdiction.js';
-export { makeOrderDeliveryDestinationAddress } from '../declarations/makeOrderDeliveryDestinationAddress.js';
-export { makeOrderDeliveryDestinationRecipient } from '../declarations/makeOrderDeliveryDestinationRecipient.js';
 export { makeFulfillment } from '../declarations/makeFulfillment.js';
 export { makeFulfillmentChargeLink } from '../declarations/makeFulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../declarations/makeDigitalFulfillmentDetails.js';
@@ -743,38 +708,12 @@ export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipie
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
-export { makeGiftCardMoney } from '../declarations/makeGiftCardMoney.js';
-export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
-export { makeOrderGiftCardSettlement } from '../declarations/makeOrderGiftCardSettlement.js';
-export { makeOrderGiftCardSelection } from '../declarations/makeOrderGiftCardSelection.js';
-export { makeOrderLineItem } from '../declarations/makeOrderLineItem.js';
-export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
-export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
-export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
-export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
-export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
-export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
-export { makeImage } from '../declarations/makeImage.js';
-export { makeLineItemInventorySnapshot } from '../declarations/makeLineItemInventorySnapshot.js';
-export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInventoryDemand.js';
-export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
-export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
-export { makePackageItem } from '../declarations/makePackageItem.js';
+export { makeAccessLink } from '../declarations/makeAccessLink.js';
+export { makeCreatePaymentIntentResult } from '../declarations/makeCreatePaymentIntentResult.js';
+export { makePaymentCollection } from '../declarations/makePaymentCollection.js';
 export { makePaymentCollectionStripe } from '../declarations/makePaymentCollectionStripe.js';
 export { makeSelectableOrderPaymentIntent } from '../declarations/makeSelectableOrderPaymentIntent.js';
-export { makePaymentCollection } from '../declarations/makePaymentCollection.js';
-export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
-export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
-export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
-export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
-export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';
-export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
-export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
-export { makeTip } from '../declarations/makeTip.js';
-export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIntentAllocation.js';
-export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';
-export { makeCreatePaymentIntentResult } from '../declarations/makeCreatePaymentIntentResult.js';
+export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeDeliverySelection } from '../declarations/makeDeliverySelection.js';
 export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
@@ -788,11 +727,44 @@ export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputR
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
 export { makeDeliverySelectionLifecycleEventResource } from '../declarations/makeDeliverySelectionLifecycleEventResource.js';
-export { makeDiscountPreviewData } from '../declarations/makeDiscountPreviewData.js';
-export { makeDiscountPreview } from '../declarations/makeDiscountPreview.js';
-export { makePromotionCandidate } from '../declarations/makePromotionCandidate.js';
-export { makePromotionCombinesWith } from '../declarations/makePromotionCombinesWith.js';
-export { makePromotionExclusivity } from '../declarations/makePromotionExclusivity.js';
+export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
+export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
+export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
+export { makeAppliedDiscount } from '../declarations/makeAppliedDiscount.js';
+export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
+export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
+export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
+export { makeTaxCalculationRequest } from '../declarations/makeTaxCalculationRequest.js';
+export { makeTaxComponentRequest } from '../declarations/makeTaxComponentRequest.js';
+export { makeTaxJurisdiction } from '../declarations/makeTaxJurisdiction.js';
+export { makeOrderDeliveryDestinationAddress } from '../declarations/makeOrderDeliveryDestinationAddress.js';
+export { makeOrderDeliveryDestinationRecipient } from '../declarations/makeOrderDeliveryDestinationRecipient.js';
+export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
+export { makeOrderGiftCardSettlement } from '../declarations/makeOrderGiftCardSettlement.js';
+export { makeOrderGiftCardSelection } from '../declarations/makeOrderGiftCardSelection.js';
+export { makeOrderLineItem } from '../declarations/makeOrderLineItem.js';
+export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
+export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
+export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
+export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
+export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
+export { makeImage } from '../declarations/makeImage.js';
+export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInventoryDemand.js';
+export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
+export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
+export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
+export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
+export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
+export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
+export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
+export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
+export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';
+export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
+export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
+export { makeTip } from '../declarations/makeTip.js';
+export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIntentAllocation.js';
+export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';
 export { makeActionResult } from '../declarations/makeActionResult.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { isOrdersUpdateLineItemResponseKnown } from '../declarations/isOrdersUpdateLineItemResponseKnown.js';

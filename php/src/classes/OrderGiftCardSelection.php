@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GiftCardMoney $available_money
+ * @property-read MoneyValue $available_money
  * @property-read string $gift_card_id
  * @property-read string $last_characters
  * @property-read bool $requires_authorization
@@ -10,10 +10,10 @@ namespace Flint;
 final class OrderGiftCardSelection extends Model {
     /** @param array{'available_money': mixed, 'gift_card_id': string, 'last_characters': string, 'requires_authorization': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardSelection')); }
-    /** @return GiftCardMoney
+    /** @return MoneyValue
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
      */
-    public function getAvailableMoney(): GiftCardMoney { return $this->get('available_money'); }
+    public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
     /** @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().

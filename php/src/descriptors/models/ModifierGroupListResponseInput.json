@@ -1,1 +1,1 @@
-{"shared":"ModifierGroupListResponse","dependencies":["Modifier","ModifierGroup","ModifierGroupListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","TextModifierConfig"]}
+{"shared":"ModifierGroupListResponse","dependencies":["Modifier","ModifierGroup","ModifierGroupListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec485","TextModifierConfig"]}
