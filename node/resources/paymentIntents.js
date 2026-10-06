@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=ba066cb5d42061b50ddb74a9a955bfa66adbe16252255af2a884092ee5130eba';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=ba066cb5d42061b50ddb74a9a955bfa66adbe16252255af2a884092ee5130eba';
+import settings from '../descriptors/settings.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntents"]:r0,["updatePaymentIntent"]:r0});
 export class Client {

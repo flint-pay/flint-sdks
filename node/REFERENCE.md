@@ -12521,7 +12521,7 @@ Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+Idempotency header: Idempotency-Key; retention: Keys are retained for the ledger's lifetime.; scope: Endpoint-defined command identity. Required durable command identity. Reuse this key after a lost or unconfirmed response; its identity is retained for the ledger's lifetime..
 
 [Example](examples/giftCardFundingDispositions-create.mjs)
 
@@ -34947,7 +34947,7 @@ Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
 
-Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity..
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key. A retry with the same key within 24 hours returns the same link instead of a new one..
 
 [Example](examples/subscriptions-createAccessLink.mjs)
 

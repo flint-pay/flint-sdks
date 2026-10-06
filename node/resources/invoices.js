@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=ba066cb5d42061b50ddb74a9a955bfa66adbe16252255af2a884092ee5130eba';
+import r0 from '../descriptors/resources/invoices.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=ba066cb5d42061b50ddb74a9a955bfa66adbe16252255af2a884092ee5130eba';
+import settings from '../descriptors/settings.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["assessInvoiceLateFee"]:r0,["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["getInvoice"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["recordManualInvoicePayment"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseManualInvoicePayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
