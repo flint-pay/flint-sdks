@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $pickup_details
  * @property-read FulfillmentRecipientInput|array<array-key, mixed>|\stdClass $recipient
  * @property-read CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $service_details
- * @property-read mixed $shipment
+ * @property-read FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass $shipment
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFulfillmentRequestInput extends Model {
@@ -74,7 +74,7 @@ final class CreateFulfillmentRequestInput extends Model {
      */
     public function getServiceDetails(): mixed { return $this->get('service_details'); }
     public function hasServiceDetails(): bool { return $this->has('service_details'); }
-    /** @return mixed
+    /** @return FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipment is omitted; use hasShipment() or valueOrDefault().
      */
     public function getShipment(): mixed { return $this->get('shipment'); }

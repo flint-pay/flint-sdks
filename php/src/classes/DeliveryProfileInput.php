@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: array{'height': string, 'length': string, 'unit': string, 'width': string, ...}|object, 'origin_policy'?: array{'location_id'?: string, 'type': string, ...}|object, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: array{'unit': string, 'value': string, ...}|object, ...}|object $configuration
+ * @property-read DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_profile_revision_id
  * @property-read string $delivery_profile_id
@@ -14,12 +14,12 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileInput extends Model {
-    /** @param array{'configuration': array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: array{'height': string, 'length': string, 'unit': string, 'width': string, ...}|object, 'origin_policy'?: array{'location_id'?: string, 'type': string, ...}|object, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: array{'unit': string, 'value': string, ...}|object, ...}|object, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'configuration': DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileInput')); }
-    /** @return array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: array{'height': string, 'length': string, 'unit': string, 'width': string, ...}|object, 'origin_policy'?: array{'location_id'?: string, 'type': string, ...}|object, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: array{'unit': string, 'value': string, ...}|object, ...}|object
+    /** @return DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
-    public function getConfiguration(): array|object { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

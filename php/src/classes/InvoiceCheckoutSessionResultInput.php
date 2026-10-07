@@ -4,13 +4,12 @@ namespace Flint;
 /**
  * @property-read CheckoutAccessInput|array<array-key, mixed>|\stdClass $checkout_access
  * @property-read CheckoutSessionInput|array<array-key, mixed>|\stdClass $checkout_session
- * @property-read array{'checkout_auth_token': string, 'url': string, ...}|object $hosted_checkout
  * @property-read InvoiceInput|array<array-key, mixed>|\stdClass $invoice
  * @property-read InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass $invoice_payment_attempt
  * @property-read bool $reused_existing
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceCheckoutSessionResultInput extends Model {
-    /** @param array{'checkout_access': CheckoutAccessInput|array<array-key, mixed>|\stdClass, 'checkout_session': CheckoutSessionInput|array<array-key, mixed>|\stdClass, 'hosted_checkout'?: array{'checkout_auth_token': string, 'url': string, ...}|object, 'invoice': InvoiceInput|array<array-key, mixed>|\stdClass, 'invoice_payment_attempt'?: InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass, 'reused_existing': bool, ...}|object $values */
+    /** @param array{'checkout_access': CheckoutAccessInput|array<array-key, mixed>|\stdClass, 'checkout_session': CheckoutSessionInput|array<array-key, mixed>|\stdClass, 'invoice': InvoiceInput|array<array-key, mixed>|\stdClass, 'invoice_payment_attempt'?: InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass, 'reused_existing': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCheckoutSessionResultInput')); }
     /** @return CheckoutAccessInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().
@@ -22,11 +21,6 @@ final class InvoiceCheckoutSessionResultInput extends Model {
      */
     public function getCheckoutSession(): mixed { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** @return array{'checkout_auth_token': string, 'url': string, ...}|object
-     * @throws SdkError When hosted_checkout is omitted; use hasHostedCheckout() or valueOrDefault().
-     */
-    public function getHostedCheckout(): array|object { return $this->get('hosted_checkout'); }
-    public function hasHostedCheckout(): bool { return $this->has('hosted_checkout'); }
     /** @return InvoiceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */

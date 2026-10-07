@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ChangeSubscriptionPaymentMethodRequest $setup_payment_source
  * Presence-aware response; omitted fields throw when accessed. */
 final class PendingPaymentActionSubject extends Model {
-    /** @param array{'payment_intent'?: object{'payment_intent_id': string}, 'setup_payment_source'?: object{'payment_method_id': string}, ...}|object $values */
+    /** @param array{'payment_intent'?: mixed, 'setup_payment_source'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSubject')); }
     /** @return PendingPaymentActionPaymentIntentSubject
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().

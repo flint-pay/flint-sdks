@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read string $uses_count
  * Presence-aware response; omitted fields throw when accessed. */
 final class Promotion extends Model {
-    /** @param array{'application_method': mixed, 'codes_summary'?: object{'active_count': int, 'newest_active_code'?: string, 'total_count': int}, 'combines_with'?: mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'stacking_mode': string, 'status': string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
+    /** @param array{'application_method': mixed, 'codes_summary'?: mixed, 'combines_with'?: mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'stacking_mode': string, 'status': string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Promotion')); }
     /** @return \stdClass
      * @throws SdkError When application_method is omitted; use hasApplicationMethod() or valueOrDefault().

@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'amount': string, 'currency': string}|object $amount_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $quantity
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteCorrectionRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteCorrectionRequestInput')); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** @return string
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

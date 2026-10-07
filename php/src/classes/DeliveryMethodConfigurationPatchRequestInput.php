@@ -7,8 +7,8 @@ namespace Flint;
  * @property-read array{'all': mixed, ...}|object|array{'any': mixed, ...}|object|array{'not': mixed, ...}|object|array{'zone': mixed, ...}|object|array{'country': mixed, ...}|object|array{'state': mixed, ...}|object|array{'postal_code': mixed, ...}|object|array{'radius': mixed, ...}|object|array{'window_time': mixed, ...}|object|array{'customer_group': mixed, ...}|object|array{'customer_verified': mixed, ...}|object|array{'customer_has_email': mixed, ...}|object|array{'customer_has_phone': mixed, ...}|object|null $eligibility
  * @property-read array{'schedule_window'?: DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null $estimate
  * @property-read string|null $minimum_option_lifetime_seconds
- * @property-read mixed $origin
- * @property-read mixed $pricing
+ * @property-read DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass $origin
+ * @property-read DeliveryPricingStrategyRequestInput|array<array-key, mixed>|\stdClass $pricing
  * @property-read array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object|null $public_details
  * @property-read list<string> $quote_input_fields
  * @property-read list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass> $recipient_requirements
@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationPatchRequestInput extends Model {
-    /** @param array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object|null, 'charge_tax_category'?: string|null, 'eligibility'?: array{'all': mixed, ...}|object|array{'any': mixed, ...}|object|array{'not': mixed, ...}|object|array{'zone': mixed, ...}|object|array{'country': mixed, ...}|object|array{'state': mixed, ...}|object|array{'postal_code': mixed, ...}|object|array{'radius': mixed, ...}|object|array{'window_time': mixed, ...}|object|array{'customer_group': mixed, ...}|object|array{'customer_verified': mixed, ...}|object|array{'customer_has_email': mixed, ...}|object|array{'customer_has_phone': mixed, ...}|object|null, 'estimate'?: array{'schedule_window'?: DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null, 'minimum_option_lifetime_seconds'?: string|null, 'origin'?: mixed, 'pricing'?: mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object|null, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: string|null, 'taxable'?: bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object|null, 'charge_tax_category'?: string|null, 'eligibility'?: array{'all': mixed, ...}|object|array{'any': mixed, ...}|object|array{'not': mixed, ...}|object|array{'zone': mixed, ...}|object|array{'country': mixed, ...}|object|array{'state': mixed, ...}|object|array{'postal_code': mixed, ...}|object|array{'radius': mixed, ...}|object|array{'window_time': mixed, ...}|object|array{'customer_group': mixed, ...}|object|array{'customer_verified': mixed, ...}|object|array{'customer_has_email': mixed, ...}|object|array{'customer_has_phone': mixed, ...}|object|null, 'estimate'?: array{'schedule_window'?: DeliveryScheduleWindowRuleRequestInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null, 'minimum_option_lifetime_seconds'?: string|null, 'origin'?: DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass, 'pricing'?: DeliveryPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object|null, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: string|null, 'taxable'?: bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPatchRequestInput')); }
     /** @return array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object|null
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
@@ -43,12 +43,12 @@ final class DeliveryMethodConfigurationPatchRequestInput extends Model {
      */
     public function getMinimumOptionLifetimeSeconds(): string|null { return $this->get('minimum_option_lifetime_seconds'); }
     public function hasMinimumOptionLifetimeSeconds(): bool { return $this->has('minimum_option_lifetime_seconds'); }
-    /** @return mixed
+    /** @return DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
     public function getOrigin(): mixed { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** @return mixed
+    /** @return DeliveryPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pricing is omitted; use hasPricing() or valueOrDefault().
      */
     public function getPricing(): mixed { return $this->get('pricing'); }

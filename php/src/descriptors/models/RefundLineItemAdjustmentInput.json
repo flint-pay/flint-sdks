@@ -1,1 +1,1 @@
-{"shared":"RefundLineItemAdjustment","dependencies":["MoneyValue","RefundAdjustmentReason","RefundLineItemAdjustment","SharedCodec6"]}
+{"shared":"RefundLineItemAdjustment","dependencies":["MoneyValue","RefundAdjustmentReason","RefundLineItemAdjustment"]}

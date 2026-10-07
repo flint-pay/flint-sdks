@@ -51,6 +51,7 @@ export type { CreateReturnPreviewData } from '../declarations/CreateReturnPrevie
 export type { ReturnEligibilityCheck } from '../declarations/ReturnEligibilityCheck.js';
 export type { ReturnEligibilityCheckLineItem } from '../declarations/ReturnEligibilityCheckLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
+export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { ReturnLineItemEligibility } from '../declarations/ReturnLineItemEligibility.js';
 export type { ReturnLineItemDecisionProposal } from '../declarations/ReturnLineItemDecisionProposal.js';
@@ -73,12 +74,14 @@ export type { ReturnResolutionWarning } from '../declarations/ReturnResolutionWa
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { CreateReturnPreviewRequestInput } from '../declarations/CreateReturnPreviewRequestInput.js';
 export { makeCreateReturnPreviewResponse } from '../declarations/makeCreateReturnPreviewResponse.js';
 export { makeCreateReturnPreviewData } from '../declarations/makeCreateReturnPreviewData.js';
 export { makeReturnEligibilityCheck } from '../declarations/makeReturnEligibilityCheck.js';
 export { makeReturnEligibilityCheckLineItem } from '../declarations/makeReturnEligibilityCheckLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
+export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeReturnLineItemEligibility } from '../declarations/makeReturnLineItemEligibility.js';
 export { makeReturnLineItemDecisionProposal } from '../declarations/makeReturnLineItemDecisionProposal.js';
@@ -101,3 +104,4 @@ export { makeReturnResolutionWarning } from '../declarations/makeReturnResolutio
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';

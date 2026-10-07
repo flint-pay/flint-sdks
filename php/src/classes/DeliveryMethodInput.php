@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object $configuration
+ * @property-read DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_method_revision_id
  * @property-read string $delivery_method_id
@@ -18,12 +18,12 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodInput extends Model {
-    /** @param array{'configuration': array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object, 'created_at': string|\DateTimeInterface, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position'?: int, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'type'?: string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'configuration': DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position'?: int, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'type'?: string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodInput')); }
-    /** @return array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object
+    /** @return DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
-    public function getConfiguration(): array|object { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

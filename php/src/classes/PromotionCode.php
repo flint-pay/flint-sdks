@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $uses_count
  * Presence-aware response; omitted fields throw when accessed. */
 final class PromotionCode extends Model {
-    /** @param array{'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'promotion'?: object{'application_method': mixed, 'codes_summary'?: object{'active_count': int, 'newest_active_code'?: string, 'total_count': int}, 'combines_with'?: mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'stacking_mode': string, 'status': string, 'updated_at'?: string, 'uses_count': string}, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
+    /** @param array{'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'updated_at'?: string, 'uses_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCode')); }
     /** @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().

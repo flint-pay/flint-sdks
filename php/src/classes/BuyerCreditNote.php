@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $voided_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerCreditNote extends Model {
-    /** @param array{'buyer_tax_identity'?: mixed, 'credit_note_id': string, 'credit_note_lines': list<mixed>, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string, 'latest_refund_status'?: string, 'memo'?: string, 'pending_refund_money': mixed, 'reason': string, 'refunded_money': mixed, 'seller_tax_identity'?: mixed, 'status': string, 'total_money': object{'amount': string, 'currency': string}, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'buyer_tax_identity'?: mixed, 'credit_note_id': string, 'credit_note_lines': list<mixed>, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string, 'latest_refund_status'?: string, 'memo'?: string, 'pending_refund_money': mixed, 'reason': string, 'refunded_money': mixed, 'seller_tax_identity'?: mixed, 'status': string, 'total_money': mixed, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNote')); }
     /** @return TaxIdentity|null
      * @throws SdkError When buyer_tax_identity is omitted; use hasBuyerTaxIdentity() or valueOrDefault().

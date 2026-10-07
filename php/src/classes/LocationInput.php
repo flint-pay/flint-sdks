@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object $address
- * @property-read array{'latitude'?: int|float, 'longitude'?: int|float, ...}|object $coordinate
+ * @property-read LocationAddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read LocationCoordinateInput|array<array-key, mixed>|\stdClass $coordinate
  * @property-read string|null $coordinate_source
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $external_reference_id
  * @property-read string $geography_revision
- * @property-read array{'allocation_status': string, 'created_at': string|\DateTimeInterface, 'inventory_revision': string, 'updated_at': string|\DateTimeInterface, ...}|object $inventory
+ * @property-read LocationInventoryInput|array<array-key, mixed>|\stdClass $inventory
  * @property-read string $location_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $name
- * @property-read array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object $normalized_address
+ * @property-read LocationAddressInput|array<array-key, mixed>|\stdClass $normalized_address
  * @property-read string $status
  * @property-read string $timezone
  * @property-read string|\DateTimeInterface $updated_at
@@ -20,17 +20,17 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationInput extends Model {
-    /** @param array{'address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'coordinate'?: array{'latitude'?: int|float, 'longitude'?: int|float, ...}|object, 'coordinate_source'?: string|null, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: array{'allocation_status': string, 'created_at': string|\DateTimeInterface, 'inventory_revision': string, 'updated_at': string|\DateTimeInterface, ...}|object, 'location_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'normalized_address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'status': string, 'timezone': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, 'version': string, ...}|object $values */
+    /** @param array{'address'?: LocationAddressInput|array<array-key, mixed>|\stdClass, 'coordinate'?: LocationCoordinateInput|array<array-key, mixed>|\stdClass, 'coordinate_source'?: string|null, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'geography_revision': string, 'inventory'?: LocationInventoryInput|array<array-key, mixed>|\stdClass, 'location_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'normalized_address'?: LocationAddressInput|array<array-key, mixed>|\stdClass, 'status': string, 'timezone': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationInput')); }
-    /** @return array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object
+    /** @return LocationAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
-    public function getAddress(): array|object { return $this->get('address'); }
+    public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** @return array{'latitude'?: int|float, 'longitude'?: int|float, ...}|object
+    /** @return LocationCoordinateInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When coordinate is omitted; use hasCoordinate() or valueOrDefault().
      */
-    public function getCoordinate(): array|object { return $this->get('coordinate'); }
+    public function getCoordinate(): mixed { return $this->get('coordinate'); }
     public function hasCoordinate(): bool { return $this->has('coordinate'); }
     /** @return string|null
      * @throws SdkError When coordinate_source is omitted; use hasCoordinateSource() or valueOrDefault().
@@ -52,10 +52,10 @@ final class LocationInput extends Model {
      */
     public function getGeographyRevision(): string { return $this->get('geography_revision'); }
     public function hasGeographyRevision(): bool { return $this->has('geography_revision'); }
-    /** @return array{'allocation_status': string, 'created_at': string|\DateTimeInterface, 'inventory_revision': string, 'updated_at': string|\DateTimeInterface, ...}|object
+    /** @return LocationInventoryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory is omitted; use hasInventory() or valueOrDefault().
      */
-    public function getInventory(): array|object { return $this->get('inventory'); }
+    public function getInventory(): mixed { return $this->get('inventory'); }
     public function hasInventory(): bool { return $this->has('inventory'); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
@@ -72,10 +72,10 @@ final class LocationInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object
+    /** @return LocationAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When normalized_address is omitted; use hasNormalizedAddress() or valueOrDefault().
      */
-    public function getNormalizedAddress(): array|object { return $this->get('normalized_address'); }
+    public function getNormalizedAddress(): mixed { return $this->get('normalized_address'); }
     public function hasNormalizedAddress(): bool { return $this->has('normalized_address'); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

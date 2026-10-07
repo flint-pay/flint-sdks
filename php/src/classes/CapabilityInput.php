@@ -7,11 +7,11 @@ namespace Flint;
  * @property-read string $domain
  * @property-read list<NextActionInput|array<array-key, mixed>|\stdClass> $next_actions
  * @property-read string|\DateTimeInterface $observed_at
- * @property-read array{'current_deadline_at'?: string|\DateTimeInterface, 'currently_due_fields'?: list<string>, 'disabled_reason'?: string|null, 'eventually_due_fields'?: list<string>, 'past_due_fields'?: list<string>, 'pending_verification_fields'?: list<string>, ...}|object $requirements
+ * @property-read CapabilityRequirementsInput|array<array-key, mixed>|\stdClass $requirements
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CapabilityInput extends Model {
-    /** @param array{'blocked_reasons'?: list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>, 'capability': string, 'domain': string, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'observed_at'?: string|\DateTimeInterface, 'requirements': array{'current_deadline_at'?: string|\DateTimeInterface, 'currently_due_fields'?: list<string>, 'disabled_reason'?: string|null, 'eventually_due_fields'?: list<string>, 'past_due_fields'?: list<string>, 'pending_verification_fields'?: list<string>, ...}|object, 'status': string, ...}|object $values */
+    /** @param array{'blocked_reasons'?: list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>, 'capability': string, 'domain': string, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'observed_at'?: string|\DateTimeInterface, 'requirements': CapabilityRequirementsInput|array<array-key, mixed>|\stdClass, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CapabilityInput')); }
     /** @return list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When blocked_reasons is omitted; use hasBlockedReasons() or valueOrDefault().
@@ -38,10 +38,10 @@ final class CapabilityInput extends Model {
      */
     public function getObservedAt(): string|\DateTimeInterface { return $this->get('observed_at'); }
     public function hasObservedAt(): bool { return $this->has('observed_at'); }
-    /** @return array{'current_deadline_at'?: string|\DateTimeInterface, 'currently_due_fields'?: list<string>, 'disabled_reason'?: string|null, 'eventually_due_fields'?: list<string>, 'past_due_fields'?: list<string>, 'pending_verification_fields'?: list<string>, ...}|object
+    /** @return CapabilityRequirementsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When requirements is omitted; use hasRequirements() or valueOrDefault().
      */
-    public function getRequirements(): array|object { return $this->get('requirements'); }
+    public function getRequirements(): mixed { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
     /** @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

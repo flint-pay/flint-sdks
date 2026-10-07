@@ -1,9 +1,9 @@
-import { d62 as c0, d64 as c1, d67 as c2, d180 as c3, d932 as c4, d1813 as c5, d1814 as c6, d1817 as c7, d60 as c8, d1820 as c9, d77 as c10, d1830 as c11, d1829 as c12, d2164 as c13, d2165 as c14, d2319 as c15, d14 as c16, d409 as c17, d61 as c18, d63 as c19, d1819 as c20, d1828 as c21, d2385 as c22 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d67 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d58 as c0, d59 as c1, d61 as c2, d62 as c3, d135 as c4, d868 as c5, d1759 as c6, d1760 as c7, d1763 as c8, d56 as c9, d1766 as c10, d314 as c11, d1775 as c12, d1776 as c13, d2112 as c14, d2113 as c15, d2268 as c16, d14 as c17, d355 as c18, d57 as c19, d1765 as c20, d1774 as c21, d2329 as c22 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d62 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d67;
+const read = d62;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["BundleListResponse"]:c2(),["CategoryReference"]:c3(),["Image"]:c4(),["Modifier"]:c5(),["ModifierGroup"]:c6(),["ModifierOverride"]:c7(),["ModifierSet"]:c8(),["ModifierSetGroup"]:c9(),["MoneyValue"]:c10(),["NextAction"]:c11(),["NextActionMerchantAccountSession"]:c12(),["ResponseMeta"]:c13(),["ResponseWarning"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec1"]:c16(),["SharedCodec148"]:c17(),["SharedCodec16"]:c18(),["SharedCodec17"]:c19(),["SharedCodec491"]:c20(),["SharedCodec492"]:c21(),["TextModifierConfig"]:c22()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Bundle"]:c0(),["BundleComponent"]:c1(),["BundleComponentVariantSummary"]:c2(),["BundleListResponse"]:c3(),["CategoryReference"]:c4(),["Image"]:c5(),["Modifier"]:c6(),["ModifierGroup"]:c7(),["ModifierOverride"]:c8(),["ModifierSet"]:c9(),["ModifierSetGroup"]:c10(),["MoneyValue"]:c11(),["NextAction"]:c12(),["NextActionMerchantAccountSession"]:c13(),["ResponseMeta"]:c14(),["ResponseWarning"]:c15(),["SelectedProductOption"]:c16(),["SharedCodec1"]:c17(),["SharedCodec111"]:c18(),["SharedCodec12"]:c19(),["SharedCodec447"]:c20(),["SharedCodec448"]:c21(),["TextModifierConfig"]:c22()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeBundleListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read MoneyValue $total_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class CreditNoteLine extends Model {
-    /** @param array{'credit_note_line_id': string, 'description': string, 'discount_money': mixed, 'invoice_line_item_id': string, 'quantity'?: string, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'credit_note_line_id': string, 'description': string, 'discount_money': mixed, 'invoice_line_item_id': string, 'quantity'?: string, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteLine')); }
     /** @return string
      * @throws SdkError When credit_note_line_id is omitted; use hasCreditNoteLineId() or valueOrDefault().

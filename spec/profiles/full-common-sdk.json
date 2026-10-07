@@ -6741,5 +6741,23 @@
       ],
       "readOnly": true
     }
+  },
+  "phpFieldClasses": {
+    "BuyerInvoice": {
+      "remit_to_address": "Address"
+    },
+    "CheckoutCustomerPrefill": {
+      "billing_address": "Address",
+      "shipping_address": "Address"
+    },
+    "Invoice": {
+      "remit_to_address": "Address"
+    },
+    "PendingPaymentActionSubject": {
+      "setup_payment_source": "ChangeSubscriptionPaymentMethodRequest"
+    },
+    "PickupFulfillmentDetails": {
+      "address": "Address"
+    }
   }
 }

@@ -1,9 +1,9 @@
-import { d904 as c0, d906 as c1, d908 as c2, d936 as c3, d526 as c4, d902 as c5, d903 as c6, d935 as c7, d1141 as c8 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d1141 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d838 as c0, d839 as c1, d840 as c2, d842 as c3, d843 as c4, d872 as c5, d469 as c6, d871 as c7, d1077 as c8 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1077 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1141;
+const read = d1077;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardNotification"]:c0(),["GiftCardNotificationDeliveryAttempt"]:c1(),["GiftCardNotificationProviderOutcome"]:c2(),["MerchantWebhookEnvelope"]:c3(),["SharedCodec199"]:c4(),["SharedCodec283"]:c5(),["SharedCodec284"]:c6(),["SharedCodec286"]:c7(),["Webhook_gift_card_notification_updated_merchant"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardNotification"]:c0(),["GiftCardNotificationDelivery"]:c1(),["GiftCardNotificationDeliveryAttempt"]:c2(),["GiftCardNotificationProviderOutcome"]:c3(),["GiftCardNotificationRecipient"]:c4(),["MerchantWebhookEnvelope"]:c5(),["SharedCodec161"]:c6(),["SharedCodec237"]:c7(),["Webhook_gift_card_notification_updated_merchant"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_gift_card_notification_updated_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

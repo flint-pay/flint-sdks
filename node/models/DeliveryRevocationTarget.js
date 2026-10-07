@@ -1,9 +1,9 @@
-import { d728 as c0, d717 as c1, d716 as c2, d719 as c3, d718 as c4, d721 as c5, d720 as c6, d723 as c7, d722 as c8, d725 as c9, d724 as c10, d727 as c11, d726 as c12 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d728 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d674 as c0, d663 as c1, d662 as c2, d665 as c3, d664 as c4, d667 as c5, d666 as c6, d669 as c7, d668 as c8, d671 as c9, d670 as c10, d673 as c11, d672 as c12 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d674 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d728;
+const read = d674;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocationTarget"]:c0(),["SharedCodec231"]:c1(),["SharedCodec232"]:c2(),["SharedCodec233"]:c3(),["SharedCodec234"]:c4(),["SharedCodec235"]:c5(),["SharedCodec236"]:c6(),["SharedCodec237"]:c7(),["SharedCodec238"]:c8(),["SharedCodec239"]:c9(),["SharedCodec240"]:c10(),["SharedCodec241"]:c11(),["SharedCodec242"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocationTarget"]:c0(),["SharedCodec194"]:c1(),["SharedCodec195"]:c2(),["SharedCodec196"]:c3(),["SharedCodec197"]:c4(),["SharedCodec198"]:c5(),["SharedCodec199"]:c6(),["SharedCodec200"]:c7(),["SharedCodec201"]:c8(),["SharedCodec202"]:c9(),["SharedCodec203"]:c10(),["SharedCodec204"]:c11(),["SharedCodec205"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryRevocationTarget(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

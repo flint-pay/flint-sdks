@@ -1,9 +1,9 @@
-import { d1718 as c0, d1720 as c1, d77 as c2, d1830 as c3, d1829 as c4, d2164 as c5, d2165 as c6, d14 as c7, d1699 as c8, d1700 as c9, d1716 as c10, d1711 as c11, d1710 as c12, d1712 as c13, d1713 as c14, d1714 as c15, d1715 as c16, d1717 as c17, d1828 as c18 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d1720 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d1643 as c0, d1659 as c1, d1666 as c2, d1667 as c3, d314 as c4, d1775 as c5, d1776 as c6, d2112 as c7, d2113 as c8, d14 as c9, d1641 as c10, d1642 as c11, d1661 as c12, d1660 as c13, d1662 as c14, d1663 as c15, d1664 as c16, d1665 as c17, d1774 as c18 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1667 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1720;
+const read = d1667;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTerm"]:c0(),["InvoicePaymentTermListResponse"]:c1(),["MoneyValue"]:c2(),["NextAction"]:c3(),["NextActionMerchantAccountSession"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["SharedCodec1"]:c7(),["SharedCodec461"]:c8(),["SharedCodec462"]:c9(),["SharedCodec463"]:c10(),["SharedCodec464"]:c11(),["SharedCodec465"]:c12(),["SharedCodec466"]:c13(),["SharedCodec467"]:c14(),["SharedCodec468"]:c15(),["SharedCodec469"]:c16(),["SharedCodec470"]:c17(),["SharedCodec492"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoiceLateFeePolicy"]:c0(),["InvoicePaymentTerm"]:c1(),["InvoicePaymentTermCalculation"]:c2(),["InvoicePaymentTermListResponse"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SharedCodec1"]:c9(),["SharedCodec415"]:c10(),["SharedCodec416"]:c11(),["SharedCodec423"]:c12(),["SharedCodec424"]:c13(),["SharedCodec425"]:c14(),["SharedCodec426"]:c15(),["SharedCodec427"]:c16(),["SharedCodec428"]:c17(),["SharedCodec448"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentTermListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class InventoryReservation extends Model {
-    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'idempotency_key': string, 'inventory_action_required'?: object{'inventory_reservation_line_ids': list<string>, 'next_actions': list<string>, 'reason': string}, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'idempotency_key': string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservation')); }
     /** @return string|null
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().

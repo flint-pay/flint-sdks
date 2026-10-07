@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class Capability extends Model {
-    /** @param array{'blocked_reasons'?: list<mixed>, 'capability': string, 'domain': string, 'next_actions'?: list<mixed>, 'observed_at'?: string, 'requirements': object{'current_deadline_at'?: string, 'currently_due_fields'?: list<string>, 'disabled_reason'?: string|null, 'eventually_due_fields'?: list<string>, 'past_due_fields'?: list<string>, 'pending_verification_fields'?: list<string>}, 'status': string, ...}|object $values */
+    /** @param array{'blocked_reasons'?: list<mixed>, 'capability': string, 'domain': string, 'next_actions'?: list<mixed>, 'observed_at'?: string, 'requirements': mixed, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Capability')); }
     /** @return list<MoneyMovementBlockedReason>
      * @throws SdkError When blocked_reasons is omitted; use hasBlockedReasons() or valueOrDefault().

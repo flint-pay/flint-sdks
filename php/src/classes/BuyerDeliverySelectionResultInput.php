@@ -3,37 +3,37 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $audience
- * @property-read array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $checkout_session
+ * @property-read CheckoutSessionInput|array<array-key, mixed>|\stdClass $checkout_session
  * @property-read BuyerDeliverySelectionInput|array<array-key, mixed>|\stdClass $delivery_selection
- * @property-read array{'expires_at': string|\DateTimeInterface, 'inventory_reservation_id': string, 'owner_type': string, 'required_next_action'?: string, 'status': string, ...}|object $inventory_reservation
- * @property-read array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass, 'delivery_selection_id'?: string, 'frozen_at'?: string|\DateTimeInterface, 'recipient'?: OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass, 'source': string, ...}|object, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string, ...}|object, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: RequestedTipInput|array<array-key, mixed>|\stdClass, ...}|object $order
+ * @property-read DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass $inventory_reservation
+ * @property-read OrderInput|array<array-key, mixed>|\stdClass $order
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerDeliverySelectionResultInput extends Model {
-    /** @param array{'audience': string, 'checkout_session': array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object, 'delivery_selection': BuyerDeliverySelectionInput|array<array-key, mixed>|\stdClass, 'inventory_reservation'?: array{'expires_at': string|\DateTimeInterface, 'inventory_reservation_id': string, 'owner_type': string, 'required_next_action'?: string, 'status': string, ...}|object, 'order': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass, 'delivery_selection_id'?: string, 'frozen_at'?: string|\DateTimeInterface, 'recipient'?: OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass, 'source': string, ...}|object, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string, ...}|object, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: RequestedTipInput|array<array-key, mixed>|\stdClass, ...}|object, ...}|object $values */
+    /** @param array{'audience': string, 'checkout_session': CheckoutSessionInput|array<array-key, mixed>|\stdClass, 'delivery_selection': BuyerDeliverySelectionInput|array<array-key, mixed>|\stdClass, 'inventory_reservation'?: DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass, 'order': OrderInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerDeliverySelectionResultInput')); }
     /** @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
      */
     public function getAudience(): string { return $this->get('audience'); }
     public function hasAudience(): bool { return $this->has('audience'); }
-    /** @return array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object
+    /** @return CheckoutSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
      */
-    public function getCheckoutSession(): array|object { return $this->get('checkout_session'); }
+    public function getCheckoutSession(): mixed { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
     /** @return BuyerDeliverySelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_selection is omitted; use hasDeliverySelection() or valueOrDefault().
      */
     public function getDeliverySelection(): mixed { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** @return array{'expires_at': string|\DateTimeInterface, 'inventory_reservation_id': string, 'owner_type': string, 'required_next_action'?: string, 'status': string, ...}|object
+    /** @return DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */
-    public function getInventoryReservation(): array|object { return $this->get('inventory_reservation'); }
+    public function getInventoryReservation(): mixed { return $this->get('inventory_reservation'); }
     public function hasInventoryReservation(): bool { return $this->has('inventory_reservation'); }
-    /** @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass, 'delivery_selection_id'?: string, 'frozen_at'?: string|\DateTimeInterface, 'recipient'?: OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass, 'source': string, ...}|object, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string, ...}|object, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: RequestedTipInput|array<array-key, mixed>|\stdClass, ...}|object
+    /** @return OrderInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
-    public function getOrder(): array|object { return $this->get('order'); }
+    public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
 }

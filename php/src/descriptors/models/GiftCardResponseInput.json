@@ -1,1 +1,1 @@
-{"shared":"GiftCardResponse","dependencies":["GiftCard","GiftCardResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec492","SharedCodec6"]}
+{"shared":"GiftCardResponse","dependencies":["GiftCard","GiftCardResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec448"]}

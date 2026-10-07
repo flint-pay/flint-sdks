@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $publishable_key
  * Presence-aware response; omitted fields throw when accessed. */
 final class MerchantAccountSessionStripe extends Model {
-    /** @param array{'account_session': object{'client_secret': string, 'stripe_js_call': string}, 'components': list<mixed>, 'publishable_key': string, ...}|object $values */
+    /** @param array{'account_session': mixed, 'components': list<mixed>, 'publishable_key': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripe')); }
     /** @return MerchantAccountSessionStripeAccountSession
      * @throws SdkError When account_session is omitted; use hasAccountSession() or valueOrDefault().

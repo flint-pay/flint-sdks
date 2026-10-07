@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware response; omitted fields throw when accessed. */
 final class WebhookEventBalanceTransactionCreatedData extends Model {
-    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'available_at'?: string, 'balance_transaction_id': string, 'currency': string, 'description'?: string, 'fee_money': object{'amount': string, 'currency': string}, 'hold_detail'?: object{'held_money'?: mixed, 'released_money'?: mixed, 'used_money'?: mixed}, 'merchant_id': string, 'net_money': object{'amount': string, 'currency': string}, 'occurred_at': string, 'order'?: mixed, 'order_id'?: string, 'payout_id'?: string, 'related_balance_transaction_ids'?: list<string>, 'related_resource'?: \stdClass, 'status': string, 'type': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'available_at'?: string, 'balance_transaction_id': string, 'currency': string, 'description'?: string, 'fee_money': mixed, 'hold_detail'?: mixed, 'merchant_id': string, 'net_money': mixed, 'occurred_at': string, 'order'?: mixed, 'order_id'?: string, 'payout_id'?: string, 'related_balance_transaction_ids'?: list<string>, 'related_resource'?: mixed, 'status': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventBalanceTransactionCreatedData')); }
     /** @return SignedMoney
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

@@ -56,9 +56,13 @@ export type { EmailPreferenceLink } from '../declarations/EmailPreferenceLink.js
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { EmailPreferenceLinkRequestInput } from '../declarations/EmailPreferenceLinkRequestInput.js';
 export { makeEmailPreferenceLinkResponse } from '../declarations/makeEmailPreferenceLinkResponse.js';
 export { makeEmailPreferenceLink } from '../declarations/makeEmailPreferenceLink.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';

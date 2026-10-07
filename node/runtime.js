@@ -1445,6 +1445,8 @@ export function redactCodec(value, schema, fields = [], definitions = {}, depth 
     if (depth > 256)
         return '[Nesting limit]';
     definitions = schema?.definitions ?? definitions;
+    if (schema?.sensitive)
+        return '[REDACTED]';
     if (schema?.reference) {
         const target = definitions[schema.reference];
         return target
@@ -1452,7 +1454,7 @@ export function redactCodec(value, schema, fields = [], definitions = {}, depth 
             : '[Unresolved model]';
     }
     const shapes = (s) => s?.reference
-        ? shapes(definitions[s.reference])
+        ? [s, ...shapes(definitions[s.reference])]
         : s
             ? [
                 s,

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read MerchantAccountSessionStripeRequirements $requirements
  * Presence-aware response; omitted fields throw when accessed. */
 final class MerchantAccountSessionStripeCollectionOptions extends Model {
-    /** @param array{'fields': string, 'future_requirements': string, 'requirements'?: object{'only': list<string>}, ...}|object $values */
+    /** @param array{'fields': string, 'future_requirements': string, 'requirements'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripeCollectionOptions')); }
     /** @return string
      * @throws SdkError When fields is omitted; use hasFields() or valueOrDefault().

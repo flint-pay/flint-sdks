@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'amount': string, 'currency': string}|object $amount_money
- * @property-read mixed $buyer_location
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
+ * @property-read DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass $buyer_location
  * @property-read string|\DateTimeInterface $calculation_expires_at
  * @property-read string $checkout_session_id
  * @property-read list<DeliverySelectionChoiceResourceInput|array<array-key, mixed>|\stdClass> $choices
@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $delivery_quote_id
  * @property-read string $delivery_quote_revision
  * @property-read string $delivery_selection_id
- * @property-read array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object $destination_address
+ * @property-read DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string $eligibility_context_revision
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
@@ -21,19 +21,19 @@ namespace Flint;
  * @property-read string $limiting_deadline_reason
  * @property-read string $order_id
  * @property-read string $private_data_status
- * @property-read array{'email'?: string, 'name'?: string, 'phone'?: string, ...}|object $recipient
+ * @property-read DeliveryRecipientResourceInput|array<array-key, mixed>|\stdClass $recipient
  * @property-read string|\DateTimeInterface $redacted_at
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliverySelectionInput extends Model {
-    /** @param array{'amount_money': array{'amount': string, 'currency': string}|object, 'buyer_location'?: mixed, 'calculation_expires_at': string|\DateTimeInterface, 'checkout_session_id': string, 'choices': list<DeliverySelectionChoiceResourceInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'delivery_quote_id': string, 'delivery_quote_revision': string, 'delivery_selection_id': string, 'destination_address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'eligibility_context_revision': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'instructions'?: string, 'lifecycle_events'?: list<DeliverySelectionLifecycleEventResourceInput|array<array-key, mixed>|\stdClass>, 'lifecycle_updated_at': string|\DateTimeInterface, 'limiting_deadline_reason': string, 'order_id': string, 'private_data_status'?: string, 'recipient'?: array{'email'?: string, 'name'?: string, 'phone'?: string, ...}|object, 'redacted_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'calculation_expires_at': string|\DateTimeInterface, 'checkout_session_id': string, 'choices': list<DeliverySelectionChoiceResourceInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'delivery_quote_id': string, 'delivery_quote_revision': string, 'delivery_selection_id': string, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'eligibility_context_revision': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'instructions'?: string, 'lifecycle_events'?: list<DeliverySelectionLifecycleEventResourceInput|array<array-key, mixed>|\stdClass>, 'lifecycle_updated_at': string|\DateTimeInterface, 'limiting_deadline_reason': string, 'order_id': string, 'private_data_status'?: string, 'recipient'?: DeliveryRecipientResourceInput|array<array-key, mixed>|\stdClass, 'redacted_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionInput')); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return mixed
+    /** @return DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
@@ -73,10 +73,10 @@ final class DeliverySelectionInput extends Model {
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** @return array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object
+    /** @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
-    public function getDestinationAddress(): array|object { return $this->get('destination_address'); }
+    public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** @return string
      * @throws SdkError When eligibility_context_revision is omitted; use hasEligibilityContextRevision() or valueOrDefault().
@@ -123,10 +123,10 @@ final class DeliverySelectionInput extends Model {
      */
     public function getPrivateDataStatus(): string { return $this->get('private_data_status'); }
     public function hasPrivateDataStatus(): bool { return $this->has('private_data_status'); }
-    /** @return array{'email'?: string, 'name'?: string, 'phone'?: string, ...}|object
+    /** @return DeliveryRecipientResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
-    public function getRecipient(): array|object { return $this->get('recipient'); }
+    public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When redacted_at is omitted; use hasRedactedAt() or valueOrDefault().

@@ -1,1 +1,1 @@
-{"shared":"Webhook_subscription_payment_failed_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec286","SharedCodec330","Webhook_subscription_payment_failed_merchant"]}
+{"shared":"Webhook_subscription_payment_failed_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","SharedCodec281","Webhook_subscription_payment_failed_merchant"]}

@@ -1862,9 +1862,6 @@ export { makeGuestPurchaseLinkResponse } from './declarations/makeGuestPurchaseL
 export { HoldDetail } from './declarations/HoldDetail.js';
 export { HoldDetailInput } from './declarations/HoldDetailInput.js';
 export { makeHoldDetail } from './declarations/makeHoldDetail.js';
-export { HostedCheckout } from './declarations/HostedCheckout.js';
-export { HostedCheckoutInput } from './declarations/HostedCheckoutInput.js';
-export { makeHostedCheckout } from './declarations/makeHostedCheckout.js';
 export { Image } from './declarations/Image.js';
 export { ImageInput } from './declarations/ImageInput.js';
 export { makeImage } from './declarations/makeImage.js';

@@ -1,1 +1,1 @@
-{"shared":"TippingSettingsPatch","dependencies":["MoneyValue","SharedCodec128","SharedCodec625","SharedCodec626","TippingSettingsPatch"]}
+{"shared":"TippingSettingsPatch","dependencies":["MoneyValue","SharedCodec102","SharedCodec572","SharedCodec573","TippingSettingsPatch"]}

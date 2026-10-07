@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class BundleComponent extends Model {
-    /** @param array{'bundle_component_id': string, 'current_delivery_profile_revision_id'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: object{'available_for_sale': bool, 'name'?: string, 'product_name'?: string, 'selected_options'?: list<mixed>, 'sku'?: string, 'variant_id': string}, 'variant_id': string, ...}|object $values */
+    /** @param array{'bundle_component_id': string, 'current_delivery_profile_revision_id'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleComponent')); }
     /** @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().

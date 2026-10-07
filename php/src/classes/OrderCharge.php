@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderCharge extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money': object{'amount': string, 'currency': string}, 'calculation_basis'?: string, 'created_at'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: \stdClass, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': object{'amount': string, 'currency': string}, 'tax'?: mixed, 'tax_money': object{'amount': string, 'currency': string}, 'total_money': object{'amount': string, 'currency': string}, 'type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: \stdClass, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderCharge')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

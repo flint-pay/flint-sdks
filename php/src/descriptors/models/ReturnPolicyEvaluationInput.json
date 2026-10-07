@@ -1,1 +1,1 @@
-{"shared":"ReturnPolicyEvaluation","dependencies":["BundleComponent","Image","MoneyValue","OrderLineItemModifier","ReturnPolicyAdjustmentProposal","ReturnPolicyEvaluation","ReturnPolicyEvaluationLineItem","SelectedProductOption","SharedCodec17","TextModifierRequest"]}
+{"shared":"ReturnPolicyEvaluation","dependencies":["BundleComponent","BundleComponentVariantSummary","Image","MoneyValue","OrderLineItemModifier","ReturnPolicyAdjustmentProposal","ReturnPolicyEvaluation","ReturnPolicyEvaluationLineItem","SelectedProductOption","TextModifierRequest"]}

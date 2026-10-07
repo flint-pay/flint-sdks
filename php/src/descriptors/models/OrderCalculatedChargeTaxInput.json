@@ -1,1 +1,1 @@
-{"shared":"OrderCalculatedChargeTax","dependencies":["MoneyValue","OrderCalculatedChargeTax","SharedCodec497","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}
+{"shared":"OrderCalculatedChargeTax","dependencies":["MoneyValue","OrderCalculatedChargeTax","SharedCodec455","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}

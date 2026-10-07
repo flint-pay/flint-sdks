@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/merchantAccountSessions.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import r0 from '../descriptors/resources/merchantAccountSessions.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createMerchantAccountSession"]:r0,["refreshMerchantAccountSession"]:r0});
 export class Client {
@@ -34,9 +34,16 @@ close() { return this.#runtime.close(); }
 }
 export { makeMerchantAccountSessionResponse } from '../models/MerchantAccountSessionResponse.js';
 export { makeMerchantAccountSession } from '../models/MerchantAccountSession.js';
+export { makeMerchantAccountSessionClientSession } from '../models/MerchantAccountSessionClientSession.js';
+export { makeMerchantAccountSessionStripe } from '../models/MerchantAccountSessionStripe.js';
+export { makeMerchantAccountSessionStripeAccountSession } from '../models/MerchantAccountSessionStripeAccountSession.js';
 export { makeMerchantAccountSessionStripeComponent } from '../models/MerchantAccountSessionStripeComponent.js';
+export { makeMerchantAccountSessionStripeCollectionOptions } from '../models/MerchantAccountSessionStripeCollectionOptions.js';
+export { makeMerchantAccountSessionStripeRequirements } from '../models/MerchantAccountSessionStripeRequirements.js';
 export { makeMerchantAccountSessionEffectivePolicy } from '../models/MerchantAccountSessionEffectivePolicy.js';
 export { makeOnboardingRequirements } from '../models/OnboardingRequirements.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';

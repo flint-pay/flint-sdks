@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read MoneyValue $unavailable_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class Balance extends Model {
-    /** @param array{'available_by_source_type'?: \stdClass, 'available_money': object{'amount': string, 'currency': string}, 'balance_id': string, 'currency': string, 'held_by_type'?: \stdClass, 'held_money': object{'amount': string, 'currency': string}, 'merchant_id': string, 'payouts_enabled': bool, 'pending_by_source_type'?: \stdClass, 'pending_money': object{'amount': string, 'currency': string}, 'reserve_money': object{'amount': string, 'currency': string}, 'unavailable_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'available_by_source_type'?: \stdClass, 'available_money': mixed, 'balance_id': string, 'currency': string, 'held_by_type'?: \stdClass, 'held_money': mixed, 'merchant_id': string, 'payouts_enabled': bool, 'pending_by_source_type'?: \stdClass, 'pending_money': mixed, 'reserve_money': mixed, 'unavailable_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Balance')); }
     /** @return array<array-key, SignedMoney>
      * @throws SdkError When available_by_source_type is omitted; use hasAvailableBySourceType() or valueOrDefault().

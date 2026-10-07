@@ -1,4 +1,4 @@
 
-import type { UpdateCheckoutSessionRequest } from './UpdateCheckoutSessionRequest.js';
+import type { CheckoutBuyerContactRequestInput } from './CheckoutBuyerContactRequestInput.js';
 
-export type UpdateCheckoutSessionRequestInput = UpdateCheckoutSessionRequest;
+export type UpdateCheckoutSessionRequestInput = { /** Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. */ "buyer_contact"?: CheckoutBuyerContactRequestInput; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id"?: string; /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. */ "metadata"?: Record<string, string | null> | null; /** Checkout credentials only. A valid IANA timezone, such as America/Toronto, used for Flint-sent receipts. Omission keeps the previous observation; null is invalid. maxLength: 64. */ "timezone"?: string; };

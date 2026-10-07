@@ -1,1 +1,1 @@
-{"shared":"Balance","dependencies":["Balance","MoneyValue","SharedCodec5","SharedCodec6","SignedMoney"]}
+{"shared":"Balance","dependencies":["Balance","MoneyValue","SignedMoney"]}

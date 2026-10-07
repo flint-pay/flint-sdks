@@ -1,1 +1,1 @@
-{"shared":"Webhook_payment_method_saved_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec291","SharedCodec390","Webhook_payment_method_saved_installed_merchants"]}
+{"shared":"Webhook_payment_method_saved_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec242","SharedCodec341","Webhook_payment_method_saved_installed_merchants"]}

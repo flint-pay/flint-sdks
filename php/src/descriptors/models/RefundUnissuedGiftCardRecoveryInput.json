@@ -1,1 +1,1 @@
-{"shared":"RefundUnissuedGiftCardRecovery","dependencies":["RefundUnissuedGiftCardRecovery","SharedCodec6"]}
+{"shared":"RefundUnissuedGiftCardRecovery","dependencies":["MoneyValue","RefundUnissuedGiftCardRecovery"]}

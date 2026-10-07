@@ -1,1 +1,1 @@
-{"shared":"PendingPaymentActionSubject","dependencies":["PendingPaymentActionSubject"]}
+{"shared":"PendingPaymentActionSubject","dependencies":["PendingPaymentActionPaymentIntentSubject","PendingPaymentActionSetupPaymentSourceSubject","PendingPaymentActionSubject"]}

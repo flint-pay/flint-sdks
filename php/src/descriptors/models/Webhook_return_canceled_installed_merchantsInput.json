@@ -1,1 +1,1 @@
-{"shared":"Webhook_return_canceled_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec291","SharedCodec307","Webhook_return_canceled_installed_merchants"]}
+{"shared":"Webhook_return_canceled_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec242","SharedCodec258","Webhook_return_canceled_installed_merchants"]}

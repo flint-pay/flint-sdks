@@ -1,1 +1,1 @@
-{"shared":"Merchant","dependencies":["Banner","ExpandedOrganizationSummary","Image","Merchant","NextAction","NextActionMerchantAccountSession","PostalAddress","SharedCodec1","SharedCodec488","SharedCodec489","SharedCodec490","SharedCodec492"]}
+{"shared":"Merchant","dependencies":["Banner","ExpandedOrganizationSummary","Image","Merchant","MerchantReadinessAxis","MerchantReadinessRequirements","NextAction","NextActionMerchantAccountSession","PostalAddress","SharedCodec1","SharedCodec446","SharedCodec448"]}

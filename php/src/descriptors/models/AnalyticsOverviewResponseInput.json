@@ -1,1 +1,1 @@
-{"shared":"AnalyticsOverviewResponse","dependencies":["AnalyticsOverview","AnalyticsOverviewResponse","CountMetric","MoneyMetric","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec492","SignedMoney"]}
+{"shared":"AnalyticsOverviewResponse","dependencies":["AnalyticsOverview","AnalyticsOverviewResponse","CountMetric","MoneyMetric","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec448","SignedMoney"]}

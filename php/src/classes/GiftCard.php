@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCard extends Model {
-    /** @param array{'available_money': object{'amount': string, 'currency': string}, 'balance_money': object{'amount': string, 'currency': string}, 'created_at': string, 'currency': string, 'customer_id': string|null, 'external_reference_id': string|null, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'merchant_id': string, 'reserved_money': object{'amount': string, 'currency': string}, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'available_money': mixed, 'balance_money': mixed, 'created_at': string, 'currency': string, 'customer_id': string|null, 'external_reference_id': string|null, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCard')); }
     /** @return MoneyValue
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().

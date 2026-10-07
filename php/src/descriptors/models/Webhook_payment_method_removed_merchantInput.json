@@ -1,1 +1,1 @@
-{"shared":"Webhook_payment_method_removed_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec286","SharedCodec377","Webhook_payment_method_removed_merchant"]}
+{"shared":"Webhook_payment_method_removed_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","SharedCodec328","Webhook_payment_method_removed_merchant"]}

@@ -7,14 +7,14 @@ namespace Flint;
  * @property-read int $buy_min_quantity
  * @property-read string $calculation_basis
  * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $currency_options
- * @property-read list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object $discounted_item_rules
+ * @property-read PromotionRuleGroupInput|array<array-key, mixed>|\stdClass $discounted_item_rules
  * @property-read int|float $get_percent_off
  * @property-read int $get_quantity
  * @property-read int $max_applications_per_order
  * @property-read int $max_discounted_quantity
  * @property-read int|float $percent_off
  * @property-read list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object $qualifying_item_rules
- * @property-read array{'period_count'?: int, 'type': string, ...}|object $recurrence
+ * @property-read PromotionRecurrenceInput|array<array-key, mixed>|\stdClass $recurrence
  * @property-read string $reward_selection
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
@@ -46,7 +46,7 @@ final class PromotionApplicationMethodInput extends Model {
      */
     public function getCurrencyOptions(): array|object { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** @return list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object
+    /** @return PromotionRuleGroupInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When discounted_item_rules is omitted; use hasDiscountedItemRules() or valueOrDefault().
      */
     public function getDiscountedItemRules(): mixed { return $this->get('discounted_item_rules'); }
@@ -81,10 +81,10 @@ final class PromotionApplicationMethodInput extends Model {
      */
     public function getQualifyingItemRules(): mixed { return $this->get('qualifying_item_rules'); }
     public function hasQualifyingItemRules(): bool { return $this->has('qualifying_item_rules'); }
-    /** @return array{'period_count'?: int, 'type': string, ...}|object
+    /** @return PromotionRecurrenceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recurrence is omitted; use hasRecurrence() or valueOrDefault().
      */
-    public function getRecurrence(): array|object { return $this->get('recurrence'); }
+    public function getRecurrence(): mixed { return $this->get('recurrence'); }
     public function hasRecurrence(): bool { return $this->has('recurrence'); }
     /** @return string
      * @throws SdkError When reward_selection is omitted; use hasRewardSelection() or valueOrDefault().

@@ -1,7 +1,7 @@
-import { d437 as c0, d2276 as c1, d2330 as c2, d2331 as c3 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d437 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d380 as c0, d2223 as c1, d2277 as c2, d2278 as c3 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d380 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d437;
+const read = d380;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreatePackageRequest"]:c0(),["ReturnShipmentLineItemAllocation"]:c1(),["ShippingDimensions"]:c2(),["ShippingWeight"]:c3()}); }
 export { codec as _validate };

@@ -1,1 +1,1 @@
-{"shared":"GiftCardFundingDispute","dependencies":["GiftCardFundingDispute","SharedCodec277"]}
+{"shared":"GiftCardFundingDispute","dependencies":["GiftCardFundingDispute","GiftCardFundingLossResolution"]}

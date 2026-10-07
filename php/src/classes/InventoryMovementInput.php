@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $held_quantity_delta
  * @property-read string $idempotency_key
  * @property-read string $incoming_quantity_delta
- * @property-read array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $inventory_item
+ * @property-read InventoryItemInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string $inventory_item_id
  * @property-read string $inventory_level_claim_revision
  * @property-read string $inventory_level_id
@@ -34,7 +34,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryMovementInput extends Model {
-    /** @param array{'committed_quantity_delta': string, 'created_at': string|\DateTimeInterface, 'created_by': string, 'damaged_quantity_delta': string, 'external_actor_id'?: string, 'held_quantity_delta': string, 'idempotency_key'?: string, 'incoming_quantity_delta': string, 'inventory_item'?: array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object, 'inventory_item_id': string, 'inventory_level_claim_revision': string, 'inventory_level_id': string, 'inventory_level_physical_revision': string, 'inventory_level_revision': string, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': string, 'quality_control_quantity_delta': string, 'quarantined_quantity_delta': string, 'reason': string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': string, 'source_observation_sequence'?: string, 'source_reference'?: InventorySourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
+    /** @param array{'committed_quantity_delta': string, 'created_at': string|\DateTimeInterface, 'created_by': string, 'damaged_quantity_delta': string, 'external_actor_id'?: string, 'held_quantity_delta': string, 'idempotency_key'?: string, 'incoming_quantity_delta': string, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_revision': string, 'inventory_level_id': string, 'inventory_level_physical_revision': string, 'inventory_level_revision': string, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': string, 'quality_control_quantity_delta': string, 'quarantined_quantity_delta': string, 'reason': string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': string, 'source_observation_sequence'?: string, 'source_reference'?: InventorySourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryMovementInput')); }
     /** @return string
      * @throws SdkError When committed_quantity_delta is omitted; use hasCommittedQuantityDelta() or valueOrDefault().
@@ -76,10 +76,10 @@ final class InventoryMovementInput extends Model {
      */
     public function getIncomingQuantityDelta(): string { return $this->get('incoming_quantity_delta'); }
     public function hasIncomingQuantityDelta(): bool { return $this->has('incoming_quantity_delta'); }
-    /** @return array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object
+    /** @return InventoryItemInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_item is omitted; use hasInventoryItem() or valueOrDefault().
      */
-    public function getInventoryItem(): array|object { return $this->get('inventory_item'); }
+    public function getInventoryItem(): mixed { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
     /** @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().

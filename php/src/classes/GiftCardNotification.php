@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardNotification extends Model {
-    /** @param array{'created_at': string, 'delivery'?: object{'attempts': list<mixed>, 'has_more_attempts': bool, 'has_more_provider_outcomes': bool, 'provider_outcomes': list<mixed>}, 'gift_card_id': string, 'gift_card_notification_id': string, 'recipient': object{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string}, 'resend_of_notification_id'?: string, 'sent_at'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'created_at': string, 'delivery'?: mixed, 'gift_card_id': string, 'gift_card_notification_id': string, 'recipient': mixed, 'resend_of_notification_id'?: string, 'sent_at'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotification')); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

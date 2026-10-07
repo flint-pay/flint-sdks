@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read MoneyValue $tip_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentAttemptPaymentIntent extends Model {
-    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'capturable_money'?: object{'amount': string, 'currency': string}, 'last_payment_error'?: mixed, 'payment_intent_id': string, 'status': string, 'tip_money': mixed, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'capturable_money'?: mixed, 'last_payment_error'?: mixed, 'payment_intent_id': string, 'status': string, 'tip_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAttemptPaymentIntent')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

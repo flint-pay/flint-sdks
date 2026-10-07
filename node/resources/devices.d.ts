@@ -108,6 +108,8 @@ export type { CreateDeviceResult } from '../declarations/CreateDeviceResult.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { CreateDeviceRequestInput } from '../declarations/CreateDeviceRequestInput.js';
 export type { UpdateDeviceRequestInput } from '../declarations/UpdateDeviceRequestInput.js';
 export { makeCreateDeviceResponse } from '../declarations/makeCreateDeviceResponse.js';
@@ -118,3 +120,5 @@ export { makeCreateDeviceResult } from '../declarations/makeCreateDeviceResult.j
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';

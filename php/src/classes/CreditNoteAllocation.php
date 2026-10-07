@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $reversed_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class CreditNoteAllocation extends Model {
-    /** @param array{'allocated_at': string, 'amount_money': object{'amount': string, 'currency': string}, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string, ...}|object $values */
+    /** @param array{'allocated_at': string, 'amount_money': mixed, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocation')); }
     /** @return string
      * @throws SdkError When allocated_at is omitted; use hasAllocatedAt() or valueOrDefault().

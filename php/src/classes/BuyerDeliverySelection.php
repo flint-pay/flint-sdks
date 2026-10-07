@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerDeliverySelection extends Model {
-    /** @param array{'amount_money': mixed, 'choices': list<mixed>, 'delivery_quote_id': string, 'delivery_selection_id': string, 'destination_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'expires_at': string, 'input_requirements': list<mixed>, 'recipient'?: object{'email'?: string, 'name'?: string, 'phone'?: string}, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'choices': list<mixed>, 'delivery_quote_id': string, 'delivery_selection_id': string, 'destination_address'?: mixed, 'expires_at': string, 'input_requirements': list<mixed>, 'recipient'?: mixed, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerDeliverySelection')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

@@ -1,9 +1,9 @@
-import { d64 as c0, d180 as c1, d932 as c2, d77 as c3, d1879 as c4, d1880 as c5, d2319 as c6, d63 as c7, d1983 as c8, d1982 as c9, d2356 as c10, d2357 as c11, d2358 as c12, d2355 as c13, d2359 as c14, d2387 as c15 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d2355 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d59 as c0, d61 as c1, d135 as c2, d868 as c3, d314 as c4, d1829 as c5, d1830 as c6, d2268 as c7, d1934 as c8, d1933 as c9, d2301 as c10, d2302 as c11, d2300 as c12, d2303 as c13, d2331 as c14 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d2300 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2355;
+const read = d2300;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["CategoryReference"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["OrderLineItemModifier"]:c4(),["OrderLineItemTax"]:c5(),["SelectedProductOption"]:c6(),["SharedCodec17"]:c7(),["SharedCodec519"]:c8(),["SharedCodec520"]:c9(),["SharedCodec613"]:c10(),["SharedCodec614"]:c11(),["SharedCodec615"]:c12(),["SubscriptionPlan"]:c13(),["SubscriptionPlanLineItem"]:c14(),["TextModifierRequest"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["BundleComponentVariantSummary"]:c1(),["CategoryReference"]:c2(),["Image"]:c3(),["MoneyValue"]:c4(),["OrderLineItemModifier"]:c5(),["OrderLineItemTax"]:c6(),["SelectedProductOption"]:c7(),["SharedCodec477"]:c8(),["SharedCodec478"]:c9(),["SharedCodec562"]:c10(),["SharedCodec563"]:c11(),["SubscriptionPlan"]:c12(),["SubscriptionPlanLineItem"]:c13(),["TextModifierRequest"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionPlan(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

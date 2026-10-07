@@ -13,11 +13,11 @@ namespace Flint;
  * @property-read string $reason
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read string $status
- * @property-read array{'amount': string, 'currency': string}|object $total_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCreditNoteInput extends Model {
-    /** @param array{'credit_note_id': string, 'credit_note_lines': list<CreditNoteLineInput|array<array-key, mixed>|\stdClass>, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'memo'?: string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': array{'amount': string, 'currency': string}|object, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'credit_note_id': string, 'credit_note_lines': list<CreditNoteLineInput|array<array-key, mixed>|\stdClass>, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'memo'?: string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNoteInput')); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
@@ -74,10 +74,10 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
-    public function getTotalMoney(): array|object { return $this->get('total_money'); }
+    public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When voided_at is omitted; use hasVoidedAt() or valueOrDefault().

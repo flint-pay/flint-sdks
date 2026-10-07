@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string $quantity
  * @property-read string $return_line_item_id
- * @property-read array{'description'?: string, 'name': string, 'sku'?: string}|object $unverified_item
+ * @property-read ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass $unverified_item
  * @property-read string $verification_status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptLineItemRequestInput extends Model {
@@ -20,10 +20,10 @@ final class ReturnReceiptLineItemRequestInput extends Model {
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** @return array{'description'?: string, 'name': string, 'sku'?: string}|object
+    /** @return ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unverified_item is omitted; use hasUnverifiedItem() or valueOrDefault().
      */
-    public function getUnverifiedItem(): array|object { return $this->get('unverified_item'); }
+    public function getUnverifiedItem(): mixed { return $this->get('unverified_item'); }
     public function hasUnverifiedItem(): bool { return $this->has('unverified_item'); }
     /** @return string
      * @throws SdkError When verification_status is omitted; use hasVerificationStatus() or valueOrDefault().

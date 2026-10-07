@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $shipping_recipient_name
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutCustomerPrefill extends Model {
-    /** @param array{'billing_address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}, 'email': string, 'shipping_address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}, 'shipping_recipient_name'?: string, ...}|object $values */
+    /** @param array{'billing_address'?: mixed, 'email': string, 'shipping_address'?: mixed, 'shipping_recipient_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutCustomerPrefill')); }
     /** @return Address
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().

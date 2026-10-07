@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class Customer extends Model {
-    /** @param array{'billing_address'?: mixed, 'created_at'?: string, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: mixed, 'default_payment_method_id'?: string, 'email': string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name'?: string, 'phone'?: string, 'receivables'?: object{'balances': list<mixed>, 'observed_at': string}, 'shipping_address'?: mixed, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'billing_address'?: mixed, 'created_at'?: string, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: mixed, 'default_payment_method_id'?: string, 'email': string, 'external_reference_id'?: string, 'group_id'?: string, 'internal_note'?: string, 'is_verified'?: bool, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name'?: string, 'phone'?: string, 'receivables'?: mixed, 'shipping_address'?: mixed, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Customer')); }
     /** @return PostalAddress
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().

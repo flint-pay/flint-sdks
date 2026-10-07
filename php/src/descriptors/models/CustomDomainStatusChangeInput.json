@@ -1,1 +1,1 @@
-{"shared":"CustomDomainStatusChange","dependencies":["CustomDomainStatus","CustomDomainStatusChange","CustomerAccountDNSRecord","SharedCodec202"]}
+{"shared":"CustomDomainStatusChange","dependencies":["CustomDomainStatus","CustomDomainStatusChange","CustomerAccountDNSRecord","SharedCodec164"]}

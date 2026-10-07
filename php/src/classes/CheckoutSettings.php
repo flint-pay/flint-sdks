@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read CheckoutSavedPaymentDetailsSettings $saved_payment_details
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSettings extends Model {
-    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: object{'delay_seconds'?: int, 'enabled'?: bool}, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: object{'enabled'?: bool}, ...}|object $values */
+    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: mixed, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettings')); }
     /** @return string|null
      * @throws SdkError When custom_domain is omitted; use hasCustomDomain() or valueOrDefault().

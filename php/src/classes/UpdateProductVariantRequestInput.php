@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $barcode
  * @property-read string $delivery_profile_id
  * @property-read string $expected_version
- * @property-read array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': array{'amount': string, 'currency': string}|object, 'price_mode': string, ...}|object $gift_card_configuration
+ * @property-read GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass $gift_card_configuration
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string|null $inventory_item_id
@@ -37,10 +37,10 @@ final class UpdateProductVariantRequestInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': array{'amount': string, 'currency': string}|object, 'price_mode': string, ...}|object
+    /** @return GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
      */
-    public function getGiftCardConfiguration(): array|object { return $this->get('gift_card_configuration'); }
+    public function getGiftCardConfiguration(): mixed { return $this->get('gift_card_configuration'); }
     public function hasGiftCardConfiguration(): bool { return $this->has('gift_card_configuration'); }
     /** @return list<ImageRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().

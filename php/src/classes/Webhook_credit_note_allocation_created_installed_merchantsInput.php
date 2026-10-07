@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object $data
+ * @property-read array{'allocated_at': string|\DateTimeInterface, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object $data
  * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
@@ -10,9 +10,9 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_credit_note_allocation_created_installed_merchantsInput extends Model {
-    /** @param array{'data': array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'allocated_at': string|\DateTimeInterface, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_credit_note_allocation_created_installed_merchantsInput')); }
-    /** @return array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object
+    /** @return array{'allocated_at': string|\DateTimeInterface, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_allocation_id': string, 'credit_note_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'idempotency_key': string, 'invoice_id': string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'reversed_at'?: string|\DateTimeInterface, 'source_type': mixed, ...}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }

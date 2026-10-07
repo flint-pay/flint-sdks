@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSessionsGetDeliveryQuoteResponse200DataBuyer extends Model {
-    /** @param array{'audience': string, 'buyer_location'?: \stdClass, 'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id': string, 'destination_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'selection_required': bool, 'status': string, ...}|object $values */
+    /** @param array{'audience': string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id': string, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'selection_required': bool, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsGetDeliveryQuoteResponse200DataBuyer')); }
     /** @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().

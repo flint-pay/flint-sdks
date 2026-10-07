@@ -6,10 +6,10 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $external_reference_id
  * @property-read mixed $funding
- * @property-read array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object $notification
+ * @property-read GiftCardNotificationRecipientInput|array<array-key, mixed>|\stdClass $notification
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateGiftCardRequestInput extends Model {
-    /** @param array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object}|object $values */
+    /** @param array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: GiftCardNotificationRecipientInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardRequestInput')); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
@@ -31,9 +31,9 @@ final class CreateGiftCardRequestInput extends Model {
      */
     public function getFunding(): mixed { return $this->get('funding'); }
     public function hasFunding(): bool { return $this->has('funding'); }
-    /** @return array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object
+    /** @return GiftCardNotificationRecipientInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When notification is omitted; use hasNotification() or valueOrDefault().
      */
-    public function getNotification(): array|object { return $this->get('notification'); }
+    public function getNotification(): mixed { return $this->get('notification'); }
     public function hasNotification(): bool { return $this->has('notification'); }
 }

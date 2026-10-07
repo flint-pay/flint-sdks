@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'location_ids': list<string>}|object $configuration
+ * @property-read DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
@@ -11,10 +11,10 @@ namespace Flint;
 final class UpdateDeliveryLocationSetRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeliveryLocationSetRequestInput')); }
-    /** @return array{'location_ids': list<string>}|object
+    /** @return DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
-    public function getConfiguration(): array|object { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().

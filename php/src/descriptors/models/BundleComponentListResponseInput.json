@@ -1,1 +1,1 @@
-{"shared":"BundleComponentListResponse","dependencies":["BundleComponent","BundleComponentListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SelectedProductOption","SharedCodec1","SharedCodec17","SharedCodec492"]}
+{"shared":"BundleComponentListResponse","dependencies":["BundleComponent","BundleComponentListResponse","BundleComponentVariantSummary","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SelectedProductOption","SharedCodec1","SharedCodec448"]}

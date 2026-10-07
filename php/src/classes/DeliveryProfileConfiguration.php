@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read Weight $weight
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryProfileConfiguration extends Model {
-    /** @param array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: object{'height': string, 'length': string, 'unit': string, 'width': string}, 'origin_policy'?: object{'location_id'?: string, 'type': string}, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: object{'unit': string, 'value': string}, ...}|object $values */
+    /** @param array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: mixed, 'origin_policy'?: mixed, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileConfiguration')); }
     /** @return list<string>
      * @throws SdkError When allowed_types is omitted; use hasAllowedTypes() or valueOrDefault().

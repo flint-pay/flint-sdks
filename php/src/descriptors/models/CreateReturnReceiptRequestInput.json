@@ -1,1 +1,1 @@
-{"shared":"CreateReturnReceiptRequest","dependencies":["CreateReturnReceiptRequest","ReturnReceiptLineItemRequest","ReturnSourceSystem","ReturnUnverifiedItem","SharedCodec592","SharedCodec593","SharedCodec594","SharedCodec595","SharedCodec596"]}
+{"shared":"CreateReturnReceiptRequest","dependencies":["CreateReturnReceiptRequest","ReturnReceiptLineItemRequest","ReturnSourceSystem","ReturnUnverifiedItem","SharedCodec544","SharedCodec545","SharedCodec546","SharedCodec547","SharedCodec548"]}

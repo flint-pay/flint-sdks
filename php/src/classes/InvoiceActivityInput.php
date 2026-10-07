@@ -5,17 +5,17 @@ namespace Flint;
  * @property-read string $activity_type
  * @property-read string $actor_id
  * @property-read string $actor_type
- * @property-read array{'amount': string, 'currency': string}|object $amount_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $channel
  * @property-read string $checkout_session_id
  * @property-read string $collection_block_reason
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'amount': string, 'currency': string}|object $credit_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
  * @property-read string $credit_note_id
  * @property-read string $description
  * @property-read string|\DateTimeInterface $due_at
  * @property-read string $error_code
- * @property-read array{'amount': string, 'currency': string}|object $expected_amount_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_money
  * @property-read string|\DateTimeInterface $expected_settlement_at
  * @property-read string $invoice_activity_id
  * @property-read string $invoice_delivery_attempt_id
@@ -26,10 +26,10 @@ namespace Flint;
  * @property-read string $payment_rail
  * @property-read string $refund_id
  * @property-read string $to_email
- * @property-read array{'amount': string, 'currency': string}|object $written_off_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceActivityInput extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: array{'amount': string, 'currency': string}|object, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_money'?: array{'amount': string, 'currency': string}|object, 'credit_note_id'?: string, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: array{'amount': string, 'currency': string}|object, 'expected_settlement_at'?: string|\DateTimeInterface, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'payment_rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: array{'amount': string, 'currency': string}|object, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_id'?: string, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_settlement_at'?: string|\DateTimeInterface, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'payment_rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivityInput')); }
     /** @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().
@@ -46,10 +46,10 @@ final class InvoiceActivityInput extends Model {
      */
     public function getActorType(): string { return $this->get('actor_type'); }
     public function hasActorType(): bool { return $this->has('actor_type'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
@@ -71,10 +71,10 @@ final class InvoiceActivityInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
      */
-    public function getCreditMoney(): array|object { return $this->get('credit_money'); }
+    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
@@ -96,10 +96,10 @@ final class InvoiceActivityInput extends Model {
      */
     public function getErrorCode(): string { return $this->get('error_code'); }
     public function hasErrorCode(): bool { return $this->has('error_code'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When expected_amount_money is omitted; use hasExpectedAmountMoney() or valueOrDefault().
      */
-    public function getExpectedAmountMoney(): array|object { return $this->get('expected_amount_money'); }
+    public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When expected_settlement_at is omitted; use hasExpectedSettlementAt() or valueOrDefault().
@@ -151,9 +151,9 @@ final class InvoiceActivityInput extends Model {
      */
     public function getToEmail(): string { return $this->get('to_email'); }
     public function hasToEmail(): bool { return $this->has('to_email'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When written_off_money is omitted; use hasWrittenOffMoney() or valueOrDefault().
      */
-    public function getWrittenOffMoney(): array|object { return $this->get('written_off_money'); }
+    public function getWrittenOffMoney(): mixed { return $this->get('written_off_money'); }
     public function hasWrittenOffMoney(): bool { return $this->has('written_off_money'); }
 }

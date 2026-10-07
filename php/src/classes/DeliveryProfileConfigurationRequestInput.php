@@ -4,12 +4,12 @@ namespace Flint;
 /**
  * @property-read list<string> $allowed_types
  * @property-read string $combination_policy
- * @property-read array{'height': string, 'length': string, 'unit': string, 'width': string, ...}|object $dimensions
- * @property-read mixed $origin_policy
+ * @property-read DimensionsInput|array<array-key, mixed>|\stdClass $dimensions
+ * @property-read DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass $origin_policy
  * @property-read string $requirement
  * @property-read string $resolution_mode
  * @property-read string $splitting_policy
- * @property-read array{'unit': string, 'value': string, ...}|object $weight
+ * @property-read WeightInput|array<array-key, mixed>|\stdClass $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileConfigurationRequestInput extends Model {
     /** @param mixed $values */
@@ -24,12 +24,12 @@ final class DeliveryProfileConfigurationRequestInput extends Model {
      */
     public function getCombinationPolicy(): string { return $this->get('combination_policy'); }
     public function hasCombinationPolicy(): bool { return $this->has('combination_policy'); }
-    /** @return array{'height': string, 'length': string, 'unit': string, 'width': string, ...}|object
+    /** @return DimensionsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When dimensions is omitted; use hasDimensions() or valueOrDefault().
      */
-    public function getDimensions(): array|object { return $this->get('dimensions'); }
+    public function getDimensions(): mixed { return $this->get('dimensions'); }
     public function hasDimensions(): bool { return $this->has('dimensions'); }
-    /** @return mixed
+    /** @return DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When origin_policy is omitted; use hasOriginPolicy() or valueOrDefault().
      */
     public function getOriginPolicy(): mixed { return $this->get('origin_policy'); }
@@ -49,9 +49,9 @@ final class DeliveryProfileConfigurationRequestInput extends Model {
      */
     public function getSplittingPolicy(): string { return $this->get('splitting_policy'); }
     public function hasSplittingPolicy(): bool { return $this->has('splitting_policy'); }
-    /** @return array{'unit': string, 'value': string, ...}|object
+    /** @return WeightInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When weight is omitted; use hasWeight() or valueOrDefault().
      */
-    public function getWeight(): array|object { return $this->get('weight'); }
+    public function getWeight(): mixed { return $this->get('weight'); }
     public function hasWeight(): bool { return $this->has('weight'); }
 }

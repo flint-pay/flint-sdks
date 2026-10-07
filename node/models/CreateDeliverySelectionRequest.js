@@ -1,7 +1,7 @@
-import { d335 as c0, d336 as c1, d732 as c2, d734 as c3, d73 as c4 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
-import { d336 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d295 as c0, d296 as c1, d678 as c2, d680 as c3, d66 as c4 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d296 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d336;
+const read = d296;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliverySelectionChoiceRequest"]:c0(),["CreateDeliverySelectionRequest"]:c1(),["DeliverySelectionInstructionsRequest"]:c2(),["DeliverySelectionRecipientRequest"]:c3(),["PostalAddress"]:c4()}); }
 export { codec as _validate };

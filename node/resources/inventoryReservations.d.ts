@@ -6,6 +6,7 @@ import type { InventoryAssignmentInput } from '../declarations/InventoryAssignme
 import type { InventoryReservation } from '../declarations/InventoryReservation.js';
 import type { InventoryReservationListResponse } from '../declarations/InventoryReservationListResponse.js';
 import type { InventoryReservationOwnerInput } from '../declarations/InventoryReservationOwnerInput.js';
+import type { InventoryReservationProvenanceInput } from '../declarations/InventoryReservationProvenanceInput.js';
 import type { InventoryReservationResultResponse } from '../declarations/InventoryReservationResultResponse.js';
 import type { InventoryReservationsCommitInput } from '../declarations/InventoryReservationsCommitInput.js';
 import type { InventoryReservationsCommitResponse } from '../declarations/InventoryReservationsCommitResponse.js';
@@ -19,7 +20,6 @@ import type { InventoryReservationsReleaseInput } from '../declarations/Inventor
 import type { InventoryReservationsReleaseResponse } from '../declarations/InventoryReservationsReleaseResponse.js';
 import type { InventoryRoutingDemandInput } from '../declarations/InventoryRoutingDemandInput.js';
 import type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
-import type { InventorySourceSystemRequestInput } from '../declarations/InventorySourceSystemRequestInput.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
@@ -44,9 +44,9 @@ export interface InventoryReservationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryReservations.consume("example", {lines: [], provenance: {}}, { idempotencyKey: idempotencyKey })
  */
-    consume(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": { "external_actor_id"?: string; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
+    consume(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": InventoryReservationProvenanceInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryReservationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    consumeWithResponse(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": { "external_actor_id"?: string; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryReservationsConsumeResponse>>;
+    consumeWithResponse(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": InventoryReservationProvenanceInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryReservationsConsumeResponse>>;
     /**
  * Route standalone merchant demand and hold stock in one atomic command. A provisional hold lasts at most 15 minutes.
  * POST /v1/inventory-reservations
@@ -94,7 +94,7 @@ export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 export type { InventoryReservationResultResponse } from '../declarations/InventoryReservationResultResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { InventoryReservationsCommitResponse } from '../declarations/InventoryReservationsCommitResponse.js';
-export type { InventorySourceSystemRequestInput } from '../declarations/InventorySourceSystemRequestInput.js';
+export type { InventoryReservationProvenanceInput } from '../declarations/InventoryReservationProvenanceInput.js';
 export type { InventoryReservationsConsumeResponse } from '../declarations/InventoryReservationsConsumeResponse.js';
 export type { InventoryAssignmentInput } from '../declarations/InventoryAssignmentInput.js';
 export type { InventoryRoutingDemandInput } from '../declarations/InventoryRoutingDemandInput.js';
@@ -116,9 +116,14 @@ export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
 export type { InventoryReservationResult } from '../declarations/InventoryReservationResult.js';
 export type { InventoryLevel } from '../declarations/InventoryLevel.js';
+export type { InventoryItem } from '../declarations/InventoryItem.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { InventorySourceSystemRequestInput } from '../declarations/InventorySourceSystemRequestInput.js';
+export type { InventoryActionRequired } from '../declarations/InventoryActionRequired.js';
 export type { InventoryRoutingSource } from '../declarations/InventoryRoutingSource.js';
 export type { ReservationLine } from '../declarations/ReservationLine.js';
 export type { InventoryReservationOwner } from '../declarations/InventoryReservationOwner.js';
@@ -131,9 +136,13 @@ export { makeInventoryReservationListResponse } from '../declarations/makeInvent
 export { makeInventoryReservation } from '../declarations/makeInventoryReservation.js';
 export { makeInventoryReservationResult } from '../declarations/makeInventoryReservationResult.js';
 export { makeInventoryLevel } from '../declarations/makeInventoryLevel.js';
+export { makeInventoryItem } from '../declarations/makeInventoryItem.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeInventoryActionRequired } from '../declarations/makeInventoryActionRequired.js';
 export { makeInventoryRoutingSource } from '../declarations/makeInventoryRoutingSource.js';
 export { makeReservationLine } from '../declarations/makeReservationLine.js';
 export { makeInventoryReservationOwner } from '../declarations/makeInventoryReservationOwner.js';

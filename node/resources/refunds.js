@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/refunds.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import r0 from '../descriptors/resources/refunds.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRefund"]:r0,["getRefund"]:r0,["listRefunds"]:r0,["updateRefund"]:r0});
 export class Client {
@@ -180,11 +180,13 @@ export { makeRefundGiftCardCode } from '../models/RefundGiftCardCode.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
 export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
 export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
 export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js';
+export { makeRefundLineItemAutomaticRefund } from '../models/RefundLineItemAutomaticRefund.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
 export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';

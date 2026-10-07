@@ -9,10 +9,10 @@ namespace Flint;
  * @property-read string $quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $subtotal_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
- * @property-read array{'amount': string, 'currency': string}|object $total_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteLineInput extends Model {
-    /** @param array{'credit_note_line_id': string, 'description': string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_line_item_id': string, 'quantity'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': array{'amount': string, 'currency': string}|object, ...}|object $values */
+    /** @param array{'credit_note_line_id': string, 'description': string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_line_item_id': string, 'quantity'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteLineInput')); }
     /** @return string
      * @throws SdkError When credit_note_line_id is omitted; use hasCreditNoteLineId() or valueOrDefault().
@@ -49,9 +49,9 @@ final class CreditNoteLineInput extends Model {
      */
     public function getTaxMoney(): mixed { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
-    public function getTotalMoney(): array|object { return $this->get('total_money'); }
+    public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
 }

@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryMethodConfiguration extends Model {
-    /** @param array{'buyer_instructions'?: object{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool}, 'charge_tax_category': string|null, 'eligibility'?: \stdClass, 'estimate': object{'schedule_window'?: mixed, 'transit_time'?: mixed, 'type': string}, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': \stdClass, 'pricing': \stdClass, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable': bool|null, ...}|object $values */
+    /** @param array{'buyer_instructions'?: mixed, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': mixed, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable': bool|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfiguration')); }
     /** @return BuyerInstructionsConfig
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().

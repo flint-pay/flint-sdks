@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import r0 from '../descriptors/resources/returns.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
 export class Client {
@@ -440,6 +440,8 @@ export { makeProcessExistingReturnResponse } from '../models/ProcessExistingRetu
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeAccessLink } from '../models/AccessLink.js';
 export { makeReturnDisposition } from '../models/ReturnDisposition.js';
 export { makeReturnActor } from '../models/ReturnActor.js';
@@ -450,7 +452,6 @@ export { makeReturnReceiptLineItem } from '../models/ReturnReceiptLineItem.js';
 export { makeReturnUnverifiedItem } from '../models/ReturnUnverifiedItem.js';
 export { makeReturnResolution } from '../models/ReturnResolution.js';
 export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReturnResolutionExecutionBlocker } from '../models/ReturnResolutionExecutionBlocker.js';
 export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem.js';
 export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
@@ -462,6 +463,7 @@ export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation
 export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
 export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
 export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js';
+export { makeRefundLineItemAutomaticRefund } from '../models/RefundLineItemAutomaticRefund.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
 export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
@@ -475,18 +477,22 @@ export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestinati
 export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
 export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
+export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
 export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
 export { makeReturnLineItemDecisionProposal } from '../models/ReturnLineItemDecisionProposal.js';
 export { makeReturnPolicyAdjustmentProposal } from '../models/ReturnPolicyAdjustmentProposal.js';
+export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
 export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
 export { makeFulfillmentLineItem } from '../models/FulfillmentLineItem.js';
 export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
+export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
+export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeImage } from '../models/Image.js';

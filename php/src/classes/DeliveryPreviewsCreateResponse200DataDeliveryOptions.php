@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read bool $selection_authority
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryPreviewsCreateResponse200DataDeliveryOptions extends Model {
-    /** @param array{'buyer_location'?: \stdClass, 'choice_groups': list<mixed>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'merchant_diagnostics': list<mixed>, 'mode': string, 'pickup_location_id'?: string, 'selection_authority': bool, ...}|object $values */
+    /** @param array{'buyer_location'?: mixed, 'choice_groups': list<mixed>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'merchant_diagnostics': list<mixed>, 'mode': string, 'pickup_location_id'?: string, 'selection_authority': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewsCreateResponse200DataDeliveryOptions')); }
     /** @return DeliveryPreviewsCreateResponse200DataDeliveryOptionsBuyerLocationAddress|DeliveryPreviewsCreateResponse200DataDeliveryOptionsBuyerLocationCoordinate|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().

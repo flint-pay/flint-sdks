@@ -1,1 +1,1 @@
-{"shared":"OrderReturnCreditSettlement","dependencies":["OrderReturnCreditSettlement","SharedCodec6"]}
+{"shared":"OrderReturnCreditSettlement","dependencies":["MoneyValue","OrderReturnCreditSettlement"]}

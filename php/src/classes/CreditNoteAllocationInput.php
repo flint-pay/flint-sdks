@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $allocated_at
- * @property-read array{'amount': string, 'currency': string}|object $amount_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $credit_note_allocation_id
  * @property-read string $credit_note_id
  * @property-read string $idempotency_key
@@ -11,17 +11,17 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $reversed_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteAllocationInput extends Model {
-    /** @param array{'allocated_at': string|\DateTimeInterface, 'amount_money': array{'amount': string, 'currency': string}|object, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'allocated_at': string|\DateTimeInterface, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocationInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When allocated_at is omitted; use hasAllocatedAt() or valueOrDefault().
      */
     public function getAllocatedAt(): string|\DateTimeInterface { return $this->get('allocated_at'); }
     public function hasAllocatedAt(): bool { return $this->has('allocated_at'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
+    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** @return string
      * @throws SdkError When credit_note_allocation_id is omitted; use hasCreditNoteAllocationId() or valueOrDefault().

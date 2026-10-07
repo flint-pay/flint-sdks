@@ -1,1 +1,1 @@
-{"shared":"Webhook_order_payment_authorization_canceled_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec291","SharedCodec319","Webhook_order_payment_authorization_canceled_installed_merchants"]}
+{"shared":"Webhook_order_payment_authorization_canceled_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec242","SharedCodec270","Webhook_order_payment_authorization_canceled_installed_merchants"]}

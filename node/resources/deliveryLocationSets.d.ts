@@ -72,9 +72,9 @@ export interface DeliveryLocationSetsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryLocationSets.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: { "location_ids": Array<string>; }; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
+    update(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryLocationSetConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryLocationSetResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: { "location_ids": Array<string>; }; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryLocationSetsUpdateResponse>>;
+    updateWithResponse(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryLocationSetConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryLocationSetsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -107,6 +107,9 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { DeliveryLocationSetConfiguration } from '../declarations/DeliveryLocationSetConfiguration.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/CreateDeliveryLocationSetRequestInput.js';
 export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/UpdateDeliveryLocationSetRequestInput.js';
 export { makeDeliveryLocationSetResponse } from '../declarations/makeDeliveryLocationSetResponse.js';
@@ -115,3 +118,6 @@ export { makeDeliveryLocationSet } from '../declarations/makeDeliveryLocationSet
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeDeliveryLocationSetConfiguration } from '../declarations/makeDeliveryLocationSetConfiguration.js';

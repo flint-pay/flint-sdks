@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read Address $address
+ * @property-read PostalAddress $address
  * @property-read string $address_source
  * @property-read string $address_type
  * @property-read string $customer_id
@@ -11,12 +11,12 @@ namespace Flint;
  * @property-read string $location_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderTaxLocation extends Model {
-    /** @param array{'address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}, 'address_source': string, 'address_type'?: string, 'customer_id'?: string, 'device_id'?: string, 'fulfillment_id'?: string, 'location_id'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'address_source': string, 'address_type'?: string, 'customer_id'?: string, 'device_id'?: string, 'fulfillment_id'?: string, 'location_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxLocation')); }
-    /** @return Address
+    /** @return PostalAddress
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
-    public function getAddress(): Address { return $this->get('address'); }
+    public function getAddress(): PostalAddress { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
     /** @return string
      * @throws SdkError When address_source is omitted; use hasAddressSource() or valueOrDefault().

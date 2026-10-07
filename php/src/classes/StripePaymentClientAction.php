@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read StripeSetupIntentClientAction $setup_intent
  * Presence-aware response; omitted fields throw when accessed. */
 final class StripePaymentClientAction extends Model {
-    /** @param array{'account_id': string, 'payment_intent'?: object{'client_secret': string, 'stripe_js_call': string}, 'publishable_key': string, 'setup_intent'?: object{'client_secret': string, 'stripe_js_call': string}, ...}|object $values */
+    /** @param array{'account_id': string, 'payment_intent'?: mixed, 'publishable_key': string, 'setup_intent'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientAction')); }
     /** @return string
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().

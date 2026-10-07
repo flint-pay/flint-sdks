@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $activity_type
- * @property-read array{'amount': string, 'currency': string, ...}|object $balance_delta_money
+ * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $balance_delta_money
  * @property-read string $checkout_session_id
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $description
@@ -15,20 +15,20 @@ namespace Flint;
  * @property-read string $order_tip_id
  * @property-read string $payment_intent_id
  * @property-read string $refund_id
- * @property-read array{'amount': string, 'currency': string, ...}|object $running_balance_money
+ * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $running_balance_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderActivityInput extends Model {
-    /** @param array{'activity_type'?: string, 'balance_delta_money': array{'amount': string, 'currency': string, ...}|object, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': array{'amount': string, 'currency': string, ...}|object, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'balance_delta_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivityInput')); }
     /** @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** @return array{'amount': string, 'currency': string, ...}|object
+    /** @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_delta_money is omitted; use hasBalanceDeltaMoney() or valueOrDefault().
      */
-    public function getBalanceDeltaMoney(): array|object { return $this->get('balance_delta_money'); }
+    public function getBalanceDeltaMoney(): mixed { return $this->get('balance_delta_money'); }
     public function hasBalanceDeltaMoney(): bool { return $this->has('balance_delta_money'); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
@@ -85,9 +85,9 @@ final class OrderActivityInput extends Model {
      */
     public function getRefundId(): string { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** @return array{'amount': string, 'currency': string, ...}|object
+    /** @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When running_balance_money is omitted; use hasRunningBalanceMoney() or valueOrDefault().
      */
-    public function getRunningBalanceMoney(): array|object { return $this->get('running_balance_money'); }
+    public function getRunningBalanceMoney(): mixed { return $this->get('running_balance_money'); }
     public function hasRunningBalanceMoney(): bool { return $this->has('running_balance_money'); }
 }

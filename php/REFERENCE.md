@@ -2135,13 +2135,10 @@ array{
   'X-Request-Id'?: string,
   'Flint-Version'?: string,
   'body': array{
-    'buyer_contact'?: array{
-      'email'?: string|
-      null,
-      'phone'?: string|
-      null
-    }|
-    object,
+    'buyer_contact'?: CheckoutBuyerContactRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'external_reference_id'?: string,
     'metadata'?: array<array-key,
     string|
@@ -2248,11 +2245,10 @@ array{
   'Idempotency-Key'?: string,
   'Flint-Version'?: string,
   'body': array{
-    'amount_money': array{
-      'amount': string,
-      'currency': string
-    }|
-    object,
+    'amount_money': MoneyValueInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'expected_version'?: string,
     ...
   }|
@@ -9231,14 +9227,10 @@ array{
     'customer_id'?: string,
     'external_reference_id'?: string,
     'funding'?: mixed,
-    'notification'?: array{
-      'email': string,
-      'message'?: string,
-      'name'?: string,
-      'send_at'?: string|
-      \DateTimeInterface
-    }|
-    object
+    'notification'?: GiftCardNotificationRecipientInput|
+    array<array-key,
+    mixed>|
+    \stdClass
   }|
   object
 }
@@ -9457,14 +9449,10 @@ array{
   'Flint-Version'?: string,
   'body': array{
     'expected_version'?: string,
-    'notification'?: array{
-      'email': string,
-      'message'?: string,
-      'name'?: string,
-      'send_at'?: string|
-      \DateTimeInterface
-    }|
-    object
+    'notification'?: GiftCardNotificationRecipientInput|
+    array<array-key,
+    mixed>|
+    \stdClass
   }|
   object
 }
@@ -11245,17 +11233,10 @@ array{
       ...
     }|
     object>,
-    'provenance': array{
-      'external_actor_id'?: string,
-      'occurred_at'?: string|
-      \DateTimeInterface,
-      'source_system'?: InventorySourceSystemRequestInput|
-      array<array-key,
-      mixed>|
-      \stdClass,
-      ...
-    }|
-    object,
+    'provenance': InventoryReservationProvenanceInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     ...
   }|
   object
@@ -12385,12 +12366,10 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
-    'redirects'?: array{
-      'cancel_redirect_url'?: string,
-      'success_redirect_url'?: string,
-      ...
-    }|
-    object,
+    'redirects'?: CheckoutRedirectsConfigInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'return_url'?: string,
     'surface'?: string,
     ...
@@ -14061,12 +14040,10 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
-    'redirects'?: array{
-      'cancel_redirect_url'?: string,
-      'success_redirect_url'?: string,
-      ...
-    }|
-    object,
+    'redirects'?: CheckoutRedirectsConfigInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'return_url'?: string,
     'surface'?: string,
     ...
@@ -14192,11 +14169,10 @@ array{
   'Idempotency-Key'?: string,
   'Flint-Version'?: string,
   'body'?: array{
-    'redirects'?: array{
-      'cancel_redirect_url'?: string,
-      'success_redirect_url'?: string
-    }|
-    object,
+    'redirects'?: RedirectsInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'return_url'?: string,
     'surface'?: string
   }|
@@ -17483,13 +17459,10 @@ array{
     'business_name'?: string,
     'email'?: string,
     'expected_version'?: string,
-    'icon'?: array{
-      'alt'?: string,
-      'external_reference_id'?: string,
-      'source_url': string,
-      ...
-    }|
-    object,
+    'icon'?: ImageRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'logo'?: ImageRequestInput|
     array<array-key,
     mixed>|
@@ -18962,17 +18935,10 @@ array{
   'body': array{
     'buyer_note'?: string,
     'customer_id'?: string,
-    'delivery_destination'?: array{
-      'address': OrderDeliveryDestinationAddressRequestInput|
-      array<array-key,
-      mixed>|
-      \stdClass,
-      'recipient'?: OrderDeliveryDestinationRecipientRequestInput|
-      array<array-key,
-      mixed>|
-      \stdClass
-    }|
-    object,
+    'delivery_destination'?: OrderDeliveryDestinationRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'discounts'?: list<CreateOrderDiscountInput|
     array<array-key,
     mixed>|
@@ -18990,7 +18956,10 @@ array{
     'metadata'?: array<array-key,
     string>|
     \stdClass,
-    'requested_tip'?: mixed,
+    'requested_tip'?: CreateOrderTipInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'tax'?: OrderTaxRequestInput|
     array<array-key,
     mixed>|
@@ -26842,11 +26811,10 @@ array{
   'Idempotency-Key'?: string,
   'Flint-Version'?: string,
   'body'?: array{
-    'redirects'?: array{
-      'cancel_redirect_url'?: string,
-      'success_redirect_url'?: string
-    }|
-    object,
+    'redirects'?: RedirectsInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'return_url'?: string,
     'surface'?: string
   }|

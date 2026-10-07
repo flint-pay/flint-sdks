@@ -360,6 +360,8 @@ export type { PartnerAppPermissionManifestEntry } from '../declarations/PartnerA
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { APIRequestLogDetail } from '../declarations/APIRequestLogDetail.js';
 export type { APIRequestLogQueryParam } from '../declarations/APIRequestLogQueryParam.js';
 export type { APIRequestLogReproduction } from '../declarations/APIRequestLogReproduction.js';
@@ -373,6 +375,8 @@ export type { PartnerAppSecretRotationResult } from '../declarations/PartnerAppS
 export type { ResponseMetaInput } from '../declarations/ResponseMetaInput.js';
 export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.js';
 export type { NextActionInput } from '../declarations/NextActionInput.js';
+export type { NextActionMerchantAccountSessionInput } from '../declarations/NextActionMerchantAccountSessionInput.js';
+export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { APIKey } from '../declarations/APIKey.js';
 export type { APIKeyInput } from '../declarations/APIKeyInput.js';
 export type { CreatePartnerAppRequestInput } from '../declarations/CreatePartnerAppRequestInput.js';
@@ -405,6 +409,8 @@ export { makePartnerAppPermissionManifestEntry } from '../declarations/makePartn
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeAPIRequestLogDetail } from '../declarations/makeAPIRequestLogDetail.js';
 export { makeAPIRequestLogQueryParam } from '../declarations/makeAPIRequestLogQueryParam.js';
 export { makeAPIRequestLogReproduction } from '../declarations/makeAPIRequestLogReproduction.js';

@@ -1,1 +1,1 @@
-{"shared":"BuyerGiftCardTransaction","dependencies":["BuyerGiftCardTransaction","MoneyValue","SharedCodec5"]}
+{"shared":"BuyerGiftCardTransaction","dependencies":["BuyerGiftCardTransaction","MoneyValue","SignedMoney"]}

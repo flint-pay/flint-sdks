@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $closed_reason
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $idempotency_key
- * @property-read array{'inventory_reservation_line_ids': list<string>, 'next_actions': list<string>, 'reason': string, ...}|object $inventory_action_required
+ * @property-read InventoryActionRequiredInput|array<array-key, mixed>|\stdClass $inventory_action_required
  * @property-read string $inventory_reservation_id
  * @property-read InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<ReservationLineInput|array<array-key, mixed>|\stdClass> $lines
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationInput extends Model {
-    /** @param array{'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'idempotency_key': string, 'inventory_action_required'?: array{'inventory_reservation_line_ids': list<string>, 'next_actions': list<string>, 'reason': string, ...}|object, 'inventory_reservation_id': string, 'inventory_routing_source': InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'lines': list<ReservationLineInput|array<array-key, mixed>|\stdClass>, 'owner': InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'idempotency_key': string, 'inventory_action_required'?: InventoryActionRequiredInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_id': string, 'inventory_routing_source': InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'lines': list<ReservationLineInput|array<array-key, mixed>|\stdClass>, 'owner': InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationInput')); }
     /** @return string|null
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
@@ -34,10 +34,10 @@ final class InventoryReservationInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return array{'inventory_reservation_line_ids': list<string>, 'next_actions': list<string>, 'reason': string, ...}|object
+    /** @return InventoryActionRequiredInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_action_required is omitted; use hasInventoryActionRequired() or valueOrDefault().
      */
-    public function getInventoryActionRequired(): array|object { return $this->get('inventory_action_required'); }
+    public function getInventoryActionRequired(): mixed { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
     /** @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().

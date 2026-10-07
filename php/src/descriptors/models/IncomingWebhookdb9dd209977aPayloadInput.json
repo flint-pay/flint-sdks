@@ -1,1 +1,1 @@
-{"shared":"Webhook_inventory_transfer_lost_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec286","Webhook_inventory_transfer_lost_merchant"]}
+{"shared":"Webhook_inventory_transfer_lost_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","Webhook_inventory_transfer_lost_merchant"]}

@@ -16,13 +16,13 @@ namespace Flint;
  * @property-read string $reason
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read string $status
- * @property-read array{'amount': string, 'currency': string}|object $total_money
- * @property-read array{'amount': string, 'currency': string}|object $unallocated_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unallocated_money
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string|\DateTimeInterface $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'credit_note_id': string, 'credit_note_lines': list<CreditNoteLineInput|array<array-key, mixed>|\stdClass>, 'credit_note_number'?: string, 'external_reference_id'?: string, 'invoice_id': string, 'issued_at'?: string|\DateTimeInterface, 'latest_refund_status'?: string, 'memo'?: string, 'merchant_id': string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': array{'amount': string, 'currency': string}|object, 'unallocated_money': array{'amount': string, 'currency': string}|object, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'credit_note_id': string, 'credit_note_lines': list<CreditNoteLineInput|array<array-key, mixed>|\stdClass>, 'credit_note_number'?: string, 'external_reference_id'?: string, 'invoice_id': string, 'issued_at'?: string|\DateTimeInterface, 'latest_refund_status'?: string, 'memo'?: string, 'merchant_id': string, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unallocated_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -94,15 +94,15 @@ final class CreditNoteInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
-    public function getTotalMoney(): array|object { return $this->get('total_money'); }
+    public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unallocated_money is omitted; use hasUnallocatedMoney() or valueOrDefault().
      */
-    public function getUnallocatedMoney(): array|object { return $this->get('unallocated_money'); }
+    public function getUnallocatedMoney(): mixed { return $this->get('unallocated_money'); }
     public function hasUnallocatedMoney(): bool { return $this->has('unallocated_money'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

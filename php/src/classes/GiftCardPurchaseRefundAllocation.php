@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardPurchaseRefundAllocation extends Model {
-    /** @param array{'consideration_money': object{'amount': string, 'currency': string}, 'created_at': string, 'order_manual_reversal_id'?: string, 'purchase_refund_allocation_id': string, 'recovery'?: object{'created_at': string, 'destination': string, 'destinations': list<mixed>}, 'refund_id'?: string, 'status': string, 'updated_at': string, 'value_allocations'?: list<mixed>, 'value_money': object{'amount': string, 'currency': string}, 'version': string, ...}|object $values */
+    /** @param array{'consideration_money': mixed, 'created_at': string, 'order_manual_reversal_id'?: string, 'purchase_refund_allocation_id': string, 'recovery'?: mixed, 'refund_id'?: string, 'status': string, 'updated_at': string, 'value_allocations'?: list<mixed>, 'value_money': mixed, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundAllocation')); }
     /** @return MoneyValue
      * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().

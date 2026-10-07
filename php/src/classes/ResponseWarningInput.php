@@ -12,10 +12,10 @@ namespace Flint;
  * @property-read string $resource
  * @property-read string $resource_id
  * @property-read string $severity
- * @property-read array{'amount': string, 'currency': string}|object $would_have_applied_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $would_have_applied_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResponseWarningInput extends Model {
-    /** @param array{'code': string, 'context'?: array<array-key, string>|\stdClass, 'message': string, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'observed_at'?: string|\DateTimeInterface, 'promotion_code'?: string, 'reason'?: string, 'resource'?: string, 'resource_id'?: string, 'severity'?: string, 'would_have_applied_money'?: array{'amount': string, 'currency': string}|object, ...}|object $values */
+    /** @param array{'code': string, 'context'?: array<array-key, string>|\stdClass, 'message': string, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'observed_at'?: string|\DateTimeInterface, 'promotion_code'?: string, 'reason'?: string, 'resource'?: string, 'resource_id'?: string, 'severity'?: string, 'would_have_applied_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResponseWarningInput')); }
     /** @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
@@ -67,9 +67,9 @@ final class ResponseWarningInput extends Model {
      */
     public function getSeverity(): string { return $this->get('severity'); }
     public function hasSeverity(): bool { return $this->has('severity'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When would_have_applied_money is omitted; use hasWouldHaveAppliedMoney() or valueOrDefault().
      */
-    public function getWouldHaveAppliedMoney(): array|object { return $this->get('would_have_applied_money'); }
+    public function getWouldHaveAppliedMoney(): mixed { return $this->get('would_have_applied_money'); }
     public function hasWouldHaveAppliedMoney(): bool { return $this->has('would_have_applied_money'); }
 }

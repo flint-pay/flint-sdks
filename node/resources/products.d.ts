@@ -3,7 +3,7 @@ export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSe
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CreateProductOptionRequestInput } from '../declarations/CreateProductOptionRequestInput.js';
-import type { GiftCardCustomAmountBoundsInput } from '../declarations/GiftCardCustomAmountBoundsInput.js';
+import type { GiftCardProductConfigurationInput } from '../declarations/GiftCardProductConfigurationInput.js';
 import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 import type { InventoryItemCreateRequestInput } from '../declarations/InventoryItemCreateRequestInput.js';
 import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
@@ -173,9 +173,9 @@ export interface ProductsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.products.updateVariant("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
+    updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: GiftCardProductConfigurationInput; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ProductVariantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateVariantResponse>>;
+    updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: GiftCardProductConfigurationInput; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductsUpdateVariantResponse>>;
   }
 export declare class Client {
 
@@ -212,7 +212,7 @@ export type { ProductsListVariantsResponse } from '../declarations/ProductsListV
 export type { ProductVariant } from '../declarations/ProductVariant.js';
 export type { UpdateProductOptionRequestInput } from '../declarations/UpdateProductOptionRequestInput.js';
 export type { ProductsUpdateResponse } from '../declarations/ProductsUpdateResponse.js';
-export type { GiftCardCustomAmountBoundsInput } from '../declarations/GiftCardCustomAmountBoundsInput.js';
+export type { GiftCardProductConfigurationInput } from '../declarations/GiftCardProductConfigurationInput.js';
 export type { InventoryItemCreateRequestInput } from '../declarations/InventoryItemCreateRequestInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { ProductsUpdateVariantResponse } from '../declarations/ProductsUpdateVariantResponse.js';
@@ -236,18 +236,23 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { ProductOptionValue } from '../declarations/ProductOptionValue.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
 export type { Image } from '../declarations/Image.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
+export type { ProductVariantMatch } from '../declarations/ProductVariantMatch.js';
 export type { ModifierSetGroup } from '../declarations/ModifierSetGroup.js';
 export type { ModifierGroup } from '../declarations/ModifierGroup.js';
 export type { Modifier } from '../declarations/Modifier.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { TextModifierConfig } from '../declarations/TextModifierConfig.js';
 export type { ModifierOverride } from '../declarations/ModifierOverride.js';
+export type { ProductPriceRange } from '../declarations/ProductPriceRange.js';
+export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { UpdateProductOptionValueRequestInput } from '../declarations/UpdateProductOptionValueRequestInput.js';
+export type { GiftCardCustomAmountBoundsInput } from '../declarations/GiftCardCustomAmountBoundsInput.js';
 export type { CreateProductRequestInput } from '../declarations/CreateProductRequestInput.js';
 export type { CreateProductVariantRequestInput } from '../declarations/CreateProductVariantRequestInput.js';
 export type { UpdateProductRequestInput } from '../declarations/UpdateProductRequestInput.js';
@@ -264,14 +269,18 @@ export { makeProductVariant } from '../declarations/makeProductVariant.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeProductOptionValue } from '../declarations/makeProductOptionValue.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
 export { makeImage } from '../declarations/makeImage.js';
-export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
+export { makeProductVariantMatch } from '../declarations/makeProductVariantMatch.js';
 export { makeModifierSetGroup } from '../declarations/makeModifierSetGroup.js';
 export { makeModifierGroup } from '../declarations/makeModifierGroup.js';
 export { makeModifier } from '../declarations/makeModifier.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeTextModifierConfig } from '../declarations/makeTextModifierConfig.js';
 export { makeModifierOverride } from '../declarations/makeModifierOverride.js';
+export { makeProductPriceRange } from '../declarations/makeProductPriceRange.js';
+export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
+export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';

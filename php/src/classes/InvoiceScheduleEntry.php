@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class InvoiceScheduleEntry extends Model {
-    /** @param array{'amount_specification': mixed, 'credit_money': object{'amount': string, 'currency': string}, 'due': mixed, 'invoice_schedule_entry_id': string, 'kind': string, 'outstanding_money': object{'amount': string, 'currency': string}, 'paid_money': object{'amount': string, 'currency': string}, 'status': string, 'total_money': object{'amount': string, 'currency': string}, 'written_off_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'amount_specification': mixed, 'credit_money': mixed, 'due': mixed, 'invoice_schedule_entry_id': string, 'kind': string, 'outstanding_money': mixed, 'paid_money': mixed, 'status': string, 'total_money': mixed, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleEntry')); }
     /** @return InvoiceScheduleEntryAmountSpecificationFixed|InvoiceScheduleEntryAmountSpecificationPercentage|InvoiceScheduleEntryAmountSpecificationRemainingBalance|\stdClass
      * @throws SdkError When amount_specification is omitted; use hasAmountSpecification() or valueOrDefault().

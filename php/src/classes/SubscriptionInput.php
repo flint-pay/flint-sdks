@@ -7,11 +7,11 @@ namespace Flint;
  * @property-read string $external_reference_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $payment_method_id
- * @property-read array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'customer_address_id'?: string, ...}|object $service_location
+ * @property-read SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass $service_location
  * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionInput extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'customer_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'payment_method_id': string, 'service_location'?: array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'customer_address_id'?: string, ...}|object, 'subscription_plan_id': string, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'customer_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'payment_method_id': string, 'service_location'?: SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInput')); }
     /** @return int
      * @throws SdkError When billing_anchor_day is omitted; use hasBillingAnchorDay() or valueOrDefault().
@@ -38,10 +38,10 @@ final class SubscriptionInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** @return array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'customer_address_id'?: string, ...}|object
+    /** @return SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
      */
-    public function getServiceLocation(): array|object { return $this->get('service_location'); }
+    public function getServiceLocation(): mixed { return $this->get('service_location'); }
     public function hasServiceLocation(): bool { return $this->has('service_location'); }
     /** @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
