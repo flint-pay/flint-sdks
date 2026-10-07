@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read MoneyValue $remaining_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundLineItemAdjustment extends Model {
-    /** @param array{'adjustment_type': string, 'amount_money': mixed, 'applies_to': string, 'reason': mixed, 'refund_line_item_adjustment_id': string, 'refunded_money': object{'amount': string, 'currency': string}, 'remaining_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'adjustment_type': string, 'amount_money': mixed, 'applies_to': string, 'reason': mixed, 'refund_line_item_adjustment_id': string, 'refunded_money': mixed, 'remaining_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAdjustment')); }
     /** @return string
      * @throws SdkError When adjustment_type is omitted; use hasAdjustmentType() or valueOrDefault().

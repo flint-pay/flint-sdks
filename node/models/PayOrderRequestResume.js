@@ -1,9 +1,9 @@
-import { d179 as c0, d77 as c1, d2010 as c2, d2002 as c3, d2001 as c4 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2010 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d140 as c0, d314 as c1, d1966 as c2, d1958 as c3, d1957 as c4 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1966 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2010;
+const read = d1966;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["PayOrderRequestResume"]:c2(),["SharedCodec520"]:c3(),["SharedCodec521"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["PayOrderRequestResume"]:c2(),["SharedCodec481"]:c3(),["SharedCodec482"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePayOrderRequestResume(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

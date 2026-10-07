@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read MoneyValue $tax_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundTaxBreakdownRefund extends Model {
-    /** @param array{'order_charge_id'?: string, 'tax_breakdown_id': string, 'tax_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'order_charge_id'?: string, 'tax_breakdown_id': string, 'tax_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTaxBreakdownRefund')); }
     /** @return string
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().

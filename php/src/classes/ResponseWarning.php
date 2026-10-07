@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read MoneyValue $would_have_applied_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class ResponseWarning extends Model {
-    /** @param array{'code': string, 'context'?: \stdClass, 'message': string, 'next_actions'?: list<mixed>, 'observed_at'?: string, 'promotion_code'?: string, 'reason'?: string, 'resource'?: string, 'resource_id'?: string, 'severity'?: string, 'would_have_applied_money'?: object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'code': string, 'context'?: \stdClass, 'message': string, 'next_actions'?: list<mixed>, 'observed_at'?: string, 'promotion_code'?: string, 'reason'?: string, 'resource'?: string, 'resource_id'?: string, 'severity'?: string, 'would_have_applied_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResponseWarning')); }
     /** @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().

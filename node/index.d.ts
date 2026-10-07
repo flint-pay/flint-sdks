@@ -1154,6 +1154,9 @@ export { makeDeliveryMethodConfiguration } from './declarations/makeDeliveryMeth
 export { DeliveryMethodConfigurationCreateRequest } from './declarations/DeliveryMethodConfigurationCreateRequest.js';
 export { DeliveryMethodConfigurationCreateRequestInput } from './declarations/DeliveryMethodConfigurationCreateRequestInput.js';
 export { makeDeliveryMethodConfigurationCreateRequest } from './declarations/makeDeliveryMethodConfigurationCreateRequest.js';
+export { DeliveryMethodConfigurationPatchRequest } from './declarations/DeliveryMethodConfigurationPatchRequest.js';
+export { DeliveryMethodConfigurationPatchRequestInput } from './declarations/DeliveryMethodConfigurationPatchRequestInput.js';
+export { makeDeliveryMethodConfigurationPatchRequest } from './declarations/makeDeliveryMethodConfigurationPatchRequest.js';
 export { DeliveryMethodConfigurationRequest } from './declarations/DeliveryMethodConfigurationRequest.js';
 export { DeliveryMethodConfigurationRequestInput } from './declarations/DeliveryMethodConfigurationRequestInput.js';
 export { makeDeliveryMethodConfigurationRequest } from './declarations/makeDeliveryMethodConfigurationRequest.js';
@@ -1307,6 +1310,9 @@ export { makeDeliveryRateCallback } from './declarations/makeDeliveryRateCallbac
 export { DeliveryRateCallbackConfiguration } from './declarations/DeliveryRateCallbackConfiguration.js';
 export { DeliveryRateCallbackConfigurationInput } from './declarations/DeliveryRateCallbackConfigurationInput.js';
 export { makeDeliveryRateCallbackConfiguration } from './declarations/makeDeliveryRateCallbackConfiguration.js';
+export { DeliveryRateCallbackConfigurationPatchRequest } from './declarations/DeliveryRateCallbackConfigurationPatchRequest.js';
+export { DeliveryRateCallbackConfigurationPatchRequestInput } from './declarations/DeliveryRateCallbackConfigurationPatchRequestInput.js';
+export { makeDeliveryRateCallbackConfigurationPatchRequest } from './declarations/makeDeliveryRateCallbackConfigurationPatchRequest.js';
 export { DeliveryRateCallbackConnectionCheck } from './declarations/DeliveryRateCallbackConnectionCheck.js';
 export { DeliveryRateCallbackConnectionCheckInput } from './declarations/DeliveryRateCallbackConnectionCheckInput.js';
 export { makeDeliveryRateCallbackConnectionCheck } from './declarations/makeDeliveryRateCallbackConnectionCheck.js';
@@ -1856,9 +1862,6 @@ export { makeGuestPurchaseLinkResponse } from './declarations/makeGuestPurchaseL
 export { HoldDetail } from './declarations/HoldDetail.js';
 export { HoldDetailInput } from './declarations/HoldDetailInput.js';
 export { makeHoldDetail } from './declarations/makeHoldDetail.js';
-export { HostedCheckout } from './declarations/HostedCheckout.js';
-export { HostedCheckoutInput } from './declarations/HostedCheckoutInput.js';
-export { makeHostedCheckout } from './declarations/makeHostedCheckout.js';
 export { Image } from './declarations/Image.js';
 export { ImageInput } from './declarations/ImageInput.js';
 export { makeImage } from './declarations/makeImage.js';

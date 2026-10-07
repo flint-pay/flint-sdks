@@ -174,6 +174,8 @@ export type { PublicRiskListItemResult } from '../declarations/PublicRiskListIte
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { AddRiskListItemsRequestInput } from '../declarations/AddRiskListItemsRequestInput.js';
 export type { CreateRiskListRequestInput } from '../declarations/CreateRiskListRequestInput.js';
 export type { UpdateRiskListRequestInput } from '../declarations/UpdateRiskListRequestInput.js';
@@ -189,3 +191,5 @@ export { makePublicRiskListItemResult } from '../declarations/makePublicRiskList
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';

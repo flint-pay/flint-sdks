@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $transaction_type
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerGiftCardTransaction extends Model {
-    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'balance_after_money': mixed, 'balance_before_money': mixed, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string, 'sequence': string, 'transaction_type': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'balance_after_money': mixed, 'balance_before_money': mixed, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string, 'sequence': string, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardTransaction')); }
     /** @return SignedMoney
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

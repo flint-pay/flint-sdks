@@ -1,1 +1,1 @@
-{"shared":"CreditNote","dependencies":["CreditNote","CreditNoteLine","DocumentTaxID","MoneyValue","PostalAddress","SharedCodec18","SharedCodec19","TaxIdentity"]}
+{"shared":"CreditNote","dependencies":["CreditNote","CreditNoteLine","DocumentTaxID","MoneyValue","PostalAddress","SharedCodec13","SharedCodec14","TaxIdentity"]}

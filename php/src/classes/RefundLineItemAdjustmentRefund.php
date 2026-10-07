@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $refund_line_item_adjustment_refund_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundLineItemAdjustmentRefund extends Model {
-    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'original_refund_line_item_adjustment_id': string, 'refund_line_item_adjustment_refund_id': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'original_refund_line_item_adjustment_id': string, 'refund_line_item_adjustment_refund_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAdjustmentRefund')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

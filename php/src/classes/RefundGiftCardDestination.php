@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $gift_card_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundGiftCardDestination extends Model {
-    /** @param array{'amount_money': object{'amount': string, 'currency': string}, 'gift_card_id': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'gift_card_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundGiftCardDestination')); }
     /** @return MoneyValue
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().

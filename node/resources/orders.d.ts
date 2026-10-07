@@ -11,11 +11,12 @@ import type { CreateDigitalFulfillmentDetailsInput } from '../declarations/Creat
 import type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
 import type { CreateOrderLineItemInput } from '../declarations/CreateOrderLineItemInput.js';
 import type { CreateOrderPaymentIntentResponse } from '../declarations/CreateOrderPaymentIntentResponse.js';
-import type { CreatePackageRequestInput } from '../declarations/CreatePackageRequestInput.js';
+import type { CreateOrderTipInput } from '../declarations/CreateOrderTipInput.js';
 import type { CreatePickupFulfillmentDetailsInput } from '../declarations/CreatePickupFulfillmentDetailsInput.js';
 import type { CreateServiceFulfillmentDetailsInput } from '../declarations/CreateServiceFulfillmentDetailsInput.js';
 import type { DeliverySelectionResponse } from '../declarations/DeliverySelectionResponse.js';
 import type { FulfillmentLineItemRequestInput } from '../declarations/FulfillmentLineItemRequestInput.js';
+import type { FulfillmentPackagingRequestInput } from '../declarations/FulfillmentPackagingRequestInput.js';
 import type { FulfillmentRecipientInput } from '../declarations/FulfillmentRecipientInput.js';
 import type { FulfillmentResponse } from '../declarations/FulfillmentResponse.js';
 import type { ManualDiscountRequestInput } from '../declarations/ManualDiscountRequestInput.js';
@@ -28,6 +29,7 @@ import type { OrderCalculatedLineItemTaxInput } from '../declarations/OrderCalcu
 import type { OrderChargeRequestInput } from '../declarations/OrderChargeRequestInput.js';
 import type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
 import type { OrderDeliveryDestinationRecipientRequestInput } from '../declarations/OrderDeliveryDestinationRecipientRequestInput.js';
+import type { OrderDeliveryDestinationRequestInput } from '../declarations/OrderDeliveryDestinationRequestInput.js';
 import type { OrderInventoryRoutingSourceRequestInput } from '../declarations/OrderInventoryRoutingSourceRequestInput.js';
 import type { OrderLineItemModifierRequestInput } from '../declarations/OrderLineItemModifierRequestInput.js';
 import type { OrderListResponse } from '../declarations/OrderListResponse.js';
@@ -200,9 +202,9 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.createFulfillment("example", {line_items: [{order_line_item_id: "example", quantity: "100"}], type: "shipment"}, { idempotencyKey: idempotencyKey })
  */
-    createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FulfillmentResponse, ["data"]>>;
+    createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: FulfillmentPackagingRequestInput; "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FulfillmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createFulfillmentWithResponse(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateFulfillmentResponse>>;
+    createFulfillmentWithResponse(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: FulfillmentPackagingRequestInput; "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateFulfillmentResponse>>;
     /**
  * Creates an order for the authenticated merchant. For USD orders, an effective requested tip may be up to the larger of $1,000 or 100% of the post-discount merchandise subtotal.
  * POST /v1/orders
@@ -211,9 +213,9 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.create({line_items: [{variant_id: "example"}]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: { "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: ({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never })))); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
+    create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: { "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: ({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never })))); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateResponse>>;
     /**
  * Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for an order without a customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
  * POST /v1/orders/{order_id}/access-links
@@ -453,13 +455,13 @@ export type { CreateDeliveryFulfillmentDetailsInput } from '../declarations/Crea
 export type { CreatePickupFulfillmentDetailsInput } from '../declarations/CreatePickupFulfillmentDetailsInput.js';
 export type { FulfillmentRecipientInput } from '../declarations/FulfillmentRecipientInput.js';
 export type { CreateServiceFulfillmentDetailsInput } from '../declarations/CreateServiceFulfillmentDetailsInput.js';
-export type { CreatePackageRequestInput } from '../declarations/CreatePackageRequestInput.js';
+export type { FulfillmentPackagingRequestInput } from '../declarations/FulfillmentPackagingRequestInput.js';
 export type { FulfillmentResponse } from '../declarations/FulfillmentResponse.js';
 export type { OrdersCreateFulfillmentResponse } from '../declarations/OrdersCreateFulfillmentResponse.js';
-export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
-export type { OrderDeliveryDestinationRecipientRequestInput } from '../declarations/OrderDeliveryDestinationRecipientRequestInput.js';
+export type { OrderDeliveryDestinationRequestInput } from '../declarations/OrderDeliveryDestinationRequestInput.js';
 export type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
 export type { OrderInventoryRoutingSourceRequestInput } from '../declarations/OrderInventoryRoutingSourceRequestInput.js';
+export type { CreateOrderTipInput } from '../declarations/CreateOrderTipInput.js';
 export type { OrderTaxRequestInput } from '../declarations/OrderTaxRequestInput.js';
 export type { OrdersCreateResponse } from '../declarations/OrdersCreateResponse.js';
 export type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
@@ -492,6 +494,8 @@ export type { OrdersRepriceDiscountsResponse } from '../declarations/OrdersRepri
 export type { OrdersResolveInventoryExceptionResponse } from '../declarations/OrdersResolveInventoryExceptionResponse.js';
 export type { ActionResponse } from '../declarations/ActionResponse.js';
 export type { OrdersSendReceiptResponse } from '../declarations/OrdersSendReceiptResponse.js';
+export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
+export type { OrderDeliveryDestinationRecipientRequestInput } from '../declarations/OrderDeliveryDestinationRecipientRequestInput.js';
 export type { OrdersUpdateResponse } from '../declarations/OrdersUpdateResponse.js';
 export type { OrderCalculatedChargeTaxInput } from '../declarations/OrderCalculatedChargeTaxInput.js';
 export type { OrdersUpdateChargeResponse } from '../declarations/OrdersUpdateChargeResponse.js';
@@ -536,6 +540,7 @@ export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFu
 export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
 export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
 export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { GiftCardPurchaseRequestInput } from '../declarations/GiftCardPurchaseRequestInput.js';
 export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPurchaseRecipientInput.js';
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
@@ -548,30 +553,43 @@ export type { OrderPaymentLifecycleResult } from '../declarations/OrderPaymentLi
 export type { PaymentIntent } from '../declarations/PaymentIntent.js';
 export type { PaymentAddOnFee } from '../declarations/PaymentAddOnFee.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
+export type { PaymentClientAction } from '../declarations/PaymentClientAction.js';
 export type { StripePaymentClientAction } from '../declarations/StripePaymentClientAction.js';
+export type { StripePaymentIntentClientAction } from '../declarations/StripePaymentIntentClientAction.js';
+export type { StripeSetupIntentClientAction } from '../declarations/StripeSetupIntentClientAction.js';
+export type { PendingPaymentActionSubject } from '../declarations/PendingPaymentActionSubject.js';
+export type { PendingPaymentActionPaymentIntentSubject } from '../declarations/PendingPaymentActionPaymentIntentSubject.js';
+export type { PendingPaymentActionSetupPaymentSourceSubject } from '../declarations/PendingPaymentActionSetupPaymentSourceSubject.js';
+export type { PaymentFulfillmentHold } from '../declarations/PaymentFulfillmentHold.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
 export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
 export type { SignedMoney } from '../declarations/SignedMoney.js';
+export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
 export type { PaymentSourceAchDebitSummary } from '../declarations/PaymentSourceAchDebitSummary.js';
 export type { PaymentSourceCardSummary } from '../declarations/PaymentSourceCardSummary.js';
 export type { PayOrderResult } from '../declarations/PayOrderResult.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
+export type { CreatePackageRequestInput } from '../declarations/CreatePackageRequestInput.js';
 export type { ShippingDimensionsInput } from '../declarations/ShippingDimensionsInput.js';
 export type { ReturnShipmentLineItemAllocationInput } from '../declarations/ReturnShipmentLineItemAllocationInput.js';
 export type { ShippingWeightInput } from '../declarations/ShippingWeightInput.js';
 export type { Fulfillment } from '../declarations/Fulfillment.js';
+export type { FulfillmentHold } from '../declarations/FulfillmentHold.js';
 export type { FulfillmentChargeLink } from '../declarations/FulfillmentChargeLink.js';
 export type { DigitalFulfillmentDetails } from '../declarations/DigitalFulfillmentDetails.js';
 export type { FulfillmentLineItem } from '../declarations/FulfillmentLineItem.js';
 export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
 export type { DeliveryFulfillmentDetails } from '../declarations/DeliveryFulfillmentDetails.js';
+export type { FulfillmentOutcome } from '../declarations/FulfillmentOutcome.js';
 export type { ExpandedPackageSummary } from '../declarations/ExpandedPackageSummary.js';
 export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillmentDetails.js';
-export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
+export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
 export type { OrderTaxCalculationRequestInput } from '../declarations/OrderTaxCalculationRequestInput.js';
@@ -588,6 +606,7 @@ export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionS
 export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { DeliverySelection } from '../declarations/DeliverySelection.js';
+export type { DeliveryBuyerLocationResource } from '../declarations/DeliveryBuyerLocationResource.js';
 export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
 export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
 export type { DeliverySelectionChoiceResource } from '../declarations/DeliverySelectionChoiceResource.js';
@@ -600,25 +619,32 @@ export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequ
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
 export type { DeliverySelectionLifecycleEventResource } from '../declarations/DeliverySelectionLifecycleEventResource.js';
+export type { DeliveryRecipientResource } from '../declarations/DeliveryRecipientResource.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
-export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
 export type { AppliedDiscount } from '../declarations/AppliedDiscount.js';
+export type { OrderAuthorizationAmounts } from '../declarations/OrderAuthorizationAmounts.js';
 export type { BuyerAction } from '../declarations/BuyerAction.js';
+export type { CheckoutBuyerContact } from '../declarations/CheckoutBuyerContact.js';
 export type { OrderCharge } from '../declarations/OrderCharge.js';
 export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
 export type { TaxCalculationRequest } from '../declarations/TaxCalculationRequest.js';
 export type { TaxComponentRequest } from '../declarations/TaxComponentRequest.js';
 export type { TaxJurisdiction } from '../declarations/TaxJurisdiction.js';
+export type { OrderDeliveryDestination } from '../declarations/OrderDeliveryDestination.js';
 export type { OrderDeliveryDestinationAddress } from '../declarations/OrderDeliveryDestinationAddress.js';
 export type { OrderDeliveryDestinationRecipient } from '../declarations/OrderDeliveryDestinationRecipient.js';
+export type { OrderGiftCardEstimate } from '../declarations/OrderGiftCardEstimate.js';
 export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
 export type { OrderGiftCardSettlement } from '../declarations/OrderGiftCardSettlement.js';
 export type { OrderGiftCardSelection } from '../declarations/OrderGiftCardSelection.js';
+export type { InventoryRoutingSource } from '../declarations/InventoryRoutingSource.js';
 export type { OrderLineItem } from '../declarations/OrderLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
+export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
+export type { GiftCardPurchaseSnapshot } from '../declarations/GiftCardPurchaseSnapshot.js';
 export type { GiftCardProductConfiguration } from '../declarations/GiftCardProductConfiguration.js';
 export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomAmountBounds.js';
 export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
@@ -627,11 +653,12 @@ export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryD
 export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
-export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
+export type { PurchasedEvent } from '../declarations/PurchasedEvent.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
 export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
+export type { OrderTax } from '../declarations/OrderTax.js';
 export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
 export type { OrderTaxLocation } from '../declarations/OrderTaxLocation.js';
 export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
@@ -686,26 +713,38 @@ export { makeOrderPaymentLifecycleResult } from '../declarations/makeOrderPaymen
 export { makePaymentIntent } from '../declarations/makePaymentIntent.js';
 export { makePaymentAddOnFee } from '../declarations/makePaymentAddOnFee.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
+export { makePaymentClientAction } from '../declarations/makePaymentClientAction.js';
 export { makeStripePaymentClientAction } from '../declarations/makeStripePaymentClientAction.js';
+export { makeStripePaymentIntentClientAction } from '../declarations/makeStripePaymentIntentClientAction.js';
+export { makeStripeSetupIntentClientAction } from '../declarations/makeStripeSetupIntentClientAction.js';
+export { makePendingPaymentActionSubject } from '../declarations/makePendingPaymentActionSubject.js';
+export { makePendingPaymentActionPaymentIntentSubject } from '../declarations/makePendingPaymentActionPaymentIntentSubject.js';
+export { makePendingPaymentActionSetupPaymentSourceSubject } from '../declarations/makePendingPaymentActionSetupPaymentSourceSubject.js';
+export { makePaymentFulfillmentHold } from '../declarations/makePaymentFulfillmentHold.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
 export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js';
 export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
+export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../declarations/makePaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../declarations/makePaymentSourceCardSummary.js';
 export { makePayOrderResult } from '../declarations/makePayOrderResult.js';
 export { makeFulfillment } from '../declarations/makeFulfillment.js';
+export { makeFulfillmentHold } from '../declarations/makeFulfillmentHold.js';
 export { makeFulfillmentChargeLink } from '../declarations/makeFulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../declarations/makeDigitalFulfillmentDetails.js';
 export { makeFulfillmentLineItem } from '../declarations/makeFulfillmentLineItem.js';
 export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
 export { makeDeliveryFulfillmentDetails } from '../declarations/makeDeliveryFulfillmentDetails.js';
+export { makeFulfillmentOutcome } from '../declarations/makeFulfillmentOutcome.js';
 export { makeExpandedPackageSummary } from '../declarations/makeExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
+export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeAccessLink } from '../declarations/makeAccessLink.js';
@@ -715,6 +754,7 @@ export { makePaymentCollectionStripe } from '../declarations/makePaymentCollecti
 export { makeSelectableOrderPaymentIntent } from '../declarations/makeSelectableOrderPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeDeliverySelection } from '../declarations/makeDeliverySelection.js';
+export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
 export { makeDeliverySelectionChoiceResource } from '../declarations/makeDeliverySelectionChoiceResource.js';
@@ -727,25 +767,32 @@ export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputR
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
 export { makeDeliverySelectionLifecycleEventResource } from '../declarations/makeDeliverySelectionLifecycleEventResource.js';
+export { makeDeliveryRecipientResource } from '../declarations/makeDeliveryRecipientResource.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
-export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
 export { makeAppliedDiscount } from '../declarations/makeAppliedDiscount.js';
+export { makeOrderAuthorizationAmounts } from '../declarations/makeOrderAuthorizationAmounts.js';
 export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
+export { makeCheckoutBuyerContact } from '../declarations/makeCheckoutBuyerContact.js';
 export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
 export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
 export { makeTaxCalculationRequest } from '../declarations/makeTaxCalculationRequest.js';
 export { makeTaxComponentRequest } from '../declarations/makeTaxComponentRequest.js';
 export { makeTaxJurisdiction } from '../declarations/makeTaxJurisdiction.js';
+export { makeOrderDeliveryDestination } from '../declarations/makeOrderDeliveryDestination.js';
 export { makeOrderDeliveryDestinationAddress } from '../declarations/makeOrderDeliveryDestinationAddress.js';
 export { makeOrderDeliveryDestinationRecipient } from '../declarations/makeOrderDeliveryDestinationRecipient.js';
+export { makeOrderGiftCardEstimate } from '../declarations/makeOrderGiftCardEstimate.js';
 export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
 export { makeOrderGiftCardSettlement } from '../declarations/makeOrderGiftCardSettlement.js';
 export { makeOrderGiftCardSelection } from '../declarations/makeOrderGiftCardSelection.js';
+export { makeInventoryRoutingSource } from '../declarations/makeInventoryRoutingSource.js';
 export { makeOrderLineItem } from '../declarations/makeOrderLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
+export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
+export { makeGiftCardPurchaseSnapshot } from '../declarations/makeGiftCardPurchaseSnapshot.js';
 export { makeGiftCardProductConfiguration } from '../declarations/makeGiftCardProductConfiguration.js';
 export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCustomAmountBounds.js';
 export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
@@ -754,11 +801,12 @@ export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInvento
 export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
+export { makePurchasedEvent } from '../declarations/makePurchasedEvent.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
+export { makeOrderTax } from '../declarations/makeOrderTax.js';
 export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';
 export { makeOrderTaxLocation } from '../declarations/makeOrderTaxLocation.js';
 export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';

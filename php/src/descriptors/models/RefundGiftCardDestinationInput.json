@@ -1,1 +1,1 @@
-{"shared":"RefundGiftCardDestination","dependencies":["RefundGiftCardDestination","SharedCodec6"]}
+{"shared":"RefundGiftCardDestination","dependencies":["MoneyValue","RefundGiftCardDestination"]}

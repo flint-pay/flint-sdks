@@ -1,9 +1,9 @@
-import { d2392 as c0, d2393 as c1 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2393 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2343 as c0, d2344 as c1 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d2344 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2393;
+const read = d2344;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec623"]:c0(),["TransitionGiftCardRequest"]:c1()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec574"]:c0(),["TransitionGiftCardRequest"]:c1()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeTransitionGiftCardRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

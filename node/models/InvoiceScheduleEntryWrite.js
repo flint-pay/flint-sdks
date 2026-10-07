@@ -1,9 +1,9 @@
-import { d1724 as c0, d1727 as c1, d1737 as c2, d77 as c3, d1720 as c4, d1721 as c5, d1723 as c6, d1722 as c7, d1725 as c8, d1726 as c9, d1731 as c10, d1729 as c11, d1730 as c12, d1733 as c13, d1732 as c14, d1736 as c15, d1734 as c16, d1735 as c17 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1737 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d1677 as c0, d1680 as c1, d1690 as c2, d314 as c3, d1673 as c4, d1674 as c5, d1676 as c6, d1675 as c7, d1678 as c8, d1679 as c9, d1684 as c10, d1682 as c11, d1683 as c12, d1686 as c13, d1685 as c14, d1689 as c15, d1687 as c16, d1688 as c17 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1690 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1737;
+const read = d1690;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecification"]:c0(),["InvoiceScheduleDue"]:c1(),["InvoiceScheduleEntryWrite"]:c2(),["MoneyValue"]:c3(),["SharedCodec467"]:c4(),["SharedCodec468"]:c5(),["SharedCodec469"]:c6(),["SharedCodec470"]:c7(),["SharedCodec471"]:c8(),["SharedCodec472"]:c9(),["SharedCodec473"]:c10(),["SharedCodec474"]:c11(),["SharedCodec475"]:c12(),["SharedCodec476"]:c13(),["SharedCodec477"]:c14(),["SharedCodec478"]:c15(),["SharedCodec479"]:c16(),["SharedCodec480"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecification"]:c0(),["InvoiceScheduleDue"]:c1(),["InvoiceScheduleEntryWrite"]:c2(),["MoneyValue"]:c3(),["SharedCodec429"]:c4(),["SharedCodec430"]:c5(),["SharedCodec431"]:c6(),["SharedCodec432"]:c7(),["SharedCodec433"]:c8(),["SharedCodec434"]:c9(),["SharedCodec435"]:c10(),["SharedCodec436"]:c11(),["SharedCodec437"]:c12(),["SharedCodec438"]:c13(),["SharedCodec439"]:c14(),["SharedCodec440"]:c15(),["SharedCodec441"]:c16(),["SharedCodec442"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoiceScheduleEntryWrite(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

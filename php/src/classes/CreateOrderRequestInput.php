@@ -4,18 +4,18 @@ namespace Flint;
 /**
  * @property-read string $buyer_note
  * @property-read string $customer_id
- * @property-read array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $delivery_destination
+ * @property-read OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass $delivery_destination
  * @property-read list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass> $discounts
  * @property-read string $external_reference_id
  * @property-read string $internal_note
  * @property-read OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read array<array-key, string>|\stdClass $metadata
- * @property-read mixed $requested_tip
+ * @property-read CreateOrderTipInput|array<array-key, mixed>|\stdClass $requested_tip
  * @property-read OrderTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateOrderRequestInput extends Model {
-    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: mixed, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: CreateOrderTipInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrderRequestInput')); }
     /** @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
@@ -27,10 +27,10 @@ final class CreateOrderRequestInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object
+    /** @return OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_destination is omitted; use hasDeliveryDestination() or valueOrDefault().
      */
-    public function getDeliveryDestination(): array|object { return $this->get('delivery_destination'); }
+    public function getDeliveryDestination(): mixed { return $this->get('delivery_destination'); }
     public function hasDeliveryDestination(): bool { return $this->has('delivery_destination'); }
     /** @return list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When discounts is omitted; use hasDiscounts() or valueOrDefault().
@@ -62,7 +62,7 @@ final class CreateOrderRequestInput extends Model {
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return mixed
+    /** @return CreateOrderTipInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When requested_tip is omitted; use hasRequestedTip() or valueOrDefault().
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }

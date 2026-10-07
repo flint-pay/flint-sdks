@@ -1,9 +1,9 @@
-import { d2495 as c0, d2496 as c1 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2496 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2446 as c0, d2447 as c1 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d2447 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2496;
+const read = d2447;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec665"]:c0(),["UpdateReturnReasonRequest"]:c1()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec616"]:c0(),["UpdateReturnReasonRequest"]:c1()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateReturnReasonRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

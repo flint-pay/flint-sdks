@@ -1,1 +1,0 @@
-{"shared":"HostedCheckout","phpRepresentation":{"kind":"record","fields":{"checkout_auth_token":{"kind":"value","type":"string"},"url":{"kind":"value","type":"string"}}},"dependencies":["HostedCheckout"]}

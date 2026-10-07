@@ -1,9 +1,9 @@
-import { d179 as c0, d77 as c1, d1865 as c2, d1879 as c3, d2008 as c4, d1862 as c5, d1864 as c6, d1863 as c7, d2002 as c8, d2001 as c9 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2008 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d140 as c0, d314 as c1, d1822 as c2, d1836 as c3, d1964 as c4, d1819 as c5, d1821 as c6, d1820 as c7, d1958 as c8, d1957 as c9 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1964 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2008;
+const read = d1964;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["OrderGiftCardAllocationAcceptance"]:c2(),["OrderPaymentIntentSelection"]:c3(),["PayOrderRequestConfirmPaymentIntents"]:c4(),["SharedCodec494"]:c5(),["SharedCodec495"]:c6(),["SharedCodec496"]:c7(),["SharedCodec520"]:c8(),["SharedCodec521"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["OrderGiftCardAllocationAcceptance"]:c2(),["OrderPaymentIntentSelection"]:c3(),["PayOrderRequestConfirmPaymentIntents"]:c4(),["SharedCodec456"]:c5(),["SharedCodec457"]:c6(),["SharedCodec458"]:c7(),["SharedCodec481"]:c8(),["SharedCodec482"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePayOrderRequestConfirmPaymentIntents(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

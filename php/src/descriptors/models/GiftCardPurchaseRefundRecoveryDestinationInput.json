@@ -1,1 +1,1 @@
-{"shared":"GiftCardPurchaseRefundRecoveryDestination","dependencies":["GiftCardPurchaseRefundRecoveryDestination","SharedCodec6"]}
+{"shared":"GiftCardPurchaseRefundRecoveryDestination","dependencies":["GiftCardPurchaseRefundRecoveryDestination","MoneyValue"]}

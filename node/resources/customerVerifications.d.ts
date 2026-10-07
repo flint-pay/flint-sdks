@@ -56,6 +56,8 @@ export type { CustomerVerification } from '../declarations/CustomerVerification.
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { ConfirmCustomerVerificationRequestInput } from '../declarations/ConfirmCustomerVerificationRequestInput.js';
 export type { CreateCustomerVerificationRequestInput } from '../declarations/CreateCustomerVerificationRequestInput.js';
 export { makeCustomerVerificationResponse } from '../declarations/makeCustomerVerificationResponse.js';
@@ -63,3 +65,5 @@ export { makeCustomerVerification } from '../declarations/makeCustomerVerificati
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass $application_method
- * @property-read array{'active_count': int, 'newest_active_code'?: string, 'total_count': int, ...}|object $codes_summary
+ * @property-read PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass $codes_summary
  * @property-read PromotionCombinesWithInput|array<array-key, mixed>|\stdClass $combines_with
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $description
@@ -25,17 +25,17 @@ namespace Flint;
  * @property-read string $uses_count
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionInput extends Model {
-    /** @param array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'codes_summary'?: array{'active_count': int, 'newest_active_code'?: string, 'total_count': int, ...}|object, 'combines_with'?: PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'stacking_mode': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': string, ...}|object $values */
+    /** @param array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with'?: PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'stacking_mode': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionInput')); }
     /** @return PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When application_method is omitted; use hasApplicationMethod() or valueOrDefault().
      */
     public function getApplicationMethod(): mixed { return $this->get('application_method'); }
     public function hasApplicationMethod(): bool { return $this->has('application_method'); }
-    /** @return array{'active_count': int, 'newest_active_code'?: string, 'total_count': int, ...}|object
+    /** @return PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When codes_summary is omitted; use hasCodesSummary() or valueOrDefault().
      */
-    public function getCodesSummary(): array|object { return $this->get('codes_summary'); }
+    public function getCodesSummary(): mixed { return $this->get('codes_summary'); }
     public function hasCodesSummary(): bool { return $this->has('codes_summary'); }
     /** @return PromotionCombinesWithInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When combines_with is omitted; use hasCombinesWith() or valueOrDefault().

@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read MoneyValue $source_remaining_amount_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundUnissuedGiftCardRecovery extends Model {
-    /** @param array{'order_id': string, 'order_line_item_id': string, 'payment_intent_id': string, 'purchase_refund_allocation_id': string, 'returned_amount_money': object{'amount': string, 'currency': string}, 'settlement_allocation_id': string, 'source_pending_amount_money': object{'amount': string, 'currency': string}, 'source_remaining_amount_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'order_id': string, 'order_line_item_id': string, 'payment_intent_id': string, 'purchase_refund_allocation_id': string, 'returned_amount_money': mixed, 'settlement_allocation_id': string, 'source_pending_amount_money': mixed, 'source_remaining_amount_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundUnissuedGiftCardRecovery')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().

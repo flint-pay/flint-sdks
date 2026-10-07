@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryProfile extends Model {
-    /** @param array{'configuration': object{'allowed_types'?: list<string>, 'combination_policy'?: string, 'dimensions'?: object{'height': string, 'length': string, 'unit': string, 'width': string}, 'origin_policy'?: object{'location_id'?: string, 'type': string}, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string, 'weight'?: object{'unit': string, 'value': string}}, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: object{'active_method_definitions_count': int, 'covers_all_items': bool, 'locations_without_rates_count': int, 'unassigned_locations': list<string>, 'unassigned_locations_truncated': bool, 'zone_country_count': int}, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfile')); }
     /** @return DeliveryProfileConfiguration
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().

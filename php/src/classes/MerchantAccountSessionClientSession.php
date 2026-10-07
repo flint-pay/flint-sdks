@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read MerchantAccountSessionStripe $stripe
  * Presence-aware response; omitted fields throw when accessed. */
 final class MerchantAccountSessionClientSession extends Model {
-    /** @param array{'expires_at': string, 'stripe': object{'account_session': object{'client_secret': string, 'stripe_js_call': string}, 'components': list<mixed>, 'publishable_key': string}, ...}|object $values */
+    /** @param array{'expires_at': string, 'stripe': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionClientSession')); }
     /** @return string
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().

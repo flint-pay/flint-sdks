@@ -1,1 +1,1 @@
-{"shared":"Webhook_order_updated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec282","SharedCodec304","Webhook_order_updated_merchant"]}
+{"shared":"Webhook_order_updated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","SharedCodec259","Webhook_order_updated_merchant"]}

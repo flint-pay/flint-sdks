@@ -3,13 +3,13 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<string> $cc_emails
- * @property-read mixed $collection
+ * @property-read InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass $collection
  * @property-read string $external_reference_id
  * @property-read string $footer
  * @property-read string $memo
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $order_id
- * @property-read mixed $payment_due
+ * @property-read InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass $payment_due
  * @property-read string $po_number
  * @property-read CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass $quick_pay
  * @property-read string $recipient_email
@@ -27,7 +27,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getCcEmails(): array { return $this->get('cc_emails'); }
     public function hasCcEmails(): bool { return $this->has('cc_emails'); }
-    /** @return mixed
+    /** @return InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When collection is omitted; use hasCollection() or valueOrDefault().
      */
     public function getCollection(): mixed { return $this->get('collection'); }
@@ -57,7 +57,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return mixed
+    /** @return InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
      */
     public function getPaymentDue(): mixed { return $this->get('payment_due'); }

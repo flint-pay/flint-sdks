@@ -1,1 +1,1 @@
-{"shared":"GiftCardNotification","dependencies":["GiftCardNotification","GiftCardNotificationDeliveryAttempt","GiftCardNotificationProviderOutcome","SharedCodec279","SharedCodec280"]}
+{"shared":"GiftCardNotification","dependencies":["GiftCardNotification","GiftCardNotificationDelivery","GiftCardNotificationDeliveryAttempt","GiftCardNotificationProviderOutcome","GiftCardNotificationRecipient"]}

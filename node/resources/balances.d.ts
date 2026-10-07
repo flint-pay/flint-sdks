@@ -42,6 +42,7 @@ export type { MoneyMovementListMeta } from '../declarations/MoneyMovementListMet
 export type { MoneyMovementHistoryMeta } from '../declarations/MoneyMovementHistoryMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export { makeBalanceListResponse } from '../declarations/makeBalanceListResponse.js';
 export { makeBalance } from '../declarations/makeBalance.js';
 export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
@@ -50,3 +51,4 @@ export { makeMoneyMovementListMeta } from '../declarations/makeMoneyMovementList
 export { makeMoneyMovementHistoryMeta } from '../declarations/makeMoneyMovementHistoryMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';

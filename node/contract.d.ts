@@ -191,6 +191,7 @@ export interface Config {
     };
     operations?: Record<string, Capability>;
     models?: Record<string, string>;
+    phpFieldClasses?: Record<string, Record<string, string>>;
     include?: string[];
     audiences?: string[];
     overrides?: Record<string, Json | Schema>;

@@ -1,1 +1,1 @@
-{"shared":"Webhook_checkout_session_invalidated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec199","SharedCodec282","SharedCodec313","Webhook_checkout_session_invalidated_merchant"]}
+{"shared":"Webhook_checkout_session_invalidated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","SharedCodec268","Webhook_checkout_session_invalidated_merchant"]}

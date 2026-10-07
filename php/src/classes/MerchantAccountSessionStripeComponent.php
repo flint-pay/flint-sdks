@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $component
  * Presence-aware response; omitted fields throw when accessed. */
 final class MerchantAccountSessionStripeComponent extends Model {
-    /** @param array{'collection_options'?: object{'fields': string, 'future_requirements': string, 'requirements'?: object{'only': list<string>}}, 'component': string, ...}|object $values */
+    /** @param array{'collection_options'?: mixed, 'component': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripeComponent')); }
     /** @return MerchantAccountSessionStripeCollectionOptions
      * @throws SdkError When collection_options is omitted; use hasCollectionOptions() or valueOrDefault().

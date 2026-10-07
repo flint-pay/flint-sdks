@@ -6,6 +6,24 @@ export const repository = "https://github.com/flint-pay/flint-sdks";
 export const sha256 = (data) => createHash("sha256").update(data).digest("hex");
 export const json = (path) => JSON.parse(readFileSync(path, "utf8"));
 export const formatted = (value) => JSON.stringify(value, null, 2) + "\n";
+export function npmPackResult(output) {
+  const report = JSON.parse(output);
+  const packages = Array.isArray(report)
+    ? report
+    : report && typeof report === "object"
+      ? Object.values(report)
+      : [];
+  const packed = packages[0];
+  if (
+    packages.length !== 1 ||
+    !packed ||
+    typeof packed !== "object" ||
+    typeof packed.filename !== "string" ||
+    !/^[A-Za-z0-9_.-]+\.tgz$/.test(packed.filename)
+  )
+    throw new Error("Expected one npm pack archive with a valid filename.");
+  return packed;
+}
 export function files(directory, prefix = "") {
   return readdirSync(join(directory, prefix), { withFileTypes: true })
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -81,7 +99,11 @@ export function publishedFiles(output) {
   const result = new Map();
   for (const target of ["node", "php"]) {
     const manifest = json(
-      join(output, target, target === "node" ? "package.json" : "composer.json"),
+      join(
+        output,
+        target,
+        target === "node" ? "package.json" : "composer.json",
+      ),
     );
     for (const path of files(join(output, target))) {
       if (
@@ -96,10 +118,12 @@ export function publishedFiles(output) {
         const command = target === "node" ? "npm install" : "composer require";
         const separator = target === "node" ? "@" : ":";
         content = Buffer.from(
-          content.toString("utf8").replace(
-            `\`${command} ${manifest.name}\``,
-            `\`${command} ${manifest.name}${separator}${manifest.version}\``,
-          ),
+          content
+            .toString("utf8")
+            .replace(
+              `\`${command} ${manifest.name}\``,
+              `\`${command} ${manifest.name}${separator}${manifest.version}\``,
+            ),
         );
       }
       result.set(`${target}/${path}`, content);

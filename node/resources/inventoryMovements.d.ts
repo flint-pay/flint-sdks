@@ -43,6 +43,9 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { InventoryItem } from '../declarations/InventoryItem.js';
 export type { InventoryLevel } from '../declarations/InventoryLevel.js';
 export type { InventorySourceReference } from '../declarations/InventorySourceReference.js';
 export { makeInventoryMovementListResponse } from '../declarations/makeInventoryMovementListResponse.js';
@@ -50,5 +53,8 @@ export { makeInventoryMovement } from '../declarations/makeInventoryMovement.js'
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeInventoryItem } from '../declarations/makeInventoryItem.js';
 export { makeInventoryLevel } from '../declarations/makeInventoryLevel.js';
 export { makeInventorySourceReference } from '../declarations/makeInventorySourceReference.js';

@@ -1,9 +1,9 @@
-import { d77 as c0, d2057 as c1, d2060 as c2, d2056 as c3, d2065 as c4, d2066 as c5, d2058 as c6, d463 as c7, d2076 as c8, d2077 as c9, d2078 as c10, d468 as c11, d466 as c12, d465 as c13, d464 as c14, d467 as c15, d2059 as c16, d2074 as c17, d2073 as c18, d2072 as c19, d2075 as c20 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2057 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d314 as c0, d2010 as c1, d2012 as c2, d2017 as c3, d2018 as c4, d2019 as c5, d2021 as c6, d407 as c7, d2030 as c8, d2031 as c9, d2032 as c10, d412 as c11, d410 as c12, d409 as c13, d408 as c14, d411 as c15, d2011 as c16, d2028 as c17, d2027 as c18, d2026 as c19, d2029 as c20 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d2010 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2057;
+const read = d2010;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["Promotion"]:c1(),["PromotionApplicationMethod"]:c2(),["PromotionCodesSummary"]:c3(),["PromotionCombinesWith"]:c4(),["PromotionExclusivity"]:c5(),["PromotionRecurrence"]:c6(),["PromotionRule"]:c7(),["PromotionRuleGroup"]:c8(),["PromotionRuleValue"]:c9(),["PromotionSchedule"]:c10(),["SharedCodec172"]:c11(),["SharedCodec173"]:c12(),["SharedCodec174"]:c13(),["SharedCodec175"]:c14(),["SharedCodec176"]:c15(),["SharedCodec532"]:c16(),["SharedCodec535"]:c17(),["SharedCodec536"]:c18(),["SharedCodec537"]:c19(),["SharedCodec538"]:c20()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["Promotion"]:c1(),["PromotionApplicationMethod"]:c2(),["PromotionCodesSummary"]:c3(),["PromotionCombinesWith"]:c4(),["PromotionExclusivity"]:c5(),["PromotionRecurrence"]:c6(),["PromotionRule"]:c7(),["PromotionRuleGroup"]:c8(),["PromotionRuleValue"]:c9(),["PromotionSchedule"]:c10(),["SharedCodec134"]:c11(),["SharedCodec135"]:c12(),["SharedCodec136"]:c13(),["SharedCodec137"]:c14(),["SharedCodec138"]:c15(),["SharedCodec489"]:c16(),["SharedCodec492"]:c17(),["SharedCodec493"]:c18(),["SharedCodec494"]:c19(),["SharedCodec495"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotion(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

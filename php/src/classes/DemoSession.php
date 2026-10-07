@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $sandbox_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class DemoSession extends Model {
-    /** @param array{'api_key': object{'scopes': list<string>, 'secret_key': string}, 'demo_session_id': string, 'expires_at': string, 'sandbox_id': string, ...}|object $values */
+    /** @param array{'api_key': mixed, 'demo_session_id': string, 'expires_at': string, 'sandbox_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSession')); }
     /** @return DemoSessionAPIKey
      * @throws SdkError When api_key is omitted; use hasApiKey() or valueOrDefault().

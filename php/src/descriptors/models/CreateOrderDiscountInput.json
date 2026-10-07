@@ -1,1 +1,1 @@
-{"shared":"CreateOrderDiscount","dependencies":["CreateOrderDiscount","ManualDiscountRequest","MoneyValue","PromotionRefRequest","SharedCodec3","SharedCodec4","SharedCodec533","SharedCodec534"]}
+{"shared":"CreateOrderDiscount","dependencies":["CreateOrderDiscount","ManualDiscountRequest","MoneyValue","PromotionRefRequest","SharedCodec3","SharedCodec4","SharedCodec490","SharedCodec491"]}

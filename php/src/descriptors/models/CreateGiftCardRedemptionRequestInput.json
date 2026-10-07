@@ -1,1 +1,1 @@
-{"shared":"CreateGiftCardRedemptionRequest","dependencies":["CreateGiftCardRedemptionRequest","MoneyValue","SharedCodec128","SharedCodec132"]}
+{"shared":"CreateGiftCardRedemptionRequest","dependencies":["CreateGiftCardRedemptionRequest","MoneyValue","SharedCodec102","SharedCodec106"]}

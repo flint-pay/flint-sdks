@@ -1,1 +1,1 @@
-{"shared":"PayoutEntry","dependencies":["PayoutEntry","SharedCodec5"]}
+{"shared":"PayoutEntry","dependencies":["PayoutEntry","SignedMoney"]}

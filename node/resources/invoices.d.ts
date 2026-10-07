@@ -1,6 +1,7 @@
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { Result, InputValue } from '../runtime.js';
+import type { CheckoutRedirectsConfigInput } from '../declarations/CheckoutRedirectsConfigInput.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CollectInvoiceResponse } from '../declarations/CollectInvoiceResponse.js';
 import type { CreateInvoiceQuickPayRequestInput } from '../declarations/CreateInvoiceQuickPayRequestInput.js';
@@ -16,7 +17,6 @@ import type { InvoicePaymentAttempt } from '../declarations/InvoicePaymentAttemp
 import type { InvoicePaymentAttemptListResponse } from '../declarations/InvoicePaymentAttemptListResponse.js';
 import type { InvoicePaymentAttemptResponse } from '../declarations/InvoicePaymentAttemptResponse.js';
 import type { InvoicePaymentDueRequestInput } from '../declarations/InvoicePaymentDueRequestInput.js';
-import type { InvoicePaymentPolicyInput } from '../declarations/InvoicePaymentPolicyInput.js';
 import type { InvoiceResponse } from '../declarations/InvoiceResponse.js';
 import type { InvoiceScheduleEntryWriteInput } from '../declarations/InvoiceScheduleEntryWriteInput.js';
 import type { InvoicesAssessLateFeeInput } from '../declarations/InvoicesAssessLateFeeInput.js';
@@ -111,9 +111,9 @@ export interface InvoicesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.create({order_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: ({ "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external"; "payment_method_id"?: string; "payment_policy"?: InvoicePaymentPolicyInput; }) & ((({ "mode"?: "merchant_default"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never }))) | (({ "mode"?: "buyer_initiated"; }) & (({ "payment_method_id"?: never }))) | (({ "mode"?: "automatic"; }) & (({ "payment_policy"?: never }))) | (({ "mode"?: "external"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never })))); "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: ({ "due_at"?: string | globalThis.Date; "invoice_payment_term_id"?: string; "type": "none" | "absolute" | "payment_terms" | "customer_default" | "merchant_default"; }) & ((({ "type"?: "none"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "absolute"; "due_at": unknown; }) & ({ "invoice_payment_term_id"?: never })) | (({ "type"?: "payment_terms"; "invoice_payment_term_id": unknown; }) & ({ "due_at"?: never })) | (({ "type"?: "customer_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "merchant_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never })))); "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
+    create(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: ({ "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external"; "payment_method_id"?: string; "payment_policy"?: InvoicePaymentPolicyInput; }) & ((({ "mode"?: "merchant_default"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never }))) | (({ "mode"?: "buyer_initiated"; }) & (({ "payment_method_id"?: never }))) | (({ "mode"?: "automatic"; }) & (({ "payment_policy"?: never }))) | (({ "mode"?: "external"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never })))); "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: ({ "due_at"?: string | globalThis.Date; "invoice_payment_term_id"?: string; "type": "none" | "absolute" | "payment_terms" | "customer_default" | "merchant_default"; }) & ((({ "type"?: "none"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "absolute"; "due_at": unknown; }) & ({ "invoice_payment_term_id"?: never })) | (({ "type"?: "payment_terms"; "invoice_payment_term_id": unknown; }) & ({ "due_at"?: never })) | (({ "type"?: "customer_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "merchant_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never })))); "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesCreateResponse>>;
+    createWithResponse(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesCreateResponse>>;
     /**
  * Returns a single invoice by ID.
  * GET /v1/invoices/{invoice_id}
@@ -147,9 +147,9 @@ export interface InvoicesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
+    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
@@ -314,7 +314,8 @@ export type { InvoicePaymentAttemptResponse } from '../declarations/InvoicePayme
 export type { InvoicesCancelPaymentAttemptResponse } from '../declarations/InvoicesCancelPaymentAttemptResponse.js';
 export type { CollectInvoiceResponse } from '../declarations/CollectInvoiceResponse.js';
 export type { InvoicesCollectResponse } from '../declarations/InvoicesCollectResponse.js';
-export type { InvoicePaymentPolicyInput } from '../declarations/InvoicePaymentPolicyInput.js';
+export type { InvoiceCollectionRequestInput } from '../declarations/InvoiceCollectionRequestInput.js';
+export type { InvoicePaymentDueRequestInput } from '../declarations/InvoicePaymentDueRequestInput.js';
 export type { CreateInvoiceQuickPayRequestInput } from '../declarations/CreateInvoiceQuickPayRequestInput.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
 export type { InvoiceScheduleEntryWriteInput } from '../declarations/InvoiceScheduleEntryWriteInput.js';
@@ -323,6 +324,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempote
 export type { InvoicesGetResponse } from '../declarations/InvoicesGetResponse.js';
 export type { InvoicesGetPaymentAttemptResponse } from '../declarations/InvoicesGetPaymentAttemptResponse.js';
 export type { InvoicesGetPDFResponse } from '../declarations/InvoicesGetPDFResponse.js';
+export type { CheckoutRedirectsConfigInput } from '../declarations/CheckoutRedirectsConfigInput.js';
 export type { InvoiceCheckoutSessionResponse } from '../declarations/InvoiceCheckoutSessionResponse.js';
 export type { InvoicesGetOrCreateCheckoutSessionResponse } from '../declarations/InvoicesGetOrCreateCheckoutSessionResponse.js';
 export type { IssueInvoiceResponse } from '../declarations/IssueInvoiceResponse.js';
@@ -346,8 +348,6 @@ export type { RegenerateInvoiceLinkResponse } from '../declarations/RegenerateIn
 export type { InvoicesRegeneratePublicLinkResponse } from '../declarations/InvoicesRegeneratePublicLinkResponse.js';
 export type { InvoicesReverseManualPaymentResponse } from '../declarations/InvoicesReverseManualPaymentResponse.js';
 export type { InvoicesSendReminderResponse } from '../declarations/InvoicesSendReminderResponse.js';
-export type { InvoiceCollectionRequestInput } from '../declarations/InvoiceCollectionRequestInput.js';
-export type { InvoicePaymentDueRequestInput } from '../declarations/InvoicePaymentDueRequestInput.js';
 export type { InvoicesUpdateResponse } from '../declarations/InvoicesUpdateResponse.js';
 export type { InvoicesVoidResourceResponse } from '../declarations/InvoicesVoidResourceResponse.js';
 export type { InvoicesWaiveLateFeeResponse } from '../declarations/InvoicesWaiveLateFeeResponse.js';
@@ -378,7 +378,10 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { CollectInvoiceResult } from '../declarations/CollectInvoiceResult.js';
+export type { InvoicePaymentPolicyInput } from '../declarations/InvoicePaymentPolicyInput.js';
 export type { InvoicePaymentOptionLimitInput } from '../declarations/InvoicePaymentOptionLimitInput.js';
 export type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
 export type { ManualDiscountRequestInput } from '../declarations/ManualDiscountRequestInput.js';
@@ -388,6 +391,7 @@ export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFu
 export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
 export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
 export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { GiftCardPurchaseRequestInput } from '../declarations/GiftCardPurchaseRequestInput.js';
 export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPurchaseRecipientInput.js';
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
@@ -402,17 +406,25 @@ export type { InvoiceScheduleDueInput } from '../declarations/InvoiceScheduleDue
 export type { InvoiceCheckoutSessionResult } from '../declarations/InvoiceCheckoutSessionResult.js';
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { OrderPaymentAttempt } from '../declarations/OrderPaymentAttempt.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
 export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
+export type { PaymentClientAction } from '../declarations/PaymentClientAction.js';
 export type { StripePaymentClientAction } from '../declarations/StripePaymentClientAction.js';
+export type { StripePaymentIntentClientAction } from '../declarations/StripePaymentIntentClientAction.js';
+export type { StripeSetupIntentClientAction } from '../declarations/StripeSetupIntentClientAction.js';
+export type { PendingPaymentActionSubject } from '../declarations/PendingPaymentActionSubject.js';
+export type { PendingPaymentActionPaymentIntentSubject } from '../declarations/PendingPaymentActionPaymentIntentSubject.js';
+export type { PendingPaymentActionSetupPaymentSourceSubject } from '../declarations/PendingPaymentActionSetupPaymentSourceSubject.js';
+export type { CheckoutBuyerContact } from '../declarations/CheckoutBuyerContact.js';
 export type { CheckoutCustomTextWriteConfig } from '../declarations/CheckoutCustomTextWriteConfig.js';
 export type { CheckoutCustomerConfig } from '../declarations/CheckoutCustomerConfig.js';
 export type { PrefilledCustomerInfo } from '../declarations/PrefilledCustomerInfo.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
+export type { CheckoutCustomerPrefill } from '../declarations/CheckoutCustomerPrefill.js';
 export type { CheckoutDeliveryPinnedDependency } from '../declarations/CheckoutDeliveryPinnedDependency.js';
 export type { CheckoutExpirationConfig } from '../declarations/CheckoutExpirationConfig.js';
 export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
@@ -439,31 +451,37 @@ export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/Buye
 export type { BuyerDeliveryInputRequirementResource } from '../declarations/BuyerDeliveryInputRequirementResource.js';
 export type { BuyerDeliveryOptionResource } from '../declarations/BuyerDeliveryOptionResource.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
+export type { CheckoutMerchantSupport } from '../declarations/CheckoutMerchantSupport.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
 export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
 export type { SignedMoney } from '../declarations/SignedMoney.js';
+export type { PaymentCollection } from '../declarations/PaymentCollection.js';
 export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionStripe.js';
 export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
-export type { PaymentCollection } from '../declarations/PaymentCollection.js';
 export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
 export type { PaymentSourceSummary } from '../declarations/PaymentSourceSummary.js';
 export type { PaymentSourceAchDebitSummary } from '../declarations/PaymentSourceAchDebitSummary.js';
 export type { PaymentSourceCardSummary } from '../declarations/PaymentSourceCardSummary.js';
+export type { CheckoutPaymentMethodSave } from '../declarations/CheckoutPaymentMethodSave.js';
 export type { CheckoutPaymentConfig } from '../declarations/CheckoutPaymentConfig.js';
 export type { CheckoutProblemResource } from '../declarations/CheckoutProblemResource.js';
 export type { CheckoutPromotionConfig } from '../declarations/CheckoutPromotionConfig.js';
 export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsConfig.js';
+export type { CheckoutSubscriptionTerms } from '../declarations/CheckoutSubscriptionTerms.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
 export type { IssueInvoiceResult } from '../declarations/IssueInvoiceResult.js';
 export type { InvoiceLateFee } from '../declarations/InvoiceLateFee.js';
 export type { InvoiceLateFeePolicy } from '../declarations/InvoiceLateFeePolicy.js';
+export type { InvoicePaymentPolicy } from '../declarations/InvoicePaymentPolicy.js';
 export type { InvoicePaymentOptionLimit } from '../declarations/InvoicePaymentOptionLimit.js';
+export type { InvoicePaymentTermsSnapshot } from '../declarations/InvoicePaymentTermsSnapshot.js';
 export type { InvoicePaymentTermCalculation } from '../declarations/InvoicePaymentTermCalculation.js';
 export type { InvoiceScheduleEntry } from '../declarations/InvoiceScheduleEntry.js';
 export type { InvoiceScheduleAmountSpecification } from '../declarations/InvoiceScheduleAmountSpecification.js';
 export type { InvoiceScheduleDue } from '../declarations/InvoiceScheduleDue.js';
+export type { InvoiceSnapshot } from '../declarations/InvoiceSnapshot.js';
 export type { DocumentTaxID } from '../declarations/DocumentTaxID.js';
 export type { OrderCharge } from '../declarations/OrderCharge.js';
 export type { OrderCalculatedChargeTax } from '../declarations/OrderCalculatedChargeTax.js';
@@ -473,6 +491,7 @@ export type { TaxJurisdiction } from '../declarations/TaxJurisdiction.js';
 export type { InvoiceDiscount } from '../declarations/InvoiceDiscount.js';
 export type { InvoiceLineItem } from '../declarations/InvoiceLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
+export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
 export type { Image } from '../declarations/Image.js';
@@ -505,21 +524,31 @@ export { makeRegenerateInvoiceLinkResponse } from '../declarations/makeRegenerat
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeCollectInvoiceResult } from '../declarations/makeCollectInvoiceResult.js';
 export { makeInvoiceCheckoutSessionResult } from '../declarations/makeInvoiceCheckoutSessionResult.js';
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeOrderPaymentAttempt } from '../declarations/makeOrderPaymentAttempt.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
 export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
+export { makePaymentClientAction } from '../declarations/makePaymentClientAction.js';
 export { makeStripePaymentClientAction } from '../declarations/makeStripePaymentClientAction.js';
+export { makeStripePaymentIntentClientAction } from '../declarations/makeStripePaymentIntentClientAction.js';
+export { makeStripeSetupIntentClientAction } from '../declarations/makeStripeSetupIntentClientAction.js';
+export { makePendingPaymentActionSubject } from '../declarations/makePendingPaymentActionSubject.js';
+export { makePendingPaymentActionPaymentIntentSubject } from '../declarations/makePendingPaymentActionPaymentIntentSubject.js';
+export { makePendingPaymentActionSetupPaymentSourceSubject } from '../declarations/makePendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeCheckoutBuyerContact } from '../declarations/makeCheckoutBuyerContact.js';
 export { makeCheckoutCustomTextWriteConfig } from '../declarations/makeCheckoutCustomTextWriteConfig.js';
 export { makeCheckoutCustomerConfig } from '../declarations/makeCheckoutCustomerConfig.js';
 export { makePrefilledCustomerInfo } from '../declarations/makePrefilledCustomerInfo.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
+export { makeCheckoutCustomerPrefill } from '../declarations/makeCheckoutCustomerPrefill.js';
 export { makeCheckoutDeliveryPinnedDependency } from '../declarations/makeCheckoutDeliveryPinnedDependency.js';
 export { makeCheckoutExpirationConfig } from '../declarations/makeCheckoutExpirationConfig.js';
 export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
@@ -546,31 +575,37 @@ export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeB
 export { makeBuyerDeliveryInputRequirementResource } from '../declarations/makeBuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../declarations/makeBuyerDeliveryOptionResource.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
+export { makeCheckoutMerchantSupport } from '../declarations/makeCheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
 export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js';
 export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
+export { makePaymentCollection } from '../declarations/makePaymentCollection.js';
 export { makePaymentCollectionStripe } from '../declarations/makePaymentCollectionStripe.js';
 export { makeSelectableOrderPaymentIntent } from '../declarations/makeSelectableOrderPaymentIntent.js';
-export { makePaymentCollection } from '../declarations/makePaymentCollection.js';
 export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
 export { makePaymentSourceSummary } from '../declarations/makePaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../declarations/makePaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../declarations/makePaymentSourceCardSummary.js';
+export { makeCheckoutPaymentMethodSave } from '../declarations/makeCheckoutPaymentMethodSave.js';
 export { makeCheckoutPaymentConfig } from '../declarations/makeCheckoutPaymentConfig.js';
 export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblemResource.js';
 export { makeCheckoutPromotionConfig } from '../declarations/makeCheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirectsConfig.js';
+export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
 export { makeIssueInvoiceResult } from '../declarations/makeIssueInvoiceResult.js';
 export { makeInvoiceLateFee } from '../declarations/makeInvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../declarations/makeInvoiceLateFeePolicy.js';
+export { makeInvoicePaymentPolicy } from '../declarations/makeInvoicePaymentPolicy.js';
 export { makeInvoicePaymentOptionLimit } from '../declarations/makeInvoicePaymentOptionLimit.js';
+export { makeInvoicePaymentTermsSnapshot } from '../declarations/makeInvoicePaymentTermsSnapshot.js';
 export { makeInvoicePaymentTermCalculation } from '../declarations/makeInvoicePaymentTermCalculation.js';
 export { makeInvoiceScheduleEntry } from '../declarations/makeInvoiceScheduleEntry.js';
 export { makeInvoiceScheduleAmountSpecification } from '../declarations/makeInvoiceScheduleAmountSpecification.js';
 export { makeInvoiceScheduleDue } from '../declarations/makeInvoiceScheduleDue.js';
+export { makeInvoiceSnapshot } from '../declarations/makeInvoiceSnapshot.js';
 export { makeDocumentTaxID } from '../declarations/makeDocumentTaxID.js';
 export { makeOrderCharge } from '../declarations/makeOrderCharge.js';
 export { makeOrderCalculatedChargeTax } from '../declarations/makeOrderCalculatedChargeTax.js';
@@ -580,6 +615,7 @@ export { makeTaxJurisdiction } from '../declarations/makeTaxJurisdiction.js';
 export { makeInvoiceDiscount } from '../declarations/makeInvoiceDiscount.js';
 export { makeInvoiceLineItem } from '../declarations/makeInvoiceLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
+export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
 export { makeImage } from '../declarations/makeImage.js';

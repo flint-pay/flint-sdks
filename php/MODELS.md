@@ -741,17 +741,17 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available_by_source_type` | Optional | object | Response only. |
-| `available_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `available_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `balance_id` | Required | string | Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Response only. |
 | `held_by_type` | Optional | object | Response only. |
-| `held_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `held_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `merchant_id` | Required | string | Response only. |
 | `payouts_enabled` | Required | boolean | Response only. |
 | `pending_by_source_type` | Optional | object | Response only. |
-| `pending_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `reserve_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `unavailable_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `pending_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reserve_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `unavailable_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## BalanceListResponse
 
@@ -769,21 +769,21 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Signed gross amount of this balance movement, before any fee. Response only. |
+| `amount_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed gross amount of this balance movement, before any fee. Response only. |
 | `available_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `balance_transaction_id` | Required | string | Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Response only. |
 | `description` | Optional | string | Response only. |
-| `fee_money` | Required | object | Flint fee for this balance movement, never a provider cost passed through. Charges are positive; returned fees are negative. A payment of 5000 with a fee of 175 has a net amount of 4825. A payout reversal returning a fee of 25 reports fee_money -25. Response only. |
-| `hold_detail` | Optional | object | Response only. |
+| `fee_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Flint fee for this balance movement, never a provider cost passed through. Charges are positive; returned fees are negative. A payment of 5000 with a fee of 175 has a net amount of 4825. A payout reversal returning a fee of 25 reports fee_money -25. Response only. |
+| `hold_detail` | Optional | [HoldDetail](MODELS.md#holddetail) | Response only. |
 | `merchant_id` | Required | string | Response only. |
-| `net_money` | Required | object | Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. Response only. |
+| `net_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed net effect on your Flint balance: amount_money minus fee_money in the same currency. Response only. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `order` | Optional | Alternative shapes (see declared variants) |  |
 | `order_id` | Optional | string | Response only. |
 | `payout_id` | Optional | string | Flint payout containing this balance transaction. Present after the paid payout's entries are recorded. |
 | `related_balance_transaction_ids` | Optional | Array of string | Response only. |
-| `related_resource` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `related_resource` | Optional | [BalanceTransactionRelatedResource](MODELS.md#balancetransactionrelatedresource) | Response only. |
 | `status` | Required | string | Values: `"pending"`, `"available"`, `"reserved"`, `"reversed"`, `"failed"`, `"superseded"`. Response only. |
 | `type` | Required | string | Values: [19 declared values](#balancetransaction-type-values). Response only. |
 
@@ -920,7 +920,7 @@ Variants: object, object, object, object, object, object.
 | `position` | Required | integer | Format: `int32`. |
 | `product_id` | Optional | string | Response only. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `variant` | Optional | object | Response only. |
+| `variant` | Optional | [BundleComponentVariantSummary](MODELS.md#bundlecomponentvariantsummary) | Response only. |
 | `variant_id` | Required | string |  |
 
 ## BundleComponentListResponse
@@ -1003,8 +1003,8 @@ What a store lets buyers do to their own subscriptions. Send at least one field;
 | --- | --- | --- | --- |
 | `cancellation_reasons` | Optional | Array of string | Reasons a buyer is asked to choose from when canceling, in the order shown. Empty: the buyer is not asked. When the list is not empty, a buyer's cancellation_reason_code must be one of them. maxItems: `8`. |
 | `cancellation_timing` | Optional | string | When a subscription a buyer cancels ends. end_of_period: when the current billing period ends. buyer_chooses: the buyer picks the end of the period or right away. A trialing, paused, or incomplete subscription, or one whose first paid period never started, ends right away either way. Values: `"end_of_period"`, `"buyer_chooses"`. |
-| `pause` | Optional | object | Whether buyers may pause, and for how long. Omit it to let buyers pause with no limit. |
-| `retention_offer` | Optional | object | The offer a buyer sees before canceling. The buyer can always decline it and cancel. Omit it for no offer. |
+| `pause` | Optional | [BuyerPauseCapability](MODELS.md#buyerpausecapability) | Whether buyers may pause, and for how long. Omit it to let buyers pause with no limit. |
+| `retention_offer` | Optional | [BuyerRetentionOffer](MODELS.md#buyerretentionoffer) | The offer a buyer sees before canceling. The buyer can always decline it and cancel. Omit it for no offer. |
 
 ## BuyerCreditNote
 
@@ -1025,7 +1025,7 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `seller_tax_identity` | Optional | Alternative shapes (see declared variants) | Identity frozen on the source invoice at issue. Later profile edits do not change this document. Response only. |
 | `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Values: `"issued"`, `"void"`. |
-| `total_money` | Required | object | The face value of the credit note, the sum of its lines. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | The face value of the credit note, the sum of its lines. |
 | `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
 ## BuyerCreditNoteListResponse
@@ -1100,11 +1100,11 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `audience` | Required | string | Values: `"buyer"`. |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `buyer_reasons` | Required | Array of string | Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. |
 | `choice_groups` | Required | Array of [BuyerDeliveryQuoteChoiceGroupResource](MODELS.md#buyerdeliveryquotechoicegroupresource) |  |
 | `delivery_quote_id` | Required | string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value from every response. Format: `date-time`. |
@@ -1139,10 +1139,10 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `choices` | Required | Array of [BuyerDeliverySelectionChoiceResource](MODELS.md#buyerdeliveryselectionchoiceresource) |  |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_selection_id` | Required | string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `input_requirements` | Required | Array of [BuyerDeliveryInputRequirementResource](MODELS.md#buyerdeliveryinputrequirementresource) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
-| `recipient` | Optional | [DeliveryRecipientResource](MODELS.md#deliveryrecipientresource) |  |
+| `recipient` | Optional | [DeliveryRecipientResource](MODELS.md#deliveryrecipientresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `status` | Required | string | Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
 
 ## BuyerDeliverySelectionChoiceResource
@@ -1177,10 +1177,10 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `audience` | Required | string | Values: `"buyer"`. |
-| `checkout_session` | Required | object | The checkout session after the change. Merchant-only fields, such as metadata and external_reference_id, are omitted. |
+| `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) | The checkout session after the change. Merchant-only fields, such as metadata and external_reference_id, are omitted. |
 | `delivery_selection` | Required | [BuyerDeliverySelection](MODELS.md#buyerdeliveryselection) |  |
-| `inventory_reservation` | Optional | object | Omitted for checkout credentials, which cannot read the merchant's inventory reservation. Merchant credentials receive it on DeliverySelectionResult. |
-| `order` | Required | object | The order after the change. Merchant-only fields, such as external_reference_id and internal_note, are omitted. |
+| `inventory_reservation` | Optional | [DeliveryInventoryReservationSummary](MODELS.md#deliveryinventoryreservationsummary) | Omitted for checkout credentials, which cannot read the merchant's inventory reservation. Merchant credentials receive it on DeliverySelectionResult. |
+| `order` | Required | [Order](MODELS.md#order) | The order after the change. Merchant-only fields, such as external_reference_id and internal_note, are omitted. |
 
 ## BuyerEffectiveDeliverySelectionResource
 
@@ -1334,7 +1334,7 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `balance_after_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `balance_before_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `gift_card_id` | Required | string |  |
@@ -1390,8 +1390,8 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 | `closed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `collection_block_status` | Required | string | Values: `"none"`, `"inventory_blocked"`, `"resolved"`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `credit_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `currently_due_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `credit_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `currently_due_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string | Response only. |
 | `due_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -1405,20 +1405,20 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 | `merchant_id` | Required | string | Response only. |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Required | string | Response only. |
-| `outstanding_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `paid_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `paid_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `payment_terms_snapshot` | Optional | object | Response only. |
+| `paid_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshot](MODELS.md#invoicepaymenttermssnapshot) | Response only. |
 | `po_number` | Optional | string | Response only. |
 | `recipient_email` | Optional | string |  |
 | `reference` | Optional | string |  |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `remit_to_address` | Optional | object | Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remit_to_address` | Optional | [PostalAddress](MODELS.md#postaladdress) | Response only. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntry](MODELS.md#invoicescheduleentry) | Response only. |
 | `scheduled_send_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `service_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `snapshot` | Optional | object | Response only. |
+| `snapshot` | Optional | [InvoiceSnapshot](MODELS.md#invoicesnapshot) | Response only. |
 | `status` | Required | string | Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. Response only. |
 | `timezone` | Optional | string | Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -1444,7 +1444,6 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 | --- | --- | --- | --- |
 | `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | object | Deprecated and will be removed. Use checkout_session.url and checkout_access.checkout_auth_token. |
 | `invoice` | Required | [BuyerInvoice](MODELS.md#buyerinvoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
 | `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
@@ -1524,7 +1523,7 @@ Whether buyers may pause their own subscriptions. Send at least one field.
 | `reason_message` | Optional | string |  |
 | `refund_id` | Required | string | Response only. |
 | `refund_method` | Optional | string | Values: `"original_payment"`. |
-| `refunded_tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `return_id` | Optional | string | Response only. |
 | `return_resolution_id` | Optional | string | Response only. |
 | `review_id` | Optional | string | Response only. |
@@ -1816,7 +1815,7 @@ Merchant capability readiness for a payment or money movement capability.
 | `domain` | Required | string | Capability domain. API keys scoped to one domain only receive that domain when listing capabilities without a domain filter. Values: `"money_movement"`, `"payments"`. |
 | `next_actions` | Optional | Array of [NextAction](MODELS.md#nextaction) | Actions that can remediate or refresh this capability when Flint can suggest one. |
 | `observed_at` | Optional | string | RFC3339 timestamp for the source state used to evaluate this capability. Format: `date-time`. |
-| `requirements` | Required | object | Merchant requirements that affect this capability. |
+| `requirements` | Required | [CapabilityRequirements](MODELS.md#capabilityrequirements) | Merchant requirements that affect this capability. |
 | `status` | Required | string | Current readiness status for this capability. Values: `"ready"`, `"blocked"`, `"pending"`, `"not_available"`. |
 
 #### Capability capability values
@@ -2011,9 +2010,10 @@ Details the buyer's checkout can prefill from the customer it acts for.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | object | The customer's default billing address. Omitted when the customer has none. |
+| `billing_address` | Optional | [PostalAddress](MODELS.md#postaladdress) | The customer's default billing address. Omitted when the customer has none. |
 | `email` | Required | string | The customer's email. |
-| `shipping_address` | Optional | object | The customer's default shipping address. Omitted when the customer has none. |
+| `shipping_address` | Optional | [PostalAddress](MODELS.md#postaladdress) | The customer's default shipping address. Omitted when the customer has none. |
+| `shipping_recipient_name` | Optional | string | Recipient name saved with the customer's default shipping address. Present only with `shipping_address`; omitted when that address was set on the customer without a saved recipient. |
 
 ## CheckoutCustomerVerification
 
@@ -2036,8 +2036,8 @@ The checkout after a confirmed code, and the credential that acts for the custom
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_access` | Optional | object | The new checkout credential, the only one that acts for the customer. Send checkout_auth_token as X-Checkout-Session-Secret on every later checkout request. The earlier credential keeps working for the checkout without the customer's saved cards or details. Omitted for purpose confirm_saved_payment_method, which keeps the checkout's credential. |
-| `checkout_session` | Required | object | The checkout session, read as its new credential reads it: it acts for the customer with the confirmed email. |
+| `checkout_access` | Optional | [CheckoutAccess](MODELS.md#checkoutaccess) | The new checkout credential, the only one that acts for the customer. Send checkout_auth_token as X-Checkout-Session-Secret on every later checkout request. The earlier credential keeps working for the checkout without the customer's saved cards or details. Omitted for purpose confirm_saved_payment_method, which keeps the checkout's credential. |
+| `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) | The checkout session, read as its new credential reads it: it acts for the customer with the confirmed email. |
 
 ## CheckoutCustomerVerificationConfirmationResponse
 
@@ -2270,15 +2270,15 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt` | Optional | object | Response only. |
-| `buyer_contact` | Optional | object | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. |
+| `active_payment_attempt` | Optional | [OrderPaymentAttempt](MODELS.md#orderpaymentattempt) | Response only. |
+| `buyer_contact` | Optional | [CheckoutBuyerContact](MODELS.md#checkoutbuyercontact) | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. |
 | `checkout_session_id` | Required | string | Response only. |
 | `closed_reason` | Optional | string | The note supplied when the checkout session was closed. It is not shown to the buyer. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_collection` | Optional | [CheckoutCustomerConfig](MODELS.md#checkoutcustomerconfig) |  |
-| `customer_prefill` | Optional | object | Contact and default addresses of the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present only on reads with the session's checkout credential while the session is open and acts for a customer. Response only. |
+| `customer_prefill` | Optional | [CheckoutCustomerPrefill](MODELS.md#checkoutcustomerprefill) | Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present only on reads with the session's checkout credential while the session is open and acts for a customer. Response only. |
 | `delivery_method_ids` | Required | Array of string | Immutable delivery method assignment captured when the checkout was created. |
 | `delivery_pinned_dependencies` | Optional | Array of [CheckoutDeliveryPinnedDependency](MODELS.md#checkoutdeliverypinneddependency) | Merchant-only immutable configuration lineage used to evaluate delivery quotes. Response only. |
 | `delivery_selection_required` | Required | boolean | Whether the order has at least one remaining quote-resolved fulfillment choice that must be selected before payment. Response only. |
@@ -2290,17 +2290,17 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `invoice_id` | Optional | string | Response only. |
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `merchant_id` | Optional | string | Response only. |
-| `merchant_support` | Optional | object | How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Present only on reads with the session's checkout credential, and only when the merchant set at least one of them. Show it where your checkout tells the buyer to contact the merchant, such as an expired or closed checkout, or your receipt. Response only. |
+| `merchant_support` | Optional | [CheckoutMerchantSupport](MODELS.md#checkoutmerchantsupport) | How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Present only on reads with the session's checkout credential, and only when the merchant set at least one of them. Show it where your checkout tells the buyer to contact the merchant, such as an expired or closed checkout, or your receipt. Response only. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Optional | string |  |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
-| `payment_collection` | Optional | object | Response only. |
+| `payment_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `payment_intent_ids` | Optional | Array of string | Response only. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](MODELS.md#expandedpaymentintentsummary) | Response only. |
 | `payment_link` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `payment_link_id` | Optional | string | Response only. |
-| `payment_method_save` | Optional | object | The card the buyer saved with this checkout's payment by giving a mobile phone number, and whether they confirmed it. Present only on reads with the session's checkout credential, after a payment that paid the order in full, or that was approved for the merchant to capture later, and saved a card this way. A checkout whose payment is approved stays open until the capture. Response only. |
+| `payment_method_save` | Optional | [CheckoutPaymentMethodSave](MODELS.md#checkoutpaymentmethodsave) | The card the buyer saved with this checkout's payment by giving a mobile phone number, and whether they confirmed it. Present only on reads with the session's checkout credential, after a payment that paid the order in full, or that was approved for the merchant to capture later, and saved a card this way. A checkout whose payment is approved stays open until the capture. Response only. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
 | `problems` | Required | Array of [CheckoutProblemResource](MODELS.md#checkoutproblemresource) | Named conditions that affect checkout completion. Follow each problem's remediation action instead of reconstructing delivery lifecycle rules in the client. When Flint cannot read the checkout's delivery, the read still succeeds and reports delivery_selection_stale; its remediation says whether reading the session again can succeed, and its next action's reason_code names the error. Response only. |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
@@ -2311,10 +2311,10 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `save_payment_method_offered` | Optional | boolean | Whether checkout offers the buyer the option to save the card they type for faster checkout at this merchant. Present only on reads with the session's checkout credential. When true and save_payment_method_requires_verification is false, PayOrder accepts save_payment_method: true for one newly collected card. False when the merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is not an available payment option, the checkout collects an invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot email the buyer a verification code. Response only. |
 | `save_payment_method_phone_offered` | Optional | boolean | Whether the buyer can save the card they type by giving a US or Canadian mobile phone number with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted code after paying. Present only on reads with the session's checkout credential. True while Flint can send texts and either save_payment_method_requires_verification is true, so the number replaces confirming an email before paying, or the checkout acts for the customer whose email the buyer confirmed with this credential, so the number joins that customer's saved details once the buyer confirms it. Response only. |
 | `save_payment_method_requires_verification` | Optional | boolean | Whether the buyer must confirm their email with a code before the checkout can save their card or use their saved cards. Present only on reads with the session's checkout credential. True when save_payment_method_offered is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever save_payment_method_offered is false. Response only. |
-| `setup_collection` | Optional | object | Response only. |
+| `setup_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `status` | Required | string | Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. Response only. |
 | `subscription_plan_id` | Optional | string | Response only. |
-| `subscription_terms` | Optional | object | Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them. Absent when the checkout starts no subscription. Response only. |
+| `subscription_terms` | Optional | [CheckoutSubscriptionTerms](MODELS.md#checkoutsubscriptionterms) | Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them. Absent when the checkout starts no subscription. Response only. |
 | `superseding_checkout_session_id` | Optional | string | Response only. |
 | `surface` | Required | string | Values: `"hosted"`, `"embedded"`. |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
@@ -2405,22 +2405,22 @@ The checkout session and the credential to operate it. For hosted checkout, send
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `base_subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `checkout_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `message` | Required | string | Human-readable explanation of this item for your logs. The wording can change, so branch on code. |
 | `modifier_choices` | Optional | Array of [AvailableModifierGroup](MODELS.md#availablemodifiergroup) | Modifier groups and options the buyer can choose for the line item now. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `modifier_total_money` | Optional | object | Total price change from the line item's modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `modifier_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Total price change from the line item's modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `modifiers` | Optional | Array of [OrderLineItemModifier](MODELS.md#orderlineitemmodifier) | Modifiers currently applied to the line item. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `order_line_item_id` | Optional | string | Order line item whose modifiers changed. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
-| `payment_amount_money` | Optional | object | Amount the buyer pays to complete the checkout, which equals checkout_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `subtotal_money` | Optional | object | Line item base subtotal plus modifier_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `tax_money` | Optional | object | Tax on the line item. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `total_money` | Optional | object | Line item total after its share of discounts and tax. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `payment_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount the buyer pays to complete the checkout, which equals checkout_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Line item base subtotal plus modifier_total_money. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax on the line item. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
+| `total_money` | Optional | [SignedMoney](MODELS.md#signedmoney) | Line item total after its share of discounts and tax. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 
 #### CheckoutSessionRevisionConflictDetail code values
 
@@ -3624,6 +3624,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -4097,15 +4098,15 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
-| `default_delivery_method_ids` | Optional | Array of string | Delivery methods a checkout offers when its creator names none: a checkout creation request that omits delivery_method_ids, and, when the order has items to deliver, a payment link without delivery_method_ids or an invoice checkout. Each checkout pins the methods when it is created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
+| `default_delivery_method_ids` | Optional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `enabled_payment_options` | Optional | Array of string |  |
 | `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
-| `recovery_email` | Optional | object | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. |
+| `recovery_email` | Optional | [CheckoutRecoveryEmailSettings](MODELS.md#checkoutrecoveryemailsettings) | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. |
 | `require_billing_address` | Optional | boolean |  |
 | `require_email` | Optional | boolean |  |
 | `require_phone` | Optional | boolean |  |
-| `saved_payment_details` | Optional | object | Whether hosted checkout offers buyers the option to save the card they type for faster checkout at this merchant. Merchant scope only. Effective settings default it to on. |
+| `saved_payment_details` | Optional | [CheckoutSavedPaymentDetailsSettings](MODELS.md#checkoutsavedpaymentdetailssettings) | Whether hosted checkout offers buyers the option to save the card they type for faster checkout at this merchant. Merchant scope only. Effective settings default it to on. |
 
 ## CheckoutSubscriptionTerms
 
@@ -4116,10 +4117,10 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
 | `contract_term_months` | Optional | integer | Minimum commitment in months, when the plan has one. Format: `int32`. |
-| `early_termination_fee_money` | Optional | object | Fee charged when the buyer cancels before the contract term ends, when the plan has one. |
+| `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Fee charged when the buyer cancels before the contract term ends, when the plan has one. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
-| `recurring_total_money` | Required | object | Charge for one billing interval before tax: each line's unit price times its quantity, plus modifiers. |
-| `setup_fee_money` | Optional | object | One-time fee charged with the first payment, when the plan has one. |
+| `recurring_total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Charge for one billing interval before tax: each line's unit price times its quantity, plus modifiers. |
+| `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | One-time fee charged with the first payment, when the plan has one. |
 | `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. |
 | `trial_period_days` | Optional | integer | Days before the first recurring charge, when the plan has a trial. Format: `int32`. |
 
@@ -4309,7 +4310,7 @@ The code the buyer typed.
 | --- | --- | --- | --- |
 | `expected_version` | Optional | exact numeric string | Reservation version the caller last read. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `lines` | Required | Array of object |  |
-| `provenance` | Required | object | When and where the physical handoff happened. Required on consume, rejected on commit and release. |
+| `provenance` | Required | [InventoryReservationProvenance](MODELS.md#inventoryreservationprovenance) | When and where the physical handoff happened. Required on consume, rejected on commit and release. |
 
 ## CountMetric
 
@@ -4444,7 +4445,7 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | --- | --- | --- | --- |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [CheckoutCustomerConfig](MODELS.md#checkoutcustomerconfig) |  |
-| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout. Omit the field to use the configured checkout default. Send an explicit empty array only when the order has no delivery obligations. |
+| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout. When omitted, uses settings.checkout.default_delivery_method_ids if the order has items to deliver, or no methods otherwise. An explicit empty array assigns no methods. |
 | `expiration` | Optional | [CheckoutExpirationConfig](MODELS.md#checkoutexpirationconfig) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
@@ -4469,7 +4470,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Credit to apply, no more than the credit note's unallocated_money or the invoice's outstanding balance. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Credit to apply, no more than the credit note's unallocated_money or the invoice's outstanding balance. |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 
 ## CreateCreditNoteRefundRequest
@@ -4831,7 +4832,7 @@ Provide at most one fulfillment details object: pickup_details, local_delivery_d
 | `pickup_details` | Optional | [CreatePickupFulfillmentDetails](MODELS.md#createpickupfulfillmentdetails) |  |
 | `recipient` | Optional | [FulfillmentRecipient](MODELS.md#fulfillmentrecipient) |  |
 | `service_details` | Optional | [CreateServiceFulfillmentDetails](MODELS.md#createservicefulfillmentdetails) |  |
-| `shipment` | Optional | Alternative shapes (see declared variants) | Creates one outbound shipment and one package atomically with the fulfillment. packaging must be single_package. The package receives the full quantities of only the submitted line_items. Requires type shipment. Omission creates no shipment or package. Tracking does not mark the package shipped. Package tracking notifications are requested when buyer_notification_behavior is omitted; use suppress to prevent buyer messages from this creation. |
+| `shipment` | Optional | [FulfillmentPackagingRequest](MODELS.md#fulfillmentpackagingrequest) | Creates one outbound shipment and one package atomically with the fulfillment. packaging must be single_package. The package receives the full quantities of only the submitted line_items. Requires type shipment. Omission creates no shipment or package. Tracking does not mark the package shipped. Package tracking notifications are requested when buyer_notification_behavior is omitted; use suppress to prevent buyer messages from this creation. |
 | `type` | Required | string | Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
 
 Variants: any, any, any, any, any.
@@ -4915,7 +4916,7 @@ Variants: any, any.
 | `customer_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `funding` | Optional | Alternative shapes (see declared variants) |  |
-| `notification` | Optional | object | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. |
+| `notification` | Optional | [GiftCardNotificationRecipient](MODELS.md#giftcardnotificationrecipient) | Optional recipient notification recorded with issuance. Requires commerce.gift_cards.secrets.write in addition to issuance authority. |
 
 ## CreateInlineModifierGroupRequest
 
@@ -5052,13 +5053,13 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cc_emails` | Optional | Array of string |  |
-| `collection` | Optional | Alternative shapes (see declared variants) |  |
+| `collection` | Optional | [InvoiceCollectionRequest](MODELS.md#invoicecollectionrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `footer` | Optional | string |  |
 | `memo` | Optional | string |  |
 | `metadata` | Optional | object |  |
 | `order_id` | Optional | string |  |
-| `payment_due` | Optional | Alternative shapes (see declared variants) |  |
+| `payment_due` | Optional | [InvoicePaymentDueRequest](MODELS.md#invoicepaymentduerequest) |  |
 | `po_number` | Optional | string |  |
 | `quick_pay` | Optional | [CreateInvoiceQuickPayRequest](MODELS.md#createinvoicequickpayrequest) |  |
 | `recipient_email` | Optional | string |  |
@@ -5193,7 +5194,7 @@ Variants: any, any.
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `fulfillment` | Optional | [LineItemFulfillmentRequest](MODELS.md#lineitemfulfillmentrequest) |  |
-| `gift_card_purchase` | Optional | object | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. |
+| `gift_card_purchase` | Optional | [GiftCardPurchaseRequest](MODELS.md#giftcardpurchaserequest) | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. |
 | `image` | Optional | [ImageReferenceRequest](MODELS.md#imagereferencerequest) |  |
 | `inventory_demands` | Optional | Array of [OrderDraftLineItemInventoryDemandRequest](MODELS.md#orderdraftlineiteminventorydemandrequest) |  |
 | `metadata` | Optional | object |  |
@@ -5247,14 +5248,14 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `buyer_note` | Optional | string |  |
 | `customer_id` | Optional | string |  |
-| `delivery_destination` | Optional | object | Shipment or local-delivery destination for an order created without a delivery selection. |
+| `delivery_destination` | Optional | [OrderDeliveryDestinationRequest](MODELS.md#orderdeliverydestinationrequest) | Shipment or local-delivery destination for an order created without a delivery selection. |
 | `discounts` | Optional | Array of [CreateOrderDiscount](MODELS.md#createorderdiscount) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string |  |
 | `inventory_routing_source` | Optional | [OrderInventoryRoutingSourceRequest](MODELS.md#orderinventoryroutingsourcerequest) |  |
 | `line_items` | Required | Array of [CreateOrderLineItem](MODELS.md#createorderlineitem) | minItems: `1`. |
 | `metadata` | Optional | object |  |
-| `requested_tip` | Optional | Alternative shapes (see declared variants) | Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit. |
+| `requested_tip` | Optional | [CreateOrderTip](MODELS.md#createordertip) | Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit. |
 | `tax` | Optional | [OrderTaxRequest](MODELS.md#ordertaxrequest) |  |
 
 ## CreateOrderTip
@@ -5455,7 +5456,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | object | Address where the buyer collects the order. |
+| `address` | Optional | [PostalAddress](MODELS.md#postaladdress) | Address where the buyer collects the order. |
 | `curbside_instructions` | Optional | string | Instructions specific to curbside handoff. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string | Buyer-reported arrival time for curbside or counter pickup. Format: `date-time`. |
 | `expires_at` | Optional | string | Deadline after which an uncollected pickup should enter merchant review. Format: `date-time`. |
@@ -6242,8 +6243,8 @@ A correction against an issued invoice. Credit notes reduce what is owed; refund
 | `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `seller_tax_identity` | Optional | Alternative shapes (see declared variants) | Identity frozen on the source invoice at issue. Later profile edits do not change this document. Response only. |
 | `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Values: `"draft"`, `"issued"`, `"void"`. |
-| `total_money` | Required | object | The face value of the credit note, the sum of its lines. |
-| `unallocated_money` | Required | object | Credit still available to allocate. Equals total_money at issue, falls as credit is applied, and rises again when an allocation is reversed. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | The face value of the credit note, the sum of its lines. |
+| `unallocated_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Credit still available to allocate. Equals total_money at issue, falls as credit is applied, and rises again when an allocation is reversed. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | exact numeric string | Current credit note version. Send this as expected_version when updating the draft. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
 | `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -6255,7 +6256,7 @@ One application of credit to the invoice. Allocations are append-only: a reversa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allocated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `amount_money` | Required | object | Credit applied to the invoice balance. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Credit applied to the invoice balance. |
 | `credit_note_allocation_id` | Required | string |  |
 | `credit_note_id` | Required | string |  |
 | `idempotency_key` | Required | string | The key the caller sent when allocating. It is this allocation's identity and is filterable on the allocations list. |
@@ -6309,7 +6310,7 @@ The allocation, the credit note with its new unallocated_money, and the recomput
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | object | Amount to credit, no more than the source invoice line is worth, in the invoice currency. |
+| `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount to credit, no more than the source invoice line is worth, in the invoice currency. |
 | `quantity` | Optional | exact numeric string | Units to credit, no more than the source invoice line carries. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `type` | Required | string | quantity credits whole units and requires quantity. amount credits a named figure and requires amount_money. The two are mutually exclusive. Values: `"quantity"`, `"amount"`. |
 
@@ -6328,7 +6329,7 @@ One credited invoice line, with the discount and tax share Flint derived from th
 | `quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `total_money` | Required | object | What this line credits, discount and tax included. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | What this line credits, discount and tax included. |
 
 ## CreditNoteLineRequest
 
@@ -6478,7 +6479,7 @@ A checkout or customer account hostname's status after a transition, with its pr
 | `metadata` | Optional | object |  |
 | `name` | Optional | string |  |
 | `phone` | Optional | string |  |
-| `receivables` | Optional | object | Response only. |
+| `receivables` | Optional | [CustomerReceivables](MODELS.md#customerreceivables) | Response only. |
 | `shipping_address` | Optional | [PostalAddress](MODELS.md#postaladdress) |  |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Optional | Alternative shapes (see declared variants) |  |
@@ -6522,7 +6523,7 @@ A checkout or customer account hostname's status after a transition, with its pr
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_capabilities` | Optional | object | What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. |
+| `buyer_capabilities` | Optional | [BuyerCapabilities](MODELS.md#buyercapabilities) | What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. |
 | `merchant_account_url` | Optional | string |  |
 | `mode` | Optional | string | Values: `"flint_hosted"`, `"merchant_hosted"`. |
 | `presentation` | Optional | [CustomerAccountPresentation](MODELS.md#customeraccountpresentation) |  |
@@ -6851,7 +6852,7 @@ A checkout or customer account hostname's status after a transition, with its pr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `role` | Required | string | Values: `"destination_address"`, `"buyer_location"`. |
-| `suggested_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) |  |
+| `suggested_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `verification_state` | Required | string | Values: `"needs_review"`, `"unverifiable"`. |
 
 ## DeliveryAddressRequest
@@ -7207,16 +7208,16 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `dispatched_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. maxLength: `2048`. |
+| `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2048`. |
 | `expires_at` | Optional | string | Deadline after which an undelivered job should enter merchant review. Format: `date-time`. |
 | `external_delivery_id` | Optional | string | Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: `255`. |
-| `instructions` | Optional | string |  |
-| `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. |
+| `instructions` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `prep_time_duration_seconds` | Optional | exact numeric string | Expected preparation time before courier pickup, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string | Time at which the order became ready for courier pickup. Format: `date-time`. |
 | `service_area_id` | Optional | string |  |
 | `timezone` | Optional | string |  |
-| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. |
+| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `window_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -7311,7 +7312,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | object | Current member Locations and selection rules. |
+| `configuration` | Required | [DeliveryLocationSetConfiguration](MODELS.md#deliverylocationsetconfiguration) | Current member Locations and selection rules. |
 | `created_at` | Required | string | Time the location set was created. Format: `date-time`. |
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. |
@@ -7387,7 +7388,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | object | Current eligibility, pricing, origin, estimate, and tax configuration. |
+| `configuration` | Required | [DeliveryMethodConfiguration](MODELS.md#deliverymethodconfiguration) | Current eligibility, pricing, origin, estimate, and tax configuration. |
 | `created_at` | Required | string | Time the method was created. Format: `date-time`. |
 | `current_delivery_method_revision_id` | Required | string | Immutable revision currently used for new quotes. |
 | `delivery_method_id` | Required | string | Stable delivery method ID. |
@@ -7408,19 +7409,19 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Required | string | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
-| `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
-| `estimate` | Required | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
+| `charge_tax_category` | Required | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
+| `estimate` | Required | [DeliveryEstimateRule](MODELS.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Required | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
 | `offer_windows` | Required | boolean | Whether buyers choose from enumerated schedule windows. Flint derives this value for new writes and returns it for stored-revision compatibility. |
-| `origin` | Required | Alternative shapes (see declared variants) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
-| `pricing` | Required | Alternative shapes (see declared variants) | How Flint calculates the delivery charge. |
+| `origin` | Required | [DeliveryMethodOriginSelector](MODELS.md#deliverymethodoriginselector) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
+| `pricing` | Required | [DeliveryPricingStrategy](MODELS.md#deliverypricingstrategy) | How Flint calculates the delivery charge. |
 | `public_details` | Optional | object | Buyer-visible structured details supplied by the merchant. |
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Required | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Required | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 ## DeliveryMethodConfigurationCreateRequest
 
@@ -7428,20 +7429,39 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
-| `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
-| `estimate` | Optional | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
+| `estimate` | Optional | [DeliveryEstimateRuleRequest](MODELS.md#deliveryestimaterulerequest) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
-| `origin` | Required | Alternative shapes (see declared variants) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
+| `origin` | Required | [DeliveryMethodOriginSelectorRequest](MODELS.md#deliverymethodoriginselectorrequest) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
 | `pricing` | Required | [DeliveryPricingStrategyCreateRequest](MODELS.md#deliverypricingstrategycreaterequest) |  |
 | `public_details` | Optional | object | Buyer-visible structured details supplied by the merchant. |
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 Variants: any, any, any.
+
+## DeliveryMethodConfigurationPatchRequest
+
+Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. It does not currently change the automatic rate. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. |
+| `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. |
+| `minimum_option_lifetime_seconds` | Optional | exact numeric string or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
+| `origin` | Optional | [DeliveryMethodOriginSelectorRequest](MODELS.md#deliverymethodoriginselectorrequest) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. |
+| `pricing` | Optional | [DeliveryPricingStrategyRequest](MODELS.md#deliverypricingstrategyrequest) | How Flint calculates the delivery charge. Null is invalid. |
+| `public_details` | Optional | object or null | Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. |
+| `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. Use [] to clear it. Null is invalid. maxItems: `12`. |
+| `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. Use [] to clear it. Null is invalid. |
+| `selection_guarantee_seconds` | Optional | exact numeric string or null | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Null restores 0, which uses the option expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the merchant's settings. |
 
 ## DeliveryMethodConfigurationRequest
 
@@ -7449,18 +7469,18 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
-| `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
-| `estimate` | Optional | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
+| `estimate` | Optional | [DeliveryEstimateRuleRequest](MODELS.md#deliveryestimaterulerequest) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
-| `origin` | Required | Alternative shapes (see declared variants) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
-| `pricing` | Required | Alternative shapes (see declared variants) | How Flint calculates the delivery charge. |
+| `origin` | Required | [DeliveryMethodOriginSelectorRequest](MODELS.md#deliverymethodoriginselectorrequest) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
+| `pricing` | Required | [DeliveryPricingStrategyRequest](MODELS.md#deliverypricingstrategyrequest) | How Flint calculates the delivery charge. |
 | `public_details` | Optional | object | Buyer-visible structured details supplied by the merchant. |
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 Variants: any, any, any.
 
@@ -7701,11 +7721,11 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `choice_groups` | Required | Array of [DeliveryPreviewChoiceGroupResource](MODELS.md#deliverypreviewchoicegroupresource) |  |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `delivery_method_ids` | Required | Array of string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -7858,11 +7878,11 @@ Variants: any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | object | Current delivery requirement and grouping policy. |
+| `configuration` | Required | [DeliveryProfileConfiguration](MODELS.md#deliveryprofileconfiguration) | Current delivery requirement and grouping policy. |
 | `created_at` | Required | string | Time the profile was created. Format: `date-time`. |
 | `current_delivery_profile_revision_id` | Required | string | Immutable revision used for new line-item snapshots. |
 | `delivery_profile_id` | Required | string | Stable delivery profile ID. |
-| `diagnostics` | Optional | object | Read-only catalog and delivery-method compatibility diagnostics. Response only. |
+| `diagnostics` | Optional | [DeliveryProfileDiagnostics](MODELS.md#deliveryprofilediagnostics) | Read-only catalog and delivery-method compatibility diagnostics. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object | Caller-owned metadata. |
 | `name` | Required | string | Merchant-facing profile name. |
@@ -7898,12 +7918,12 @@ Variants: any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_types` | Optional | Array of string | Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. |
 | `combination_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls which delivery obligations can share a choice group. Values: `"combine_when_compatible"`, `"separate_profile"`, `"separate_line_item"`, `"fulfill_alone"`. |
-| `dimensions` | Optional | object | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
-| `origin_policy` | Optional | object | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
+| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `origin_policy` | Optional | [DeliveryProfileOriginPolicy](MODELS.md#deliveryprofileoriginpolicy) | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
 | `requirement` | Required | string | Whether delivery planning applies. none forbids every other configuration field. required also requires resolution_mode and allowed_types, plus the fields required by that resolution mode. Values: `"none"`, `"required"`. |
 | `resolution_mode` | Optional | string | Required when requirement is required. quote plans physical delivery and requires origin_policy, combination_policy, and splitting_policy. manual supports digital and service items and forbids physical planning fields. Values: `"quote"`, `"manual"`. |
 | `splitting_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls whether a line item quantity can be split across delivery assignments. Values: `"whole_line_item"`, `"quantity_split_allowed"`. |
-| `weight` | Optional | object | Optional physical weight used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `weight` | Optional | [Weight](MODELS.md#weight) | Optional physical weight used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
 
 ## DeliveryProfileConfigurationRequest
 
@@ -7913,12 +7933,12 @@ Variants: any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_types` | Optional | Array of string | Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. minItems: `1`. |
 | `combination_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls which delivery obligations can share a choice group. Values: `"combine_when_compatible"`, `"separate_profile"`, `"separate_line_item"`, `"fulfill_alone"`. |
-| `dimensions` | Optional | object | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
-| `origin_policy` | Optional | Alternative shapes (see declared variants) | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
+| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `origin_policy` | Optional | [DeliveryProfileOriginPolicyRequest](MODELS.md#deliveryprofileoriginpolicyrequest) | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
 | `requirement` | Optional | string | Whether delivery planning applies. none forbids every other configuration field. required also requires resolution_mode and allowed_types, plus the fields required by that resolution mode. Values: `"none"`, `"required"`. |
 | `resolution_mode` | Optional | string | Required when requirement is required. quote plans physical delivery and requires origin_policy, combination_policy, and splitting_policy. manual supports digital and service items and forbids physical planning fields. Values: `"quote"`, `"manual"`. |
 | `splitting_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls whether a line item quantity can be split across delivery assignments. Values: `"whole_line_item"`, `"quantity_split_allowed"`. |
-| `weight` | Optional | object | Optional physical weight used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `weight` | Optional | [Weight](MODELS.md#weight) | Optional physical weight used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
 
 Variants: any, any, any.
 
@@ -7985,13 +8005,13 @@ Variants: any, any, any.
 | `audience` | Required | string | Values: `"merchant"`. |
 | `basis_delivery_quote_id` | Optional | string |  |
 | `basis_delivery_selection_id` | Optional | string |  |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `checkout_session_id` | Required | string |  |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](MODELS.md#deliveryquotechoicegroupresource) |  |
 | `consumed_by_delivery_selection_id` | Optional | string |  |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_quote_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `destination_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) |  |
+| `destination_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `eligibility_context_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
@@ -8122,6 +8142,19 @@ Variants: any, any, any.
 | `redirect_policy` | Optional | string | Values: `"reject"`. |
 | `request_timeout_seconds` | Optional | number | minimum: `0.1`. maximum: `10`. |
 | `url` | Required | string |  |
+
+## DeliveryRateCallbackConfigurationPatchRequest
+
+Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_request_bytes` | Optional | exact numeric string or null | Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. |
+| `maximum_response_bytes` | Optional | exact numeric string or null | Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. |
+| `preview_enabled` | Optional | boolean or null | Null restores false. |
+| `redirect_policy` | Optional | string or null | Null restores reject. Values: `"reject"`, `null`. |
+| `request_timeout_seconds` | Optional | number or null | Null restores 2 seconds. minimum: `0.1`. maximum: `10`. |
+| `url` | Optional | string | Null is invalid. |
 
 ## DeliveryRateCallbackConnectionCheck
 
@@ -8343,8 +8376,8 @@ Variants: any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Delivery charge committed by this selection. |
-| `buyer_location` | Optional | Alternative shapes (see declared variants) | Buyer location snapshot used to evaluate pickup proximity. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Delivery charge committed by this selection. |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) | Buyer location snapshot used to evaluate pickup proximity. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `calculation_expires_at` | Required | string | Deadline after which calculated pricing evidence is no longer valid. Format: `date-time`. |
 | `checkout_session_id` | Required | string | Checkout session that owns the selection. |
 | `choices` | Required | Array of [DeliverySelectionChoiceResource](MODELS.md#deliveryselectionchoiceresource) | One chosen option for each required choice group. |
@@ -8352,17 +8385,17 @@ Variants: any, any, any, any, any, any.
 | `delivery_quote_id` | Required | string | Quote from which this selection was made. |
 | `delivery_quote_revision` | Required | exact numeric string | Quote revision from which this selection was created. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `delivery_selection_id` | Required | string | Stable delivery selection ID. |
-| `destination_address` | Optional | object | Destination address snapshot used for delivery evaluation. |
+| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `eligibility_context_revision` | Required | exact numeric string | Checkout eligibility-context revision evaluated by this selection. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `expires_at` | Required | string | Deadline after which this provisional selection can no longer be committed. Format: `date-time`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](MODELS.md#deliveryinputrequirement) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
-| `instructions` | Optional | string | Buyer-provided delivery instructions. |
+| `instructions` | Optional | string | Buyer-provided delivery instructions. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `lifecycle_events` | Optional | Array of [DeliverySelectionLifecycleEventResource](MODELS.md#deliveryselectionlifecycleeventresource) | Ordered lifecycle events recorded for this selection. |
 | `lifecycle_updated_at` | Required | string | Time the selection lifecycle last changed. Format: `date-time`. |
 | `limiting_deadline_reason` | Required | string | Constraint that determined the selection expiry. Values: [6 declared values](#deliveryselection-limiting_deadline_reason-values). |
 | `order_id` | Required | string | Order affected by the selection. |
 | `private_data_status` | Optional | string | Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`. |
-| `recipient` | Optional | object | Recipient details captured with the selection. |
+| `recipient` | Optional | [DeliveryRecipientResource](MODELS.md#deliveryrecipientresource) | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `redacted_at` | Optional | string | Time merchant-private selection evidence was redacted. Format: `date-time`. |
 | `status` | Required | string | Current selection lifecycle status. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
 
@@ -8411,7 +8444,7 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_window_id` | Optional | string |  |
-| `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. maxLength: `2000`. |
+| `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2000`. |
 
 ## DeliverySelectionLifecycleEventResource
 
@@ -8619,7 +8652,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | Alternative shapes (see declared variants) | Current geographic eligibility conditions. |
+| `configuration` | Required | [DeliveryZoneConfiguration](MODELS.md#deliveryzoneconfiguration) | Current geographic eligibility conditions. |
 | `created_at` | Required | string | Time the zone was created. Format: `date-time`. |
 | `current_delivery_zone_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_zone_id` | Required | string | Stable delivery zone ID. |
@@ -8682,7 +8715,7 @@ Variants: any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_key` | Required | object | Response only. |
+| `api_key` | Required | [DemoSessionAPIKey](MODELS.md#demosessionapikey) | Response only. |
 | `demo_session_id` | Required | string | Response only. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `sandbox_id` | Required | string | Response only. |
@@ -9024,13 +9057,13 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
-| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
@@ -9041,8 +9074,8 @@ Variants: any, any, any, any, any, any, any.
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#errordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#errordetail-eligibility_reason-values). |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
-| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -9050,7 +9083,7 @@ Variants: any, any, any, any, any, any, any.
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `location_id` | Optional | string | Location this failure concerns. Sent on INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, INVENTORY_SOURCE_SEQUENCE_CHANGED, PICKUP_LOCATION_INACTIVE, PICKUP_LOCATION_INVENTORY_UNAVAILABLE, PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE, and PICKUP_LOCATION_DEPENDENCY_FAILURE. |
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
@@ -9058,24 +9091,24 @@ Variants: any, any, any, any, any, any, any.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
 | `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#errordetail-reason-values). |
-| `remediation` | Optional | object | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
+| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Optional | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
-| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
 #### ErrorDetail capability values
 
@@ -10289,6 +10322,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -10891,12 +10925,12 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
-| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#errorobject-code-values). |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
@@ -10905,12 +10939,12 @@ Variants: any, any, any, any, any, any, any.
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
-| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
@@ -10918,20 +10952,20 @@ Variants: any, any, any, any, any, any, any.
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
 | `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#errorobject-reason-values). |
-| `remediation` | Optional | object | Recovery guidance: whether retrying can succeed and what to do next. |
+| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
-| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
+| `scope_requirement` | Optional | [ScopeRequirement](MODELS.md#scoperequirement) | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
-| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
-| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#errorobject-type-values). |
 
 #### ErrorObject capability values
@@ -12146,6 +12180,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -12937,8 +12972,8 @@ Variants: any, any, any, any, any, any, any.
 | `shipped_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `status` | Required | string | Current package lifecycle state. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
 | `supported_actions` | Required | Array of string | Read-only actions currently supported for this package. Response only. |
-| `tracking_number` | Optional | string |  |
-| `tracking_url` | Optional | string |  |
+| `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `tracking_url` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | exact numeric string | Monotonic package version for expected_version checks. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. Response only. |
 
@@ -13193,7 +13228,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_hold` | Optional | object | Current hold details. While this field is present, status continues to show the public work status from before the hold. Response only. |
+| `active_hold` | Optional | [FulfillmentHold](MODELS.md#fulfillmenthold) | Current hold details. While this field is present, status continues to show the public work status from before the hold. Response only. |
 | `charges` | Optional | Array of [FulfillmentChargeLink](MODELS.md#fulfillmentchargelink) | Response only. |
 | `completed_at` | Optional | string | Completion evidence timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -13209,13 +13244,13 @@ Variants: any, any.
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Required | string | Response only. |
-| `outcome` | Optional | object | Terminal outcome details. The mark_no_show action records its reason here and returns status as failed. Response only. |
+| `outcome` | Optional | [FulfillmentOutcome](MODELS.md#fulfillmentoutcome) | Terminal outcome details. The mark_no_show action records its reason here and returns status as failed. Response only. |
 | `packages` | Optional | Array of [ExpandedPackageSummary](MODELS.md#expandedpackagesummary) | Response only. |
 | `packed_at` | Optional | string | First time this fulfillment reached packed. Format: `date-time`. Response only. |
 | `picked_at` | Optional | string | First time this fulfillment reached picked. Format: `date-time`. Response only. |
 | `pickup_details` | Optional | [PickupFulfillmentDetails](MODELS.md#pickupfulfillmentdetails) |  |
 | `quantity_effect` | Optional | string | Read-only current quantity accounting behavior for this fulfillment state. Values: `"preserve"`, `"fulfill"`, `"release"`. Response only. |
-| `recipient` | Optional | [FulfillmentRecipient](MODELS.md#fulfillmentrecipient) |  |
+| `recipient` | Optional | [FulfillmentRecipient](MODELS.md#fulfillmentrecipient) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `request_status` | Required | string | Provider acceptance state, independent from fulfillment work progress. The accept action sets this field to accepted while status remains pending. Values: `"pending"`, `"accepted"`. Response only. |
 | `service_details` | Optional | [ServiceFulfillmentDetails](MODELS.md#servicefulfillmentdetails) |  |
 | `shipments` | Optional | Array of [ExpandedShipmentSummary](MODELS.md#expandedshipmentsummary) | Response only. |
@@ -13758,7 +13793,7 @@ Variants: object, object, object, object, object, object, object, object, object
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `redirects` | Optional | object | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
+| `redirects` | Optional | [Redirects](MODELS.md#redirects) | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the Return's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
 | `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
 
@@ -13792,24 +13827,24 @@ Variants: object, object, object, object, object, object, object, object, object
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `authorization_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `authorized_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `authorized_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `authorized_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Unknown processor values are returned as payment_canceled. Values: [8 declared values](#getpaymentintentresult-cancellation_reason-values). Response only. |
-| `capturable_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `capture_method` | Optional | string | Values: `"automatic"`, `"manual"`. |
 | `captured_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `captured_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `captured_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `current_payment_action` | Optional | object | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
+| `current_payment_action` | Optional | [PendingPaymentAction](MODELS.md#pendingpaymentaction) | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string |  |
 | `dispute_status` | Optional | string | Values: `"none"`, `"warning_needs_response"`, `"warning_under_review"`, `"warning_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `fulfillment_hold` | Optional | object | Response only. |
+| `fulfillment_hold` | Optional | [PaymentFulfillmentHold](MODELS.md#paymentfulfillmenthold) | Response only. |
 | `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `invoice_id` | Optional | string | Response only. |
 | `last_payment_error` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
-| `merchant_net_money` | Optional | object | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
+| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Optional | string | Response only. |
@@ -13818,12 +13853,12 @@ Variants: object, object, object, object, object, object, object, object, object
 | `payment_flow` | Required | string | Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Response only. |
 | `payment_intent_id` | Required | string | Response only. |
 | `payment_options` | Required | Array of string |  |
-| `payment_source` | Optional | object | Response only. |
-| `processing_fee_money` | Optional | object | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
+| `payment_source` | Optional | [PaymentSourceSummary](MODELS.md#paymentsourcesummary) | Response only. |
+| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
 | `receipt_email` | Optional | string |  |
 | `refund_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `refunded_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `released_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `risk` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `selected_payment_option` | Optional | string | Response only. |
 | `settlement_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`, `"disputed"`. Response only. |
@@ -13940,8 +13975,8 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `balance_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `available_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Values: `"USD"`. Response only. |
 | `customer_id` | Required | string or null | Response only. |
@@ -13951,7 +13986,7 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | `last_loaded_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `last_redeemed_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `merchant_id` | Required | string | Response only. |
-| `reserved_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reserved_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"pending"`, `"active"`, `"frozen"`, `"closed"`. Response only. |
 | `supported_actions` | Required | Array of string | Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -13998,14 +14033,14 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `disposition` | Required | string | Values: `"honor_value"`. Response only. |
-| `dispute_amount_money` | Required | object | The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Response only. |
+| `dispute_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | The whole disputed payment amount, which can include consideration for other purchases. It is separate from the original gift card consideration and honored face value. Response only. |
 | `dispute_id` | Required | string | Response only. |
 | `gift_card_funding_disposition_id` | Required | string | Response only. |
 | `gift_card_ids` | Required | Array of string | Response only. |
-| `honored_value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `original_gift_card_consideration_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `honored_value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `original_gift_card_consideration_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `payment_intent_id` | Required | string | Response only. |
-| `preserved_reserved_value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `preserved_reserved_value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `reason_message` | Required | string | Response only. |
 
 ## GiftCardFundingDispositionResponse
@@ -14027,7 +14062,7 @@ Merchant-issued purchased gift card. Posted balance includes reserved value; ava
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `dispute_id` | Required | string | Response only. |
 | `requires_resolution` | Required | boolean | Response only. |
-| `resolution` | Optional | object | Response only. |
+| `resolution` | Optional | [GiftCardFundingLossResolution](MODELS.md#giftcardfundinglossresolution) | Response only. |
 | `status` | Required | string | Values: `"open"`, `"won"`, `"lost"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
@@ -14093,14 +14128,14 @@ Independent funding resource. Value and consideration are separate. External fun
 | `idempotency_key` | Required | string | Response only. |
 | `purchase_refund_value_holds` | Optional | Array of [GiftCardPurchaseRefundValueHold](MODELS.md#giftcardpurchaserefundvaluehold) | Pending original cash refunds holding unspent value on this descendant funding lot. Unknown provider outcomes retain these holds. Response only. |
 | `purchase_refunds` | Required | Array of [GiftCardPurchaseRefundAllocation](MODELS.md#giftcardpurchaserefundallocation) | Cash refunds and manual payment reversals against this original funding load. Pending refunds reserve their value; confirmed success removes it, and confirmed failure releases the hold. Response only. |
-| `purchase_restoration` | Optional | object | Response only. |
-| `refund_provenance` | Optional | object | Response only. |
-| `refund_transferred_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `remaining_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `reversed_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `source` | Required | Alternative shapes (see declared variants) | Response only. |
+| `purchase_restoration` | Optional | [GiftCardPurchaseRestoration](MODELS.md#giftcardpurchaserestoration) | Response only. |
+| `refund_provenance` | Optional | [GiftCardRefundProvenance](MODELS.md#giftcardrefundprovenance) | Response only. |
+| `refund_transferred_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remaining_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reversed_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `source` | Required | [GiftCardFundingSource](MODELS.md#giftcardfundingsource) | Response only. |
 | `source_created_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
 ## GiftCardLoadListResponse
@@ -14131,10 +14166,10 @@ Independent funding resource. Value and consideration are separate. External fun
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `delivery` | Optional | object | Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. Response only. |
+| `delivery` | Optional | [GiftCardNotificationDelivery](MODELS.md#giftcardnotificationdelivery) | Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_notification_id` | Required | string | Response only. |
-| `recipient` | Required | object | Response only. |
+| `recipient` | Required | [GiftCardNotificationRecipient](MODELS.md#giftcardnotificationrecipient) | Response only. |
 | `resend_of_notification_id` | Optional | string | Response only. |
 | `sent_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `status` | Required | string | Values: `"scheduled"`, `"queued"`, `"sending"`, `"sent"`, `"failed"`, `"unconfirmed"`, `"bounced"`, `"canceled"`. Response only. |
@@ -14235,16 +14270,16 @@ Independent funding resource. Value and consideration are separate. External fun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `consideration_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `consideration_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `order_manual_reversal_id` | Optional | string | Response only. |
 | `purchase_refund_allocation_id` | Required | string | Response only. |
-| `recovery` | Optional | object | Response only. |
+| `recovery` | Optional | [GiftCardPurchaseRefundRecovery](MODELS.md#giftcardpurchaserefundrecovery) | Response only. |
 | `refund_id` | Optional | string | Response only. |
 | `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocation](MODELS.md#giftcardpurchaserefundvalueallocation) | Actual value lots reserved or reversed for this original cash refund. Amounts use the parent value_money currency. Omitted when all value remains on the original load. Response only. |
-| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
 ## GiftCardPurchaseRefundRecovery
@@ -14265,7 +14300,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | --- | --- | --- | --- |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_load_id` | Required | string | Response only. |
-| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## GiftCardPurchaseRefundValueAllocation
 
@@ -14287,7 +14322,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | `refund_id` | Required | string | Response only. |
 | `root_gift_card_id` | Required | string | Response only. |
 | `root_gift_card_load_id` | Required | string | Response only. |
-| `value_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## GiftCardPurchaseRequest
 
@@ -14329,7 +14364,7 @@ Independent redemption resource. Operational reservations are separate from immu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `capture_mode` | Required | string | Values: `"automatic"`, `"manual"`. Response only. |
-| `captured_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `captured_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `external_reference_id` | Required | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Response only. |
@@ -14337,10 +14372,10 @@ Independent redemption resource. Operational reservations are separate from immu
 | `gift_card_redemption_id` | Required | string | Response only. |
 | `idempotency_key` | Required | string | Response only. |
 | `order_id` | Required | string or null | Response only. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `remaining_refundable_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `requested_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `reserved_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remaining_refundable_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `requested_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `reserved_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"reserved"`, `"captured"`, `"canceled"`, `"expired"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
@@ -14400,9 +14435,9 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `balance_after_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `balance_before_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_after_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `balance_before_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_transaction_id` | Required | string | Response only. |
@@ -14510,15 +14545,6 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 | `held_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `used_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-
-## HostedCheckout
-
-Deprecated. Repeats checkout_session.url and checkout_access.checkout_auth_token.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `checkout_auth_token` | Required | string | Same value as checkout_access.checkout_auth_token. |
-| `url` | Required | string | Same value as checkout_session.url. |
 
 ## Image
 
@@ -16667,7 +16693,7 @@ The quantity state of one inventory item at one Location.
 | `damaged_quantity` | Required | exact numeric string | On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `held_quantity` | Required | exact numeric string | Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `incoming_quantity` | Required | exact numeric string | Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `inventory_item` | Optional | object | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. |
+| `inventory_item` | Optional | [InventoryItem](MODELS.md#inventoryitem) | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. |
 | `inventory_item_id` | Required | string |  |
 | `inventory_level_claim_revision` | Required | exact numeric string | Advances only when held or committed quantities change. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `inventory_level_id` | Required | string |  |
@@ -16728,7 +16754,7 @@ An immutable record of a single quantity change, including the level state it pr
 | `held_quantity_delta` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `idempotency_key` | Optional | string |  |
 | `incoming_quantity_delta` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `inventory_item` | Optional | object | The inventory item this movement is about. Present only when the list request asked for expand=inventory_item. |
+| `inventory_item` | Optional | [InventoryItem](MODELS.md#inventoryitem) | The inventory item this movement is about. Present only when the list request asked for expand=inventory_item. |
 | `inventory_item_id` | Required | string |  |
 | `inventory_level_claim_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `inventory_level_id` | Required | string |  |
@@ -16907,7 +16933,7 @@ A claim on stock. Quantity moves from held to committed to consumed, and can be 
 | `closed_reason` | Optional | string or null | How the reservation ended. mixed when more than one terminal outcome applied. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`, `null`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `idempotency_key` | Required | string |  |
-| `inventory_action_required` | Optional | object | Present when the claim needs a merchant action before commerce can continue. |
+| `inventory_action_required` | Optional | [InventoryActionRequired](MODELS.md#inventoryactionrequired) | Present when the claim needs a merchant action before commerce can continue. |
 | `inventory_reservation_id` | Required | string |  |
 | `inventory_routing_source` | Required | [InventoryRoutingSource](MODELS.md#inventoryroutingsource) |  |
 | `lines` | Required | Array of [ReservationLine](MODELS.md#reservationline) |  |
@@ -17073,13 +17099,13 @@ Variants: object, object, object.
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
-| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
@@ -17090,8 +17116,8 @@ Variants: object, object, object.
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#inventorytransferactionconflicterrordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#inventorytransferactionconflicterrordetail-eligibility_reason-values). |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
-| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -17099,7 +17125,7 @@ Variants: object, object, object.
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `location_id` | Optional | string | Location this failure concerns. Sent on INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, INVENTORY_SOURCE_SEQUENCE_CHANGED, PICKUP_LOCATION_INACTIVE, PICKUP_LOCATION_INVENTORY_UNAVAILABLE, PICKUP_LOCATION_GEOGRAPHY_UNAVAILABLE, and PICKUP_LOCATION_DEPENDENCY_FAILURE. |
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `param` | Required | string | Public JSON request field path associated with this failure, when applicable. |
@@ -17107,24 +17133,24 @@ Variants: object, object, object.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
 | `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
-| `remediation` | Optional | object | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
+| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Required | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
-| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 
 #### InventoryTransferActionConflictErrorDetail capability values
 
@@ -18338,6 +18364,7 @@ Variants: object, object, object.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -18940,12 +18967,12 @@ Variants: object, object, object.
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
-| `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | object | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
@@ -18954,12 +18981,12 @@ Variants: object, object, object.
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
-| `expected_attempt_outstanding_money` | Optional | object | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
-| `gap_money` | Optional | object | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `maximum_money` | Optional | object | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
+| `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
@@ -18967,20 +18994,20 @@ Variants: object, object, object.
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `quota` | Optional | object | Structured resource quota state when the error is caused by quota exhaustion. |
+| `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
 | `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
-| `remediation` | Optional | object | Recovery guidance: whether retrying can succeed and what to do next. |
+| `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | object | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
-| `scope_requirement` | Optional | object | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
+| `scope_requirement` | Optional | [ScopeRequirement](MODELS.md#scoperequirement) | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
-| `submitted_money` | Optional | object | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
-| `tip_capable_money` | Optional | object | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
 
 #### InventoryTransferActionConflictErrorObject capability values
@@ -20195,6 +20222,7 @@ Variants: object, object, object.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -20886,8 +20914,8 @@ Variants: object, object, object, object, object.
 | `collection_block_status` | Required | string | Values: `"none"`, `"inventory_blocked"`, `"resolved"`. Response only. |
 | `collection_mode` | Optional | string | Values: `"buyer_initiated"`, `"automatic"`, `"external"`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `credit_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `currently_due_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `credit_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `currently_due_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string | Response only. |
 | `delivery_mode` | Optional | string | Values: `"email"`, `"caller_managed"`. Response only. |
@@ -20904,25 +20932,25 @@ Variants: object, object, object, object, object.
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Required | string | Response only. |
-| `outstanding_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `paid_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `paid_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `paid_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `payment_method_id` | Optional | string | Response only. |
-| `payment_policy` | Optional | object | Response only. |
-| `payment_terms_snapshot` | Optional | object | Response only. |
+| `payment_policy` | Optional | [InvoicePaymentPolicy](MODELS.md#invoicepaymentpolicy) | Response only. |
+| `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshot](MODELS.md#invoicepaymenttermssnapshot) | Response only. |
 | `po_number` | Optional | string | Response only. |
 | `public_url` | Optional | string | Response only. |
 | `recipient_email` | Optional | string |  |
 | `reference` | Optional | string |  |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `reminders_paused` | Required | boolean | Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it. Response only. |
 | `reminders_paused_at` | Optional | string | When automatic reminders were paused. Absent while reminders are active. Format: `date-time`. Response only. |
-| `remit_to_address` | Optional | object | Response only. |
+| `remit_to_address` | Optional | [PostalAddress](MODELS.md#postaladdress) | Response only. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntry](MODELS.md#invoicescheduleentry) | Response only. |
 | `scheduled_send_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `service_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `snapshot` | Optional | object | Response only. |
+| `snapshot` | Optional | [InvoiceSnapshot](MODELS.md#invoicesnapshot) | Response only. |
 | `status` | Required | string | Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. Response only. |
 | `timezone` | Optional | string | Response only. |
 | `uncollectible_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -20930,7 +20958,7 @@ Variants: object, object, object, object, object.
 | `version` | Required | exact numeric string | Current invoice version. Send this as expected_version when updating the draft. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Response only. |
 | `viewed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `written_off_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `written_off_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## InvoiceActivity
 
@@ -20941,17 +20969,17 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | `activity_type` | Required | string | What happened. New values may be added; treat an unrecognized value like `updated`. Values: [25 declared values](#invoiceactivity-activity_type-values). |
 | `actor_id` | Optional | string | Merchant ID of the actor, when actor_type is merchant. Some system activities also carry the merchant ID. |
 | `actor_type` | Optional | string | Who performed the activity: the merchant (an API key or dashboard user), the buyer, or Flint on a schedule or in response to a payment event. Absent when no actor was recorded. Values: `"merchant"`, `"buyer"`, `"system"`. |
-| `amount_money` | Optional | object | Amount of the payment, refund, or late fee. Present on payment_applied, manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a credit note refund was requested. |
+| `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount of the payment, refund, or late fee. Present on payment_applied, manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a credit note refund was requested. |
 | `channel` | Optional | string | Delivery channel. Present on delivery_sent and reminder_sent. Values: `"email"`. |
 | `checkout_session_id` | Optional | string | Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments. |
 | `collection_block_reason` | Optional | string | Why collection was blocked or unblocked. Present on collection_blocked and collection_block_resolved. Values: `"inventory_unavailable"`, `"inventory_restored"`. |
 | `created_at` | Required | string | When the activity happened. Format: `date-time`. |
-| `credit_money` | Optional | object | Total credit applied to the invoice. Present on credited. |
+| `credit_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Total credit applied to the invoice. Present on credited. |
 | `credit_note_id` | Optional | string | Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. |
 | `description` | Required | string | Human-readable Flint description of the activity. |
 | `due_at` | Optional | string | Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: `date-time`. |
 | `error_code` | Optional | string | Error code of the failed scheduled issue. Present on issue_failed. |
-| `expected_amount_money` | Optional | object | Amount the processing payment is expected to settle. Present on payment_processing. |
+| `expected_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount the processing payment is expected to settle. Present on payment_processing. |
 | `expected_settlement_at` | Optional | string | When the processing payment is expected to settle. Present on payment_processing when known. Format: `date-time`. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. |
@@ -20962,7 +20990,7 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | `payment_rail` | Optional | string | Payment rail of the attempt. Present on payment_processing. Values: `"card"`, `"ach_debit"`, `"manual"`. |
 | `refund_id` | Optional | string | Related refund. Present on refund_succeeded, and on updated when a card refund changed or a credit note refund was requested or changed. Read the refund for its current status. |
 | `to_email` | Optional | string | Recipient of the email. Present on delivery_sent and reminder_sent. |
-| `written_off_money` | Optional | object | Balance written off. Present on marked_uncollectible. |
+| `written_off_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Balance written off. Present on marked_uncollectible. |
 
 #### InvoiceActivity activity_type values
 
@@ -21018,7 +21046,7 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_schedule_entry_id` | Optional | string |  |
-| `redirects` | Optional | object | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
+| `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the invoice's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
 | `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
 
@@ -21040,7 +21068,6 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | --- | --- | --- | --- |
 | `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | object | Deprecated and will be removed. Use checkout_session.url and checkout_access.checkout_auth_token. |
 | `invoice` | Required | [Invoice](MODELS.md#invoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
 | `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
@@ -21286,11 +21313,11 @@ Variants: any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Required | Alternative shapes (see declared variants) | Response only. |
+| `calculation` | Required | [InvoicePaymentTermCalculation](MODELS.md#invoicepaymenttermcalculation) | Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `invoice_payment_term_id` | Required | string | Response only. |
-| `late_fee_policy` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `late_fee_policy` | Optional | [InvoiceLateFeePolicy](MODELS.md#invoicelatefeepolicy) | Response only. |
 | `merchant_id` | Required | string | Response only. |
 | `name` | Required | string | Response only. |
 | `status` | Required | string | Values: `"active"`, `"archived"`. Response only. |
@@ -21398,15 +21425,15 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_specification` | Required | [InvoiceScheduleAmountSpecification](MODELS.md#invoicescheduleamountspecification) |  |
-| `credit_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `credit_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `due` | Required | [InvoiceScheduleDue](MODELS.md#invoicescheduledue) |  |
 | `invoice_schedule_entry_id` | Required | string | Response only. |
 | `kind` | Required | string | Values: `"deposit"`, `"installment"`, `"balance"`. |
-| `outstanding_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `paid_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `paid_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"pending"`, `"due"`, `"partially_satisfied"`, `"satisfied"`, `"overdue"`. |
-| `total_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `written_off_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `written_off_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## InvoiceScheduleEntryWrite
 
@@ -21769,17 +21796,17 @@ A physical or logical place a merchant operates from. Locations own geography an
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | object | Published postal address. |
-| `coordinate` | Optional | object | Published geographic coordinate. |
+| `address` | Optional | [LocationAddress](MODELS.md#locationaddress) | Published postal address. |
+| `coordinate` | Optional | [LocationCoordinate](MODELS.md#locationcoordinate) | Published geographic coordinate. |
 | `coordinate_source` | Optional | string or null | Source of the stored latitude and longitude. Values: `"merchant_supplied"`, `"geocoded"`, `null`. |
 | `created_at` | Required | string | Time the Location was created. Format: `date-time`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `geography_revision` | Required | exact numeric string | Optimistic-concurrency revision for geography writes. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `inventory` | Optional | object | Inventory allocation capability at this Location. |
+| `inventory` | Optional | [LocationInventory](MODELS.md#locationinventory) | Inventory allocation capability at this Location. |
 | `location_id` | Required | string | Stable Location ID. |
 | `metadata` | Required | object | Caller-owned metadata. |
 | `name` | Required | string | Merchant-facing Location name. |
-| `normalized_address` | Optional | object | Provider-normalized address used for geography evaluation. |
+| `normalized_address` | Optional | [LocationAddress](MODELS.md#locationaddress) | Provider-normalized address used for geography evaluation. |
 | `status` | Required | string | Current Location lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `timezone` | Required | string | IANA timezone for local schedules. |
 | `updated_at` | Required | string | Time the Location last changed. Format: `date-time`. |
@@ -21943,7 +21970,7 @@ An independent card saved with Flint that the current buyer can set up at this s
 | `current_deadline_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `email` | Required | string |  |
 | `has_past_due` | Required | boolean | Whether Flint's synced readiness projection has past-due account requirements. Response only. |
-| `icon` | Optional | object | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
+| `icon` | Optional | [Image](MODELS.md#image) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [Image](MODELS.md#image) |  |
 | `merchant_id` | Required | string | Response only. |
 | `metadata` | Optional | object |  |
@@ -21951,11 +21978,11 @@ An independent card saved with Flint that the current buyer can set up at this s
 | `onboarding_status` | Required | string | Activation lifecycle status. A merchant can remain completed after activation while later readiness fields or requirements show current account attention is needed. Values: `"not_started"`, `"in_progress"`, `"completed"`. Response only. |
 | `organization` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `organization_id` | Optional | string |  |
-| `payments` | Required | object | Response only. |
-| `payouts` | Required | object | Response only. |
+| `payments` | Required | [MerchantReadinessAxis](MODELS.md#merchantreadinessaxis) | Response only. |
+| `payouts` | Required | [MerchantReadinessAxis](MODELS.md#merchantreadinessaxis) | Response only. |
 | `phone` | Optional | string |  |
 | `reporting_timezone` | Optional | string |  |
-| `requirements` | Required | object | Response only. |
+| `requirements` | Required | [MerchantReadinessRequirements](MODELS.md#merchantreadinessrequirements) | Response only. |
 | `status` | Required | string | Values: `"active"`, `"suspended"`, `"restricted"`, `"closed"`. Response only. |
 | `status_reason` | Optional | string | Response only. |
 | `support_email` | Optional | string |  |
@@ -21971,7 +21998,7 @@ An independent card saved with Flint that the current buyer can set up at this s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_session` | Required | object | Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. |
+| `client_session` | Required | [MerchantAccountSessionClientSession](MODELS.md#merchantaccountsessionclientsession) | Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. |
 | `components` | Required | Array of string | minItems: `1`. |
 | `effective_policy` | Required | [MerchantAccountSessionEffectivePolicy](MODELS.md#merchantaccountsessioneffectivepolicy) |  |
 | `launch_token` | Required | string | Signed Flint token to exchange at POST /v1/merchant-account-sessions/refresh. Each successful refresh rotates this token. The caller must still authenticate and authorize the human using the session. |
@@ -21985,7 +22012,7 @@ Short-lived browser initialization data for an embedded merchant account session
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expires_at` | Required | string | Expiry of the embedded account session client secret in UTC. Connect.js calls fetchClientSecret to obtain a new secret when needed. Format: `date-time`. |
-| `stripe` | Required | object | Stripe Connect initialization credentials and authorized component collection options. Connect initializes from the account session client secret and does not take a connected account ID. |
+| `stripe` | Required | [MerchantAccountSessionStripe](MODELS.md#merchantaccountsessionstripe) | Stripe Connect initialization credentials and authorized component collection options. Connect initializes from the account session client secret and does not take a connected account ID. |
 
 ## MerchantAccountSessionCreateRequest
 
@@ -22033,7 +22060,7 @@ Refreshes a merchant account session from its signed launch token. No create fie
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `account_session` | Required | object | Account session authority for initializing Stripe Connect in the browser. |
+| `account_session` | Required | [MerchantAccountSessionStripeAccountSession](MODELS.md#merchantaccountsessionstripeaccountsession) | Account session authority for initializing Stripe Connect in the browser. |
 | `components` | Required | Array of [MerchantAccountSessionStripeComponent](MODELS.md#merchantaccountsessionstripecomponent) | Authorized Stripe component names and collection options to apply when mounting each component. |
 | `publishable_key` | Required | string | Stripe publishable key to pass as publishableKey to loadConnectAndInitialize. |
 
@@ -22054,7 +22081,7 @@ Refreshes a merchant account session from its signed launch token. No create fie
 | --- | --- | --- | --- |
 | `fields` | Required | string | Requirement collection breadth to pass as fields to setCollectionOptions. Values: `"currently_due"`, `"eventually_due"`. |
 | `future_requirements` | Required | string | Whether to collect future requirements. Pass this value as futureRequirements to setCollectionOptions. Values: `"omit"`, `"include"`. |
-| `requirements` | Optional | object | Targeted requirement collection restriction to pass as requirements to setCollectionOptions. Omitted when collection is not targeted. |
+| `requirements` | Optional | [MerchantAccountSessionStripeRequirements](MODELS.md#merchantaccountsessionstriperequirements) | Targeted requirement collection restriction to pass as requirements to setCollectionOptions. Omitted when collection is not targeted. |
 
 ## MerchantAccountSessionStripeComponent
 
@@ -22062,7 +22089,7 @@ Refreshes a merchant account session from its signed launch token. No create fie
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `collection_options` | Optional | object | Collection instructions for a policy-aware component. Omitted for other components. Map future_requirements to futureRequirements when calling setCollectionOptions. |
+| `collection_options` | Optional | [MerchantAccountSessionStripeCollectionOptions](MODELS.md#merchantaccountsessionstripecollectionoptions) | Collection instructions for a policy-aware component. Omitted for other components. Map future_requirements to futureRequirements when calling setCollectionOptions. |
 | `component` | Required | string | Stripe component name authorized by this session. tax_documents uses the Stripe name documents. Convert underscores to hyphens when calling Connect.create. Values: `"account_onboarding"`, `"account_management"`, `"payouts"`, `"balances"`, `"documents"`, `"notification_banner"`. |
 
 ## MerchantAccountSessionStripeRequirements
@@ -22730,7 +22757,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | --- | --- | --- | --- |
 | `action_type` | Required | string | Values: [25 declared values](#nextaction-action_type-values). |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `merchant_account_session` | Optional | object | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. |
+| `merchant_account_session` | Optional | [NextActionMerchantAccountSession](MODELS.md#nextactionmerchantaccountsession) | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. |
 | `reason_code` | Optional | string |  |
 | `reason_message` | Optional | string |  |
 | `required_fields` | Optional | Array of string |  |
@@ -23067,11 +23094,11 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt` | Optional | object | Response only. |
+| `active_payment_attempt` | Optional | [OrderPaymentAttempt](MODELS.md#orderpaymentattempt) | Response only. |
 | `applied_discounts` | Optional | Array of [AppliedDiscount](MODELS.md#applieddiscount) | Response only. |
-| `authorization_amounts` | Optional | object | Response only. |
+| `authorization_amounts` | Optional | [OrderAuthorizationAmounts](MODELS.md#orderauthorizationamounts) | Response only. |
 | `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Example: `[]`. Response only. |
-| `buyer_contact` | Optional | object | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Response only. |
+| `buyer_contact` | Optional | [CheckoutBuyerContact](MODELS.md#checkoutbuyercontact) | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Response only. |
 | `buyer_note` | Optional | string |  |
 | `charges` | Optional | Array of [OrderCharge](MODELS.md#ordercharge) | Response only. |
 | `checkout_session_ids` | Optional | Array of string | Response only. |
@@ -23079,18 +23106,18 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string |  |
-| `delivery_destination` | Optional | object | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. |
+| `delivery_destination` | Optional | [OrderDeliveryDestination](MODELS.md#orderdeliverydestination) | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `fulfillment_status` | Optional | string | Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Response only. |
 | `fulfillments` | Optional | Array of [Fulfillment](MODELS.md#fulfillment) | Response only. |
-| `gift_card_estimate` | Optional | object | Response only. |
+| `gift_card_estimate` | Optional | [OrderGiftCardEstimate](MODELS.md#ordergiftcardestimate) | Response only. |
 | `gift_card_settlements` | Optional | Array of [OrderGiftCardSettlement](MODELS.md#ordergiftcardsettlement) | Response only. |
 | `gift_card_tender_enabled` | Optional | boolean | Response only. |
 | `gift_cards` | Optional | Array of [OrderGiftCardSelection](MODELS.md#ordergiftcardselection) | Response only. |
 | `internal_note` | Optional | string |  |
 | `inventory_exception_status` | Optional | string | Values: `"paid_inventory_failed"`, `"resolved"`. Response only. |
 | `inventory_reservation_id` | Optional | string | The reservation holding stock for this order, when one exists. Response only. |
-| `inventory_routing_source` | Optional | object | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. |
+| `inventory_routing_source` | Optional | [InventoryRoutingSource](MODELS.md#inventoryroutingsource) | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. |
 | `line_items` | Required | Array of [OrderLineItem](MODELS.md#orderlineitem) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
@@ -23098,24 +23125,24 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `order_number` | Optional | string | Response only. |
 | `order_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
-| `payment_collection` | Optional | object | Response only. |
+| `payment_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `payment_intent_ids` | Optional | Array of string | Response only. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](MODELS.md#expandedpaymentintentsummary) | Response only. |
 | `payment_status` | Required | string | Values: `"unpaid"`, `"partially_paid"`, `"paid"`. Response only. |
-| `pricing_amounts` | Required | object | Response only. |
-| `purchased_event` | Optional | object | Response only. |
+| `pricing_amounts` | Required | [PricingAmounts](MODELS.md#pricingamounts) | Response only. |
+| `purchased_event` | Optional | [PurchasedEvent](MODELS.md#purchasedevent) | Response only. |
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
 | `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
-| `settlement_amounts` | Required | object | Response only. |
-| `setup_collection` | Optional | object | Response only. |
+| `settlement_amounts` | Required | [SettlementAmounts](MODELS.md#settlementamounts) | Response only. |
+| `setup_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
 | `subscription` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `subscription_id` | Optional | string | Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `subscription_plan_id` | Optional | string | Response only. |
-| `tax` | Required | object | Response only. |
+| `tax` | Required | [OrderTax](MODELS.md#ordertax) | Response only. |
 | `tips` | Optional | Array of [Tip](MODELS.md#tip) | Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
@@ -23126,7 +23153,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `activity_type` | Optional | string | The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Values: [27 declared values](#orderactivity-activity_type-values). |
-| `balance_delta_money` | Required | object | Change to the order balance narrated by this row. Informational rows have amount 0. Do not sum activity deltas to compute the order balance. |
+| `balance_delta_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Change to the order balance narrated by this row. Informational rows have amount 0. Do not sum activity deltas to compute the order balance. |
 | `checkout_session_id` | Optional | string | Related checkout session when activity_type points at checkout session lifecycle. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Required | string | Human-readable Flint description. Provider-specific raw statuses and failure values are not exposed here. |
@@ -23138,7 +23165,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | `order_tip_id` | Optional | string |  |
 | `payment_intent_id` | Optional | string | Related payment intent when activity_type points at a payment attempt or payment outcome. |
 | `refund_id` | Optional | string | Related refund when activity_type points at a refund outcome. Read the refund for the authoritative outcome. |
-| `running_balance_money` | Required | object | Order balance after this activity in chronological time. This is context for reading the log, not a reconciliation ledger. |
+| `running_balance_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Order balance after this activity in chronological time. This is context for reading the log, not a reconciliation ledger. |
 
 #### OrderActivity activity_type values
 
@@ -23233,7 +23260,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `applied_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `applied_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `description` | Optional | string |  |
@@ -23242,10 +23269,10 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | `name` | Required | string |  |
 | `order_charge_id` | Required | string | Response only. |
 | `percent` | Optional | number | multipleOf: `0.0001`. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `tax` | Optional | [OrderCalculatedChargeTax](MODELS.md#ordercalculatedchargetax) |  |
-| `tax_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `total_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `type` | Required | string | Values: [17 declared values](#ordercharge-type-values). |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
@@ -23494,12 +23521,12 @@ Accept the exact gift_card_estimate returned on the current order, including all
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_redemption_id` | Required | string | Response only. |
 | `last_characters` | Required | string | Response only. |
-| `tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## OrderInventoryRoutingSourceRequest
 
@@ -23525,7 +23552,7 @@ Accept the exact gift_card_estimate returned on the current order, including all
 | `categories` | Optional | Array of [CategoryReference](MODELS.md#categoryreference) |  |
 | `description` | Optional | string |  |
 | `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `gift_card_purchase` | Optional | object | Response only. |
+| `gift_card_purchase` | Optional | [GiftCardPurchaseSnapshot](MODELS.md#giftcardpurchasesnapshot) | Response only. |
 | `image` | Optional | [Image](MODELS.md#image) |  |
 | `inventory_snapshot` | Optional | Alternative shapes (see declared variants) |  |
 | `metadata` | Optional | object |  |
@@ -23792,7 +23819,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `return_id` | Required | string | Response only. |
 | `return_resolution_id` | Required | string | Response only. |
@@ -23866,7 +23893,7 @@ Variants: object, Alternative shapes (see declared variants).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [PostalAddress](MODELS.md#postaladdress) |  |
+| `address` | Optional | [PostalAddress](MODELS.md#postaladdress) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `address_source` | Required | string | Values: `"provided"`, `"fulfillment"`, `"customer"`, `"device"`, `"location"`, `"merchant"`. |
 | `address_type` | Optional | string | Values: `"postal_code"`, `"tax_address"`, `"billing_address"`, `"shipping_address"`, `"business_address"`. |
 | `customer_id` | Optional | string |  |
@@ -24035,7 +24062,7 @@ Variants: any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Caller-owned package identifier in external_system. Set with external_system to enable duplicate detection and replay for that provider reference. maxLength: `255`. |
 | `external_system` | Optional | string | External carrier, aggregator, or fulfillment platform name for this package. Set with external_reference_id to enable duplicate detection and replay for that provider reference; without external_reference_id this is stored as provenance only. |
 | `fulfillment_id` | Required | string | Response only. |
-| `label_url` | Optional | string | Merchant or integration supplied HTTPS shipping-label URL for authenticated merchant workflows. Non-Flint URLs must include external_system for provenance. Flint does not currently manage label file hosting or buyer-facing label downloads. |
+| `label_url` | Optional | string | Merchant or integration supplied HTTPS shipping-label URL for authenticated merchant workflows. Non-Flint URLs must include external_system for provenance. Flint does not currently manage label file hosting or buyer-facing label downloads. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Required | string | Response only. |
@@ -24048,8 +24075,8 @@ Variants: any, any.
 | `status` | Required | string | Current package lifecycle state. Package states are the source used to derive shipment status. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. Response only. |
 | `status_reason` | Optional | string |  |
 | `supported_actions` | Required | Array of string | Read-only actions currently supported for this package. Response only. |
-| `tracking_number` | Optional | string |  |
-| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. |
+| `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | Last update timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Monotonic package version for expected_version checks. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. Response only. |
 | `weight` | Optional | [ShippingWeight](MODELS.md#shippingweight) |  |
@@ -24785,7 +24812,7 @@ Variants: object, object, object, object, object, object, object, object.
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `authorization_expires_at` | Optional | string | Capture is unavailable at or after this time, even if the payment still has requires_capture status. Format: `date-time`. |
-| `capturable_money` | Optional | object | Payment intent's stored capturable amount. A positive amount does not override authorization_expires_at or the payment status. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Payment intent's stored capturable amount. A positive amount does not override authorization_expires_at or the payment status. |
 | `last_payment_error` | Optional | [PaymentErrorSummary](MODELS.md#paymenterrorsummary) |  |
 | `payment_intent_id` | Required | string |  |
 | `status` | Required | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
@@ -24889,24 +24916,24 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `authorization_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `authorized_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `authorized_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `authorized_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Unknown processor values are returned as payment_canceled. Values: [8 declared values](#paymentintent-cancellation_reason-values). Response only. |
-| `capturable_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `capture_method` | Optional | string | Values: `"automatic"`, `"manual"`. |
 | `captured_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `captured_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `captured_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `current_payment_action` | Optional | object | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
+| `current_payment_action` | Optional | [PendingPaymentAction](MODELS.md#pendingpaymentaction) | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string |  |
 | `dispute_status` | Optional | string | Values: `"none"`, `"warning_needs_response"`, `"warning_under_review"`, `"warning_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `fulfillment_hold` | Optional | object | Response only. |
+| `fulfillment_hold` | Optional | [PaymentFulfillmentHold](MODELS.md#paymentfulfillmenthold) | Response only. |
 | `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `invoice_id` | Optional | string | Response only. |
 | `last_payment_error` | Required | Alternative shapes (see declared variants) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
-| `merchant_net_money` | Optional | object | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
+| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Optional | string | Response only. |
@@ -24914,12 +24941,12 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `payment_flow` | Required | string | Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Response only. |
 | `payment_intent_id` | Required | string | Response only. |
 | `payment_options` | Required | Array of string |  |
-| `payment_source` | Optional | object | Response only. |
-| `processing_fee_money` | Optional | object | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
+| `payment_source` | Optional | [PaymentSourceSummary](MODELS.md#paymentsourcesummary) | Response only. |
+| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
 | `receipt_email` | Optional | string |  |
 | `refund_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `refunded_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `released_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `risk` | Required | Alternative shapes (see declared variants) | Response only. |
 | `selected_payment_option` | Optional | string | Response only. |
 | `settlement_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`, `"disputed"`. Response only. |
@@ -25103,7 +25130,7 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `payment_link_line_item_id` | Required | string | Response only. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `resolved_name` | Optional | string | Current catalog name of the referenced variant or bundle. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. Response only. |
-| `resolved_unit_price_money` | Optional | object | Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items and when the catalog object no longer exists. Response only. |
+| `resolved_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items and when the catalog object no longer exists. Response only. |
 | `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -25190,11 +25217,11 @@ Subscription terms shown before an active plan-backed payment link creates a che
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
 | `contract_term_months` | Optional | integer | Minimum contract term in months, when configured. Format: `int32`. |
-| `early_termination_fee_money` | Optional | object | Early termination fee, when configured. |
-| `plan_image` | Optional | object | Plan image shown to the buyer, when configured. |
+| `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Early termination fee, when configured. |
+| `plan_image` | Optional | [Image](MODELS.md#image) | Plan image shown to the buyer, when configured. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
-| `recurring_total_money` | Required | object | Recurring total for one billing interval, including line quantities and resolved modifiers. |
-| `setup_fee_money` | Optional | object | Setup fee added to the first amount due, when configured. |
+| `recurring_total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Recurring total for one billing interval, including line quantities and resolved modifiers. |
+| `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Setup fee added to the first amount due, when configured. |
 | `trial_period_days` | Optional | integer | Number of trial days before the first recurring charge, when configured. Format: `int32`. |
 
 ## PaymentMethod
@@ -25203,7 +25230,7 @@ Subscription terms shown before an active plan-backed payment link creates a che
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `card` | Optional | object | Response only. |
+| `card` | Optional | [CardDetails](MODELS.md#carddetails) | Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Required | string |  |
@@ -25489,7 +25516,7 @@ Variants: object, object, object, object.
 | `failure_message` | Optional | string | Flint-authored payout failure message. This is stable explanatory text, not a raw provider message. Response only. |
 | `fee_amount_status` | Required | string | Values: `"estimated"`, `"final"`, `"not_applicable"`. Response only. |
 | `fee_money` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `held_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `held_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `initiated_by` | Required | string | What started the payout. Values: `"manual"`, `"scheduled"`, `"platform"`. Response only. |
 | `merchant_id` | Required | string | Response only. |
 | `metadata` | Optional | object |  |
@@ -25505,7 +25532,7 @@ Variants: object, object, object, object.
 | `reversed_by_payout_id` | Optional | string | Response only. |
 | `statement_descriptor` | Optional | string |  |
 | `status` | Required | string | Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. Response only. |
-| `trace_id` | Optional | object | Response only. |
+| `trace_id` | Optional | [PayoutTraceID](MODELS.md#payouttraceid) | Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
 #### Payout failure_code values
@@ -25589,7 +25616,7 @@ Variants: object, object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [SignedMoney](MODELS.md#signedmoney) | Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `balance_transaction_id` | Required | string | Response only. |
 | `occurred_at` | Required | string | The balance transaction occurrence instant. Format: `date-time`. Response only. |
 | `payout_entry_id` | Required | string | Response only. |
@@ -25697,9 +25724,9 @@ Client-side action required before continuing a payment. Resume an order through
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action_type` | Required | string | Product-level action type. payment_authentication applies to a payment leg; payment_method_authentication applies to saving a future-billing payment method. Values: `"payment_authentication"`, `"payment_method_authentication"`. |
-| `client_action` | Required | object | Direct browser authority required to finish this action before continuing through Flint. Unlike collection guidance, this payload includes a client secret. |
+| `client_action` | Required | [PaymentClientAction](MODELS.md#paymentclientaction) | Direct browser authority required to finish this action before continuing through Flint. Unlike collection guidance, this payload includes a client secret. |
 | `pending_action_id` | Required | string | Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming an attempt. |
-| `subject` | Required | object | The attempt subject that requires browser action. Exactly one of payment_intent or setup_payment_source is present. |
+| `subject` | Required | [PendingPaymentActionSubject](MODELS.md#pendingpaymentactionsubject) | The attempt subject that requires browser action. Exactly one of payment_intent or setup_payment_source is present. |
 
 ## PendingPaymentActionPaymentIntentSubject
 
@@ -25723,8 +25750,8 @@ Typed subject for a pending order payment action. Exactly one subject is present
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent` | Optional | object | PaymentIntent that requires buyer authentication. It can be a standalone intent or an order-owned payment leg. |
-| `setup_payment_source` | Optional | object | Future-billing payment method setup that requires buyer authentication. |
+| `payment_intent` | Optional | [PendingPaymentActionPaymentIntentSubject](MODELS.md#pendingpaymentactionpaymentintentsubject) | PaymentIntent that requires buyer authentication. It can be a standalone intent or an order-owned payment leg. |
+| `setup_payment_source` | Optional | [PendingPaymentActionSetupPaymentSourceSubject](MODELS.md#pendingpaymentactionsetuppaymentsourcesubject) | Future-billing payment method setup that requires buyer authentication. |
 
 ## PickupFulfillmentDetails
 
@@ -25732,7 +25759,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | object | Address where the buyer collects the order. |
+| `address` | Optional | [PostalAddress](MODELS.md#postaladdress) | Address where the buyer collects the order. |
 | `curbside_instructions` | Optional | string | Instructions specific to curbside handoff. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string | Buyer-reported arrival time for curbside or counter pickup. Format: `date-time`. |
 | `expires_at` | Optional | string | Deadline after which an uncollected pickup should enter merchant review. Format: `date-time`. |
@@ -25744,7 +25771,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `prep_time_duration_seconds` | Optional | exact numeric string | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `timezone` | Optional | string |  |
-| `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. maxLength: `500`. |
+| `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `500`. |
 | `window_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -25838,13 +25865,13 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `available_for_sale` | Optional | boolean | Response only. |
 | `categories` | Optional | Array of [CategoryReference](MODELS.md#categoryreference) |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `default_variant` | Optional | object | Response only. |
+| `default_variant` | Optional | [ProductVariant](MODELS.md#productvariant) | Response only. |
 | `default_variant_id` | Optional | string |  |
 | `delivery_configuration_status` | Required | string | Values: `"configured"`, `"action_required"`, `"not_applicable"`. Response only. |
 | `description` | Optional | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `images` | Required | Array of [Image](MODELS.md#image) |  |
-| `matched_variant` | Optional | object | Response only. |
+| `matched_variant` | Optional | [ProductVariantMatch](MODELS.md#productvariantmatch) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
 | `modifier_set` | Optional | Alternative shapes (see declared variants) | Response only. |
@@ -25852,7 +25879,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `name` | Required | string |  |
 | `option_count` | Optional | integer | Format: `int32`. Response only. |
 | `options` | Required | Array of [ProductOption](MODELS.md#productoption) |  |
-| `price_range` | Optional | object | Response only. |
+| `price_range` | Optional | [ProductPriceRange](MODELS.md#productpricerange) | Response only. |
 | `product_id` | Required | string | Response only. |
 | `product_type` | Required | string | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
@@ -25956,7 +25983,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `delivery_profile_id` | Optional | string |  |
 | `effective_images` | Required | Array of [Image](MODELS.md#image) | Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `gift_card_configuration` | Optional | object | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](MODELS.md#giftcardproductconfiguration) | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. |
 | `images` | Required | Array of [Image](MODELS.md#image) |  |
 | `images_inherited` | Required | boolean | Response only. |
 | `inventory_item_id` | Optional | string | The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. |
@@ -26023,7 +26050,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `barcode` | Optional | string |  |
 | `delivery_profile_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `gift_card_configuration` | Optional | object | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](MODELS.md#giftcardproductconfiguration) | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequest](MODELS.md#inventoryitemcreaterequest) |  |
 | `inventory_item_id` | Optional | string |  |
@@ -26080,7 +26107,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `application_method` | Required | [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) |  |
-| `codes_summary` | Optional | object | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. |
+| `codes_summary` | Optional | [PromotionCodesSummary](MODELS.md#promotioncodessummary) | Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. |
 | `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Optional | string |  |
@@ -26113,14 +26140,14 @@ Canonical REST shape is flat: send type plus the effect fields on this object. R
 | `buy_min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `calculation_basis` | Optional | string | Basis for merchandise promotion calculations. Omit for service_charge promotions because service-charge discounts are calculated from the targeted charges. Values: `"subtotal_pre_tax"`, `"subtotal_post_tax"`. |
 | `currency_options` | Optional | object |  |
-| `discounted_item_rules` | Optional | Alternative shapes (see declared variants) | Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. |
+| `discounted_item_rules` | Optional | [PromotionRuleGroup](MODELS.md#promotionrulegroup) | Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. |
 | `get_percent_off` | Optional | number | minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `max_applications_per_order` | Optional | integer | Format: `int32`. minimum: `1`. |
 | `max_discounted_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `percent_off` | Optional | number | minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `qualifying_item_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `recurrence` | Optional | object | Optional on order promotion writes, but only recurrence.type = once is accepted. Subscription recurrence values are reserved for future subscription promotion support. |
+| `recurrence` | Optional | [PromotionRecurrence](MODELS.md#promotionrecurrence) | Optional on order promotion writes, but only recurrence.type = once is accepted. Subscription recurrence values are reserved for future subscription promotion support. |
 | `reward_selection` | Optional | string | Values: `"cheapest"`, `"highest_price"`, `"first_added"`. |
 | `type` | Optional | string | Values: `"percent_off"`, `"amount_off"`, `"buy_x_get_y"`. |
 
@@ -26132,14 +26159,14 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | object | Calculated discount amount for this promotion candidate before final application, when available. |
-| `applied_money` | Optional | object | Discount amount applied to the order for candidates in applied[]. |
+| `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Calculated discount amount for this promotion candidate before final application, when available. |
+| `applied_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Discount amount applied to the order for candidates in applied[]. |
 | `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
-| `current_money` | Optional | object | Current money amount counted toward threshold_money for available[] candidates. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward threshold_money for available[] candidates. |
 | `customer_facing_name` | Required | string |  |
 | `discount_class` | Optional | string | Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `exclusivity` | Optional | [PromotionExclusivity](MODELS.md#promotionexclusivity) |  |
-| `gap_money` | Optional | object | Additional money amount needed to reach threshold_money for available[] candidates. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to reach threshold_money for available[] candidates. |
 | `order_charge_ids` | Optional | Array of string |  |
 | `order_line_item_ids` | Optional | Array of string |  |
 | `promotion_code` | Optional | string |  |
@@ -26147,8 +26174,8 @@ Variants: any, any, any.
 | `promotion_decline_reason` | Optional | string | Values: [19 declared values](#promotioncandidate-promotion_decline_reason-values). |
 | `promotion_id` | Required | string |  |
 | `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
-| `threshold_money` | Optional | object | Minimum money amount required by a threshold rule for available[] candidates. |
-| `would_have_applied_money` | Optional | object | Discount amount this candidate would have applied if it had been eligible and won conflict resolution. |
+| `threshold_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Minimum money amount required by a threshold rule for available[] candidates. |
+| `would_have_applied_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Discount amount this candidate would have applied if it had been eligible and won conflict resolution. |
 
 #### PromotionCandidate promotion_decline_reason values
 
@@ -26184,7 +26211,7 @@ Variants: any, any, any.
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `merchant_id` | Optional | string |  |
 | `metadata` | Optional | object |  |
-| `promotion` | Optional | object | The promotion this code belongs to. Present only when the list request asked for expand=promotion. |
+| `promotion` | Optional | [Promotion](MODELS.md#promotion) | The promotion this code belongs to. Present only when the list request asked for expand=promotion. |
 | `promotion_code_id` | Required | string |  |
 | `promotion_id` | Required | string |  |
 | `status` | Required | string | Read-only, computed from stored active or inactive state, expires_at, and max_uses: active, inactive, expired, or exhausted. Only active and inactive can be set via PATCH. Values: `"active"`, `"inactive"`, `"expired"`, `"exhausted"`. |
@@ -26404,7 +26431,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_theme` | Optional | object | The theme a checkout opened from this link uses: your checkout branding settings, with the link's own `theme` over them. Use it to style a page that leads to the checkout. `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. |
+| `checkout_theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) | The theme a checkout opened from this link uses: your checkout branding settings, with the link's own `theme` over them. Use it to style a page that leads to the checkout. `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. |
 | `is_sold_out` | Optional | boolean |  |
 | `merchant_icon` | Optional | [Image](MODELS.md#image) |  |
 | `merchant_logo` | Optional | [Image](MODELS.md#image) |  |
@@ -26415,7 +26442,7 @@ Variants: string, number, boolean, object.
 | `resolution_context_expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `resolution_context_start_deadline_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `resolved_line_items` | Optional | Array of [PublicResolvedLineItemInfo](MODELS.md#publicresolvedlineiteminfo) |  |
-| `subscription_preview` | Optional | object | Present for active plan-backed payment links when authoritative subscription terms are available. |
+| `subscription_preview` | Optional | [PaymentLinkSubscriptionPreview](MODELS.md#paymentlinksubscriptionpreview) | Present for active plan-backed payment links when authoritative subscription terms are available. |
 
 ## PublicResolvedBundleComponent
 
@@ -26707,7 +26734,7 @@ Variants: string, number, boolean, object.
 | `reason_message` | Optional | string |  |
 | `refund_id` | Required | string | Response only. |
 | `refund_method` | Optional | string | Values: `"original_payment"`. |
-| `refunded_tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `return_id` | Optional | string | Response only. |
 | `return_resolution_id` | Optional | string | Response only. |
 | `review_id` | Optional | string | Response only. |
@@ -26789,7 +26816,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 
 ## RefundLineItem
@@ -26820,8 +26847,8 @@ Variants: string, number, boolean, object.
 | `applies_to` | Required | string |  |
 | `reason` | Required | [RefundAdjustmentReason](MODELS.md#refundadjustmentreason) |  |
 | `refund_line_item_adjustment_id` | Required | string | Response only. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `remaining_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `remaining_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## RefundLineItemAdjustmentIn
 
@@ -26840,7 +26867,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `original_refund_line_item_adjustment_id` | Required | string | Response only. |
 | `refund_line_item_adjustment_refund_id` | Required | string | Response only. |
 
@@ -26861,14 +26888,14 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `adjustment_refunds` | Optional | Array of [RefundLineItemAdjustmentRefund](MODELS.md#refundlineitemadjustmentrefund) | Response only. |
 | `adjustments` | Optional | Array of [RefundLineItemAdjustment](MODELS.md#refundlineitemadjustment) | Response only. |
-| `automatic_refund` | Required | object | Response only. |
+| `automatic_refund` | Required | [RefundLineItemAutomaticRefund](MODELS.md#refundlineitemautomaticrefund) | Response only. |
 | `bundle_id` | Optional | string | Response only. |
 | `categories` | Optional | Array of [CategoryReference](MODELS.md#categoryreference) | Response only. |
 | `modifiers` | Optional | Array of [RefundLineItemModifierAllocation](MODELS.md#refundlineitemmodifierallocation) | Response only. |
 | `order_line_item_id` | Required | string |  |
 | `product_id` | Optional | string | Response only. |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `refunded_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `selected_options` | Optional | Array of [SelectedProductOption](MODELS.md#selectedproductoption) | Response only. |
 | `sku` | Optional | string | Response only. |
 | `source_type` | Optional | string | Values: `"variant"`, `"bundle"`. Response only. |
@@ -26882,10 +26909,10 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `discount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `subtotal_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `tax_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `total_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## RefundLineItemModifierAllocation
 
@@ -26934,7 +26961,7 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `order_charge_id` | Optional | string | Response only. |
 | `tax_breakdown_id` | Required | string | Response only. |
-| `tax_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## RefundTaxBreakdownRefundIn
 
@@ -26951,7 +26978,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `destination` | Optional | string | Values: `"original"`, `"replacement"`. Response only. |
 | `destination_cards` | Optional | Array of [RefundGiftCardDestination](MODELS.md#refundgiftcarddestination) | Response only. |
 | `failure_reason` | Optional | string | Flint-normalized refund failure reason. Unknown provider values are returned as refund_failed. Values: [10 declared values](#refundtenderallocation-failure_reason-values). Response only. |
@@ -26959,7 +26986,7 @@ Variants: string, number, boolean, object.
 | `gift_card_redemption_id` | Optional | string | Response only. |
 | `payment_intent_id` | Optional | string | Response only. |
 | `refund_allocation_id` | Required | string | Response only. |
-| `refunded_tip_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `refunded_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `status` | Required | string | Values: `"pending"`, `"requires_action"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`, `"partially_succeeded"`. Response only. |
 | `tender_type` | Required | string | Values: `"payment_intent"`, `"gift_card_redemption"`. Response only. |
 
@@ -27000,10 +27027,10 @@ Variants: any, any.
 | `order_line_item_id` | Required | string | Response only. |
 | `payment_intent_id` | Required | string | Response only. |
 | `purchase_refund_allocation_id` | Required | string | Response only. |
-| `returned_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `returned_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `settlement_allocation_id` | Required | string | Response only. |
-| `source_pending_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `source_remaining_amount_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `source_pending_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `source_remaining_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 ## RegenerateInvoiceLinkResponse
 
@@ -27097,7 +27124,7 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. Response only. |
-| `download` | Optional | object | Response only. |
+| `download` | Optional | [PublicDownload](MODELS.md#publicdownload) | Response only. |
 | `failure_reason` | Optional | string | Values: `"generation_failed"`, `"data_unavailable"`, `"limit_exceeded"`. Response only. |
 | `interval_end_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `interval_start_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -27749,7 +27776,7 @@ Variants: any, any, any.
 | `resource` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `severity` | Optional | string |  |
-| `would_have_applied_money` | Optional | object | Discount amount this promotion would have applied had it won, on a promotion_declined warning. |
+| `would_have_applied_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning. |
 
 #### ResponseWarning reason values
 
@@ -28563,7 +28590,7 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `quantity` | Required | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `return_line_item_id` | Optional | string | The expected Return line. Required for matched and explicitly excess merchandise. |
-| `unverified_item` | Optional | object | A buyer or catalog identity observation that has not been matched to a Return line. |
+| `unverified_item` | Optional | [ReturnUnverifiedItem](MODELS.md#returnunverifieditem) | A buyer or catalog identity observation that has not been matched to a Return line. |
 | `verification_status` | Optional | string | Set to excess only when the merchandise is known to exceed the committed handback quantity for return_line_item_id. Omit for matched or unverified merchandise. Values: `"excess"`. |
 
 Variants: any, any, any.
@@ -29152,7 +29179,7 @@ Variants: object, object, object, object, object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `notification` | Optional | object | Explicitly send or schedule the replacement code through private recipient access. Requires commerce.gift_cards.secrets.write. |
+| `notification` | Optional | [GiftCardNotificationRecipient](MODELS.md#giftcardnotificationrecipient) | Explicitly send or schedule the replacement code through private recipient access. Requires commerce.gift_cards.secrets.write. |
 
 ## RotatePartnerAppSecretResponse
 
@@ -29336,10 +29363,10 @@ Variants: object, object.
 | `branding` | Optional | [BrandingSettings](MODELS.md#brandingsettings) |  |
 | `catalog` | Optional | [CatalogSettings](MODELS.md#catalogsettings) |  |
 | `checkout` | Optional | [CheckoutSettings](MODELS.md#checkoutsettings) |  |
-| `checkout_domain_status` | Optional | object | Response only. |
+| `checkout_domain_status` | Optional | [CustomDomainStatus](MODELS.md#customdomainstatus) | Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer_account` | Optional | [CustomerAccountSettings](MODELS.md#customeraccountsettings) |  |
-| `customer_account_domain_status` | Optional | object | Response only. |
+| `customer_account_domain_status` | Optional | [CustomDomainStatus](MODELS.md#customdomainstatus) | Response only. |
 | `customer_email_delivery` | Optional | [CustomerEmailDeliverySettings](MODELS.md#customeremaildeliverysettings) |  |
 | `device_id` | Optional | string | Response only. |
 | `fulfillment` | Optional | [FulfillmentSettings](MODELS.md#fulfillmentsettings) |  |
@@ -29350,7 +29377,7 @@ Variants: object, object.
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
 | `organization_id` | Optional | string | Response only. |
-| `payment_limits` | Optional | object | Optional merchant limits that can lower Flint's payment-option and surface policy limits. Response only. |
+| `payment_limits` | Optional | [PaymentLimitSettings](MODELS.md#paymentlimitsettings) | Optional merchant limits that can lower Flint's payment-option and surface policy limits. Response only. |
 | `promotions` | Optional | [PromotionSettings](MODELS.md#promotionsettings) |  |
 | `receipts` | Optional | [ReceiptSettings](MODELS.md#receiptsettings) |  |
 | `settings_id` | Required | string | Response only. |
@@ -29503,9 +29530,9 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `account_id` | Required | string | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. |
-| `payment_intent` | Optional | object | PaymentIntent authority for an order payment authentication action. |
+| `payment_intent` | Optional | [StripePaymentIntentClientAction](MODELS.md#stripepaymentintentclientaction) | PaymentIntent authority for an order payment authentication action. |
 | `publishable_key` | Required | string | Stripe publishable key for the active Flint payment mode; use this with account_id when loading Stripe.js. |
-| `setup_intent` | Optional | object | SetupIntent authority for a saved-payment-method authentication action. |
+| `setup_intent` | Optional | [StripeSetupIntentClientAction](MODELS.md#stripesetupintentclientaction) | SetupIntent authority for a saved-payment-method authentication action. |
 
 ## StripePaymentIntentClientAction
 
@@ -29540,7 +29567,7 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, then retry_payment, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all six every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean | True when the subscription is scheduled to cancel at the end of the current period. Schedule with the cancel route and undo with the reactivate route. Response only. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `cancellation_details` | Optional | object | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
+| `cancellation_details` | Optional | [SubscriptionCancellationDetails](MODELS.md#subscriptioncancellationdetails) | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
 | `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `contract_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -29548,7 +29575,7 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `current_period_start` | Optional | string | Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Required | string |  |
-| `early_termination_fee_money` | Optional | object | Early termination fee frozen in the subscription's contract terms. Present only before contract_end_at when those terms include a fee. Later plan changes do not change this fee. Response only. |
+| `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Early termination fee frozen in the subscription's contract terms. Present only before contract_end_at when those terms include a fee. Later plan changes do not change this fee. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `line_items` | Optional | Array of [SubscriptionLineItem](MODELS.md#subscriptionlineitem) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
@@ -29558,8 +29585,8 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `payment_method` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `payment_method_id` | Required | string |  |
-| `recurring_amount_money` | Optional | object | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
-| `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) |  |
+| `recurring_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
+| `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. Response only. |
 | `subscription_id` | Required | string | Response only. |
@@ -29755,7 +29782,7 @@ The cancellation request behind a scheduled or completed cancellation.
 | `bundle_id` | Optional | string |  |
 | `categories` | Optional | Array of [CategoryReference](MODELS.md#categoryreference) | Response only. |
 | `description` | Optional | string |  |
-| `image` | Optional | object | Response only. |
+| `image` | Optional | [Image](MODELS.md#image) | Response only. |
 | `modifiers` | Optional | Array of [OrderLineItemModifier](MODELS.md#orderlineitemmodifier) |  |
 | `name` | Optional | string |  |
 | `product_id` | Optional | string | Response only. |
@@ -29883,19 +29910,19 @@ Variants: object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `calculation_type` | Required | string | Values: `"percentage"`, `"flat_amount"`. Response only. |
-| `flat_money` | Optional | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `flat_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `fulfillment_choice_group_id` | Optional | string | Response only. |
-| `jurisdiction` | Required | object | Response only. |
+| `jurisdiction` | Required | [TaxJurisdiction](MODELS.md#taxjurisdiction) | Response only. |
 | `location_id` | Optional | string | Response only. |
 | `order_charge_id` | Optional | string | Response only. |
 | `order_line_item_id` | Optional | string | Response only. |
 | `percent` | Optional | number | minimum: `0`. maximum: `100`. multipleOf: `0.0001`. Response only. |
 | `price_mode` | Required | string | Values: `"additive"`, `"inclusive"`. Response only. |
 | `tax_breakdown_id` | Required | string | Response only. |
-| `tax_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`, `"retail_delivery_fee"`. Response only. |
 | `taxability_reason` | Required | string | Values: `"standard_rated"`, `"not_taxable"`, `"customer_exempt"`, `"tax_disabled"`, `"no_jurisdiction"`, `"location_required"`. Response only. |
-| `taxable_money` | Required | object | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `taxable_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 Variants: any, any.
 
@@ -30223,7 +30250,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_contact` | Optional | object | Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. |
+| `buyer_contact` | Optional | [CheckoutBuyerContactRequest](MODELS.md#checkoutbuyercontactrequest) | Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `timezone` | Optional | string | Checkout credentials only. A valid IANA timezone, such as America/Toronto, used for Flint-sent receipts. Omission keeps the previous observation; null is invalid. maxLength: `64`. |
@@ -30312,7 +30339,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryLocationSetConfiguration](MODELS.md#deliverylocationsetconfiguration) |  |
+| `configuration` | Optional | [DeliveryLocationSetConfiguration](MODELS.md#deliverylocationsetconfiguration) | location_ids replaces the set's Locations when present; leave configuration out to keep them. Null, an empty list, and duplicate IDs are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
@@ -30326,7 +30353,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryMethodConfigurationRequest](MODELS.md#deliverymethodconfigurationrequest) |  |
+| `configuration` | Optional | [DeliveryMethodConfigurationPatchRequest](MODELS.md#deliverymethodconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid. |
 | `description` | Optional | string |  |
 | `display_position` | Optional | integer | Format: `int32`. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
@@ -30344,7 +30371,7 @@ Variants: any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryProfileConfigurationRequest](MODELS.md#deliveryprofileconfigurationrequest) |  |
+| `configuration` | Optional | [DeliveryProfileConfigurationRequest](MODELS.md#deliveryprofileconfigurationrequest) | Send the whole profile configuration. It replaces the current one; leave configuration out to keep it. requirement none allows no other keys, and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and an empty object are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
@@ -30358,7 +30385,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfiguration](MODELS.md#deliveryratecallbackconfiguration) |  |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequest](MODELS.md#deliveryratecallbackconfigurationpatchrequest) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string |  |
@@ -30372,7 +30399,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | Alternative shapes (see declared variants) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
+| `configuration` | Optional | [DeliveryZoneConfiguration](MODELS.md#deliveryzoneconfiguration) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
@@ -30574,7 +30601,7 @@ Variants: any, any.
 | `business_name` | Optional | string | Business name buyers see. Surrounding whitespace is trimmed, and the result must have 1 to 120 characters. The name cannot be cleared, and only live credentials can set it. minLength: `1`. maxLength: `120`. |
 | `email` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Merchant profile version last read. A different current version returns MERCHANT_CHANGED. Send this value when saving a logo or icon to detect concurrent profile edits. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `icon` | Optional | object | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
+| `icon` | Optional | [ImageRequest](MODELS.md#imagerequest) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [ImageRequest](MODELS.md#imagerequest) |  |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `organization_id` | Optional | string |  |
@@ -30904,7 +30931,7 @@ Variants: any, any.
 | `barcode` | Optional | string |  |
 | `delivery_profile_id` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Resource version last read by the caller. Required when replacing an owned collection. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `gift_card_configuration` | Optional | object | Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](MODELS.md#giftcardproductconfiguration) | Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | Replaces the authored variant gallery atomically. Send [] to clear it and resume product-image inheritance. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequest](MODELS.md#inventoryitemcreaterequest) |  |
 | `inventory_item_id` | Optional | string or null | Inventory item tracked by this variant. Send null to stop tracking inventory. |

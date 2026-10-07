@@ -4,6 +4,7 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { DeliveryRateCallback } from '../declarations/DeliveryRateCallback.js';
 import type { DeliveryRateCallbackConfigurationInput } from '../declarations/DeliveryRateCallbackConfigurationInput.js';
+import type { DeliveryRateCallbackConfigurationPatchRequestInput } from '../declarations/DeliveryRateCallbackConfigurationPatchRequestInput.js';
 import type { DeliveryRateCallbackConnectionCheckResponse } from '../declarations/DeliveryRateCallbackConnectionCheckResponse.js';
 import type { DeliveryRateCallbackListResponse } from '../declarations/DeliveryRateCallbackListResponse.js';
 import type { DeliveryRateCallbackResponse } from '../declarations/DeliveryRateCallbackResponse.js';
@@ -114,9 +115,9 @@ export interface DeliveryRateCallbacksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryRateCallbacks.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
+    update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryRateCallbacksUpdateResponse>>;
+    updateWithResponse(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryRateCallbacksUpdateResponse>>;
   }
 export declare class Client {
 
@@ -143,6 +144,7 @@ export type { DeliveryRateCallbacksListResponse } from '../declarations/Delivery
 export type { DeliveryRateCallback } from '../declarations/DeliveryRateCallback.js';
 export type { DeliveryRateCallbackSigningKeyRotationResponse } from '../declarations/DeliveryRateCallbackSigningKeyRotationResponse.js';
 export type { DeliveryRateCallbacksRotateSigningKeyResponse } from '../declarations/DeliveryRateCallbacksRotateSigningKeyResponse.js';
+export type { DeliveryRateCallbackConfigurationPatchRequestInput } from '../declarations/DeliveryRateCallbackConfigurationPatchRequestInput.js';
 export type { DeliveryRateCallbacksUpdateResponse } from '../declarations/DeliveryRateCallbacksUpdateResponse.js';
 export type { DeliveryRateCallbacksCheckConnectionInput } from '../declarations/DeliveryRateCallbacksCheckConnectionInput.js';
 export type { DeliveryRateCallbacksCreateInput } from '../declarations/DeliveryRateCallbacksCreateInput.js';
@@ -159,6 +161,8 @@ export type { DeliveryRateCallbackConnectionCheck } from '../declarations/Delive
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { DeliveryRateCallbackTestDelivery } from '../declarations/DeliveryRateCallbackTestDelivery.js';
 export type { DeliveryRateCallbackConfiguration } from '../declarations/DeliveryRateCallbackConfiguration.js';
 export type { DeliveryRateCallbackSigningKeyRotation } from '../declarations/DeliveryRateCallbackSigningKeyRotation.js';
@@ -174,6 +178,8 @@ export { makeDeliveryRateCallbackConnectionCheck } from '../declarations/makeDel
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeDeliveryRateCallbackTestDelivery } from '../declarations/makeDeliveryRateCallbackTestDelivery.js';
 export { makeDeliveryRateCallbackConfiguration } from '../declarations/makeDeliveryRateCallbackConfiguration.js';
 export { makeDeliveryRateCallbackSigningKeyRotation } from '../declarations/makeDeliveryRateCallbackSigningKeyRotation.js';

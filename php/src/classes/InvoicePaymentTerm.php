@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class InvoicePaymentTerm extends Model {
-    /** @param array{'calculation': \stdClass, 'created_at': string, 'external_reference_id'?: string, 'invoice_payment_term_id': string, 'late_fee_policy'?: \stdClass, 'merchant_id': string, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'calculation': mixed, 'created_at': string, 'external_reference_id'?: string, 'invoice_payment_term_id': string, 'late_fee_policy'?: mixed, 'merchant_id': string, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTerm')); }
     /** @return InvoicePaymentTermCalculationOnReceipt|InvoicePaymentTermCalculationNetDays|InvoicePaymentTermCalculationDaysAfterMonthEnd|InvoicePaymentTermCalculationDayOfMonth|InvoicePaymentTermCalculationDayOfNextMonth|\stdClass
      * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().

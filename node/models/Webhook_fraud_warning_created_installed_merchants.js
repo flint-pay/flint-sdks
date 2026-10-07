@@ -1,9 +1,9 @@
-import { d771 as c0, d90 as c1, d45 as c2, d141 as c3, d77 as c4, d938 as c5, d1994 as c6, d1995 as c7, d1997 as c8, d2035 as c9, d2081 as c10, d2321 as c11, d769 as c12, d770 as c13, d805 as c14, d937 as c15, d1072 as c16, d46 as c17, d226 as c18, d1073 as c19 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1073 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d723 as c0, d90 as c1, d42 as c2, d100 as c3, d314 as c4, d880 as c5, d1950 as c6, d1951 as c7, d1953 as c8, d1992 as c9, d2035 as c10, d2274 as c11, d721 as c12, d722 as c13, d755 as c14, d879 as c15, d1014 as c16, d43 as c17, d1970 as c18, d1015 as c19 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1015 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1073;
+const read = d1015;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Dispute"]:c0(),["ExpandedCustomerSummary"]:c1(),["ExpandedOrderSummary"]:c2(),["ExpandedPaymentIntentSummary"]:c3(),["MoneyValue"]:c4(),["PartnerWebhookEnvelope"]:c5(),["PaymentSourceAchDebitSummary"]:c6(),["PaymentSourceCardSummary"]:c7(),["PaymentSourceSummary"]:c8(),["PricingAmounts"]:c9(),["PublicFraudWarningPaymentSummary"]:c10(),["SettlementAmounts"]:c11(),["SharedCodec246"]:c12(),["SharedCodec247"]:c13(),["SharedCodec253"]:c14(),["SharedCodec287"]:c15(),["SharedCodec325"]:c16(),["SharedCodec8"]:c17(),["SignedMoney"]:c18(),["Webhook_fraud_warning_created_installed_merchants"]:c19()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Dispute"]:c0(),["ExpandedCustomerSummary"]:c1(),["ExpandedOrderSummary"]:c2(),["ExpandedPaymentIntentSummary"]:c3(),["MoneyValue"]:c4(),["PartnerWebhookEnvelope"]:c5(),["PaymentSourceAchDebitSummary"]:c6(),["PaymentSourceCardSummary"]:c7(),["PaymentSourceSummary"]:c8(),["PricingAmounts"]:c9(),["PublicFraudWarningPaymentSummary"]:c10(),["SettlementAmounts"]:c11(),["SharedCodec212"]:c12(),["SharedCodec213"]:c13(),["SharedCodec217"]:c14(),["SharedCodec242"]:c15(),["SharedCodec280"]:c16(),["SharedCodec5"]:c17(),["SignedMoney"]:c18(),["Webhook_fraud_warning_created_installed_merchants"]:c19()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_fraud_warning_created_installed_merchants(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

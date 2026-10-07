@@ -1,9 +1,9 @@
-import { d919 as c0, d40 as c1, d41 as c2 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d919 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d861 as c0, d314 as c1, d1970 as c2 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d861 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d919;
+const read = d861;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardTransaction"]:c0(),["SharedCodec5"]:c1(),["SharedCodec6"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardTransaction"]:c0(),["MoneyValue"]:c1(),["SignedMoney"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeGiftCardTransaction(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

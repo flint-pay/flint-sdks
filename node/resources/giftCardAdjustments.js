@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCardAdjustments.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/giftCardAdjustments.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createGiftCardAdjustment"]:r0});
 export class Client {
@@ -33,16 +33,25 @@ close() { return this.#runtime.close(); }
 export { makeGiftCardCommandResponse } from '../models/GiftCardCommandResponse.js';
 export { makeGiftCardCommandResult } from '../models/GiftCardCommandResult.js';
 export { makeGiftCard } from '../models/GiftCard.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeGiftCardLoad } from '../models/GiftCardLoad.js';
 export { makeGiftCardFundingDispute } from '../models/GiftCardFundingDispute.js';
+export { makeGiftCardFundingLossResolution } from '../models/GiftCardFundingLossResolution.js';
 export { makeGiftCardPurchaseRefundValueHold } from '../models/GiftCardPurchaseRefundValueHold.js';
 export { makeGiftCardPurchaseRefundAllocation } from '../models/GiftCardPurchaseRefundAllocation.js';
+export { makeGiftCardPurchaseRefundRecovery } from '../models/GiftCardPurchaseRefundRecovery.js';
 export { makeGiftCardPurchaseRefundRecoveryDestination } from '../models/GiftCardPurchaseRefundRecoveryDestination.js';
 export { makeGiftCardPurchaseRefundValueAllocation } from '../models/GiftCardPurchaseRefundValueAllocation.js';
+export { makeGiftCardPurchaseRestoration } from '../models/GiftCardPurchaseRestoration.js';
+export { makeGiftCardRefundProvenance } from '../models/GiftCardRefundProvenance.js';
+export { makeGiftCardFundingSource } from '../models/GiftCardFundingSource.js';
 export { makeGiftCardNotification } from '../models/GiftCardNotification.js';
+export { makeGiftCardNotificationDelivery } from '../models/GiftCardNotificationDelivery.js';
 export { makeGiftCardNotificationDeliveryAttempt } from '../models/GiftCardNotificationDeliveryAttempt.js';
 export { makeGiftCardNotificationProviderOutcome } from '../models/GiftCardNotificationProviderOutcome.js';
+export { makeGiftCardNotificationRecipient } from '../models/GiftCardNotificationRecipient.js';
 export { makeGiftCardRedemption } from '../models/GiftCardRedemption.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';

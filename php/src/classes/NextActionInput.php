@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string $action_type
  * @property-read string|\DateTimeInterface $expires_at
- * @property-read array{'collection_strategy'?: string, 'component': string, 'future_requirements'?: string, ...}|object $merchant_account_session
+ * @property-read NextActionMerchantAccountSessionInput|array<array-key, mixed>|\stdClass $merchant_account_session
  * @property-read string $reason_code
  * @property-read string $reason_message
  * @property-read list<string> $required_fields
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class NextActionInput extends Model {
-    /** @param array{'action_type': string, 'expires_at'?: string|\DateTimeInterface, 'merchant_account_session'?: array{'collection_strategy'?: string, 'component': string, 'future_requirements'?: string, ...}|object, 'reason_code'?: string, 'reason_message'?: string, 'required_fields'?: list<string>, 'required_scope'?: string, 'requires_human_confirmation'?: bool, 'suggested_delay_milliseconds'?: int, 'url'?: string, ...}|object $values */
+    /** @param array{'action_type': string, 'expires_at'?: string|\DateTimeInterface, 'merchant_account_session'?: NextActionMerchantAccountSessionInput|array<array-key, mixed>|\stdClass, 'reason_code'?: string, 'reason_message'?: string, 'required_fields'?: list<string>, 'required_scope'?: string, 'requires_human_confirmation'?: bool, 'suggested_delay_milliseconds'?: int, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('NextActionInput')); }
     /** @return string
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().
@@ -26,10 +26,10 @@ final class NextActionInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return array{'collection_strategy'?: string, 'component': string, 'future_requirements'?: string, ...}|object
+    /** @return NextActionMerchantAccountSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When merchant_account_session is omitted; use hasMerchantAccountSession() or valueOrDefault().
      */
-    public function getMerchantAccountSession(): array|object { return $this->get('merchant_account_session'); }
+    public function getMerchantAccountSession(): mixed { return $this->get('merchant_account_session'); }
     public function hasMerchantAccountSession(): bool { return $this->has('merchant_account_session'); }
     /** @return string
      * @throws SdkError When reason_code is omitted; use hasReasonCode() or valueOrDefault().

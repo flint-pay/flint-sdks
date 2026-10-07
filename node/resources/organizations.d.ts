@@ -176,6 +176,8 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { RevokeOrganizationMembershipResult } from '../declarations/RevokeOrganizationMembershipResult.js';
 export type { TransferOrganizationOwnershipResult } from '../declarations/TransferOrganizationOwnershipResult.js';
 export type { CreateOrganizationRequestInput } from '../declarations/CreateOrganizationRequestInput.js';
@@ -193,5 +195,7 @@ export { makeTransferOrganizationOwnershipResponse } from '../declarations/makeT
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeRevokeOrganizationMembershipResult } from '../declarations/makeRevokeOrganizationMembershipResult.js';
 export { makeTransferOrganizationOwnershipResult } from '../declarations/makeTransferOrganizationOwnershipResult.js';

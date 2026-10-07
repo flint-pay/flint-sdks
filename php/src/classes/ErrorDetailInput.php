@@ -7,13 +7,13 @@ namespace Flint;
  * @property-read string $blocking_resource_count
  * @property-read list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass> $blocking_resources
  * @property-read string $capability
- * @property-read array{'amount': string, 'currency': string}|object $capturable_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $capturable_money
  * @property-read string $captured_physical_revision
  * @property-read string $code
  * @property-read string $conflict_type
  * @property-read list<string> $conflicting_fields
  * @property-read string $current_checkout_session_id
- * @property-read array{'amount': string, 'currency': string}|object $current_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $current_money
  * @property-read string $current_physical_revision
  * @property-read array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object $current_resource
  * @property-read string $current_selection_id
@@ -24,8 +24,8 @@ namespace Flint;
  * @property-read string $dependency_type
  * @property-read string $eligibility_reason
  * @property-read string $existing_checkout_session_id
- * @property-read array{'amount': string, 'currency': string}|object $expected_attempt_outstanding_money
- * @property-read array{'amount': string, 'currency': string}|object $gap_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_attempt_outstanding_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gap_money
  * @property-read string $inventory_count_line_id
  * @property-read string $inventory_item_id
  * @property-read string $invoice_payment_attempt_id
@@ -33,7 +33,7 @@ namespace Flint;
  * @property-read string $limit
  * @property-read string $location_id
  * @property-read string $location_outcome
- * @property-read array{'amount': string, 'currency': string}|object $maximum_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $maximum_money
  * @property-read string $message
  * @property-read string $order_payment_attempt_id
  * @property-read string $param
@@ -41,27 +41,27 @@ namespace Flint;
  * @property-read list<string> $payment_intent_ids
  * @property-read string $payment_method_domain_id
  * @property-read string $payment_option
- * @property-read array{'limit_bytes': string, 'next_expiration_at'?: string|\DateTimeInterface, 'ready_unattached_bytes': string, 'reserved_bytes': string, 'resource': string, 'used_bytes': string, ...}|object $quota
+ * @property-read QuotaDetailsInput|array<array-key, mixed>|\stdClass $quota
  * @property-read string $reason
- * @property-read array{'missing_or_invalid_fields'?: list<string>, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retryable'?: bool, ...}|object $remediation
+ * @property-read ErrorRemediationInput|array<array-key, mixed>|\stdClass $remediation
  * @property-read string $requested_key_mode
  * @property-read string $requested_quantity
- * @property-read array{'amount': string, 'currency': string}|object $required_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $required_money
  * @property-read string $return_resolution_id
  * @property-read list<string> $risk_rule_ids
  * @property-read string $scope
  * @property-read list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass> $selectable_payment_intents
  * @property-read string $shortage_quantity
- * @property-read array{'amount': string, 'currency': string}|object $submitted_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $submitted_money
  * @property-read string $submitted_source_observation_sequence
  * @property-read list<string> $suggestions
  * @property-read list<string> $supported_actions
  * @property-read list<string> $supported_api_versions
  * @property-read string $surface
- * @property-read array{'amount': string, 'currency': string}|object $tip_capable_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_capable_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ErrorDetailInput extends Model {
-    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'capability'?: string, 'capturable_money'?: array{'amount': string, 'currency': string}|object, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: array{'amount': string, 'currency': string}|object, 'current_physical_revision'?: string, 'current_resource'?: array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status'?: string, 'current_version'?: string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: array{'amount': string, 'currency': string}|object, 'gap_money'?: array{'amount': string, 'currency': string}|object, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: array{'amount': string, 'currency': string}|object, 'message': string, 'order_payment_attempt_id'?: string, 'param'?: string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'quota'?: array{'limit_bytes': string, 'next_expiration_at'?: string|\DateTimeInterface, 'ready_unattached_bytes': string, 'reserved_bytes': string, 'resource': string, 'used_bytes': string, ...}|object, 'reason'?: string, 'remediation'?: array{'missing_or_invalid_fields'?: list<string>, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retryable'?: bool, ...}|object, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: array{'amount': string, 'currency': string}|object, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'shortage_quantity'?: string, 'submitted_money'?: array{'amount': string, 'currency': string}|object, 'submitted_source_observation_sequence'?: string, 'suggestions'?: list<string>, 'supported_actions'?: list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tip_capable_money'?: array{'amount': string, 'currency': string}|object, ...}|object $values */
+    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'capability'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'current_physical_revision'?: string, 'current_resource'?: array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status'?: string, 'current_version'?: string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gap_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'message': string, 'order_payment_attempt_id'?: string, 'param'?: string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'quota'?: QuotaDetailsInput|array<array-key, mixed>|\stdClass, 'reason'?: string, 'remediation'?: ErrorRemediationInput|array<array-key, mixed>|\stdClass, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'shortage_quantity'?: string, 'submitted_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'submitted_source_observation_sequence'?: string, 'suggestions'?: list<string>, 'supported_actions'?: list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tip_capable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorDetailInput')); }
     /** @return list<string>
      * @throws SdkError When allowed_key_modes is omitted; use hasAllowedKeyModes() or valueOrDefault().
@@ -88,10 +88,10 @@ final class ErrorDetailInput extends Model {
      */
     public function getCapability(): string { return $this->get('capability'); }
     public function hasCapability(): bool { return $this->has('capability'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When capturable_money is omitted; use hasCapturableMoney() or valueOrDefault().
      */
-    public function getCapturableMoney(): array|object { return $this->get('capturable_money'); }
+    public function getCapturableMoney(): mixed { return $this->get('capturable_money'); }
     public function hasCapturableMoney(): bool { return $this->has('capturable_money'); }
     /** @return string
      * @throws SdkError When captured_physical_revision is omitted; use hasCapturedPhysicalRevision() or valueOrDefault().
@@ -118,10 +118,10 @@ final class ErrorDetailInput extends Model {
      */
     public function getCurrentCheckoutSessionId(): string { return $this->get('current_checkout_session_id'); }
     public function hasCurrentCheckoutSessionId(): bool { return $this->has('current_checkout_session_id'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When current_money is omitted; use hasCurrentMoney() or valueOrDefault().
      */
-    public function getCurrentMoney(): array|object { return $this->get('current_money'); }
+    public function getCurrentMoney(): mixed { return $this->get('current_money'); }
     public function hasCurrentMoney(): bool { return $this->has('current_money'); }
     /** @return string
      * @throws SdkError When current_physical_revision is omitted; use hasCurrentPhysicalRevision() or valueOrDefault().
@@ -173,15 +173,15 @@ final class ErrorDetailInput extends Model {
      */
     public function getExistingCheckoutSessionId(): string { return $this->get('existing_checkout_session_id'); }
     public function hasExistingCheckoutSessionId(): bool { return $this->has('existing_checkout_session_id'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When expected_attempt_outstanding_money is omitted; use hasExpectedAttemptOutstandingMoney() or valueOrDefault().
      */
-    public function getExpectedAttemptOutstandingMoney(): array|object { return $this->get('expected_attempt_outstanding_money'); }
+    public function getExpectedAttemptOutstandingMoney(): mixed { return $this->get('expected_attempt_outstanding_money'); }
     public function hasExpectedAttemptOutstandingMoney(): bool { return $this->has('expected_attempt_outstanding_money'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gap_money is omitted; use hasGapMoney() or valueOrDefault().
      */
-    public function getGapMoney(): array|object { return $this->get('gap_money'); }
+    public function getGapMoney(): mixed { return $this->get('gap_money'); }
     public function hasGapMoney(): bool { return $this->has('gap_money'); }
     /** @return string
      * @throws SdkError When inventory_count_line_id is omitted; use hasInventoryCountLineId() or valueOrDefault().
@@ -218,10 +218,10 @@ final class ErrorDetailInput extends Model {
      */
     public function getLocationOutcome(): string { return $this->get('location_outcome'); }
     public function hasLocationOutcome(): bool { return $this->has('location_outcome'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When maximum_money is omitted; use hasMaximumMoney() or valueOrDefault().
      */
-    public function getMaximumMoney(): array|object { return $this->get('maximum_money'); }
+    public function getMaximumMoney(): mixed { return $this->get('maximum_money'); }
     public function hasMaximumMoney(): bool { return $this->has('maximum_money'); }
     /** @return string
      * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
@@ -258,20 +258,20 @@ final class ErrorDetailInput extends Model {
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
-    /** @return array{'limit_bytes': string, 'next_expiration_at'?: string|\DateTimeInterface, 'ready_unattached_bytes': string, 'reserved_bytes': string, 'resource': string, 'used_bytes': string, ...}|object
+    /** @return QuotaDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When quota is omitted; use hasQuota() or valueOrDefault().
      */
-    public function getQuota(): array|object { return $this->get('quota'); }
+    public function getQuota(): mixed { return $this->get('quota'); }
     public function hasQuota(): bool { return $this->has('quota'); }
     /** @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** @return array{'missing_or_invalid_fields'?: list<string>, 'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retryable'?: bool, ...}|object
+    /** @return ErrorRemediationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remediation is omitted; use hasRemediation() or valueOrDefault().
      */
-    public function getRemediation(): array|object { return $this->get('remediation'); }
+    public function getRemediation(): mixed { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
     /** @return string
      * @throws SdkError When requested_key_mode is omitted; use hasRequestedKeyMode() or valueOrDefault().
@@ -283,10 +283,10 @@ final class ErrorDetailInput extends Model {
      */
     public function getRequestedQuantity(): string { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When required_money is omitted; use hasRequiredMoney() or valueOrDefault().
      */
-    public function getRequiredMoney(): array|object { return $this->get('required_money'); }
+    public function getRequiredMoney(): mixed { return $this->get('required_money'); }
     public function hasRequiredMoney(): bool { return $this->has('required_money'); }
     /** @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
@@ -313,10 +313,10 @@ final class ErrorDetailInput extends Model {
      */
     public function getShortageQuantity(): string { return $this->get('shortage_quantity'); }
     public function hasShortageQuantity(): bool { return $this->has('shortage_quantity'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When submitted_money is omitted; use hasSubmittedMoney() or valueOrDefault().
      */
-    public function getSubmittedMoney(): array|object { return $this->get('submitted_money'); }
+    public function getSubmittedMoney(): mixed { return $this->get('submitted_money'); }
     public function hasSubmittedMoney(): bool { return $this->has('submitted_money'); }
     /** @return string
      * @throws SdkError When submitted_source_observation_sequence is omitted; use hasSubmittedSourceObservationSequence() or valueOrDefault().
@@ -343,9 +343,9 @@ final class ErrorDetailInput extends Model {
      */
     public function getSurface(): string { return $this->get('surface'); }
     public function hasSurface(): bool { return $this->has('surface'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip_capable_money is omitted; use hasTipCapableMoney() or valueOrDefault().
      */
-    public function getTipCapableMoney(): array|object { return $this->get('tip_capable_money'); }
+    public function getTipCapableMoney(): mixed { return $this->get('tip_capable_money'); }
     public function hasTipCapableMoney(): bool { return $this->has('tip_capable_money'); }
 }

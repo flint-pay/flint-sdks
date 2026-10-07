@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/customers.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["setDefaultCustomerAddress"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
 export class Client {
@@ -312,12 +312,14 @@ export { makeCustomerSessionsRevocationResponse } from '../models/CustomerSessio
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeGuestPurchaseLink } from '../models/GuestPurchaseLink.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeCardDetails } from '../models/CardDetails.js';
+export { makeCustomerReceivables } from '../models/CustomerReceivables.js';
 export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
 export { makeCustomerSessionsRevocation } from '../models/CustomerSessionsRevocation.js';

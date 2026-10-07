@@ -1,1 +1,1 @@
-{"shared":"GiftCardPurchaseRefundAllocation","dependencies":["GiftCardPurchaseRefundAllocation","GiftCardPurchaseRefundRecoveryDestination","GiftCardPurchaseRefundValueAllocation","SharedCodec281","SharedCodec6"]}
+{"shared":"GiftCardPurchaseRefundAllocation","dependencies":["GiftCardPurchaseRefundAllocation","GiftCardPurchaseRefundRecovery","GiftCardPurchaseRefundRecoveryDestination","GiftCardPurchaseRefundValueAllocation","MoneyValue"]}

@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $window_start_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class PickupFulfillmentDetails extends Model {
-    /** @param array{'address'?: object{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}, 'curbside_instructions'?: string, 'customer_arrived_at'?: string, 'expires_at'?: string, 'instructions'?: string, 'location_name'?: string, 'picked_up_at'?: string, 'pickup_mode'?: string, 'pickup_window_duration_seconds'?: string, 'prep_time_duration_seconds'?: string, 'ready_at'?: string, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'curbside_instructions'?: string, 'customer_arrived_at'?: string, 'expires_at'?: string, 'instructions'?: string, 'location_name'?: string, 'picked_up_at'?: string, 'pickup_mode'?: string, 'pickup_window_duration_seconds'?: string, 'prep_time_duration_seconds'?: string, 'ready_at'?: string, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PickupFulfillmentDetails')); }
     /** @return Address
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().

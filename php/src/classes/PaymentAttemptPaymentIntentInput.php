@@ -4,14 +4,14 @@ namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string|\DateTimeInterface $authorization_expires_at
- * @property-read array{'amount': string, 'currency': string}|object $capturable_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $capturable_money
  * @property-read PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass $last_payment_error
  * @property-read string $payment_intent_id
  * @property-read string $status
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentAttemptPaymentIntentInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'capturable_money'?: array{'amount': string, 'currency': string}|object, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAttemptPaymentIntentInput')); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -23,10 +23,10 @@ final class PaymentAttemptPaymentIntentInput extends Model {
      */
     public function getAuthorizationExpiresAt(): string|\DateTimeInterface { return $this->get('authorization_expires_at'); }
     public function hasAuthorizationExpiresAt(): bool { return $this->has('authorization_expires_at'); }
-    /** @return array{'amount': string, 'currency': string}|object
+    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When capturable_money is omitted; use hasCapturableMoney() or valueOrDefault().
      */
-    public function getCapturableMoney(): array|object { return $this->get('capturable_money'); }
+    public function getCapturableMoney(): mixed { return $this->get('capturable_money'); }
     public function hasCapturableMoney(): bool { return $this->has('capturable_money'); }
     /** @return PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When last_payment_error is omitted; use hasLastPaymentError() or valueOrDefault().

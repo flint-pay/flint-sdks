@@ -1,1 +1,1 @@
-{"shared":"Webhook_refund_failed_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec287","SharedCodec322","Webhook_refund_failed_installed_merchants"]}
+{"shared":"Webhook_refund_failed_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec242","SharedCodec277","Webhook_refund_failed_installed_merchants"]}

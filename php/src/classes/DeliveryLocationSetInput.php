@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'location_ids': list<string>}|object $configuration
+ * @property-read DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_location_set_revision_id
  * @property-read string $delivery_location_set_id
@@ -14,12 +14,12 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetInput extends Model {
-    /** @param array{'configuration': array{'location_ids': list<string>}|object, 'created_at': string|\DateTimeInterface, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'configuration': DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetInput')); }
-    /** @return array{'location_ids': list<string>}|object
+    /** @return DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
-    public function getConfiguration(): array|object { return $this->get('configuration'); }
+    public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

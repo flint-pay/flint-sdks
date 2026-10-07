@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read MoneyValue $total_money
  * Presence-aware response; omitted fields throw when accessed. */
 final class RefundLineItemAutomaticRefund extends Model {
-    /** @param array{'discount_money': object{'amount': string, 'currency': string}, 'subtotal_money': object{'amount': string, 'currency': string}, 'tax_money': object{'amount': string, 'currency': string}, 'total_money': object{'amount': string, 'currency': string}, ...}|object $values */
+    /** @param array{'discount_money': mixed, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAutomaticRefund')); }
     /** @return MoneyValue
      * @throws SdkError When discount_money is omitted; use hasDiscountMoney() or valueOrDefault().

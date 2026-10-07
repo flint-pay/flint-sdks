@@ -5,7 +5,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { sha256 } from '../scripts/packages.mjs';
+import { sha256, npmPackResult } from '../scripts/packages.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const json = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -39,13 +39,13 @@ test(
           assert.equal(sha256(readFileSync(join(release, name))), hash);
       const packed =
         plan ??
-        JSON.parse(
+        npmPackResult(
           run(
             'npm',
             ['pack', '--ignore-scripts', '--json', '--pack-destination', dir],
             join(root, 'node'),
           ),
-        )[0];
+        );
       const npmArchive = plan ? join(release, plan.npm) : join(dir, packed.filename);
       const npmEntries = run('tar', ['-tzf', npmArchive], root).split('\n').filter(Boolean);
       assert.ok(npmEntries.includes('package/index.js'));

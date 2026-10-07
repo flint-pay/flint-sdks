@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentMethod extends Model {
-    /** @param array{'card'?: object{'brand': string, 'exp_month': int, 'exp_year': int, 'last4': string, 'wallet'?: string}, 'created_at'?: string, 'customer'?: mixed, 'customer_id': string, 'merchant_id'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at'?: string, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: mixed, 'created_at'?: string, 'customer'?: mixed, 'customer_id': string, 'merchant_id'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at'?: string, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethod')); }
     /** @return CardDetails
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().

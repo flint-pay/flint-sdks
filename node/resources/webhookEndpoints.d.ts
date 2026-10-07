@@ -141,6 +141,8 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { WebhookDeliveryAction } from '../declarations/WebhookDeliveryAction.js';
 export type { ActionResult } from '../declarations/ActionResult.js';
 export type { WebhookSecret } from '../declarations/WebhookSecret.js';
@@ -156,6 +158,8 @@ export { makeWebhookSecretRotationResponse } from '../declarations/makeWebhookSe
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeWebhookDeliveryAction } from '../declarations/makeWebhookDeliveryAction.js';
 export { makeActionResult } from '../declarations/makeActionResult.js';
 export { makeWebhookSecret } from '../declarations/makeWebhookSecret.js';

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionPaymentRetry"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0});
 export class Client {
@@ -347,12 +347,15 @@ export { makeSubscription } from '../models/Subscription.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeAccessLink } from '../models/AccessLink.js';
 export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
+export { makeSubscriptionCancellationDetails } from '../models/SubscriptionCancellationDetails.js';
 export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
+export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
 export { makeImage } from '../models/Image.js';

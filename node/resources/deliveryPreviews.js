@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryPreview"]:r0});
 export class Client {
@@ -45,6 +45,7 @@ export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentReq
 export { makeLineItemFulfillmentSizeRequest } from '../models/LineItemFulfillmentSizeRequest.js';
 export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
 export { makeLineItemFulfillmentWeightRequest } from '../models/LineItemFulfillmentWeightRequest.js';
+export { makeGiftCardPurchaseRequest } from '../models/GiftCardPurchaseRequest.js';
 export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
@@ -63,3 +64,4 @@ export { makeDeliveryPickupAvailabilityDiagnostic } from '../models/DeliveryPick
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';

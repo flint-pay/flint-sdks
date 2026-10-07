@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: array{'enabled'?: bool, 'max_cycles'?: int}|object, 'retention_offer'?: array{'kind'?: string, 'pause_cycles'?: int}|object}|object $buyer_capabilities
+ * @property-read BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass $buyer_capabilities
  * @property-read string $merchant_account_url
  * @property-read string $mode
  * @property-read CustomerAccountPresentationInput|array<array-key, mixed>|\stdClass $presentation
  * @property-read CustomerAccountRouteTemplatesInput|array<array-key, mixed>|\stdClass $route_templates
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerAccountSettingsInput extends Model {
-    /** @param array{'buyer_capabilities'?: array{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: array{'enabled'?: bool, 'max_cycles'?: int}|object, 'retention_offer'?: array{'kind'?: string, 'pause_cycles'?: int}|object}|object, 'merchant_account_url'?: string, 'mode'?: string, 'presentation'?: CustomerAccountPresentationInput|array<array-key, mixed>|\stdClass, 'route_templates'?: CustomerAccountRouteTemplatesInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'buyer_capabilities'?: BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass, 'merchant_account_url'?: string, 'mode'?: string, 'presentation'?: CustomerAccountPresentationInput|array<array-key, mixed>|\stdClass, 'route_templates'?: CustomerAccountRouteTemplatesInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountSettingsInput')); }
-    /** @return array{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: array{'enabled'?: bool, 'max_cycles'?: int}|object, 'retention_offer'?: array{'kind'?: string, 'pause_cycles'?: int}|object}|object
+    /** @return BuyerCapabilitiesInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_capabilities is omitted; use hasBuyerCapabilities() or valueOrDefault().
      */
-    public function getBuyerCapabilities(): array|object { return $this->get('buyer_capabilities'); }
+    public function getBuyerCapabilities(): mixed { return $this->get('buyer_capabilities'); }
     public function hasBuyerCapabilities(): bool { return $this->has('buyer_capabilities'); }
     /** @return string
      * @throws SdkError When merchant_account_url is omitted; use hasMerchantAccountUrl() or valueOrDefault().

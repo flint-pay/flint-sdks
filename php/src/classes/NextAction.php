@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware response; omitted fields throw when accessed. */
 final class NextAction extends Model {
-    /** @param array{'action_type': string, 'expires_at'?: string, 'merchant_account_session'?: object{'collection_strategy'?: string, 'component': string, 'future_requirements'?: string}, 'reason_code'?: string, 'reason_message'?: string, 'required_fields'?: list<string>, 'required_scope'?: string, 'requires_human_confirmation'?: bool, 'suggested_delay_milliseconds'?: int, 'url'?: string, ...}|object $values */
+    /** @param array{'action_type': string, 'expires_at'?: string, 'merchant_account_session'?: mixed, 'reason_code'?: string, 'reason_message'?: string, 'required_fields'?: list<string>, 'required_scope'?: string, 'requires_human_confirmation'?: bool, 'suggested_delay_milliseconds'?: int, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('NextAction')); }
     /** @return string
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().

@@ -1,1 +1,1 @@
-{"shared":"RefundTenderAllocation","dependencies":["RefundGiftCardDestination","RefundTenderAllocation","SharedCodec6"]}
+{"shared":"RefundTenderAllocation","dependencies":["MoneyValue","RefundGiftCardDestination","RefundTenderAllocation"]}

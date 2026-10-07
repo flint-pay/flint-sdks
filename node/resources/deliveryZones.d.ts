@@ -76,9 +76,9 @@ export interface DeliveryZonesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryZones.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: ({ "all"?: Array<DeliveryZoneConfigurationInput>; "any"?: Array<DeliveryZoneConfigurationInput>; "country"?: DeliveryCountryConditionInput; "not"?: DeliveryZoneConfigurationInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; })); "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
+    update(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryZoneConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryZoneResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: ({ "all"?: Array<DeliveryZoneConfigurationInput>; "any"?: Array<DeliveryZoneConfigurationInput>; "country"?: DeliveryCountryConditionInput; "not"?: DeliveryZoneConfigurationInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; })); "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryZonesUpdateResponse>>;
+    updateWithResponse(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryZoneConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryZonesUpdateResponse>>;
   }
 export declare class Client {
 
@@ -118,6 +118,8 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { DeliveryZoneConfiguration } from '../declarations/DeliveryZoneConfiguration.js';
 export type { DeliveryCountryCondition } from '../declarations/DeliveryCountryCondition.js';
 export type { DeliveryPostalCodeCondition } from '../declarations/DeliveryPostalCodeCondition.js';
@@ -134,6 +136,8 @@ export { makeDeliveryZone } from '../declarations/makeDeliveryZone.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeDeliveryZoneConfiguration } from '../declarations/makeDeliveryZoneConfiguration.js';
 export { makeDeliveryCountryCondition } from '../declarations/makeDeliveryCountryCondition.js';
 export { makeDeliveryPostalCodeCondition } from '../declarations/makeDeliveryPostalCodeCondition.js';

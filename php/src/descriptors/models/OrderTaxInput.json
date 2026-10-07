@@ -1,1 +1,1 @@
-{"shared":"OrderTax","dependencies":["OrderTax","OrderTaxExemption","OrderTaxLocation","PostalAddress","SharedCodec6","SharedCodec618","SharedCodec619","SharedCodec620","TaxBreakdown"]}
+{"shared":"OrderTax","dependencies":["MoneyValue","OrderTax","OrderTaxExemption","OrderTaxLocation","PostalAddress","SharedCodec570","SharedCodec571","TaxBreakdown","TaxJurisdiction"]}

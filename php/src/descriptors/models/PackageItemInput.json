@@ -1,1 +1,1 @@
-{"shared":"PackageItem","dependencies":["ExpandedOrderSummary","MoneyValue","PackageItem","PricingAmounts","SettlementAmounts","SharedCodec27","SignedMoney"]}
+{"shared":"PackageItem","dependencies":["ExpandedOrderSummary","MoneyValue","PackageItem","PricingAmounts","SettlementAmounts","SharedCodec17","SignedMoney"]}

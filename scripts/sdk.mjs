@@ -8,7 +8,13 @@ import {
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { sha256, json, formatted, publishedFiles } from "./packages.mjs";
+import {
+  sha256,
+  json,
+  formatted,
+  publishedFiles,
+  npmPackResult,
+} from "./packages.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(root);
@@ -144,13 +150,13 @@ function prepare() {
   console.log(`Prepared generator artifacts in ${destination}.`);
   // Build public archives from the repository layout, including npm repository metadata
   // and the root Composer manifest. These are the archives installed by consumers.
-  const npm = JSON.parse(
+  const npm = npmPackResult(
     run(
       "npm",
       ["pack", "--ignore-scripts", "--json", "--pack-destination", destination],
       { cwd: resolve("node") },
     ),
-  )[0];
+  );
   run(
     "composer",
     [

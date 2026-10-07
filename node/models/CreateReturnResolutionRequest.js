@@ -1,9 +1,9 @@
-import { d494 as c0, d77 as c1, d2257 as c2, d2260 as c3, d2265 as c4, d490 as c5, d492 as c6, d491 as c7, d1976 as c8, d2252 as c9, d2251 as c10, d2254 as c11, d2253 as c12, d2255 as c13 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d494 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d438 as c0, d314 as c1, d2210 as c2, d2213 as c3, d2218 as c4, d434 as c5, d436 as c6, d435 as c7, d1933 as c8, d2205 as c9, d2204 as c10, d2207 as c11, d2206 as c12, d2208 as c13 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d438 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d494;
+const read = d438;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnResolutionRequest"]:c0(),["MoneyValue"]:c1(),["ReturnReplacementLineItemRequest"]:c2(),["ReturnResolutionAdjustmentRequest"]:c3(),["ReturnResolutionLineItemRequest"]:c4(),["SharedCodec179"]:c5(),["SharedCodec180"]:c6(),["SharedCodec181"]:c7(),["SharedCodec516"]:c8(),["SharedCodec593"]:c9(),["SharedCodec594"]:c10(),["SharedCodec595"]:c11(),["SharedCodec596"]:c12(),["SharedCodec597"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnResolutionRequest"]:c0(),["MoneyValue"]:c1(),["ReturnReplacementLineItemRequest"]:c2(),["ReturnResolutionAdjustmentRequest"]:c3(),["ReturnResolutionLineItemRequest"]:c4(),["SharedCodec141"]:c5(),["SharedCodec142"]:c6(),["SharedCodec143"]:c7(),["SharedCodec478"]:c8(),["SharedCodec549"]:c9(),["SharedCodec550"]:c10(),["SharedCodec551"]:c11(),["SharedCodec552"]:c12(),["SharedCodec553"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateReturnResolutionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

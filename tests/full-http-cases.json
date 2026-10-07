@@ -2967,5 +2967,268 @@
       "outcome": "not_sent"
     },
     "attempts": 0
+  },
+  {
+    "name": "delivery method explicit charge tax category",
+    "operation": "getDeliveryMethod",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "delivery_method_id": "dmet_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "delivery-null-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/delivery-methods/dmet_test",
+      "headers": {
+        "authorization": "Bearer delivery-null-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":\"service_fee\"},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\"}}"
+      }
+    ],
+    "attempts": 1,
+    "data": {
+      "data": {
+        "delivery_method_id": "dmet_test",
+        "current_delivery_method_revision_id": "dmetr_test",
+        "name": "Synthetic delivery method",
+        "status": "active",
+        "version": "1",
+        "configuration": {
+          "estimate": {
+            "type": "none"
+          },
+          "minimum_option_lifetime_seconds": "0",
+          "offer_windows": false,
+          "origin": {
+            "type": "fixed_location",
+            "location_id": "loc_test"
+          },
+          "pricing": {
+            "type": "calculated",
+            "calculated": {}
+          },
+          "selection_guarantee_seconds": "0",
+          "taxable": null,
+          "charge_tax_category": "service_fee"
+        },
+        "created_at": "2026-10-06T00:00:00Z",
+        "updated_at": "2026-10-06T00:00:00Z"
+      }
+    },
+    "status": 200
+  },
+  {
+    "name": "delivery method inherited charge tax category",
+    "operation": "getDeliveryMethod",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "delivery_method_id": "dmet_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "delivery-null-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/delivery-methods/dmet_test",
+      "headers": {
+        "authorization": "Bearer delivery-null-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":null},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\"}}"
+      }
+    ],
+    "attempts": 1,
+    "data": {
+      "data": {
+        "delivery_method_id": "dmet_test",
+        "current_delivery_method_revision_id": "dmetr_test",
+        "name": "Synthetic delivery method",
+        "status": "active",
+        "version": "1",
+        "configuration": {
+          "estimate": {
+            "type": "none"
+          },
+          "minimum_option_lifetime_seconds": "0",
+          "offer_windows": false,
+          "origin": {
+            "type": "fixed_location",
+            "location_id": "loc_test"
+          },
+          "pricing": {
+            "type": "calculated",
+            "calculated": {}
+          },
+          "selection_guarantee_seconds": "0",
+          "taxable": null,
+          "charge_tax_category": null
+        },
+        "created_at": "2026-10-06T00:00:00Z",
+        "updated_at": "2026-10-06T00:00:00Z"
+      }
+    },
+    "status": 200
+  },
+  {
+    "name": "delivery method future charge tax category",
+    "operation": "getDeliveryMethod",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "delivery_method_id": "dmet_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "delivery-null-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/delivery-methods/dmet_test",
+      "headers": {
+        "authorization": "Bearer delivery-null-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":\"future_category\"},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\"}}"
+      }
+    ],
+    "attempts": 1,
+    "data": {
+      "data": {
+        "delivery_method_id": "dmet_test",
+        "current_delivery_method_revision_id": "dmetr_test",
+        "name": "Synthetic delivery method",
+        "status": "active",
+        "version": "1",
+        "configuration": {
+          "estimate": {
+            "type": "none"
+          },
+          "minimum_option_lifetime_seconds": "0",
+          "offer_windows": false,
+          "origin": {
+            "type": "fixed_location",
+            "location_id": "loc_test"
+          },
+          "pricing": {
+            "type": "calculated",
+            "calculated": {}
+          },
+          "selection_guarantee_seconds": "0",
+          "taxable": null,
+          "charge_tax_category": "future_category"
+        },
+        "created_at": "2026-10-06T00:00:00Z",
+        "updated_at": "2026-10-06T00:00:00Z"
+      }
+    },
+    "status": 200
+  },
+  {
+    "name": "delivery method omitted charge tax category",
+    "operation": "getDeliveryMethod",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "delivery_method_id": "dmet_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "delivery-null-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/delivery-methods/dmet_test",
+      "headers": {
+        "authorization": "Bearer delivery-null-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\"}}"
+      }
+    ],
+    "attempts": 1,
+    "error": {
+      "kind": "protocol",
+      "outcome": "response"
+    }
+  },
+  {
+    "name": "delivery method invalid charge tax category",
+    "operation": "getDeliveryMethod",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "delivery_method_id": "dmet_test"
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "delivery-null-test"
+      },
+      "maxAttempts": 1
+    },
+    "expected": {
+      "method": "GET",
+      "path": "/v1/delivery-methods/dmet_test",
+      "headers": {
+        "authorization": "Bearer delivery-null-test",
+        "flint-version": "2026-09-07"
+      }
+    },
+    "responses": [
+      {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":false},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\"}}"
+      }
+    ],
+    "attempts": 1,
+    "error": {
+      "kind": "protocol",
+      "outcome": "response"
+    }
   }
 ]

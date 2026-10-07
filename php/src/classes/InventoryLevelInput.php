@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $damaged_quantity
  * @property-read string $held_quantity
  * @property-read string $incoming_quantity
- * @property-read array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $inventory_item
+ * @property-read InventoryItemInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string $inventory_item_id
  * @property-read string $inventory_level_claim_revision
  * @property-read string $inventory_level_id
@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelInput extends Model {
-    /** @param array{'available_quantity': string, 'committed_quantity': string, 'created_at': string|\DateTimeInterface, 'damaged_quantity': string, 'held_quantity': string, 'incoming_quantity': string, 'inventory_item'?: array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object, 'inventory_item_id': string, 'inventory_level_claim_revision': string, 'inventory_level_id': string, 'inventory_level_physical_revision': string, 'location_id': string, 'on_hand_quantity': string, 'quality_control_quantity': string, 'quarantined_quantity': string, 'safety_stock_quantity': string, 'shortage_quantity': string, 'unavailable_on_hand_quantity': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'available_quantity': string, 'committed_quantity': string, 'created_at': string|\DateTimeInterface, 'damaged_quantity': string, 'held_quantity': string, 'incoming_quantity': string, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_revision': string, 'inventory_level_id': string, 'inventory_level_physical_revision': string, 'location_id': string, 'on_hand_quantity': string, 'quality_control_quantity': string, 'quarantined_quantity': string, 'safety_stock_quantity': string, 'shortage_quantity': string, 'unavailable_on_hand_quantity': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryLevelInput')); }
     /** @return string
      * @throws SdkError When available_quantity is omitted; use hasAvailableQuantity() or valueOrDefault().
@@ -56,10 +56,10 @@ final class InventoryLevelInput extends Model {
      */
     public function getIncomingQuantity(): string { return $this->get('incoming_quantity'); }
     public function hasIncomingQuantity(): bool { return $this->has('incoming_quantity'); }
-    /** @return array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object
+    /** @return InventoryItemInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_item is omitted; use hasInventoryItem() or valueOrDefault().
      */
-    public function getInventoryItem(): array|object { return $this->get('inventory_item'); }
+    public function getInventoryItem(): mixed { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
     /** @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().

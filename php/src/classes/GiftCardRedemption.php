@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardRedemption extends Model {
-    /** @param array{'capture_mode': string, 'captured_money': object{'amount': string, 'currency': string}, 'created_at': string, 'expires_at': string, 'external_reference_id': string, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string, 'order_id': string|null, 'refunded_money': object{'amount': string, 'currency': string}, 'remaining_refundable_money': object{'amount': string, 'currency': string}, 'requested_money': object{'amount': string, 'currency': string}, 'reserved_money': object{'amount': string, 'currency': string}, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'capture_mode': string, 'captured_money': mixed, 'created_at': string, 'expires_at': string, 'external_reference_id': string, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string, 'order_id': string|null, 'refunded_money': mixed, 'remaining_refundable_money': mixed, 'requested_money': mixed, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRedemption')); }
     /** @return string
      * @throws SdkError When capture_mode is omitted; use hasCaptureMode() or valueOrDefault().

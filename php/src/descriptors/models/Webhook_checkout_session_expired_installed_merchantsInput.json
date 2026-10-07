@@ -1,1 +1,1 @@
-{"shared":"Webhook_checkout_session_expired_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec287","SharedCodec399","Webhook_checkout_session_expired_installed_merchants"]}
+{"shared":"Webhook_checkout_session_expired_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec242","SharedCodec354","Webhook_checkout_session_expired_installed_merchants"]}

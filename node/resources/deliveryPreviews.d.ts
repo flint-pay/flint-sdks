@@ -45,6 +45,7 @@ export type { LineItemFulfillmentRequestInput } from '../declarations/LineItemFu
 export type { LineItemFulfillmentSizeRequestInput } from '../declarations/LineItemFulfillmentSizeRequestInput.js';
 export type { LineItemFulfillmentOriginRequestInput } from '../declarations/LineItemFulfillmentOriginRequestInput.js';
 export type { LineItemFulfillmentWeightRequestInput } from '../declarations/LineItemFulfillmentWeightRequestInput.js';
+export type { GiftCardPurchaseRequestInput } from '../declarations/GiftCardPurchaseRequestInput.js';
 export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPurchaseRecipientInput.js';
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
@@ -83,6 +84,7 @@ export type { LineItemFulfillmentRequest } from '../declarations/LineItemFulfill
 export type { LineItemFulfillmentSizeRequest } from '../declarations/LineItemFulfillmentSizeRequest.js';
 export type { LineItemFulfillmentOriginRequest } from '../declarations/LineItemFulfillmentOriginRequest.js';
 export type { LineItemFulfillmentWeightRequest } from '../declarations/LineItemFulfillmentWeightRequest.js';
+export type { GiftCardPurchaseRequest } from '../declarations/GiftCardPurchaseRequest.js';
 export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
 export type { ImageReferenceRequest } from '../declarations/ImageReferenceRequest.js';
 export type { OrderDraftLineItemInventoryDemandRequest } from '../declarations/OrderDraftLineItemInventoryDemandRequest.js';
@@ -101,6 +103,7 @@ export type { DeliveryPickupAvailabilityDiagnostic } from '../declarations/Deliv
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export { makeDeliveryPreviewResponse } from '../declarations/makeDeliveryPreviewResponse.js';
 export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
@@ -128,6 +131,7 @@ export { makeLineItemFulfillmentRequest } from '../declarations/makeLineItemFulf
 export { makeLineItemFulfillmentSizeRequest } from '../declarations/makeLineItemFulfillmentSizeRequest.js';
 export { makeLineItemFulfillmentOriginRequest } from '../declarations/makeLineItemFulfillmentOriginRequest.js';
 export { makeLineItemFulfillmentWeightRequest } from '../declarations/makeLineItemFulfillmentWeightRequest.js';
+export { makeGiftCardPurchaseRequest } from '../declarations/makeGiftCardPurchaseRequest.js';
 export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
 export { makeImageReferenceRequest } from '../declarations/makeImageReferenceRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../declarations/makeOrderDraftLineItemInventoryDemandRequest.js';
@@ -146,3 +150,4 @@ export { makeDeliveryPickupAvailabilityDiagnostic } from '../declarations/makeDe
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';

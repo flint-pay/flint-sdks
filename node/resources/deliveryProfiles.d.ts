@@ -125,6 +125,16 @@ export type { DeliveryProfileAssignment } from '../declarations/DeliveryProfileA
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { DimensionsInput } from '../declarations/DimensionsInput.js';
+export type { DeliveryProfileOriginPolicyRequestInput } from '../declarations/DeliveryProfileOriginPolicyRequestInput.js';
+export type { WeightInput } from '../declarations/WeightInput.js';
+export type { DeliveryProfileConfiguration } from '../declarations/DeliveryProfileConfiguration.js';
+export type { Dimensions } from '../declarations/Dimensions.js';
+export type { DeliveryProfileOriginPolicy } from '../declarations/DeliveryProfileOriginPolicy.js';
+export type { Weight } from '../declarations/Weight.js';
+export type { DeliveryProfileDiagnostics } from '../declarations/DeliveryProfileDiagnostics.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput } from '../declarations/AssignToUnconfiguredDeliveryProfileRequestInput.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/CreateDeliveryProfileRequestInput.js';
 export type { UpdateDeliveryProfileRequestInput } from '../declarations/UpdateDeliveryProfileRequestInput.js';
@@ -136,3 +146,10 @@ export { makeDeliveryProfileAssignment } from '../declarations/makeDeliveryProfi
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeDeliveryProfileConfiguration } from '../declarations/makeDeliveryProfileConfiguration.js';
+export { makeDimensions } from '../declarations/makeDimensions.js';
+export { makeDeliveryProfileOriginPolicy } from '../declarations/makeDeliveryProfileOriginPolicy.js';
+export { makeWeight } from '../declarations/makeWeight.js';
+export { makeDeliveryProfileDiagnostics } from '../declarations/makeDeliveryProfileDiagnostics.js';

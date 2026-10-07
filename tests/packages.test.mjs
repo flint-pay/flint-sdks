@@ -1,6 +1,33 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { composerManifest, nodeManifest } from "../scripts/packages.mjs";
+import {
+  composerManifest,
+  nodeManifest,
+  npmPackResult,
+} from "../scripts/packages.mjs";
+
+test("npm pack accepts legacy and npm 12 JSON reports and rejects invalid archives", () => {
+  const packed = { filename: "flintpay-node-3.0.0-beta.20261007031000.tgz" };
+  assert.deepEqual(npmPackResult(JSON.stringify([packed])), packed);
+  assert.deepEqual(
+    npmPackResult(JSON.stringify({ "@flintpay/node": packed })),
+    packed,
+  );
+  for (const report of [
+    null,
+    [],
+    {},
+    [packed, packed],
+    { a: packed, b: packed },
+    [{ filename: "../unsafe.tgz" }],
+    [{ filename: 42 }],
+  ]) {
+    assert.throws(
+      () => npmPackResult(JSON.stringify(report)),
+      /Expected one npm pack archive/,
+    );
+  }
+});
 
 test("Composer root manifest relocates every supported autoload path and derives its version from tags", () => {
   const result = composerManifest({

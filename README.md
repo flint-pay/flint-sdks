@@ -8,7 +8,11 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
-Version `3.0.0-beta.20261006230000` is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json) and changes the beta interface from `3.0.0-beta.20261006210100`, including breaking changes. Review these changes before upgrading:
+Version `3.0.0-beta.20261007031000` is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json) and includes breaking changes from `3.0.0-beta.20261006230000`. Delivery method responses always include `configuration.charge_tax_category` and `configuration.taxable`, and each is `null` when the method inherits the merchant's setting. `deliveryMethods.update` and `deliveryRateCallbacks.update` now change `configuration` by top-level key and keep the keys you leave out. Send `null` to clear a key or restore its default, or `[]` to empty a list. Results from `invoices.getOrCreateCheckoutSession` and `me.createInvoiceCheckoutSession` no longer include `hosted_checkout`; use `checkout_session.url` and `checkout_access.checkout_auth_token`. Read the [release notes](https://github.com/flint-pay/flint-sdks/releases/tag/v3.0.0-beta.20261007031000) before upgrading.
+
+This version targets the pinned API source, not a particular deployed build. An API build without these changes keeps its earlier behavior. For example, such a build leaves `taxable` out of a delivery method response when the method inherits the merchant's taxability, and this version rejects that response with a `protocol` error. Both response shapes use API version `2026-09-07`, so `Flint-Version` doesn't select between them. `deliveryMethods.create`, `deliveryMethods.update`, and `deliveryMethods.remove` return the stored response for up to 24 hours when retried with the same `Idempotency-Key` and request. If the first attempt ran on an earlier build and its response left out `taxable`, the retry fails with the same error after the API is updated, although the original request was applied.
+
+Version `3.0.0-beta.20261006230000` is generated from the API contract pinned at its release and changes the beta interface from `3.0.0-beta.20261006210100`, including breaking changes. Review these changes before upgrading:
 
 - For hosted checkout, send buyers to `checkout_session.url`. Embedded sessions omit it and use `checkout_access.checkout_auth_token`, which hosted checkout doesn't need. `CheckoutAccess` no longer has `hosted_url`, and results from `checkoutSessions.create`, `paymentLinks.resolve`, `returnResolutions.getOrCreateCheckoutSession`, and `me.createReturnResolutionCheckoutSession` no longer include the deprecated `hosted_checkout`. Code that reads either fails TypeScript type checking. Results from `invoices.getOrCreateCheckoutSession` and `me.createInvoiceCheckoutSession` keep `hosted_checkout` as an optional field for hosted sessions only. It repeats `checkout_session.url` and `checkout_access.checkout_auth_token`, is deprecated, and will be removed.
 - `expiration.expires_in_seconds` in `checkoutSessions.create`, `paymentLinks.create`, and `paymentLinks.update`, and `checkout.default_expires_in_seconds` in `settings.update`, accept 60 through 86,400 seconds. The Node and PHP SDKs reject other values before sending a request. The pinned OpenAPI contract lists `INVALID_EXPIRATION` for these operations and for `paymentLinks.resolve`.
@@ -34,6 +38,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261007031000` | `2026-09-07` |
 | `3.0.0-beta.20261006230000` | `2026-09-07` |
 | `3.0.0-beta.20261006210100` | `2026-09-07` |
 | `3.0.0-beta.20261006020957` | `2026-09-07` |
@@ -50,9 +55,9 @@ The pinned API version is `2026-09-07`. The packages expose 549 operations from 
 
 Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 
-The refreshed generator supports nullable response fields, including nested resources. Generated response validation preserves the pinned API schema; live compatibility is checked separately before publication.
+The refreshed generator supports nullable response fields, including nested resources. Generated response validation follows the pinned API schema, so a response that is missing a required field or has a value of the wrong type fails with a `protocol` error.
 
-Generated operation coverage does not establish live backend acceptance. Shared HTTP fixtures exercise both clients without network requests; sandbox transaction testing is a separate release check.
+Generated operation coverage does not establish live backend acceptance. Shared HTTP fixtures exercise both clients without network requests. A published version doesn't mean that a Flint environment serves its pinned contract or that the version passed sandbox transaction testing.
 
 ## Development and releases
 

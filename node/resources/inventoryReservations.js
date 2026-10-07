@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryReservations.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/inventoryReservations.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["commitInventoryReservation"]:r0,["consumeInventoryReservation"]:r0,["createInventoryReservation"]:r0,["listInventoryReservations"]:r0,["releaseInventoryReservation"]:r0});
 export class Client {
@@ -150,9 +150,13 @@ export { makeInventoryReservationListResponse } from '../models/InventoryReserva
 export { makeInventoryReservation } from '../models/InventoryReservation.js';
 export { makeInventoryReservationResult } from '../models/InventoryReservationResult.js';
 export { makeInventoryLevel } from '../models/InventoryLevel.js';
+export { makeInventoryItem } from '../models/InventoryItem.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeInventoryActionRequired } from '../models/InventoryActionRequired.js';
 export { makeInventoryRoutingSource } from '../models/InventoryRoutingSource.js';
 export { makeReservationLine } from '../models/ReservationLine.js';
 export { makeInventoryReservationOwner } from '../models/InventoryReservationOwner.js';

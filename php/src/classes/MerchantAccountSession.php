@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read OnboardingRequirements $requirements
  * Presence-aware response; omitted fields throw when accessed. */
 final class MerchantAccountSession extends Model {
-    /** @param array{'client_session': object{'expires_at': string, 'stripe': object{'account_session': object{'client_secret': string, 'stripe_js_call': string}, 'components': list<mixed>, 'publishable_key': string}}, 'components': list<string>, 'effective_policy': mixed, 'launch_token': string, 'launch_token_expires_at': string, 'requirements': mixed, ...}|object $values */
+    /** @param array{'client_session': mixed, 'components': list<string>, 'effective_policy': mixed, 'launch_token': string, 'launch_token_expires_at': string, 'requirements': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSession')); }
     /** @return MerchantAccountSessionClientSession
      * @throws SdkError When client_session is omitted; use hasClientSession() or valueOrDefault().

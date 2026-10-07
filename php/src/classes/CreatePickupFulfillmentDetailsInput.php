@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object $address
+ * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $address
  * @property-read string $curbside_instructions
  * @property-read string|\DateTimeInterface $customer_arrived_at
  * @property-read string|\DateTimeInterface $expires_at
@@ -17,12 +17,12 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePickupFulfillmentDetailsInput extends Model {
-    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object, 'curbside_instructions'?: string, 'customer_arrived_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'instructions'?: string, 'location_name'?: string, 'pickup_window_duration_seconds'?: string, 'prep_time_duration_seconds'?: string, 'ready_at'?: string|\DateTimeInterface, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'curbside_instructions'?: string, 'customer_arrived_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'instructions'?: string, 'location_name'?: string, 'pickup_window_duration_seconds'?: string, 'prep_time_duration_seconds'?: string, 'ready_at'?: string|\DateTimeInterface, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePickupFulfillmentDetailsInput')); }
-    /** @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object
+    /** @return PostalAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
-    public function getAddress(): array|object { return $this->get('address'); }
+    public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
     /** @return string
      * @throws SdkError When curbside_instructions is omitted; use hasCurbsideInstructions() or valueOrDefault().

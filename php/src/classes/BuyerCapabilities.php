@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read BuyerRetentionOffer $retention_offer
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerCapabilities extends Model {
-    /** @param array{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: object{'enabled'?: bool, 'max_cycles'?: int}, 'retention_offer'?: object{'kind'?: string, 'pause_cycles'?: int}, ...}|object $values */
+    /** @param array{'cancellation_reasons'?: list<string>, 'cancellation_timing'?: string, 'pause'?: mixed, 'retention_offer'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCapabilities')); }
     /** @return list<string>
      * @throws SdkError When cancellation_reasons is omitted; use hasCancellationReasons() or valueOrDefault().

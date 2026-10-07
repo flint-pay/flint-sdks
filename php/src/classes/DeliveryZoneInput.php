@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $configuration
+ * @property-read DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_zone_revision_id
  * @property-read string $delivery_zone_id
@@ -14,9 +14,9 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZoneInput extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string|\DateTimeInterface, 'current_delivery_zone_revision_id': string, 'delivery_zone_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'configuration': DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_zone_revision_id': string, 'delivery_zone_id': string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZoneInput')); }
-    /** @return mixed
+    /** @return DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }

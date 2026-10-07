@@ -1,1 +1,1 @@
-{"shared":"RiskRuleValidationResponse","dependencies":["Analysis","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RiskRuleValidationResponse","RuleValidation","RuleWarning","SharedCodec1","SharedCodec488"]}
+{"shared":"RiskRuleValidationResponse","dependencies":["Analysis","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RiskRuleValidationResponse","RuleValidation","RuleWarning","SharedCodec1","SharedCodec448"]}

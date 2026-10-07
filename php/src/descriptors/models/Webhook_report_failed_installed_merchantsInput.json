@@ -1,1 +1,1 @@
-{"shared":"Webhook_report_failed_installed_merchants","dependencies":["PartnerWebhookEnvelope","SharedCodec287","SharedCodec411","SharedCodec412","SharedCodec413","SharedCodec414","SharedCodec415","SharedCodec416","Webhook_report_failed_installed_merchants"]}
+{"shared":"Webhook_report_failed_installed_merchants","dependencies":["PartnerWebhookEnvelope","PublicDownload","SharedCodec242","SharedCodec366","SharedCodec367","SharedCodec368","SharedCodec369","SharedCodec370","Webhook_report_failed_installed_merchants"]}

@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $reason_message
  * Presence-aware response; omitted fields throw when accessed. */
 final class GiftCardFundingDisposition extends Model {
-    /** @param array{'created_at': string, 'disposition': string, 'dispute_amount_money': object{'amount': string, 'currency': string}, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': object{'amount': string, 'currency': string}, 'original_gift_card_consideration_money': object{'amount': string, 'currency': string}, 'payment_intent_id': string, 'preserved_reserved_value_money': object{'amount': string, 'currency': string}, 'reason_message': string, ...}|object $values */
+    /** @param array{'created_at': string, 'disposition': string, 'dispute_amount_money': mixed, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': mixed, 'original_gift_card_consideration_money': mixed, 'payment_intent_id': string, 'preserved_reserved_value_money': mixed, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDisposition')); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

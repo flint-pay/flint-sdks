@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryLocationSet extends Model {
-    /** @param array{'configuration': object{'location_ids': list<string>}, 'created_at': string, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSet')); }
     /** @return DeliveryLocationSetConfiguration
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().

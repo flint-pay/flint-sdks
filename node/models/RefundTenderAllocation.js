@@ -1,9 +1,9 @@
-import { d2109 as c0, d2123 as c1, d41 as c2 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2123 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d314 as c0, d2064 as c1, d2077 as c2 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d2077 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2123;
+const read = d2077;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["RefundGiftCardDestination"]:c0(),["RefundTenderAllocation"]:c1(),["SharedCodec6"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["RefundGiftCardDestination"]:c1(),["RefundTenderAllocation"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeRefundTenderAllocation(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

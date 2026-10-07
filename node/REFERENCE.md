@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006230000; API 2026-09-07.
+Package 3.0.0-beta.20261007031000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -2104,695 +2104,10 @@ Returned payload:
 }) |
  ({
   "audience": ("buyer") & ("buyer");
-  "checkout_session": {
-    "active_payment_attempt"?: {
-      "completed_at"?: string;
-      "expected_outstanding_money": MoneyValue;
-      "failure_code"?: "card_declined" |
-      "insufficient_funds" |
-      "bank_account_closed" |
-      "bank_account_not_found" |
-      "bank_debit_not_authorized" |
-      "bank_account_restricted" |
-      "bank_debit_limit_exceeded" |
-      "authentication_required" |
-      "payment_blocked" |
-      "expired_card" |
-      "incorrect_cvc" |
-      "processing_error" |
-      "payment_method_unavailable" |
-      "payment_method_declined" |
-      "payment_not_completed" |
-      "payment_action_expired" |
-      "payment_method_temporarily_unavailable" |
-      "payment_failed" |
-      "authorization_canceled" |
-      "coupon_reservation_failed" |
-      "invalid_payment_source" |
-      "inventory_unavailable" |
-      "order_changed_before_payment" |
-      "order_payment_customer_mismatch" |
-      "payment_attempt_canceled" |
-      "payment_attempt_expired" |
-      "payment_authorization_canceled" |
-      "payment_authorization_expired" |
-      "payment_confirmation_rejected" |
-      "payment_confirm_outcome_unknown" |
-      "payment_link_capacity_claim_failed" |
-      "payment_link_capacity_validation_failed" |
-      "payment_method_activation_pending" |
-      "payment_method_required" |
-      "payment_option_not_allowed" |
-      "payment_option_unavailable" |
-      "payment_source_binding_failed" |
-      "payment_source_conflict" |
-      "payment_source_not_updatable" |
-      "payment_source_ownership_mismatch" |
-      "receipt_email_failed" |
-      "resource_guarantee_failed" |
-      "setup_action_unavailable" |
-      "setup_canceled" |
-      "setup_cancellation_outcome_unknown" |
-      "setup_cancellation_pending" |
-      "setup_confirmation_outcome_unknown" |
-      "setup_hold_acquisition_failed" |
-      "setup_preparation_outcome_unknown" |
-      "setup_processing" |
-      "setup_result_incomplete" |
-      "setup_status_unknown" |
-      "tip_allocation_sync_failed" |
-      "zero_balance_hold_acquisition_failed" |
-      "attempt_failed" |
-      (string & {
-      });
-      "failure_message"?: string;
-      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
-      "is_resumable": boolean;
-      "mode": "payment" |
-      "setup" |
-      "settlement" |
-      (string & {
-      });
-      "order_payment_attempt_id": string;
-      "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
-      "pending_actions"?: Array<PendingPaymentAction>;
-      "started_at"?: string;
-      "status": "processing" |
-      "requires_action" |
-      "requires_capture" |
-      "partially_succeeded" |
-      "requires_retry" |
-      "finalizing" |
-      "succeeded" |
-      "failed" |
-      "expired" |
-      "canceled" |
-      (string & {
-      });
-    };
-    "buyer_contact"?: {
-      "email": string |
-      null;
-      "is_email_cleared": boolean;
-      "is_phone_cleared": boolean;
-      "phone": string |
-      null;
-      "updated_at"?: string;
-    };
-    "checkout_session_id": string;
-    "closed_reason"?: string;
-    "created_at"?: string;
-    "custom_text"?: CheckoutCustomTextWriteConfig;
-    "customer"?: (({
-      "created_at"?: string;
-      "customer_id": string;
-      "email": string;
-      "name"?: string;
-      "phone"?: string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "customer_collection"?: CheckoutCustomerConfig;
-    "customer_prefill"?: {
-      "billing_address"?: {
-        "city": string;
-        "country": string;
-        "line1": string;
-        "line2"?: string;
-        "postal_code": string;
-        "state": string;
-      };
-      "email": string;
-      "shipping_address"?: {
-        "city": string;
-        "country": string;
-        "line1": string;
-        "line2"?: string;
-        "postal_code": string;
-        "state": string;
-      };
-    };
-    "delivery_method_ids": Array<string>;
-    "delivery_pinned_dependencies"?: Array<CheckoutDeliveryPinnedDependency>;
-    "delivery_selection_required": boolean;
-    "expiration"?: CheckoutExpirationConfig;
-    "expires_at"?: string;
-    "external_reference_id"?: string;
-    "fulfillment"?: (({
-      "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-      "delivery_quote_id"?: string;
-      "evaluation_status": "complete" |
-      "incomplete" |
-      "degraded" |
-      "requires_explicit_quote" |
-      (string & {
-      });
-      "expires_at"?: string;
-      "input_requirements": Array<DeliveryInputRequirement>;
-      "merchant_diagnostics": Array<DeliveryMerchantDiagnostic>;
-    }) |
-    ({
-      "buyer_reasons": Array<string>;
-      "choice_groups": Array<BuyerDeliveryQuoteChoiceGroupResource>;
-      "delivery_quote_id"?: string;
-      "evaluation_status": "complete" |
-      "incomplete" |
-      "degraded" |
-      "requires_explicit_quote" |
-      (string & {
-      });
-      "expires_at"?: string;
-      "input_requirements": Array<BuyerDeliveryInputRequirementResource>;
-    }) |
-    (object));
-    "invoice"?: (({
-      "collection_block_status"?: "none" |
-      "inventory_blocked" |
-      "resolved" |
-      (string & {
-      });
-      "created_at"?: string;
-      "customer_id"?: string;
-      "due_at"?: string;
-      "invoice_id": string;
-      "invoice_number"?: string;
-      "is_overdue": boolean;
-      "order_id"?: string;
-      "outstanding_money": MoneyValue;
-      "paid_money": MoneyValue;
-      "refund_status"?: "none" |
-      "partially_refunded" |
-      "refunded" |
-      (string & {
-      });
-      "refunded_money": MoneyValue;
-      "status": "draft" |
-      "open" |
-      "partially_paid" |
-      "paid" |
-      "void" |
-      "uncollectible" |
-      "credited" |
-      (string & {
-      });
-      "updated_at"?: string;
-    }) |
-    (null));
-    "invoice_id"?: string;
-    "legal"?: LegalSettings;
-    "merchant_id"?: string;
-    "merchant_support"?: {
-      "email"?: string;
-      "phone"?: string;
-      "url"?: string;
-    };
-    "metadata"?: Record<string,
-    string>;
-    "order"?: (({
-      "created_at"?: string;
-      "customer_id"?: string;
-      "fulfillment_status"?: "not_fulfilled" |
-      "partially_fulfilled" |
-      "fulfilled" |
-      "canceled" |
-      "not_applicable" |
-      "closed" |
-      (string & {
-      });
-      "order_id": string;
-      "order_number"?: string;
-      "payment_intent_ids"?: Array<string>;
-      "payment_status": "unpaid" |
-      "partially_paid" |
-      "paid" |
-      (string & {
-      });
-      "pricing_amounts": PricingAmounts;
-      "refund_status": "none" |
-      "partially_refunded" |
-      "refunded" |
-      (string & {
-      });
-      "settlement_amounts": SettlementAmounts;
-      "status": "open" |
-      "closed" |
-      (string & {
-      });
-      "updated_at"?: string;
-    }) |
-    (null));
-    "order_id"?: string;
-    "origin"?: "virtual_terminal" |
-    "payment_link" |
-    "checkout" |
-    "api" |
-    "subscription" |
-    (string & {
-    });
-    "payment_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "payment_intent_ids"?: Array<string>;
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    "payment_link"?: (({
-      "completed_count": number;
-      "created_at"?: string;
-      "description"?: string;
-      "name": string;
-      "payment_link_id": string;
-      "payment_link_type"?: "standard" |
-      "donation" |
-      "event" |
-      (string & {
-      });
-      "status": "active" |
-      "inactive" |
-      (string & {
-      });
-      "subscription_plan_id"?: string;
-      "updated_at"?: string;
-      "url"?: string;
-    }) |
-    (null));
-    "payment_link_id"?: string;
-    "payment_method_save"?: {
-      "email_confirmation_required": boolean;
-      "expires_at"?: string |
-      null;
-      "phone_last_digits"?: string;
-      "saved_with"?: "sms" |
-      "email" |
-      (string & {
-      });
-      "status": "pending" |
-      "saved" |
-      "expired" |
-      (string & {
-      });
-    };
-    "payments"?: CheckoutPaymentConfig;
-    "problems": Array<CheckoutProblemResource>;
-    "promotion_config"?: CheckoutPromotionConfig;
-    "recovery_expires_at"?: string |
-    null;
-    "recovery_mode": boolean;
-    "recovery_payment_attempt_id"?: string;
-    "redirects"?: CheckoutRedirectsConfig;
-    "save_payment_method_offered"?: boolean;
-    "save_payment_method_phone_offered"?: boolean;
-    "save_payment_method_requires_verification"?: boolean;
-    "setup_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "status": "open" |
-    "paid" |
-    "partially_paid" |
-    "expired" |
-    "closed" |
-    "invalidated" |
-    (string & {
-    });
-    "subscription_plan_id"?: string;
-    "subscription_terms"?: {
-      "billing_interval": "daily" |
-      "weekly" |
-      "monthly" |
-      "yearly" |
-      (string & {
-      });
-      "billing_interval_count": number;
-      "contract_term_months"?: number;
-      "early_termination_fee_money"?: {
-        "amount": string;
-        "currency": string;
-      };
-      "plan_name": string;
-      "recurring_total_money": {
-        "amount": string;
-        "currency": string;
-      };
-      "setup_fee_money"?: {
-        "amount": string;
-        "currency": string;
-      };
-      "subscription_plan_id": string;
-      "trial_period_days"?: number;
-    };
-    "superseding_checkout_session_id"?: string;
-    "surface": "hosted" |
-    "embedded" |
-    (string & {
-    });
-    "tax"?: CheckoutTaxConfig;
-    "terminal_reason"?: "payment_succeeded" |
-    "payment_partially_succeeded" |
-    "expired" |
-    "api" |
-    "order_mutated" |
-    "superseded" |
-    "invoice_paid_elsewhere" |
-    "invoice_voided" |
-    "invoice_uncollectible" |
-    "invoice_balance_changed" |
-    (string & {
-    });
-    "theme"?: ThemeConfig;
-    "tip"?: CheckoutTipConfig;
-    "updated_at"?: string;
-    "url"?: string;
-  };
+  "checkout_session": CheckoutSession;
   "delivery_selection": BuyerDeliverySelection;
-  "inventory_reservation"?: {
-    "expires_at": string;
-    "inventory_reservation_id": string;
-    "owner_type": "delivery_selection" |
-    "payment_attempt" |
-    "order_balance_hold" |
-    (string & {
-    });
-    "required_next_action"?: "none" |
-    "retry_payment" |
-    "replace_selection" |
-    "contact_merchant" |
-    (string & {
-    });
-    "status": "active" |
-    "closed" |
-    (string & {
-    });
-  };
-  "order": {
-    "active_payment_attempt"?: {
-      "completed_at"?: string;
-      "expected_outstanding_money": MoneyValue;
-      "failure_code"?: "card_declined" |
-      "insufficient_funds" |
-      "bank_account_closed" |
-      "bank_account_not_found" |
-      "bank_debit_not_authorized" |
-      "bank_account_restricted" |
-      "bank_debit_limit_exceeded" |
-      "authentication_required" |
-      "payment_blocked" |
-      "expired_card" |
-      "incorrect_cvc" |
-      "processing_error" |
-      "payment_method_unavailable" |
-      "payment_method_declined" |
-      "payment_not_completed" |
-      "payment_action_expired" |
-      "payment_method_temporarily_unavailable" |
-      "payment_failed" |
-      "authorization_canceled" |
-      "coupon_reservation_failed" |
-      "invalid_payment_source" |
-      "inventory_unavailable" |
-      "order_changed_before_payment" |
-      "order_payment_customer_mismatch" |
-      "payment_attempt_canceled" |
-      "payment_attempt_expired" |
-      "payment_authorization_canceled" |
-      "payment_authorization_expired" |
-      "payment_confirmation_rejected" |
-      "payment_confirm_outcome_unknown" |
-      "payment_link_capacity_claim_failed" |
-      "payment_link_capacity_validation_failed" |
-      "payment_method_activation_pending" |
-      "payment_method_required" |
-      "payment_option_not_allowed" |
-      "payment_option_unavailable" |
-      "payment_source_binding_failed" |
-      "payment_source_conflict" |
-      "payment_source_not_updatable" |
-      "payment_source_ownership_mismatch" |
-      "receipt_email_failed" |
-      "resource_guarantee_failed" |
-      "setup_action_unavailable" |
-      "setup_canceled" |
-      "setup_cancellation_outcome_unknown" |
-      "setup_cancellation_pending" |
-      "setup_confirmation_outcome_unknown" |
-      "setup_hold_acquisition_failed" |
-      "setup_preparation_outcome_unknown" |
-      "setup_processing" |
-      "setup_result_incomplete" |
-      "setup_status_unknown" |
-      "tip_allocation_sync_failed" |
-      "zero_balance_hold_acquisition_failed" |
-      "attempt_failed" |
-      (string & {
-      });
-      "failure_message"?: string;
-      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
-      "is_resumable": boolean;
-      "mode": "payment" |
-      "setup" |
-      "settlement" |
-      (string & {
-      });
-      "order_payment_attempt_id": string;
-      "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
-      "pending_actions"?: Array<PendingPaymentAction>;
-      "started_at"?: string;
-      "status": "processing" |
-      "requires_action" |
-      "requires_capture" |
-      "partially_succeeded" |
-      "requires_retry" |
-      "finalizing" |
-      "succeeded" |
-      "failed" |
-      "expired" |
-      "canceled" |
-      (string & {
-      });
-    };
-    "applied_discounts"?: Array<AppliedDiscount>;
-    "authorization_amounts"?: {
-      "authorized_money": MoneyValue;
-      "capturable_money": MoneyValue;
-      "expires_at"?: string;
-    };
-    "buyer_actions": Array<BuyerAction>;
-    "buyer_contact"?: {
-      "email": string |
-      null;
-      "is_email_cleared": boolean;
-      "is_phone_cleared": boolean;
-      "phone": string |
-      null;
-      "updated_at"?: string;
-    };
-    "buyer_note"?: string;
-    "charges"?: Array<OrderCharge>;
-    "checkout_session_ids"?: Array<string>;
-    "closed_reason"?: string;
-    "created_at"?: string;
-    "customer"?: (({
-      "created_at"?: string;
-      "customer_id": string;
-      "email": string;
-      "name"?: string;
-      "phone"?: string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "customer_id"?: string;
-    "delivery_destination"?: {
-      "address": OrderDeliveryDestinationAddress;
-      "delivery_selection_id"?: string;
-      "frozen_at"?: string;
-      "recipient"?: OrderDeliveryDestinationRecipient;
-      "source": "delivery_selection" |
-      "api" |
-      "dashboard" |
-      (string & {
-      });
-    };
-    "external_reference_id"?: string;
-    "fulfillment_status"?: "not_fulfilled" |
-    "partially_fulfilled" |
-    "fulfilled" |
-    "canceled" |
-    "not_applicable" |
-    "closed" |
-    (string & {
-    });
-    "fulfillments"?: Array<Fulfillment>;
-    "gift_card_estimate"?: {
-      "can_pay": boolean;
-      "gift_card_money": MoneyValue;
-      "gift_cards": Array<OrderGiftCardAllocation>;
-      "is_reserved": boolean;
-      "order_revision": string;
-      "processor_money": MoneyValue;
-    };
-    "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
-    "gift_card_tender_enabled"?: boolean;
-    "gift_cards"?: Array<OrderGiftCardSelection>;
-    "internal_note"?: string;
-    "inventory_exception_status"?: "paid_inventory_failed" |
-    "resolved" |
-    (string & {
-    });
-    "inventory_reservation_id"?: string;
-    "inventory_routing_source"?: {
-      "inventory_allocation_policy_id"?: string;
-      "inventory_allocation_policy_version_id"?: string;
-      "location_id"?: string;
-      "location_ids"?: Array<string>;
-      "type": "fixed_location" |
-      "policy" |
-      "policy_version" |
-      (string & {
-      });
-    };
-    "line_items": Array<OrderLineItem>;
-    "merchant_id"?: string;
-    "metadata"?: Record<string,
-    string>;
-    "order_id": string;
-    "order_number"?: string;
-    "order_revision"?: string;
-    "origin"?: "virtual_terminal" |
-    "payment_link" |
-    "checkout" |
-    "api" |
-    "subscription" |
-    (string & {
-    });
-    "payment_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "payment_intent_ids"?: Array<string>;
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    "payment_status": "unpaid" |
-    "partially_paid" |
-    "paid" |
-    (string & {
-    });
-    "pricing_amounts": {
-      "charge_money": MoneyValue;
-      "discount_money": MoneyValue;
-      "requested_tip_money": MoneyValue;
-      "subtotal_money": MoneyValue;
-      "tax_money": MoneyValue;
-      "total_money": MoneyValue;
-    };
-    "purchased_event"?: {
-      "location"?: string;
-      "name": string;
-      "starts_at"?: string;
-      "timezone"?: string;
-    };
-    "refund_ids"?: Array<string>;
-    "refund_status": "none" |
-    "partially_refunded" |
-    "refunded" |
-    (string & {
-    });
-    "requested_tip"?: RequestedTip;
-    "return_credit_settlements"?: Array<OrderReturnCreditSettlement>;
-    "settlement_amounts": {
-      "balance_money": SignedMoney;
-      "credit_money": MoneyValue;
-      "net_collected_money": MoneyValue;
-      "outstanding_money": MoneyValue;
-      "paid_money": MoneyValue;
-      "refunded_money": MoneyValue;
-      "settled_tip_money": MoneyValue;
-    };
-    "setup_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "status": "open" |
-    "closed" |
-    (string & {
-    });
-    "subscription"?: (({
-      "billing_anchor_day": number;
-      "cancel_at_period_end": boolean;
-      "created_at"?: string;
-      "current_period_end"?: string;
-      "current_period_start"?: string;
-      "customer_id": string;
-      "next_billing_at"?: string;
-      "status": "trialing" |
-      "active" |
-      "paused" |
-      "past_due" |
-      "canceled" |
-      "incomplete" |
-      (string & {
-      });
-      "subscription_id": string;
-      "subscription_plan_id": string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "subscription_id"?: string;
-    "subscription_plan"?: (({
-      "billing_interval": "daily" |
-      "weekly" |
-      "monthly" |
-      "yearly" |
-      (string & {
-      });
-      "billing_interval_count": number;
-      "created_at"?: string;
-      "currency": string;
-      "description"?: string;
-      "line_items"?: Array<SubscriptionPlanLineItem>;
-      "name": string;
-      "setup_fee_money"?: MoneyValue;
-      "status": "active" |
-      "archived" |
-      (string & {
-      });
-      "subscription_plan_id": string;
-      "trial_period_days"?: number;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "subscription_plan_id"?: string;
-    "tax": {
-      "automatic_profile"?: "standard" |
-      "connected" |
-      (string & {
-      });
-      "available_location_inputs"?: Array<string>;
-      "enabled": boolean;
-      "exemption"?: OrderTaxExemption;
-      "failure_reason"?: "calculation_unavailable" |
-      "location_unsupported" |
-      "rate_unavailable" |
-      (string & {
-      });
-      "location"?: OrderTaxLocation;
-      "mode": "automatic" |
-      "external" |
-      (string & {
-      });
-      "status": "not_required" |
-      "requires_location" |
-      "calculated" |
-      "exempt" |
-      "incomplete" |
-      (string & {
-      });
-      "tax_breakdowns"?: Array<TaxBreakdown>;
-      "taxability_reason": "standard_rated" |
-      "not_taxable" |
-      "customer_exempt" |
-      "tax_disabled" |
-      "no_jurisdiction" |
-      "location_required" |
-      (string & {
-      });
-    };
-    "tips"?: Array<Tip>;
-    "updated_at"?: string;
-  };
+  "inventory_reservation"?: DeliveryInventoryReservationSummary;
+  "order": Order;
 }) |
  (object))
 ```
@@ -2852,695 +2167,10 @@ Returned payload:
 }) |
  ({
   "audience": ("buyer") & ("buyer");
-  "checkout_session": {
-    "active_payment_attempt"?: {
-      "completed_at"?: string;
-      "expected_outstanding_money": MoneyValue;
-      "failure_code"?: "card_declined" |
-      "insufficient_funds" |
-      "bank_account_closed" |
-      "bank_account_not_found" |
-      "bank_debit_not_authorized" |
-      "bank_account_restricted" |
-      "bank_debit_limit_exceeded" |
-      "authentication_required" |
-      "payment_blocked" |
-      "expired_card" |
-      "incorrect_cvc" |
-      "processing_error" |
-      "payment_method_unavailable" |
-      "payment_method_declined" |
-      "payment_not_completed" |
-      "payment_action_expired" |
-      "payment_method_temporarily_unavailable" |
-      "payment_failed" |
-      "authorization_canceled" |
-      "coupon_reservation_failed" |
-      "invalid_payment_source" |
-      "inventory_unavailable" |
-      "order_changed_before_payment" |
-      "order_payment_customer_mismatch" |
-      "payment_attempt_canceled" |
-      "payment_attempt_expired" |
-      "payment_authorization_canceled" |
-      "payment_authorization_expired" |
-      "payment_confirmation_rejected" |
-      "payment_confirm_outcome_unknown" |
-      "payment_link_capacity_claim_failed" |
-      "payment_link_capacity_validation_failed" |
-      "payment_method_activation_pending" |
-      "payment_method_required" |
-      "payment_option_not_allowed" |
-      "payment_option_unavailable" |
-      "payment_source_binding_failed" |
-      "payment_source_conflict" |
-      "payment_source_not_updatable" |
-      "payment_source_ownership_mismatch" |
-      "receipt_email_failed" |
-      "resource_guarantee_failed" |
-      "setup_action_unavailable" |
-      "setup_canceled" |
-      "setup_cancellation_outcome_unknown" |
-      "setup_cancellation_pending" |
-      "setup_confirmation_outcome_unknown" |
-      "setup_hold_acquisition_failed" |
-      "setup_preparation_outcome_unknown" |
-      "setup_processing" |
-      "setup_result_incomplete" |
-      "setup_status_unknown" |
-      "tip_allocation_sync_failed" |
-      "zero_balance_hold_acquisition_failed" |
-      "attempt_failed" |
-      (string & {
-      });
-      "failure_message"?: string;
-      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
-      "is_resumable": boolean;
-      "mode": "payment" |
-      "setup" |
-      "settlement" |
-      (string & {
-      });
-      "order_payment_attempt_id": string;
-      "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
-      "pending_actions"?: Array<PendingPaymentAction>;
-      "started_at"?: string;
-      "status": "processing" |
-      "requires_action" |
-      "requires_capture" |
-      "partially_succeeded" |
-      "requires_retry" |
-      "finalizing" |
-      "succeeded" |
-      "failed" |
-      "expired" |
-      "canceled" |
-      (string & {
-      });
-    };
-    "buyer_contact"?: {
-      "email": string |
-      null;
-      "is_email_cleared": boolean;
-      "is_phone_cleared": boolean;
-      "phone": string |
-      null;
-      "updated_at"?: string;
-    };
-    "checkout_session_id": string;
-    "closed_reason"?: string;
-    "created_at"?: string;
-    "custom_text"?: CheckoutCustomTextWriteConfig;
-    "customer"?: (({
-      "created_at"?: string;
-      "customer_id": string;
-      "email": string;
-      "name"?: string;
-      "phone"?: string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "customer_collection"?: CheckoutCustomerConfig;
-    "customer_prefill"?: {
-      "billing_address"?: {
-        "city": string;
-        "country": string;
-        "line1": string;
-        "line2"?: string;
-        "postal_code": string;
-        "state": string;
-      };
-      "email": string;
-      "shipping_address"?: {
-        "city": string;
-        "country": string;
-        "line1": string;
-        "line2"?: string;
-        "postal_code": string;
-        "state": string;
-      };
-    };
-    "delivery_method_ids": Array<string>;
-    "delivery_pinned_dependencies"?: Array<CheckoutDeliveryPinnedDependency>;
-    "delivery_selection_required": boolean;
-    "expiration"?: CheckoutExpirationConfig;
-    "expires_at"?: string;
-    "external_reference_id"?: string;
-    "fulfillment"?: (({
-      "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-      "delivery_quote_id"?: string;
-      "evaluation_status": "complete" |
-      "incomplete" |
-      "degraded" |
-      "requires_explicit_quote" |
-      (string & {
-      });
-      "expires_at"?: string;
-      "input_requirements": Array<DeliveryInputRequirement>;
-      "merchant_diagnostics": Array<DeliveryMerchantDiagnostic>;
-    }) |
-    ({
-      "buyer_reasons": Array<string>;
-      "choice_groups": Array<BuyerDeliveryQuoteChoiceGroupResource>;
-      "delivery_quote_id"?: string;
-      "evaluation_status": "complete" |
-      "incomplete" |
-      "degraded" |
-      "requires_explicit_quote" |
-      (string & {
-      });
-      "expires_at"?: string;
-      "input_requirements": Array<BuyerDeliveryInputRequirementResource>;
-    }) |
-    (object));
-    "invoice"?: (({
-      "collection_block_status"?: "none" |
-      "inventory_blocked" |
-      "resolved" |
-      (string & {
-      });
-      "created_at"?: string;
-      "customer_id"?: string;
-      "due_at"?: string;
-      "invoice_id": string;
-      "invoice_number"?: string;
-      "is_overdue": boolean;
-      "order_id"?: string;
-      "outstanding_money": MoneyValue;
-      "paid_money": MoneyValue;
-      "refund_status"?: "none" |
-      "partially_refunded" |
-      "refunded" |
-      (string & {
-      });
-      "refunded_money": MoneyValue;
-      "status": "draft" |
-      "open" |
-      "partially_paid" |
-      "paid" |
-      "void" |
-      "uncollectible" |
-      "credited" |
-      (string & {
-      });
-      "updated_at"?: string;
-    }) |
-    (null));
-    "invoice_id"?: string;
-    "legal"?: LegalSettings;
-    "merchant_id"?: string;
-    "merchant_support"?: {
-      "email"?: string;
-      "phone"?: string;
-      "url"?: string;
-    };
-    "metadata"?: Record<string,
-    string>;
-    "order"?: (({
-      "created_at"?: string;
-      "customer_id"?: string;
-      "fulfillment_status"?: "not_fulfilled" |
-      "partially_fulfilled" |
-      "fulfilled" |
-      "canceled" |
-      "not_applicable" |
-      "closed" |
-      (string & {
-      });
-      "order_id": string;
-      "order_number"?: string;
-      "payment_intent_ids"?: Array<string>;
-      "payment_status": "unpaid" |
-      "partially_paid" |
-      "paid" |
-      (string & {
-      });
-      "pricing_amounts": PricingAmounts;
-      "refund_status": "none" |
-      "partially_refunded" |
-      "refunded" |
-      (string & {
-      });
-      "settlement_amounts": SettlementAmounts;
-      "status": "open" |
-      "closed" |
-      (string & {
-      });
-      "updated_at"?: string;
-    }) |
-    (null));
-    "order_id"?: string;
-    "origin"?: "virtual_terminal" |
-    "payment_link" |
-    "checkout" |
-    "api" |
-    "subscription" |
-    (string & {
-    });
-    "payment_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "payment_intent_ids"?: Array<string>;
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    "payment_link"?: (({
-      "completed_count": number;
-      "created_at"?: string;
-      "description"?: string;
-      "name": string;
-      "payment_link_id": string;
-      "payment_link_type"?: "standard" |
-      "donation" |
-      "event" |
-      (string & {
-      });
-      "status": "active" |
-      "inactive" |
-      (string & {
-      });
-      "subscription_plan_id"?: string;
-      "updated_at"?: string;
-      "url"?: string;
-    }) |
-    (null));
-    "payment_link_id"?: string;
-    "payment_method_save"?: {
-      "email_confirmation_required": boolean;
-      "expires_at"?: string |
-      null;
-      "phone_last_digits"?: string;
-      "saved_with"?: "sms" |
-      "email" |
-      (string & {
-      });
-      "status": "pending" |
-      "saved" |
-      "expired" |
-      (string & {
-      });
-    };
-    "payments"?: CheckoutPaymentConfig;
-    "problems": Array<CheckoutProblemResource>;
-    "promotion_config"?: CheckoutPromotionConfig;
-    "recovery_expires_at"?: string |
-    null;
-    "recovery_mode": boolean;
-    "recovery_payment_attempt_id"?: string;
-    "redirects"?: CheckoutRedirectsConfig;
-    "save_payment_method_offered"?: boolean;
-    "save_payment_method_phone_offered"?: boolean;
-    "save_payment_method_requires_verification"?: boolean;
-    "setup_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "status": "open" |
-    "paid" |
-    "partially_paid" |
-    "expired" |
-    "closed" |
-    "invalidated" |
-    (string & {
-    });
-    "subscription_plan_id"?: string;
-    "subscription_terms"?: {
-      "billing_interval": "daily" |
-      "weekly" |
-      "monthly" |
-      "yearly" |
-      (string & {
-      });
-      "billing_interval_count": number;
-      "contract_term_months"?: number;
-      "early_termination_fee_money"?: {
-        "amount": string;
-        "currency": string;
-      };
-      "plan_name": string;
-      "recurring_total_money": {
-        "amount": string;
-        "currency": string;
-      };
-      "setup_fee_money"?: {
-        "amount": string;
-        "currency": string;
-      };
-      "subscription_plan_id": string;
-      "trial_period_days"?: number;
-    };
-    "superseding_checkout_session_id"?: string;
-    "surface": "hosted" |
-    "embedded" |
-    (string & {
-    });
-    "tax"?: CheckoutTaxConfig;
-    "terminal_reason"?: "payment_succeeded" |
-    "payment_partially_succeeded" |
-    "expired" |
-    "api" |
-    "order_mutated" |
-    "superseded" |
-    "invoice_paid_elsewhere" |
-    "invoice_voided" |
-    "invoice_uncollectible" |
-    "invoice_balance_changed" |
-    (string & {
-    });
-    "theme"?: ThemeConfig;
-    "tip"?: CheckoutTipConfig;
-    "updated_at"?: string;
-    "url"?: string;
-  };
+  "checkout_session": CheckoutSession;
   "delivery_selection": BuyerDeliverySelection;
-  "inventory_reservation"?: {
-    "expires_at": string;
-    "inventory_reservation_id": string;
-    "owner_type": "delivery_selection" |
-    "payment_attempt" |
-    "order_balance_hold" |
-    (string & {
-    });
-    "required_next_action"?: "none" |
-    "retry_payment" |
-    "replace_selection" |
-    "contact_merchant" |
-    (string & {
-    });
-    "status": "active" |
-    "closed" |
-    (string & {
-    });
-  };
-  "order": {
-    "active_payment_attempt"?: {
-      "completed_at"?: string;
-      "expected_outstanding_money": MoneyValue;
-      "failure_code"?: "card_declined" |
-      "insufficient_funds" |
-      "bank_account_closed" |
-      "bank_account_not_found" |
-      "bank_debit_not_authorized" |
-      "bank_account_restricted" |
-      "bank_debit_limit_exceeded" |
-      "authentication_required" |
-      "payment_blocked" |
-      "expired_card" |
-      "incorrect_cvc" |
-      "processing_error" |
-      "payment_method_unavailable" |
-      "payment_method_declined" |
-      "payment_not_completed" |
-      "payment_action_expired" |
-      "payment_method_temporarily_unavailable" |
-      "payment_failed" |
-      "authorization_canceled" |
-      "coupon_reservation_failed" |
-      "invalid_payment_source" |
-      "inventory_unavailable" |
-      "order_changed_before_payment" |
-      "order_payment_customer_mismatch" |
-      "payment_attempt_canceled" |
-      "payment_attempt_expired" |
-      "payment_authorization_canceled" |
-      "payment_authorization_expired" |
-      "payment_confirmation_rejected" |
-      "payment_confirm_outcome_unknown" |
-      "payment_link_capacity_claim_failed" |
-      "payment_link_capacity_validation_failed" |
-      "payment_method_activation_pending" |
-      "payment_method_required" |
-      "payment_option_not_allowed" |
-      "payment_option_unavailable" |
-      "payment_source_binding_failed" |
-      "payment_source_conflict" |
-      "payment_source_not_updatable" |
-      "payment_source_ownership_mismatch" |
-      "receipt_email_failed" |
-      "resource_guarantee_failed" |
-      "setup_action_unavailable" |
-      "setup_canceled" |
-      "setup_cancellation_outcome_unknown" |
-      "setup_cancellation_pending" |
-      "setup_confirmation_outcome_unknown" |
-      "setup_hold_acquisition_failed" |
-      "setup_preparation_outcome_unknown" |
-      "setup_processing" |
-      "setup_result_incomplete" |
-      "setup_status_unknown" |
-      "tip_allocation_sync_failed" |
-      "zero_balance_hold_acquisition_failed" |
-      "attempt_failed" |
-      (string & {
-      });
-      "failure_message"?: string;
-      "gift_card_redemptions"?: Array<PaymentAttemptGiftCardRedemption>;
-      "is_resumable": boolean;
-      "mode": "payment" |
-      "setup" |
-      "settlement" |
-      (string & {
-      });
-      "order_payment_attempt_id": string;
-      "payment_intents"?: Array<PaymentAttemptPaymentIntent>;
-      "pending_actions"?: Array<PendingPaymentAction>;
-      "started_at"?: string;
-      "status": "processing" |
-      "requires_action" |
-      "requires_capture" |
-      "partially_succeeded" |
-      "requires_retry" |
-      "finalizing" |
-      "succeeded" |
-      "failed" |
-      "expired" |
-      "canceled" |
-      (string & {
-      });
-    };
-    "applied_discounts"?: Array<AppliedDiscount>;
-    "authorization_amounts"?: {
-      "authorized_money": MoneyValue;
-      "capturable_money": MoneyValue;
-      "expires_at"?: string;
-    };
-    "buyer_actions": Array<BuyerAction>;
-    "buyer_contact"?: {
-      "email": string |
-      null;
-      "is_email_cleared": boolean;
-      "is_phone_cleared": boolean;
-      "phone": string |
-      null;
-      "updated_at"?: string;
-    };
-    "buyer_note"?: string;
-    "charges"?: Array<OrderCharge>;
-    "checkout_session_ids"?: Array<string>;
-    "closed_reason"?: string;
-    "created_at"?: string;
-    "customer"?: (({
-      "created_at"?: string;
-      "customer_id": string;
-      "email": string;
-      "name"?: string;
-      "phone"?: string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "customer_id"?: string;
-    "delivery_destination"?: {
-      "address": OrderDeliveryDestinationAddress;
-      "delivery_selection_id"?: string;
-      "frozen_at"?: string;
-      "recipient"?: OrderDeliveryDestinationRecipient;
-      "source": "delivery_selection" |
-      "api" |
-      "dashboard" |
-      (string & {
-      });
-    };
-    "external_reference_id"?: string;
-    "fulfillment_status"?: "not_fulfilled" |
-    "partially_fulfilled" |
-    "fulfilled" |
-    "canceled" |
-    "not_applicable" |
-    "closed" |
-    (string & {
-    });
-    "fulfillments"?: Array<Fulfillment>;
-    "gift_card_estimate"?: {
-      "can_pay": boolean;
-      "gift_card_money": MoneyValue;
-      "gift_cards": Array<OrderGiftCardAllocation>;
-      "is_reserved": boolean;
-      "order_revision": string;
-      "processor_money": MoneyValue;
-    };
-    "gift_card_settlements"?: Array<OrderGiftCardSettlement>;
-    "gift_card_tender_enabled"?: boolean;
-    "gift_cards"?: Array<OrderGiftCardSelection>;
-    "internal_note"?: string;
-    "inventory_exception_status"?: "paid_inventory_failed" |
-    "resolved" |
-    (string & {
-    });
-    "inventory_reservation_id"?: string;
-    "inventory_routing_source"?: {
-      "inventory_allocation_policy_id"?: string;
-      "inventory_allocation_policy_version_id"?: string;
-      "location_id"?: string;
-      "location_ids"?: Array<string>;
-      "type": "fixed_location" |
-      "policy" |
-      "policy_version" |
-      (string & {
-      });
-    };
-    "line_items": Array<OrderLineItem>;
-    "merchant_id"?: string;
-    "metadata"?: Record<string,
-    string>;
-    "order_id": string;
-    "order_number"?: string;
-    "order_revision"?: string;
-    "origin"?: "virtual_terminal" |
-    "payment_link" |
-    "checkout" |
-    "api" |
-    "subscription" |
-    (string & {
-    });
-    "payment_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "payment_intent_ids"?: Array<string>;
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    "payment_status": "unpaid" |
-    "partially_paid" |
-    "paid" |
-    (string & {
-    });
-    "pricing_amounts": {
-      "charge_money": MoneyValue;
-      "discount_money": MoneyValue;
-      "requested_tip_money": MoneyValue;
-      "subtotal_money": MoneyValue;
-      "tax_money": MoneyValue;
-      "total_money": MoneyValue;
-    };
-    "purchased_event"?: {
-      "location"?: string;
-      "name": string;
-      "starts_at"?: string;
-      "timezone"?: string;
-    };
-    "refund_ids"?: Array<string>;
-    "refund_status": "none" |
-    "partially_refunded" |
-    "refunded" |
-    (string & {
-    });
-    "requested_tip"?: RequestedTip;
-    "return_credit_settlements"?: Array<OrderReturnCreditSettlement>;
-    "settlement_amounts": {
-      "balance_money": SignedMoney;
-      "credit_money": MoneyValue;
-      "net_collected_money": MoneyValue;
-      "outstanding_money": MoneyValue;
-      "paid_money": MoneyValue;
-      "refunded_money": MoneyValue;
-      "settled_tip_money": MoneyValue;
-    };
-    "setup_collection"?: {
-      "stripe"?: PaymentCollectionStripe;
-    };
-    "status": "open" |
-    "closed" |
-    (string & {
-    });
-    "subscription"?: (({
-      "billing_anchor_day": number;
-      "cancel_at_period_end": boolean;
-      "created_at"?: string;
-      "current_period_end"?: string;
-      "current_period_start"?: string;
-      "customer_id": string;
-      "next_billing_at"?: string;
-      "status": "trialing" |
-      "active" |
-      "paused" |
-      "past_due" |
-      "canceled" |
-      "incomplete" |
-      (string & {
-      });
-      "subscription_id": string;
-      "subscription_plan_id": string;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "subscription_id"?: string;
-    "subscription_plan"?: (({
-      "billing_interval": "daily" |
-      "weekly" |
-      "monthly" |
-      "yearly" |
-      (string & {
-      });
-      "billing_interval_count": number;
-      "created_at"?: string;
-      "currency": string;
-      "description"?: string;
-      "line_items"?: Array<SubscriptionPlanLineItem>;
-      "name": string;
-      "setup_fee_money"?: MoneyValue;
-      "status": "active" |
-      "archived" |
-      (string & {
-      });
-      "subscription_plan_id": string;
-      "trial_period_days"?: number;
-      "updated_at"?: string;
-    }) |
-    (null));
-    "subscription_plan_id"?: string;
-    "tax": {
-      "automatic_profile"?: "standard" |
-      "connected" |
-      (string & {
-      });
-      "available_location_inputs"?: Array<string>;
-      "enabled": boolean;
-      "exemption"?: OrderTaxExemption;
-      "failure_reason"?: "calculation_unavailable" |
-      "location_unsupported" |
-      "rate_unavailable" |
-      (string & {
-      });
-      "location"?: OrderTaxLocation;
-      "mode": "automatic" |
-      "external" |
-      (string & {
-      });
-      "status": "not_required" |
-      "requires_location" |
-      "calculated" |
-      "exempt" |
-      "incomplete" |
-      (string & {
-      });
-      "tax_breakdowns"?: Array<TaxBreakdown>;
-      "taxability_reason": "standard_rated" |
-      "not_taxable" |
-      "customer_exempt" |
-      "tax_disabled" |
-      "no_jurisdiction" |
-      "location_required" |
-      (string & {
-      });
-    };
-    "tips"?: Array<Tip>;
-    "updated_at"?: string;
-  };
+  "inventory_reservation"?: DeliveryInventoryReservationSummary;
+  "order": Order;
 }) |
  (object))
 ```
@@ -3628,26 +2258,8 @@ Returned payload:
 (({
   "audience": ("merchant") & ("merchant");
   "delivery_selection"?: (({
-    "amount_money": {
-      "amount": string;
-      "currency": string;
-    };
-    "buyer_location"?: ({
-      "address"?: DeliveryAddressResource;
-      "coordinate"?: DeliveryCoordinateRequest;
-      "type": "address" |
-      "coordinate" |
-      (string & {
-      });
-    }) & ((({
-      "type": ("address") & ("address");
-      "address": unknown;
-    })) |
-    (({
-      "type": ("coordinate") & ("coordinate");
-      "coordinate": unknown;
-    })) |
-    (object));
+    "amount_money": MoneyValue;
+    "buyer_location"?: DeliveryBuyerLocationResource;
     "calculation_expires_at": string;
     "checkout_session_id": string;
     "choices": Array<DeliverySelectionChoiceResource>;
@@ -3655,14 +2267,7 @@ Returned payload:
     "delivery_quote_id": string;
     "delivery_quote_revision": string;
     "delivery_selection_id": string;
-    "destination_address"?: {
-      "city"?: string;
-      "country"?: string;
-      "line1"?: string;
-      "line2"?: string;
-      "postal_code"?: string;
-      "state"?: string;
-    };
+    "destination_address"?: DeliveryAddressResource;
     "eligibility_context_revision": string;
     "expires_at": string;
     "input_requirements": Array<DeliveryInputRequirement>;
@@ -3682,11 +2287,7 @@ Returned payload:
     "redacted" |
     (string & {
     });
-    "recipient"?: {
-      "email"?: string;
-      "name"?: string;
-      "phone"?: string;
-    };
+    "recipient"?: DeliveryRecipientResource;
     "redacted_at"?: string;
     "status": "selected" |
     "locked_for_payment" |
@@ -4043,7 +2644,7 @@ Updates the mutable fields of a checkout session. A merchant credential can upda
 
 `PATCH /v1/checkout-sessions/{checkout_session_id}`
 
-Call: `update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: { "email"?: string | null; "phone"?: string | null; }; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: CheckoutBuyerContactRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `checkout_session_id`. Params contain flat body fields and query/header fields.
 
@@ -4058,12 +2659,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
   "body": {
-    "buyer_contact"?: {
-      "email"?: string |
-      null;
-      "phone"?: string |
-      null;
-    };
+    "buyer_contact"?: CheckoutBuyerContactRequestInput;
     "external_reference_id"?: string;
     "metadata"?: Record<string,
     string |
@@ -4154,7 +2750,7 @@ Applies credit from an issued credit note to its invoice, reducing outstanding_m
 
 `POST /v1/credit-notes/{credit_note_id}/allocations`
 
-Call: `createAllocation(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": { "amount": string; "currency": string; }; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `createAllocation(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `credit_note_id`. Params contain flat body fields and query/header fields.
 
@@ -4166,10 +2762,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": {
-    "amount_money": {
-      "amount": string;
-      "currency": string;
-    };
+    "amount_money": MoneyValueInput;
     "expected_version"?: string;
   };
 }
@@ -6103,7 +4696,7 @@ Delivery methods combine eligibility, pricing, schedules, estimates, tax treatme
 
 `POST /v1/delivery-methods`
 
-Call: `create(params: (InputValue<({ "configuration": DeliveryMethodConfigurationCreateRequestInput; "description"?: string; "display_position"?: number; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "recommendation_priority"?: number; "status"?: "inactive" | "active"; "type": "shipment" | "local_delivery" | "pickup"; }) & (({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day"; }) & ({ "pickup_mode"?: never }); }); "type": "shipment"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "on_demand" | "same_day" | "scheduled"; }) & ({ "pickup_mode"?: never }); }); "type": "local_delivery"; }) | ({ "configuration": (({ "buyer_instructions"?: { "enabled": boolean; "label"?: string; "placeholder"?: string; "required": boolean; }; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: ({ "all"?: Array<DeliveryEligibilityExpressionInput>; "any"?: Array<DeliveryEligibilityExpressionInput>; "country"?: DeliveryCountryConditionInput; "customer_group"?: DeliveryCustomerGroupConditionInput; "customer_has_email"?: DeliveryCustomerBooleanConditionInput; "customer_has_phone"?: DeliveryCustomerBooleanConditionInput; "customer_verified"?: DeliveryCustomerBooleanConditionInput; "not"?: DeliveryEligibilityExpressionInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; "window_time"?: DeliveryWindowTimeConditionInput; "zone"?: DeliveryZoneConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "zone": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; }) | ({ "window_time": unknown; }) | ({ "customer_group": unknown; }) | ({ "customer_verified": unknown; }) | ({ "customer_has_email": unknown; }) | ({ "customer_has_phone": unknown; })); "estimate"?: { "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }; "minimum_option_lifetime_seconds"?: string; "origin": ({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never }))); "pricing": ({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never })))); "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "origin": (({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })))) & ({ "type"?: "pickup_location_collection"; }); "public_details": ({ "pickup_mode": "in_store" | "curbside" | "locker" | "other"; }) & ({ "service_level"?: never }); }); "type": "pickup"; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "configuration": DeliveryMethodConfigurationCreateRequestInput; "description"?: string; "display_position"?: number; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "recommendation_priority"?: number; "status"?: "inactive" | "active"; "type": "shipment" | "local_delivery" | "pickup"; }) & (({ "configuration": (({ "buyer_instructions"?: BuyerInstructionsConfigInput; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: DeliveryEligibilityExpressionInput; "estimate"?: DeliveryEstimateRuleRequestInput; "minimum_option_lifetime_seconds"?: string; "origin": DeliveryMethodOriginSelectorRequestInput; "pricing": DeliveryPricingStrategyRequestInput; "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day"; }) & ({ "pickup_mode"?: never }); }); "type": "shipment"; }) | ({ "configuration": (({ "buyer_instructions"?: BuyerInstructionsConfigInput; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: DeliveryEligibilityExpressionInput; "estimate"?: DeliveryEstimateRuleRequestInput; "minimum_option_lifetime_seconds"?: string; "origin": DeliveryMethodOriginSelectorRequestInput; "pricing": DeliveryPricingStrategyRequestInput; "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "public_details"?: ({ "service_level"?: "on_demand" | "same_day" | "scheduled"; }) & ({ "pickup_mode"?: never }); }); "type": "local_delivery"; }) | ({ "configuration": (({ "buyer_instructions"?: BuyerInstructionsConfigInput; "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null; "eligibility"?: DeliveryEligibilityExpressionInput; "estimate"?: DeliveryEstimateRuleRequestInput; "minimum_option_lifetime_seconds"?: string; "origin": DeliveryMethodOriginSelectorRequestInput; "pricing": DeliveryPricingStrategyRequestInput; "public_details"?: { "instructions"?: string; "pickup_mode"?: "in_store" | "curbside" | "locker" | "other"; "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | "on_demand" | "scheduled"; }; "quote_input_fields"?: Array<"destination_address" | "destination_address.line1" | "destination_address.line2" | "destination_address.city" | "destination_address.state" | "destination_address.postal_code" | "destination_address.country" | "buyer_location" | "buyer_location.line1" | "buyer_location.line2" | "buyer_location.city" | "buyer_location.state" | "buyer_location.postal_code" | "buyer_location.country" | "buyer_location.coordinate">; "recipient_requirements"?: Array<DeliveryRecipientRequirementInput>; "selection_guarantee_seconds"?: string; "taxable"?: boolean | null; }) & (({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "fixed" | "rate_table" | "tiered"; }); }) | ({ "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "calculated"; }); "minimum_option_lifetime_seconds": unknown; }) | ({ "estimate"?: ({ "schedule_window"?: DeliveryScheduleWindowRuleRequestInput; "transit_time"?: DeliveryTransitTimeRuleInput; "type": "none" | "transit_time" | "schedule_window"; }) & ({ "type"?: "transit_time" | "schedule_window"; }); "pricing"?: (({ "calculated"?: DeliveryCalculatedPricingStrategyRequestInput; "callback"?: DeliveryCallbackPricingStrategyRequestInput; "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput; "fixed"?: DeliveryFixedPricingStrategyRequestInput; "rate_table"?: DeliveryRateTablePricingStrategyRequestInput; "tiered"?: DeliveryTieredPricingStrategyRequestInput; "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied"; }) & ((({ "type": ("calculated") & ("calculated"); "calculated": unknown; }) & (({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("callback") & ("callback"); "callback": unknown; }) & (({ "calculated"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("caller_supplied") & ("caller_supplied"); "caller_supplied": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("fixed") & ("fixed"); "fixed": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "rate_table"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("rate_table") & ("rate_table"); "rate_table": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "tiered"?: never }))) | (({ "type": ("tiered") & ("tiered"); "tiered": unknown; }) & (({ "calculated"?: never }) & ({ "callback"?: never }) & ({ "caller_supplied"?: never }) & ({ "fixed"?: never }) & ({ "rate_table"?: never }))))) & ({ "type"?: "callback" | "caller_supplied"; }); "minimum_option_lifetime_seconds": unknown; }))) & ({ "origin": (({ "delivery_location_set_id"?: string; "location_id"?: string; "location_ids"?: Array<string>; "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection"; }) & ((({ "type": ("fixed_location") & ("fixed_location"); "location_id": unknown; }) & (({ "delivery_location_set_id"?: never }) & ({ "delivery_location_set_revision_id"?: never }) & ({ "location_ids"?: never }))) | (({ "location_ids"?: Array<string>; "type": ("allocated_origin_group") & ("allocated_origin_group"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })) | (({ "location_ids"?: Array<string>; "type": ("pickup_location_collection") & ("pickup_location_collection"); }) & (({ "delivery_location_set_id": unknown; }) | ({ "location_ids": unknown; })) & ({ "location_id"?: never })))) & ({ "type"?: "pickup_location_collection"; }); "public_details": ({ "pickup_mode": "in_store" | "curbside" | "locker" | "other"; }) & ({ "service_level"?: never }); }); "type": "pickup"; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -6129,215 +4722,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "pickup";
   }) & (({
     "configuration": (({
-      "buyer_instructions"?: {
-        "enabled": boolean;
-        "label"?: string;
-        "placeholder"?: string;
-        "required": boolean;
-      };
+      "buyer_instructions"?: BuyerInstructionsConfigInput;
       "charge_tax_category"?: "service_fee" |
       "shipping" |
       "delivery" |
       "handling" |
       "surcharge" |
       null;
-      "eligibility"?: ({
-        "all"?: Array<DeliveryEligibilityExpressionInput>;
-        "any"?: Array<DeliveryEligibilityExpressionInput>;
-        "country"?: DeliveryCountryConditionInput;
-        "customer_group"?: DeliveryCustomerGroupConditionInput;
-        "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
-        "customer_verified"?: DeliveryCustomerBooleanConditionInput;
-        "not"?: DeliveryEligibilityExpressionInput;
-        "postal_code"?: DeliveryPostalCodeConditionInput;
-        "radius"?: DeliveryRadiusConditionInput;
-        "state"?: DeliveryStateConditionInput;
-        "window_time"?: DeliveryWindowTimeConditionInput;
-        "zone"?: DeliveryZoneConditionInput;
-      }) & (({
-        "all": unknown;
-      }) |
-      ({
-        "any": unknown;
-      }) |
-      ({
-        "not": unknown;
-      }) |
-      ({
-        "zone": unknown;
-      }) |
-      ({
-        "country": unknown;
-      }) |
-      ({
-        "state": unknown;
-      }) |
-      ({
-        "postal_code": unknown;
-      }) |
-      ({
-        "radius": unknown;
-      }) |
-      ({
-        "window_time": unknown;
-      }) |
-      ({
-        "customer_group": unknown;
-      }) |
-      ({
-        "customer_verified": unknown;
-      }) |
-      ({
-        "customer_has_email": unknown;
-      }) |
-      ({
-        "customer_has_phone": unknown;
-      }));
-      "estimate"?: {
-        "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
-        "transit_time"?: DeliveryTransitTimeRuleInput;
-        "type": "none" |
-        "transit_time" |
-        "schedule_window";
-      };
+      "eligibility"?: DeliveryEligibilityExpressionInput;
+      "estimate"?: DeliveryEstimateRuleRequestInput;
       "minimum_option_lifetime_seconds"?: string;
-      "origin": ({
-        "delivery_location_set_id"?: string;
-        "location_id"?: string;
-        "location_ids"?: Array<string>;
-        "type": "fixed_location" |
-        "allocated_origin_group" |
-        "pickup_location_collection";
-      }) & ((({
-        "type": ("fixed_location") & ("fixed_location");
-        "location_id": unknown;
-      }) & (({
-        "delivery_location_set_id"?: never
-      }) & ({
-        "delivery_location_set_revision_id"?: never
-      }) & ({
-        "location_ids"?: never
-      }))) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("allocated_origin_group") & ("allocated_origin_group");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("pickup_location_collection") & ("pickup_location_collection");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })));
-      "pricing": ({
-        "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-        "callback"?: DeliveryCallbackPricingStrategyRequestInput;
-        "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-        "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-        "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
-        "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-        "type": "fixed" |
-        "rate_table" |
-        "tiered" |
-        "calculated" |
-        "callback" |
-        "caller_supplied";
-      }) & ((({
-        "type": ("calculated") & ("calculated");
-        "calculated": unknown;
-      }) & (({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("callback") & ("callback");
-        "callback": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("caller_supplied") & ("caller_supplied");
-        "caller_supplied": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("fixed") & ("fixed");
-        "fixed": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("rate_table") & ("rate_table");
-        "rate_table": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("tiered") & ("tiered");
-        "tiered": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }))));
+      "origin": DeliveryMethodOriginSelectorRequestInput;
+      "pricing": DeliveryPricingStrategyRequestInput;
       "public_details"?: {
         "instructions"?: string;
         "pickup_mode"?: "in_store" |
@@ -6705,215 +5101,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   }) |
   ({
     "configuration": (({
-      "buyer_instructions"?: {
-        "enabled": boolean;
-        "label"?: string;
-        "placeholder"?: string;
-        "required": boolean;
-      };
+      "buyer_instructions"?: BuyerInstructionsConfigInput;
       "charge_tax_category"?: "service_fee" |
       "shipping" |
       "delivery" |
       "handling" |
       "surcharge" |
       null;
-      "eligibility"?: ({
-        "all"?: Array<DeliveryEligibilityExpressionInput>;
-        "any"?: Array<DeliveryEligibilityExpressionInput>;
-        "country"?: DeliveryCountryConditionInput;
-        "customer_group"?: DeliveryCustomerGroupConditionInput;
-        "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
-        "customer_verified"?: DeliveryCustomerBooleanConditionInput;
-        "not"?: DeliveryEligibilityExpressionInput;
-        "postal_code"?: DeliveryPostalCodeConditionInput;
-        "radius"?: DeliveryRadiusConditionInput;
-        "state"?: DeliveryStateConditionInput;
-        "window_time"?: DeliveryWindowTimeConditionInput;
-        "zone"?: DeliveryZoneConditionInput;
-      }) & (({
-        "all": unknown;
-      }) |
-      ({
-        "any": unknown;
-      }) |
-      ({
-        "not": unknown;
-      }) |
-      ({
-        "zone": unknown;
-      }) |
-      ({
-        "country": unknown;
-      }) |
-      ({
-        "state": unknown;
-      }) |
-      ({
-        "postal_code": unknown;
-      }) |
-      ({
-        "radius": unknown;
-      }) |
-      ({
-        "window_time": unknown;
-      }) |
-      ({
-        "customer_group": unknown;
-      }) |
-      ({
-        "customer_verified": unknown;
-      }) |
-      ({
-        "customer_has_email": unknown;
-      }) |
-      ({
-        "customer_has_phone": unknown;
-      }));
-      "estimate"?: {
-        "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
-        "transit_time"?: DeliveryTransitTimeRuleInput;
-        "type": "none" |
-        "transit_time" |
-        "schedule_window";
-      };
+      "eligibility"?: DeliveryEligibilityExpressionInput;
+      "estimate"?: DeliveryEstimateRuleRequestInput;
       "minimum_option_lifetime_seconds"?: string;
-      "origin": ({
-        "delivery_location_set_id"?: string;
-        "location_id"?: string;
-        "location_ids"?: Array<string>;
-        "type": "fixed_location" |
-        "allocated_origin_group" |
-        "pickup_location_collection";
-      }) & ((({
-        "type": ("fixed_location") & ("fixed_location");
-        "location_id": unknown;
-      }) & (({
-        "delivery_location_set_id"?: never
-      }) & ({
-        "delivery_location_set_revision_id"?: never
-      }) & ({
-        "location_ids"?: never
-      }))) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("allocated_origin_group") & ("allocated_origin_group");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("pickup_location_collection") & ("pickup_location_collection");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })));
-      "pricing": ({
-        "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-        "callback"?: DeliveryCallbackPricingStrategyRequestInput;
-        "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-        "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-        "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
-        "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-        "type": "fixed" |
-        "rate_table" |
-        "tiered" |
-        "calculated" |
-        "callback" |
-        "caller_supplied";
-      }) & ((({
-        "type": ("calculated") & ("calculated");
-        "calculated": unknown;
-      }) & (({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("callback") & ("callback");
-        "callback": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("caller_supplied") & ("caller_supplied");
-        "caller_supplied": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("fixed") & ("fixed");
-        "fixed": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("rate_table") & ("rate_table");
-        "rate_table": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("tiered") & ("tiered");
-        "tiered": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }))));
+      "origin": DeliveryMethodOriginSelectorRequestInput;
+      "pricing": DeliveryPricingStrategyRequestInput;
       "public_details"?: {
         "instructions"?: string;
         "pickup_mode"?: "in_store" |
@@ -7278,215 +5477,18 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   }) |
   ({
     "configuration": (({
-      "buyer_instructions"?: {
-        "enabled": boolean;
-        "label"?: string;
-        "placeholder"?: string;
-        "required": boolean;
-      };
+      "buyer_instructions"?: BuyerInstructionsConfigInput;
       "charge_tax_category"?: "service_fee" |
       "shipping" |
       "delivery" |
       "handling" |
       "surcharge" |
       null;
-      "eligibility"?: ({
-        "all"?: Array<DeliveryEligibilityExpressionInput>;
-        "any"?: Array<DeliveryEligibilityExpressionInput>;
-        "country"?: DeliveryCountryConditionInput;
-        "customer_group"?: DeliveryCustomerGroupConditionInput;
-        "customer_has_email"?: DeliveryCustomerBooleanConditionInput;
-        "customer_has_phone"?: DeliveryCustomerBooleanConditionInput;
-        "customer_verified"?: DeliveryCustomerBooleanConditionInput;
-        "not"?: DeliveryEligibilityExpressionInput;
-        "postal_code"?: DeliveryPostalCodeConditionInput;
-        "radius"?: DeliveryRadiusConditionInput;
-        "state"?: DeliveryStateConditionInput;
-        "window_time"?: DeliveryWindowTimeConditionInput;
-        "zone"?: DeliveryZoneConditionInput;
-      }) & (({
-        "all": unknown;
-      }) |
-      ({
-        "any": unknown;
-      }) |
-      ({
-        "not": unknown;
-      }) |
-      ({
-        "zone": unknown;
-      }) |
-      ({
-        "country": unknown;
-      }) |
-      ({
-        "state": unknown;
-      }) |
-      ({
-        "postal_code": unknown;
-      }) |
-      ({
-        "radius": unknown;
-      }) |
-      ({
-        "window_time": unknown;
-      }) |
-      ({
-        "customer_group": unknown;
-      }) |
-      ({
-        "customer_verified": unknown;
-      }) |
-      ({
-        "customer_has_email": unknown;
-      }) |
-      ({
-        "customer_has_phone": unknown;
-      }));
-      "estimate"?: {
-        "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
-        "transit_time"?: DeliveryTransitTimeRuleInput;
-        "type": "none" |
-        "transit_time" |
-        "schedule_window";
-      };
+      "eligibility"?: DeliveryEligibilityExpressionInput;
+      "estimate"?: DeliveryEstimateRuleRequestInput;
       "minimum_option_lifetime_seconds"?: string;
-      "origin": ({
-        "delivery_location_set_id"?: string;
-        "location_id"?: string;
-        "location_ids"?: Array<string>;
-        "type": "fixed_location" |
-        "allocated_origin_group" |
-        "pickup_location_collection";
-      }) & ((({
-        "type": ("fixed_location") & ("fixed_location");
-        "location_id": unknown;
-      }) & (({
-        "delivery_location_set_id"?: never
-      }) & ({
-        "delivery_location_set_revision_id"?: never
-      }) & ({
-        "location_ids"?: never
-      }))) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("allocated_origin_group") & ("allocated_origin_group");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })) |
-      (({
-        "location_ids"?: Array<string>;
-        "type": ("pickup_location_collection") & ("pickup_location_collection");
-      }) & (({
-        "delivery_location_set_id": unknown;
-      }) |
-      ({
-        "location_ids": unknown;
-      })) & ({
-        "location_id"?: never
-      })));
-      "pricing": ({
-        "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
-        "callback"?: DeliveryCallbackPricingStrategyRequestInput;
-        "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
-        "fixed"?: DeliveryFixedPricingStrategyRequestInput;
-        "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
-        "tiered"?: DeliveryTieredPricingStrategyRequestInput;
-        "type": "fixed" |
-        "rate_table" |
-        "tiered" |
-        "calculated" |
-        "callback" |
-        "caller_supplied";
-      }) & ((({
-        "type": ("calculated") & ("calculated");
-        "calculated": unknown;
-      }) & (({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("callback") & ("callback");
-        "callback": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("caller_supplied") & ("caller_supplied");
-        "caller_supplied": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("fixed") & ("fixed");
-        "fixed": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "rate_table"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("rate_table") & ("rate_table");
-        "rate_table": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "tiered"?: never
-      }))) |
-      (({
-        "type": ("tiered") & ("tiered");
-        "tiered": unknown;
-      }) & (({
-        "calculated"?: never
-      }) & ({
-        "callback"?: never
-      }) & ({
-        "caller_supplied"?: never
-      }) & ({
-        "fixed"?: never
-      }) & ({
-        "rate_table"?: never
-      }))));
+      "origin": DeliveryMethodOriginSelectorRequestInput;
+      "pricing": DeliveryPricingStrategyRequestInput;
       "public_details"?: {
         "instructions"?: string;
         "pickup_mode"?: "in_store" |
@@ -8050,7 +6052,7 @@ for await (const page of client.deliveryMethods.listPagesWithResponse({}, { maxP
 
 ### deliveryMethods.remove
 
-Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records.
+Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be archived; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}. Open checkout sessions keep their pinned revision and do not block retirement.
 
 `DELETE /v1/delivery-methods/{delivery_method_id}`
 
@@ -8082,11 +6084,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### deliveryMethods.update
 
-Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
+Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be set inactive; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}.
 
 `PATCH /v1/delivery-methods/{delivery_method_id}`
 
-Call: `update(delivery_method_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryMethodConfigurationRequestInput; "description"?: string; "display_position"?: number; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "recommendation_priority"?: number | null; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (((({ "name"?: never })) | ({ "expected_version": unknown; }))) & (((({ "description"?: never })) | ({ "expected_version": unknown; }))) & (((({ "display_position"?: never })) | ({ "expected_version": unknown; }))) & (((({ "recommendation_priority"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }) | ({ "description": unknown; }) | ({ "display_position": unknown; }) | ({ "recommendation_priority": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_method_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryMethodConfigurationPatchRequestInput; "description"?: string; "display_position"?: number; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "recommendation_priority"?: number | null; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (((({ "name"?: never })) | ({ "expected_version": unknown; }))) & (((({ "description"?: never })) | ({ "expected_version": unknown; }))) & (((({ "display_position"?: never })) | ({ "expected_version": unknown; }))) & (((({ "recommendation_priority"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }) | ({ "description": unknown; }) | ({ "display_position": unknown; }) | ({ "recommendation_priority": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_method_id`. Params contain flat body fields and query/header fields.
 
@@ -8098,7 +6100,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryMethodConfigurationRequestInput;
+    "configuration"?: DeliveryMethodConfigurationPatchRequestInput;
     "description"?: string;
     "display_position"?: number;
     "expected_version"?: string;
@@ -9007,7 +7009,7 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
-Call: `update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_rate_callback_id`. Params contain flat body fields and query/header fields.
 
@@ -9019,7 +7021,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryRateCallbackConfigurationInput;
+    "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput;
     "expected_version"?: string;
     "external_reference_id"?: string |
     null;
@@ -9381,7 +7383,7 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-zones/{delivery_zone_id}`
 
-Call: `update(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: ({ "all"?: Array<DeliveryZoneConfigurationInput>; "any"?: Array<DeliveryZoneConfigurationInput>; "country"?: DeliveryCountryConditionInput; "not"?: DeliveryZoneConfigurationInput; "postal_code"?: DeliveryPostalCodeConditionInput; "radius"?: DeliveryRadiusConditionInput; "state"?: DeliveryStateConditionInput; }) & (({ "all": unknown; }) | ({ "any": unknown; }) | ({ "not": unknown; }) | ({ "country": unknown; }) | ({ "state": unknown; }) | ({ "postal_code": unknown; }) | ({ "radius": unknown; })); "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_zone_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryZoneConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_zone_id`. Params contain flat body fields and query/header fields.
 
@@ -9393,35 +7395,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: ({
-      "all"?: Array<DeliveryZoneConfigurationInput>;
-      "any"?: Array<DeliveryZoneConfigurationInput>;
-      "country"?: DeliveryCountryConditionInput;
-      "not"?: DeliveryZoneConfigurationInput;
-      "postal_code"?: DeliveryPostalCodeConditionInput;
-      "radius"?: DeliveryRadiusConditionInput;
-      "state"?: DeliveryStateConditionInput;
-    }) & (({
-      "all": unknown;
-    }) |
-    ({
-      "any": unknown;
-    }) |
-    ({
-      "not": unknown;
-    }) |
-    ({
-      "country": unknown;
-    }) |
-    ({
-      "state": unknown;
-    }) |
-    ({
-      "postal_code": unknown;
-    }) |
-    ({
-      "radius": unknown;
-    }));
+    "configuration"?: DeliveryZoneConfigurationInput;
     "expected_version"?: string;
     "external_reference_id"?: string |
     null;
@@ -13342,7 +11316,7 @@ Creates a merchant-issued USD gift card with optional paid funding or imported o
 
 `POST /v1/gift-cards`
 
-Call: `create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -13465,13 +11439,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       });
     }))) |
     (null));
-    "notification"?: {
-      "email": string;
-      "message"?: string;
-      "name"?: string;
-      "send_at"?: string |
-      globalThis.Date;
-    };
+    "notification"?: GiftCardNotificationRecipientInput;
   };
 }
 ```
@@ -13663,7 +11631,7 @@ Invalidates the old bearer credential and generates a new code for the same gift
 
 `POST /v1/gift-cards/{gift_card_id}/rotate-code`
 
-Call: `rotateCode(gift_card_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "notification"?: { "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `rotateCode(gift_card_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `gift_card_id`. Params contain flat body fields and query/header fields.
 
@@ -13677,13 +11645,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": {
     "expected_version"?: string;
-    "notification"?: {
-      "email": string;
-      "message"?: string;
-      "name"?: string;
-      "send_at"?: string |
-      globalThis.Date;
-    };
+    "notification"?: GiftCardNotificationRecipientInput;
   };
 }
 ```
@@ -15404,7 +13366,7 @@ Consume committed quantity, permanently removing it from stock. Cumulative targe
 
 `POST /v1/inventory-reservations/{inventory_reservation_id}/consume`
 
-Call: `consume(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": { "external_actor_id"?: string; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `consume(inventory_reservation_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "lines": Array<{ "inventory_reservation_line_id": string; "target_consumed_quantity": string; }>; "provenance": InventoryReservationProvenanceInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `inventory_reservation_id`. Params contain flat body fields and query/header fields.
 
@@ -15421,12 +13383,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "inventory_reservation_line_id": string;
       "target_consumed_quantity": string;
     }>;
-    "provenance": {
-      "external_actor_id"?: string;
-      "occurred_at"?: string |
-      globalThis.Date;
-      "source_system"?: InventorySourceSystemRequestInput;
-    };
+    "provenance": InventoryReservationProvenanceInput;
   };
 }
 ```
@@ -16401,7 +14358,7 @@ Creates an invoice draft. Provide exactly one source: order_id for an order-back
 
 `POST /v1/invoices`
 
-Call: `create(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: ({ "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external"; "payment_method_id"?: string; "payment_policy"?: InvoicePaymentPolicyInput; }) & ((({ "mode"?: "merchant_default"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never }))) | (({ "mode"?: "buyer_initiated"; }) & (({ "payment_method_id"?: never }))) | (({ "mode"?: "automatic"; }) & (({ "payment_policy"?: never }))) | (({ "mode"?: "external"; }) & (({ "payment_method_id"?: never }) & ({ "payment_policy"?: never })))); "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: ({ "due_at"?: string | globalThis.Date; "invoice_payment_term_id"?: string; "type": "none" | "absolute" | "payment_terms" | "customer_default" | "merchant_default"; }) & ((({ "type"?: "none"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "absolute"; "due_at": unknown; }) & ({ "invoice_payment_term_id"?: never })) | (({ "type"?: "payment_terms"; "invoice_payment_term_id": unknown; }) & ({ "due_at"?: never })) | (({ "type"?: "customer_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never }))) | (({ "type"?: "merchant_default"; }) & (({ "due_at"?: never }) & ({ "invoice_payment_term_id"?: never })))); "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<(({ "cc_emails"?: Array<string>; "collection"?: InvoiceCollectionRequestInput; "external_reference_id"?: string; "footer"?: string; "memo"?: string; "metadata"?: Record<string, string>; "order_id"?: string; "payment_due"?: InvoicePaymentDueRequestInput; "po_number"?: string; "quick_pay"?: CreateInvoiceQuickPayRequestInput; "recipient_email"?: string; "reference"?: string; "remit_to_address"?: PostalAddressInput; "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>; "scheduled_send_at"?: string | globalThis.Date; "service_at"?: string | globalThis.Date; }) & ((({ "order_id": unknown; }) & (({ "quick_pay"?: never }))) | (({ "quick_pay": unknown; }) & (({ "order_id"?: never }))))) & (({ "order_id": unknown; }) | ({ "quick_pay": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -16414,85 +14371,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": (({
     "cc_emails"?: Array<string>;
-    "collection"?: ({
-      "mode": "merchant_default" |
-      "buyer_initiated" |
-      "automatic" |
-      "external";
-      "payment_method_id"?: string;
-      "payment_policy"?: InvoicePaymentPolicyInput;
-    }) & ((({
-      "mode"?: "merchant_default";
-    }) & (({
-      "payment_method_id"?: never
-    }) & ({
-      "payment_policy"?: never
-    }))) |
-    (({
-      "mode"?: "buyer_initiated";
-    }) & (({
-      "payment_method_id"?: never
-    }))) |
-    (({
-      "mode"?: "automatic";
-    }) & (({
-      "payment_policy"?: never
-    }))) |
-    (({
-      "mode"?: "external";
-    }) & (({
-      "payment_method_id"?: never
-    }) & ({
-      "payment_policy"?: never
-    }))));
+    "collection"?: InvoiceCollectionRequestInput;
     "external_reference_id"?: string;
     "footer"?: string;
     "memo"?: string;
     "metadata"?: Record<string,
     string>;
     "order_id"?: string;
-    "payment_due"?: ({
-      "due_at"?: string |
-      globalThis.Date;
-      "invoice_payment_term_id"?: string;
-      "type": "none" |
-      "absolute" |
-      "payment_terms" |
-      "customer_default" |
-      "merchant_default";
-    }) & ((({
-      "type"?: "none";
-    }) & (({
-      "due_at"?: never
-    }) & ({
-      "invoice_payment_term_id"?: never
-    }))) |
-    (({
-      "type"?: "absolute";
-      "due_at": unknown;
-    }) & ({
-      "invoice_payment_term_id"?: never
-    })) |
-    (({
-      "type"?: "payment_terms";
-      "invoice_payment_term_id": unknown;
-    }) & ({
-      "due_at"?: never
-    })) |
-    (({
-      "type"?: "customer_default";
-    }) & (({
-      "due_at"?: never
-    }) & ({
-      "invoice_payment_term_id"?: never
-    }))) |
-    (({
-      "type"?: "merchant_default";
-    }) & (({
-      "due_at"?: never
-    }) & ({
-      "invoice_payment_term_id"?: never
-    }))));
+    "payment_due"?: InvoicePaymentDueRequestInput;
     "po_number"?: string;
     "quick_pay"?: CreateInvoiceQuickPayRequestInput;
     "recipient_email"?: string;
@@ -16576,7 +14462,7 @@ Returns the current open invoice checkout session and aligned card attempt when 
 
 `POST /v1/invoices/{invoice_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -16590,10 +14476,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
-    "redirects"?: {
-      "cancel_redirect_url"?: string;
-      "success_redirect_url"?: string;
-    };
+    "redirects"?: CheckoutRedirectsConfigInput;
     "return_url"?: string;
     "surface"?: "hosted" |
     "embedded";
@@ -18213,7 +16096,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `POST /v1/me/invoices/{invoice_id}/checkout-session`
 
-Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
+Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -18227,10 +16110,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
-    "redirects"?: {
-      "cancel_redirect_url"?: string;
-      "success_redirect_url"?: string;
-    };
+    "redirects"?: CheckoutRedirectsConfigInput;
     "return_url"?: string;
     "surface"?: "hosted" |
     "embedded";
@@ -18361,7 +16241,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+Call: `createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
@@ -18373,10 +16253,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body"?: {
-    "redirects"?: {
-      "cancel_redirect_url"?: string;
-      "success_redirect_url"?: string;
-    };
+    "redirects"?: RedirectsInput;
     "return_url"?: string;
     "surface"?: "hosted" |
     "embedded";
@@ -21544,7 +19421,7 @@ Applies a sparse update to the authenticated merchant's public business profile 
 
 `PATCH /v1/merchant`
 
-Call: `update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: { "alt"?: string; "external_reference_id"?: string; "source_url": string; }; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: ImageRequestInput; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -21561,11 +19438,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "business_name"?: string;
     "email"?: string;
     "expected_version"?: string;
-    "icon"?: {
-      "alt"?: string;
-      "external_reference_id"?: string;
-      "source_url": string;
-    };
+    "icon"?: ImageRequestInput;
     "logo"?: ImageRequestInput;
     "metadata"?: Record<string,
     string |
@@ -23038,7 +20911,7 @@ Creates an order for the authenticated merchant. For USD orders, an effective re
 
 `POST /v1/orders`
 
-Call: `create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: { "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: ({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never })))); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -23054,10 +20927,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "body": {
     "buyer_note"?: string;
     "customer_id"?: string;
-    "delivery_destination"?: {
-      "address": OrderDeliveryDestinationAddressRequestInput;
-      "recipient"?: OrderDeliveryDestinationRecipientRequestInput;
-    };
+    "delivery_destination"?: OrderDeliveryDestinationRequestInput;
     "discounts"?: Array<CreateOrderDiscountInput>;
     "external_reference_id"?: string;
     "internal_note"?: string;
@@ -23065,28 +20935,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "line_items": Array<CreateOrderLineItemInput>;
     "metadata"?: Record<string,
     string>;
-    "requested_tip"?: ({
-      "amount_money"?: ({
-        "amount"?: string;
-      }) & ({
-        "amount": string;
-        "currency": string;
-      });
-      "description"?: string;
-      "metadata"?: Record<string,
-      string>;
-      "name"?: string;
-      "percent"?: number;
-    }) & ((({
-      "amount_money": unknown;
-    }) & (({
-      "percent"?: never
-    }))) |
-    (({
-      "percent": unknown;
-    }) & (({
-      "amount_money"?: never
-    }))));
+    "requested_tip"?: CreateOrderTipInput;
     "tax"?: OrderTaxRequestInput;
   };
 }
@@ -23153,7 +21002,7 @@ Creates an explicit fulfillment for an order.
 
 `POST /v1/orders/{order_id}/fulfillments`
 
-Call: `createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: ({ "external_reference_id"?: string; "external_system"?: string; "metadata"?: Record<string, string>; "package"?: CreatePackageRequestInput; "packaging": string; }) & (({ "packaging": "single_package"; "package": unknown; })); "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `createFulfillment(order_id: InputValue<string>, params: (InputValue<({ "customer_id"?: string; "device_id"?: string; "digital_details"?: CreateDigitalFulfillmentDetailsInput; "external_reference_id"?: string; "line_items": Array<FulfillmentLineItemRequestInput>; "local_delivery_details"?: CreateDeliveryFulfillmentDetailsInput; "location_id"?: string; "metadata"?: Record<string, string>; "pickup_details"?: CreatePickupFulfillmentDetailsInput; "recipient"?: FulfillmentRecipientInput; "service_details"?: CreateServiceFulfillmentDetailsInput; "shipment"?: FulfillmentPackagingRequestInput; "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service"; }) & (((({ "shipment"?: never })) | ({ "type"?: "shipment"; }))) & (((({ "pickup_details"?: never }) & ({ "local_delivery_details"?: never }) & ({ "digital_details"?: never }) & ({ "service_details"?: never }))) | ({ "pickup_details": unknown; }) | ({ "local_delivery_details": unknown; }) | ({ "digital_details": unknown; }) | ({ "service_details": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
@@ -23178,17 +21027,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "pickup_details"?: CreatePickupFulfillmentDetailsInput;
     "recipient"?: FulfillmentRecipientInput;
     "service_details"?: CreateServiceFulfillmentDetailsInput;
-    "shipment"?: ({
-      "external_reference_id"?: string;
-      "external_system"?: string;
-      "metadata"?: Record<string,
-      string>;
-      "package"?: CreatePackageRequestInput;
-      "packaging": string;
-    }) & (({
-      "packaging": "single_package";
-      "package": unknown;
-    }));
+    "shipment"?: FulfillmentPackagingRequestInput;
     "type": "shipment" |
     "pickup" |
     "local_delivery" |
@@ -28186,7 +26025,7 @@ Update product variant.
 
 `PATCH /v1/products/{product_id}/variants/{variant_id}`
 
-Call: `updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: { "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput; "face_value_money": { "amount": string; "currency": "USD"; }; "price_mode": "face_value" | "discounted"; }; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "delivery_profile_id"?: string; "expected_version"?: string; "gift_card_configuration"?: GiftCardProductConfigurationInput; "images"?: Array<ImageRequestInput>; "inventory_item"?: InventoryItemCreateRequestInput; "inventory_item_id"?: string | null; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "position"?: number; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `product_id`, `path1` = `variant_id`. Params contain flat body fields and query/header fields.
 
@@ -28203,15 +26042,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "barcode"?: string;
     "delivery_profile_id"?: string;
     "expected_version"?: string;
-    "gift_card_configuration"?: {
-      "custom_amount_bounds"?: GiftCardCustomAmountBoundsInput;
-      "face_value_money": {
-        "amount": string;
-        "currency": "USD";
-      };
-      "price_mode": "face_value" |
-      "discounted";
-    };
+    "gift_card_configuration"?: GiftCardProductConfigurationInput;
     "images"?: Array<ImageRequestInput>;
     "inventory_item"?: InventoryItemCreateRequestInput;
     "inventory_item_id"?: string |
@@ -28280,7 +26111,7 @@ Creates a promotion for the authenticated merchant.
 
 `POST /v1/promotions`
 
-Call: `create(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: { "period_count"?: number; "type": "once"; }; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -28302,43 +26133,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "subtotal_post_tax";
       "currency_options"?: Record<string,
       MoneyValueInput>;
-      "discounted_item_rules"?: ((Array<PromotionRuleInput>) |
-      ({
-        "all": Array<(({
-          "attribute": string;
-          "currency_options"?: Record<string,
-          MoneyValueInput>;
-          "operator": "eq" |
-          "ne" |
-          "gt" |
-          "gte" |
-          "lt" |
-          "lte" |
-          "in" |
-          "contains" |
-          "is_defined";
-          "values"?: Array<PromotionRuleValueInput>;
-        }) |
-        (PromotionRuleGroupInput))>;
-      }) |
-      ({
-        "any": Array<(({
-          "attribute": string;
-          "currency_options"?: Record<string,
-          MoneyValueInput>;
-          "operator": "eq" |
-          "ne" |
-          "gt" |
-          "gte" |
-          "lt" |
-          "lte" |
-          "in" |
-          "contains" |
-          "is_defined";
-          "values"?: Array<PromotionRuleValueInput>;
-        }) |
-        (PromotionRuleGroupInput))>;
-      }));
+      "discounted_item_rules"?: PromotionRuleGroupInput;
       "get_percent_off"?: number;
       "get_quantity"?: number;
       "max_applications_per_order"?: number;
@@ -28381,10 +26176,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         }) |
         (PromotionRuleGroupInput))>;
       }));
-      "recurrence"?: {
-        "period_count"?: number;
-        "type": "once";
-      };
+      "recurrence"?: PromotionRecurrenceInput;
       "reward_selection"?: "cheapest" |
       "highest_price" |
       "first_added";
@@ -28882,7 +26674,7 @@ Applies a sparse update to promotion fields.
 
 `PATCH /v1/promotions/{promotion_id}`
 
-Call: `update(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: { "period_count"?: number; "type": "once"; }; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `promotion_id`. Params contain flat body fields and query/header fields.
 
@@ -28905,43 +26697,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
       "subtotal_post_tax";
       "currency_options"?: Record<string,
       MoneyValueInput>;
-      "discounted_item_rules"?: ((Array<PromotionRuleInput>) |
-      ({
-        "all": Array<(({
-          "attribute": string;
-          "currency_options"?: Record<string,
-          MoneyValueInput>;
-          "operator": "eq" |
-          "ne" |
-          "gt" |
-          "gte" |
-          "lt" |
-          "lte" |
-          "in" |
-          "contains" |
-          "is_defined";
-          "values"?: Array<PromotionRuleValueInput>;
-        }) |
-        (PromotionRuleGroupInput))>;
-      }) |
-      ({
-        "any": Array<(({
-          "attribute": string;
-          "currency_options"?: Record<string,
-          MoneyValueInput>;
-          "operator": "eq" |
-          "ne" |
-          "gt" |
-          "gte" |
-          "lt" |
-          "lte" |
-          "in" |
-          "contains" |
-          "is_defined";
-          "values"?: Array<PromotionRuleValueInput>;
-        }) |
-        (PromotionRuleGroupInput))>;
-      }));
+      "discounted_item_rules"?: PromotionRuleGroupInput;
       "get_percent_off"?: number;
       "get_quantity"?: number;
       "max_applications_per_order"?: number;
@@ -28984,10 +26740,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         }) |
         (PromotionRuleGroupInput))>;
       }));
-      "recurrence"?: {
-        "period_count"?: number;
-        "type": "once";
-      };
+      "recurrence"?: PromotionRecurrenceInput;
       "reward_selection"?: "cheapest" |
       "highest_price" |
       "first_added";
@@ -31222,7 +28975,7 @@ Create or reuse a hosted or embedded checkout session for the buyer's balance on
 
 `POST /v1/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: { "cancel_redirect_url"?: string; "success_redirect_url"?: string; }; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
@@ -31234,10 +28987,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body"?: {
-    "redirects"?: {
-      "cancel_redirect_url"?: string;
-      "success_redirect_url"?: string;
-    };
+    "redirects"?: RedirectsInput;
     "return_url"?: string;
     "surface"?: "hosted" |
     "embedded";

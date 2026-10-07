@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentLinkSubscriptionPreview extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: object{'amount': string, 'currency': string}, 'plan_image'?: object{'alt'?: string, 'external_reference_id'?: string, 'height': int, 'url': string, 'width': int}, 'plan_name': string, 'recurring_total_money': object{'amount': string, 'currency': string}, 'setup_fee_money'?: object{'amount': string, 'currency': string}, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: mixed, 'plan_image'?: mixed, 'plan_name': string, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSubscriptionPreview')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().

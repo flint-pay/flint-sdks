@@ -1,9 +1,9 @@
-import { d789 as c0, d77 as c1, d1824 as c2, d1823 as c3, d1876 as c4, d1955 as c5, d1956 as c6, d863 as c7, d2029 as c8, d860 as c9, d14 as c10, d87 as c11, d1822 as c12, d2331 as c13, d2330 as c14 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1876 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d741 as c0, d314 as c1, d1775 as c2, d1776 as c3, d1833 as c4, d1912 as c5, d1913 as c6, d1914 as c7, d810 as c8, d1985 as c9, d1986 as c10, d1987 as c11, d1988 as c12, d14 as c13, d1774 as c14, d1832 as c15, d2283 as c16, d2284 as c17, d2285 as c18 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1833 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1876;
+const read = d1833;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ErrorRemediation"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["OrderPaymentAttempt"]:c4(),["PaymentAttemptGiftCardRedemption"]:c5(),["PaymentAttemptPaymentIntent"]:c6(),["PaymentErrorSummary"]:c7(),["PendingPaymentAction"]:c8(),["PendingPaymentActionSubject"]:c9(),["SharedCodec1"]:c10(),["SharedCodec21"]:c11(),["SharedCodec488"]:c12(),["StripePaymentClientAction"]:c13(),["StripeSetupIntentClientAction"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ErrorRemediation"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["OrderPaymentAttempt"]:c4(),["PaymentAttemptGiftCardRedemption"]:c5(),["PaymentAttemptPaymentIntent"]:c6(),["PaymentClientAction"]:c7(),["PaymentErrorSummary"]:c8(),["PendingPaymentAction"]:c9(),["PendingPaymentActionPaymentIntentSubject"]:c10(),["PendingPaymentActionSetupPaymentSourceSubject"]:c11(),["PendingPaymentActionSubject"]:c12(),["SharedCodec1"]:c13(),["SharedCodec448"]:c14(),["SharedCodec460"]:c15(),["StripePaymentClientAction"]:c16(),["StripePaymentIntentClientAction"]:c17(),["StripeSetupIntentClientAction"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderPaymentAttempt(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

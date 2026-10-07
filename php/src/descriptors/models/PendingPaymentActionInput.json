@@ -1,1 +1,1 @@
-{"shared":"PendingPaymentAction","dependencies":["PendingPaymentAction","PendingPaymentActionSubject","StripePaymentClientAction","StripeSetupIntentClientAction"]}
+{"shared":"PendingPaymentAction","dependencies":["PaymentClientAction","PendingPaymentAction","PendingPaymentActionPaymentIntentSubject","PendingPaymentActionSetupPaymentSourceSubject","PendingPaymentActionSubject","StripePaymentClientAction","StripePaymentIntentClientAction","StripeSetupIntentClientAction"]}

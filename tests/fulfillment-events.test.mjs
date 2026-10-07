@@ -78,7 +78,13 @@ test("TypeScript consumers require buyer order IDs and canonical checkout URLs",
   try {
     const fixture = join(directory, "consumer.mts");
     writeFileSync(fixture, `import { Client } from "../../node/index.js";
-import type { CheckoutAccess, CheckoutSessionLaunchResult, InvoiceCheckoutSessionResult } from "../../node/index.js";
+import type { CheckoutAccess, CheckoutSessionLaunchResult, InvoiceCheckoutSessionResult, BuyerInvoiceCheckoutSessionResult } from "../../node/index.js";
+// @ts-expect-error The deprecated invoice checkout model is removed.
+import type { HostedCheckout } from "../../node/index.js";
+// @ts-expect-error The deprecated invoice checkout input model is removed.
+import type { HostedCheckoutInput } from "../../node/index.js";
+// @ts-expect-error The deprecated invoice checkout factory is removed.
+import { makeHostedCheckout } from "../../node/index.js";
 const client = new Client({ customerToken: "customer-test" });
 ${methods.map(method => `
 client.me.${method}({ order_id: "ord_test", page_size: 25 });
@@ -95,7 +101,12 @@ declare const access: CheckoutAccess;
 access.hosted_url;
 declare const invoice: InvoiceCheckoutSessionResult;
 invoice.checkout_session.url;
+// @ts-expect-error Invoice results use the canonical checkout session URL.
 invoice.hosted_checkout;
+declare const buyerInvoice: BuyerInvoiceCheckoutSessionResult;
+buyerInvoice.checkout_session.url;
+// @ts-expect-error Buyer invoice results use the canonical checkout session URL.
+buyerInvoice.hosted_checkout;
 `);
     await exec(process.execPath, [
       join(root, ".tools/sdk-generator/node_modules/typescript/bin/tsc"),

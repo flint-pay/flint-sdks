@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0-beta.20261006230000",
+  "version": "3.0.0-beta.20261007031000",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -6740,6 +6740,24 @@
         }
       ],
       "readOnly": true
+    }
+  },
+  "phpFieldClasses": {
+    "BuyerInvoice": {
+      "remit_to_address": "Address"
+    },
+    "CheckoutCustomerPrefill": {
+      "billing_address": "Address",
+      "shipping_address": "Address"
+    },
+    "Invoice": {
+      "remit_to_address": "Address"
+    },
+    "PendingPaymentActionSubject": {
+      "setup_payment_source": "ChangeSubscriptionPaymentMethodRequest"
+    },
+    "PickupFulfillmentDetails": {
+      "address": "Address"
     }
   }
 }

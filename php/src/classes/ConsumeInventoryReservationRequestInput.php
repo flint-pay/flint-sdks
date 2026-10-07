@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read string $expected_version
  * @property-read list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object> $lines
- * @property-read array{'external_actor_id'?: string, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass, ...}|object $provenance
+ * @property-read InventoryReservationProvenanceInput|array<array-key, mixed>|\stdClass $provenance
  * Presence-aware input; omitted fields throw when accessed. */
 final class ConsumeInventoryReservationRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': array{'external_actor_id'?: string, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass, ...}|object, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': InventoryReservationProvenanceInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConsumeInventoryReservationRequestInput')); }
     /** @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
@@ -19,9 +19,9 @@ final class ConsumeInventoryReservationRequestInput extends Model {
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** @return array{'external_actor_id'?: string, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass, ...}|object
+    /** @return InventoryReservationProvenanceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When provenance is omitted; use hasProvenance() or valueOrDefault().
      */
-    public function getProvenance(): array|object { return $this->get('provenance'); }
+    public function getProvenance(): mixed { return $this->get('provenance'); }
     public function hasProvenance(): bool { return $this->has('provenance'); }
 }

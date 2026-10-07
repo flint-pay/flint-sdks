@@ -2,20 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'checkout_auth_token': string, ...}|object $checkout_access
- * @property-read array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $checkout_session
+ * @property-read CheckoutAccessInput|array<array-key, mixed>|\stdClass $checkout_access
+ * @property-read CheckoutSessionInput|array<array-key, mixed>|\stdClass $checkout_session
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutCustomerVerificationConfirmationInput extends Model {
-    /** @param array{'checkout_access'?: array{'checkout_auth_token': string, ...}|object, 'checkout_session': array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object, ...}|object $values */
+    /** @param array{'checkout_access'?: CheckoutAccessInput|array<array-key, mixed>|\stdClass, 'checkout_session': CheckoutSessionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutCustomerVerificationConfirmationInput')); }
-    /** @return array{'checkout_auth_token': string, ...}|object
+    /** @return CheckoutAccessInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().
      */
-    public function getCheckoutAccess(): array|object { return $this->get('checkout_access'); }
+    public function getCheckoutAccess(): mixed { return $this->get('checkout_access'); }
     public function hasCheckoutAccess(): bool { return $this->has('checkout_access'); }
-    /** @return array{'buyer_contact'?: array{'email': string|null, 'phone': string|null, ...}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object
+    /** @return CheckoutSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
      */
-    public function getCheckoutSession(): array|object { return $this->get('checkout_session'); }
+    public function getCheckoutSession(): mixed { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
 }

@@ -7,14 +7,14 @@ namespace Flint;
  * @property-read string $default_expires_in_seconds
  * @property-read list<string> $enabled_payment_options
  * @property-read bool $promotion_code_entry_enabled
- * @property-read array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object $recovery_email
+ * @property-read CheckoutRecoveryEmailSettingsInput|array<array-key, mixed>|\stdClass $recovery_email
  * @property-read bool $require_billing_address
  * @property-read bool $require_email
  * @property-read bool $require_phone
- * @property-read array{'enabled'?: bool, ...}|object $saved_payment_details
+ * @property-read CheckoutSavedPaymentDetailsSettingsInput|array<array-key, mixed>|\stdClass $saved_payment_details
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSettingsInput extends Model {
-    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: array{'enabled'?: bool, ...}|object, ...}|object $values */
+    /** @param array{'custom_domain'?: string|null, 'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: string, 'enabled_payment_options'?: list<string>, 'promotion_code_entry_enabled'?: bool, 'recovery_email'?: CheckoutRecoveryEmailSettingsInput|array<array-key, mixed>|\stdClass, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: CheckoutSavedPaymentDetailsSettingsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettingsInput')); }
     /** @return string|null
      * @throws SdkError When custom_domain is omitted; use hasCustomDomain() or valueOrDefault().
@@ -41,10 +41,10 @@ final class CheckoutSettingsInput extends Model {
      */
     public function getPromotionCodeEntryEnabled(): bool { return $this->get('promotion_code_entry_enabled'); }
     public function hasPromotionCodeEntryEnabled(): bool { return $this->has('promotion_code_entry_enabled'); }
-    /** @return array{'delay_seconds'?: int, 'enabled'?: bool, ...}|object
+    /** @return CheckoutRecoveryEmailSettingsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recovery_email is omitted; use hasRecoveryEmail() or valueOrDefault().
      */
-    public function getRecoveryEmail(): array|object { return $this->get('recovery_email'); }
+    public function getRecoveryEmail(): mixed { return $this->get('recovery_email'); }
     public function hasRecoveryEmail(): bool { return $this->has('recovery_email'); }
     /** @return bool
      * @throws SdkError When require_billing_address is omitted; use hasRequireBillingAddress() or valueOrDefault().
@@ -61,9 +61,9 @@ final class CheckoutSettingsInput extends Model {
      */
     public function getRequirePhone(): bool { return $this->get('require_phone'); }
     public function hasRequirePhone(): bool { return $this->has('require_phone'); }
-    /** @return array{'enabled'?: bool, ...}|object
+    /** @return CheckoutSavedPaymentDetailsSettingsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When saved_payment_details is omitted; use hasSavedPaymentDetails() or valueOrDefault().
      */
-    public function getSavedPaymentDetails(): array|object { return $this->get('saved_payment_details'); }
+    public function getSavedPaymentDetails(): mixed { return $this->get('saved_payment_details'); }
     public function hasSavedPaymentDetails(): bool { return $this->has('saved_payment_details'); }
 }

@@ -1,9 +1,9 @@
-import { d789 as c0, d77 as c1, d1824 as c2, d1823 as c3, d1876 as c4, d1878 as c5, d1955 as c6, d1956 as c7, d863 as c8, d2029 as c9, d860 as c10, d2158 as c11, d2159 as c12, d14 as c13, d87 as c14, d1822 as c15, d2331 as c16, d2330 as c17 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1878 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d741 as c0, d314 as c1, d1775 as c2, d1776 as c3, d1833 as c4, d1835 as c5, d1912 as c6, d1913 as c7, d1914 as c8, d810 as c9, d1985 as c10, d1986 as c11, d1987 as c12, d1988 as c13, d2112 as c14, d2113 as c15, d14 as c16, d1774 as c17, d1832 as c18, d2283 as c19, d2284 as c20, d2285 as c21 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d1835 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1878;
+const read = d1835;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ErrorRemediation"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["OrderPaymentAttempt"]:c4(),["OrderPaymentAttemptResponse"]:c5(),["PaymentAttemptGiftCardRedemption"]:c6(),["PaymentAttemptPaymentIntent"]:c7(),["PaymentErrorSummary"]:c8(),["PendingPaymentAction"]:c9(),["PendingPaymentActionSubject"]:c10(),["ResponseMeta"]:c11(),["ResponseWarning"]:c12(),["SharedCodec1"]:c13(),["SharedCodec21"]:c14(),["SharedCodec488"]:c15(),["StripePaymentClientAction"]:c16(),["StripeSetupIntentClientAction"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ErrorRemediation"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["OrderPaymentAttempt"]:c4(),["OrderPaymentAttemptResponse"]:c5(),["PaymentAttemptGiftCardRedemption"]:c6(),["PaymentAttemptPaymentIntent"]:c7(),["PaymentClientAction"]:c8(),["PaymentErrorSummary"]:c9(),["PendingPaymentAction"]:c10(),["PendingPaymentActionPaymentIntentSubject"]:c11(),["PendingPaymentActionSetupPaymentSourceSubject"]:c12(),["PendingPaymentActionSubject"]:c13(),["ResponseMeta"]:c14(),["ResponseWarning"]:c15(),["SharedCodec1"]:c16(),["SharedCodec448"]:c17(),["SharedCodec460"]:c18(),["StripePaymentClientAction"]:c19(),["StripePaymentIntentClientAction"]:c20(),["StripeSetupIntentClientAction"]:c21()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderPaymentAttemptResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

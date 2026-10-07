@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read PendingPaymentActionSubject $subject
  * Presence-aware response; omitted fields throw when accessed. */
 final class PendingPaymentAction extends Model {
-    /** @param array{'action_type': string, 'client_action': object{'stripe': mixed}, 'pending_action_id': string, 'subject': object{'payment_intent'?: object{'payment_intent_id': string}, 'setup_payment_source'?: object{'payment_method_id': string}}, ...}|object $values */
+    /** @param array{'action_type': string, 'client_action': mixed, 'pending_action_id': string, 'subject': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentAction')); }
     /** @return string
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().

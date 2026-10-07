@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object}|object $body
+ * @property-read array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardsCreateInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object}|object}|object $values */
+    /** @param array{'X-Request-Id'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardsCreateInput')); }
     /** @return string
      * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
@@ -22,7 +22,7 @@ final class GiftCardsCreateInput extends Model {
      */
     public function getFlintVersion(): string { return $this->get('Flint-Version'); }
     public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
-    /** @return array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object}|object
+    /** @return array{'currency': string, 'customer_id'?: string, 'external_reference_id'?: string, 'funding'?: mixed, 'notification'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

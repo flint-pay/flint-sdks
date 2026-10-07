@@ -31,9 +31,9 @@ export interface MerchantsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.merchants.update({}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: { "alt"?: string; "external_reference_id"?: string; "source_url": string; }; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
+    update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: ImageRequestInput; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: { "alt"?: string; "external_reference_id"?: string; "source_url": string; }; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantsUpdateResponse>>;
+    updateWithResponse(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: ImageRequestInput; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -60,15 +60,23 @@ export type { Merchant } from '../declarations/Merchant.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { Banner } from '../declarations/Banner.js';
 export type { Image } from '../declarations/Image.js';
+export type { MerchantReadinessAxis } from '../declarations/MerchantReadinessAxis.js';
 export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { MerchantReadinessRequirements } from '../declarations/MerchantReadinessRequirements.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { UpdateMerchantRequestInput } from '../declarations/UpdateMerchantRequestInput.js';
 export { makeMerchantResponse } from '../declarations/makeMerchantResponse.js';
 export { makeMerchant } from '../declarations/makeMerchant.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeBanner } from '../declarations/makeBanner.js';
 export { makeImage } from '../declarations/makeImage.js';
+export { makeMerchantReadinessAxis } from '../declarations/makeMerchantReadinessAxis.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeMerchantReadinessRequirements } from '../declarations/makeMerchantReadinessRequirements.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
