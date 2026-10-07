@@ -1,1 +1,1 @@
-{"shared":"PartnerAuthorizePreviewResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAuthorizePreview","PartnerAuthorizePreviewPermission","PartnerAuthorizePreviewResponse","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}
+{"shared":"PartnerAuthorizePreviewResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAuthorizePreview","PartnerAuthorizePreviewPermission","PartnerAuthorizePreviewResponse","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}

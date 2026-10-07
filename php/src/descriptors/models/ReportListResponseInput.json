@@ -1,1 +1,1 @@
-{"shared":"ReportListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","Report","ReportListResponse","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec411","SharedCodec412","SharedCodec413","SharedCodec414","SharedCodec415","SharedCodec487"]}
+{"shared":"ReportListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","Report","ReportListResponse","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec412","SharedCodec413","SharedCodec414","SharedCodec415","SharedCodec416","SharedCodec488"]}

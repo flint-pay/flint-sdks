@@ -1,6 +1,6 @@
 # Flint Public API runtime guide (php)
 
-Package 3.0.0-beta.20261006210100; API 2026-09-07.
+Package 3.0.0-beta.20261006230000; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API reference](REFERENCE.md)
 

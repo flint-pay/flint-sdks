@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListFulfillmentEventsInput extends Model {
-    /** @param array{'order_id'?: string, 'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'order_id': string, 'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListFulfillmentEventsInput')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().

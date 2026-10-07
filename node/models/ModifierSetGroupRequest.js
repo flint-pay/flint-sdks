@@ -1,7 +1,7 @@
-import { d1594 as c0, d1810 as c1, d1811 as c2, d1814 as c3, d77 as c4, d407 as c5, d408 as c6, d2379 as c7 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
-import { d1814 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d1595 as c0, d1811 as c1, d1812 as c2, d1815 as c3, d77 as c4, d407 as c5, d408 as c6, d2380 as c7 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d1815 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1814;
+const read = d1815;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InlineModifierGroupRequest"]:c0(),["ModifierOverride"]:c1(),["ModifierRequest"]:c2(),["ModifierSetGroupRequest"]:c3(),["MoneyValue"]:c4(),["SharedCodec147"]:c5(),["SharedCodec148"]:c6(),["TextModifierConfigRequest"]:c7()}); }
 export { codec as _validate };

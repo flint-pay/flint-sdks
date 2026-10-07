@@ -328,6 +328,7 @@ export type { PrefilledCustomerInfoInput } from '../declarations/PrefilledCustom
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { OrderLineItemTaxInput } from '../declarations/OrderLineItemTaxInput.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
+export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutCustomerVerification } from '../declarations/CheckoutCustomerVerification.js';
 export type { DeliveryCoordinateRequestInput } from '../declarations/DeliveryCoordinateRequestInput.js';
 export type { CallerSuppliedDeliveryOutcomeRequestInput } from '../declarations/CallerSuppliedDeliveryOutcomeRequestInput.js';
@@ -467,6 +468,7 @@ export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js'
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
+export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutCustomerVerification } from '../declarations/makeCheckoutCustomerVerification.js';
 export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';

@@ -1,1 +1,1 @@
-{"shared":"UpdateReturnReasonResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","ReturnReason","SharedCodec1","SharedCodec487","UpdateReturnReasonResponse"]}
+{"shared":"UpdateReturnReasonResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","ReturnReason","SharedCodec1","SharedCodec488","UpdateReturnReasonResponse"]}

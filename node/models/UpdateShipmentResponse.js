@@ -1,9 +1,9 @@
-import { d45 as c0, d77 as c1, d1823 as c2, d1822 as c3, d2034 as c4, d2157 as c5, d2158 as c6, d2269 as c7, d2320 as c8, d14 as c9, d99 as c10, d1821 as c11, d784 as c12, d226 as c13, d2509 as c14, d2510 as c15 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
-import { d2509 } from '../descriptors/data.js?sdk=d3e94df4e2b3092877185e2938463692374ebf68487770c61d779ced93b5901e';
+import { d45 as c0, d77 as c1, d1824 as c2, d1823 as c3, d2035 as c4, d2158 as c5, d2159 as c6, d2270 as c7, d2321 as c8, d14 as c9, d99 as c10, d1822 as c11, d784 as c12, d226 as c13, d2510 as c14, d2511 as c15 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2510 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2509;
+const read = d2510;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PricingAmounts"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["ReturnShipmentLineItemAllocation"]:c7(),["SettlementAmounts"]:c8(),["SharedCodec1"]:c9(),["SharedCodec27"]:c10(),["SharedCodec487"]:c11(),["Shipment"]:c12(),["SignedMoney"]:c13(),["UpdateShipmentResponse"]:c14(),["UpdateShipmentResult"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PricingAmounts"]:c4(),["ResponseMeta"]:c5(),["ResponseWarning"]:c6(),["ReturnShipmentLineItemAllocation"]:c7(),["SettlementAmounts"]:c8(),["SharedCodec1"]:c9(),["SharedCodec27"]:c10(),["SharedCodec488"]:c11(),["Shipment"]:c12(),["SignedMoney"]:c13(),["UpdateShipmentResponse"]:c14(),["UpdateShipmentResult"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateShipmentResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

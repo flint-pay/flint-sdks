@@ -1,1 +1,1 @@
-{"shared":"CreateDeviceResponse","dependencies":["CreateDeviceResponse","CreateDeviceResult","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}
+{"shared":"CreateDeviceResponse","dependencies":["CreateDeviceResponse","CreateDeviceResult","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}

@@ -1,4 +1,4 @@
 
 import type { CheckoutAccess } from './CheckoutAccess.js';
 
-export type CheckoutAccessInput = CheckoutAccess;
+/** Credential for operating one checkout session on the buyer's behalf. */ export type CheckoutAccessInput = CheckoutAccess;

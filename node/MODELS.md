@@ -1442,9 +1442,9 @@ Controls buyer instructions for a delivery option. Omit it from a method configu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
+| `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
+| `hosted_checkout` | Optional | object | Deprecated and will be removed. Use checkout_session.url and checkout_access.checkout_auth_token. |
 | `invoice` | Required | [BuyerInvoice](MODELS.md#buyerinvoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
 | `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
@@ -1964,12 +1964,11 @@ Merchant capability readiness for a payment or money movement capability.
 
 ## CheckoutAccess
 
-
+Credential for operating one checkout session on the buyer's behalf.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_auth_token` | Required | string |  |
-| `hosted_url` | Optional | string |  |
+| `checkout_auth_token` | Required | string | Checkout-session credential. On checkout-session-scoped requests, send it as X-Checkout-Session-Secret, with X-Checkout-Session-ID set to checkout_session.checkout_session_id. Hosted checkout does not need it: checkout_session.url carries its own one-time launch credential. |
 
 ## CheckoutBuyerContact
 
@@ -2163,7 +2162,7 @@ The checkout after a confirmed code, and the credential that acts for the custom
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expiration_url` | Optional | string | Optional URL to send buyers to after the checkout session expires. |
-| `expires_in_seconds` | Optional | exact numeric string | Duration in seconds before the checkout session expires after creation. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `expires_in_seconds` | Optional | exact numeric string | Duration in seconds before the checkout session expires after creation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 
 ## CheckoutLegalConfig
 
@@ -2323,7 +2322,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
 | `tip` | Optional | [CheckoutTipConfig](MODELS.md#checkouttipconfig) |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `url` | Optional | string | Response only. |
+| `url` | Optional | string | Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Returned for a hosted session on every launch result: create, payment-link resolve, and invoice and return-resolution checkout. Reads return it only to a credential that can manage checkout sessions. Omitted for embedded sessions. Response only. |
 
 #### CheckoutSession terminal_reason values
 
@@ -2350,13 +2349,12 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 
 ## CheckoutSessionLaunchResult
 
-Checkout-session access returned for hosted or embedded checkout creation.
+The checkout session and the credential to operate it. For hosted checkout, send the buyer to checkout_session.url. For embedded checkout, pass checkout_access.checkout_auth_token to your checkout client.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
+| `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
 | `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |
 
 ## CheckoutSessionLineItemModifierUpdate
@@ -2409,7 +2407,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -2603,6 +2601,8 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_SOURCE_CONFLICT"`
+- `"CHECKOUT_SESSION_SOURCE_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
 - `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
@@ -3578,6 +3578,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
 - `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CHECKOUT_SESSION_CHANGED"`
 - `"ORDER_CLOSED"`
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
@@ -3618,9 +3619,11 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_ON_FILE"`
 - `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -3679,6 +3682,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
@@ -3688,7 +3692,6 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
-- `"PAYMENT_CONFLICT"`
 - `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
 - `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
@@ -3749,7 +3752,6 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
 - `"PAYMENT_PROCESSOR_UNAVAILABLE"`
-- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
 - `"PAYMENT_REVIEW_OPEN"`
@@ -3783,6 +3785,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -4095,7 +4098,7 @@ Checkout-session access returned for hosted or embedded checkout creation.
 | --- | --- | --- | --- |
 | `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
 | `default_delivery_method_ids` | Optional | Array of string | Delivery methods a checkout offers when its creator names none: a checkout creation request that omits delivery_method_ids, and, when the order has items to deliver, a payment link without delivery_method_ids or an invoice checkout. Each checkout pins the methods when it is created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
-| `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `enabled_payment_options` | Optional | Array of string |  |
 | `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
 | `recovery_email` | Optional | object | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. |
@@ -9018,12 +9021,12 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -9263,6 +9266,8 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_SOURCE_CONFLICT"`
+- `"CHECKOUT_SESSION_SOURCE_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
 - `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
@@ -10238,6 +10243,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
 - `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CHECKOUT_SESSION_CHANGED"`
 - `"ORDER_CLOSED"`
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
@@ -10278,9 +10284,11 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_ON_FILE"`
 - `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -10339,6 +10347,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
@@ -10348,7 +10357,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
-- `"PAYMENT_CONFLICT"`
 - `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
 - `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
@@ -10409,7 +10417,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
 - `"PAYMENT_PROCESSOR_UNAVAILABLE"`
-- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
 - `"PAYMENT_REVIEW_OPEN"`
@@ -10443,6 +10450,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -10880,11 +10888,11 @@ Variants: any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -11115,6 +11123,8 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_SOURCE_CONFLICT"`
+- `"CHECKOUT_SESSION_SOURCE_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
 - `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
@@ -12090,6 +12100,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
 - `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CHECKOUT_SESSION_CHANGED"`
 - `"ORDER_CLOSED"`
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
@@ -12130,9 +12141,11 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_ON_FILE"`
 - `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -12191,6 +12204,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
@@ -12200,7 +12214,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
-- `"PAYMENT_CONFLICT"`
 - `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
 - `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
@@ -12261,7 +12274,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
 - `"PAYMENT_PROCESSOR_UNAVAILABLE"`
-- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
 - `"PAYMENT_REVIEW_OPEN"`
@@ -12295,6 +12307,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -14500,12 +14513,12 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 
 ## HostedCheckout
 
-One-time hosted checkout access details for redirecting a buyer into Flint-hosted checkout.
+Deprecated. Repeats checkout_session.url and checkout_access.checkout_auth_token.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_auth_token` | Required | string | Checkout-session auth token for clients that operate the created checkout session directly. The hosted URL uses a separate launch credential. |
-| `url` | Required | string | Hosted checkout URL for the created or reused checkout session. |
+| `checkout_auth_token` | Required | string | Same value as checkout_access.checkout_auth_token. |
+| `url` | Required | string | Same value as checkout_session.url. |
 
 ## Image
 
@@ -17057,12 +17070,12 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1660 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -17302,6 +17315,8 @@ Variants: object, object, object.
 - `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_SOURCE_CONFLICT"`
+- `"CHECKOUT_SESSION_SOURCE_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
 - `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
@@ -18277,6 +18292,7 @@ Variants: object, object, object.
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
 - `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CHECKOUT_SESSION_CHANGED"`
 - `"ORDER_CLOSED"`
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
@@ -18317,9 +18333,11 @@ Variants: object, object, object.
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_ON_FILE"`
 - `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -18378,6 +18396,7 @@ Variants: object, object, object.
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
@@ -18387,7 +18406,6 @@ Variants: object, object, object.
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
-- `"PAYMENT_CONFLICT"`
 - `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
 - `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
@@ -18448,7 +18466,6 @@ Variants: object, object, object.
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
 - `"PAYMENT_PROCESSOR_UNAVAILABLE"`
-- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
 - `"PAYMENT_REVIEW_OPEN"`
@@ -18482,6 +18499,7 @@ Variants: object, object, object.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -18919,11 +18937,11 @@ Variants: object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1660 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -19154,6 +19172,8 @@ Variants: object, object, object.
 - `"CHECKOUT_SESSION_REVISION_UNAVAILABLE"`
 - `"CHECKOUT_SESSION_SCOPE_MISMATCH"`
 - `"CHECKOUT_SESSION_SECRET_REQUIRED"`
+- `"CHECKOUT_SESSION_SOURCE_CONFLICT"`
+- `"CHECKOUT_SESSION_SOURCE_REQUIRED"`
 - `"CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED"`
 - `"CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED"`
@@ -20129,6 +20149,7 @@ Variants: object, object, object.
 - `"ORDER_CHARGE_ID_REQUIRED"`
 - `"ORDER_CHARGE_NOT_FOUND"`
 - `"ORDER_CHARGE_TAX_INPUT_REQUIRED"`
+- `"ORDER_CHECKOUT_SESSION_CHANGED"`
 - `"ORDER_CLOSED"`
 - `"ORDER_COLLECTION_ALREADY_ACTIVE"`
 - `"ORDER_COLLECTION_IN_PROGRESS"`
@@ -20169,9 +20190,11 @@ Variants: object, object, object.
 - `"ORDER_PAYMENT_LEG_ALREADY_SETTLED"`
 - `"ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE"`
 - `"ORDER_PERCENTAGE_TAX_FORBIDDEN"`
+- `"ORDER_RECEIPT_EMAIL_ON_FILE"`
 - `"ORDER_RECEIPT_EMAIL_UNAVAILABLE"`
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
+- `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -20230,6 +20253,7 @@ Variants: object, object, object.
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
+- `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
 - `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
@@ -20239,7 +20263,6 @@ Variants: object, object, object.
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
-- `"PAYMENT_CONFLICT"`
 - `"PAYMENT_EXPIRED"`
 - `"PAYMENT_FAILED"`
 - `"PAYMENT_INTENT_CANNOT_BE_UPDATED"`
@@ -20300,7 +20323,6 @@ Variants: object, object, object.
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
 - `"PAYMENT_PROCESSOR_UNAVAILABLE"`
-- `"PAYMENT_REQUIRED"`
 - `"PAYMENT_RETURN_URL_INVALID"`
 - `"PAYMENT_RETURN_URL_REQUIRED"`
 - `"PAYMENT_REVIEW_OPEN"`
@@ -20334,6 +20356,7 @@ Variants: object, object, object.
 - `"PLAN_HAS_ACTIVE_SUBSCRIPTIONS"`
 - `"PLAN_HAS_OPEN_CHECKOUT_SESSIONS"`
 - `"PLAN_NOT_ACTIVE"`
+- `"PORTAL_ORDER_ID_REQUIRED"`
 - `"PRICE_TOO_HIGH"`
 - `"PROCESSING_ERROR"`
 - `"PROCESSING_FEE_PRICING_NOT_AUTHORIZED"`
@@ -21015,9 +21038,9 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `checkout_access` | Required | object | Checkout credential and, for hosted checkout, its launch URL. Keep the checkout credential on your backend. |
+| `checkout_access` | Required | [CheckoutAccess](MODELS.md#checkoutaccess) |  |
 | `checkout_session` | Required | [CheckoutSession](MODELS.md#checkoutsession) |  |
-| `hosted_checkout` | Optional | object | Deprecated. Use checkout_access. Present only for hosted checkout. |
+| `hosted_checkout` | Optional | object | Deprecated and will be removed. Use checkout_session.url and checkout_access.checkout_auth_token. |
 | `invoice` | Required | [Invoice](MODELS.md#invoice) |  |
 | `invoice_payment_attempt` | Optional | [InvoicePaymentAttempt](MODELS.md#invoicepaymentattempt) |  |
 | `reused_existing` | Required | boolean | True when an existing checkout of the requested surface was reused. For POST /v1/checkout-sessions, true only when a retry with the original Idempotency-Key returns the session that request created. |

@@ -1,1 +1,1 @@
-{"shared":"BuyerFulfillmentEventListResponse","dependencies":["BuyerFulfillmentEvent","BuyerFulfillmentEventListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}
+{"shared":"BuyerFulfillmentEventListResponse","dependencies":["BuyerFulfillmentEvent","BuyerFulfillmentEventListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}

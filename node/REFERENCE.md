@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006210100; API 2026-09-07.
+Package 3.0.0-beta.20261006230000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -19151,7 +19151,7 @@ Lists fulfillment events for an order owned by the current buyer, ordered by occ
 
 `GET /v1/me/fulfillment-events`
 
-Call: `listFulfillmentEvents(params?: { "order_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "package_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listFulfillmentEvents(params: { "order_id": InputValue<string>; "fulfillment_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "package_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -19159,7 +19159,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 
 ```typescript
 {
-  "order_id"?: string;
+  "order_id": string;
   "fulfillment_id"?: string;
   "shipment_id"?: string;
   "package_id"?: string;
@@ -19173,7 +19173,7 @@ Returned payload: `{ "data": Array<BuyerFulfillmentEvent>; "meta"?: ResponseMeta
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string |  |
+| `order_id` | Required | string |  |
 | `fulfillment_id` | Optional | string |  |
 | `shipment_id` | Optional | string |  |
 | `package_id` | Optional | string |  |
@@ -19200,7 +19200,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
-for await (const item of client.me.listFulfillmentEventsItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const item of client.me.listFulfillmentEventsItems({order_id: "example"}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(item);
 }
 ```
@@ -19216,7 +19216,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
-for await (const page of client.me.listFulfillmentEventsPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const page of client.me.listFulfillmentEventsPages({order_id: "example"}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["data"]);
 }
 ```
@@ -19232,7 +19232,7 @@ const client = new Client({
   baseUrl: clientBaseUrl,
   customerToken: process.env.CUSTOMER_TOKEN ?? '',
 });
-for await (const page of client.me.listFulfillmentEventsPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+for await (const page of client.me.listFulfillmentEventsPagesWithResponse({order_id: "example"}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
   console.log(page["body"]["data"]);
   console.log(page.meta.requestId);
 }
@@ -21080,7 +21080,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### me.sendOrderReceipt
 
-Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient.
 
 `POST /v1/me/orders/{order_id}/send-receipt`
 
@@ -24146,7 +24146,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.sendReceipt
 
-Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient. Checkout credentials can send only to the address on file. If no address is on file, checkout credentials can send to at most three distinct addresses over the order's lifetime. Receipts sent for this order through this route count toward this limit, including failed deliveries and receipts sent with a secret API key. Merchant callers can choose any address.
 
 `POST /v1/orders/{order_id}/send-receipt`
 

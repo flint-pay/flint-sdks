@@ -1,1 +1,1 @@
-{"shared":"CheckoutAccess","phpRepresentation":{"kind":"record","fields":{"checkout_auth_token":{"kind":"value","type":"string"},"hosted_url":{"kind":"value","type":"string"}}},"dependencies":["CheckoutAccess"]}
+{"shared":"CheckoutAccess","phpRepresentation":{"kind":"record","fields":{"checkout_auth_token":{"kind":"value","type":"string"}}},"dependencies":["CheckoutAccess"]}
