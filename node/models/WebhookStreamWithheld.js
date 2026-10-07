@@ -1,9 +1,9 @@
-import { d937 as c0, d2593 as c1, d2604 as c2 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2604 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d943 as c0, d2599 as c1, d2610 as c2 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d2610 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2604;
+const read = d2610;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec287"]:c0(),["SharedCodec672"]:c1(),["WebhookStreamWithheld"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec291"]:c0(),["SharedCodec676"]:c1(),["WebhookStreamWithheld"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhookStreamWithheld(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

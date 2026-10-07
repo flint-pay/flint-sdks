@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006230000; API 2026-09-07.
+Package 3.0.0-beta.20261007031000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -1964,13 +1964,35 @@ Returned payload:
   "audience": ("merchant") & ("merchant");
   "basis_delivery_quote_id"?: string;
   "basis_delivery_selection_id"?: string;
-  "buyer_location"?: DeliveryBuyerLocationResource;
+  "buyer_location"?: ({
+    "address"?: DeliveryAddressResource;
+    "coordinate"?: DeliveryCoordinateRequest;
+    "type": "address" |
+    "coordinate" |
+    (string & {
+    });
+  }) & ((({
+    "type": ("address") & ("address");
+    "address": unknown;
+  })) |
+  (({
+    "type": ("coordinate") & ("coordinate");
+    "coordinate": unknown;
+  })) |
+  (object));
   "checkout_session_id": string;
   "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
   "consumed_by_delivery_selection_id"?: string;
   "delivery_quote_id": string;
   "delivery_quote_revision": string;
-  "destination_address"?: DeliveryAddressRequest;
+  "destination_address"?: {
+    "city"?: string;
+    "country"?: string;
+    "line1"?: string;
+    "line2"?: string;
+    "postal_code"?: string;
+    "state"?: string;
+  };
   "eligibility_context_revision": string;
   "evaluated_at": string;
   "evaluation_status": "complete" |
@@ -2008,7 +2030,22 @@ Returned payload:
 }) |
  ({
   "audience": ("buyer") & ("buyer");
-  "buyer_location"?: DeliveryBuyerLocationResource;
+  "buyer_location"?: ({
+    "address"?: DeliveryAddressResource;
+    "coordinate"?: DeliveryCoordinateRequest;
+    "type": "address" |
+    "coordinate" |
+    (string & {
+    });
+  }) & ((({
+    "type": ("address") & ("address");
+    "address": unknown;
+  })) |
+  (({
+    "type": ("coordinate") & ("coordinate");
+    "coordinate": unknown;
+  })) |
+  (object));
   "buyer_reasons": Array<"address_required" |
   "address_incomplete" |
   "outside_delivery_area" |
@@ -2019,7 +2056,14 @@ Returned payload:
   })>;
   "choice_groups": Array<BuyerDeliveryQuoteChoiceGroupResource>;
   "delivery_quote_id": string;
-  "destination_address"?: DeliveryAddressResource;
+  "destination_address"?: {
+    "city"?: string;
+    "country"?: string;
+    "line1"?: string;
+    "line2"?: string;
+    "postal_code"?: string;
+    "state"?: string;
+  };
   "evaluated_at": string;
   "evaluation_status": "complete" |
   "incomplete" |
@@ -2231,6 +2275,7 @@ Returned payload:
         "postal_code": string;
         "state": string;
       };
+      "shipping_recipient_name"?: string;
     };
     "delivery_method_ids": Array<string>;
     "delivery_pinned_dependencies"?: Array<CheckoutDeliveryPinnedDependency>;
@@ -2979,6 +3024,7 @@ Returned payload:
         "postal_code": string;
         "state": string;
       };
+      "shipping_recipient_name"?: string;
     };
     "delivery_method_ids": Array<string>;
     "delivery_pinned_dependencies"?: Array<CheckoutDeliveryPinnedDependency>;
@@ -3713,10 +3759,21 @@ Returned payload:
     "choices": Array<BuyerDeliverySelectionChoiceResource>;
     "delivery_quote_id": string;
     "delivery_selection_id": string;
-    "destination_address"?: DeliveryAddressResource;
+    "destination_address"?: {
+      "city"?: string;
+      "country"?: string;
+      "line1"?: string;
+      "line2"?: string;
+      "postal_code"?: string;
+      "state"?: string;
+    };
     "expires_at": string;
     "input_requirements": Array<BuyerDeliveryInputRequirementResource>;
-    "recipient"?: DeliveryRecipientResource;
+    "recipient"?: {
+      "email"?: string;
+      "name"?: string;
+      "phone"?: string;
+    };
     "status": "selected" |
     "locked_for_payment" |
     "committed" |
@@ -3782,13 +3839,35 @@ Returned payload:
   "audience": ("merchant") & ("merchant");
   "basis_delivery_quote_id"?: string;
   "basis_delivery_selection_id"?: string;
-  "buyer_location"?: DeliveryBuyerLocationResource;
+  "buyer_location"?: ({
+    "address"?: DeliveryAddressResource;
+    "coordinate"?: DeliveryCoordinateRequest;
+    "type": "address" |
+    "coordinate" |
+    (string & {
+    });
+  }) & ((({
+    "type": ("address") & ("address");
+    "address": unknown;
+  })) |
+  (({
+    "type": ("coordinate") & ("coordinate");
+    "coordinate": unknown;
+  })) |
+  (object));
   "checkout_session_id": string;
   "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
   "consumed_by_delivery_selection_id"?: string;
   "delivery_quote_id": string;
   "delivery_quote_revision": string;
-  "destination_address"?: DeliveryAddressRequest;
+  "destination_address"?: {
+    "city"?: string;
+    "country"?: string;
+    "line1"?: string;
+    "line2"?: string;
+    "postal_code"?: string;
+    "state"?: string;
+  };
   "eligibility_context_revision": string;
   "evaluated_at": string;
   "evaluation_status": "complete" |
@@ -3826,7 +3905,22 @@ Returned payload:
 }) |
  ({
   "audience": ("buyer") & ("buyer");
-  "buyer_location"?: DeliveryBuyerLocationResource;
+  "buyer_location"?: ({
+    "address"?: DeliveryAddressResource;
+    "coordinate"?: DeliveryCoordinateRequest;
+    "type": "address" |
+    "coordinate" |
+    (string & {
+    });
+  }) & ((({
+    "type": ("address") & ("address");
+    "address": unknown;
+  })) |
+  (({
+    "type": ("coordinate") & ("coordinate");
+    "coordinate": unknown;
+  })) |
+  (object));
   "buyer_reasons": Array<"address_required" |
   "address_incomplete" |
   "outside_delivery_area" |
@@ -3837,7 +3931,14 @@ Returned payload:
   })>;
   "choice_groups": Array<BuyerDeliveryQuoteChoiceGroupResource>;
   "delivery_quote_id": string;
-  "destination_address"?: DeliveryAddressResource;
+  "destination_address"?: {
+    "city"?: string;
+    "country"?: string;
+    "line1"?: string;
+    "line2"?: string;
+    "postal_code"?: string;
+    "state"?: string;
+  };
   "evaluated_at": string;
   "evaluation_status": "complete" |
   "incomplete" |
@@ -6034,7 +6135,7 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-location-sets/{delivery_location_set_id}`
 
-Call: `update(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryLocationSetConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_location_set_id: InputValue<string>, params: (InputValue<({ "configuration"?: { "location_ids": Array<string>; }; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_location_set_id`. Params contain flat body fields and query/header fields.
 
@@ -6046,7 +6147,9 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryLocationSetConfigurationInput;
+    "configuration"?: {
+      "location_ids": Array<string>;
+    };
     "expected_version"?: string;
     "external_reference_id"?: string |
     null;
@@ -8050,7 +8153,7 @@ for await (const page of client.deliveryMethods.listPagesWithResponse({}, { maxP
 
 ### deliveryMethods.remove
 
-Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records.
+Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be archived; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}. Open checkout sessions keep their pinned revision and do not block retirement.
 
 `DELETE /v1/delivery-methods/{delivery_method_id}`
 
@@ -8082,11 +8185,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### deliveryMethods.update
 
-Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
+Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be set inactive; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}.
 
 `PATCH /v1/delivery-methods/{delivery_method_id}`
 
-Call: `update(delivery_method_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryMethodConfigurationRequestInput; "description"?: string; "display_position"?: number; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "recommendation_priority"?: number | null; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (((({ "name"?: never })) | ({ "expected_version": unknown; }))) & (((({ "description"?: never })) | ({ "expected_version": unknown; }))) & (((({ "display_position"?: never })) | ({ "expected_version": unknown; }))) & (((({ "recommendation_priority"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }) | ({ "description": unknown; }) | ({ "display_position": unknown; }) | ({ "recommendation_priority": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_method_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryMethodConfigurationPatchRequestInput; "description"?: string; "display_position"?: number; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "recommendation_priority"?: number | null; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (((({ "name"?: never })) | ({ "expected_version": unknown; }))) & (((({ "description"?: never })) | ({ "expected_version": unknown; }))) & (((({ "display_position"?: never })) | ({ "expected_version": unknown; }))) & (((({ "recommendation_priority"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }) | ({ "description": unknown; }) | ({ "display_position": unknown; }) | ({ "recommendation_priority": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_method_id`. Params contain flat body fields and query/header fields.
 
@@ -8098,7 +8201,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryMethodConfigurationRequestInput;
+    "configuration"?: DeliveryMethodConfigurationPatchRequestInput;
     "description"?: string;
     "display_position"?: number;
     "expected_version"?: string;
@@ -8227,11 +8330,33 @@ Returned payload:
 
 ```typescript
 (({
-  "buyer_location"?: DeliveryBuyerLocationResource;
+  "buyer_location"?: ({
+    "address"?: DeliveryAddressResource;
+    "coordinate"?: DeliveryCoordinateRequest;
+    "type": "address" |
+    "coordinate" |
+    (string & {
+    });
+  }) & ((({
+    "type": ("address") & ("address");
+    "address": unknown;
+  })) |
+  (({
+    "type": ("coordinate") & ("coordinate");
+    "coordinate": unknown;
+  })) |
+  (object));
   "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
   "currency": string;
   "delivery_method_ids": Array<string>;
-  "destination_address"?: DeliveryAddressResource;
+  "destination_address"?: {
+    "city"?: string;
+    "country"?: string;
+    "line1"?: string;
+    "line2"?: string;
+    "postal_code"?: string;
+    "state"?: string;
+  };
   "evaluated_at": string;
   "evaluation_status": "complete" |
   "incomplete" |
@@ -8539,7 +8664,7 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-profiles/{delivery_profile_id}`
 
-Call: `update(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryProfileConfigurationRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: ({ "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">; "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone"; "dimensions"?: { "height": string; "length": string; "unit": string; "width": string; }; "origin_policy"?: ({ "location_id"?: string; "type": "fixed_location" | "inventory_routing" | "method_origin"; }) & (({ "type": "fixed_location"; "location_id": unknown; }) | (({ "type": "inventory_routing"; }) & (({ "location_id"?: never }))) | (({ "type": "method_origin"; }) & (({ "location_id"?: never })))); "requirement"?: "none" | "required"; "resolution_mode"?: "quote" | "manual"; "splitting_policy"?: "whole_line_item" | "quantity_split_allowed"; "weight"?: { "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": string; }; }) & ((({ "requirement": "none"; }) & (({ "resolution_mode"?: never }) & ({ "allowed_types"?: never }) & ({ "origin_policy"?: never }) & ({ "weight"?: never }) & ({ "dimensions"?: never }) & ({ "combination_policy"?: never }) & ({ "splitting_policy"?: never }))) | ({ "allowed_types": Array<"shipment" | "pickup" | "local_delivery">; "requirement": "required"; "resolution_mode": "quote"; "origin_policy": unknown; "combination_policy": unknown; "splitting_policy": unknown; }) | (({ "allowed_types": Array<"digital" | "service">; "requirement": "required"; "resolution_mode": "manual"; }) & (({ "origin_policy"?: never }) & ({ "weight"?: never }) & ({ "dimensions"?: never }) & ({ "combination_policy"?: never }) & ({ "splitting_policy"?: never })))); "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_profile_id`. Params contain flat body fields and query/header fields.
 
@@ -8551,7 +8676,97 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryProfileConfigurationRequestInput;
+    "configuration"?: ({
+      "allowed_types"?: Array<"shipment" |
+      "pickup" |
+      "local_delivery" |
+      "digital" |
+      "service">;
+      "combination_policy"?: "combine_when_compatible" |
+      "separate_profile" |
+      "separate_line_item" |
+      "fulfill_alone";
+      "dimensions"?: {
+        "height": string;
+        "length": string;
+        "unit": string;
+        "width": string;
+      };
+      "origin_policy"?: ({
+        "location_id"?: string;
+        "type": "fixed_location" |
+        "inventory_routing" |
+        "method_origin";
+      }) & (({
+        "type": "fixed_location";
+        "location_id": unknown;
+      }) |
+      (({
+        "type": "inventory_routing";
+      }) & (({
+        "location_id"?: never
+      }))) |
+      (({
+        "type": "method_origin";
+      }) & (({
+        "location_id"?: never
+      }))));
+      "requirement"?: "none" |
+      "required";
+      "resolution_mode"?: "quote" |
+      "manual";
+      "splitting_policy"?: "whole_line_item" |
+      "quantity_split_allowed";
+      "weight"?: {
+        "unit": "gram" |
+        "kilogram" |
+        "ounce" |
+        "pound";
+        "value": string;
+      };
+    }) & ((({
+      "requirement": "none";
+    }) & (({
+      "resolution_mode"?: never
+    }) & ({
+      "allowed_types"?: never
+    }) & ({
+      "origin_policy"?: never
+    }) & ({
+      "weight"?: never
+    }) & ({
+      "dimensions"?: never
+    }) & ({
+      "combination_policy"?: never
+    }) & ({
+      "splitting_policy"?: never
+    }))) |
+    ({
+      "allowed_types": Array<"shipment" |
+      "pickup" |
+      "local_delivery">;
+      "requirement": "required";
+      "resolution_mode": "quote";
+      "origin_policy": unknown;
+      "combination_policy": unknown;
+      "splitting_policy": unknown;
+    }) |
+    (({
+      "allowed_types": Array<"digital" |
+      "service">;
+      "requirement": "required";
+      "resolution_mode": "manual";
+    }) & (({
+      "origin_policy"?: never
+    }) & ({
+      "weight"?: never
+    }) & ({
+      "dimensions"?: never
+    }) & ({
+      "combination_policy"?: never
+    }) & ({
+      "splitting_policy"?: never
+    }))));
     "expected_version"?: string;
     "external_reference_id"?: string |
     null;
@@ -9007,7 +9222,7 @@ Sparsely updates mutable fields. A change to pinned configuration publishes a ne
 
 `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
-Call: `update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `delivery_rate_callback_id`. Params contain flat body fields and query/header fields.
 
@@ -9019,7 +9234,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body": ({
-    "configuration"?: DeliveryRateCallbackConfigurationInput;
+    "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput;
     "expected_version"?: string;
     "external_reference_id"?: string |
     null;

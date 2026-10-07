@@ -1,1 +1,1 @@
-{"shared":"PartnerAppInstallListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAppInstall","PartnerAppInstallListResponse","PartnerEnvironmentGrant","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}
+{"shared":"PartnerAppInstallListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","PartnerAppInstall","PartnerAppInstallListResponse","PartnerEnvironmentGrant","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec492"]}

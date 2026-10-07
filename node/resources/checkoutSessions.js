@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
@@ -334,7 +334,6 @@ export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig
 export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
@@ -375,7 +374,6 @@ export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
 export { makeCheckoutCustomerVerification } from '../models/CheckoutCustomerVerification.js';
-export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
 export { makeDeliveryQuoteMethodResource } from '../models/DeliveryQuoteMethodResource.js';
 export { makeDeliveryPendingCallerRateRequest } from '../models/DeliveryPendingCallerRateRequest.js';
@@ -403,7 +401,6 @@ export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
@@ -432,4 +429,3 @@ export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAlloca
 export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
 export { makeBuyerDeliverySelection } from '../models/BuyerDeliverySelection.js';
 export { makeBuyerDeliverySelectionChoiceResource } from '../models/BuyerDeliverySelectionChoiceResource.js';
-export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';

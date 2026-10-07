@@ -1100,11 +1100,11 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `audience` | Required | string | Values: `"buyer"`. |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `buyer_reasons` | Required | Array of string | Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. |
 | `choice_groups` | Required | Array of [BuyerDeliveryQuoteChoiceGroupResource](MODELS.md#buyerdeliveryquotechoicegroupresource) |  |
 | `delivery_quote_id` | Required | string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value from every response. Format: `date-time`. |
@@ -1139,10 +1139,10 @@ The buyer-visible view of a credit note. Drafts are never returned, and how much
 | `choices` | Required | Array of [BuyerDeliverySelectionChoiceResource](MODELS.md#buyerdeliveryselectionchoiceresource) |  |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_selection_id` | Required | string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `input_requirements` | Required | Array of [BuyerDeliveryInputRequirementResource](MODELS.md#buyerdeliveryinputrequirementresource) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
-| `recipient` | Optional | [DeliveryRecipientResource](MODELS.md#deliveryrecipientresource) |  |
+| `recipient` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `status` | Required | string | Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
 
 ## BuyerDeliverySelectionChoiceResource
@@ -2014,6 +2014,7 @@ Details the buyer's checkout can prefill from the customer it acts for.
 | `billing_address` | Optional | object | The customer's default billing address. Omitted when the customer has none. |
 | `email` | Required | string | The customer's email. |
 | `shipping_address` | Optional | object | The customer's default shipping address. Omitted when the customer has none. |
+| `shipping_recipient_name` | Optional | string | Recipient name saved with the customer's default shipping address. Present only with `shipping_address`; omitted when that address was set on the customer without a saved recipient. |
 
 ## CheckoutCustomerVerification
 
@@ -2278,7 +2279,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_collection` | Optional | [CheckoutCustomerConfig](MODELS.md#checkoutcustomerconfig) |  |
-| `customer_prefill` | Optional | object | Contact and default addresses of the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present only on reads with the session's checkout credential while the session is open and acts for a customer. Response only. |
+| `customer_prefill` | Optional | object | Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present only on reads with the session's checkout credential while the session is open and acts for a customer. Response only. |
 | `delivery_method_ids` | Required | Array of string | Immutable delivery method assignment captured when the checkout was created. |
 | `delivery_pinned_dependencies` | Optional | Array of [CheckoutDeliveryPinnedDependency](MODELS.md#checkoutdeliverypinneddependency) | Merchant-only immutable configuration lineage used to evaluate delivery quotes. Response only. |
 | `delivery_selection_required` | Required | boolean | Whether the order has at least one remaining quote-resolved fulfillment choice that must be selected before payment. Response only. |
@@ -2407,7 +2408,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | object | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | object | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -3624,6 +3625,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -4097,7 +4099,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
-| `default_delivery_method_ids` | Optional | Array of string | Delivery methods a checkout offers when its creator names none: a checkout creation request that omits delivery_method_ids, and, when the order has items to deliver, a payment link without delivery_method_ids or an invoice checkout. Each checkout pins the methods when it is created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
+| `default_delivery_method_ids` | Optional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `enabled_payment_options` | Optional | Array of string |  |
 | `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
@@ -4444,7 +4446,7 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | --- | --- | --- | --- |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [CheckoutCustomerConfig](MODELS.md#checkoutcustomerconfig) |  |
-| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout. Omit the field to use the configured checkout default. Send an explicit empty array only when the order has no delivery obligations. |
+| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout. When omitted, uses settings.checkout.default_delivery_method_ids if the order has items to deliver, or no methods otherwise. An explicit empty array assigns no methods. |
 | `expiration` | Optional | [CheckoutExpirationConfig](MODELS.md#checkoutexpirationconfig) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
@@ -6851,7 +6853,7 @@ A checkout or customer account hostname's status after a transition, with its pr
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `role` | Required | string | Values: `"destination_address"`, `"buyer_location"`. |
-| `suggested_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) |  |
+| `suggested_address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `verification_state` | Required | string | Values: `"needs_review"`, `"unverifiable"`. |
 
 ## DeliveryAddressRequest
@@ -7207,16 +7209,16 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `dispatched_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. maxLength: `2048`. |
+| `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2048`. |
 | `expires_at` | Optional | string | Deadline after which an undelivered job should enter merchant review. Format: `date-time`. |
 | `external_delivery_id` | Optional | string | Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: `255`. |
-| `instructions` | Optional | string |  |
-| `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. |
+| `instructions` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `prep_time_duration_seconds` | Optional | exact numeric string | Expected preparation time before courier pickup, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string | Time at which the order became ready for courier pickup. Format: `date-time`. |
 | `service_area_id` | Optional | string |  |
 | `timezone` | Optional | string |  |
-| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. |
+| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `window_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -7409,7 +7411,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Required | string | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
+| `charge_tax_category` | Required | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Required | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Required | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7420,7 +7422,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Required | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Required | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 ## DeliveryMethodConfigurationCreateRequest
 
@@ -7429,7 +7431,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Optional | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7439,9 +7441,28 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 Variants: any, any, any.
+
+## DeliveryMethodConfigurationPatchRequest
+
+Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. It does not currently change the automatic rate. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. |
+| `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. |
+| `minimum_option_lifetime_seconds` | Optional | exact numeric string or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
+| `origin` | Optional | Alternative shapes (see declared variants) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. |
+| `pricing` | Optional | Alternative shapes (see declared variants) | How Flint calculates the delivery charge. Null is invalid. |
+| `public_details` | Optional | object or null | Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. |
+| `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. Use [] to clear it. Null is invalid. maxItems: `12`. |
+| `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. Use [] to clear it. Null is invalid. |
+| `selection_guarantee_seconds` | Optional | exact numeric string or null | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Null restores 0, which uses the option expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the merchant's settings. |
 
 ## DeliveryMethodConfigurationRequest
 
@@ -7450,7 +7471,7 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Omit it to derive shipping for shipment methods, delivery for local delivery, or service_fee for pickup. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Optional | object | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7460,7 +7481,7 @@ Variants: any, any, any.
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](MODELS.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | exact numeric string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
-| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Omit or send null to inherit tax.default_delivery_taxable from effective merchant settings. |
+| `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 Variants: any, any, any.
 
@@ -7701,11 +7722,11 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `choice_groups` | Required | Array of [DeliveryPreviewChoiceGroupResource](MODELS.md#deliverypreviewchoicegroupresource) |  |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `delivery_method_ids` | Required | Array of string |  |
-| `destination_address` | Optional | [DeliveryAddressResource](MODELS.md#deliveryaddressresource) |  |
+| `destination_address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
@@ -7985,13 +8006,13 @@ Variants: any, any, any.
 | `audience` | Required | string | Values: `"merchant"`. |
 | `basis_delivery_quote_id` | Optional | string |  |
 | `basis_delivery_selection_id` | Optional | string |  |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](MODELS.md#deliverybuyerlocationresource) |  |
+| `buyer_location` | Optional | Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `checkout_session_id` | Required | string |  |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](MODELS.md#deliveryquotechoicegroupresource) |  |
 | `consumed_by_delivery_selection_id` | Optional | string |  |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_quote_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `destination_address` | Optional | [DeliveryAddressRequest](MODELS.md#deliveryaddressrequest) |  |
+| `destination_address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `eligibility_context_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
@@ -8122,6 +8143,19 @@ Variants: any, any, any.
 | `redirect_policy` | Optional | string | Values: `"reject"`. |
 | `request_timeout_seconds` | Optional | number | minimum: `0.1`. maximum: `10`. |
 | `url` | Required | string |  |
+
+## DeliveryRateCallbackConfigurationPatchRequest
+
+Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_request_bytes` | Optional | exact numeric string or null | Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. |
+| `maximum_response_bytes` | Optional | exact numeric string or null | Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1048576`. |
+| `preview_enabled` | Optional | boolean or null | Null restores false. |
+| `redirect_policy` | Optional | string or null | Null restores reject. Values: `"reject"`, `null`. |
+| `request_timeout_seconds` | Optional | number or null | Null restores 2 seconds. minimum: `0.1`. maximum: `10`. |
+| `url` | Optional | string | Null is invalid. |
 
 ## DeliveryRateCallbackConnectionCheck
 
@@ -8344,7 +8378,7 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | object | Delivery charge committed by this selection. |
-| `buyer_location` | Optional | Alternative shapes (see declared variants) | Buyer location snapshot used to evaluate pickup proximity. |
+| `buyer_location` | Optional | Alternative shapes (see declared variants) | Buyer location snapshot used to evaluate pickup proximity. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `calculation_expires_at` | Required | string | Deadline after which calculated pricing evidence is no longer valid. Format: `date-time`. |
 | `checkout_session_id` | Required | string | Checkout session that owns the selection. |
 | `choices` | Required | Array of [DeliverySelectionChoiceResource](MODELS.md#deliveryselectionchoiceresource) | One chosen option for each required choice group. |
@@ -8352,17 +8386,17 @@ Variants: any, any, any, any, any, any.
 | `delivery_quote_id` | Required | string | Quote from which this selection was made. |
 | `delivery_quote_revision` | Required | exact numeric string | Quote revision from which this selection was created. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `delivery_selection_id` | Required | string | Stable delivery selection ID. |
-| `destination_address` | Optional | object | Destination address snapshot used for delivery evaluation. |
+| `destination_address` | Optional | object | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `eligibility_context_revision` | Required | exact numeric string | Checkout eligibility-context revision evaluated by this selection. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `expires_at` | Required | string | Deadline after which this provisional selection can no longer be committed. Format: `date-time`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](MODELS.md#deliveryinputrequirement) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with DELIVERY_RECIPIENT_REQUIRED until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
-| `instructions` | Optional | string | Buyer-provided delivery instructions. |
+| `instructions` | Optional | string | Buyer-provided delivery instructions. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `lifecycle_events` | Optional | Array of [DeliverySelectionLifecycleEventResource](MODELS.md#deliveryselectionlifecycleeventresource) | Ordered lifecycle events recorded for this selection. |
 | `lifecycle_updated_at` | Required | string | Time the selection lifecycle last changed. Format: `date-time`. |
 | `limiting_deadline_reason` | Required | string | Constraint that determined the selection expiry. Values: [6 declared values](#deliveryselection-limiting_deadline_reason-values). |
 | `order_id` | Required | string | Order affected by the selection. |
 | `private_data_status` | Optional | string | Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`. |
-| `recipient` | Optional | object | Recipient details captured with the selection. |
+| `recipient` | Optional | object | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `redacted_at` | Optional | string | Time merchant-private selection evidence was redacted. Format: `date-time`. |
 | `status` | Required | string | Current selection lifecycle status. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
 
@@ -8411,7 +8445,7 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_window_id` | Optional | string |  |
-| `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. maxLength: `2000`. |
+| `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2000`. |
 
 ## DeliverySelectionLifecycleEventResource
 
@@ -9026,7 +9060,7 @@ Variants: any, any, any, any, any, any, any.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -10289,6 +10323,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -10892,7 +10927,7 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -12146,6 +12181,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -12937,8 +12973,8 @@ Variants: any, any, any, any, any, any, any.
 | `shipped_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `status` | Required | string | Current package lifecycle state. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
 | `supported_actions` | Required | Array of string | Read-only actions currently supported for this package. Response only. |
-| `tracking_number` | Optional | string |  |
-| `tracking_url` | Optional | string |  |
+| `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `tracking_url` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | exact numeric string | Monotonic package version for expected_version checks. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. Response only. |
 
@@ -13215,7 +13251,7 @@ Variants: any, any.
 | `picked_at` | Optional | string | First time this fulfillment reached picked. Format: `date-time`. Response only. |
 | `pickup_details` | Optional | [PickupFulfillmentDetails](MODELS.md#pickupfulfillmentdetails) |  |
 | `quantity_effect` | Optional | string | Read-only current quantity accounting behavior for this fulfillment state. Values: `"preserve"`, `"fulfill"`, `"release"`. Response only. |
-| `recipient` | Optional | [FulfillmentRecipient](MODELS.md#fulfillmentrecipient) |  |
+| `recipient` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `request_status` | Required | string | Provider acceptance state, independent from fulfillment work progress. The accept action sets this field to accepted while status remains pending. Values: `"pending"`, `"accepted"`. Response only. |
 | `service_details` | Optional | [ServiceFulfillmentDetails](MODELS.md#servicefulfillmentdetails) |  |
 | `shipments` | Optional | Array of [ExpandedShipmentSummary](MODELS.md#expandedshipmentsummary) | Response only. |
@@ -17075,7 +17111,7 @@ Variants: object, object, object.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1665 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -18338,6 +18374,7 @@ Variants: object, object, object.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -18941,7 +18978,7 @@ Variants: object, object, object.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | object | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1665 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -20195,6 +20232,7 @@ Variants: object, object, object.
 - `"ORDER_RECEIPT_MERCHANT_MANAGED"`
 - `"ORDER_RECEIPT_NOT_AVAILABLE"`
 - `"ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED"`
+- `"ORDER_RECEIPT_RECIPIENT_RESTRICTED"`
 - `"ORDER_RECEIPT_RESEND_RATE_LIMITED"`
 - `"ORDER_RECONCILIATION_REQUIRED"`
 - `"ORDER_REQUIRED_FOR_CHARGE_REFUND"`
@@ -23079,7 +23117,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Optional | string |  |
-| `delivery_destination` | Optional | object | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. |
+| `delivery_destination` | Optional | object | The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `fulfillment_status` | Optional | string | Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Response only. |
 | `fulfillments` | Optional | Array of [Fulfillment](MODELS.md#fulfillment) | Response only. |
@@ -23866,7 +23904,7 @@ Variants: object, Alternative shapes (see declared variants).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [PostalAddress](MODELS.md#postaladdress) |  |
+| `address` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `address_source` | Required | string | Values: `"provided"`, `"fulfillment"`, `"customer"`, `"device"`, `"location"`, `"merchant"`. |
 | `address_type` | Optional | string | Values: `"postal_code"`, `"tax_address"`, `"billing_address"`, `"shipping_address"`, `"business_address"`. |
 | `customer_id` | Optional | string |  |
@@ -24035,7 +24073,7 @@ Variants: any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Caller-owned package identifier in external_system. Set with external_system to enable duplicate detection and replay for that provider reference. maxLength: `255`. |
 | `external_system` | Optional | string | External carrier, aggregator, or fulfillment platform name for this package. Set with external_reference_id to enable duplicate detection and replay for that provider reference; without external_reference_id this is stored as provenance only. |
 | `fulfillment_id` | Required | string | Response only. |
-| `label_url` | Optional | string | Merchant or integration supplied HTTPS shipping-label URL for authenticated merchant workflows. Non-Flint URLs must include external_system for provenance. Flint does not currently manage label file hosting or buyer-facing label downloads. |
+| `label_url` | Optional | string | Merchant or integration supplied HTTPS shipping-label URL for authenticated merchant workflows. Non-Flint URLs must include external_system for provenance. Flint does not currently manage label file hosting or buyer-facing label downloads. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Required | string | Response only. |
@@ -24048,8 +24086,8 @@ Variants: any, any.
 | `status` | Required | string | Current package lifecycle state. Package states are the source used to derive shipment status. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. Response only. |
 | `status_reason` | Optional | string |  |
 | `supported_actions` | Required | Array of string | Read-only actions currently supported for this package. Response only. |
-| `tracking_number` | Optional | string |  |
-| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. |
+| `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
+| `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `updated_at` | Optional | string | Last update timestamp. Format: `date-time`. Response only. |
 | `version` | Required | exact numeric string | Monotonic package version for expected_version checks. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. Response only. |
 | `weight` | Optional | [ShippingWeight](MODELS.md#shippingweight) |  |
@@ -25744,7 +25782,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `prep_time_duration_seconds` | Optional | exact numeric string | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `timezone` | Optional | string |  |
-| `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. maxLength: `500`. |
+| `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `500`. |
 | `window_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -29559,7 +29597,7 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `payment_method` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `payment_method_id` | Required | string |  |
 | `recurring_amount_money` | Optional | object | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
-| `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) |  |
+| `service_location` | Optional | object | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. Response only. |
 | `subscription_id` | Required | string | Response only. |
@@ -30312,7 +30350,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryLocationSetConfiguration](MODELS.md#deliverylocationsetconfiguration) |  |
+| `configuration` | Optional | object | location_ids replaces the set's Locations when present; leave configuration out to keep them. Null, an empty list, and duplicate IDs are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
@@ -30326,7 +30364,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryMethodConfigurationRequest](MODELS.md#deliverymethodconfigurationrequest) |  |
+| `configuration` | Optional | [DeliveryMethodConfigurationPatchRequest](MODELS.md#deliverymethodconfigurationpatchrequest) |  |
 | `description` | Optional | string |  |
 | `display_position` | Optional | integer | Format: `int32`. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
@@ -30344,7 +30382,7 @@ Variants: any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryProfileConfigurationRequest](MODELS.md#deliveryprofileconfigurationrequest) |  |
+| `configuration` | Optional | Alternative shapes (see declared variants) | Send the whole profile configuration. It replaces the current one; leave configuration out to keep it. requirement none allows no other keys, and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and an empty object are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
@@ -30358,7 +30396,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfiguration](MODELS.md#deliveryratecallbackconfiguration) |  |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequest](MODELS.md#deliveryratecallbackconfigurationpatchrequest) |  |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `name` | Optional | string |  |
@@ -30372,7 +30410,7 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | Alternative shapes (see declared variants) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
+| `configuration` | Optional | Alternative shapes (see declared variants) | Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. |
 | `expected_version` | Optional | exact numeric string | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |

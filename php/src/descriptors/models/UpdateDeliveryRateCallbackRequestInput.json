@@ -1,1 +1,1 @@
-{"shared":"UpdateDeliveryRateCallbackRequest","dependencies":["DeliveryRateCallbackConfiguration","SharedCodec632","SharedCodec638","UpdateDeliveryRateCallbackRequest"]}
+{"shared":"UpdateDeliveryRateCallbackRequest","dependencies":["DeliveryRateCallbackConfigurationPatchRequest","SharedCodec636","SharedCodec642","UpdateDeliveryRateCallbackRequest"]}

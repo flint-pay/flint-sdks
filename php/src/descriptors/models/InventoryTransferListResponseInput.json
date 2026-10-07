@@ -1,1 +1,1 @@
-{"shared":"InventoryTransferListResponse","dependencies":["InventoryTransfer","InventoryTransferLine","InventoryTransferListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}
+{"shared":"InventoryTransferListResponse","dependencies":["InventoryTransfer","InventoryTransferLine","InventoryTransferListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec492"]}

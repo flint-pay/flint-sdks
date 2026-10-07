@@ -1,9 +1,9 @@
-import { d45 as c0, d812 as c1, d822 as c2, d77 as c3, d785 as c4, d2035 as c5, d2270 as c6, d2321 as c7, d821 as c8, d99 as c9, d46 as c10, d784 as c11, d2324 as c12, d2325 as c13, d226 as c14, d2527 as c15 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2527 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d45 as c0, d819 as c1, d829 as c2, d77 as c3, d792 as c4, d2041 as c5, d2276 as c6, d2327 as c7, d828 as c8, d104 as c9, d46 as c10, d791 as c11, d2330 as c12, d2331 as c13, d227 as c14, d2533 as c15 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d2533 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2527;
+const read = d2533;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentEvent"]:c1(),["FulfillmentNotification"]:c2(),["MoneyValue"]:c3(),["Package"]:c4(),["PricingAmounts"]:c5(),["ReturnShipmentLineItemAllocation"]:c6(),["SettlementAmounts"]:c7(),["SharedCodec254"]:c8(),["SharedCodec27"]:c9(),["SharedCodec8"]:c10(),["Shipment"]:c11(),["ShippingDimensions"]:c12(),["ShippingWeight"]:c13(),["SignedMoney"]:c14(),["VoidShipmentResult"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentEvent"]:c1(),["FulfillmentNotification"]:c2(),["MoneyValue"]:c3(),["Package"]:c4(),["PricingAmounts"]:c5(),["ReturnShipmentLineItemAllocation"]:c6(),["SettlementAmounts"]:c7(),["SharedCodec258"]:c8(),["SharedCodec29"]:c9(),["SharedCodec8"]:c10(),["Shipment"]:c11(),["ShippingDimensions"]:c12(),["ShippingWeight"]:c13(),["SignedMoney"]:c14(),["VoidShipmentResult"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeVoidShipmentResult(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

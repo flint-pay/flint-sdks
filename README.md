@@ -34,6 +34,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261007031000` | `2026-09-07` |
 | `3.0.0-beta.20261006230000` | `2026-09-07` |
 | `3.0.0-beta.20261006210100` | `2026-09-07` |
 | `3.0.0-beta.20261006020957` | `2026-09-07` |

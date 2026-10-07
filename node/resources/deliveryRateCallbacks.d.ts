@@ -4,6 +4,7 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { DeliveryRateCallback } from '../declarations/DeliveryRateCallback.js';
 import type { DeliveryRateCallbackConfigurationInput } from '../declarations/DeliveryRateCallbackConfigurationInput.js';
+import type { DeliveryRateCallbackConfigurationPatchRequestInput } from '../declarations/DeliveryRateCallbackConfigurationPatchRequestInput.js';
 import type { DeliveryRateCallbackConnectionCheckResponse } from '../declarations/DeliveryRateCallbackConnectionCheckResponse.js';
 import type { DeliveryRateCallbackListResponse } from '../declarations/DeliveryRateCallbackListResponse.js';
 import type { DeliveryRateCallbackResponse } from '../declarations/DeliveryRateCallbackResponse.js';
@@ -114,9 +115,9 @@ export interface DeliveryRateCallbacksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryRateCallbacks.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
+    update(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryRateCallbackResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryRateCallbacksUpdateResponse>>;
+    updateWithResponse(delivery_rate_callback_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "name"?: string; "status"?: "inactive" | "active"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "status": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryRateCallbacksUpdateResponse>>;
   }
 export declare class Client {
 
@@ -143,6 +144,7 @@ export type { DeliveryRateCallbacksListResponse } from '../declarations/Delivery
 export type { DeliveryRateCallback } from '../declarations/DeliveryRateCallback.js';
 export type { DeliveryRateCallbackSigningKeyRotationResponse } from '../declarations/DeliveryRateCallbackSigningKeyRotationResponse.js';
 export type { DeliveryRateCallbacksRotateSigningKeyResponse } from '../declarations/DeliveryRateCallbacksRotateSigningKeyResponse.js';
+export type { DeliveryRateCallbackConfigurationPatchRequestInput } from '../declarations/DeliveryRateCallbackConfigurationPatchRequestInput.js';
 export type { DeliveryRateCallbacksUpdateResponse } from '../declarations/DeliveryRateCallbacksUpdateResponse.js';
 export type { DeliveryRateCallbacksCheckConnectionInput } from '../declarations/DeliveryRateCallbacksCheckConnectionInput.js';
 export type { DeliveryRateCallbacksCreateInput } from '../declarations/DeliveryRateCallbacksCreateInput.js';

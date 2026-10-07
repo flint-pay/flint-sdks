@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/invoices.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["assessInvoiceLateFee"]:r0,["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["getInvoice"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["recordManualInvoicePayment"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseManualInvoicePayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
@@ -484,7 +484,6 @@ export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig
 export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';

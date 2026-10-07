@@ -1,9 +1,9 @@
-import { d45 as c0, d77 as c1, d1824 as c2, d1823 as c3, d1911 as c4, d1912 as c5, d2035 as c6, d2158 as c7, d2159 as c8, d2321 as c9, d14 as c10, d99 as c11, d1822 as c12, d226 as c13 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1912 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d45 as c0, d77 as c1, d1830 as c2, d1829 as c3, d1917 as c4, d1918 as c5, d2041 as c6, d2164 as c7, d2165 as c8, d2327 as c9, d14 as c10, d104 as c11, d1828 as c12, d227 as c13 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d1918 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1912;
+const read = d1918;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PackageItem"]:c4(),["PackageItemListResponse"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec1"]:c10(),["SharedCodec27"]:c11(),["SharedCodec488"]:c12(),["SignedMoney"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["PackageItem"]:c4(),["PackageItemListResponse"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec1"]:c10(),["SharedCodec29"]:c11(),["SharedCodec492"]:c12(),["SignedMoney"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePackageItemListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

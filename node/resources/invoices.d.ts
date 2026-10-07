@@ -418,7 +418,6 @@ export type { CheckoutExpirationConfig } from '../declarations/CheckoutExpiratio
 export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
 export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
 export type { DeliveryAddressAdvisoryResource } from '../declarations/DeliveryAddressAdvisoryResource.js';
-export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequest.js';
 export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
@@ -525,7 +524,6 @@ export { makeCheckoutExpirationConfig } from '../declarations/makeCheckoutExpira
 export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../declarations/makeDeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';

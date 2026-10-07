@@ -153,7 +153,6 @@ export type { TextModifierRequest } from '../declarations/TextModifierRequest.js
 export type { DeliveryFulfillmentDetails } from '../declarations/DeliveryFulfillmentDetails.js';
 export type { ExpandedPackageSummary } from '../declarations/ExpandedPackageSummary.js';
 export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillmentDetails.js';
-export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
@@ -240,7 +239,6 @@ export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest
 export { makeDeliveryFulfillmentDetails } from '../declarations/makeDeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../declarations/makeExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';

@@ -1,9 +1,9 @@
-import { d937 as c0, d2597 as c1 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2597 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d943 as c0, d2603 as c1 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d2603 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2597;
+const read = d2603;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec287"]:c0(),["WebhookEventType"]:c1()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec291"]:c0(),["WebhookEventType"]:c1()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhookEventType(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

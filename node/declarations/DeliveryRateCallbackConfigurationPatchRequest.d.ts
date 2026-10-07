@@ -1,0 +1,4 @@
+
+
+
+/** Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. */ export type DeliveryRateCallbackConfigurationPatchRequest = { /** Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. maximum: 1048576. */ "maximum_request_bytes"?: string | null; /** Null restores 262144 bytes. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. maximum: 1048576. */ "maximum_response_bytes"?: string | null; /** Null restores false. */ "preview_enabled"?: boolean | null; /** Null restores reject. */ "redirect_policy"?: "reject" | null | (string & {}) | null; /** Null restores 2 seconds. minimum: 0.1. maximum: 10. */ "request_timeout_seconds"?: number | null; /** Null is invalid. */ "url"?: string; };

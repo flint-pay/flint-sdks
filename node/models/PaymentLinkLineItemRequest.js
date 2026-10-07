@@ -1,9 +1,9 @@
-import { d77 as c0, d1874 as c1, d1981 as c2, d1973 as c3, d1972 as c4, d1975 as c5, d1974 as c6, d1977 as c7, d1976 as c8, d1978 as c9 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1981 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d77 as c0, d1880 as c1, d1987 as c2, d1979 as c3, d1978 as c4, d1981 as c5, d1980 as c6, d1983 as c7, d1982 as c8, d1984 as c9 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d1987 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1981;
+const read = d1987;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderLineItemTax"]:c1(),["PaymentLinkLineItemRequest"]:c2(),["SharedCodec511"]:c3(),["SharedCodec512"]:c4(),["SharedCodec513"]:c5(),["SharedCodec514"]:c6(),["SharedCodec515"]:c7(),["SharedCodec516"]:c8(),["SharedCodec517"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderLineItemTax"]:c1(),["PaymentLinkLineItemRequest"]:c2(),["SharedCodec515"]:c3(),["SharedCodec516"]:c4(),["SharedCodec517"]:c5(),["SharedCodec518"]:c6(),["SharedCodec519"]:c7(),["SharedCodec520"]:c8(),["SharedCodec521"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePaymentLinkLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

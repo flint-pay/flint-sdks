@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read BuyerInstructionsConfig $buyer_instructions
- * @property-read string $charge_tax_category
+ * @property-read string|null $charge_tax_category
  * @property-read \stdClass $eligibility
  * @property-read DeliveryEstimateRule $estimate
  * @property-read string $minimum_option_lifetime_seconds
@@ -17,17 +17,17 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryMethodConfiguration extends Model {
-    /** @param array{'buyer_instructions'?: object{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool}, 'charge_tax_category': string, 'eligibility'?: \stdClass, 'estimate': object{'schedule_window'?: mixed, 'transit_time'?: mixed, 'type': string}, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': \stdClass, 'pricing': \stdClass, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable'?: bool|null, ...}|object $values */
+    /** @param array{'buyer_instructions'?: object{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool}, 'charge_tax_category': string|null, 'eligibility'?: \stdClass, 'estimate': object{'schedule_window'?: mixed, 'transit_time'?: mixed, 'type': string}, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': \stdClass, 'pricing': \stdClass, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable': bool|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfiguration')); }
     /** @return BuyerInstructionsConfig
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
      */
     public function getBuyerInstructions(): BuyerInstructionsConfig { return $this->get('buyer_instructions'); }
     public function hasBuyerInstructions(): bool { return $this->has('buyer_instructions'); }
-    /** @return string
+    /** @return string|null
      * @throws SdkError When charge_tax_category is omitted; use hasChargeTaxCategory() or valueOrDefault().
      */
-    public function getChargeTaxCategory(): string { return $this->get('charge_tax_category'); }
+    public function getChargeTaxCategory(): string|null { return $this->get('charge_tax_category'); }
     public function hasChargeTaxCategory(): bool { return $this->has('charge_tax_category'); }
     /** @return \stdClass
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().

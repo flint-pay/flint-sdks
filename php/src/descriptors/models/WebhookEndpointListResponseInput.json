@@ -1,1 +1,1 @@
-{"shared":"WebhookEndpointListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488","WebhookEndpoint","WebhookEndpointListResponse"]}
+{"shared":"WebhookEndpointListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec492","WebhookEndpoint","WebhookEndpointListResponse"]}

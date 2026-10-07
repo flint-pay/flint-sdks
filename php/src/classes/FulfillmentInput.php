@@ -12,12 +12,12 @@ namespace Flint;
  * @property-read string $location_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $pickup_details
- * @property-read FulfillmentRecipientInput|array<array-key, mixed>|\stdClass $recipient
+ * @property-read array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string, ...}|object $recipient
  * @property-read ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $service_details
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string, ...}|object, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -69,10 +69,10 @@ final class FulfillmentInput extends Model {
      */
     public function getPickupDetails(): mixed { return $this->get('pickup_details'); }
     public function hasPickupDetails(): bool { return $this->has('pickup_details'); }
-    /** @return FulfillmentRecipientInput|array<array-key, mixed>|\stdClass
+    /** @return array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string, ...}|object
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
-    public function getRecipient(): mixed { return $this->get('recipient'); }
+    public function getRecipient(): array|object { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
     /** @return ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_details is omitted; use hasServiceDetails() or valueOrDefault().

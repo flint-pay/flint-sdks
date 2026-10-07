@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionPaymentRetry"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0});
 export class Client {
@@ -359,7 +359,6 @@ export { makeImage } from '../models/Image.js';
 export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeCardDetails } from '../models/CardDetails.js';
-export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';

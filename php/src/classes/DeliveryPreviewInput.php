@@ -2,11 +2,11 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass $buyer_location
+ * @property-read mixed $buyer_location
  * @property-read list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass> $choice_groups
  * @property-read string $currency
  * @property-read list<string> $delivery_method_ids
- * @property-read DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass $destination_address
+ * @property-read array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object $destination_address
  * @property-read string|\DateTimeInterface $evaluated_at
  * @property-read string $evaluation_status
  * @property-read string|\DateTimeInterface $expires_at
@@ -18,9 +18,9 @@ namespace Flint;
  * @property-read bool $selection_authority
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPreviewInput extends Model {
-    /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics': list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string, 'selection_authority': bool}|object $values */
+    /** @param array{'buyer_location'?: mixed, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics': list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string, 'selection_authority': bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewInput')); }
-    /** @return DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass
+    /** @return mixed
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
@@ -40,10 +40,10 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
+    /** @return array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
-    public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
+    public function getDestinationAddress(): array|object { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().

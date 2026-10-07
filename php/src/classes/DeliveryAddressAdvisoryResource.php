@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $verification_state
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryAddressAdvisoryResource extends Model {
-    /** @param array{'role': string, 'suggested_address'?: mixed, 'verification_state': string, ...}|object $values */
+    /** @param array{'role': string, 'suggested_address'?: object{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}, 'verification_state': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAddressAdvisoryResource')); }
     /** @return string
      * @throws SdkError When role is omitted; use hasRole() or valueOrDefault().

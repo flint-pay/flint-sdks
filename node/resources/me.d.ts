@@ -1163,7 +1163,6 @@ export type { CheckoutExpirationConfig } from '../declarations/CheckoutExpiratio
 export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
 export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
 export type { DeliveryAddressAdvisoryResource } from '../declarations/DeliveryAddressAdvisoryResource.js';
-export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequest.js';
 export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
@@ -1245,7 +1244,6 @@ export type { FulfillmentLineItem } from '../declarations/FulfillmentLineItem.js
 export type { DeliveryFulfillmentDetails } from '../declarations/DeliveryFulfillmentDetails.js';
 export type { ExpandedPackageSummary } from '../declarations/ExpandedPackageSummary.js';
 export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillmentDetails.js';
-export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
 export type { BuyerAction } from '../declarations/BuyerAction.js';
@@ -1307,7 +1305,6 @@ export type { ReturnHandoffDestination } from '../declarations/ReturnHandoffDest
 export type { ReturnLineItem } from '../declarations/ReturnLineItem.js';
 export type { ReturnLineItemValue } from '../declarations/ReturnLineItemValue.js';
 export type { SubscriptionLineItem } from '../declarations/SubscriptionLineItem.js';
-export type { SubscriptionServiceLocation } from '../declarations/SubscriptionServiceLocation.js';
 export type { SavePaymentMethodResult } from '../declarations/SavePaymentMethodResult.js';
 export type { StripeClientSetup } from '../declarations/StripeClientSetup.js';
 export type { StripeClientSetupStripe } from '../declarations/StripeClientSetupStripe.js';
@@ -1443,7 +1440,6 @@ export { makeCheckoutExpirationConfig } from '../declarations/makeCheckoutExpira
 export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../declarations/makeDeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
@@ -1520,7 +1516,6 @@ export { makeFulfillmentLineItem } from '../declarations/makeFulfillmentLineItem
 export { makeDeliveryFulfillmentDetails } from '../declarations/makeDeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../declarations/makeExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
@@ -1582,7 +1577,6 @@ export { makeReturnHandoffDestination } from '../declarations/makeReturnHandoffD
 export { makeReturnLineItem } from '../declarations/makeReturnLineItem.js';
 export { makeReturnLineItemValue } from '../declarations/makeReturnLineItemValue.js';
 export { makeSubscriptionLineItem } from '../declarations/makeSubscriptionLineItem.js';
-export { makeSubscriptionServiceLocation } from '../declarations/makeSubscriptionServiceLocation.js';
 export { makeSavePaymentMethodResult } from '../declarations/makeSavePaymentMethodResult.js';
 export { makeStripeClientSetup } from '../declarations/makeStripeClientSetup.js';
 export { makeStripeClientSetupStripe } from '../declarations/makeStripeClientSetupStripe.js';

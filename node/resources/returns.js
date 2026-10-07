@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/returns.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
 export class Client {
@@ -486,7 +486,6 @@ export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';

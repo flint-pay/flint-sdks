@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object $address
  * @property-read string $address_source
  * @property-read string $address_type
  * @property-read string $customer_id
@@ -11,12 +11,12 @@ namespace Flint;
  * @property-read string $location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxLocationInput extends Model {
-    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'address_source': string, 'address_type'?: string, 'customer_id'?: string, 'device_id'?: string, 'fulfillment_id'?: string, 'location_id'?: string, ...}|object $values */
+    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object, 'address_source': string, 'address_type'?: string, 'customer_id'?: string, 'device_id'?: string, 'fulfillment_id'?: string, 'location_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxLocationInput')); }
-    /** @return PostalAddressInput|array<array-key, mixed>|\stdClass
+    /** @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
-    public function getAddress(): mixed { return $this->get('address'); }
+    public function getAddress(): array|object { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
     /** @return string
      * @throws SdkError When address_source is omitted; use hasAddressSource() or valueOrDefault().

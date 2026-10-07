@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261006230000; API 2026-09-07.
+Package 3.0.0-beta.20261007031000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -4458,7 +4458,7 @@ $client->close();
 
 ### deliveryMethods.remove
 
-Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records.
+Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be archived; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}. Open checkout sessions keep their pinned revision and do not block retirement.
 
 `DELETE /v1/delivery-methods/{delivery_method_id}`
 
@@ -4490,7 +4490,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### deliveryMethods.update
 
-Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
+Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be set inactive; the request returns 409 DELIVERY_RESOURCE_HAS_DEPENDENCIES with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}.
 
 `PATCH /v1/delivery-methods/{delivery_method_id}`
 

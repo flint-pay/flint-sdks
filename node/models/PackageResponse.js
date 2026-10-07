@@ -1,9 +1,9 @@
-import { d45 as c0, d77 as c1, d1824 as c2, d1823 as c3, d785 as c4, d1915 as c5, d2035 as c6, d2158 as c7, d2159 as c8, d2270 as c9, d2321 as c10, d14 as c11, d99 as c12, d1822 as c13, d2324 as c14, d2325 as c15, d226 as c16 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1915 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d45 as c0, d77 as c1, d1830 as c2, d1829 as c3, d792 as c4, d1921 as c5, d2041 as c6, d2164 as c7, d2165 as c8, d2276 as c9, d2327 as c10, d14 as c11, d104 as c12, d1828 as c13, d2330 as c14, d2331 as c15, d227 as c16 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d1921 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1915;
+const read = d1921;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["Package"]:c4(),["PackageResponse"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["ReturnShipmentLineItemAllocation"]:c9(),["SettlementAmounts"]:c10(),["SharedCodec1"]:c11(),["SharedCodec27"]:c12(),["SharedCodec488"]:c13(),["ShippingDimensions"]:c14(),["ShippingWeight"]:c15(),["SignedMoney"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["MoneyValue"]:c1(),["NextAction"]:c2(),["NextActionMerchantAccountSession"]:c3(),["Package"]:c4(),["PackageResponse"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["ReturnShipmentLineItemAllocation"]:c9(),["SettlementAmounts"]:c10(),["SharedCodec1"]:c11(),["SharedCodec29"]:c12(),["SharedCodec492"]:c13(),["ShippingDimensions"]:c14(),["ShippingWeight"]:c15(),["SignedMoney"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePackageResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

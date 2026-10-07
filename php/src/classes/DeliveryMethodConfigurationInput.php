@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object $buyer_instructions
- * @property-read string $charge_tax_category
+ * @property-read string|null $charge_tax_category
  * @property-read mixed $eligibility
  * @property-read array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object $estimate
  * @property-read string $minimum_option_lifetime_seconds
@@ -17,17 +17,17 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationInput extends Model {
-    /** @param array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object, 'charge_tax_category': string, 'eligibility'?: mixed, 'estimate': array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable'?: bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationInput')); }
     /** @return array{'enabled': bool, 'label'?: string, 'placeholder'?: string, 'required': bool, ...}|object
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
      */
     public function getBuyerInstructions(): array|object { return $this->get('buyer_instructions'); }
     public function hasBuyerInstructions(): bool { return $this->has('buyer_instructions'); }
-    /** @return string
+    /** @return string|null
      * @throws SdkError When charge_tax_category is omitted; use hasChargeTaxCategory() or valueOrDefault().
      */
-    public function getChargeTaxCategory(): string { return $this->get('charge_tax_category'); }
+    public function getChargeTaxCategory(): string|null { return $this->get('charge_tax_category'); }
     public function hasChargeTaxCategory(): bool { return $this->has('charge_tax_category'); }
     /** @return mixed
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().

@@ -286,7 +286,6 @@ export type { CheckoutExpirationConfig } from '../declarations/CheckoutExpiratio
 export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
 export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
 export type { DeliveryAddressAdvisoryResource } from '../declarations/DeliveryAddressAdvisoryResource.js';
-export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequest.js';
 export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
@@ -333,7 +332,6 @@ export type { CheckoutCustomerVerification } from '../declarations/CheckoutCusto
 export type { DeliveryCoordinateRequestInput } from '../declarations/DeliveryCoordinateRequestInput.js';
 export type { CallerSuppliedDeliveryOutcomeRequestInput } from '../declarations/CallerSuppliedDeliveryOutcomeRequestInput.js';
 export type { DeliveryWindowRequestInput } from '../declarations/DeliveryWindowRequestInput.js';
-export type { DeliveryBuyerLocationResource } from '../declarations/DeliveryBuyerLocationResource.js';
 export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
 export type { DeliveryQuoteMethodResource } from '../declarations/DeliveryQuoteMethodResource.js';
 export type { DeliveryPendingCallerRateRequest } from '../declarations/DeliveryPendingCallerRateRequest.js';
@@ -362,7 +360,6 @@ export type { TextModifierRequest } from '../declarations/TextModifierRequest.js
 export type { DeliveryFulfillmentDetails } from '../declarations/DeliveryFulfillmentDetails.js';
 export type { ExpandedPackageSummary } from '../declarations/ExpandedPackageSummary.js';
 export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillmentDetails.js';
-export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
 export type { OrderGiftCardAllocation } from '../declarations/OrderGiftCardAllocation.js';
@@ -391,7 +388,6 @@ export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentInten
 export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
 export type { BuyerDeliverySelection } from '../declarations/BuyerDeliverySelection.js';
 export type { BuyerDeliverySelectionChoiceResource } from '../declarations/BuyerDeliverySelectionChoiceResource.js';
-export type { DeliveryRecipientResource } from '../declarations/DeliveryRecipientResource.js';
 export type { CloseCheckoutSessionRequestInput } from '../declarations/CloseCheckoutSessionRequestInput.js';
 export type { ConfirmCheckoutCustomerVerificationRequestInput } from '../declarations/ConfirmCheckoutCustomerVerificationRequestInput.js';
 export type { CreateCheckoutSessionRequestInput } from '../declarations/CreateCheckoutSessionRequestInput.js';
@@ -429,7 +425,6 @@ export { makeCheckoutExpirationConfig } from '../declarations/makeCheckoutExpira
 export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../declarations/makeDeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
@@ -470,7 +465,6 @@ export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js'
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutCustomerVerification } from '../declarations/makeCheckoutCustomerVerification.js';
-export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
 export { makeDeliveryQuoteMethodResource } from '../declarations/makeDeliveryQuoteMethodResource.js';
 export { makeDeliveryPendingCallerRateRequest } from '../declarations/makeDeliveryPendingCallerRateRequest.js';
@@ -498,7 +492,6 @@ export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest
 export { makeDeliveryFulfillmentDetails } from '../declarations/makeDeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../declarations/makeExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeOrderGiftCardAllocation } from '../declarations/makeOrderGiftCardAllocation.js';
@@ -527,4 +520,3 @@ export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIn
 export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';
 export { makeBuyerDeliverySelection } from '../declarations/makeBuyerDeliverySelection.js';
 export { makeBuyerDeliverySelectionChoiceResource } from '../declarations/makeBuyerDeliverySelectionChoiceResource.js';
-export { makeDeliveryRecipientResource } from '../declarations/makeDeliveryRecipientResource.js';

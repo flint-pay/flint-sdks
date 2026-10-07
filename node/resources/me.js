@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import r0 from '../descriptors/resources/me.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import settings from '../descriptors/settings.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
 export class Client {
@@ -1777,7 +1777,6 @@ export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig
 export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
 export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
@@ -1854,7 +1853,6 @@ export { makeFulfillmentLineItem } from '../models/FulfillmentLineItem.js';
 export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
@@ -1916,7 +1914,6 @@ export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination
 export { makeReturnLineItem } from '../models/ReturnLineItem.js';
 export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
 export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
-export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
 export { makeSavePaymentMethodResult } from '../models/SavePaymentMethodResult.js';
 export { makeStripeClientSetup } from '../models/StripeClientSetup.js';
 export { makeStripeClientSetupStripe } from '../models/StripeClientSetupStripe.js';

@@ -1,9 +1,9 @@
-import { d527 as c0, d536 as c1, d774 as c2, d930 as c3, d77 as c4, d73 as c5, d76 as c6, d74 as c7, d525 as c8, d929 as c9, d75 as c10, d1220 as c11 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d1220 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d528 as c0, d537 as c1, d780 as c2, d936 as c3, d77 as c4, d73 as c5, d76 as c6, d74 as c7, d526 as c8, d935 as c9, d75 as c10, d1226 as c11 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d1226 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1220;
+const read = d1226;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreditNote"]:c0(),["CreditNoteLine"]:c1(),["DocumentTaxID"]:c2(),["MerchantWebhookEnvelope"]:c3(),["MoneyValue"]:c4(),["PostalAddress"]:c5(),["SharedCodec18"]:c6(),["SharedCodec19"]:c7(),["SharedCodec199"]:c8(),["SharedCodec282"]:c9(),["TaxIdentity"]:c10(),["Webhook_credit_note_created_merchant"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreditNote"]:c0(),["CreditNoteLine"]:c1(),["DocumentTaxID"]:c2(),["MerchantWebhookEnvelope"]:c3(),["MoneyValue"]:c4(),["PostalAddress"]:c5(),["SharedCodec18"]:c6(),["SharedCodec19"]:c7(),["SharedCodec199"]:c8(),["SharedCodec286"]:c9(),["TaxIdentity"]:c10(),["Webhook_credit_note_created_merchant"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_credit_note_created_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

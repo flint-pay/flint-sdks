@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass $configuration
+ * @property-read DeliveryRateCallbackConfigurationPatchRequestInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string $name
@@ -11,7 +11,7 @@ namespace Flint;
 final class UpdateDeliveryRateCallbackRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeliveryRateCallbackRequestInput')); }
-    /** @return DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass
+    /** @return DeliveryRateCallbackConfigurationPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }

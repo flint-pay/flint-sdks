@@ -1,9 +1,9 @@
-import { d41 as c0, d2369 as c1, d2370 as c2, d2371 as c3, d2372 as c4 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d2372 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d41 as c0, d2375 as c1, d2376 as c2, d2377 as c3, d2378 as c4 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d2378 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2372;
+const read = d2378;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec6"]:c0(),["SharedCodec618"]:c1(),["SharedCodec619"]:c2(),["SharedCodec620"]:c3(),["TaxBreakdown"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec6"]:c0(),["SharedCodec622"]:c1(),["SharedCodec623"]:c2(),["SharedCodec624"]:c3(),["TaxBreakdown"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeTaxBreakdown(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

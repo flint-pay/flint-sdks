@@ -1,9 +1,9 @@
-import { d45 as c0, d812 as c1, d814 as c2, d77 as c3, d1824 as c4, d1823 as c5, d2035 as c6, d2158 as c7, d2159 as c8, d2321 as c9, d14 as c10, d99 as c11, d1822 as c12, d226 as c13 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
-import { d814 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d45 as c0, d819 as c1, d821 as c2, d77 as c3, d1830 as c4, d1829 as c5, d2041 as c6, d2164 as c7, d2165 as c8, d2327 as c9, d14 as c10, d104 as c11, d1828 as c12, d227 as c13 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
+import { d821 } from '../descriptors/data.js?sdk=1d377b406cf4feb3f1c2665a879357eb94a4280792cb4955cdbef8af750adf8d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d814;
+const read = d821;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentEvent"]:c1(),["FulfillmentEventResourceResponse"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec1"]:c10(),["SharedCodec27"]:c11(),["SharedCodec488"]:c12(),["SignedMoney"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ExpandedOrderSummary"]:c0(),["FulfillmentEvent"]:c1(),["FulfillmentEventResourceResponse"]:c2(),["MoneyValue"]:c3(),["NextAction"]:c4(),["NextActionMerchantAccountSession"]:c5(),["PricingAmounts"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SettlementAmounts"]:c9(),["SharedCodec1"]:c10(),["SharedCodec29"]:c11(),["SharedCodec492"]:c12(),["SignedMoney"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeFulfillmentEventResourceResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }
