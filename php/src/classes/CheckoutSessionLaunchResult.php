@@ -4,11 +4,10 @@ namespace Flint;
 /**
  * @property-read CheckoutAccess $checkout_access
  * @property-read CheckoutSession $checkout_session
- * @property-read HostedCheckout $hosted_checkout
  * @property-read bool $reused_existing
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSessionLaunchResult extends Model {
-    /** @param array{'checkout_access': object{'checkout_auth_token': string, 'hosted_url'?: string}, 'checkout_session': mixed, 'hosted_checkout'?: object{'checkout_auth_token': string, 'url': string}, 'reused_existing': bool, ...}|object $values */
+    /** @param array{'checkout_access': mixed, 'checkout_session': mixed, 'reused_existing': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionLaunchResult')); }
     /** @return CheckoutAccess
      * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().
@@ -20,11 +19,6 @@ final class CheckoutSessionLaunchResult extends Model {
      */
     public function getCheckoutSession(): CheckoutSession { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** @return HostedCheckout
-     * @throws SdkError When hosted_checkout is omitted; use hasHostedCheckout() or valueOrDefault().
-     */
-    public function getHostedCheckout(): HostedCheckout { return $this->get('hosted_checkout'); }
-    public function hasHostedCheckout(): bool { return $this->has('hosted_checkout'); }
     /** @return bool
      * @throws SdkError When reused_existing is omitted; use hasReusedExisting() or valueOrDefault().
      */

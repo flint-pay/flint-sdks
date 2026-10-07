@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read bool $reused_existing
  * Presence-aware response; omitted fields throw when accessed. */
 final class BuyerInvoiceCheckoutSessionResult extends Model {
-    /** @param array{'checkout_access': object{'checkout_auth_token': string, 'hosted_url'?: string}, 'checkout_session': mixed, 'hosted_checkout'?: object{'checkout_auth_token': string, 'url': string}, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, 'reused_existing': bool, ...}|object $values */
+    /** @param array{'checkout_access': mixed, 'checkout_session': mixed, 'hosted_checkout'?: object{'checkout_auth_token': string, 'url': string}, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, 'reused_existing': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoiceCheckoutSessionResult')); }
     /** @return CheckoutAccess
      * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().

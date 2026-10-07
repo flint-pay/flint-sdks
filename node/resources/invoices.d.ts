@@ -400,6 +400,7 @@ export type { CreateOrderTipInput } from '../declarations/CreateOrderTipInput.js
 export type { InvoiceScheduleAmountSpecificationInput } from '../declarations/InvoiceScheduleAmountSpecificationInput.js';
 export type { InvoiceScheduleDueInput } from '../declarations/InvoiceScheduleDueInput.js';
 export type { InvoiceCheckoutSessionResult } from '../declarations/InvoiceCheckoutSessionResult.js';
+export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
@@ -506,6 +507,7 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeCollectInvoiceResult } from '../declarations/makeCollectInvoiceResult.js';
 export { makeInvoiceCheckoutSessionResult } from '../declarations/makeInvoiceCheckoutSessionResult.js';
+export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';

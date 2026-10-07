@@ -72,12 +72,13 @@ $client->close();
   ]);
 });
 
-test("TypeScript fulfillment event helpers require the order ID", async () => {
+test("TypeScript consumers require buyer order IDs and canonical checkout URLs", async () => {
   mkdirSync(join(root, ".context"), { recursive: true });
   const directory = mkdtempSync(join(root, ".context/fulfillment-types-"));
   try {
     const fixture = join(directory, "consumer.mts");
     writeFileSync(fixture, `import { Client } from "../../node/index.js";
+import type { CheckoutAccess, CheckoutSessionLaunchResult, InvoiceCheckoutSessionResult } from "../../node/index.js";
 const client = new Client({ customerToken: "customer-test" });
 ${methods.map(method => `
 client.me.${method}({ order_id: "ord_test", page_size: 25 });
@@ -85,6 +86,16 @@ client.me.${method}({ order_id: "ord_test", page_size: 25 });
 client.me.${method}({});
 // @ts-expect-error Params cannot be omitted.
 client.me.${method}();`).join("\n")}
+declare const launch: CheckoutSessionLaunchResult;
+launch.checkout_session.url;
+// @ts-expect-error Launch results use the canonical checkout session URL.
+launch.hosted_checkout;
+declare const access: CheckoutAccess;
+// @ts-expect-error Access metadata no longer exposes a hosted URL.
+access.hosted_url;
+declare const invoice: InvoiceCheckoutSessionResult;
+invoice.checkout_session.url;
+invoice.hosted_checkout;
 `);
     await exec(process.execPath, [
       join(root, ".tools/sdk-generator/node_modules/typescript/bin/tsc"),

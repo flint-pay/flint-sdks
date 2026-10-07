@@ -195,6 +195,7 @@ export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
 export type { ResolvePaymentLinkLineItemModifierRequestInput } from '../declarations/ResolvePaymentLinkLineItemModifierRequestInput.js';
 export type { ResolvePaymentLinkTextModifierRequestInput } from '../declarations/ResolvePaymentLinkTextModifierRequestInput.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
+export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
@@ -283,6 +284,7 @@ export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
+export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';

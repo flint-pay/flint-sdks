@@ -1,1 +1,1 @@
-{"shared":"LocationListResponse","dependencies":["Location","LocationAddress","LocationCoordinate","LocationInventory","LocationListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec487"]}
+{"shared":"LocationListResponse","dependencies":["Location","LocationAddress","LocationCoordinate","LocationInventory","LocationListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec488"]}

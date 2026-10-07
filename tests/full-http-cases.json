@@ -2831,5 +2831,141 @@
     },
     "status": 200,
     "attempts": 1
+  },
+  {
+    "name": "checkout expiration 59 seconds",
+    "operation": "createCheckoutSession",
+    "input": {
+      "body": {
+        "expiration": {
+          "expires_in_seconds": 59
+        },
+        "order_id": "ord_test"
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "checkout-expiration-fixture",
+      "maxAttempts": 1
+    },
+    "responses": [],
+    "error": {
+      "kind": "validation",
+      "outcome": "not_sent"
+    },
+    "attempts": 0
+  },
+  {
+    "name": "checkout expiration 60 seconds",
+    "operation": "createCheckoutSession",
+    "input": {
+      "body": {
+        "expiration": {
+          "expires_in_seconds": 60
+        },
+        "order_id": "ord_test"
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "checkout-expiration-fixture",
+      "maxAttempts": 1
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+      }
+    ],
+    "error": {
+      "kind": "validation",
+      "code": "SDK_TEST"
+    },
+    "attempts": 1,
+    "baseUrl": "https://api.example.invalid",
+    "expected": {
+      "method": "POST",
+      "path": "/v1/checkout-sessions",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "flint-version": "2026-09-07",
+        "idempotency-key": "checkout-expiration-fixture"
+      },
+      "body": "{\"expiration\":{\"expires_in_seconds\":60},\"order_id\":\"ord_test\"}"
+    }
+  },
+  {
+    "name": "checkout expiration 86400 seconds",
+    "operation": "createCheckoutSession",
+    "input": {
+      "body": {
+        "expiration": {
+          "expires_in_seconds": 86400
+        },
+        "order_id": "ord_test"
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "checkout-expiration-fixture",
+      "maxAttempts": 1
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+      }
+    ],
+    "error": {
+      "kind": "validation",
+      "code": "SDK_TEST"
+    },
+    "attempts": 1,
+    "baseUrl": "https://api.example.invalid",
+    "expected": {
+      "method": "POST",
+      "path": "/v1/checkout-sessions",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "flint-version": "2026-09-07",
+        "idempotency-key": "checkout-expiration-fixture"
+      },
+      "body": "{\"expiration\":{\"expires_in_seconds\":86400},\"order_id\":\"ord_test\"}"
+    }
+  },
+  {
+    "name": "checkout expiration 86401 seconds",
+    "operation": "createCheckoutSession",
+    "input": {
+      "body": {
+        "expiration": {
+          "expires_in_seconds": 86401
+        },
+        "order_id": "ord_test"
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "checkout-expiration-fixture",
+      "maxAttempts": 1
+    },
+    "responses": [],
+    "error": {
+      "kind": "validation",
+      "outcome": "not_sent"
+    },
+    "attempts": 0
   }
 ]

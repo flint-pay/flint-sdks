@@ -21080,7 +21080,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### me.sendOrderReceipt
 
-Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient.
 
 `POST /v1/me/orders/{order_id}/send-receipt`
 
@@ -24146,7 +24146,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.sendReceipt
 
-Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+Queues a receipt for a paid order, including gift card payments and settled payments. Send email to choose a recipient, or omit it to use the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient. Checkout credentials can send only to the address on file. If no address is on file, checkout credentials can send to at most three distinct addresses over the order's lifetime. Receipts sent for this order through this route count toward this limit, including failed deliveries and receipts sent with a secret API key. Merchant callers can choose any address.
 
 `POST /v1/orders/{order_id}/send-receipt`
 

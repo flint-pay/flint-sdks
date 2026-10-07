@@ -1,9 +1,9 @@
-import { d77 as c0, d1823 as c1, d1822 as c2, d2157 as c3, d2158 as c4, d14 as c5, d1821 as c6, d2334 as c7, d2335 as c8, d2365 as c9, d2366 as c10, d2367 as c11 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
-import { d2335 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
+import { d77 as c0, d1824 as c1, d1823 as c2, d2158 as c3, d2159 as c4, d14 as c5, d1822 as c6, d2335 as c7, d2336 as c8, d2366 as c9, d2367 as c10, d2368 as c11 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2336 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2335;
+const read = d2336;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["SharedCodec1"]:c5(),["SharedCodec487"]:c6(),["SubscriptionAnalytics"]:c7(),["SubscriptionAnalyticsResponse"]:c8(),["SubscriptionSnapshotMetrics"]:c9(),["SubscriptionStatusCounts"]:c10(),["SubscriptionWindowMetrics"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["ResponseMeta"]:c3(),["ResponseWarning"]:c4(),["SharedCodec1"]:c5(),["SharedCodec488"]:c6(),["SubscriptionAnalytics"]:c7(),["SubscriptionAnalyticsResponse"]:c8(),["SubscriptionSnapshotMetrics"]:c9(),["SubscriptionStatusCounts"]:c10(),["SubscriptionWindowMetrics"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionAnalyticsResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

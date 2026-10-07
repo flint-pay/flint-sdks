@@ -1,9 +1,9 @@
-import { d928 as c0, d2395 as c1, d2397 as c2, d2484 as c3, d2482 as c4, d2483 as c5, d2485 as c6 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
-import { d2485 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
+import { d928 as c0, d2396 as c1, d2398 as c2, d2485 as c3, d2483 as c4, d2484 as c5, d2486 as c6 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2486 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2485;
+const read = d2486;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["SharedCodec623"]:c1(),["SharedCodec625"]:c2(),["SharedCodec663"]:c3(),["UpdateProductOptionRequest"]:c4(),["UpdateProductOptionValueRequest"]:c5(),["UpdateProductRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["SharedCodec624"]:c1(),["SharedCodec626"]:c2(),["SharedCodec664"]:c3(),["UpdateProductOptionRequest"]:c4(),["UpdateProductOptionValueRequest"]:c5(),["UpdateProductRequest"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateProductRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

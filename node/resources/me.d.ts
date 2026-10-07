@@ -816,7 +816,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     savePaymentMethodWithResponse(params: (InputValue<{ "type"?: "card"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeSavePaymentMethodResponse>>;
     /**
- * Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and recipient.
+ * Queues a receipt email for one of your paid orders to the order's email. Requires Flint-managed receipt delivery. Sending is limited to once every five minutes per order and normalized recipient.
  * POST /v1/me/orders/{order_id}/send-receipt
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -1145,6 +1145,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { EmailChangeRequest } from '../declarations/EmailChangeRequest.js';
 export type { BuyerInvoiceCheckoutSessionResult } from '../declarations/BuyerInvoiceCheckoutSessionResult.js';
+export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAttemptGiftCardRedemption.js';
@@ -1424,6 +1425,7 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeEmailChangeRequest } from '../declarations/makeEmailChangeRequest.js';
 export { makeBuyerInvoiceCheckoutSessionResult } from '../declarations/makeBuyerInvoiceCheckoutSessionResult.js';
+export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymentAttemptGiftCardRedemption.js';

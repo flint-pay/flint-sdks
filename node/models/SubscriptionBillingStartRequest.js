@@ -1,9 +1,9 @@
-import { d2337 as c0, d2338 as c1, d2339 as c2 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
-import { d2339 } from '../descriptors/data.js?sdk=527d9352908a453ad41ae99b8ef20015f463fff9697dd74e49111f49715fee29';
+import { d2338 as c0, d2339 as c1, d2340 as c2 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
+import { d2340 } from '../descriptors/data.js?sdk=d22cce0575f7bd583ca524a14ee93e300c9f48000162d4e1926fedd9f4c37501';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2339;
+const read = d2340;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec606"]:c0(),["SharedCodec607"]:c1(),["SubscriptionBillingStartRequest"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec607"]:c0(),["SharedCodec608"]:c1(),["SubscriptionBillingStartRequest"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionBillingStartRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

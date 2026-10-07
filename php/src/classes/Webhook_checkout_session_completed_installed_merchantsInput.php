@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'source_type': mixed, ...}|object $data
+ * @property-read array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'order_id': string, 'partner_app_install_id': string, 'payment_intent_id'?: string, 'source_type': mixed}|object $data
  * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
@@ -10,9 +10,9 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_checkout_session_completed_installed_merchantsInput extends Model {
-    /** @param array{'data': array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'source_type': mixed, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'order_id': string, 'partner_app_install_id': string, 'payment_intent_id'?: string, 'source_type': mixed}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_checkout_session_completed_installed_merchantsInput')); }
-    /** @return array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'source_type': mixed, ...}|object
+    /** @return array{'checkout_session_id': string, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'order_id': string, 'partner_app_install_id': string, 'payment_intent_id'?: string, 'source_type': mixed}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }
