@@ -1,1 +1,1 @@
-{"shared":"UpdateCustomerRequest","dependencies":["DocumentTaxID","PostalAddress","SharedCodec14","SharedCodec579","SharedCodec580","SharedCodec581","SharedCodec582","TaxIdentityRequest","UpdateCustomerRequest"]}
+{"shared":"UpdateCustomerRequest","dependencies":["DocumentTaxID","PostalAddress","SharedCodec14","SharedCodec604","SharedCodec605","SharedCodec606","SharedCodec607","TaxIdentityRequest","UpdateCustomerRequest"]}

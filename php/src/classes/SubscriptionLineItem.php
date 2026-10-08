@@ -17,12 +17,14 @@ namespace Flint;
  * @property-read string $sku
  * @property-read string $source_type
  * @property-read string $subscription_line_item_id
+ * @property-read string $subscription_offer_id
+ * @property-read string $subscription_plan_line_item_id
  * @property-read MoneyValue $subtotal_money
  * @property-read MoneyValue $unit_price_money
  * @property-read string $variant_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class SubscriptionLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription_line_item_id'?: string, 'subtotal_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionLineItem')); }
     /** @return MoneyValue
      * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
@@ -99,6 +101,16 @@ final class SubscriptionLineItem extends Model {
      */
     public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
+    /** @return string
+     * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
+     */
+    public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
+    public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
+    public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
     /** @return MoneyValue
      * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
      */

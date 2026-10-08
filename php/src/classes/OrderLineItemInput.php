@@ -22,6 +22,8 @@ namespace Flint;
  * @property-read list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read string $sku
  * @property-read string $source_type
+ * @property-read SubscribedLineInput|array<array-key, mixed>|\stdClass $subscription
+ * @property-read string $subscription_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $subtotal_money
  * @property-read OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
@@ -31,7 +33,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemInput extends Model {
-    /** @param array{'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot'?: array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'quantity': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': string, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'source_type'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, 'version': string, ...}|object $values */
+    /** @param array{'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot'?: array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'quantity': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': string, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'source_type'?: string, 'subscription'?: SubscribedLineInput|array<array-key, mixed>|\stdClass, 'subscription_id'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemInput')); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
@@ -133,6 +135,16 @@ final class OrderLineItemInput extends Model {
      */
     public function getSourceType(): string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
+    /** @return SubscribedLineInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
+     */
+    public function getSubscription(): mixed { return $this->get('subscription'); }
+    public function hasSubscription(): bool { return $this->has('subscription'); }
+    /** @return string
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
      */

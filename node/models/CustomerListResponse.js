@@ -1,9 +1,9 @@
-import { d131 as c0, d492 as c1, d506 as c2, d507 as c3, d508 as c4, d726 as c5, d489 as c6, d314 as c7, d1775 as c8, d1776 as c9, d66 as c10, d2112 as c11, d2113 as c12, d14 as c13, d67 as c14, d490 as c15, d491 as c16, d1774 as c17, d68 as c18 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d506 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d132 as c0, d513 as c1, d527 as c2, d528 as c3, d529 as c4, d747 as c5, d510 as c6, d323 as c7, d1820 as c8, d1821 as c9, d66 as c10, d2162 as c11, d2163 as c12, d14 as c13, d67 as c14, d511 as c15, d512 as c16, d1819 as c17, d68 as c18 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d527 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d506;
+const read = d527;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerListResponse"]:c2(),["CustomerReceivableBalance"]:c3(),["CustomerReceivables"]:c4(),["DocumentTaxID"]:c5(),["ExpandedPaymentMethodSummary"]:c6(),["MoneyValue"]:c7(),["NextAction"]:c8(),["NextActionMerchantAccountSession"]:c9(),["PostalAddress"]:c10(),["ResponseMeta"]:c11(),["ResponseWarning"]:c12(),["SharedCodec1"]:c13(),["SharedCodec14"]:c14(),["SharedCodec165"]:c15(),["SharedCodec166"]:c16(),["SharedCodec448"]:c17(),["TaxIdentity"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CardDetails"]:c0(),["Customer"]:c1(),["CustomerListResponse"]:c2(),["CustomerReceivableBalance"]:c3(),["CustomerReceivables"]:c4(),["DocumentTaxID"]:c5(),["ExpandedPaymentMethodSummary"]:c6(),["MoneyValue"]:c7(),["NextAction"]:c8(),["NextActionMerchantAccountSession"]:c9(),["PostalAddress"]:c10(),["ResponseMeta"]:c11(),["ResponseWarning"]:c12(),["SharedCodec1"]:c13(),["SharedCodec14"]:c14(),["SharedCodec174"]:c15(),["SharedCodec175"]:c16(),["SharedCodec466"]:c17(),["TaxIdentity"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCustomerListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

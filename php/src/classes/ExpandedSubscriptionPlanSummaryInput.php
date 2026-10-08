@@ -4,11 +4,13 @@ namespace Flint;
 /**
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
+ * @property-read list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass> $billing_interval_options
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
  * @property-read string $description
  * @property-read list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string $name
+ * @property-read list<int> $quantity_options
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $setup_fee_money
  * @property-read string $status
  * @property-read string $subscription_plan_id
@@ -16,7 +18,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedSubscriptionPlanSummaryInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryInput')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -28,6 +30,11 @@ final class ExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
+    /** @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
+     */
+    public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
+    public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -53,6 +60,11 @@ final class ExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** @return list<int>
+     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
+     */
+    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
+    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */

@@ -1,9 +1,9 @@
-import { d880 as c0, d874 as c1, d879 as c2, d1504 as c3, d1503 as c4, d1496 as c5, d1495 as c6, d1498 as c7, d1497 as c8, d1500 as c9, d1499 as c10, d1502 as c11, d1501 as c12, d1507 as c13, d1508 as c14 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d1508 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d901 as c0, d895 as c1, d900 as c2, d1549 as c3, d1548 as c4, d1541 as c5, d1540 as c6, d1543 as c7, d1542 as c8, d1545 as c9, d1544 as c10, d1547 as c11, d1546 as c12, d1552 as c13, d1553 as c14 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d1553 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1508;
+const read = d1553;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec240"]:c1(),["SharedCodec242"]:c2(),["SharedCodec372"]:c3(),["SharedCodec373"]:c4(),["SharedCodec374"]:c5(),["SharedCodec375"]:c6(),["SharedCodec376"]:c7(),["SharedCodec377"]:c8(),["SharedCodec378"]:c9(),["SharedCodec379"]:c10(),["SharedCodec380"]:c11(),["SharedCodec381"]:c12(),["SharedCodec382"]:c13(),["Webhook_order_partially_paid_installed_merchants"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec249"]:c1(),["SharedCodec251"]:c2(),["SharedCodec390"]:c3(),["SharedCodec391"]:c4(),["SharedCodec392"]:c5(),["SharedCodec393"]:c6(),["SharedCodec394"]:c7(),["SharedCodec395"]:c8(),["SharedCodec396"]:c9(),["SharedCodec397"]:c10(),["SharedCodec398"]:c11(),["SharedCodec399"]:c12(),["SharedCodec400"]:c13(),["Webhook_order_partially_paid_installed_merchants"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_partially_paid_installed_merchants(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read int $contract_term_months
+ * @property-read bool $delivery_required
  * @property-read MoneyValue $early_termination_fee_money
  * @property-read Image $plan_image
  * @property-read string $plan_name
@@ -13,7 +14,7 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware response; omitted fields throw when accessed. */
 final class PaymentLinkSubscriptionPreview extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: mixed, 'plan_image'?: mixed, 'plan_name': string, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'plan_image'?: mixed, 'plan_name': string, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSubscriptionPreview')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -30,6 +31,11 @@ final class PaymentLinkSubscriptionPreview extends Model {
      */
     public function getContractTermMonths(): int { return $this->get('contract_term_months'); }
     public function hasContractTermMonths(): bool { return $this->has('contract_term_months'); }
+    /** @return bool
+     * @throws SdkError When delivery_required is omitted; use hasDeliveryRequired() or valueOrDefault().
+     */
+    public function getDeliveryRequired(): bool { return $this->get('delivery_required'); }
+    public function hasDeliveryRequired(): bool { return $this->has('delivery_required'); }
     /** @return MoneyValue
      * @throws SdkError When early_termination_fee_money is omitted; use hasEarlyTerminationFeeMoney() or valueOrDefault().
      */

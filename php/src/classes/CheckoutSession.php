@@ -18,6 +18,7 @@ namespace Flint;
  * @property-read string $expires_at
  * @property-read string $external_reference_id
  * @property-read mixed $fulfillment
+ * @property-read CheckoutGiftCardChallenge $gift_card_challenge
  * @property-read ExpandedInvoiceSummary|null $invoice
  * @property-read string $invoice_id
  * @property-read LegalSettings $legal
@@ -27,6 +28,7 @@ namespace Flint;
  * @property-read ExpandedOrderSummary|null $order
  * @property-read string $order_id
  * @property-read string $origin
+ * @property-read string $page_origin
  * @property-read PaymentCollection $payment_collection
  * @property-read list<string> $payment_intent_ids
  * @property-read list<ExpandedPaymentIntentSummary> $payment_intents
@@ -57,7 +59,7 @@ namespace Flint;
  * @property-read string $url
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSession extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'checkout_session_id': string, 'closed_reason'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_collection'?: mixed, 'customer_prefill'?: mixed, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expiration'?: mixed, 'expires_at'?: string, 'external_reference_id'?: string, 'fulfillment'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'legal'?: mixed, 'merchant_id'?: string, 'merchant_support'?: mixed, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_method_save'?: mixed, 'payments'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_mode': bool, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_offered'?: bool, 'save_payment_method_phone_offered'?: bool, 'save_payment_method_requires_verification'?: bool, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'updated_at'?: string, 'url'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'checkout_session_id': string, 'closed_reason'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_collection'?: mixed, 'customer_prefill'?: mixed, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expiration'?: mixed, 'expires_at'?: string, 'external_reference_id'?: string, 'fulfillment'?: mixed, 'gift_card_challenge'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'legal'?: mixed, 'merchant_id'?: string, 'merchant_support'?: mixed, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'origin'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_method_save'?: mixed, 'payments'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_mode': bool, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_offered'?: bool, 'save_payment_method_phone_offered'?: bool, 'save_payment_method_requires_verification'?: bool, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'updated_at'?: string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSession')); }
     /** @return OrderPaymentAttempt
      * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
@@ -139,6 +141,11 @@ final class CheckoutSession extends Model {
      */
     public function getFulfillment(): mixed { return $this->get('fulfillment'); }
     public function hasFulfillment(): bool { return $this->has('fulfillment'); }
+    /** @return CheckoutGiftCardChallenge
+     * @throws SdkError When gift_card_challenge is omitted; use hasGiftCardChallenge() or valueOrDefault().
+     */
+    public function getGiftCardChallenge(): CheckoutGiftCardChallenge { return $this->get('gift_card_challenge'); }
+    public function hasGiftCardChallenge(): bool { return $this->has('gift_card_challenge'); }
     /** @return ExpandedInvoiceSummary|null
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */
@@ -184,6 +191,11 @@ final class CheckoutSession extends Model {
      */
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
+    /** @return string
+     * @throws SdkError When page_origin is omitted; use hasPageOrigin() or valueOrDefault().
+     */
+    public function getPageOrigin(): string { return $this->get('page_origin'); }
+    public function hasPageOrigin(): bool { return $this->has('page_origin'); }
     /** @return PaymentCollection
      * @throws SdkError When payment_collection is omitted; use hasPaymentCollection() or valueOrDefault().
      */

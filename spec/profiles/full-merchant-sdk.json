@@ -120,8 +120,12 @@
     "createShipment",
     "createSubscription",
     "createSubscriptionAccessLink",
+    "createSubscriptionDeliveryMigration",
+    "createSubscriptionLineItem",
+    "createSubscriptionOffer",
     "createSubscriptionPaymentRetry",
     "createSubscriptionPlan",
+    "createSubscriptionPreview",
     "createWebhookEndpoint",
     "createWebhookTestEvent",
     "decideReturn",
@@ -159,6 +163,8 @@
     "deleteRiskList",
     "deleteRiskListItem",
     "deleteRiskRule",
+    "deleteSubscriptionLineItem",
+    "deleteSubscriptionOffer",
     "deleteSubscriptionPlan",
     "deleteWebhookEndpoint",
     "exchangePartnerInstallToken",
@@ -257,6 +263,8 @@
     "getShipment",
     "getSubscription",
     "getSubscriptionAnalytics",
+    "getSubscriptionDeliveryMigration",
+    "getSubscriptionOffer",
     "getSubscriptionPaymentRetry",
     "getSubscriptionPlan",
     "getWebhookDelivery",
@@ -357,6 +365,9 @@
     "listRiskLists",
     "listRiskRules",
     "listShipments",
+    "listSubscriptionDeliveryMigrationFailures",
+    "listSubscriptionDeliveryMigrations",
+    "listSubscriptionOffers",
     "listSubscriptionPaymentRetries",
     "listSubscriptionPlans",
     "listSubscriptions",
@@ -384,6 +395,7 @@
     "removeOrderDiscounts",
     "removeOrderGiftCard",
     "removePaymentMethod",
+    "renewSubscription",
     "reopenReturn",
     "repriceOrderDiscounts",
     "resendWebhookDelivery",
@@ -477,6 +489,8 @@
     "updateShipment",
     "updateSubscription",
     "updateSubscriptionBillingSchedule",
+    "updateSubscriptionLineItem",
+    "updateSubscriptionOffer",
     "updateSubscriptionPlan",
     "updateWebhookEndpoint",
     "validateCustomDomain",
@@ -612,8 +626,12 @@
           "createShipment",
           "createSubscription",
           "createSubscriptionAccessLink",
+          "createSubscriptionDeliveryMigration",
+          "createSubscriptionLineItem",
+          "createSubscriptionOffer",
           "createSubscriptionPaymentRetry",
           "createSubscriptionPlan",
+          "createSubscriptionPreview",
           "createWebhookEndpoint",
           "createWebhookTestEvent",
           "decideReturn",
@@ -651,6 +669,8 @@
           "deleteRiskList",
           "deleteRiskListItem",
           "deleteRiskRule",
+          "deleteSubscriptionLineItem",
+          "deleteSubscriptionOffer",
           "deleteSubscriptionPlan",
           "deleteWebhookEndpoint",
           "getAPIKey",
@@ -746,6 +766,8 @@
           "getShipment",
           "getSubscription",
           "getSubscriptionAnalytics",
+          "getSubscriptionDeliveryMigration",
+          "getSubscriptionOffer",
           "getSubscriptionPaymentRetry",
           "getSubscriptionPlan",
           "getWebhookDelivery",
@@ -846,6 +868,9 @@
           "listRiskLists",
           "listRiskRules",
           "listShipments",
+          "listSubscriptionDeliveryMigrationFailures",
+          "listSubscriptionDeliveryMigrations",
+          "listSubscriptionOffers",
           "listSubscriptionPaymentRetries",
           "listSubscriptionPlans",
           "listSubscriptions",
@@ -871,6 +896,7 @@
           "removeOrderDiscounts",
           "removeOrderGiftCard",
           "removePaymentMethod",
+          "renewSubscription",
           "reopenReturn",
           "repriceOrderDiscounts",
           "resendWebhookDelivery",
@@ -961,6 +987,8 @@
           "updateShipment",
           "updateSubscription",
           "updateSubscriptionBillingSchedule",
+          "updateSubscriptionLineItem",
+          "updateSubscriptionOffer",
           "updateSubscriptionPlan",
           "updateWebhookEndpoint",
           "validateCustomDomain",
@@ -1000,7 +1028,9 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": ["sdk-example"]
+          "values": [
+            "sdk-example"
+          ]
         }
       }
     },
@@ -1069,7 +1099,9 @@
         "body": {
           "configuration": {
             "country": {
-              "values": ["example"]
+              "values": [
+                "example"
+              ]
             }
           },
           "name": "Standard delivery"

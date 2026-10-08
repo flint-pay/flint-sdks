@@ -1,0 +1,158 @@
+export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
+
+import type { ClientOptions } from '../declarations/ClientOptions.js';
+import type { RequestOptions } from '../declarations/RequestOptions.js';
+import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { SubscriptionPreviewResponse } from '../declarations/SubscriptionPreviewResponse.js';
+import type { SubscriptionPreviewsCreateInput } from '../declarations/SubscriptionPreviewsCreateInput.js';
+import type { SubscriptionPreviewsCreateResponse } from '../declarations/SubscriptionPreviewsCreateResponse.js';
+import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export interface SubscriptionPreviewsResource {
+    /**
+ * Evaluates a proposed subscription, delivery destination, or delivery method update without saving changes. Malformed JSON, unknown fields and request-level problems (a missing or unsupported mode, fields that belong to another mode) return 400. In create mode, every problem with the proposed subscription is returned in errors with is_valid false, not only the first. A preview does not reserve inventory or guarantee a future shipping rate.
+ * POST /v1/subscription-previews
+ * @example
+ * client.subscriptionPreviews.create({body: {destination: {customer_address_id: "caddr_01J00000000000000000000001", type: "customer_address"}, mode: "delivery_options", subscription_id: "sub_01J00000000000000000000001"}})
+ */
+    create(input: SubscriptionPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionPreviewResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createWithResponse(input: SubscriptionPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPreviewsCreateResponse>>;
+  }
+export declare class Client {
+
+  constructor(options?: ClientOptions);
+
+  close(): Promise<void>;
+readonly subscriptionPreviews: SubscriptionPreviewsResource;
+}
+export type { SubscriptionPreviewsCreateInput } from '../declarations/SubscriptionPreviewsCreateInput.js';
+export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { RequestOptions } from '../declarations/RequestOptions.js';
+export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+export type { SubscriptionPreviewResponse } from '../declarations/SubscriptionPreviewResponse.js';
+export type { SdkResponse } from '../declarations/SdkResponse.js';
+export type { SubscriptionPreviewsCreateResponse } from '../declarations/SubscriptionPreviewsCreateResponse.js';
+export type { ClientOptions } from '../declarations/ClientOptions.js';
+export type { CreateSubscriptionPreviewRequestInput } from '../declarations/CreateSubscriptionPreviewRequestInput.js';
+export type { SubscriptionDeliveryDestinationRequestInput } from '../declarations/SubscriptionDeliveryDestinationRequestInput.js';
+export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
+export type { CreateSubscriptionRequestInput } from '../declarations/CreateSubscriptionRequestInput.js';
+export type { SubscriptionBillingScheduleRequestInput } from '../declarations/SubscriptionBillingScheduleRequestInput.js';
+export type { SubscriptionBillingStartRequestInput } from '../declarations/SubscriptionBillingStartRequestInput.js';
+export type { SubscriptionDeliveryRequestInput } from '../declarations/SubscriptionDeliveryRequestInput.js';
+export type { DeliverySelectionRecipientRequestInput } from '../declarations/DeliverySelectionRecipientRequestInput.js';
+export type { SubscriptionServiceLocationRequestInput } from '../declarations/SubscriptionServiceLocationRequestInput.js';
+export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
+export type { UpdateDeliveryMethodRequestInput } from '../declarations/UpdateDeliveryMethodRequestInput.js';
+export type { DeliveryMethodConfigurationPatchRequestInput } from '../declarations/DeliveryMethodConfigurationPatchRequestInput.js';
+export type { DeliveryEligibilityExpressionInput } from '../declarations/DeliveryEligibilityExpressionInput.js';
+export type { DeliveryCountryConditionInput } from '../declarations/DeliveryCountryConditionInput.js';
+export type { DeliveryCustomerGroupConditionInput } from '../declarations/DeliveryCustomerGroupConditionInput.js';
+export type { DeliveryCustomerBooleanConditionInput } from '../declarations/DeliveryCustomerBooleanConditionInput.js';
+export type { DeliveryPostalCodeConditionInput } from '../declarations/DeliveryPostalCodeConditionInput.js';
+export type { DeliveryPostalCodeValueInput } from '../declarations/DeliveryPostalCodeValueInput.js';
+export type { DeliveryRadiusConditionInput } from '../declarations/DeliveryRadiusConditionInput.js';
+export type { DeliveryDistanceInput } from '../declarations/DeliveryDistanceInput.js';
+export type { DeliveryRadiusOriginInput } from '../declarations/DeliveryRadiusOriginInput.js';
+export type { DeliveryStateConditionInput } from '../declarations/DeliveryStateConditionInput.js';
+export type { DeliveryWindowTimeConditionInput } from '../declarations/DeliveryWindowTimeConditionInput.js';
+export type { DeliveryZoneConditionInput } from '../declarations/DeliveryZoneConditionInput.js';
+export type { DeliveryScheduleWindowRuleRequestInput } from '../declarations/DeliveryScheduleWindowRuleRequestInput.js';
+export type { DeliveryAvailabilityInput } from '../declarations/DeliveryAvailabilityInput.js';
+export type { DeliveryBlackoutIntervalInput } from '../declarations/DeliveryBlackoutIntervalInput.js';
+export type { DeliveryWeeklyIntervalInput } from '../declarations/DeliveryWeeklyIntervalInput.js';
+export type { DeliveryTransitTimeRuleInput } from '../declarations/DeliveryTransitTimeRuleInput.js';
+export type { DeliveryBusinessDayRangeInput } from '../declarations/DeliveryBusinessDayRangeInput.js';
+export type { DeliveryMethodOriginSelectorRequestInput } from '../declarations/DeliveryMethodOriginSelectorRequestInput.js';
+export type { DeliveryPricingStrategyRequestInput } from '../declarations/DeliveryPricingStrategyRequestInput.js';
+export type { DeliveryCalculatedPricingStrategyRequestInput } from '../declarations/DeliveryCalculatedPricingStrategyRequestInput.js';
+export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
+export type { DeliveryDistanceUnitPriceRequestInput } from '../declarations/DeliveryDistanceUnitPriceRequestInput.js';
+export type { DeliveryWeightUnitPriceRequestInput } from '../declarations/DeliveryWeightUnitPriceRequestInput.js';
+export type { DeliveryCallbackPricingStrategyRequestInput } from '../declarations/DeliveryCallbackPricingStrategyRequestInput.js';
+export type { DeliveryCallerSuppliedPricingStrategyRequestInput } from '../declarations/DeliveryCallerSuppliedPricingStrategyRequestInput.js';
+export type { DeliveryFixedPricingStrategyRequestInput } from '../declarations/DeliveryFixedPricingStrategyRequestInput.js';
+export type { DeliveryRateTablePricingStrategyRequestInput } from '../declarations/DeliveryRateTablePricingStrategyRequestInput.js';
+export type { DeliveryPricingRateRequestInput } from '../declarations/DeliveryPricingRateRequestInput.js';
+export type { DeliveryTieredPricingStrategyRequestInput } from '../declarations/DeliveryTieredPricingStrategyRequestInput.js';
+export type { DeliveryPricingTierBandRequestInput } from '../declarations/DeliveryPricingTierBandRequestInput.js';
+export type { DeliveryRecipientRequirementInput } from '../declarations/DeliveryRecipientRequirementInput.js';
+export type { AuthMode } from '../declarations/AuthMode.js';
+export type { Credentials } from '../declarations/Credentials.js';
+export type { SubscriptionAddressVerification } from '../declarations/SubscriptionAddressVerification.js';
+export type { SubscriptionDeliveryOption } from '../declarations/SubscriptionDeliveryOption.js';
+export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { PostalAddress } from '../declarations/PostalAddress.js';
+export type { SubscriptionPreviewError } from '../declarations/SubscriptionPreviewError.js';
+export type { ErrorDetail } from '../declarations/ErrorDetail.js';
+export type { ErrorResourceReference } from '../declarations/ErrorResourceReference.js';
+export type { FulfillmentHold } from '../declarations/FulfillmentHold.js';
+export type { FulfillmentChargeLink } from '../declarations/FulfillmentChargeLink.js';
+export type { DigitalFulfillmentDetails } from '../declarations/DigitalFulfillmentDetails.js';
+export type { FulfillmentLineItem } from '../declarations/FulfillmentLineItem.js';
+export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
+export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/DeliveryFulfillmentDetails.js';
+export type { PricingAmounts } from '../declarations/PricingAmounts.js';
+export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
+export type { SignedMoney } from '../declarations/SignedMoney.js';
+export type { FulfillmentOutcome } from '../declarations/FulfillmentOutcome.js';
+export type { ExpandedPackageSummary } from '../declarations/ExpandedPackageSummary.js';
+export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillmentDetails.js';
+export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
+export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
+export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
+export type { ReturnShipmentLineItemAllocation } from '../declarations/ReturnShipmentLineItemAllocation.js';
+export type { ShippingDimensions } from '../declarations/ShippingDimensions.js';
+export type { ShippingWeight } from '../declarations/ShippingWeight.js';
+export type { QuotaDetails } from '../declarations/QuotaDetails.js';
+export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
+export type { NextAction } from '../declarations/NextAction.js';
+export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
+export type { SelectableOrderPaymentIntent } from '../declarations/SelectableOrderPaymentIntent.js';
+export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
+export type { PaymentCollection } from '../declarations/PaymentCollection.js';
+export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionStripe.js';
+export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
+export type { ResponseMeta } from '../declarations/ResponseMeta.js';
+export type { ResponseWarning } from '../declarations/ResponseWarning.js';
+export { makeSubscriptionPreviewResponse } from '../declarations/makeSubscriptionPreviewResponse.js';
+export { makeSubscriptionAddressVerification } from '../declarations/makeSubscriptionAddressVerification.js';
+export { makeSubscriptionDeliveryOption } from '../declarations/makeSubscriptionDeliveryOption.js';
+export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makePostalAddress } from '../declarations/makePostalAddress.js';
+export { makeSubscriptionPreviewError } from '../declarations/makeSubscriptionPreviewError.js';
+export { makeErrorDetail } from '../declarations/makeErrorDetail.js';
+export { makeErrorResourceReference } from '../declarations/makeErrorResourceReference.js';
+export { makeFulfillmentHold } from '../declarations/makeFulfillmentHold.js';
+export { makeFulfillmentChargeLink } from '../declarations/makeFulfillmentChargeLink.js';
+export { makeDigitalFulfillmentDetails } from '../declarations/makeDigitalFulfillmentDetails.js';
+export { makeFulfillmentLineItem } from '../declarations/makeFulfillmentLineItem.js';
+export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
+export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
+export { makeDeliveryFulfillmentDetails } from '../declarations/makeDeliveryFulfillmentDetails.js';
+export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
+export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js';
+export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
+export { makeFulfillmentOutcome } from '../declarations/makeFulfillmentOutcome.js';
+export { makeExpandedPackageSummary } from '../declarations/makeExpandedPackageSummary.js';
+export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillmentDetails.js';
+export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
+export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
+export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
+export { makeReturnShipmentLineItemAllocation } from '../declarations/makeReturnShipmentLineItemAllocation.js';
+export { makeShippingDimensions } from '../declarations/makeShippingDimensions.js';
+export { makeShippingWeight } from '../declarations/makeShippingWeight.js';
+export { makeQuotaDetails } from '../declarations/makeQuotaDetails.js';
+export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
+export { makeNextAction } from '../declarations/makeNextAction.js';
+export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeSelectableOrderPaymentIntent } from '../declarations/makeSelectableOrderPaymentIntent.js';
+export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
+export { makePaymentCollection } from '../declarations/makePaymentCollection.js';
+export { makePaymentCollectionStripe } from '../declarations/makePaymentCollectionStripe.js';
+export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';
+export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
+export { makeResponseWarning } from '../declarations/makeResponseWarning.js';

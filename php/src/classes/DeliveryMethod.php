@@ -13,12 +13,13 @@ namespace Flint;
  * @property-read string $name
  * @property-read int $recommendation_priority
  * @property-read string $status
+ * @property-read SubscriptionCounts $subscription_counts
  * @property-read string $type
  * @property-read string $updated_at
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryMethod extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position'?: int, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'type'?: string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position'?: int, 'external_reference_id'?: string, 'metadata'?: \stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'subscription_counts': mixed, 'type'?: string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethod')); }
     /** @return DeliveryMethodConfiguration
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
@@ -75,6 +76,11 @@ final class DeliveryMethod extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** @return SubscriptionCounts
+     * @throws SdkError When subscription_counts is omitted; use hasSubscriptionCounts() or valueOrDefault().
+     */
+    public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }
+    public function hasSubscriptionCounts(): bool { return $this->has('subscription_counts'); }
     /** @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

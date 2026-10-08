@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object $data
+ * @property-read array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object $data
  * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
@@ -14,9 +14,9 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_subscription_renewal_upcoming_merchantInput extends Model {
-    /** @param array{'data': array{'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_subscription_renewal_upcoming_merchantInput')); }
-    /** @return array{'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object
+    /** @return array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'next_billing_at': string|\DateTimeInterface, 'resource_updated_at': string|\DateTimeInterface, 'subscription_id': string}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }

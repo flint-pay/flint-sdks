@@ -10,12 +10,14 @@ namespace Flint;
  * @property-read LegalSettingsInput|array<array-key, mixed>|\stdClass $legal
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $order_id
+ * @property-read string $page_origin
  * @property-read CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
  * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass $quick_pay_item
  * @property-read CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string $replace_checkout_session_id
  * @property-read string $subscription_plan_id
+ * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read string $surface
  * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
  * @property-read ThemeConfigInput|array<array-key, mixed>|\stdClass $theme
@@ -64,6 +66,11 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** @return string
+     * @throws SdkError When page_origin is omitted; use hasPageOrigin() or valueOrDefault().
+     */
+    public function getPageOrigin(): string { return $this->get('page_origin'); }
+    public function hasPageOrigin(): bool { return $this->has('page_origin'); }
     /** @return CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */
@@ -94,6 +101,11 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
+    /** @return CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When subscription_terms is omitted; use hasSubscriptionTerms() or valueOrDefault().
+     */
+    public function getSubscriptionTerms(): mixed { return $this->get('subscription_terms'); }
+    public function hasSubscriptionTerms(): bool { return $this->has('subscription_terms'); }
     /** @return string
      * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
      */

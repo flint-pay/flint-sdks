@@ -1,0 +1,1 @@
+{"shared":"SubscriptionOfferListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec161","SharedCodec162","SharedCodec466","SubscriptionOffer","SubscriptionOfferListResponse"]}

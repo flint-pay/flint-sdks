@@ -1,9 +1,9 @@
-import { d872 as c0, d469 as c1, d871 as c2, d899 as c3, d900 as c4, d1002 as c5, d1314 as c6 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d1314 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d893 as c0, d490 as c1, d892 as c2, d920 as c3, d921 as c4, d1023 as c5, d1359 as c6 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d1359 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1314;
+const read = d1359;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec161"]:c1(),["SharedCodec237"]:c2(),["SharedCodec251"]:c3(),["SharedCodec252"]:c4(),["SharedCodec278"]:c5(),["Webhook_order_fulfillment_created_merchant"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec170"]:c1(),["SharedCodec246"]:c2(),["SharedCodec260"]:c3(),["SharedCodec261"]:c4(),["SharedCodec287"]:c5(),["Webhook_order_fulfillment_created_merchant"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_fulfillment_created_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

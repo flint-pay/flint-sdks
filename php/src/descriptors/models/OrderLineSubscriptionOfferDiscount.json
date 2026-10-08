@@ -1,0 +1,1 @@
+{"shared":"OrderLineSubscriptionOfferDiscount","phpRepresentation":{"kind":"record","fields":{"amount_off_money":{"kind":"entity","name":"MoneyValue"},"percent_off":{"kind":"value","type":"float"}}},"dependencies":["MoneyValue","OrderLineSubscriptionOfferDiscount"]}

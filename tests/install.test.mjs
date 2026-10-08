@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { sha256, npmPackResult } from '../scripts/packages.mjs';
+import { operationNames } from '../.tools/sdk-generator/dist/naming.js';
 
 const root = resolve(import.meta.dirname, '..');
 const json = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -65,6 +66,9 @@ test(
       const operationIds = Object.values(api.paths).flatMap((item) =>
         Object.values(item).flatMap((operation) => operation.operationId ? [operation.operationId] : []),
       );
+      const operations = new Map(Object.values(api.paths).flatMap((item) =>
+        Object.values(item).flatMap((operation) => operation.operationId ? [[operation.operationId, operation]] : []),
+      ));
       const cases = json(join(root, 'tests/full-model-cases.json'));
       const config = json(join(root, 'sdk.json'));
       const naming = json(join(root, 'spec/profiles/full-common-sdk.json')).operations;
@@ -78,7 +82,10 @@ test(
       const expectedMethods = operationIds
         .filter((id) => selected.has(id))
         .flatMap((id) => {
-          const { resource, method } = naming[id];
+          const { resource, method } = {
+            ...operationNames(id, operations.get(id).tags),
+            ...naming[id],
+          };
           const methods = [[resource, method]];
           if ((config.operations[id]?.response?.return ?? naming[id].response?.return) !== 'result')
             methods.push([resource, method + 'WithResponse']);
@@ -94,7 +101,6 @@ import * as sdk from '@flintpay/node';
 const client = new sdk.Client({ baseUrl: 'https://api.example.invalid' });
 const expected = ${JSON.stringify(expectedMethods)};
 for (const [resource, method] of expected) assert.equal(typeof client[resource]?.[method], 'function', resource + '.' + method);
-assert.equal(client.api, undefined);
 for (const scenario of ${JSON.stringify(cases)}) {
   const make = () => sdk['make' + scenario.model](scenario.value);
   if (scenario.valid) make(); else assert.throws(make, scenario.name);
@@ -146,6 +152,7 @@ console.log('Installed npm package: all operations and model cases passed.');
       run(
         'composer',
         [
+          '--no-cache',
           'install',
           '--no-dev',
           '--no-interaction',

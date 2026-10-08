@@ -24,6 +24,9 @@ namespace Flint;
  * @property-read list<SelectedProductOption> $selected_options
  * @property-read string $sku
  * @property-read string $source_type
+ * @property-read SubscribedLine $subscription
+ * @property-read string $subscription_id
+ * @property-read OrderLineSubscriptionOfferSummary $subscription_offer
  * @property-read MoneyValue $subtotal_money
  * @property-read OrderCalculatedLineItemTax $tax
  * @property-read MoneyValue $tax_money
@@ -33,7 +36,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards'?: list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, 'version': string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards'?: list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItem')); }
     /** @return MoneyValue
      * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
@@ -145,6 +148,21 @@ final class OrderLineItem extends Model {
      */
     public function getSourceType(): string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
+    /** @return SubscribedLine
+     * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
+     */
+    public function getSubscription(): SubscribedLine { return $this->get('subscription'); }
+    public function hasSubscription(): bool { return $this->has('subscription'); }
+    /** @return string
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
+    /** @return OrderLineSubscriptionOfferSummary
+     * @throws SdkError When subscription_offer is omitted; use hasSubscriptionOffer() or valueOrDefault().
+     */
+    public function getSubscriptionOffer(): OrderLineSubscriptionOfferSummary { return $this->get('subscription_offer'); }
+    public function hasSubscriptionOffer(): bool { return $this->has('subscription_offer'); }
     /** @return MoneyValue
      * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
      */

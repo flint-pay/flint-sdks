@@ -1,0 +1,1 @@
+{"shared":"BuyerSkipCapability","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"},"max_consecutive_skips":{"kind":"value","type":"int"}}},"dependencies":["BuyerSkipCapability"]}

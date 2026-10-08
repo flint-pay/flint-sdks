@@ -1,0 +1,4 @@
+
+import type { SubscriptionDeliveryMigrationFailureListResponse } from './SubscriptionDeliveryMigrationFailureListResponse.js';
+
+export type SubscriptionDeliveryMigrationsListFailuresResponse = SubscriptionDeliveryMigrationFailureListResponse;

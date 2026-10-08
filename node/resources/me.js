@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import r0 from '../descriptors/resources/me.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import settings from '../descriptors/settings.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionBillingInterval"]:r0,["changeMeSubscriptionDelivery"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["renewMeSubscription"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -38,6 +38,30 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      changeSubscriptionBillingInterval: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      changeSubscriptionBillingIntervalWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      changeSubscriptionDelivery: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionDelivery", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      changeSubscriptionDeliveryWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionDelivery", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       changeSubscriptionPaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -50,6 +74,18 @@ this.me = Object.freeze({
 ], [subscription_id], [
   "Idempotency-Key",
   "X-Request-Id",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
+      changeSubscriptionQuantity: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      changeSubscriptionQuantityWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
       confirmEmailChangeRequest: async (email_change_request_id, params, options) => this.#runtime.request("confirmMeEmailChangeRequest", _sdkRequestInput([
@@ -162,6 +198,12 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, false, params), options).then(_sdkResponse),
+      createSubscriptionPreview: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createSubscriptionPreviewWithResponse: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
@@ -767,6 +809,7 @@ this.me = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -792,6 +835,7 @@ this.me = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -817,6 +861,7 @@ this.me = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -842,6 +887,7 @@ this.me = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -867,6 +913,7 @@ this.me = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -1417,6 +1464,9 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
+  "delivery_method_id",
+  "hold_reason",
+  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1436,6 +1486,9 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
+  "delivery_method_id",
+  "hold_reason",
+  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1455,6 +1508,9 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
+  "delivery_method_id",
+  "hold_reason",
+  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1474,6 +1530,9 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
+  "delivery_method_id",
+  "hold_reason",
+  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1493,6 +1552,9 @@ this.me = Object.freeze({
   "billing_schedule_owner",
   "awaiting_billing_schedule",
   "cancel_at_period_end",
+  "delivery_method_id",
+  "hold_reason",
+  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1561,6 +1623,18 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      renewSubscription: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      renewSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       resumeSubscription: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -1637,6 +1711,18 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], false, false, params), options).then(_sdkResponse),
+      skipSubscriptionCycle: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      skipSubscriptionCycleWithResponse: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateMe", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
@@ -1671,6 +1757,20 @@ this.me = Object.freeze({
   "X-Request-Id",
   "Flint-Version"
 ], true, true, params), options).then(_sdkResponse),
+      updateSubscriptionLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
+  "subscription_id",
+  "subscription_line_item_id"
+], [subscription_id, subscription_line_item_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      updateSubscriptionLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
+  "subscription_id",
+  "subscription_line_item_id"
+], [subscription_id, subscription_line_item_id], [
+  "Idempotency-Key",
+  "Flint-Version"
+], true, true, params), options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
@@ -1685,6 +1785,7 @@ export { makeBuyerInvoiceCheckoutSessionResponse } from '../models/BuyerInvoiceC
 export { makeCreateReturnPreviewResponse } from '../models/CreateReturnPreviewResponse.js';
 export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
 export { makeBuyerSubscriptionPaymentRetryResponse } from '../models/BuyerSubscriptionPaymentRetryResponse.js';
+export { makeSubscriptionPreviewResponse } from '../models/SubscriptionPreviewResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeCustomerResponse } from '../models/CustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../models/BuyerCreditNoteResponse.js';
@@ -1807,6 +1908,7 @@ export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMi
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
 export { makeLegalSettings } from '../models/LegalSettings.js';
 export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../models/PricingAmounts.js';
@@ -1825,6 +1927,8 @@ export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.j
 export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
 export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
@@ -1855,14 +1959,11 @@ export { makeReturnResolutionWarning } from '../models/ReturnResolutionWarning.j
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
 export { makeBuyerSubscriptionPaymentRetry } from '../models/BuyerSubscriptionPaymentRetry.js';
 export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
-export { makeActionResult } from '../models/ActionResult.js';
-export { makeCustomer } from '../models/Customer.js';
-export { makeCardDetails } from '../models/CardDetails.js';
-export { makeCustomerReceivables } from '../models/CustomerReceivables.js';
-export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
-export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
-export { makeCustomerEmailPreferences } from '../models/CustomerEmailPreferences.js';
-export { makeCreditNoteLine } from '../models/CreditNoteLine.js';
+export { makeSubscriptionAddressVerification } from '../models/SubscriptionAddressVerification.js';
+export { makeSubscriptionDeliveryOption } from '../models/SubscriptionDeliveryOption.js';
+export { makeSubscriptionPreviewError } from '../models/SubscriptionPreviewError.js';
+export { makeErrorDetail } from '../models/ErrorDetail.js';
+export { makeErrorResourceReference } from '../models/ErrorResourceReference.js';
 export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
 export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
@@ -1874,6 +1975,19 @@ export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
+export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeShippingDimensions } from '../models/ShippingDimensions.js';
+export { makeShippingWeight } from '../models/ShippingWeight.js';
+export { makeQuotaDetails } from '../models/QuotaDetails.js';
+export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
+export { makeActionResult } from '../models/ActionResult.js';
+export { makeCustomer } from '../models/Customer.js';
+export { makeCardDetails } from '../models/CardDetails.js';
+export { makeCustomerReceivables } from '../models/CustomerReceivables.js';
+export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
+export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
+export { makeCustomerEmailPreferences } from '../models/CustomerEmailPreferences.js';
+export { makeCreditNoteLine } from '../models/CreditNoteLine.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
 export { makeBuyerInvoiceLateFee } from '../models/BuyerInvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
@@ -1909,11 +2023,15 @@ export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBo
 export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
+export { makeSubscribedLine } from '../models/SubscribedLine.js';
+export { makeOrderLineSubscriptionOfferSummary } from '../models/OrderLineSubscriptionOfferSummary.js';
+export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubscriptionOfferDiscount.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makePurchasedEvent } from '../models/PurchasedEvent.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
+export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTax } from '../models/OrderTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
@@ -1922,9 +2040,6 @@ export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
 export { makeTip } from '../models/Tip.js';
 export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
 export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
-export { makeShippingDimensions } from '../models/ShippingDimensions.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
-export { makeShippingWeight } from '../models/ShippingWeight.js';
 export { makePaymentAddOnFee } from '../models/PaymentAddOnFee.js';
 export { makePaymentFulfillmentHold } from '../models/PaymentFulfillmentHold.js';
 export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
@@ -1944,8 +2059,15 @@ export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination
 export { makeReturnLineItem } from '../models/ReturnLineItem.js';
 export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
 export { makeSubscriptionCancellationDetails } from '../models/SubscriptionCancellationDetails.js';
+export { makeSubscriptionDelivery } from '../models/SubscriptionDelivery.js';
+export { makeSubscriptionDeliveryMethodSummary } from '../models/SubscriptionDeliveryMethodSummary.js';
+export { makeSubscriptionDeliveryDestination } from '../models/SubscriptionDeliveryDestination.js';
+export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';
+export { makeSubscriptionDeliveryHold } from '../models/SubscriptionDeliveryHold.js';
+export { makeSubscriptionInventoryWait } from '../models/SubscriptionInventoryWait.js';
 export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
 export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
+export { makeSubscriptionUpcomingDeliveryHold } from '../models/SubscriptionUpcomingDeliveryHold.js';
 export { makeSavePaymentMethodResult } from '../models/SavePaymentMethodResult.js';
 export { makeStripeClientSetup } from '../models/StripeClientSetup.js';
 export { makeStripeClientSetupStripe } from '../models/StripeClientSetupStripe.js';

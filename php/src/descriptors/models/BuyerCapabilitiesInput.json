@@ -1,1 +1,1 @@
-{"shared":"BuyerCapabilities","dependencies":["BuyerCapabilities","BuyerPauseCapability","BuyerRetentionOffer"]}
+{"shared":"BuyerCapabilities","dependencies":["BuyerCapabilities","BuyerPauseCapability","BuyerRetentionOffer","BuyerSkipCapability"]}

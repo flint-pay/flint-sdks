@@ -20,11 +20,14 @@ namespace Flint;
  * @property-read string $current_source_observation_sequence
  * @property-read string $current_status
  * @property-read string $current_version
+ * @property-read string $delivery_method_id
  * @property-read string $demand_key
  * @property-read string $dependency_type
  * @property-read string $eligibility_reason
  * @property-read string $existing_checkout_session_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_attempt_outstanding_money
+ * @property-read string $failure_category
+ * @property-read string $failure_code
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gap_money
  * @property-read string $inventory_count_line_id
  * @property-read string $inventory_item_id
@@ -35,12 +38,14 @@ namespace Flint;
  * @property-read string $location_outcome
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $maximum_money
  * @property-read string $message
+ * @property-read string $order_id
  * @property-read string $order_payment_attempt_id
  * @property-read string $param
  * @property-read string $payment_attempt_status
  * @property-read list<string> $payment_intent_ids
  * @property-read string $payment_method_domain_id
  * @property-read string $payment_option
+ * @property-read string $product_id
  * @property-read QuotaDetailsInput|array<array-key, mixed>|\stdClass $quota
  * @property-read string $reason
  * @property-read ErrorRemediationInput|array<array-key, mixed>|\stdClass $remediation
@@ -54,14 +59,19 @@ namespace Flint;
  * @property-read string $shortage_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $submitted_money
  * @property-read string $submitted_source_observation_sequence
+ * @property-read string $subscription_delivery_migration_id
+ * @property-read string $subscription_offer_id
+ * @property-read string $subscription_plan_line_item_id
  * @property-read list<string> $suggestions
  * @property-read list<string> $supported_actions
  * @property-read list<string> $supported_api_versions
  * @property-read string $surface
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_capable_money
+ * @property-read string $unavailable_reason
+ * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransferActionConflictErrorDetailInput extends Model {
-    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'capability'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'current_physical_revision'?: string, 'current_resource'?: array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status': string, 'current_version': string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gap_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'message': string, 'order_payment_attempt_id'?: string, 'param': string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'quota'?: QuotaDetailsInput|array<array-key, mixed>|\stdClass, 'reason'?: string, 'remediation'?: ErrorRemediationInput|array<array-key, mixed>|\stdClass, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'shortage_quantity'?: string, 'submitted_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'submitted_source_observation_sequence'?: string, 'suggestions'?: list<string>, 'supported_actions': list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tip_capable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'capability'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'current_physical_revision'?: string, 'current_resource'?: array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status': string, 'current_version': string, 'delivery_method_id'?: string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_category'?: string, 'failure_code'?: string, 'gap_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'message': string, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'param': string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'product_id'?: string, 'quota'?: QuotaDetailsInput|array<array-key, mixed>|\stdClass, 'reason'?: string, 'remediation'?: ErrorRemediationInput|array<array-key, mixed>|\stdClass, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'shortage_quantity'?: string, 'submitted_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'submitted_source_observation_sequence'?: string, 'subscription_delivery_migration_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'suggestions'?: list<string>, 'supported_actions': list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tip_capable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'unavailable_reason'?: string, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferActionConflictErrorDetailInput')); }
     /** @return list<string>
      * @throws SdkError When allowed_key_modes is omitted; use hasAllowedKeyModes() or valueOrDefault().
@@ -154,6 +164,11 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
     public function getCurrentVersion(): string { return $this->get('current_version'); }
     public function hasCurrentVersion(): bool { return $this->has('current_version'); }
     /** @return string
+     * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
+     */
+    public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
+    public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
+    /** @return string
      * @throws SdkError When demand_key is omitted; use hasDemandKey() or valueOrDefault().
      */
     public function getDemandKey(): string { return $this->get('demand_key'); }
@@ -178,6 +193,16 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
      */
     public function getExpectedAttemptOutstandingMoney(): mixed { return $this->get('expected_attempt_outstanding_money'); }
     public function hasExpectedAttemptOutstandingMoney(): bool { return $this->has('expected_attempt_outstanding_money'); }
+    /** @return string
+     * @throws SdkError When failure_category is omitted; use hasFailureCategory() or valueOrDefault().
+     */
+    public function getFailureCategory(): string { return $this->get('failure_category'); }
+    public function hasFailureCategory(): bool { return $this->has('failure_category'); }
+    /** @return string
+     * @throws SdkError When failure_code is omitted; use hasFailureCode() or valueOrDefault().
+     */
+    public function getFailureCode(): string { return $this->get('failure_code'); }
+    public function hasFailureCode(): bool { return $this->has('failure_code'); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gap_money is omitted; use hasGapMoney() or valueOrDefault().
      */
@@ -229,6 +254,11 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
     /** @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** @return string
      * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
     public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
@@ -258,6 +288,11 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
+    /** @return string
+     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /** @return QuotaDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When quota is omitted; use hasQuota() or valueOrDefault().
      */
@@ -323,6 +358,21 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
      */
     public function getSubmittedSourceObservationSequence(): string { return $this->get('submitted_source_observation_sequence'); }
     public function hasSubmittedSourceObservationSequence(): bool { return $this->has('submitted_source_observation_sequence'); }
+    /** @return string
+     * @throws SdkError When subscription_delivery_migration_id is omitted; use hasSubscriptionDeliveryMigrationId() or valueOrDefault().
+     */
+    public function getSubscriptionDeliveryMigrationId(): string { return $this->get('subscription_delivery_migration_id'); }
+    public function hasSubscriptionDeliveryMigrationId(): bool { return $this->has('subscription_delivery_migration_id'); }
+    /** @return string
+     * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
+     */
+    public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
+    public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
+    /** @return string
+     * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
+     */
+    public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
+    public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
     /** @return list<string>
      * @throws SdkError When suggestions is omitted; use hasSuggestions() or valueOrDefault().
      */
@@ -348,4 +398,14 @@ final class InventoryTransferActionConflictErrorDetailInput extends Model {
      */
     public function getTipCapableMoney(): mixed { return $this->get('tip_capable_money'); }
     public function hasTipCapableMoney(): bool { return $this->has('tip_capable_money'); }
+    /** @return string
+     * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
+     */
+    public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
+    public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
+    /** @return string
+     * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
+     */
+    public function getVariantId(): string { return $this->get('variant_id'); }
+    public function hasVariantId(): bool { return $this->has('variant_id'); }
 }

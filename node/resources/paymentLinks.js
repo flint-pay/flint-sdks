@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentLinks.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import r0 from '../descriptors/resources/paymentLinks.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import settings from '../descriptors/settings.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPaymentLink"]:r0,["getPaymentLink"]:r0,["getPaymentLinkPublic"]:r0,["listPaymentLinks"]:r0,["resolvePaymentLink"]:r0,["updatePaymentLink"]:r0});
 export class Client {
@@ -182,12 +182,14 @@ export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig
 export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
 export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
 export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
 export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
@@ -235,6 +237,7 @@ export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMi
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
 export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../models/PricingAmounts.js';
 export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
@@ -249,3 +252,4 @@ export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary
 export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
 export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
 export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';

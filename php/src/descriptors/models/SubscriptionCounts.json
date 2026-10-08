@@ -1,0 +1,1 @@
+{"shared":"SubscriptionCounts","phpRepresentation":{"kind":"record","fields":{"active":{"kind":"value","type":"string"},"past_due":{"kind":"value","type":"string"},"paused":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionCounts"]}

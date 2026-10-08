@@ -3,7 +3,10 @@
   "include": [
     "cancelMeReturn",
     "cancelMeSubscription",
+    "changeMeSubscriptionBillingInterval",
+    "changeMeSubscriptionDelivery",
     "changeMeSubscriptionPaymentMethod",
+    "changeMeSubscriptionQuantity",
     "confirmMeEmailChangeRequest",
     "createDemoSession",
     "createMeAddress",
@@ -15,6 +18,7 @@
     "createMeReturnPreview",
     "createMeReturnResolutionCheckoutSession",
     "createMeSubscriptionPaymentRetry",
+    "createMeSubscriptionPreview",
     "deleteMeAddress",
     "exchangePartnerInstallToken",
     "getMe",
@@ -57,6 +61,7 @@
     "refreshCustomerSession",
     "removeMeGiftCard",
     "removeMePaymentMethod",
+    "renewMeSubscription",
     "resetDemoSession",
     "resolvePaymentLink",
     "resumeMeSubscription",
@@ -65,10 +70,12 @@
     "sendMeOrderReceipt",
     "setDefaultMeAddress",
     "setDefaultMePaymentMethod",
+    "skipMeSubscriptionCycle",
     "startOnboarding",
     "updateMe",
     "updateMeAddress",
     "updateMeEmailPreferences",
+    "updateMeSubscriptionLineItem",
     "verifyOnboardingEmail"
   ],
   "auth": {
@@ -78,7 +85,10 @@
         "operations": [
           "cancelMeReturn",
           "cancelMeSubscription",
+          "changeMeSubscriptionBillingInterval",
+          "changeMeSubscriptionDelivery",
           "changeMeSubscriptionPaymentMethod",
+          "changeMeSubscriptionQuantity",
           "confirmMeEmailChangeRequest",
           "createMeAddress",
           "createMeDeletionRequest",
@@ -89,6 +99,7 @@
           "createMeReturnPreview",
           "createMeReturnResolutionCheckoutSession",
           "createMeSubscriptionPaymentRetry",
+          "createMeSubscriptionPreview",
           "deleteMeAddress",
           "getMe",
           "getMeAddress",
@@ -126,15 +137,18 @@
           "reactivateMeSubscription",
           "removeMeGiftCard",
           "removeMePaymentMethod",
+          "renewMeSubscription",
           "resumeMeSubscription",
           "saveMeGiftCard",
           "saveMePaymentMethod",
           "sendMeOrderReceipt",
           "setDefaultMeAddress",
           "setDefaultMePaymentMethod",
+          "skipMeSubscriptionCycle",
           "updateMe",
           "updateMeAddress",
-          "updateMeEmailPreferences"
+          "updateMeEmailPreferences",
+          "updateMeSubscriptionLineItem"
         ]
       }
     },

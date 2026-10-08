@@ -1,0 +1,4 @@
+
+
+
+export type SubscriptionDeliveryMigrationInput = { /** RFC3339 timestamp. Format: date-time. */ "completed_at"?: never; /** RFC3339 timestamp. Format: date-time. */ "created_at"?: never; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "failed_count"?: never; "failure_reason_counts"?: never; "from_delivery_method_id"?: never; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "moved_count"?: never; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "pending_count"?: never; "status": "pending" | "running" | "completed"; "subscription_delivery_migration_id"?: never; "subscription_plan_id"?: never; "to_delivery_method_id"?: never; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "total_count"?: never; /** RFC3339 timestamp. Format: date-time. */ "updated_at"?: never; };

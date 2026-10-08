@@ -1,9 +1,9 @@
-import { d880 as c0, d879 as c1, d899 as c2, d900 as c3, d903 as c4, d901 as c5, d902 as c6, d904 as c7, d907 as c8, d908 as c9 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d908 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d901 as c0, d900 as c1, d920 as c2, d921 as c3, d924 as c4, d922 as c5, d923 as c6, d925 as c7, d928 as c8, d929 as c9 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d929 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d908;
+const read = d929;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec242"]:c1(),["SharedCodec251"]:c2(),["SharedCodec252"]:c3(),["SharedCodec253"]:c4(),["SharedCodec254"]:c5(),["SharedCodec255"]:c6(),["SharedCodec256"]:c7(),["SharedCodec257"]:c8(),["Webhook_order_fulfillment_package_created_installed_merchants"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec251"]:c1(),["SharedCodec260"]:c2(),["SharedCodec261"]:c3(),["SharedCodec262"]:c4(),["SharedCodec263"]:c5(),["SharedCodec264"]:c6(),["SharedCodec265"]:c7(),["SharedCodec266"]:c8(),["Webhook_order_fulfillment_package_created_installed_merchants"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_fulfillment_package_created_installed_merchants(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

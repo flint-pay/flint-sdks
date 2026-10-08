@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import r0 from '../descriptors/resources/orders.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import settings from '../descriptors/settings.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
@@ -385,6 +385,7 @@ this.orders = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -411,6 +412,7 @@ this.orders = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -437,6 +439,7 @@ this.orders = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -463,6 +466,7 @@ this.orders = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -489,6 +493,7 @@ this.orders = Object.freeze({
   "origin",
   "query",
   "subscription_id",
+  "subscription_delivery_changed",
   "return_id",
   "return_resolution_id",
   "min_amount",
@@ -757,12 +762,17 @@ export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipie
 export { makeImage } from '../models/Image.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
+export { makeSubscribedLine } from '../models/SubscribedLine.js';
+export { makeOrderLineSubscriptionOfferSummary } from '../models/OrderLineSubscriptionOfferSummary.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubscriptionOfferDiscount.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
 export { makePurchasedEvent } from '../models/PurchasedEvent.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
+export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTax } from '../models/OrderTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';

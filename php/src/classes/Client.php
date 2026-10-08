@@ -93,7 +93,10 @@ final class Client {
     public readonly SettingsResource $settings;
     public readonly ShipmentsResource $shipments;
     public readonly SpecificationResource $specification;
+    public readonly SubscriptionDeliveryMigrationsResource $subscriptionDeliveryMigrations;
+    public readonly SubscriptionOffersResource $subscriptionOffers;
     public readonly SubscriptionPlansResource $subscriptionPlans;
+    public readonly SubscriptionPreviewsResource $subscriptionPreviews;
     public readonly SubscriptionsResource $subscriptions;
     public readonly WebhookDeliveriesResource $webhookDeliveries;
     public readonly WebhookEndpointsResource $webhookEndpoints;
@@ -191,7 +194,10 @@ final class Client {
         $this->settings = new SettingsResource($this->runtime);
         $this->shipments = new ShipmentsResource($this->runtime);
         $this->specification = new SpecificationResource($this->runtime);
+        $this->subscriptionDeliveryMigrations = new SubscriptionDeliveryMigrationsResource($this->runtime);
+        $this->subscriptionOffers = new SubscriptionOffersResource($this->runtime);
         $this->subscriptionPlans = new SubscriptionPlansResource($this->runtime);
+        $this->subscriptionPreviews = new SubscriptionPreviewsResource($this->runtime);
         $this->subscriptions = new SubscriptionsResource($this->runtime);
         $this->webhookDeliveries = new WebhookDeliveriesResource($this->runtime);
         $this->webhookEndpoints = new WebhookEndpointsResource($this->runtime);

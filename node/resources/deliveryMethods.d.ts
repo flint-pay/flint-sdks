@@ -195,6 +195,7 @@ export type { DeliveryPricingRate } from '../declarations/DeliveryPricingRate.js
 export type { DeliveryTieredPricingStrategy } from '../declarations/DeliveryTieredPricingStrategy.js';
 export type { DeliveryPricingTierBandRequest } from '../declarations/DeliveryPricingTierBandRequest.js';
 export type { DeliveryRecipientRequirement } from '../declarations/DeliveryRecipientRequirement.js';
+export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
 export type { CreateDeliveryMethodRequestInput } from '../declarations/CreateDeliveryMethodRequestInput.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/UpdateDeliveryMethodRequestInput.js';
 export { makeDeliveryMethodResponse } from '../declarations/makeDeliveryMethodResponse.js';
@@ -238,3 +239,4 @@ export { makeDeliveryPricingRate } from '../declarations/makeDeliveryPricingRate
 export { makeDeliveryTieredPricingStrategy } from '../declarations/makeDeliveryTieredPricingStrategy.js';
 export { makeDeliveryPricingTierBandRequest } from '../declarations/makeDeliveryPricingTierBandRequest.js';
 export { makeDeliveryRecipientRequirement } from '../declarations/makeDeliveryRecipientRequirement.js';
+export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';

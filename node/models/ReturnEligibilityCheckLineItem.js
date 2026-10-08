@@ -1,7 +1,7 @@
-import { d59 as c0, d61 as c1, d868 as c2, d314 as c3, d1829 as c4, d2122 as c5, d2167 as c6, d2168 as c7, d2174 as c8, d2194 as c9, d2268 as c10, d2331 as c11 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d2122 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d59 as c0, d61 as c1, d889 as c2, d323 as c3, d1874 as c4, d2172 as c5, d2217 as c6, d2218 as c7, d2224 as c8, d2244 as c9, d2318 as c10, d2415 as c11 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d2172 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2122;
+const read = d2172;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["BundleComponentVariantSummary"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["OrderLineItemModifier"]:c4(),["ReturnEligibilityCheckLineItem"]:c5(),["ReturnLineItemDecisionProposal"]:c6(),["ReturnLineItemEligibility"]:c7(),["ReturnPolicyAdjustmentProposal"]:c8(),["ReturnReasonSummary"]:c9(),["SelectedProductOption"]:c10(),["TextModifierRequest"]:c11()}); }
 export { codec as _validate };

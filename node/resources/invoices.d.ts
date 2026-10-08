@@ -147,9 +147,9 @@ export interface InvoicesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoices.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
+    getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicesGetOrCreateCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
  * POST /v1/invoices/{invoice_id}/issue
@@ -396,6 +396,7 @@ export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPur
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
 export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
+export type { SubscribedLineRequestInput } from '../declarations/SubscribedLineRequestInput.js';
 export type { OrderDraftLineItemTaxRequestInput } from '../declarations/OrderDraftLineItemTaxRequestInput.js';
 export type { OrderDraftLineItemTaxCalculationRequestInput } from '../declarations/OrderDraftLineItemTaxCalculationRequestInput.js';
 export type { OrderDraftTaxComponentRequestInput } from '../declarations/OrderDraftTaxComponentRequestInput.js';
@@ -450,6 +451,7 @@ export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligib
 export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/BuyerDeliveryQuoteChoiceGroupResource.js';
 export type { BuyerDeliveryInputRequirementResource } from '../declarations/BuyerDeliveryInputRequirementResource.js';
 export type { BuyerDeliveryOptionResource } from '../declarations/BuyerDeliveryOptionResource.js';
+export type { CheckoutGiftCardChallenge } from '../declarations/CheckoutGiftCardChallenge.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
 export type { CheckoutMerchantSupport } from '../declarations/CheckoutMerchantSupport.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
@@ -468,6 +470,8 @@ export type { CheckoutProblemResource } from '../declarations/CheckoutProblemRes
 export type { CheckoutPromotionConfig } from '../declarations/CheckoutPromotionConfig.js';
 export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsConfig.js';
 export type { CheckoutSubscriptionTerms } from '../declarations/CheckoutSubscriptionTerms.js';
+export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
+export type { CheckoutSubscriptionRecurringShipping } from '../declarations/CheckoutSubscriptionRecurringShipping.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
@@ -574,6 +578,7 @@ export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEli
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeBuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../declarations/makeBuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../declarations/makeBuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../declarations/makeCheckoutGiftCardChallenge.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
 export { makeCheckoutMerchantSupport } from '../declarations/makeCheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
@@ -592,6 +597,8 @@ export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblem
 export { makeCheckoutPromotionConfig } from '../declarations/makeCheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirectsConfig.js';
 export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
+export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../declarations/makeCheckoutSubscriptionRecurringShipping.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';

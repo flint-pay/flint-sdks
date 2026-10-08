@@ -4,16 +4,20 @@ namespace Flint;
 /**
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
+ * @property-read list<SubscriptionIntervalOption> $billing_interval_options
  * @property-read int $contract_term_months
  * @property-read MoneyValue $early_termination_fee_money
  * @property-read string $plan_name
+ * @property-read int $quantity
+ * @property-read list<int> $quantity_options
+ * @property-read CheckoutSubscriptionRecurringShipping $recurring_shipping
  * @property-read MoneyValue $recurring_total_money
  * @property-read MoneyValue $setup_fee_money
  * @property-read string $subscription_plan_id
  * @property-read int $trial_period_days
  * Presence-aware response; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTerms extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'early_termination_fee_money'?: mixed, 'plan_name': string, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'early_termination_fee_money'?: mixed, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTerms')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -25,6 +29,11 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
+    /** @return list<SubscriptionIntervalOption>
+     * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
+     */
+    public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
+    public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
     /** @return int
      * @throws SdkError When contract_term_months is omitted; use hasContractTermMonths() or valueOrDefault().
      */
@@ -40,6 +49,21 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
+    /** @return int
+     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
+     */
+    public function getQuantity(): int { return $this->get('quantity'); }
+    public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** @return list<int>
+     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
+     */
+    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
+    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
+    /** @return CheckoutSubscriptionRecurringShipping
+     * @throws SdkError When recurring_shipping is omitted; use hasRecurringShipping() or valueOrDefault().
+     */
+    public function getRecurringShipping(): CheckoutSubscriptionRecurringShipping { return $this->get('recurring_shipping'); }
+    public function hasRecurringShipping(): bool { return $this->has('recurring_shipping'); }
     /** @return MoneyValue
      * @throws SdkError When recurring_total_money is omitted; use hasRecurringTotalMoney() or valueOrDefault().
      */

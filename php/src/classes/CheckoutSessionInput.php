@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read LegalSettingsInput|array<array-key, mixed>|\stdClass $legal
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $order_id
+ * @property-read string $page_origin
  * @property-read CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
  * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass $redirects
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionInput extends Model {
-    /** @param array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_collection'?: CheckoutCustomerConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'expiration'?: CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'legal'?: LegalSettingsInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass, 'surface': string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionInput')); }
     /** @return CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_contact is omitted; use hasBuyerContact() or valueOrDefault().
@@ -67,6 +68,11 @@ final class CheckoutSessionInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** @return string
+     * @throws SdkError When page_origin is omitted; use hasPageOrigin() or valueOrDefault().
+     */
+    public function getPageOrigin(): string { return $this->get('page_origin'); }
+    public function hasPageOrigin(): bool { return $this->has('page_origin'); }
     /** @return CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */

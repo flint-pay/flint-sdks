@@ -1,0 +1,1 @@
+{"shared":"CheckoutGiftCardChallenge","phpRepresentation":{"kind":"record","fields":{"url":{"kind":"value","type":"string"}}},"dependencies":["CheckoutGiftCardChallenge"]}

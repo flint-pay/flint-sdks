@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import settings from '../descriptors/settings.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPlan"]:r0,["deleteSubscriptionPlan"]:r0,["getSubscriptionPlan"]:r0,["listSubscriptionPlans"]:r0,["updateSubscriptionPlan"]:r0});
 export class Client {
@@ -134,7 +134,11 @@ export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeSubscriptionDeliveryMethodCounts } from '../models/SubscriptionDeliveryMethodCounts.js';
+export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
 export { makeImage } from '../models/Image.js';
+export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeBundleComponent } from '../models/BundleComponent.js';
 export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
@@ -142,4 +146,5 @@ export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
 export { makeCategoryReference } from '../models/CategoryReference.js';
 export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';

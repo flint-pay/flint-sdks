@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $origin
  * @property-read string $query
  * @property-read string $subscription_id
+ * @property-read bool $subscription_delivery_changed
  * @property-read string $return_id
  * @property-read string $return_resolution_id
  * @property-read string $min_amount
@@ -26,7 +27,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListOrdersInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'payment_status'?: string|list<string>, 'refund_status'?: list<string>, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'payment_status'?: string|list<string>, 'refund_status'?: list<string>, 'fulfillment_status'?: list<string>, 'order_number'?: string, 'external_reference_id'?: string, 'origin'?: string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListOrdersInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -83,6 +84,11 @@ final class MeListOrdersInput extends Model {
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
+    /** @return bool
+     * @throws SdkError When subscription_delivery_changed is omitted; use hasSubscriptionDeliveryChanged() or valueOrDefault().
+     */
+    public function getSubscriptionDeliveryChanged(): bool { return $this->get('subscription_delivery_changed'); }
+    public function hasSubscriptionDeliveryChanged(): bool { return $this->has('subscription_delivery_changed'); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */

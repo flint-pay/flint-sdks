@@ -1,0 +1,1 @@
+{"shared":"SubscriptionDeliveryMigrationFailureReasonCount","phpRepresentation":{"kind":"record","fields":{"count":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionDeliveryMigrationFailureReasonCount"]}
