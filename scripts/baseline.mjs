@@ -146,7 +146,7 @@ const stage = baselineOutput + ".stage-" + randomUUID();
 try {
   console.log(`Reconstructing compatibility baseline from ${tag} (${commit}).`);
   run(process.execPath, [
-    "--max-old-space-size=3072",
+    "--max-old-space-size=8192",
     join(previousGenerator, "dist/cli.js"),
     "generate",
     join(source, "spec/openapi.json"),

@@ -1,1 +1,1 @@
-{"shared":"Webhook_subscription_payment_succeeded_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec161","SharedCodec237","Webhook_subscription_payment_succeeded_merchant"]}
+{"shared":"Webhook_subscription_payment_succeeded_merchant","dependencies":["DeliveryRecipientResource","MerchantWebhookEnvelope","MoneyValue","PostalAddress","SharedCodec170","SharedCodec246","SharedCodec294","SubscriptionAddressVerification","SubscriptionDelivery","SubscriptionDeliveryDestination","SubscriptionDeliveryMethodSummary","Webhook_subscription_payment_succeeded_merchant"]}

@@ -1,0 +1,1 @@
+{"shared":"SubscriptionDeliveryMigrationFailure","phpRepresentation":{"kind":"record","fields":{"message":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"},"subscription_id":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionDeliveryMigrationFailure"]}

@@ -1,1 +1,1 @@
-{"shared":"CheckoutSubscriptionTerms","dependencies":["CheckoutSubscriptionTerms","MoneyValue"]}
+{"shared":"CheckoutSubscriptionTerms","dependencies":["CheckoutSubscriptionRecurringShipping","CheckoutSubscriptionTerms","MoneyValue","SubscriptionIntervalOption"]}

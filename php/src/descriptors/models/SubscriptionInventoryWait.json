@@ -1,0 +1,1 @@
+{"shared":"SubscriptionInventoryWait","phpRepresentation":{"kind":"record","fields":{"invoice_id":{"kind":"value","type":"string"},"order_id":{"kind":"value","type":"string"},"started_at":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionInventoryWait"]}

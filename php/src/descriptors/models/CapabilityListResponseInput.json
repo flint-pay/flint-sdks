@@ -1,1 +1,1 @@
-{"shared":"CapabilityListResponse","dependencies":["Capability","CapabilityListResponse","CapabilityRequirements","MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec448"]}
+{"shared":"CapabilityListResponse","dependencies":["Capability","CapabilityListResponse","CapabilityRequirements","MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec466"]}

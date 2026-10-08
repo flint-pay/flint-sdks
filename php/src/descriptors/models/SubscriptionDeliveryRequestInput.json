@@ -1,0 +1,1 @@
+{"shared":"SubscriptionDeliveryRequest","dependencies":["DeliverySelectionRecipientRequest","OrderDeliveryDestinationAddressRequest","SharedCodec582","SharedCodec583","SubscriptionDeliveryDestinationRequest","SubscriptionDeliveryRequest"]}

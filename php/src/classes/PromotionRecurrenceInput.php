@@ -6,8 +6,8 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionRecurrenceInput extends Model {
-    /** @param array{'period_count'?: int, 'type': string, ...}|object $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRecurrenceInput')); }
+    /** @param mixed $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRecurrenceInput')); }
     /** @return int
      * @throws SdkError When period_count is omitted; use hasPeriodCount() or valueOrDefault().
      */

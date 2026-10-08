@@ -1,1 +1,1 @@
-{"shared":"InventoryCount","dependencies":["CountProvenance","InventoryCount","InventoryCountLine","InventorySourceSystem","SharedCodec40"]}
+{"shared":"InventoryCount","dependencies":["CountProvenance","InventoryCount","InventoryCountLine","InventorySourceSystem","SharedCodec42"]}

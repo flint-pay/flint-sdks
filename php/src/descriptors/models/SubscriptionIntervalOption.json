@@ -1,0 +1,1 @@
+{"shared":"SubscriptionIntervalOption","phpRepresentation":{"kind":"record","fields":{"billing_interval":{"kind":"value","type":"string"},"billing_interval_count":{"kind":"value","type":"int"}}},"dependencies":["SubscriptionIntervalOption"]}

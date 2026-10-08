@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read DeliveryPostalCodeConditionInput|array<array-key, mixed>|\stdClass $postal_code
  * @property-read DeliveryRadiusConditionInput|array<array-key, mixed>|\stdClass $radius
  * @property-read DeliveryStateConditionInput|array<array-key, mixed>|\stdClass $state
+ * @property-read DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass $subscription_purchase
  * @property-read DeliveryWindowTimeConditionInput|array<array-key, mixed>|\stdClass $window_time
  * @property-read DeliveryZoneConditionInput|array<array-key, mixed>|\stdClass $zone
  * Presence-aware input; omitted fields throw when accessed. */
@@ -74,6 +75,11 @@ final class DeliveryEligibilityExpressionInput extends Model {
      */
     public function getState(): mixed { return $this->get('state'); }
     public function hasState(): bool { return $this->has('state'); }
+    /** @return DeliveryCustomerBooleanConditionInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When subscription_purchase is omitted; use hasSubscriptionPurchase() or valueOrDefault().
+     */
+    public function getSubscriptionPurchase(): mixed { return $this->get('subscription_purchase'); }
+    public function hasSubscriptionPurchase(): bool { return $this->has('subscription_purchase'); }
     /** @return DeliveryWindowTimeConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When window_time is omitted; use hasWindowTime() or valueOrDefault().
      */

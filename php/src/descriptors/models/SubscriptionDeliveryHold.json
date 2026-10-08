@@ -1,0 +1,1 @@
+{"shared":"SubscriptionDeliveryHold","phpRepresentation":{"kind":"record","fields":{"ends_at":{"kind":"value","type":"string"},"fixable_by":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"},"started_at":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionDeliveryHold"]}

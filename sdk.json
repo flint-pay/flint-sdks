@@ -176,6 +176,142 @@
           "gift_card_id": "gc_01JZXK4G8Q5V3N7M2P9R6T1W0Y"
         }
       }
+    },
+    "changeMeSubscriptionBillingInterval": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "body": {
+          "billing_interval": "monthly",
+          "billing_interval_count": 1
+        }
+      }
+    },
+    "changeMeSubscriptionDelivery": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "body": {
+          "delivery": {
+            "type": "shipment",
+            "delivery_method_id": "dmet_01J00000000000000000000001",
+            "destination": {
+              "type": "customer_address",
+              "customer_address_id": "caddr_01J00000000000000000000001"
+            }
+          }
+        }
+      }
+    },
+    "changeMeSubscriptionQuantity": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "body": {
+          "quantity": 2
+        }
+      }
+    },
+    "createMeSubscriptionPreview": {
+      "example": {
+        "body": {
+          "mode": "delivery_options",
+          "subscription_id": "sub_01J00000000000000000000001",
+          "destination": {
+            "type": "customer_address",
+            "customer_address_id": "caddr_01J00000000000000000000001"
+          }
+        }
+      }
+    },
+    "updateMeSubscriptionLineItem": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "subscription_line_item_id": "sli_01J00000000000000000000001",
+        "body": {
+          "variant_id": "var_01J00000000000000000000001"
+        }
+      }
+    },
+    "renewMeSubscription": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "Idempotency-Key": "synthetic-subscription-renewal",
+        "body": {}
+      }
+    },
+    "skipMeSubscriptionCycle": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "body": {}
+      }
+    },
+    "createSubscriptionDeliveryMigration": {
+      "example": {
+        "Idempotency-Key": "synthetic-delivery-migration",
+        "body": {
+          "from_delivery_method_id": "dmet_01J00000000000000000000001",
+          "to_delivery_method_id": "dmet_01J00000000000000000000002"
+        }
+      }
+    },
+    "createSubscriptionLineItem": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "body": {
+          "variant_id": "var_01J00000000000000000000001",
+          "quantity": 1
+        }
+      }
+    },
+    "updateSubscriptionLineItem": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "subscription_line_item_id": "sli_01J00000000000000000000001",
+        "body": {
+          "quantity": 2
+        }
+      }
+    },
+    "createSubscriptionPreview": {
+      "example": {
+        "body": {
+          "mode": "delivery_options",
+          "subscription_id": "sub_01J00000000000000000000001",
+          "destination": {
+            "type": "customer_address",
+            "customer_address_id": "caddr_01J00000000000000000000001"
+          }
+        }
+      }
+    },
+    "createSubscriptionOffer": {
+      "example": {
+        "body": {
+          "name": "Monthly product subscription",
+          "billing_interval_options": [
+            {
+              "billing_interval": "monthly",
+              "billing_interval_count": 1
+            }
+          ],
+          "product_ids": [
+            "prod_01J00000000000000000000001"
+          ]
+        }
+      }
+    },
+    "updateSubscriptionOffer": {
+      "example": {
+        "subscription_offer_id": "soffer_01J00000000000000000000001",
+        "body": {
+          "status": "active"
+        }
+      }
+    },
+    "renewSubscription": {
+      "example": {
+        "subscription_id": "sub_01J00000000000000000000001",
+        "Idempotency-Key": "synthetic-subscription-renewal",
+        "body": {}
+      }
     }
   },
   "auth": {

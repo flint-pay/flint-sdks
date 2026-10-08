@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261007031000; API 2026-09-07.
+Package 3.0.0-beta.20261008013000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -102,7 +102,10 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [settings](#resource-settings)
 - [shipments](#resource-shipments)
 - [specification](#resource-specification)
+- [subscriptionDeliveryMigrations](#resource-subscriptiondeliverymigrations)
+- [subscriptionOffers](#resource-subscriptionoffers)
 - [subscriptionPlans](#resource-subscriptionplans)
+- [subscriptionPreviews](#resource-subscriptionpreviews)
 - [subscriptions](#resource-subscriptions)
 - [webhookDeliveries](#resource-webhookdeliveries)
 - [webhookEndpoints](#resource-webhookendpoints)
@@ -2116,7 +2119,7 @@ $client->close();
 
 ### checkoutSessions.update
 
-Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
+Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. On a session with a subscription_plan_id, either credential can send subscription_terms with the buyer's billing interval and quantity while the session is open and no payment is in progress; a change reprices the signup order and releases the delivery selection. The session's own checkout credential can also send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
 
 `PATCH /v1/checkout-sessions/{checkout_session_id}`
 
@@ -2145,6 +2148,10 @@ array{
     null>|
     \stdClass|
     null,
+    'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'timezone'?: string,
     ...
   }|
@@ -12366,6 +12373,7 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
+    'page_origin'?: string,
     'redirects'?: CheckoutRedirectsConfigInput|
     array<array-key,
     mixed>|
@@ -13778,6 +13786,100 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-cancelSubscription.php)
 
 
+### me.changeSubscriptionBillingInterval
+
+Changes future renewals to an interval currently offered by the subscription plan or frozen offer. Requires a full buyer session, billing_interval, and billing_interval_count. Send expected_version to reject concurrent changes.
+
+`POST /v1/me/subscriptions/{subscription_id}/billing-interval`
+
+Call: `changeSubscriptionBillingInterval(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'billing_interval': string,
+    'billing_interval_count': int,
+    'expected_version'?: string
+  }|
+  object
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionBillingIntervalWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionBillingInterval.php)
+
+
+### me.changeSubscriptionDelivery
+
+Saves an offered delivery method and destination for future renewals when buyer delivery changes are enabled. Requires a full buyer session. Send expected_version to reject concurrent changes. A paid shipment already in progress keeps its destination.
+
+`POST /v1/me/subscriptions/{subscription_id}/delivery`
+
+Call: `changeSubscriptionDelivery(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'delivery': SubscriptionDeliveryRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
+    'expected_version'?: string
+  }|
+  object
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionDeliveryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionDelivery.php)
+
+
 ### me.changeSubscriptionPaymentMethod
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session.
@@ -13823,6 +13925,51 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-changeSubscriptionPaymentMethod.php)
+
+
+### me.changeSubscriptionQuantity
+
+Changes future renewals to a quantity currently offered by the subscription plan or frozen offer. Requires a full buyer session. Send expected_version to reject concurrent changes. Delivery eligibility is checked for the new quantity.
+
+`POST /v1/me/subscriptions/{subscription_id}/quantity`
+
+Call: `changeSubscriptionQuantity(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'expected_version'?: string,
+    'quantity': int
+  }|
+  object
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionQuantityWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionQuantity.php)
 
 
 ### me.confirmEmailChangeRequest
@@ -14040,6 +14187,7 @@ array{
   'Flint-Version'?: string,
   'body'?: array{
     'invoice_schedule_entry_id'?: string,
+    'page_origin'?: string,
     'redirects'?: CheckoutRedirectsConfigInput|
     array<array-key,
     mixed>|
@@ -14169,6 +14317,7 @@ array{
   'Idempotency-Key'?: string,
   'Flint-Version'?: string,
   'body'?: array{
+    'page_origin'?: string,
     'redirects'?: RedirectsInput|
     array<array-key,
     mixed>|
@@ -14231,6 +14380,56 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
 [Example](examples/me-createSubscriptionPaymentRetry.php)
+
+
+### me.createSubscriptionPreview
+
+Lists currently offered delivery methods and rates for a buyer's proposed destination without changing the subscription. Requires a full buyer session. A preview does not reserve a method or shipping rate.
+
+`POST /v1/me/subscription-previews`
+
+Call: `createSubscriptionPreview(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'Flint-Version'?: string,
+  'body': array{
+    'destination': SubscriptionDeliveryDestinationRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
+    'mode': string,
+    'subscription_id': string
+  }|
+  object
+}
+```
+
+Returned payload:
+
+```text
+MeCreateSubscriptionPreviewResponse200DataCreate|
+MeCreateSubscriptionPreviewResponse200DataDeliveryOptions|
+MeCreateSubscriptionPreviewResponse200DataDeliveryMethodUpdate|
+\stdClass
+```
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createSubscriptionPreviewWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/me-createSubscriptionPreview.php)
 
 
 ### me.deleteAddress
@@ -15667,6 +15866,7 @@ array{
   'origin'?: string,
   'query'?: string,
   'subscription_id'?: string,
+  'subscription_delivery_changed'?: bool,
   'return_id'?: string,
   'return_resolution_id'?: string,
   'min_amount'?: string,
@@ -15701,6 +15901,7 @@ Returned payload: `MeListOrdersResponse200`
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
 | `query` | Optional | string |  |
 | `subscription_id` | Optional | string |  |
+| `subscription_delivery_changed` | Optional | boolean |  |
 | `return_id` | Optional | string |  |
 | `return_resolution_id` | Optional | string |  |
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
@@ -16570,6 +16771,9 @@ array{
   'billing_schedule_owner'?: string,
   'awaiting_billing_schedule'?: bool,
   'cancel_at_period_end'?: bool,
+  'delivery_method_id'?: string,
+  'hold_reason'?: string,
+  'subscription_offer_id'?: string,
   'subscription_plan_id'?: string,
   'sort_by'?: string,
   'sort_direction'?: string,
@@ -16600,6 +16804,9 @@ Returned payload: `MeListSubscriptionsResponse200`
 | `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. |
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
+| `delivery_method_id` | Optional | string |  |
+| `hold_reason` | Optional | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `subscription_offer_id` | Optional | string |  |
 | `subscription_plan_id` | Optional | string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
 | `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
@@ -16828,6 +17035,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-removePaymentMethod.php)
 
 
+### me.renewSubscription
+
+Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires a full buyer session and Idempotency-Key. Send expected_version to reject concurrent changes. Retry with the same key to recover the same attempt.
+
+`POST /v1/me/subscriptions/{subscription_id}/renew`
+
+Call: `renewSubscription(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string}|object}`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `renewSubscriptionWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-renewSubscription.php)
+
+
 ### me.resumeSubscription
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
@@ -17054,6 +17293,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-setDefaultPaymentMethod.php)
 
 
+### me.skipSubscriptionCycle
+
+Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available when buyer skipping is enabled and the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer session. Send expected_version to reject concurrent changes.
+
+`POST /v1/me/subscriptions/{subscription_id}/skip-cycle`
+
+Call: `skipSubscriptionCycle(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string}|object}`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `skipSubscriptionCycleWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-skipSubscriptionCycle.php)
+
+
 ### me.update
 
 Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses.
@@ -17197,6 +17468,53 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-updateEmailPreferences.php)
+
+
+### me.updateSubscriptionLineItem
+
+Swaps a subscription line to an offered variant for future renewals. Requires a full buyer session. Send expected_version to reject concurrent changes. The replacement must remain deliverable to the subscription destination.
+
+`PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `updateSubscriptionLineItem(string|Model $subscription_id, string|Model $subscription_line_item_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'subscription_line_item_id': string,
+  'Flint-Version'?: string,
+  'body': array{
+    'expected_version'?: string,
+    'variant_id': string
+  }|
+  object
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateSubscriptionLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-updateSubscriptionLineItem.php)
 
 
 ## Resource: merchantAccountSessions
@@ -19325,6 +19643,7 @@ array{
   'origin'?: string,
   'query'?: string,
   'subscription_id'?: string,
+  'subscription_delivery_changed'?: bool,
   'return_id'?: string,
   'return_resolution_id'?: string,
   'min_amount'?: string,
@@ -19360,6 +19679,7 @@ Returned payload: `OrdersListResponse200`
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
 | `query` | Optional | string |  |
 | `subscription_id` | Optional | string |  |
+| `subscription_delivery_changed` | Optional | boolean |  |
 | `return_id` | Optional | string |  |
 | `return_resolution_id` | Optional | string |  |
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
@@ -20029,7 +20349,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.update
 
-Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip.
+Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order_revision. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED returns the reason and computed shipping and tax amounts when the correction would change the paid totals.
 
 `PATCH /v1/orders/{order_id}`
 
@@ -20073,6 +20393,7 @@ array{
     null>|
     \stdClass|
     null,
+    'order_revision'?: string,
     'requested_tip'?: mixed,
     'tax'?: OrderTaxRequestInput|
     array<array-key,
@@ -20176,7 +20497,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.updateLineItem
 
-Updates a single line item on an order. Send gift_card_recipient and expected_version to replace or clear recipient delivery details before any purchase funding. Checkout credentials can update recipient details or modifiers, each with expected_version.
+Updates a single line item on an order. Send gift_card_recipient and expected_version to replace or clear recipient delivery details before any purchase funding. Checkout credentials can update recipient details, modifiers, or a line subscription offer selection, each with expected_version. Set subscription to null to buy the line once.
 
 `PATCH /v1/orders/{order_id}/line-items/{order_line_item_id}`
 
@@ -26811,6 +27132,7 @@ array{
   'Idempotency-Key'?: string,
   'Flint-Version'?: string,
   'body'?: array{
+    'page_origin'?: string,
     'redirects'?: RedirectsInput|
     array<array-key,
     mixed>|
@@ -29313,10 +29635,25 @@ array{
     array<array-key,
     mixed>|
     \stdClass,
-    'customer_account'?: CustomerAccountSettingsInput|
-    array<array-key,
-    mixed>|
-    \stdClass,
+    'customer_account'?: array{
+      'buyer_capabilities'?: BuyerCapabilitiesInput|
+      array<array-key,
+      mixed>|
+      \stdClass,
+      'merchant_account_url'?: string,
+      'mode'?: string,
+      'presentation'?: CustomerAccountPresentationInput|
+      array<array-key,
+      mixed>|
+      \stdClass,
+      'route_templates'?: CustomerAccountRouteTemplatesInput|
+      array<array-key,
+      mixed>|
+      \stdClass,
+      ...
+    }|
+    object|
+    null,
     'customer_email_delivery'?: CustomerEmailDeliverySettingsInput|
     array<array-key,
     mixed>|
@@ -29857,6 +30194,562 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 [Example](examples/specification-get.php)
 
 
+## Resource: subscriptionDeliveryMigrations
+
+### subscriptionDeliveryMigrations.create
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`POST /v1/subscription-delivery-migrations`
+
+Call: `create(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'from_delivery_method_id': string,
+    'subscription_plan_id'?: string,
+    'to_delivery_method_id': string
+  }|
+  object
+}
+```
+
+Returned payload: `SubscriptionDeliveryMigration`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required idempotency key for safe retries of this migration..
+
+[Example](examples/subscriptionDeliveryMigrations-create.php)
+
+
+### subscriptionDeliveryMigrations.get
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
+
+Call: `get(string|Model $subscription_delivery_migration_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_delivery_migration_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_delivery_migration_id': string, 'Flint-Version'?: string}`
+
+Returned payload: `SubscriptionDeliveryMigration`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_delivery_migration_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-get.php)
+
+
+### subscriptionDeliveryMigrations.list
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations`
+
+Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'page_size'?: int, 'page_token'?: string, 'from_delivery_method_id'?: string, 'status'?: string, 'Flint-Version'?: string}`
+
+Returned payload: `SubscriptionDeliveryMigrationsListResponse200`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `from_delivery_method_id` | Optional | string |  |
+| `status` | Optional | string | Values: `"pending"`, `"running"`, `"completed"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-list.php)
+
+#### subscriptionDeliveryMigrations.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listItems([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+  // Process $item before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionDeliveryMigrations.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listPages([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'data'} before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionDeliveryMigrations.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listPagesWithResponse([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'body'}->{'data'} before requesting the next page.
+  echo $page->meta['requestId'] ?? '';
+}
+$client->close();
+```
+
+
+### subscriptionDeliveryMigrations.listFailures
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures`
+
+Call: `listFailures(string|Model $subscription_delivery_migration_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_delivery_migration_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_delivery_migration_id': string, 'page_size'?: int, 'page_token'?: string, 'reason'?: string, 'Flint-Version'?: string}`
+
+Returned payload: `SubscriptionDeliveryMigrationsListFailuresResponse200`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_delivery_migration_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `reason` | Optional | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listFailuresWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-listFailures.php)
+
+#### subscriptionDeliveryMigrations.listFailuresItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listFailuresItems('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+  // Process $item before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionDeliveryMigrations.listFailuresPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listFailuresPages('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'data'} before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionDeliveryMigrations.listFailuresPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionDeliveryMigrations->listFailuresPagesWithResponse('example', [], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'body'}->{'data'} before requesting the next page.
+  echo $page->meta['requestId'] ?? '';
+}
+$client->close();
+```
+
+
+## Resource: subscriptionOffers
+
+### subscriptionOffers.create
+
+Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`POST /v1/subscription-offers`
+
+Call: `create(array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'billing_interval_options': list<array{
+      'billing_interval': string,
+      'billing_interval_count': int
+    }|
+    object>,
+    'metadata'?: array<array-key,
+    string>|
+    \stdClass,
+    'name': string,
+    'product_ids'?: list<string>,
+    'promotion_id'?: string|
+    null,
+    'status'?: string,
+    'subscription_delivery_method_ids'?: list<string>,
+    'variant_ids'?: list<string>
+  }|
+  object
+}
+```
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-create.php)
+
+
+### subscriptionOffers.get
+
+Get subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`GET /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `get(string|Model $subscription_offer_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_offer_id': string, 'Flint-Version'?: string}`
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionOffers-get.php)
+
+
+### subscriptionOffers.list
+
+List subscription offers. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`GET /v1/subscription-offers`
+
+Call: `list(array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'page_size'?: int,
+  'page_token'?: string,
+  'status'?: string,
+  'product_id'?: string,
+  'variant_id'?: string,
+  'query'?: string,
+  'sort_by'?: string,
+  'sort_direction'?: string,
+  'Flint-Version'?: string
+}
+```
+
+Returned payload: `SubscriptionOffersListResponse200`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`, `"archived"`. |
+| `product_id` | Optional | string |  |
+| `variant_id` | Optional | string |  |
+| `query` | Optional | string |  |
+| `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"name"`. |
+| `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionOffers-list.php)
+
+#### subscriptionOffers.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionOffers->listItems([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $item) {
+  // Process $item before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionOffers.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionOffers->listPages([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'data'} before requesting the next page.
+}
+$client->close();
+```
+
+#### subscriptionOffers.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```php
+<?php
+declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('API_BASE_URL');
+if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  token: getenv('API_TOKEN') ?: '',
+));
+foreach ($client->subscriptionOffers->listPagesWithResponse([], new RequestOptions(maxPages: 10, maxItems: 1000, deadlineMs: 60000)) as $page) {
+  // Process $page->{'body'}->{'data'} before requesting the next page.
+  echo $page->meta['requestId'] ?? '';
+}
+$client->close();
+```
+
+
+### subscriptionOffers.remove
+
+Archive subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`DELETE /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `remove(string|Model $subscription_offer_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_offer_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string}`
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-remove.php)
+
+
+### subscriptionOffers.update
+
+Update subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`PATCH /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `update(string|Model $subscription_offer_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_offer_id': string,
+  'Idempotency-Key'?: string,
+  'Flint-Version'?: string,
+  'body': array{
+    'billing_interval_options'?: list<array{
+      'billing_interval': string,
+      'billing_interval_count': int
+    }|
+    object>,
+    'expected_version'?: string,
+    'metadata'?: array<array-key,
+    string|
+    null>|
+    \stdClass|
+    null,
+    'name'?: string,
+    'product_ids'?: list<string>,
+    'promotion_id'?: string|
+    null,
+    'status'?: string,
+    'subscription_delivery_method_ids'?: list<string>,
+    'variant_ids'?: list<string>
+  }|
+  object
+}
+```
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-update.php)
+
+
 ## Resource: subscriptionPlans
 
 ### subscriptionPlans.create
@@ -29879,6 +30772,10 @@ array{
   'body': array{
     'billing_interval': string,
     'billing_interval_count': int,
+    'billing_interval_options'?: list<SubscriptionIntervalOptionInput|
+    array<array-key,
+    mixed>|
+    \stdClass>,
     'contract_term_months'?: int,
     'currency': string,
     'description'?: string,
@@ -29891,6 +30788,10 @@ array{
     array<array-key,
     mixed>|
     \stdClass>,
+    'inventory_routing_source'?: InventoryRoutingSourceRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
     'line_items'?: list<SubscriptionPlanLineItemRequestInput|
     array<array-key,
     mixed>|
@@ -29899,10 +30800,12 @@ array{
     string>|
     \stdClass,
     'name': string,
+    'quantity_options'?: list<int>,
     'setup_fee_money'?: MoneyValueInput|
     array<array-key,
     mixed>|
     \stdClass,
+    'subscription_delivery_method_ids'?: list<string>,
     'trial_period_days'?: int,
     ...
   }|
@@ -30120,7 +31023,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptionPlans.update
 
-Applies a sparse update to mutable subscription plan fields. Line items are mutated through the subscription plan line-item endpoints.
+Applies a sparse update to mutable subscription plan fields. Send line_items with expected_version to replace the plan's line items; omit line_items to keep them.
 
 `PATCH /v1/subscription-plans/{subscription_plan_id}`
 
@@ -30149,6 +31052,71 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/subscriptionPlans-update.php)
+
+
+## Resource: subscriptionPreviews
+
+### subscriptionPreviews.create
+
+Evaluates a proposed subscription, delivery destination, or delivery method update without saving changes. Malformed JSON, unknown fields and request-level problems (a missing or unsupported mode, fields that belong to another mode) return 400. In create mode, every problem with the proposed subscription is returned in errors with is_valid false, not only the first. A preview does not reserve inventory or guarantee a future shipping rate.
+
+`POST /v1/subscription-previews`
+
+Input:
+
+```text
+array{
+  'Flint-Version'?: string,
+  'body': array{
+    'destination': SubscriptionDeliveryDestinationRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
+    'mode': string,
+    'subscription_id': string
+  }|
+  object|
+  array{
+    'mode': string,
+    'subscription': CreateSubscriptionRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass
+  }|
+  object|
+  array{
+    'delivery_method': UpdateDeliveryMethodRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
+    'delivery_method_id': string,
+    'mode': string
+  }|
+  object
+}
+```
+
+Returned payload:
+
+```text
+SubscriptionPreviewsCreateResponse200DataCreate|
+SubscriptionPreviewsCreateResponse200DataDeliveryOptions|
+SubscriptionPreviewsCreateResponse200DataDeliveryMethodUpdate|
+\stdClass
+```
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionPreviews-create.php)
 
 
 ## Resource: subscriptions
@@ -30314,6 +31282,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/subscriptions-createAccessLink.php)
 
 
+### subscriptions.createLineItem
+
+Adds a catalog variant or bundle to future subscription renewals. Current prices and delivery eligibility are checked before the line is saved. Already-created orders keep their lines.
+
+`POST /v1/subscriptions/{subscription_id}/line-items`
+
+Call: `createLineItem(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': mixed}`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-createLineItem.php)
+
+
 ### subscriptions.createPaymentRetry
 
 Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome.
@@ -30345,6 +31345,49 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
 [Example](examples/subscriptions-createPaymentRetry.php)
+
+
+### subscriptions.deleteLineItem
+
+Removes a line from future subscription renewals. The final line cannot be removed. Send expected_version as a query parameter to reject a concurrent change.
+
+`DELETE /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `deleteLineItem(string|Model $subscription_id, string|Model $subscription_line_item_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'subscription_line_item_id': string,
+  'expected_version'?: string,
+  'Flint-Version'?: string
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `deleteLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-deleteLineItem.php)
 
 
 ### subscriptions.get
@@ -30438,6 +31481,9 @@ array{
   'awaiting_billing_schedule'?: bool,
   'cancel_at_period_end'?: bool,
   'customer_id'?: string,
+  'delivery_method_id'?: string,
+  'hold_reason'?: string,
+  'subscription_offer_id'?: string,
   'subscription_plan_id'?: string,
   'external_reference_id'?: string,
   'query'?: string,
@@ -30472,6 +31518,9 @@ Returned payload: `SubscriptionsListResponse200`
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
 | `customer_id` | Optional | string |  |
+| `delivery_method_id` | Optional | string |  |
+| `hold_reason` | Optional | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `subscription_offer_id` | Optional | string |  |
 | `subscription_plan_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string |  |
@@ -30734,6 +31783,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/subscriptions-reactivate.php)
 
 
+### subscriptions.renew
+
+Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires Idempotency-Key; retry with the same key to recover the same attempt. Returns the resulting subscription after collection.
+
+`POST /v1/subscriptions/{subscription_id}/renew`
+
+Call: `renew(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `array{'subscription_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string}|object}`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `renewWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-renew.php)
+
+
 ### subscriptions.resume
 
 Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
@@ -30768,7 +31849,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.skipCycle
 
-Moves the next billing date forward by one plan interval without charging the current cycle.
+Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available while the subscription is active, is not set to cancel at the end of its period, and has a next billing date.
 
 `POST /v1/subscriptions/{subscription_id}/skip-cycle`
 
@@ -30785,6 +31866,7 @@ array{
   'X-Request-Id'?: string,
   'Flint-Version'?: string,
   'body': array{
+    'expected_version'?: string,
     'initiated_by'?: string
   }|
   object
@@ -30814,7 +31896,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.update
 
-Updates subscription metadata and external_reference_id. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
+Updates metadata, external_reference_id, delivery, billing interval and quantity. A delivery change is checked with a delivery preview before it is saved. Send billing_interval and billing_interval_count together. The billing interval and quantity must be offered by the subscription plan or frozen offer, and apply from the next renewal. Send expected_version to reject concurrent changes. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
@@ -30831,12 +31913,20 @@ array{
   'X-Request-Id'?: string,
   'Flint-Version'?: string,
   'body': array{
+    'billing_interval'?: string,
+    'billing_interval_count'?: int,
+    'delivery'?: SubscriptionDeliveryRequestInput|
+    array<array-key,
+    mixed>|
+    \stdClass,
+    'expected_version'?: string,
     'external_reference_id'?: string,
     'metadata'?: array<array-key,
     string|
     null>|
     \stdClass|
     null,
+    'quantity'?: int,
     ...
   }|
   object
@@ -30916,6 +32006,54 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/subscriptions-updateBillingSchedule.php)
+
+
+### subscriptions.updateLineItem
+
+Updates a subscription line for future renewals. Send expected_version to reject a concurrent change. Already-created orders keep their lines.
+
+`PATCH /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `updateLineItem(string|Model $subscription_id, string|Model $subscription_line_item_id, array|Model $params, ?RequestOptions $options = null)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```text
+array{
+  'subscription_id': string,
+  'Idempotency-Key'?: string,
+  'subscription_line_item_id': string,
+  'Flint-Version'?: string,
+  'body': array{
+    'expected_version'?: string,
+    'quantity'?: int,
+    'variant_id'?: string
+  }|
+  object
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-updateLineItem.php)
 
 
 ## Resource: webhookDeliveries
@@ -31490,7 +32628,7 @@ Returned payload: `WebhookEventsListResponse200`
 | `delivery_status` | Optional | string | Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string |  |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | string | Values: [206 declared values](#webhookeventslist-input-event_type-values). |
+| `event_type` | Optional | string | Values: [211 declared values](#webhookeventslist-input-event_type-values). |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookeventslist-input-resource_type-values). |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
@@ -31696,6 +32834,10 @@ Returned payload: `WebhookEventsListResponse200`
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -31706,6 +32848,7 @@ Returned payload: `WebhookEventsListResponse200`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -31925,7 +33068,7 @@ Response body (inside Result.data): `null`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | string | Values: [200 declared values](#webhookeventsstream-input-event_type-values). |
+| `event_type` | Optional | string | Values: [205 declared values](#webhookeventsstream-input-event_type-values). |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -32119,6 +33262,10 @@ Response body (inside Result.data): `null`
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -32129,6 +33276,7 @@ Response body (inside Result.data): `null`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`

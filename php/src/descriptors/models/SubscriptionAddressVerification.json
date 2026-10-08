@@ -1,0 +1,1 @@
+{"shared":"SubscriptionAddressVerification","phpRepresentation":{"kind":"record","fields":{"state":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionAddressVerification"]}

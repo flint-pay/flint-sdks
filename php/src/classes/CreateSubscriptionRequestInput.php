@@ -3,12 +3,16 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $billing_anchor_day
+ * @property-read string $billing_interval
+ * @property-read int $billing_interval_count
  * @property-read SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass $billing_schedule
  * @property-read SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass $billing_start
  * @property-read string $customer_id
+ * @property-read SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read string $external_reference_id
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $payment_method_id
+ * @property-read int $quantity
  * @property-read SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass $service_location
  * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
@@ -20,6 +24,16 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
+    /** @return string
+     * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
+     */
+    public function getBillingInterval(): string { return $this->get('billing_interval'); }
+    public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
+    /** @return int
+     * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
+     */
+    public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
+    public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
     /** @return SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When billing_schedule is omitted; use hasBillingSchedule() or valueOrDefault().
      */
@@ -35,6 +49,11 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
+     */
+    public function getDelivery(): mixed { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
     /** @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -50,6 +69,11 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** @return int
+     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
+     */
+    public function getQuantity(): int { return $this->get('quantity'); }
+    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** @return SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
      */

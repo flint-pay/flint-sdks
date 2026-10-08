@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read list<mixed> $modifiers
  * @property-read string $name
  * @property-read int $quantity
+ * @property-read list<string> $swap_variant_ids
  * @property-read OrderLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
@@ -39,6 +40,11 @@ final class SubscriptionPlanLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** @return list<string>
+     * @throws SdkError When swap_variant_ids is omitted; use hasSwapVariantIds() or valueOrDefault().
+     */
+    public function getSwapVariantIds(): array { return $this->get('swap_variant_ids'); }
+    public function hasSwapVariantIds(): bool { return $this->has('swap_variant_ids'); }
     /** @return OrderLineItemTaxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

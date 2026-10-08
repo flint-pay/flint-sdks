@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object $body
+ * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: mixed, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlansCreateInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object}|object $values */
+    /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: mixed, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlansCreateInput')); }
     /** @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
@@ -22,7 +22,7 @@ final class SubscriptionPlansCreateInput extends Model {
      */
     public function getFlintVersion(): string { return $this->get('Flint-Version'); }
     public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
-    /** @return array{'billing_interval': string, 'billing_interval_count': int, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'setup_fee_money'?: mixed, 'trial_period_days'?: int, ...}|object
+    /** @return array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images'?: list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: mixed, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

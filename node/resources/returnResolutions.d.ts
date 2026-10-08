@@ -61,9 +61,9 @@ export interface ReturnResolutionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnResolutions.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
+    getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
+    getOrCreateCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnResolutionsGetOrCreateCheckoutSessionResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds, payments, and replacement order. Supports expand for those links.
  * GET /v1/return-resolutions/{return_resolution_id}
@@ -209,6 +209,7 @@ export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligib
 export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/BuyerDeliveryQuoteChoiceGroupResource.js';
 export type { BuyerDeliveryInputRequirementResource } from '../declarations/BuyerDeliveryInputRequirementResource.js';
 export type { BuyerDeliveryOptionResource } from '../declarations/BuyerDeliveryOptionResource.js';
+export type { CheckoutGiftCardChallenge } from '../declarations/CheckoutGiftCardChallenge.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
 export type { CheckoutMerchantSupport } from '../declarations/CheckoutMerchantSupport.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
@@ -227,6 +228,8 @@ export type { CheckoutProblemResource } from '../declarations/CheckoutProblemRes
 export type { CheckoutPromotionConfig } from '../declarations/CheckoutPromotionConfig.js';
 export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsConfig.js';
 export type { CheckoutSubscriptionTerms } from '../declarations/CheckoutSubscriptionTerms.js';
+export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
+export type { CheckoutSubscriptionRecurringShipping } from '../declarations/CheckoutSubscriptionRecurringShipping.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
@@ -313,6 +316,7 @@ export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEli
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeBuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../declarations/makeBuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../declarations/makeBuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../declarations/makeCheckoutGiftCardChallenge.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
 export { makeCheckoutMerchantSupport } from '../declarations/makeCheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
@@ -331,6 +335,8 @@ export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblem
 export { makeCheckoutPromotionConfig } from '../declarations/makeCheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirectsConfig.js';
 export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
+export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../declarations/makeCheckoutSubscriptionRecurringShipping.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';

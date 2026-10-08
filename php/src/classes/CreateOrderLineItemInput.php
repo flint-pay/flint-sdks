@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read list<mixed> $modifiers
  * @property-read string $name
  * @property-read string $quantity
+ * @property-read SubscribedLineRequestInput|array<array-key, mixed>|\stdClass $subscription
  * @property-read OrderDraftLineItemTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
@@ -69,6 +70,11 @@ final class CreateOrderLineItemInput extends Model {
      */
     public function getQuantity(): string { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** @return SubscribedLineRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
+     */
+    public function getSubscription(): mixed { return $this->get('subscription'); }
+    public function hasSubscription(): bool { return $this->has('subscription'); }
     /** @return OrderDraftLineItemTaxRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

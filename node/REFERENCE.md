@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261007031000; API 2026-09-07.
+Package 3.0.0-beta.20261008013000; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -102,7 +102,10 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - [settings](#resource-settings)
 - [shipments](#resource-shipments)
 - [specification](#resource-specification)
+- [subscriptionDeliveryMigrations](#resource-subscriptiondeliverymigrations)
+- [subscriptionOffers](#resource-subscriptionoffers)
 - [subscriptionPlans](#resource-subscriptionplans)
+- [subscriptionPreviews](#resource-subscriptionpreviews)
 - [subscriptions](#resource-subscriptions)
 - [webhookDeliveries](#resource-webhookdeliveries)
 - [webhookEndpoints](#resource-webhookendpoints)
@@ -1788,7 +1791,7 @@ Creates a hosted or embedded checkout session for an order, quick-pay charge, or
 
 `POST /v1/checkout-sessions`
 
-Call: `create(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "subscription_plan_id"?: string; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "subscription_plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "subscription_plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "subscription_plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: CheckoutCustomerConfigInput; "delivery_method_ids"?: Array<string>; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "legal"?: LegalSettingsInput; "metadata"?: Record<string, string>; "order_id"?: string; "page_origin"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "quick_pay_item"?: CheckoutQuickPayItemRequestInput; "redirects"?: CheckoutRedirectsConfigInput; "replace_checkout_session_id"?: string; "subscription_plan_id"?: string; "subscription_terms"?: CheckoutSubscriptionTermsRequestInput; "surface"?: "hosted" | "embedded"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & ((({ "order_id": unknown; }) & (({ "quick_pay_item"?: never }) & ({ "subscription_plan_id"?: never }))) | (({ "quick_pay_item": unknown; }) & (({ "order_id"?: never }) & ({ "subscription_plan_id"?: never }) & ({ "replace_checkout_session_id"?: never }))) | (({ "subscription_plan_id": unknown; }) & (({ "order_id"?: never }) & ({ "quick_pay_item"?: never }) & ({ "replace_checkout_session_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -1809,12 +1812,14 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "metadata"?: Record<string,
     string>;
     "order_id"?: string;
+    "page_origin"?: string;
     "payments"?: CheckoutPaymentConfigInput;
     "promotion_config"?: CheckoutPromotionConfigInput;
     "quick_pay_item"?: CheckoutQuickPayItemRequestInput;
     "redirects"?: CheckoutRedirectsConfigInput;
     "replace_checkout_session_id"?: string;
     "subscription_plan_id"?: string;
+    "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
     "surface"?: "hosted" |
     "embedded";
     "tax"?: CheckoutTaxConfigInput;
@@ -2640,11 +2645,11 @@ for await (const page of client.checkoutSessions.listPagesWithResponse({}, { max
 
 ### checkoutSessions.update
 
-Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. The session's own checkout credential can send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
+Updates the mutable fields of a checkout session. A merchant credential can update metadata and external_reference_id, including after the session ends. On a session with a subscription_plan_id, either credential can send subscription_terms with the buyer's billing interval and quantity while the session is open and no payment is in progress; a change reprices the signup order and releases the delivery selection. The session's own checkout credential can also send buyer_contact and timezone while the session is open. The buyer_contact field saves the email and phone the buyer entered; send a contact field as null to clear it. The timezone field records the buyer's IANA time zone, which Flint uses for times in the emails it sends the buyer. Saving the same values again changes nothing.
 
 `PATCH /v1/checkout-sessions/{checkout_session_id}`
 
-Call: `update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: CheckoutBuyerContactRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `update(checkout_session_id: InputValue<string>, params: (InputValue<{ "buyer_contact"?: CheckoutBuyerContactRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "subscription_terms"?: CheckoutSubscriptionTermsRequestInput; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `checkout_session_id`. Params contain flat body fields and query/header fields.
 
@@ -2665,6 +2670,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     string |
     null> |
     null;
+    "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
     "timezone"?: string;
   };
 }
@@ -14462,7 +14468,7 @@ Returns the current open invoice checkout session and aligned card attempt when 
 
 `POST /v1/invoices/{invoice_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -14476,6 +14482,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
+    "page_origin"?: string;
     "redirects"?: CheckoutRedirectsConfigInput;
     "return_url"?: string;
     "surface"?: "hosted" |
@@ -15857,6 +15864,98 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-cancelSubscription.mjs)
 
 
+### me.changeSubscriptionBillingInterval
+
+Changes future renewals to an interval currently offered by the subscription plan or frozen offer. Requires a full buyer session, billing_interval, and billing_interval_count. Send expected_version to reject concurrent changes.
+
+`POST /v1/me/subscriptions/{subscription_id}/billing-interval`
+
+Call: `changeSubscriptionBillingInterval(subscription_id: InputValue<string>, params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "billing_interval": "daily" |
+    "weekly" |
+    "monthly" |
+    "yearly";
+    "billing_interval_count": number;
+    "expected_version"?: string;
+  };
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionBillingIntervalWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionBillingInterval.mjs)
+
+
+### me.changeSubscriptionDelivery
+
+Saves an offered delivery method and destination for future renewals when buyer delivery changes are enabled. Requires a full buyer session. Send expected_version to reject concurrent changes. A paid shipment already in progress keeps its destination.
+
+`POST /v1/me/subscriptions/{subscription_id}/delivery`
+
+Call: `changeSubscriptionDelivery(subscription_id: InputValue<string>, params: (InputValue<{ "delivery": SubscriptionDeliveryRequestInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "delivery": SubscriptionDeliveryRequestInput;
+    "expected_version"?: string;
+  };
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionDeliveryWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionDelivery.mjs)
+
+
 ### me.changeSubscriptionPaymentMethod
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session.
@@ -15900,6 +15999,50 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-changeSubscriptionPaymentMethod.mjs)
+
+
+### me.changeSubscriptionQuantity
+
+Changes future renewals to a quantity currently offered by the subscription plan or frozen offer. Requires a full buyer session. Send expected_version to reject concurrent changes. Delivery eligibility is checked for the new quantity.
+
+`POST /v1/me/subscriptions/{subscription_id}/quantity`
+
+Call: `changeSubscriptionQuantity(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity": number; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+    "quantity": number;
+  };
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `changeSubscriptionQuantityWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-changeSubscriptionQuantity.mjs)
 
 
 ### me.confirmEmailChangeRequest
@@ -16096,7 +16239,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `POST /v1/me/invoices/{invoice_id}/checkout-session`
 
-Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
+Call: `createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">)`
 
 Path arguments: `path0` = `invoice_id`. Params contain flat body fields and query/header fields.
 
@@ -16110,6 +16253,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body"?: {
     "invoice_schedule_entry_id"?: string;
+    "page_origin"?: string;
     "redirects"?: CheckoutRedirectsConfigInput;
     "return_url"?: string;
     "surface"?: "hosted" |
@@ -16241,7 +16385,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+Call: `createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
@@ -16253,6 +16397,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body"?: {
+    "page_origin"?: string;
     "redirects"?: RedirectsInput;
     "return_url"?: string;
     "surface"?: "hosted" |
@@ -16312,6 +16457,66 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
 [Example](examples/me-createSubscriptionPaymentRetry.mjs)
+
+
+### me.createSubscriptionPreview
+
+Lists currently offered delivery methods and rates for a buyer's proposed destination without changing the subscription. Requires a full buyer session. A preview does not reserve a method or shipping rate.
+
+`POST /v1/me/subscription-previews`
+
+Call: `createSubscriptionPreview(params: (InputValue<{ "destination": SubscriptionDeliveryDestinationRequestInput; "mode": "delivery_options"; "subscription_id": string; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "Flint-Version"?: string;
+  "body": {
+    "destination": SubscriptionDeliveryDestinationRequestInput;
+    "mode": "delivery_options";
+    "subscription_id": string;
+  };
+}
+```
+
+Returned payload:
+
+```typescript
+(({
+  "address_verification"?: SubscriptionAddressVerification;
+  "currency"?: string;
+  "delivery_methods"?: Array<SubscriptionDeliveryOption>;
+  "destination_address"?: PostalAddress;
+  "errors"?: Array<SubscriptionPreviewError>;
+  "is_valid"?: boolean;
+  "mode": "create" |
+  "delivery_options";
+  "subscription_id"?: string;
+}) |
+ ({
+  "delivery_method_id": string;
+  "mode": "delivery_method_update";
+  "no_longer_eligible_counts": SubscriptionCounts;
+  "subscription_counts": SubscriptionCounts;
+}) |
+ (object))
+```
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createSubscriptionPreviewWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/me-createSubscriptionPreview.mjs)
 
 
 ### me.deleteAddress
@@ -17654,7 +17859,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/orders`
 
-Call: `listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -17688,6 +17893,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription";
   "query"?: string;
   "subscription_id"?: string;
+  "subscription_delivery_changed"?: boolean;
   "return_id"?: string;
   "return_resolution_id"?: string;
   "min_amount"?: string;
@@ -17726,6 +17932,7 @@ Returned payload: `{ "data": Array<Order>; "meta"?: ResponseMeta; "next_page_tok
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
 | `query` | Optional | string |  |
 | `subscription_id` | Optional | string |  |
+| `subscription_delivery_changed` | Optional | boolean |  |
 | `return_id` | Optional | string |  |
 | `return_resolution_id` | Optional | string |  |
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
@@ -18577,7 +18784,7 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/subscriptions`
 
-Call: `listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -18597,6 +18804,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "external";
   "awaiting_billing_schedule"?: boolean;
   "cancel_at_period_end"?: boolean;
+  "delivery_method_id"?: string;
+  "hold_reason"?: "method_unavailable" |
+  "destination_not_served" |
+  "rate_unavailable";
+  "subscription_offer_id"?: string;
   "subscription_plan_id"?: string;
   "sort_by"?: "created_at" |
   "updated_at" |
@@ -18630,6 +18842,9 @@ Returned payload: `{ "data": Array<Subscription>; "meta"?: ResponseMeta; "next_p
 | `billing_schedule_owner` | Optional | string | Values: `"flint"`, `"external"`. |
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
+| `delivery_method_id` | Optional | string |  |
+| `hold_reason` | Optional | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `subscription_offer_id` | Optional | string |  |
 | `subscription_plan_id` | Optional | string |  |
 | `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
 | `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
@@ -18839,6 +19054,38 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-removePaymentMethod.mjs)
+
+
+### me.renewSubscription
+
+Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires a full buyer session and Idempotency-Key. Send expected_version to reject concurrent changes. Retry with the same key to recover the same attempt.
+
+`POST /v1/me/subscriptions/{subscription_id}/renew`
+
+Call: `renewSubscription(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "expected_version"?: string; }; }`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `renewSubscriptionWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-renewSubscription.mjs)
 
 
 ### me.resumeSubscription
@@ -19066,6 +19313,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/me-setDefaultPaymentMethod.mjs)
 
 
+### me.skipSubscriptionCycle
+
+Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available when buyer skipping is enabled and the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer session. Send expected_version to reject concurrent changes.
+
+`POST /v1/me/subscriptions/{subscription_id}/skip-cycle`
+
+Call: `skipSubscriptionCycle(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "expected_version"?: string; }; }`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `skipSubscriptionCycleWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-skipSubscriptionCycle.mjs)
+
+
 ### me.update
 
 Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses.
@@ -19188,6 +19467,52 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/me-updateEmailPreferences.mjs)
+
+
+### me.updateSubscriptionLineItem
+
+Swaps a subscription line to an offered variant for future renewals. Requires a full buyer session. Send expected_version to reject concurrent changes. The replacement must remain deliverable to the subscription destination.
+
+`PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `updateSubscriptionLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "variant_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "subscription_line_item_id": string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+    "variant_id": string;
+  };
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateSubscriptionLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `customer`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/me-updateSubscriptionLineItem.mjs)
 
 
 ## Resource: merchantAccountSessions
@@ -21327,7 +21652,7 @@ Returns a paginated list of orders for the authenticated merchant.
 
 `GET /v1/orders`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "customer_id"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -21362,6 +21687,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription";
   "query"?: string;
   "subscription_id"?: string;
+  "subscription_delivery_changed"?: boolean;
   "return_id"?: string;
   "return_resolution_id"?: string;
   "min_amount"?: string;
@@ -21401,6 +21727,7 @@ Returned payload: `{ "data": Array<Order>; "meta"?: ResponseMeta; "next_page_tok
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
 | `query` | Optional | string |  |
 | `subscription_id` | Optional | string |  |
+| `subscription_delivery_changed` | Optional | boolean |  |
 | `return_id` | Optional | string |  |
 | `return_resolution_id` | Optional | string |  |
 | `min_amount` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. Example: `500`. |
@@ -22034,11 +22361,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.update
 
-Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip.
+Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. Send requested_tip: null to clear the current requested tip. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order_revision. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED returns the reason and computed shipping and tax amounts when the correction would change the paid totals.
 
 `PATCH /v1/orders/{order_id}`
 
-Call: `update(order_id: InputValue<string>, params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: (({ "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }) | (null)); "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "metadata"?: Record<string, string | null> | null; "requested_tip"?: ((({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never }))))) | (null)); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `update(order_id: InputValue<string>, params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: (({ "address": OrderDeliveryDestinationAddressRequestInput; "recipient"?: OrderDeliveryDestinationRecipientRequestInput; }) | (null)); "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "metadata"?: Record<string, string | null> | null; "order_revision"?: string; "requested_tip"?: ((({ "amount_money"?: ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); "description"?: string; "metadata"?: Record<string, string>; "name"?: string; "percent"?: number; }) & ((({ "amount_money": unknown; }) & (({ "percent"?: never }))) | (({ "percent": unknown; }) & (({ "amount_money"?: never }))))) | (null)); "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
@@ -22067,6 +22394,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     string |
     null> |
     null;
+    "order_revision"?: string;
     "requested_tip"?: ((({
       "amount_money"?: ({
         "amount"?: string;
@@ -22195,11 +22523,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### orders.updateLineItem
 
-Updates a single line item on an order. Send gift_card_recipient and expected_version to replace or clear recipient delivery details before any purchase funding. Checkout credentials can update recipient details or modifiers, each with expected_version.
+Updates a single line item on an order. Send gift_card_recipient and expected_version to replace or clear recipient delivery details before any purchase funding. Checkout credentials can update recipient details, modifiers, or a line subscription offer selection, each with expected_version. Set subscription to null to buy the line once.
 
 `PATCH /v1/orders/{order_id}/line-items/{order_line_item_id}`
 
-Call: `updateLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<({ "description"?: string; "expected_version"?: string; "gift_card_recipient"?: (({ "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }) | (null)); "metadata"?: Record<string, string | null> | null; "modifiers"?: Array<OrderLineItemModifierRequestInput>; "name"?: string; "quantity"?: string; "tax"?: OrderCalculatedLineItemTaxInput; "unit_price_money"?: MoneyValueInput; }) & (((({ "gift_card_recipient"?: never })) | ({ "gift_card_recipient": unknown; "expected_version": unknown; }))) & ((({ "modifiers"?: never })) | ({ "modifiers": unknown; "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
+Call: `updateLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<({ "description"?: string; "expected_version"?: string; "gift_card_recipient"?: (({ "email": string; "message"?: string; "name"?: string; "send_at"?: string | globalThis.Date; }) | (null)); "metadata"?: Record<string, string | null> | null; "modifiers"?: Array<OrderLineItemModifierRequestInput>; "name"?: string; "quantity"?: string; "subscription"?: (({ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "subscription_offer_id": string; }) | (null)); "tax"?: OrderCalculatedLineItemTaxInput; "unit_price_money"?: MoneyValueInput; }) & (((({ "gift_card_recipient"?: never })) | ({ "gift_card_recipient": unknown; "expected_version": unknown; }))) & (((({ "subscription"?: never })) | ({ "subscription": unknown; "expected_version": unknown; }))) & ((({ "modifiers"?: never })) | ({ "modifiers": unknown; "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `order_id`, `path1` = `order_line_item_id`. Params contain flat body fields and query/header fields.
 
@@ -22232,6 +22560,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "modifiers"?: Array<OrderLineItemModifierRequestInput>;
     "name"?: string;
     "quantity"?: string;
+    "subscription"?: (({
+      "billing_interval": "daily" |
+      "weekly" |
+      "monthly" |
+      "yearly";
+      "billing_interval_count": number;
+      "subscription_offer_id": string;
+    }) |
+    (null));
     "tax"?: OrderCalculatedLineItemTaxInput;
     "unit_price_money"?: MoneyValueInput;
   }) & (((({
@@ -22239,6 +22576,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   })) |
   ({
     "gift_card_recipient": unknown;
+    "expected_version": unknown;
+  }))) & (((({
+    "subscription"?: never
+  })) |
+  ({
+    "subscription": unknown;
     "expected_version": unknown;
   }))) & ((({
     "modifiers"?: never
@@ -28975,7 +29318,7 @@ Create or reuse a hosted or embedded checkout session for the buyer's balance on
 
 `POST /v1/return-resolutions/{return_resolution_id}/checkout-session`
 
-Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `getOrCreateCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `return_resolution_id`. Params contain flat body fields and query/header fields.
 
@@ -28987,6 +29330,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "Flint-Version"?: string;
   "body"?: {
+    "page_origin"?: string;
     "redirects"?: RedirectsInput;
     "return_url"?: string;
     "surface"?: "hosted" |
@@ -31711,7 +32055,7 @@ Applies a sparse patch to merchant-scoped settings. Send catalog by itself becau
 
 `PATCH /v1/settings`
 
-Call: `update(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: CustomerAccountSettingsInput; "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: (({ "buyer_capabilities"?: BuyerCapabilitiesInput; "merchant_account_url"?: string; "mode"?: "flint_hosted" | "merchant_hosted"; "presentation"?: CustomerAccountPresentationInput; "route_templates"?: CustomerAccountRouteTemplatesInput; }) | (null)); "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -31726,7 +32070,15 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "branding"?: BrandingSettingsInput;
     "catalog"?: UpdateCatalogSettingsInput;
     "checkout"?: CheckoutSettingsInput;
-    "customer_account"?: CustomerAccountSettingsInput;
+    "customer_account"?: (({
+      "buyer_capabilities"?: BuyerCapabilitiesInput;
+      "merchant_account_url"?: string;
+      "mode"?: "flint_hosted" |
+      "merchant_hosted";
+      "presentation"?: CustomerAccountPresentationInput;
+      "route_templates"?: CustomerAccountRouteTemplatesInput;
+    }) |
+    (null));
     "customer_email_delivery"?: CustomerEmailDeliverySettingsInput;
     "expected_version"?: string;
     "fulfillment"?: FulfillmentSettingsInput;
@@ -32194,6 +32546,550 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 [Example](examples/specification-get.mjs)
 
 
+## Resource: subscriptionDeliveryMigrations
+
+### subscriptionDeliveryMigrations.create
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`POST /v1/subscription-delivery-migrations`
+
+Call: `create(params: (InputValue<{ "from_delivery_method_id": string; "subscription_plan_id"?: string; "to_delivery_method_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "from_delivery_method_id": string;
+    "subscription_plan_id"?: string;
+    "to_delivery_method_id": string;
+  };
+}
+```
+
+Returned payload: `SubscriptionDeliveryMigration`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required idempotency key for safe retries of this migration..
+
+[Example](examples/subscriptionDeliveryMigrations-create.mjs)
+
+
+### subscriptionDeliveryMigrations.get
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
+
+Call: `get(subscription_delivery_migration_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `subscription_delivery_migration_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_delivery_migration_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `SubscriptionDeliveryMigration`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_delivery_migration_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-get.mjs)
+
+
+### subscriptionDeliveryMigrations.list
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations`
+
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "from_delivery_method_id"?: InputValue<string>; "status"?: InputValue<"pending" | "running" | "completed">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "page_size"?: number;
+  "page_token"?: string;
+  "from_delivery_method_id"?: string;
+  "status"?: "pending" |
+  "running" |
+  "completed";
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<SubscriptionDeliveryMigration>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `from_delivery_method_id` | Optional | string |  |
+| `status` | Optional | string | Values: `"pending"`, `"running"`, `"completed"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-list.mjs)
+
+#### subscriptionDeliveryMigrations.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.subscriptionDeliveryMigrations.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### subscriptionDeliveryMigrations.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionDeliveryMigrations.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### subscriptionDeliveryMigrations.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionDeliveryMigrations.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+### subscriptionDeliveryMigrations.listFailures
+
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+
+`GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures`
+
+Call: `listFailures(subscription_delivery_migration_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "reason"?: InputValue<"method_not_offered" | "destination_not_served" | "rate_unavailable" | "method_unavailable" | "no_longer_applicable" | "not_movable">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `subscription_delivery_migration_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_delivery_migration_id": string;
+  "page_size"?: number;
+  "page_token"?: string;
+  "reason"?: "method_not_offered" |
+  "destination_not_served" |
+  "rate_unavailable" |
+  "method_unavailable" |
+  "no_longer_applicable" |
+  "not_movable";
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<SubscriptionDeliveryMigrationFailure>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_delivery_migration_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `reason` | Optional | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listFailuresWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionDeliveryMigrations-listFailures.mjs)
+
+#### subscriptionDeliveryMigrations.listFailuresItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.subscriptionDeliveryMigrations.listFailuresItems("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### subscriptionDeliveryMigrations.listFailuresPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionDeliveryMigrations.listFailuresPages("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### subscriptionDeliveryMigrations.listFailuresPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionDeliveryMigrations.listFailuresPagesWithResponse("example", {}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+## Resource: subscriptionOffers
+
+### subscriptionOffers.create
+
+Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`POST /v1/subscription-offers`
+
+Call: `create(params: (InputValue<{ "billing_interval_options": Array<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; }>; "metadata"?: Record<string, string>; "name": string; "product_ids"?: Array<string>; "promotion_id"?: string | null; "status"?: "active" | "inactive"; "subscription_delivery_method_ids"?: Array<string>; "variant_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "billing_interval_options": Array<{
+      "billing_interval": "daily" |
+      "weekly" |
+      "monthly" |
+      "yearly";
+      "billing_interval_count": number;
+    }>;
+    "metadata"?: Record<string,
+    string>;
+    "name": string;
+    "product_ids"?: Array<string>;
+    "promotion_id"?: string |
+    null;
+    "status"?: "active" |
+    "inactive";
+    "subscription_delivery_method_ids"?: Array<string>;
+    "variant_ids"?: Array<string>;
+  };
+}
+```
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-create.mjs)
+
+
+### subscriptionOffers.get
+
+Get subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`GET /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `get(subscription_offer_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_offer_id": string; "Flint-Version"?: string; }`
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `getWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionOffers-get.mjs)
+
+
+### subscriptionOffers.list
+
+List subscription offers. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`GET /v1/subscription-offers`
+
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+Path arguments: none. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "page_size"?: number;
+  "page_token"?: string;
+  "status"?: "active" |
+  "inactive" |
+  "archived";
+  "product_id"?: string;
+  "variant_id"?: string;
+  "query"?: string;
+  "sort_by"?: "created_at" |
+  "updated_at" |
+  "name";
+  "sort_direction"?: "asc" |
+  "desc";
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `{ "data": Array<SubscriptionOffer>; "meta"?: ResponseMeta; "next_page_token"?: string; "request_id"?: string; }`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. |
+| `page_token` | Optional | string |  |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`, `"archived"`. |
+| `product_id` | Optional | string |  |
+| `variant_id` | Optional | string |  |
+| `query` | Optional | string |  |
+| `sort_by` | Optional | string | Values: `"created_at"`, `"updated_at"`, `"name"`. |
+| `sort_direction` | Optional | string | Values: `"asc"`, `"desc"`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the complete decoded body directly. Use `listWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionOffers-list.mjs)
+
+#### subscriptionOffers.listItems
+
+Iterate individual values across pages. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const item of client.subscriptionOffers.listItems({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(item);
+}
+```
+
+#### subscriptionOffers.listPages
+
+Iterate page payloads, using the same return shape as the base method. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionOffers.listPages({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["data"]);
+}
+```
+
+#### subscriptionOffers.listPagesWithResponse
+
+Iterate complete page bodies with HTTP metadata and raw access. Iteration is lazy; each page request has its own deadline, excluding time spent processing yielded values.
+
+```typescript
+import { Client } from '@flintpay/node';
+const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const client = new Client({
+  baseUrl: clientBaseUrl,
+  token: process.env.API_TOKEN ?? '',
+});
+for await (const page of client.subscriptionOffers.listPagesWithResponse({}, { maxPages: 10, maxItems: 1000, deadlineMs: 60000 })) {
+  console.log(page["body"]["data"]);
+  console.log(page.meta.requestId);
+}
+```
+
+
+### subscriptionOffers.remove
+
+Archive subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`DELETE /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `remove(subscription_offer_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_offer_id": string; "expected_version"?: string; "Idempotency-Key"?: string; "Flint-Version"?: string; }`
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `removeWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-remove.mjs)
+
+
+### subscriptionOffers.update
+
+Update subscription offer. Offer changes affect new signups only. Existing subscriptions keep their terms.
+
+`PATCH /v1/subscription-offers/{subscription_offer_id}`
+
+Call: `update(subscription_offer_id: InputValue<string>, params: (InputValue<{ "billing_interval_options"?: Array<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; }>; "expected_version"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "product_ids"?: Array<string>; "promotion_id"?: string | null; "status"?: "active" | "inactive"; "subscription_delivery_method_ids"?: Array<string>; "variant_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_offer_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_offer_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": {
+    "billing_interval_options"?: Array<{
+      "billing_interval": "daily" |
+      "weekly" |
+      "monthly" |
+      "yearly";
+      "billing_interval_count": number;
+    }>;
+    "expected_version"?: string;
+    "metadata"?: Record<string,
+    string |
+    null> |
+    null;
+    "name"?: string;
+    "product_ids"?: Array<string>;
+    "promotion_id"?: string |
+    null;
+    "status"?: "active" |
+    "inactive";
+    "subscription_delivery_method_ids"?: Array<string>;
+    "variant_ids"?: Array<string>;
+  };
+}
+```
+
+Returned payload: `SubscriptionOffer`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_offer_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
+
+[Example](examples/subscriptionOffers-update.mjs)
+
+
 ## Resource: subscriptionPlans
 
 ### subscriptionPlans.create
@@ -32202,7 +33098,7 @@ Creates a subscription plan for the authenticated merchant.
 
 `POST /v1/subscription-plans`
 
-Call: `create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -32219,17 +33115,21 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "monthly" |
     "yearly";
     "billing_interval_count": number;
+    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
     "contract_term_months"?: number;
     "currency": string;
     "description"?: string;
     "early_termination_fee_money"?: MoneyValueInput;
     "external_reference_id"?: string;
     "images"?: Array<ImageRequestInput>;
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
     "line_items"?: Array<SubscriptionPlanLineItemRequestInput>;
     "metadata"?: Record<string,
     string>;
     "name": string;
+    "quantity_options"?: Array<number>;
     "setup_fee_money"?: MoneyValueInput;
+    "subscription_delivery_method_ids"?: Array<string>;
     "trial_period_days"?: number;
   };
 }
@@ -32434,11 +33334,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptionPlans.update
 
-Applies a sparse update to mutable subscription plan fields. Line items are mutated through the subscription plan line-item endpoints.
+Applies a sparse update to mutable subscription plan fields. Send line_items with expected_version to replace the plan's line items; omit line_items to keep them.
 
 `PATCH /v1/subscription-plans/{subscription_plan_id}`
 
-Call: `update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `subscription_plan_id`. Params contain flat body fields and query/header fields.
 
@@ -32451,19 +33351,28 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
   "body": ({
+    "billing_interval"?: "daily" |
+    "weekly" |
+    "monthly" |
+    "yearly";
+    "billing_interval_count"?: number;
+    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
     "contract_term_months"?: number;
     "description"?: string;
     "early_termination_fee_money"?: MoneyValueInput;
     "expected_version"?: string;
     "external_reference_id"?: string;
     "images"?: Array<ImageRequestInput>;
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
     "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>;
     "metadata"?: Record<string,
     string |
     null> |
     null;
     "name"?: string;
+    "quantity_options"?: Array<number>;
     "setup_fee_money"?: MoneyValueInput;
+    "subscription_delivery_method_ids"?: Array<string>;
     "trial_period_days"?: number;
   }) & (((({
     "images"?: never
@@ -32498,6 +33407,73 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/subscriptionPlans-update.mjs)
+
+
+## Resource: subscriptionPreviews
+
+### subscriptionPreviews.create
+
+Evaluates a proposed subscription, delivery destination, or delivery method update without saving changes. Malformed JSON, unknown fields and request-level problems (a missing or unsupported mode, fields that belong to another mode) return 400. In create mode, every problem with the proposed subscription is returned in errors with is_valid false, not only the first. A preview does not reserve inventory or guarantee a future shipping rate.
+
+`POST /v1/subscription-previews`
+
+Input:
+
+```typescript
+{
+  "Flint-Version"?: string;
+  "body": (({
+    "destination": SubscriptionDeliveryDestinationRequestInput;
+    "mode": "delivery_options";
+    "subscription_id": string;
+  }) |
+  ({
+    "mode": "create";
+    "subscription": CreateSubscriptionRequestInput;
+  }) |
+  ({
+    "delivery_method": UpdateDeliveryMethodRequestInput;
+    "delivery_method_id": string;
+    "mode": "delivery_method_update";
+  }));
+}
+```
+
+Returned payload:
+
+```typescript
+(({
+  "address_verification"?: SubscriptionAddressVerification;
+  "currency"?: string;
+  "delivery_methods"?: Array<SubscriptionDeliveryOption>;
+  "destination_address"?: PostalAddress;
+  "errors"?: Array<SubscriptionPreviewError>;
+  "is_valid"?: boolean;
+  "mode": "create" |
+  "delivery_options";
+  "subscription_id"?: string;
+}) |
+ ({
+  "delivery_method_id": string;
+  "mode": "delivery_method_update";
+  "no_longer_eligible_counts": SubscriptionCounts;
+  "subscription_counts": SubscriptionCounts;
+}) |
+ (object))
+```
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
+
+[Example](examples/subscriptionPreviews-create.mjs)
 
 
 ## Resource: subscriptions
@@ -32607,7 +33583,7 @@ Creates a subscription for the authenticated merchant.
 
 `POST /v1/subscriptions`
 
-Call: `create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "delivery"?: SubscriptionDeliveryRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "quantity"?: number; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -32620,13 +33596,20 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Flint-Version"?: string;
   "body": ({
     "billing_anchor_day"?: number;
+    "billing_interval"?: "daily" |
+    "weekly" |
+    "monthly" |
+    "yearly";
+    "billing_interval_count"?: number;
     "billing_schedule"?: SubscriptionBillingScheduleRequestInput;
     "billing_start": SubscriptionBillingStartRequestInput;
     "customer_id": string;
+    "delivery"?: SubscriptionDeliveryRequestInput;
     "external_reference_id"?: string;
     "metadata"?: Record<string,
     string>;
     "payment_method_id"?: string;
+    "quantity"?: number;
     "service_location"?: SubscriptionServiceLocationRequestInput;
     "subscription_plan_id": string;
   }) & (({
@@ -32702,6 +33685,63 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/subscriptions-createAccessLink.mjs)
 
 
+### subscriptions.createLineItem
+
+Adds a catalog variant or bundle to future subscription renewals. Current prices and delivery eligibility are checked before the line is saved. Already-created orders keep their lines.
+
+`POST /v1/subscriptions/{subscription_id}/line-items`
+
+Call: `createLineItem(subscription_id: InputValue<string>, params: (InputValue<({ "bundle_id"?: string; "expected_version"?: string; "quantity": number; "variant_id"?: string; }) & ((({ "variant_id": unknown; "quantity": unknown; }) & (({ "bundle_id"?: never }))) | (({ "bundle_id": unknown; "quantity": unknown; }) & (({ "variant_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "Flint-Version"?: string;
+  "body": ({
+    "bundle_id"?: string;
+    "expected_version"?: string;
+    "quantity": number;
+    "variant_id"?: string;
+  }) & ((({
+    "variant_id": unknown;
+    "quantity": unknown;
+  }) & (({
+    "bundle_id"?: never
+  }))) |
+  (({
+    "bundle_id": unknown;
+    "quantity": unknown;
+  }) & (({
+    "variant_id"?: never
+  }))));
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | Alternative shapes (see declared variants) |  |
+
+Returns the payload at `data` directly. Use `createLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-createLineItem.mjs)
+
+
 ### subscriptions.createPaymentRetry
 
 Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome.
@@ -32733,6 +33773,49 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Required durable identity for this retry attempt..
 
 [Example](examples/subscriptions-createPaymentRetry.mjs)
+
+
+### subscriptions.deleteLineItem
+
+Removes a line from future subscription renewals. The final line cannot be removed. Send expected_version as a query parameter to reject a concurrent change.
+
+`DELETE /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `deleteLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "expected_version"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "subscription_line_item_id": string;
+  "expected_version"?: string;
+  "Flint-Version"?: string;
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `Flint-Version` | Optional | string | Format: `date`. |
+
+Returns the payload at `data` directly. Use `deleteLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-deleteLineItem.mjs)
 
 
 ### subscriptions.get
@@ -32813,7 +33896,7 @@ Returns a paginated list of subscriptions for the authenticated merchant.
 
 `GET /v1/subscriptions`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -32834,6 +33917,11 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "awaiting_billing_schedule"?: boolean;
   "cancel_at_period_end"?: boolean;
   "customer_id"?: string;
+  "delivery_method_id"?: string;
+  "hold_reason"?: "method_unavailable" |
+  "destination_not_served" |
+  "rate_unavailable";
+  "subscription_offer_id"?: string;
   "subscription_plan_id"?: string;
   "external_reference_id"?: string;
   "query"?: string;
@@ -32872,6 +33960,9 @@ Returned payload: `{ "data": Array<Subscription>; "meta"?: ResponseMeta; "next_p
 | `awaiting_billing_schedule` | Optional | boolean |  |
 | `cancel_at_period_end` | Optional | boolean |  |
 | `customer_id` | Optional | string |  |
+| `delivery_method_id` | Optional | string |  |
+| `hold_reason` | Optional | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `subscription_offer_id` | Optional | string |  |
 | `subscription_plan_id` | Optional | string |  |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string |  |
@@ -33102,6 +34193,38 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 [Example](examples/subscriptions-reactivate.mjs)
 
 
+### subscriptions.renew
+
+Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires Idempotency-Key; retry with the same key to recover the same attempt. Returns the resulting subscription after collection.
+
+`POST /v1/subscriptions/{subscription_id}/renew`
+
+Call: `renew(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "Idempotency-Key"?: string; "Flint-Version"?: string; "body": { "expected_version"?: string; }; }`
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `renewWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-renew.mjs)
+
+
 ### subscriptions.resume
 
 Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
@@ -33136,11 +34259,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.skipCycle
 
-Moves the next billing date forward by one plan interval without charging the current cycle.
+Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available while the subscription is active, is not set to cancel at the end of its period, and has a next billing date.
 
 `POST /v1/subscriptions/{subscription_id}/skip-cycle`
 
-Call: `skipCycle(subscription_id: InputValue<string>, params: (InputValue<{ "initiated_by"?: "buyer" | "merchant" | "integration"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `skipCycle(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "initiated_by"?: "buyer" | "merchant" | "integration"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
@@ -33153,6 +34276,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
   "body": {
+    "expected_version"?: string;
     "initiated_by"?: "buyer" |
     "merchant" |
     "integration";
@@ -33183,11 +34307,11 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### subscriptions.update
 
-Updates subscription metadata and external_reference_id. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
+Updates metadata, external_reference_id, delivery, billing interval and quantity. A delivery change is checked with a delivery preview before it is saved. Send billing_interval and billing_interval_count together. The billing interval and quantity must be offered by the subscription plan or frozen offer, and apply from the next renewal. Send expected_version to reject concurrent changes. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
-Call: `update(subscription_id: InputValue<string>, params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(subscription_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "delivery"?: SubscriptionDeliveryRequestInput; "expected_version"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "quantity"?: number; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
@@ -33199,13 +34323,21 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
   "Flint-Version"?: string;
-  "body": {
+  "body": ({
+    "billing_interval"?: "daily" |
+    "weekly" |
+    "monthly" |
+    "yearly";
+    "billing_interval_count"?: number;
+    "delivery"?: SubscriptionDeliveryRequestInput;
+    "expected_version"?: string;
     "external_reference_id"?: string;
     "metadata"?: Record<string,
     string |
     null> |
     null;
-  };
+    "quantity"?: number;
+  });
 }
 ```
 
@@ -33284,6 +34416,53 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Optional idempotency key for safe retries..
 
 [Example](examples/subscriptions-updateBillingSchedule.mjs)
+
+
+### subscriptions.updateLineItem
+
+Updates a subscription line for future renewals. Send expected_version to reject a concurrent change. Already-created orders keep their lines.
+
+`PATCH /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
+
+Call: `updateLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity"?: number; "variant_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+
+Path arguments: `path0` = `subscription_id`, `path1` = `subscription_line_item_id`. Params contain flat body fields and query/header fields.
+
+Canonical input schema (for configuration examples and HTTP fixtures):
+
+```typescript
+{
+  "subscription_id": string;
+  "Idempotency-Key"?: string;
+  "subscription_line_item_id": string;
+  "Flint-Version"?: string;
+  "body": {
+    "expected_version"?: string;
+    "quantity"?: number;
+    "variant_id"?: string;
+  };
+}
+```
+
+Returned payload: `Subscription`
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string |  |
+| `subscription_line_item_id` | Required | string |  |
+| `Flint-Version` | Optional | string | Format: `date`. |
+| `body` | Required | object |  |
+
+Returns the payload at `data` directly. Use `updateLineItemWithResponse` for `body`, `meta` and `raw` without unwrapping.
+
+Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+
+Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. Without an optional idempotency key, mutations send once; required keys remain required. Supports idempotencyKey for the declared Idempotency-Key header. Persist and reuse the key for the same business action.
+
+Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay lifetime; the general Flint replay window is 24 hours unless the endpoint documents an exception.; scope: Endpoint-defined command identity. Idempotency key for safe retries..
+
+[Example](examples/subscriptions-updateLineItem.mjs)
 
 
 ## Resource: webhookDeliveries
@@ -33489,7 +34668,7 @@ Creates and delivers a synthetic test webhook event to one active webhook endpoi
 
 `POST /v1/webhook-endpoints/{webhook_endpoint_id}/test-events`
 
-Call: `createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<{ "event_type": "balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.completed" | "checkout_session.closed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "custom_domain.status_changed" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.activated" | "delivery_rate_callback.updated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.activated" | "delivery_method.updated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.activated" | "delivery_location_set.updated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.activated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.activated" | "delivery_zone.updated" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.credited" | "invoice.created" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issued" | "invoice.issue_failed" | "invoice.late_fee_due" | "invoice.late_fee_assessed" | "invoice.late_fee_waived" | "invoice.marked_uncollectible" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.overdue" | "invoice.paid" | "invoice.payment_processing" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "merchant_billing_balance.updated" | "merchant.readiness.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.payment_authorization_expired" | "order.payment_authorization_canceled" | "order.payment_authorized" | "order.payment_captured" | "order.partially_paid" | "order.paid" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription_payment_retry.created" | "subscription_payment_retry.succeeded" | "subscription_payment_retry.failed" | "subscription.reactivated" | "subscription.resumed" | "subscription.renewal_upcoming" | "subscription.trial_ending" | "subscription.updated"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<{ "event_type": "balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.completed" | "checkout_session.closed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "custom_domain.status_changed" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.activated" | "delivery_rate_callback.updated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.activated" | "delivery_method.updated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.activated" | "delivery_location_set.updated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.activated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.activated" | "delivery_zone.updated" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.credited" | "invoice.created" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issued" | "invoice.issue_failed" | "invoice.late_fee_due" | "invoice.late_fee_assessed" | "invoice.late_fee_waived" | "invoice.marked_uncollectible" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.overdue" | "invoice.paid" | "invoice.payment_processing" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "merchant_billing_balance.updated" | "merchant.readiness.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.payment_authorization_expired" | "order.payment_authorization_canceled" | "order.payment_authorized" | "order.payment_captured" | "order.partially_paid" | "order.paid" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription_payment_retry.created" | "subscription_payment_retry.succeeded" | "subscription_payment_retry.failed" | "subscription.reactivated" | "subscription.resumed" | "subscription.renewal_upcoming" | "subscription.trial_ending" | "subscription.updated" | "subscription.delivery_action_required" | "subscription.delivery_pause_upcoming" | "subscription.delivery_updated" | "subscription.cycle_skipped" | "subscription_delivery_migration.completed"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `webhook_endpoint_id`. Params contain flat body fields and query/header fields.
 
@@ -33700,7 +34879,12 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     "subscription.resumed" |
     "subscription.renewal_upcoming" |
     "subscription.trial_ending" |
-    "subscription.updated";
+    "subscription.updated" |
+    "subscription.delivery_action_required" |
+    "subscription.delivery_pause_upcoming" |
+    "subscription.delivery_updated" |
+    "subscription.cycle_skipped" |
+    "subscription_delivery_migration.completed";
   };
 }
 ```
@@ -34002,7 +35186,7 @@ Returns recent canonical webhook events for the authenticated merchant.
 
 `GET /v1/webhook-events`
 
-Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "webhook_endpoint_id"?: InputValue<string>; "delivery_status"?: InputValue<"pending" | "delivered" | "failed" | "suppressed">; "event_source"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>; "partner_app_id"?: InputValue<string>; "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "custom_domain.status_changed" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "partner_app.install.created" | "partner_app.install.environment_grant.created" | "partner_app.install.environment_grant.revoked" | "partner_app.install.permissions_updated" | "partner_app.install.revoked" | "partner_app.install.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated" | "subscription_payment_retry.created" | "subscription_payment_retry.failed" | "subscription_payment_retry.succeeded">; "resource_type"?: InputValue<"balance" | "balance_transaction" | "capability" | "checkout_session" | "customer" | "dispute" | "fraud_warning" | "invoice" | "merchant" | "inventory_count" | "inventory_level" | "inventory_reservation" | "inventory_reservation_line" | "inventory_receipt" | "inventory_transfer" | "order" | "payment_intent" | "payment_method" | "payout" | "payout_destination" | "payout_settings" | "refund" | "return" | "return_disposition" | "return_inspection" | "return_receipt" | "return_resolution" | "review" | "subscription">; "resource_id"?: InputValue<string>; "api_request_log_id"?: InputValue<string>; "request_id"?: InputValue<string>; "correlation_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "include"?: InputValue<Array<"test_events">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "webhook_endpoint_id"?: InputValue<string>; "delivery_status"?: InputValue<"pending" | "delivered" | "failed" | "suppressed">; "event_source"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>; "partner_app_id"?: InputValue<string>; "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "custom_domain.status_changed" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "partner_app.install.created" | "partner_app.install.environment_grant.created" | "partner_app.install.environment_grant.revoked" | "partner_app.install.permissions_updated" | "partner_app.install.revoked" | "partner_app.install.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.cycle_skipped" | "subscription.delivery_action_required" | "subscription.delivery_pause_upcoming" | "subscription.delivery_updated" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated" | "subscription_delivery_migration.completed" | "subscription_payment_retry.created" | "subscription_payment_retry.failed" | "subscription_payment_retry.succeeded">; "resource_type"?: InputValue<"balance" | "balance_transaction" | "capability" | "checkout_session" | "customer" | "dispute" | "fraud_warning" | "invoice" | "merchant" | "inventory_count" | "inventory_level" | "inventory_reservation" | "inventory_reservation_line" | "inventory_receipt" | "inventory_transfer" | "order" | "payment_intent" | "payment_method" | "payout" | "payout_destination" | "payout_settings" | "refund" | "return" | "return_disposition" | "return_inspection" | "return_receipt" | "return_resolution" | "review" | "subscription">; "resource_id"?: InputValue<string>; "api_request_log_id"?: InputValue<string>; "request_id"?: InputValue<string>; "correlation_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "include"?: InputValue<Array<"test_events">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -34214,6 +35398,10 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription.canceled" |
   "subscription.cancellation_scheduled" |
   "subscription.created" |
+  "subscription.cycle_skipped" |
+  "subscription.delivery_action_required" |
+  "subscription.delivery_pause_upcoming" |
+  "subscription.delivery_updated" |
   "subscription.dunning_exhausted" |
   "subscription.past_due" |
   "subscription.paused" |
@@ -34224,6 +35412,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription.resumed" |
   "subscription.trial_ending" |
   "subscription.updated" |
+  "subscription_delivery_migration.completed" |
   "subscription_payment_retry.created" |
   "subscription_payment_retry.failed" |
   "subscription_payment_retry.succeeded";
@@ -34279,7 +35468,7 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 | `delivery_status` | Optional | string | Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string |  |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | string | Values: [206 declared values](#webhookeventslist-input-event_type-values). |
+| `event_type` | Optional | string | Values: [211 declared values](#webhookeventslist-input-event_type-values). |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookeventslist-input-resource_type-values). |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
@@ -34485,6 +35674,10 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -34495,6 +35688,7 @@ Returned payload: `{ "data": Array<WebhookEvent>; "meta"?: ResponseMeta; "next_p
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -34674,7 +35868,7 @@ Streams canonical merchant webhook events created after the connection opens or 
 
 `GET /v1/webhook-events/stream`
 
-Call: `stream(params?: { "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "custom_domain.status_changed" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated" | "subscription_payment_retry.created" | "subscription_payment_retry.failed" | "subscription_payment_retry.succeeded">; "after_event_id"?: InputValue<string>; "Last-Event-ID"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Call: `stream(params?: { "event_type"?: InputValue<"balance.updated" | "balance_transaction.created" | "balance_transaction.updated" | "capability.updated" | "checkout_session.closed" | "checkout_session.completed" | "checkout_session.expired" | "checkout_session.invalidated" | "credit_note.allocation_created" | "credit_note.allocation_reversed" | "credit_note.created" | "credit_note.issued" | "credit_note.updated" | "credit_note.voided" | "custom_domain.status_changed" | "customer.created" | "customer.deletion_completed" | "customer.deletion_rejected" | "customer.deletion_requested" | "customer.updated" | "delivery_location_set.activated" | "delivery_location_set.archived" | "delivery_location_set.created" | "delivery_location_set.deactivated" | "delivery_location_set.updated" | "delivery_method.activated" | "delivery_method.archived" | "delivery_method.created" | "delivery_method.deactivated" | "delivery_method.updated" | "delivery_profile.activated" | "delivery_profile.archived" | "delivery_profile.created" | "delivery_profile.deactivated" | "delivery_profile.updated" | "delivery_rate.archived" | "delivery_rate.created" | "delivery_rate.updated" | "delivery_rate_callback.activated" | "delivery_rate_callback.archived" | "delivery_rate_callback.created" | "delivery_rate_callback.deactivated" | "delivery_rate_callback.updated" | "delivery_revocation.created" | "delivery_selection.committed" | "delivery_zone.activated" | "delivery_zone.archived" | "delivery_zone.created" | "delivery_zone.deactivated" | "delivery_zone.updated" | "dispute.closed" | "dispute.created" | "dispute.lost" | "dispute.needs_response" | "dispute.prevented" | "dispute.updated" | "dispute.warning_closed" | "dispute.won" | "fraud_warning.created" | "fraud_warning.updated" | "gift_card.created" | "gift_card.updated" | "gift_card_load.created" | "gift_card_load.updated" | "gift_card_notification.created" | "gift_card_notification.updated" | "gift_card_redemption.created" | "gift_card_redemption.updated" | "gift_card_transaction.created" | "inventory.action_required" | "inventory.count.applied" | "inventory.level.updated" | "inventory.receipt.created" | "inventory.reservation.at_risk" | "inventory.reservation.closed" | "inventory.reservation.committed" | "inventory.reservation.consumed" | "inventory.reservation.created" | "inventory.reservation.hold_expired" | "inventory.reservation.released" | "inventory.shortage.detected" | "inventory.transfer.closed" | "inventory.transfer.departed" | "inventory.transfer.lost" | "inventory.transfer.received" | "inventory.transfer.returned" | "invoice.collection_block_resolved" | "invoice.collection_blocked" | "invoice.created" | "invoice.credited" | "invoice.delivery_failed" | "invoice.delivery_succeeded" | "invoice.issue_failed" | "invoice.issued" | "invoice.late_fee_assessed" | "invoice.late_fee_due" | "invoice.late_fee_waived" | "invoice.manual_payment_recorded" | "invoice.manual_payment_reversed" | "invoice.marked_uncollectible" | "invoice.overdue" | "invoice.paid" | "invoice.partially_paid" | "invoice.partially_refunded" | "invoice.payment_attempt_canceled" | "invoice.payment_attempt_expired" | "invoice.payment_failed" | "invoice.payment_processing" | "invoice.refunded" | "invoice.reminder_due" | "invoice.sent" | "invoice.updated" | "invoice.voided" | "merchant.readiness.updated" | "merchant_billing_balance.updated" | "merchant_subscription_invoice.issued" | "merchant_subscription_invoice.updated" | "order.closed" | "order.created" | "order.fulfillment.completed" | "order.fulfillment.created" | "order.fulfillment.event.created" | "order.fulfillment.package.created" | "order.fulfillment.package.updated" | "order.fulfillment.shipment.created" | "order.fulfillment.shipment.updated" | "order.fulfillment.status_changed" | "order.fulfillment.updated" | "order.inventory_action_required" | "order.inventory_exception.created" | "order.inventory_exception.resolved" | "order.paid" | "order.partially_paid" | "order.payment_authorization_canceled" | "order.payment_authorization_expired" | "order.payment_authorized" | "order.payment_captured" | "order.refunded" | "order.updated" | "payment_intent.canceled" | "payment_intent.fulfillment_hold.updated" | "payment_intent.payment_failed" | "payment_intent.processing" | "payment_intent.requires_action" | "payment_intent.requires_capture" | "payment_intent.succeeded" | "payment_method.failed" | "payment_method.removed" | "payment_method.saved" | "payout.canceled" | "payout.created" | "payout.failed" | "payout.paid" | "payout.reversed" | "payout.updated" | "payout_destination.created" | "payout_destination.deleted" | "payout_destination.disabled" | "payout_destination.updated" | "payout_settings.updated" | "refund.created" | "refund.failed" | "refund.updated" | "report.failed" | "report.succeeded" | "return.canceled" | "return.completed" | "return.created" | "return.decision_recorded" | "return.reopened" | "return.updated" | "return_disposition.created" | "return_disposition.updated" | "return_inspection.acceptance_decided" | "return_inspection.created" | "return_inspection.superseded" | "return_receipt.created" | "return_receipt.superseded" | "return_receipt.verified" | "return_resolution.created" | "return_resolution.updated" | "review.closed" | "review.opened" | "subscription.activated" | "subscription.canceled" | "subscription.cancellation_scheduled" | "subscription.created" | "subscription.cycle_skipped" | "subscription.delivery_action_required" | "subscription.delivery_pause_upcoming" | "subscription.delivery_updated" | "subscription.dunning_exhausted" | "subscription.past_due" | "subscription.paused" | "subscription.payment_failed" | "subscription.payment_succeeded" | "subscription.reactivated" | "subscription.renewal_upcoming" | "subscription.resumed" | "subscription.trial_ending" | "subscription.updated" | "subscription_delivery_migration.completed" | "subscription_payment_retry.created" | "subscription_payment_retry.failed" | "subscription_payment_retry.succeeded">; "after_event_id"?: InputValue<string>; "Last-Event-ID"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -34869,6 +36063,10 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription.canceled" |
   "subscription.cancellation_scheduled" |
   "subscription.created" |
+  "subscription.cycle_skipped" |
+  "subscription.delivery_action_required" |
+  "subscription.delivery_pause_upcoming" |
+  "subscription.delivery_updated" |
   "subscription.dunning_exhausted" |
   "subscription.past_due" |
   "subscription.paused" |
@@ -34879,6 +36077,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
   "subscription.resumed" |
   "subscription.trial_ending" |
   "subscription.updated" |
+  "subscription_delivery_migration.completed" |
   "subscription_payment_retry.created" |
   "subscription_payment_retry.failed" |
   "subscription_payment_retry.succeeded";
@@ -34892,7 +36091,7 @@ Response body (inside Result.data): `EventStream`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | string | Values: [200 declared values](#webhookeventsstream-input-event_type-values). |
+| `event_type` | Optional | string | Values: [205 declared values](#webhookeventsstream-input-event_type-values). |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 | `Flint-Version` | Optional | string | Format: `date`. |
@@ -35086,6 +36285,10 @@ Response body (inside Result.data): `EventStream`
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -35096,6 +36299,7 @@ Response body (inside Result.data): `EventStream`
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`

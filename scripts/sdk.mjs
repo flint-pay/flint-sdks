@@ -61,7 +61,7 @@ function cli(action, ...argv) {
   mkdirSync(".generated/logs", { recursive: true });
   console.log(`Generator: ${action}…`);
   const result = run(process.execPath, [
-    "--max-old-space-size=3072",
+    "--max-old-space-size=8192",
     join(generator, "dist/cli.js"),
     action,
     ...argv,

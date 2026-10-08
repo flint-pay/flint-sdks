@@ -4,11 +4,13 @@ namespace Flint;
 /**
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
+ * @property-read list<SubscriptionIntervalOption> $billing_interval_options
  * @property-read string $created_at
  * @property-read string $currency
  * @property-read string $description
  * @property-read list<\stdClass> $line_items
  * @property-read string $name
+ * @property-read list<int> $quantity_options
  * @property-read MoneyValue $setup_fee_money
  * @property-read string $status
  * @property-read string $subscription_plan_id
@@ -16,7 +18,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class ExpandedSubscriptionPlanSummary extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'setup_fee_money'?: mixed, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummary')); }
     /** @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
@@ -28,6 +30,11 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
+    /** @return list<SubscriptionIntervalOption>
+     * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
+     */
+    public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
+    public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
     /** @return string
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -53,6 +60,11 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** @return list<int>
+     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
+     */
+    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
+    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** @return MoneyValue
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */

@@ -42,8 +42,14 @@ import type { MeCancelReturnInput } from '../declarations/MeCancelReturnInput.js
 import type { MeCancelReturnResponse } from '../declarations/MeCancelReturnResponse.js';
 import type { MeCancelSubscriptionInput } from '../declarations/MeCancelSubscriptionInput.js';
 import type { MeCancelSubscriptionResponse } from '../declarations/MeCancelSubscriptionResponse.js';
+import type { MeChangeSubscriptionBillingIntervalInput } from '../declarations/MeChangeSubscriptionBillingIntervalInput.js';
+import type { MeChangeSubscriptionBillingIntervalResponse } from '../declarations/MeChangeSubscriptionBillingIntervalResponse.js';
+import type { MeChangeSubscriptionDeliveryInput } from '../declarations/MeChangeSubscriptionDeliveryInput.js';
+import type { MeChangeSubscriptionDeliveryResponse } from '../declarations/MeChangeSubscriptionDeliveryResponse.js';
 import type { MeChangeSubscriptionPaymentMethodInput } from '../declarations/MeChangeSubscriptionPaymentMethodInput.js';
 import type { MeChangeSubscriptionPaymentMethodResponse } from '../declarations/MeChangeSubscriptionPaymentMethodResponse.js';
+import type { MeChangeSubscriptionQuantityInput } from '../declarations/MeChangeSubscriptionQuantityInput.js';
+import type { MeChangeSubscriptionQuantityResponse } from '../declarations/MeChangeSubscriptionQuantityResponse.js';
 import type { MeConfirmEmailChangeRequestInput } from '../declarations/MeConfirmEmailChangeRequestInput.js';
 import type { MeConfirmEmailChangeRequestResponse } from '../declarations/MeConfirmEmailChangeRequestResponse.js';
 import type { MeCreateAddressInput } from '../declarations/MeCreateAddressInput.js';
@@ -64,6 +70,8 @@ import type { MeCreateReturnResolutionCheckoutSessionResponse } from '../declara
 import type { MeCreateReturnResponse } from '../declarations/MeCreateReturnResponse.js';
 import type { MeCreateSubscriptionPaymentRetryInput } from '../declarations/MeCreateSubscriptionPaymentRetryInput.js';
 import type { MeCreateSubscriptionPaymentRetryResponse } from '../declarations/MeCreateSubscriptionPaymentRetryResponse.js';
+import type { MeCreateSubscriptionPreviewInput } from '../declarations/MeCreateSubscriptionPreviewInput.js';
+import type { MeCreateSubscriptionPreviewResponse } from '../declarations/MeCreateSubscriptionPreviewResponse.js';
 import type { MeDeleteAddressInput } from '../declarations/MeDeleteAddressInput.js';
 import type { MeDeleteAddressResponse } from '../declarations/MeDeleteAddressResponse.js';
 import type { MeFlintWalletCard } from '../declarations/MeFlintWalletCard.js';
@@ -146,6 +154,8 @@ import type { MeRemoveGiftCardInput } from '../declarations/MeRemoveGiftCardInpu
 import type { MeRemoveGiftCardResponse } from '../declarations/MeRemoveGiftCardResponse.js';
 import type { MeRemovePaymentMethodInput } from '../declarations/MeRemovePaymentMethodInput.js';
 import type { MeRemovePaymentMethodResponse } from '../declarations/MeRemovePaymentMethodResponse.js';
+import type { MeRenewSubscriptionInput } from '../declarations/MeRenewSubscriptionInput.js';
+import type { MeRenewSubscriptionResponse } from '../declarations/MeRenewSubscriptionResponse.js';
 import type { MeResumeSubscriptionInput } from '../declarations/MeResumeSubscriptionInput.js';
 import type { MeResumeSubscriptionResponse } from '../declarations/MeResumeSubscriptionResponse.js';
 import type { MeSaveGiftCardInput } from '../declarations/MeSaveGiftCardInput.js';
@@ -158,12 +168,16 @@ import type { MeSetDefaultAddressInput } from '../declarations/MeSetDefaultAddre
 import type { MeSetDefaultAddressResponse } from '../declarations/MeSetDefaultAddressResponse.js';
 import type { MeSetDefaultPaymentMethodInput } from '../declarations/MeSetDefaultPaymentMethodInput.js';
 import type { MeSetDefaultPaymentMethodResponse } from '../declarations/MeSetDefaultPaymentMethodResponse.js';
+import type { MeSkipSubscriptionCycleInput } from '../declarations/MeSkipSubscriptionCycleInput.js';
+import type { MeSkipSubscriptionCycleResponse } from '../declarations/MeSkipSubscriptionCycleResponse.js';
 import type { MeUpdateAddressInput } from '../declarations/MeUpdateAddressInput.js';
 import type { MeUpdateAddressResponse } from '../declarations/MeUpdateAddressResponse.js';
 import type { MeUpdateEmailPreferencesInput } from '../declarations/MeUpdateEmailPreferencesInput.js';
 import type { MeUpdateEmailPreferencesResponse } from '../declarations/MeUpdateEmailPreferencesResponse.js';
 import type { MeUpdateInput } from '../declarations/MeUpdateInput.js';
 import type { MeUpdateResponse } from '../declarations/MeUpdateResponse.js';
+import type { MeUpdateSubscriptionLineItemInput } from '../declarations/MeUpdateSubscriptionLineItemInput.js';
+import type { MeUpdateSubscriptionLineItemResponse } from '../declarations/MeUpdateSubscriptionLineItemResponse.js';
 import type { Merchant } from '../declarations/Merchant.js';
 import type { MerchantAccountSession } from '../declarations/MerchantAccountSession.js';
 import type { MerchantAccountSessionClientSession } from '../declarations/MerchantAccountSessionClientSession.js';
@@ -248,7 +262,10 @@ import type { SdkResponse } from '../declarations/SdkResponse.js';
 import type { Shipment } from '../declarations/Shipment.js';
 import type { ShipmentListResponse } from '../declarations/ShipmentListResponse.js';
 import type { Subscription } from '../declarations/Subscription.js';
+import type { SubscriptionDeliveryDestinationRequestInput } from '../declarations/SubscriptionDeliveryDestinationRequestInput.js';
+import type { SubscriptionDeliveryRequestInput } from '../declarations/SubscriptionDeliveryRequestInput.js';
 import type { SubscriptionListResponse } from '../declarations/SubscriptionListResponse.js';
+import type { SubscriptionPreviewResponse } from '../declarations/SubscriptionPreviewResponse.js';
 import type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
@@ -276,6 +293,28 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     cancelSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCancelSubscriptionResponse>>;
     /**
+ * Changes future renewals to an interval currently offered by the subscription plan or frozen offer. Requires a full buyer session, billing_interval, and billing_interval_count. Send expected_version to reject concurrent changes.
+ * POST /v1/me/subscriptions/{subscription_id}/billing-interval
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.changeSubscriptionBillingInterval("sub_01J00000000000000000000001", {billing_interval: "monthly", billing_interval_count: 1}, { idempotencyKey: idempotencyKey })
+ */
+    changeSubscriptionBillingInterval(subscription_id: InputValue<string>, params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    changeSubscriptionBillingIntervalWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeChangeSubscriptionBillingIntervalResponse>>;
+    /**
+ * Saves an offered delivery method and destination for future renewals when buyer delivery changes are enabled. Requires a full buyer session. Send expected_version to reject concurrent changes. A paid shipment already in progress keeps its destination.
+ * POST /v1/me/subscriptions/{subscription_id}/delivery
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.changeSubscriptionDelivery("sub_01J00000000000000000000001", {delivery: {delivery_method_id: "dmet_01J00000000000000000000001", destination: {customer_address_id: "caddr_01J00000000000000000000001", type: "customer_address"}, type: "shipment"}}, { idempotencyKey: idempotencyKey })
+ */
+    changeSubscriptionDelivery(subscription_id: InputValue<string>, params: (InputValue<{ "delivery": SubscriptionDeliveryRequestInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    changeSubscriptionDeliveryWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "delivery": SubscriptionDeliveryRequestInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeChangeSubscriptionDeliveryResponse>>;
+    /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session.
  * POST /v1/me/subscriptions/{subscription_id}/payment-method
  * @example
@@ -286,6 +325,17 @@ export interface MeResource {
     changeSubscriptionPaymentMethod(subscription_id: InputValue<string>, params: (InputValue<{ "payment_method_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     changeSubscriptionPaymentMethodWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "payment_method_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeChangeSubscriptionPaymentMethodResponse>>;
+    /**
+ * Changes future renewals to a quantity currently offered by the subscription plan or frozen offer. Requires a full buyer session. Send expected_version to reject concurrent changes. Delivery eligibility is checked for the new quantity.
+ * POST /v1/me/subscriptions/{subscription_id}/quantity
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.changeSubscriptionQuantity("sub_01J00000000000000000000001", {quantity: 2}, { idempotencyKey: idempotencyKey })
+ */
+    changeSubscriptionQuantity(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity": number; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    changeSubscriptionQuantityWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity": number; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeChangeSubscriptionQuantityResponse>>;
     /**
  * Confirms possession of the current and new email addresses, then atomically updates the customer account in the selected merchant environment. Omit current_email_code only when current_email_confirmation_required is false.
  * POST /v1/me/email-change-requests/{email_change_request_id}/confirm
@@ -349,9 +399,9 @@ export interface MeResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.me.createInvoiceCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">): Promise<_SdkPayloadAt<BuyerInvoiceCheckoutSessionResponse, ["data"]>>;
+    createInvoiceCheckoutSession(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">): Promise<_SdkPayloadAt<BuyerInvoiceCheckoutSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createInvoiceCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">): Promise<SdkResponse<MeCreateInvoiceCheckoutSessionResponse>>;
+    createInvoiceCheckoutSessionWithResponse(invoice_id: InputValue<string>, params?: (InputValue<{ "invoice_schedule_entry_id"?: string; "page_origin"?: string; "redirects"?: CheckoutRedirectsConfigInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "invoice_schedule_entry_id"?: never; "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer" | "invoice">): Promise<SdkResponse<MeCreateInvoiceCheckoutSessionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create a requested Return. When no policy matches, the Return remains available for merchant review rather than failing creation.
  * POST /v1/me/returns
@@ -380,9 +430,9 @@ export interface MeResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.me.createReturnResolutionCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
+    createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createReturnResolutionCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCreateReturnResolutionCheckoutSessionResponse>>;
+    createReturnResolutionCheckoutSessionWithResponse(return_resolution_id: InputValue<string>, params?: (InputValue<{ "page_origin"?: string; "redirects"?: RedirectsInput; "return_url"?: string; "surface"?: "hosted" | "embedded"; }> | { "page_origin"?: never; "redirects"?: never; "return_url"?: never; "surface"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCreateReturnResolutionCheckoutSessionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
  * POST /v1/me/subscriptions/{subscription_id}/payment-retries
@@ -394,6 +444,15 @@ export interface MeResource {
     createSubscriptionPaymentRetry(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<BuyerSubscriptionPaymentRetryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createSubscriptionPaymentRetryWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCreateSubscriptionPaymentRetryResponse>>;
+    /**
+ * Lists currently offered delivery methods and rates for a buyer's proposed destination without changing the subscription. Requires a full buyer session. A preview does not reserve a method or shipping rate.
+ * POST /v1/me/subscription-previews
+ * @example
+ * client.me.createSubscriptionPreview({destination: {customer_address_id: "caddr_01J00000000000000000000001", type: "customer_address"}, mode: "delivery_options", subscription_id: "sub_01J00000000000000000000001"})
+ */
+    createSubscriptionPreview(params: (InputValue<{ "destination": SubscriptionDeliveryDestinationRequestInput; "mode": "delivery_options"; "subscription_id": string; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<SubscriptionPreviewResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    createSubscriptionPreviewWithResponse(params: (InputValue<{ "destination": SubscriptionDeliveryDestinationRequestInput; "mode": "delivery_options"; "subscription_id": string; }>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeCreateSubscriptionPreviewResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved address and moves any default designation to the newest remaining address.
  * DELETE /v1/me/addresses/{customer_address_id}
@@ -650,12 +709,12 @@ export interface MeResource {
  * @example
  * client.me.listOrders()
  */
-    listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<OrderListResponse>;
+    listOrders(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<OrderListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listOrdersWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeListOrdersResponse>>;
-    listOrdersPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<OrderListResponse>;
-    listOrdersPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<MeListOrdersResponse>>;
-    listOrdersItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<Order>;
+    listOrdersWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeListOrdersResponse>>;
+    listOrdersPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<OrderListResponse>;
+    listOrdersPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<MeListOrdersResponse>>;
+    listOrdersItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"open" | "closed">; "payment_status"?: InputValue<(("unpaid" | "partially_paid" | "paid") | (Array<"unpaid" | "partially_paid" | "paid">))>; "refund_status"?: InputValue<Array<"none" | "partially_refunded" | "refunded">>; "fulfillment_status"?: InputValue<Array<"not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled">>; "order_number"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "origin"?: InputValue<"virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription">; "query"?: InputValue<string>; "subscription_id"?: InputValue<string>; "subscription_delivery_changed"?: InputValue<boolean>; "return_id"?: InputValue<string>; "return_resolution_id"?: InputValue<string>; "min_amount"?: InputValue<string>; "max_amount"?: InputValue<string>; "currency"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "outstanding_money" | "total">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<Order>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists package records, newest created first.
  * GET /v1/me/packages
@@ -734,12 +793,12 @@ export interface MeResource {
  * @example
  * client.me.listSubscriptions()
  */
-    listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SubscriptionListResponse>;
+    listSubscriptions(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SubscriptionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listSubscriptionsWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeListSubscriptionsResponse>>;
-    listSubscriptionsPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SubscriptionListResponse>;
-    listSubscriptionsPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<MeListSubscriptionsResponse>>;
-    listSubscriptionsItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<Subscription>;
+    listSubscriptionsWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeListSubscriptionsResponse>>;
+    listSubscriptionsPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SubscriptionListResponse>;
+    listSubscriptionsPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<MeListSubscriptionsResponse>>;
+    listSubscriptionsItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<Subscription>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately, optionally for a fixed number of billing cycles. A buyer's pause follows the store's customer_account.buyer_capabilities.
  * POST /v1/me/subscriptions/{subscription_id}/pause
@@ -784,6 +843,17 @@ export interface MeResource {
     removePaymentMethod(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     removePaymentMethodWithResponse(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeRemovePaymentMethodResponse>>;
+    /**
+ * Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires a full buyer session and Idempotency-Key. Send expected_version to reject concurrent changes. Retry with the same key to recover the same attempt.
+ * POST /v1/me/subscriptions/{subscription_id}/renew
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.renewSubscription("sub_01J00000000000000000000001", {}, { idempotencyKey: idempotencyKey })
+ */
+    renewSubscription(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    renewSubscriptionWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeRenewSubscriptionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
  * POST /v1/me/subscriptions/{subscription_id}/resume
@@ -851,6 +921,17 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     setDefaultPaymentMethodWithResponse(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeSetDefaultPaymentMethodResponse>>;
     /**
+ * Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available when buyer skipping is enabled and the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer session. Send expected_version to reject concurrent changes.
+ * POST /v1/me/subscriptions/{subscription_id}/skip-cycle
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.skipSubscriptionCycle("sub_01J00000000000000000000001", {}, { idempotencyKey: idempotencyKey })
+ */
+    skipSubscriptionCycle(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    skipSubscriptionCycleWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeSkipSubscriptionCycleResponse>>;
+    /**
  * Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses.
  * PATCH /v1/me
  * @example
@@ -883,6 +964,17 @@ export interface MeResource {
     updateEmailPreferences(params: (InputValue<{ "checkout_reminders"?: boolean; "shipping_updates"?: boolean; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<CustomerEmailPreferencesResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     updateEmailPreferencesWithResponse(params: (InputValue<{ "checkout_reminders"?: boolean; "shipping_updates"?: boolean; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeUpdateEmailPreferencesResponse>>;
+    /**
+ * Swaps a subscription line to an offered variant for future renewals. Requires a full buyer session. Send expected_version to reject concurrent changes. The replacement must remain deliverable to the subscription destination.
+ * PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.me.updateSubscriptionLineItem("sub_01J00000000000000000000001", "sli_01J00000000000000000000001", {variant_id: "var_01J00000000000000000000001"}, { idempotencyKey: idempotencyKey })
+ */
+    updateSubscriptionLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "variant_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
+    updateSubscriptionLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "variant_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeUpdateSubscriptionLineItemResponse>>;
   }
 export declare class Client {
 
@@ -898,7 +990,11 @@ export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { MeCancelReturnResponse } from '../declarations/MeCancelReturnResponse.js';
 export type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
 export type { MeCancelSubscriptionResponse } from '../declarations/MeCancelSubscriptionResponse.js';
+export type { MeChangeSubscriptionBillingIntervalResponse } from '../declarations/MeChangeSubscriptionBillingIntervalResponse.js';
+export type { SubscriptionDeliveryRequestInput } from '../declarations/SubscriptionDeliveryRequestInput.js';
+export type { MeChangeSubscriptionDeliveryResponse } from '../declarations/MeChangeSubscriptionDeliveryResponse.js';
 export type { MeChangeSubscriptionPaymentMethodResponse } from '../declarations/MeChangeSubscriptionPaymentMethodResponse.js';
+export type { MeChangeSubscriptionQuantityResponse } from '../declarations/MeChangeSubscriptionQuantityResponse.js';
 export type { EmailChangeRequestResponse } from '../declarations/EmailChangeRequestResponse.js';
 export type { MeConfirmEmailChangeRequestResponse } from '../declarations/MeConfirmEmailChangeRequestResponse.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
@@ -924,6 +1020,9 @@ export type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSess
 export type { MeCreateReturnResolutionCheckoutSessionResponse } from '../declarations/MeCreateReturnResolutionCheckoutSessionResponse.js';
 export type { BuyerSubscriptionPaymentRetryResponse } from '../declarations/BuyerSubscriptionPaymentRetryResponse.js';
 export type { MeCreateSubscriptionPaymentRetryResponse } from '../declarations/MeCreateSubscriptionPaymentRetryResponse.js';
+export type { SubscriptionDeliveryDestinationRequestInput } from '../declarations/SubscriptionDeliveryDestinationRequestInput.js';
+export type { SubscriptionPreviewResponse } from '../declarations/SubscriptionPreviewResponse.js';
+export type { MeCreateSubscriptionPreviewResponse } from '../declarations/MeCreateSubscriptionPreviewResponse.js';
 export type { ActionResponse } from '../declarations/ActionResponse.js';
 export type { MeDeleteAddressResponse } from '../declarations/MeDeleteAddressResponse.js';
 export type { CustomerResponse } from '../declarations/CustomerResponse.js';
@@ -1004,6 +1103,7 @@ export type { MePauseSubscriptionResponse } from '../declarations/MePauseSubscri
 export type { MeReactivateSubscriptionResponse } from '../declarations/MeReactivateSubscriptionResponse.js';
 export type { MeRemoveGiftCardResponse } from '../declarations/MeRemoveGiftCardResponse.js';
 export type { MeRemovePaymentMethodResponse } from '../declarations/MeRemovePaymentMethodResponse.js';
+export type { MeRenewSubscriptionResponse } from '../declarations/MeRenewSubscriptionResponse.js';
 export type { MeResumeSubscriptionResponse } from '../declarations/MeResumeSubscriptionResponse.js';
 export type { MeSaveGiftCardResponse } from '../declarations/MeSaveGiftCardResponse.js';
 export type { SavePaymentMethodResponse } from '../declarations/SavePaymentMethodResponse.js';
@@ -1011,9 +1111,11 @@ export type { MeSavePaymentMethodResponse } from '../declarations/MeSavePaymentM
 export type { MeSendOrderReceiptResponse } from '../declarations/MeSendOrderReceiptResponse.js';
 export type { MeSetDefaultAddressResponse } from '../declarations/MeSetDefaultAddressResponse.js';
 export type { MeSetDefaultPaymentMethodResponse } from '../declarations/MeSetDefaultPaymentMethodResponse.js';
+export type { MeSkipSubscriptionCycleResponse } from '../declarations/MeSkipSubscriptionCycleResponse.js';
 export type { MeUpdateResponse } from '../declarations/MeUpdateResponse.js';
 export type { MeUpdateAddressResponse } from '../declarations/MeUpdateAddressResponse.js';
 export type { MeUpdateEmailPreferencesResponse } from '../declarations/MeUpdateEmailPreferencesResponse.js';
+export type { MeUpdateSubscriptionLineItemResponse } from '../declarations/MeUpdateSubscriptionLineItemResponse.js';
 export type { MeFlintWalletCard } from '../declarations/MeFlintWalletCard.js';
 export type { MeFlintWalletCardInput } from '../declarations/MeFlintWalletCardInput.js';
 export type { MeFlintWalletCardListResponseInput } from '../declarations/MeFlintWalletCardListResponseInput.js';
@@ -1068,7 +1170,10 @@ export type { MerchantWebhookEnvelope } from '../declarations/MerchantWebhookEnv
 export type { MerchantWebhookEnvelopeInput } from '../declarations/MerchantWebhookEnvelopeInput.js';
 export type { MeCancelReturnInput } from '../declarations/MeCancelReturnInput.js';
 export type { MeCancelSubscriptionInput } from '../declarations/MeCancelSubscriptionInput.js';
+export type { MeChangeSubscriptionBillingIntervalInput } from '../declarations/MeChangeSubscriptionBillingIntervalInput.js';
+export type { MeChangeSubscriptionDeliveryInput } from '../declarations/MeChangeSubscriptionDeliveryInput.js';
 export type { MeChangeSubscriptionPaymentMethodInput } from '../declarations/MeChangeSubscriptionPaymentMethodInput.js';
+export type { MeChangeSubscriptionQuantityInput } from '../declarations/MeChangeSubscriptionQuantityInput.js';
 export type { MeConfirmEmailChangeRequestInput } from '../declarations/MeConfirmEmailChangeRequestInput.js';
 export type { MeCreateAddressInput } from '../declarations/MeCreateAddressInput.js';
 export type { MeCreateDeletionRequestInput } from '../declarations/MeCreateDeletionRequestInput.js';
@@ -1081,6 +1186,7 @@ export type { MeCreateReturnInput } from '../declarations/MeCreateReturnInput.js
 export type { MeCreateReturnPreviewInput } from '../declarations/MeCreateReturnPreviewInput.js';
 export type { MeCreateReturnResolutionCheckoutSessionInput } from '../declarations/MeCreateReturnResolutionCheckoutSessionInput.js';
 export type { MeCreateSubscriptionPaymentRetryInput } from '../declarations/MeCreateSubscriptionPaymentRetryInput.js';
+export type { MeCreateSubscriptionPreviewInput } from '../declarations/MeCreateSubscriptionPreviewInput.js';
 export type { MeDeleteAddressInput } from '../declarations/MeDeleteAddressInput.js';
 export type { MeGetInput } from '../declarations/MeGetInput.js';
 export type { MeGetAddressInput } from '../declarations/MeGetAddressInput.js';
@@ -1130,17 +1236,20 @@ export type { MerchantAccountSessionsRefreshInput } from '../declarations/Mercha
 export type { MerchantAccountSessionsRefreshResponse } from '../declarations/MerchantAccountSessionsRefreshResponse.js';
 export type { MeRemoveGiftCardInput } from '../declarations/MeRemoveGiftCardInput.js';
 export type { MeRemovePaymentMethodInput } from '../declarations/MeRemovePaymentMethodInput.js';
+export type { MeRenewSubscriptionInput } from '../declarations/MeRenewSubscriptionInput.js';
 export type { MeResumeSubscriptionInput } from '../declarations/MeResumeSubscriptionInput.js';
 export type { MeSaveGiftCardInput } from '../declarations/MeSaveGiftCardInput.js';
 export type { MeSavePaymentMethodInput } from '../declarations/MeSavePaymentMethodInput.js';
 export type { MeSendOrderReceiptInput } from '../declarations/MeSendOrderReceiptInput.js';
 export type { MeSetDefaultAddressInput } from '../declarations/MeSetDefaultAddressInput.js';
 export type { MeSetDefaultPaymentMethodInput } from '../declarations/MeSetDefaultPaymentMethodInput.js';
+export type { MeSkipSubscriptionCycleInput } from '../declarations/MeSkipSubscriptionCycleInput.js';
 export type { MeUpdateInput } from '../declarations/MeUpdateInput.js';
 export type { MeUpdateAddressInput } from '../declarations/MeUpdateAddressInput.js';
 export type { MeUpdateEmailPreferencesInput } from '../declarations/MeUpdateEmailPreferencesInput.js';
 export type { MerchantsUpdateInput } from '../declarations/MerchantsUpdateInput.js';
 export type { MerchantsUpdateResponse } from '../declarations/MerchantsUpdateResponse.js';
+export type { MeUpdateSubscriptionLineItemInput } from '../declarations/MeUpdateSubscriptionLineItemInput.js';
 export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
@@ -1149,6 +1258,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { DeliverySelectionRecipientRequestInput } from '../declarations/DeliverySelectionRecipientRequestInput.js';
 export type { EmailChangeRequest } from '../declarations/EmailChangeRequest.js';
 export type { BuyerInvoiceCheckoutSessionResult } from '../declarations/BuyerInvoiceCheckoutSessionResult.js';
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
@@ -1197,6 +1307,7 @@ export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligib
 export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/BuyerDeliveryQuoteChoiceGroupResource.js';
 export type { BuyerDeliveryInputRequirementResource } from '../declarations/BuyerDeliveryInputRequirementResource.js';
 export type { BuyerDeliveryOptionResource } from '../declarations/BuyerDeliveryOptionResource.js';
+export type { CheckoutGiftCardChallenge } from '../declarations/CheckoutGiftCardChallenge.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
 export type { CheckoutMerchantSupport } from '../declarations/CheckoutMerchantSupport.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
@@ -1215,6 +1326,8 @@ export type { CheckoutProblemResource } from '../declarations/CheckoutProblemRes
 export type { CheckoutPromotionConfig } from '../declarations/CheckoutPromotionConfig.js';
 export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsConfig.js';
 export type { CheckoutSubscriptionTerms } from '../declarations/CheckoutSubscriptionTerms.js';
+export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
+export type { CheckoutSubscriptionRecurringShipping } from '../declarations/CheckoutSubscriptionRecurringShipping.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
@@ -1250,14 +1363,12 @@ export type { ReturnResolutionWarning } from '../declarations/ReturnResolutionWa
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
 export type { BuyerSubscriptionPaymentRetry } from '../declarations/BuyerSubscriptionPaymentRetry.js';
 export type { SubscriptionPaymentRetryFailure } from '../declarations/SubscriptionPaymentRetryFailure.js';
-export type { ActionResult } from '../declarations/ActionResult.js';
-export type { Customer } from '../declarations/Customer.js';
-export type { CardDetails } from '../declarations/CardDetails.js';
-export type { CustomerReceivables } from '../declarations/CustomerReceivables.js';
-export type { CustomerReceivableBalance } from '../declarations/CustomerReceivableBalance.js';
-export type { DocumentTaxID } from '../declarations/DocumentTaxID.js';
-export type { CustomerEmailPreferences } from '../declarations/CustomerEmailPreferences.js';
-export type { CreditNoteLine } from '../declarations/CreditNoteLine.js';
+export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
+export type { SubscriptionAddressVerification } from '../declarations/SubscriptionAddressVerification.js';
+export type { SubscriptionDeliveryOption } from '../declarations/SubscriptionDeliveryOption.js';
+export type { SubscriptionPreviewError } from '../declarations/SubscriptionPreviewError.js';
+export type { ErrorDetail } from '../declarations/ErrorDetail.js';
+export type { ErrorResourceReference } from '../declarations/ErrorResourceReference.js';
 export type { FulfillmentHold } from '../declarations/FulfillmentHold.js';
 export type { FulfillmentChargeLink } from '../declarations/FulfillmentChargeLink.js';
 export type { DigitalFulfillmentDetails } from '../declarations/DigitalFulfillmentDetails.js';
@@ -1269,6 +1380,19 @@ export type { PickupFulfillmentDetails } from '../declarations/PickupFulfillment
 export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.js';
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
+export type { ReturnShipmentLineItemAllocation } from '../declarations/ReturnShipmentLineItemAllocation.js';
+export type { ShippingDimensions } from '../declarations/ShippingDimensions.js';
+export type { ShippingWeight } from '../declarations/ShippingWeight.js';
+export type { QuotaDetails } from '../declarations/QuotaDetails.js';
+export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
+export type { ActionResult } from '../declarations/ActionResult.js';
+export type { Customer } from '../declarations/Customer.js';
+export type { CardDetails } from '../declarations/CardDetails.js';
+export type { CustomerReceivables } from '../declarations/CustomerReceivables.js';
+export type { CustomerReceivableBalance } from '../declarations/CustomerReceivableBalance.js';
+export type { DocumentTaxID } from '../declarations/DocumentTaxID.js';
+export type { CustomerEmailPreferences } from '../declarations/CustomerEmailPreferences.js';
+export type { CreditNoteLine } from '../declarations/CreditNoteLine.js';
 export type { BuyerAction } from '../declarations/BuyerAction.js';
 export type { BuyerInvoiceLateFee } from '../declarations/BuyerInvoiceLateFee.js';
 export type { InvoiceLateFeePolicy } from '../declarations/InvoiceLateFeePolicy.js';
@@ -1304,11 +1428,15 @@ export type { GiftCardCustomAmountBounds } from '../declarations/GiftCardCustomA
 export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchaseRecipient.js';
 export type { LineItemInventoryDemand } from '../declarations/LineItemInventoryDemand.js';
 export type { PurchasedGiftCard } from '../declarations/PurchasedGiftCard.js';
+export type { SubscribedLine } from '../declarations/SubscribedLine.js';
+export type { OrderLineSubscriptionOfferSummary } from '../declarations/OrderLineSubscriptionOfferSummary.js';
+export type { OrderLineSubscriptionOfferDiscount } from '../declarations/OrderLineSubscriptionOfferDiscount.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { PurchasedEvent } from '../declarations/PurchasedEvent.js';
 export type { RequestedTip } from '../declarations/RequestedTip.js';
 export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
+export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
 export type { OrderTax } from '../declarations/OrderTax.js';
 export type { OrderTaxExemption } from '../declarations/OrderTaxExemption.js';
@@ -1317,9 +1445,6 @@ export type { TaxBreakdown } from '../declarations/TaxBreakdown.js';
 export type { Tip } from '../declarations/Tip.js';
 export type { TipPaymentIntentAllocation } from '../declarations/TipPaymentIntentAllocation.js';
 export type { TipValueSettlementAllocation } from '../declarations/TipValueSettlementAllocation.js';
-export type { ShippingDimensions } from '../declarations/ShippingDimensions.js';
-export type { ReturnShipmentLineItemAllocation } from '../declarations/ReturnShipmentLineItemAllocation.js';
-export type { ShippingWeight } from '../declarations/ShippingWeight.js';
 export type { PaymentAddOnFee } from '../declarations/PaymentAddOnFee.js';
 export type { PaymentFulfillmentHold } from '../declarations/PaymentFulfillmentHold.js';
 export type { RefundLineItemAllocation } from '../declarations/RefundLineItemAllocation.js';
@@ -1339,8 +1464,15 @@ export type { ReturnHandoffDestination } from '../declarations/ReturnHandoffDest
 export type { ReturnLineItem } from '../declarations/ReturnLineItem.js';
 export type { ReturnLineItemValue } from '../declarations/ReturnLineItemValue.js';
 export type { SubscriptionCancellationDetails } from '../declarations/SubscriptionCancellationDetails.js';
+export type { SubscriptionDelivery } from '../declarations/SubscriptionDelivery.js';
+export type { SubscriptionDeliveryMethodSummary } from '../declarations/SubscriptionDeliveryMethodSummary.js';
+export type { SubscriptionDeliveryDestination } from '../declarations/SubscriptionDeliveryDestination.js';
+export type { DeliveryRecipientResource } from '../declarations/DeliveryRecipientResource.js';
+export type { SubscriptionDeliveryHold } from '../declarations/SubscriptionDeliveryHold.js';
+export type { SubscriptionInventoryWait } from '../declarations/SubscriptionInventoryWait.js';
 export type { SubscriptionLineItem } from '../declarations/SubscriptionLineItem.js';
 export type { SubscriptionServiceLocation } from '../declarations/SubscriptionServiceLocation.js';
+export type { SubscriptionUpcomingDeliveryHold } from '../declarations/SubscriptionUpcomingDeliveryHold.js';
 export type { SavePaymentMethodResult } from '../declarations/SavePaymentMethodResult.js';
 export type { StripeClientSetup } from '../declarations/StripeClientSetup.js';
 export type { StripeClientSetupStripe } from '../declarations/StripeClientSetupStripe.js';
@@ -1358,7 +1490,10 @@ export type { OnboardingRequirements } from '../declarations/OnboardingRequireme
 export type { OnboardingRequirementsInput } from '../declarations/OnboardingRequirementsInput.js';
 export type { CancelReturnRequestInput } from '../declarations/CancelReturnRequestInput.js';
 export type { CancelSubscriptionRequestInput } from '../declarations/CancelSubscriptionRequestInput.js';
+export type { ChangeMeSubscriptionBillingIntervalRequestInput } from '../declarations/ChangeMeSubscriptionBillingIntervalRequestInput.js';
+export type { ChangeMeSubscriptionDeliveryRequestInput } from '../declarations/ChangeMeSubscriptionDeliveryRequestInput.js';
 export type { ChangeSubscriptionPaymentMethodRequestInput } from '../declarations/ChangeSubscriptionPaymentMethodRequestInput.js';
+export type { ChangeMeSubscriptionQuantityRequestInput } from '../declarations/ChangeMeSubscriptionQuantityRequestInput.js';
 export type { ConfirmEmailChangeRequestInput } from '../declarations/ConfirmEmailChangeRequestInput.js';
 export type { CreateCustomerAddressRequestInput } from '../declarations/CreateCustomerAddressRequestInput.js';
 export type { CreateEmailChangeRequestInput } from '../declarations/CreateEmailChangeRequestInput.js';
@@ -1366,7 +1501,9 @@ export type { InvoiceCheckoutSessionRequestInput } from '../declarations/Invoice
 export type { CreateReturnRequestInput } from '../declarations/CreateReturnRequestInput.js';
 export type { CreateReturnPreviewRequestInput } from '../declarations/CreateReturnPreviewRequestInput.js';
 export type { GetOrCreateReturnResolutionCheckoutSessionRequestInput } from '../declarations/GetOrCreateReturnResolutionCheckoutSessionRequestInput.js';
+export type { CreateMeSubscriptionPreviewRequestInput } from '../declarations/CreateMeSubscriptionPreviewRequestInput.js';
 export type { PauseSubscriptionRequestInput } from '../declarations/PauseSubscriptionRequestInput.js';
+export type { InventoryCountTransitionRequestInput } from '../declarations/InventoryCountTransitionRequestInput.js';
 export type { SaveMeGiftCardRequestInput } from '../declarations/SaveMeGiftCardRequestInput.js';
 export type { SaveMePaymentMethodRequestInput } from '../declarations/SaveMePaymentMethodRequestInput.js';
 export type { SetDefaultCustomerAddressRequestInput } from '../declarations/SetDefaultCustomerAddressRequestInput.js';
@@ -1375,6 +1512,7 @@ export type { UpdateCustomerAddressRequestInput } from '../declarations/UpdateCu
 export type { UpdateCustomerEmailPreferencesRequestInput } from '../declarations/UpdateCustomerEmailPreferencesRequestInput.js';
 export type { UpdateMerchantRequestInput } from '../declarations/UpdateMerchantRequestInput.js';
 export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
+export type { UpdateMeSubscriptionLineItemRequestInput } from '../declarations/UpdateMeSubscriptionLineItemRequestInput.js';
 export { makeAddReturnLineItemResponse } from '../declarations/makeAddReturnLineItemResponse.js';
 export { makeSubscriptionResponse } from '../declarations/makeSubscriptionResponse.js';
 export { makeEmailChangeRequestResponse } from '../declarations/makeEmailChangeRequestResponse.js';
@@ -1385,6 +1523,7 @@ export { makeBuyerInvoiceCheckoutSessionResponse } from '../declarations/makeBuy
 export { makeCreateReturnPreviewResponse } from '../declarations/makeCreateReturnPreviewResponse.js';
 export { makeCheckoutSessionLaunchResponse } from '../declarations/makeCheckoutSessionLaunchResponse.js';
 export { makeBuyerSubscriptionPaymentRetryResponse } from '../declarations/makeBuyerSubscriptionPaymentRetryResponse.js';
+export { makeSubscriptionPreviewResponse } from '../declarations/makeSubscriptionPreviewResponse.js';
 export { makeActionResponse } from '../declarations/makeActionResponse.js';
 export { makeCustomerResponse } from '../declarations/makeCustomerResponse.js';
 export { makeBuyerCreditNoteResponse } from '../declarations/makeBuyerCreditNoteResponse.js';
@@ -1507,6 +1646,7 @@ export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEli
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeBuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../declarations/makeBuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../declarations/makeBuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../declarations/makeCheckoutGiftCardChallenge.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
 export { makeCheckoutMerchantSupport } from '../declarations/makeCheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
@@ -1525,6 +1665,8 @@ export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblem
 export { makeCheckoutPromotionConfig } from '../declarations/makeCheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirectsConfig.js';
 export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
+export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../declarations/makeCheckoutSubscriptionRecurringShipping.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
@@ -1555,14 +1697,11 @@ export { makeReturnResolutionWarning } from '../declarations/makeReturnResolutio
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
 export { makeBuyerSubscriptionPaymentRetry } from '../declarations/makeBuyerSubscriptionPaymentRetry.js';
 export { makeSubscriptionPaymentRetryFailure } from '../declarations/makeSubscriptionPaymentRetryFailure.js';
-export { makeActionResult } from '../declarations/makeActionResult.js';
-export { makeCustomer } from '../declarations/makeCustomer.js';
-export { makeCardDetails } from '../declarations/makeCardDetails.js';
-export { makeCustomerReceivables } from '../declarations/makeCustomerReceivables.js';
-export { makeCustomerReceivableBalance } from '../declarations/makeCustomerReceivableBalance.js';
-export { makeDocumentTaxID } from '../declarations/makeDocumentTaxID.js';
-export { makeCustomerEmailPreferences } from '../declarations/makeCustomerEmailPreferences.js';
-export { makeCreditNoteLine } from '../declarations/makeCreditNoteLine.js';
+export { makeSubscriptionAddressVerification } from '../declarations/makeSubscriptionAddressVerification.js';
+export { makeSubscriptionDeliveryOption } from '../declarations/makeSubscriptionDeliveryOption.js';
+export { makeSubscriptionPreviewError } from '../declarations/makeSubscriptionPreviewError.js';
+export { makeErrorDetail } from '../declarations/makeErrorDetail.js';
+export { makeErrorResourceReference } from '../declarations/makeErrorResourceReference.js';
 export { makeFulfillmentHold } from '../declarations/makeFulfillmentHold.js';
 export { makeFulfillmentChargeLink } from '../declarations/makeFulfillmentChargeLink.js';
 export { makeDigitalFulfillmentDetails } from '../declarations/makeDigitalFulfillmentDetails.js';
@@ -1574,6 +1713,19 @@ export { makePickupFulfillmentDetails } from '../declarations/makePickupFulfillm
 export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
+export { makeReturnShipmentLineItemAllocation } from '../declarations/makeReturnShipmentLineItemAllocation.js';
+export { makeShippingDimensions } from '../declarations/makeShippingDimensions.js';
+export { makeShippingWeight } from '../declarations/makeShippingWeight.js';
+export { makeQuotaDetails } from '../declarations/makeQuotaDetails.js';
+export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';
+export { makeActionResult } from '../declarations/makeActionResult.js';
+export { makeCustomer } from '../declarations/makeCustomer.js';
+export { makeCardDetails } from '../declarations/makeCardDetails.js';
+export { makeCustomerReceivables } from '../declarations/makeCustomerReceivables.js';
+export { makeCustomerReceivableBalance } from '../declarations/makeCustomerReceivableBalance.js';
+export { makeDocumentTaxID } from '../declarations/makeDocumentTaxID.js';
+export { makeCustomerEmailPreferences } from '../declarations/makeCustomerEmailPreferences.js';
+export { makeCreditNoteLine } from '../declarations/makeCreditNoteLine.js';
 export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
 export { makeBuyerInvoiceLateFee } from '../declarations/makeBuyerInvoiceLateFee.js';
 export { makeInvoiceLateFeePolicy } from '../declarations/makeInvoiceLateFeePolicy.js';
@@ -1609,11 +1761,15 @@ export { makeGiftCardCustomAmountBounds } from '../declarations/makeGiftCardCust
 export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurchaseRecipient.js';
 export { makeLineItemInventoryDemand } from '../declarations/makeLineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../declarations/makePurchasedGiftCard.js';
+export { makeSubscribedLine } from '../declarations/makeSubscribedLine.js';
+export { makeOrderLineSubscriptionOfferSummary } from '../declarations/makeOrderLineSubscriptionOfferSummary.js';
+export { makeOrderLineSubscriptionOfferDiscount } from '../declarations/makeOrderLineSubscriptionOfferDiscount.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makePurchasedEvent } from '../declarations/makePurchasedEvent.js';
 export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
+export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
 export { makeOrderTax } from '../declarations/makeOrderTax.js';
 export { makeOrderTaxExemption } from '../declarations/makeOrderTaxExemption.js';
@@ -1622,9 +1778,6 @@ export { makeTaxBreakdown } from '../declarations/makeTaxBreakdown.js';
 export { makeTip } from '../declarations/makeTip.js';
 export { makeTipPaymentIntentAllocation } from '../declarations/makeTipPaymentIntentAllocation.js';
 export { makeTipValueSettlementAllocation } from '../declarations/makeTipValueSettlementAllocation.js';
-export { makeShippingDimensions } from '../declarations/makeShippingDimensions.js';
-export { makeReturnShipmentLineItemAllocation } from '../declarations/makeReturnShipmentLineItemAllocation.js';
-export { makeShippingWeight } from '../declarations/makeShippingWeight.js';
 export { makePaymentAddOnFee } from '../declarations/makePaymentAddOnFee.js';
 export { makePaymentFulfillmentHold } from '../declarations/makePaymentFulfillmentHold.js';
 export { makeRefundLineItemAllocation } from '../declarations/makeRefundLineItemAllocation.js';
@@ -1644,8 +1797,15 @@ export { makeReturnHandoffDestination } from '../declarations/makeReturnHandoffD
 export { makeReturnLineItem } from '../declarations/makeReturnLineItem.js';
 export { makeReturnLineItemValue } from '../declarations/makeReturnLineItemValue.js';
 export { makeSubscriptionCancellationDetails } from '../declarations/makeSubscriptionCancellationDetails.js';
+export { makeSubscriptionDelivery } from '../declarations/makeSubscriptionDelivery.js';
+export { makeSubscriptionDeliveryMethodSummary } from '../declarations/makeSubscriptionDeliveryMethodSummary.js';
+export { makeSubscriptionDeliveryDestination } from '../declarations/makeSubscriptionDeliveryDestination.js';
+export { makeDeliveryRecipientResource } from '../declarations/makeDeliveryRecipientResource.js';
+export { makeSubscriptionDeliveryHold } from '../declarations/makeSubscriptionDeliveryHold.js';
+export { makeSubscriptionInventoryWait } from '../declarations/makeSubscriptionInventoryWait.js';
 export { makeSubscriptionLineItem } from '../declarations/makeSubscriptionLineItem.js';
 export { makeSubscriptionServiceLocation } from '../declarations/makeSubscriptionServiceLocation.js';
+export { makeSubscriptionUpcomingDeliveryHold } from '../declarations/makeSubscriptionUpcomingDeliveryHold.js';
 export { makeSavePaymentMethodResult } from '../declarations/makeSavePaymentMethodResult.js';
 export { makeStripeClientSetup } from '../declarations/makeStripeClientSetup.js';
 export { makeStripeClientSetupStripe } from '../declarations/makeStripeClientSetupStripe.js';

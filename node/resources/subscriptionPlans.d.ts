@@ -3,9 +3,11 @@ export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSe
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
+import type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
 import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { SubscriptionIntervalOptionInput } from '../declarations/SubscriptionIntervalOptionInput.js';
 import type { SubscriptionPlan } from '../declarations/SubscriptionPlan.js';
 import type { SubscriptionPlanLineItemRequestInput } from '../declarations/SubscriptionPlanLineItemRequestInput.js';
 import type { SubscriptionPlanListResponse } from '../declarations/SubscriptionPlanListResponse.js';
@@ -32,9 +34,9 @@ export interface SubscriptionPlansResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionPlans.create({billing_interval: "daily", billing_interval_count: 1, currency: "USD", name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
+    create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansCreateResponse>>;
     /**
  * Retires a subscription plan. Plans with active subscriptions cannot be retired.
  * DELETE /v1/subscription-plans/{subscription_plan_id}
@@ -68,16 +70,16 @@ export interface SubscriptionPlansResource {
     listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionPlansListResponse>>;
     listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPlan>;
     /**
- * Applies a sparse update to mutable subscription plan fields. Line items are mutated through the subscription plan line-item endpoints.
+ * Applies a sparse update to mutable subscription plan fields. Send line_items with expected_version to replace the plan's line items; omit line_items to keep them.
  * PATCH /v1/subscription-plans/{subscription_plan_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionPlans.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
+    update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(subscription_plan_id: InputValue<string>, params: (InputValue<({ "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "setup_fee_money"?: MoneyValueInput; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansUpdateResponse>>;
+    updateWithResponse(subscription_plan_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansUpdateResponse>>;
   }
 export declare class Client {
 
@@ -86,8 +88,10 @@ export declare class Client {
   close(): Promise<void>;
 readonly subscriptionPlans: SubscriptionPlansResource;
 }
+export type { SubscriptionIntervalOptionInput } from '../declarations/SubscriptionIntervalOptionInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
+export type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
 export type { SubscriptionPlanLineItemRequestInput } from '../declarations/SubscriptionPlanLineItemRequestInput.js';
 export type { RequestOptions } from '../declarations/RequestOptions.js';
 export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
@@ -117,7 +121,11 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
+export type { SubscriptionDeliveryMethodCounts } from '../declarations/SubscriptionDeliveryMethodCounts.js';
+export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
 export type { Image } from '../declarations/Image.js';
+export type { InventoryRoutingSourceRequest } from '../declarations/InventoryRoutingSourceRequest.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
@@ -125,6 +133,7 @@ export type { SelectedProductOption } from '../declarations/SelectedProductOptio
 export type { CategoryReference } from '../declarations/CategoryReference.js';
 export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
+export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
 export type { CreateSubscriptionPlanRequestInput } from '../declarations/CreateSubscriptionPlanRequestInput.js';
 export type { UpdateSubscriptionPlanRequestInput } from '../declarations/UpdateSubscriptionPlanRequestInput.js';
@@ -136,7 +145,11 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
+export { makeSubscriptionDeliveryMethodCounts } from '../declarations/makeSubscriptionDeliveryMethodCounts.js';
+export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';
 export { makeImage } from '../declarations/makeImage.js';
+export { makeInventoryRoutingSourceRequest } from '../declarations/makeInventoryRoutingSourceRequest.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
@@ -144,4 +157,5 @@ export { makeSelectedProductOption } from '../declarations/makeSelectedProductOp
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
 export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
+export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';

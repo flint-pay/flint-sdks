@@ -6,12 +6,14 @@ namespace Flint;
  * @property-read int $billing_anchor_day
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
+ * @property-read list<SubscriptionIntervalOption> $billing_interval_options
  * @property-read string $billing_schedule_owner
  * @property-read string $billing_schedule_waiting_started_at
  * @property-read list<BuyerAction> $buyer_actions
  * @property-read bool $cancel_at_period_end
  * @property-read string $canceled_at
  * @property-read SubscriptionCancellationDetails $cancellation_details
+ * @property-read string $completed_cycles
  * @property-read string $contract_end_at
  * @property-read string $contract_start_at
  * @property-read string $created_at
@@ -19,16 +21,23 @@ namespace Flint;
  * @property-read string $current_period_start
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read string $customer_id
+ * @property-read SubscriptionDelivery $delivery
+ * @property-read SubscriptionDeliveryHold $delivery_hold
  * @property-read MoneyValue $early_termination_fee_money
  * @property-read string $external_reference_id
+ * @property-read SubscriptionInventoryWait $inventory_wait
  * @property-read list<SubscriptionLineItem> $line_items
  * @property-read string $merchant_id
  * @property-read array<array-key, string> $metadata
  * @property-read string $next_billing_at
  * @property-read string|null $next_retry_at
+ * @property-read string $open_renewal_order_id
+ * @property-read string $pause_reason
  * @property-read string $paused_at
  * @property-read ExpandedPaymentMethodSummary|null $payment_method
  * @property-read string $payment_method_id
+ * @property-read int $quantity
+ * @property-read list<int> $quantity_options
  * @property-read MoneyValue $recurring_amount_money
  * @property-read SubscriptionServiceLocation $service_location
  * @property-read string $starts_at
@@ -37,10 +46,12 @@ namespace Flint;
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
  * @property-read string $subscription_plan_id
  * @property-read string $trial_end
+ * @property-read SubscriptionUpcomingDeliveryHold $upcoming_delivery_hold
  * @property-read string $updated_at
+ * @property-read string $version
  * Presence-aware response; omitted fields throw when accessed. */
 final class Subscription extends Model {
-    /** @param array{'awaiting_billing_schedule'?: bool, 'billing_anchor_day'?: int, 'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'buyer_actions': list<mixed>, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at'?: string, 'current_period_end'?: string, 'current_period_start'?: string, 'customer'?: mixed, 'customer_id': string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'line_items'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'next_billing_at'?: string, 'next_retry_at'?: string|null, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_id': string, 'recurring_amount_money'?: mixed, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id': string, 'trial_end'?: string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'awaiting_billing_schedule'?: bool, 'billing_anchor_day'?: int, 'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_interval_options'?: list<mixed>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'buyer_actions': list<mixed>, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'completed_cycles': string, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at'?: string, 'current_period_end'?: string, 'current_period_start'?: string, 'customer'?: mixed, 'customer_id': string, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'inventory_wait'?: mixed, 'line_items'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'next_billing_at'?: string, 'next_retry_at'?: string|null, 'open_renewal_order_id'?: string, 'pause_reason'?: string, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_id': string, 'quantity': int, 'quantity_options'?: list<int>, 'recurring_amount_money'?: mixed, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'trial_end'?: string, 'upcoming_delivery_hold'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Subscription')); }
     /** @return bool
      * @throws SdkError When awaiting_billing_schedule is omitted; use hasAwaitingBillingSchedule() or valueOrDefault().
@@ -62,6 +73,11 @@ final class Subscription extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
+    /** @return list<SubscriptionIntervalOption>
+     * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
+     */
+    public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
+    public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
     /** @return string
      * @throws SdkError When billing_schedule_owner is omitted; use hasBillingScheduleOwner() or valueOrDefault().
      */
@@ -92,6 +108,11 @@ final class Subscription extends Model {
      */
     public function getCancellationDetails(): SubscriptionCancellationDetails { return $this->get('cancellation_details'); }
     public function hasCancellationDetails(): bool { return $this->has('cancellation_details'); }
+    /** @return string
+     * @throws SdkError When completed_cycles is omitted; use hasCompletedCycles() or valueOrDefault().
+     */
+    public function getCompletedCycles(): string { return $this->get('completed_cycles'); }
+    public function hasCompletedCycles(): bool { return $this->has('completed_cycles'); }
     /** @return string
      * @throws SdkError When contract_end_at is omitted; use hasContractEndAt() or valueOrDefault().
      */
@@ -127,6 +148,16 @@ final class Subscription extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** @return SubscriptionDelivery
+     * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
+     */
+    public function getDelivery(): SubscriptionDelivery { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
+    /** @return SubscriptionDeliveryHold
+     * @throws SdkError When delivery_hold is omitted; use hasDeliveryHold() or valueOrDefault().
+     */
+    public function getDeliveryHold(): SubscriptionDeliveryHold { return $this->get('delivery_hold'); }
+    public function hasDeliveryHold(): bool { return $this->has('delivery_hold'); }
     /** @return MoneyValue
      * @throws SdkError When early_termination_fee_money is omitted; use hasEarlyTerminationFeeMoney() or valueOrDefault().
      */
@@ -137,6 +168,11 @@ final class Subscription extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** @return SubscriptionInventoryWait
+     * @throws SdkError When inventory_wait is omitted; use hasInventoryWait() or valueOrDefault().
+     */
+    public function getInventoryWait(): SubscriptionInventoryWait { return $this->get('inventory_wait'); }
+    public function hasInventoryWait(): bool { return $this->has('inventory_wait'); }
     /** @return list<SubscriptionLineItem>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -163,6 +199,16 @@ final class Subscription extends Model {
     public function getNextRetryAt(): string|null { return $this->get('next_retry_at'); }
     public function hasNextRetryAt(): bool { return $this->has('next_retry_at'); }
     /** @return string
+     * @throws SdkError When open_renewal_order_id is omitted; use hasOpenRenewalOrderId() or valueOrDefault().
+     */
+    public function getOpenRenewalOrderId(): string { return $this->get('open_renewal_order_id'); }
+    public function hasOpenRenewalOrderId(): bool { return $this->has('open_renewal_order_id'); }
+    /** @return string
+     * @throws SdkError When pause_reason is omitted; use hasPauseReason() or valueOrDefault().
+     */
+    public function getPauseReason(): string { return $this->get('pause_reason'); }
+    public function hasPauseReason(): bool { return $this->has('pause_reason'); }
+    /** @return string
      * @throws SdkError When paused_at is omitted; use hasPausedAt() or valueOrDefault().
      */
     public function getPausedAt(): string { return $this->get('paused_at'); }
@@ -177,6 +223,16 @@ final class Subscription extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** @return int
+     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
+     */
+    public function getQuantity(): int { return $this->get('quantity'); }
+    public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** @return list<int>
+     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
+     */
+    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
+    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** @return MoneyValue
      * @throws SdkError When recurring_amount_money is omitted; use hasRecurringAmountMoney() or valueOrDefault().
      */
@@ -217,9 +273,19 @@ final class Subscription extends Model {
      */
     public function getTrialEnd(): string { return $this->get('trial_end'); }
     public function hasTrialEnd(): bool { return $this->has('trial_end'); }
+    /** @return SubscriptionUpcomingDeliveryHold
+     * @throws SdkError When upcoming_delivery_hold is omitted; use hasUpcomingDeliveryHold() or valueOrDefault().
+     */
+    public function getUpcomingDeliveryHold(): SubscriptionUpcomingDeliveryHold { return $this->get('upcoming_delivery_hold'); }
+    public function hasUpcomingDeliveryHold(): bool { return $this->has('upcoming_delivery_hold'); }
     /** @return string
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** @return string
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

@@ -8,6 +8,9 @@ namespace Flint;
  * @property-read string $billing_schedule_owner
  * @property-read bool $awaiting_billing_schedule
  * @property-read bool $cancel_at_period_end
+ * @property-read string $delivery_method_id
+ * @property-read string $hold_reason
+ * @property-read string $subscription_offer_id
  * @property-read string $subscription_plan_id
  * @property-read string $sort_by
  * @property-read string $sort_direction
@@ -20,7 +23,7 @@ namespace Flint;
  * @property-read bool $needs_attention
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListSubscriptionsInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'subscription_plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'delivery_method_id'?: string, 'hold_reason'?: string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'Flint-Version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListSubscriptionsInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -52,6 +55,21 @@ final class MeListSubscriptionsInput extends Model {
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
+    /** @return string
+     * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
+     */
+    public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
+    public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
+    /** @return string
+     * @throws SdkError When hold_reason is omitted; use hasHoldReason() or valueOrDefault().
+     */
+    public function getHoldReason(): string { return $this->get('hold_reason'); }
+    public function hasHoldReason(): bool { return $this->has('hold_reason'); }
+    /** @return string
+     * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
+     */
+    public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
+    public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
     /** @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

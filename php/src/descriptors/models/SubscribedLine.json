@@ -1,0 +1,1 @@
+{"shared":"SubscribedLine","phpRepresentation":{"kind":"record","fields":{"billing_interval":{"kind":"value","type":"string"},"billing_interval_count":{"kind":"value","type":"int"},"recurring_amount_money":{"kind":"entity","name":"MoneyValue"},"subscription_offer_id":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","SubscribedLine"]}

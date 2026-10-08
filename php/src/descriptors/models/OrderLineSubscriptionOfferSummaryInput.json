@@ -1,0 +1,1 @@
+{"shared":"OrderLineSubscriptionOfferSummary","dependencies":["MoneyValue","OrderLineSubscriptionOfferDiscount","OrderLineSubscriptionOfferSummary","SubscriptionIntervalOption"]}

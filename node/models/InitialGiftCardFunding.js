@@ -1,9 +1,9 @@
-import { d325 as c0, d335 as c1, d314 as c2, d324 as c3, d323 as c4, d327 as c5, d328 as c6, d330 as c7, d329 as c8, d316 as c9, d315 as c10, d326 as c11, d318 as c12, d317 as c13, d319 as c14, d320 as c15, d321 as c16, d322 as c17 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
-import { d335 } from '../descriptors/data.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import { d334 as c0, d344 as c1, d323 as c2, d330 as c3, d331 as c4, d333 as c5, d332 as c6, d336 as c7, d337 as c8, d339 as c9, d338 as c10, d325 as c11, d324 as c12, d335 as c13, d327 as c14, d326 as c15, d328 as c16, d329 as c17 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
+import { d344 } from '../descriptors/data.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d335;
+const read = d344;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["InitialGiftCardFunding"]:c1(),["MoneyValue"]:c2(),["SharedCodec100"]:c3(),["SharedCodec101"]:c4(),["SharedCodec102"]:c5(),["SharedCodec103"]:c6(),["SharedCodec104"]:c7(),["SharedCodec105"]:c8(),["SharedCodec91"]:c9(),["SharedCodec92"]:c10(),["SharedCodec93"]:c11(),["SharedCodec94"]:c12(),["SharedCodec95"]:c13(),["SharedCodec96"]:c14(),["SharedCodec97"]:c15(),["SharedCodec98"]:c16(),["SharedCodec99"]:c17()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["InitialGiftCardFunding"]:c1(),["MoneyValue"]:c2(),["SharedCodec100"]:c3(),["SharedCodec101"]:c4(),["SharedCodec102"]:c5(),["SharedCodec103"]:c6(),["SharedCodec104"]:c7(),["SharedCodec105"]:c8(),["SharedCodec106"]:c9(),["SharedCodec107"]:c10(),["SharedCodec93"]:c11(),["SharedCodec94"]:c12(),["SharedCodec95"]:c13(),["SharedCodec96"]:c14(),["SharedCodec97"]:c15(),["SharedCodec98"]:c16(),["SharedCodec99"]:c17()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInitialGiftCardFunding(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -50,6 +50,7 @@ export type { GiftCardPurchaseRecipientInput } from '../declarations/GiftCardPur
 export type { ImageReferenceRequestInput } from '../declarations/ImageReferenceRequestInput.js';
 export type { OrderDraftLineItemInventoryDemandRequestInput } from '../declarations/OrderDraftLineItemInventoryDemandRequestInput.js';
 export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
+export type { SubscribedLineRequestInput } from '../declarations/SubscribedLineRequestInput.js';
 export type { OrderDraftLineItemTaxRequestInput } from '../declarations/OrderDraftLineItemTaxRequestInput.js';
 export type { OrderDraftLineItemTaxCalculationRequestInput } from '../declarations/OrderDraftLineItemTaxCalculationRequestInput.js';
 export type { OrderDraftTaxComponentRequestInput } from '../declarations/OrderDraftTaxComponentRequestInput.js';
@@ -89,6 +90,7 @@ export type { GiftCardPurchaseRecipient } from '../declarations/GiftCardPurchase
 export type { ImageReferenceRequest } from '../declarations/ImageReferenceRequest.js';
 export type { OrderDraftLineItemInventoryDemandRequest } from '../declarations/OrderDraftLineItemInventoryDemandRequest.js';
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
+export type { SubscribedLineRequest } from '../declarations/SubscribedLineRequest.js';
 export type { OrderDraftLineItemTaxRequest } from '../declarations/OrderDraftLineItemTaxRequest.js';
 export type { OrderDraftLineItemTaxCalculationRequest } from '../declarations/OrderDraftLineItemTaxCalculationRequest.js';
 export type { OrderDraftTaxComponentRequest } from '../declarations/OrderDraftTaxComponentRequest.js';
@@ -136,6 +138,7 @@ export { makeGiftCardPurchaseRecipient } from '../declarations/makeGiftCardPurch
 export { makeImageReferenceRequest } from '../declarations/makeImageReferenceRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../declarations/makeOrderDraftLineItemInventoryDemandRequest.js';
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
+export { makeSubscribedLineRequest } from '../declarations/makeSubscribedLineRequest.js';
 export { makeOrderDraftLineItemTaxRequest } from '../declarations/makeOrderDraftLineItemTaxRequest.js';
 export { makeOrderDraftLineItemTaxCalculationRequest } from '../declarations/makeOrderDraftLineItemTaxCalculationRequest.js';
 export { makeOrderDraftTaxComponentRequest } from '../declarations/makeOrderDraftTaxComponentRequest.js';

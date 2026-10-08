@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read string $dunning_end_action
  * @property-read int $dunning_retry_days
  * @property-read string $external_dunning_end_action
+ * @property-read bool $send_backordered_email
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionSettingsInput extends Model {
-    /** @param array{'default_billing_schedule_owner'?: string, 'dunning_end_action'?: string, 'dunning_retry_days'?: int, 'external_dunning_end_action'?: string, ...}|object $values */
+    /** @param array{'default_billing_schedule_owner'?: string, 'dunning_end_action'?: string, 'dunning_retry_days'?: int, 'external_dunning_end_action'?: string, 'send_backordered_email'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionSettingsInput')); }
     /** @return string
      * @throws SdkError When default_billing_schedule_owner is omitted; use hasDefaultBillingScheduleOwner() or valueOrDefault().
@@ -30,4 +31,9 @@ final class SubscriptionSettingsInput extends Model {
      */
     public function getExternalDunningEndAction(): string { return $this->get('external_dunning_end_action'); }
     public function hasExternalDunningEndAction(): bool { return $this->has('external_dunning_end_action'); }
+    /** @return bool
+     * @throws SdkError When send_backordered_email is omitted; use hasSendBackorderedEmail() or valueOrDefault().
+     */
+    public function getSendBackorderedEmail(): bool { return $this->get('send_backordered_email'); }
+    public function hasSendBackorderedEmail(): bool { return $this->has('send_backordered_email'); }
 }

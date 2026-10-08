@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d0201d0d4794f7d38785f27620d8e5bb6163ea5be7d564a21c40eb38a1581b';
+import settings from '../descriptors/settings.js?sdk=245b7fb11d6174517fe5d194b5fb87c42348ace248a5c84bbab9ef7bfe2b9e5e';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
@@ -417,6 +417,10 @@ export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipie
 export { makeImage } from '../models/Image.js';
 export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
 export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
+export { makeSubscribedLine } from '../models/SubscribedLine.js';
+export { makeOrderLineSubscriptionOfferSummary } from '../models/OrderLineSubscriptionOfferSummary.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubscriptionOfferDiscount.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makePaymentCollection } from '../models/PaymentCollection.js';
 export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
@@ -429,6 +433,7 @@ export { makePurchasedEvent } from '../models/PurchasedEvent.js';
 export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
+export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeOrderTax } from '../models/OrderTax.js';
 export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
@@ -445,6 +450,7 @@ export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
 export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
 export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
 export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
+export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
 export { makeLegalSettings } from '../models/LegalSettings.js';
 export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
 export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
@@ -453,6 +459,7 @@ export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.j
 export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
 export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';

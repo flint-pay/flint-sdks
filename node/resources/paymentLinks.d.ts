@@ -187,12 +187,14 @@ export type { CheckoutExpirationConfig } from '../declarations/CheckoutExpiratio
 export type { InventoryRoutingSourceRequest } from '../declarations/InventoryRoutingSourceRequest.js';
 export type { CheckoutPromotionConfig } from '../declarations/CheckoutPromotionConfig.js';
 export type { CheckoutRedirectsConfig } from '../declarations/CheckoutRedirectsConfig.js';
+export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { BundleComponent } from '../declarations/BundleComponent.js';
 export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
 export type { CategoryReference } from '../declarations/CategoryReference.js';
 export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
+export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
 export type { ResolvePaymentLinkLineItemModifierRequestInput } from '../declarations/ResolvePaymentLinkLineItemModifierRequestInput.js';
@@ -242,6 +244,7 @@ export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligib
 export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/BuyerDeliveryQuoteChoiceGroupResource.js';
 export type { BuyerDeliveryInputRequirementResource } from '../declarations/BuyerDeliveryInputRequirementResource.js';
 export type { BuyerDeliveryOptionResource } from '../declarations/BuyerDeliveryOptionResource.js';
+export type { CheckoutGiftCardChallenge } from '../declarations/CheckoutGiftCardChallenge.js';
 export type { CheckoutMerchantSupport } from '../declarations/CheckoutMerchantSupport.js';
 export type { PricingAmounts } from '../declarations/PricingAmounts.js';
 export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
@@ -256,6 +259,7 @@ export type { PaymentSourceCardSummary } from '../declarations/PaymentSourceCard
 export type { CheckoutPaymentMethodSave } from '../declarations/CheckoutPaymentMethodSave.js';
 export type { CheckoutProblemResource } from '../declarations/CheckoutProblemResource.js';
 export type { CheckoutSubscriptionTerms } from '../declarations/CheckoutSubscriptionTerms.js';
+export type { CheckoutSubscriptionRecurringShipping } from '../declarations/CheckoutSubscriptionRecurringShipping.js';
 export type { CreatePaymentLinkRequestInput } from '../declarations/CreatePaymentLinkRequestInput.js';
 export type { ResolvePaymentLinkRequestInput } from '../declarations/ResolvePaymentLinkRequestInput.js';
 export type { UpdatePaymentLinkRequestInput } from '../declarations/UpdatePaymentLinkRequestInput.js';
@@ -293,12 +297,14 @@ export { makeCheckoutExpirationConfig } from '../declarations/makeCheckoutExpira
 export { makeInventoryRoutingSourceRequest } from '../declarations/makeInventoryRoutingSourceRequest.js';
 export { makeCheckoutPromotionConfig } from '../declarations/makeCheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsConfig } from '../declarations/makeCheckoutRedirectsConfig.js';
+export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
 export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
 export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
 export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
+export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
@@ -346,6 +352,7 @@ export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEli
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeBuyerDeliveryQuoteChoiceGroupResource.js';
 export { makeBuyerDeliveryInputRequirementResource } from '../declarations/makeBuyerDeliveryInputRequirementResource.js';
 export { makeBuyerDeliveryOptionResource } from '../declarations/makeBuyerDeliveryOptionResource.js';
+export { makeCheckoutGiftCardChallenge } from '../declarations/makeCheckoutGiftCardChallenge.js';
 export { makeCheckoutMerchantSupport } from '../declarations/makeCheckoutMerchantSupport.js';
 export { makePricingAmounts } from '../declarations/makePricingAmounts.js';
 export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js';
@@ -360,3 +367,4 @@ export { makePaymentSourceCardSummary } from '../declarations/makePaymentSourceC
 export { makeCheckoutPaymentMethodSave } from '../declarations/makeCheckoutPaymentMethodSave.js';
 export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblemResource.js';
 export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
+export { makeCheckoutSubscriptionRecurringShipping } from '../declarations/makeCheckoutSubscriptionRecurringShipping.js';

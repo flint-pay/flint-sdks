@@ -1,1 +1,1 @@
-{"shared":"Webhook_invoice_late_fee_due_installed_merchants","dependencies":["InvoiceLateFeePolicy","MoneyValue","PartnerWebhookEnvelope","SharedCodec240","SharedCodec242","SharedCodec352","SharedCodec415","SharedCodec416","Webhook_invoice_late_fee_due_installed_merchants"]}
+{"shared":"Webhook_invoice_late_fee_due_installed_merchants","dependencies":["InvoiceLateFeePolicy","MoneyValue","PartnerWebhookEnvelope","SharedCodec249","SharedCodec251","SharedCodec370","SharedCodec433","SharedCodec434","Webhook_invoice_late_fee_due_installed_merchants"]}

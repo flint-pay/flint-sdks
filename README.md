@@ -8,6 +8,26 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `3.0.0-beta.20261008013000` adds gift card challenge support for embedded checkout, `page_origin` on checkout, invoice, and return checkout launches, and 21 subscription operations. `settings.update({ customer_account: null, expected_version })` removes the account configuration and restores the default Flint-hosted account. The settings response omits `customer_account` after it is cleared.
+
+When `orders.applyGiftCard` fails with `GIFT_CARD_CHALLENGE_REQUIRED`, load the `url` from the `complete_gift_card_challenge` action in the error's `remediation.next_actions` in an iframe on your `page_origin`. The same URL is available as `checkout_session.gift_card_challenge.url`. Retry the same request and send the proof from the challenge in `Flint-Gift-Card-Challenge`. A proof works once, only for its checkout session, and expires after 5 minutes. If `reason` is `page_origin_required`, the error has no next action; launch the checkout session again with `page_origin`.
+
+`Flint-Gift-Card-Challenge` now carries a Flint proof instead of a Cloudflare Turnstile token. While a challenge is required, Flint rejects a Turnstile token, or any value that is not an unused proof for that checkout session, with `reason` set to `proof_rejected`. The header is ignored for API keys.
+
+This beta also adds required fields to existing response and webhook types:
+
+| Type | New required fields |
+| ---- | ------------------- |
+| `Subscription` | `completed_cycles`, `quantity`, `version` |
+| `CheckoutSubscriptionTerms` | `billing_interval_options`, `quantity`, `quantity_options` |
+| `DeliveryMethod` | `subscription_counts` |
+| `SubscriptionPlan` | `billing_interval_options`, `delivery_method_subscription_counts`, `delivery_required`, `quantity_options`, `subscription_delivery_method_ids` |
+| `SubscriptionPlanLineItem` | `swap_variant_ids` |
+| `PaymentLinkSubscriptionPreview` | `delivery_required` |
+| `subscription.payment_succeeded` webhook `data` | `order_id` |
+
+`Subscription.subscription_plan_id` is now optional. The SDK rejects responses that omit required fields with a `protocol` error. `verifyWebhook` still authenticates a `subscription.payment_succeeded` event without `data.order_id`, but returns `known` as `false` for it. Events in that earlier shape can arrive as retries or replays of events created before your API build included this change, so handle them in your unknown-event path. Use this version with an API build that includes these changes; the API version remains `2026-09-07`.
+
 Version `3.0.0-beta.20261007031000` is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json) and includes breaking changes from `3.0.0-beta.20261006230000`. Delivery method responses always include `configuration.charge_tax_category` and `configuration.taxable`, and each is `null` when the method inherits the merchant's setting. `deliveryMethods.update` and `deliveryRateCallbacks.update` now change `configuration` by top-level key and keep the keys you leave out. Send `null` to clear a key or restore its default, or `[]` to empty a list. Results from `invoices.getOrCreateCheckoutSession` and `me.createInvoiceCheckoutSession` no longer include `hosted_checkout`; use `checkout_session.url` and `checkout_access.checkout_auth_token`. Read the [release notes](https://github.com/flint-pay/flint-sdks/releases/tag/v3.0.0-beta.20261007031000) before upgrading.
 
 This version targets the pinned API source, not a particular deployed build. An API build without these changes keeps its earlier behavior. For example, such a build leaves `taxable` out of a delivery method response when the method inherits the merchant's taxability, and this version rejects that response with a `protocol` error. Both response shapes use API version `2026-09-07`, so `Flint-Version` doesn't select between them. `deliveryMethods.create`, `deliveryMethods.update`, and `deliveryMethods.remove` return the stored response for up to 24 hours when retried with the same `Idempotency-Key` and request. If the first attempt ran on an earlier build and its response left out `taxable`, the retry fails with the same error after the API is updated, although the original request was applied.
@@ -38,6 +58,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261008013000` | `2026-09-07` |
 | `3.0.0-beta.20261007031000` | `2026-09-07` |
 | `3.0.0-beta.20261006230000` | `2026-09-07` |
 | `3.0.0-beta.20261006210100` | `2026-09-07` |
@@ -51,7 +72,7 @@ The API version identifies the pinned contract used to generate the SDK. The SDK
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages expose 549 operations from the pinned export, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
+The pinned API version is `2026-09-07`. The packages expose 570 operations from the pinned export, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
 
 Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 
@@ -69,7 +90,7 @@ npm run validate    # Validate packages and shared HTTP fixtures
 npm test            # Install and test the npm and root Composer archives
 ```
 
-Generation requires Node.js 22.14+, npm, Git, PHP 8.2+, Composer 2, and ZIP support. Full generation uses a 3-GiB Node heap; allow at least 4 GiB of process memory. Consumer SDKs do not need this generator heap setting.
+Generation requires Node.js 22.14+, npm, Git, PHP 8.2+, Composer 2, and ZIP support. Full generation uses an 8-GiB Node heap; allow at least 10 GiB of process memory. Consumer SDKs do not need this generator heap setting.
 
 Edit `sdk.json` and `spec/profiles/` for SDK configuration. `spec/openapi.json` is an unmodified, checksummed upstream export. `sdk.lock.json` pins its upstream revision and the generator revision. Do not hand-edit generated files; `sdk-files.json` records their hashes. The root npm package is private; only `node/` is published to npm.
 

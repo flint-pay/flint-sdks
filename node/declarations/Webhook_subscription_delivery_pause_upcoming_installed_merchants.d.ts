@@ -1,0 +1,4 @@
+
+import type { Webhook_subscription_delivery_action_required_installed_merchants } from './Webhook_subscription_delivery_action_required_installed_merchants.js';
+
+export type Webhook_subscription_delivery_pause_upcoming_installed_merchants = Webhook_subscription_delivery_action_required_installed_merchants;

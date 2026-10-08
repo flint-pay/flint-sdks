@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object $data
+ * @property-read array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object $data
  * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
@@ -10,9 +10,9 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_subscription_renewal_upcoming_installed_merchantsInput extends Model {
-    /** @param array{'data': array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_subscription_renewal_upcoming_installed_merchantsInput')); }
-    /** @return array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object
+    /** @return array{'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'next_billing_at': string|\DateTimeInterface, 'partner_app_install_id': string, 'resource_updated_at': string|\DateTimeInterface, 'source_type': mixed, 'subscription_id': string}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }

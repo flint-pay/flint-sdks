@@ -2,13 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $page_origin
  * @property-read RedirectsInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string $return_url
  * @property-read string $surface
  * Presence-aware input; omitted fields throw when accessed. */
 final class GetOrCreateReturnResolutionCheckoutSessionRequestInput extends Model {
-    /** @param array{'redirects'?: RedirectsInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string}|object $values */
+    /** @param array{'page_origin'?: string, 'redirects'?: RedirectsInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GetOrCreateReturnResolutionCheckoutSessionRequestInput')); }
+    /** @return string
+     * @throws SdkError When page_origin is omitted; use hasPageOrigin() or valueOrDefault().
+     */
+    public function getPageOrigin(): string { return $this->get('page_origin'); }
+    public function hasPageOrigin(): bool { return $this->has('page_origin'); }
     /** @return RedirectsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When redirects is omitted; use hasRedirects() or valueOrDefault().
      */

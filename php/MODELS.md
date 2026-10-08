@@ -237,7 +237,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#apirequestlog-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [109 declared values](#apirequestlog-resource_type-values). |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Required | string |  |
@@ -367,6 +367,9 @@ Variants: any, any.
 - `"sandbox"`
 - `"shipment"`
 - `"subscription"`
+- `"subscription_delivery_migration"`
+- `"subscription_line_item"`
+- `"subscription_offer"`
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"user"`
@@ -399,7 +402,7 @@ Variants: any, any.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#apirequestlogdetail-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [109 declared values](#apirequestlogdetail-resource_type-values). |
 | `response_body` | Optional | string |  |
 | `response_content_type` | Optional | string |  |
 | `response_shape_metadata` | Optional | [ApiRequestLogResponseShapeMetadata](MODELS.md#apirequestlogresponseshapemetadata) |  |
@@ -531,6 +534,9 @@ Variants: any, any.
 - `"sandbox"`
 - `"shipment"`
 - `"subscription"`
+- `"subscription_delivery_migration"`
+- `"subscription_line_item"`
+- `"subscription_offer"`
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"user"`
@@ -977,8 +983,8 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 | `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. |
 | `is_available` | Required | boolean | Whether this session can take the action now. |
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [12 declared values](#buyeraction-kind-values). |
-| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`. |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [18 declared values](#buyeraction-kind-values). |
+| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`, `"limit_reached"`. |
 
 #### BuyerAction kind values
 
@@ -994,6 +1000,12 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 - `"ship_items"`
 - `"pay_balance"`
 - `"retry_payment"`
+- `"update_delivery"`
+- `"skip"`
+- `"update_billing_interval"`
+- `"update_quantity"`
+- `"swap_items"`
+- `"renew"`
 
 ## BuyerCapabilities
 
@@ -1001,10 +1013,12 @@ What a store lets buyers do to their own subscriptions. Send at least one field;
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `can_update_delivery` | Optional | boolean | Whether buyers may change the shipping address and delivery method of their physical subscriptions. |
 | `cancellation_reasons` | Optional | Array of string | Reasons a buyer is asked to choose from when canceling, in the order shown. Empty: the buyer is not asked. When the list is not empty, a buyer's cancellation_reason_code must be one of them. maxItems: `8`. |
 | `cancellation_timing` | Optional | string | When a subscription a buyer cancels ends. end_of_period: when the current billing period ends. buyer_chooses: the buyer picks the end of the period or right away. A trialing, paused, or incomplete subscription, or one whose first paid period never started, ends right away either way. Values: `"end_of_period"`, `"buyer_chooses"`. |
 | `pause` | Optional | [BuyerPauseCapability](MODELS.md#buyerpausecapability) | Whether buyers may pause, and for how long. Omit it to let buyers pause with no limit. |
 | `retention_offer` | Optional | [BuyerRetentionOffer](MODELS.md#buyerretentionoffer) | The offer a buyer sees before canceling. The buyer can always decline it and cancel. Omit it for no offer. |
+| `skip` | Optional | [BuyerSkipCapability](MODELS.md#buyerskipcapability) | Whether buyers may skip renewals. Omit it to allow skipping with no consecutive limit. |
 
 ## BuyerCreditNote
 
@@ -1580,6 +1594,15 @@ The offer a buyer sees before canceling. Send at least one field.
 | `kind` | Optional | string | none: no offer. pause_instead: offer to pause for pause_cycles billing periods instead of canceling. pause_instead needs pausing turned on. Values: `"none"`, `"pause_instead"`. |
 | `pause_cycles` | Optional | integer | Billing periods the offered pause lasts. Required when kind is pause_instead, and at most pause.max_cycles when that is set. Not allowed with kind none. Format: `int32`. minimum: `1`. maximum: `12`. |
 
+## BuyerSkipCapability
+
+Whether buyers may skip renewals. Send at least one field.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `enabled` | Optional | boolean | Whether buyers may skip a renewal. Merchant credentials may always skip an eligible cycle. |
+| `max_consecutive_skips` | Optional | integer | Maximum consecutive cycles a buyer may skip. Omit it for no limit. The count resets after a paid renewal. Format: `int32`. minimum: `1`. maximum: `12`. |
+
 ## BuyerSubscriptionPaymentRetry
 
 A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
@@ -1953,6 +1976,34 @@ Merchant capability readiness for a payment or money movement capability.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
+## ChangeMeSubscriptionBillingIntervalRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Required | integer | minimum: `1`. maximum: `365`. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+## ChangeMeSubscriptionDeliveryRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery` | Required | [SubscriptionDeliveryRequest](MODELS.md#subscriptiondeliveryrequest) |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+## ChangeMeSubscriptionQuantityRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+
 ## ChangeSubscriptionPaymentMethodRequest
 
 
@@ -2164,6 +2215,14 @@ The checkout after a confirmed code, and the credential that acts for the custom
 | `expiration_url` | Optional | string | Optional URL to send buyers to after the checkout session expires. |
 | `expires_in_seconds` | Optional | exact numeric string | Duration in seconds before the checkout session expires after creation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 
+## CheckoutGiftCardChallenge
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `url` | Required | string | Load this URL in an iframe on page_origin when applying a gift card returns GIFT_CARD_CHALLENGE_REQUIRED. The page posts a single-use proof to your page; send it in Flint-Gift-Card-Challenge. Treat the URL as opaque. It stays the same for the session and stops working when the session ends. Format: `uri`. |
+
 ## CheckoutLegalConfig
 
 
@@ -2286,6 +2345,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `fulfillment` | Optional | Alternative shapes (see declared variants) | Current fulfillment choices for Flint-owned pricing. Checkout credentials receive the fields available to buyers; merchant credentials also receive configuration lineage and diagnostics. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. Response only. |
+| `gift_card_challenge` | Optional | [CheckoutGiftCardChallenge](MODELS.md#checkoutgiftcardchallenge) | Where the buyer completes a gift card challenge for this checkout. Returned on single-session reads, session create and update responses, checkout launch results, and customer verification confirmation results while the session is open and can show the challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results. Response only. |
 | `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `invoice_id` | Optional | string | Response only. |
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
@@ -2295,6 +2355,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Optional | string |  |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
+| `page_origin` | Optional | string | Origin of the page that renders this embedded checkout. Omitted when not set. |
 | `payment_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `payment_intent_ids` | Optional | Array of string | Response only. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](MODELS.md#expandedpaymentintentsummary) | Response only. |
@@ -2407,7 +2468,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -2497,7 +2558,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
-- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -2507,6 +2567,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
 - `"BARCODE_ALREADY_EXISTS"`
+- `"BILLING_INTERVAL_CHANGE_NOT_ALLOWED"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
@@ -2758,6 +2819,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DELIVERY_STATE_CONFLICT"`
 - `"DELIVERY_STATUS_COMBINATION_INVALID"`
 - `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_UPDATE_NOT_ALLOWED"`
 - `"DELIVERY_WINDOW_EXPIRED"`
 - `"DELIVERY_WINDOW_INVALID"`
 - `"DEMO_SESSIONS_UNAVAILABLE"`
@@ -3013,6 +3075,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_BEARER_TOKEN"`
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_INTERVAL_OPTIONS"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
 - `"INVALID_BOGO_DISCOUNT_CLASS"`
 - `"INVALID_BOGO_QUANTITY"`
@@ -3022,6 +3085,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_BUSINESS_NAME"`
 - `"INVALID_BUYER_CANCELLATION_TIMING"`
 - `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_BUYER_SKIP_MAX_CONSECUTIVE_SKIPS"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
 - `"INVALID_CANCELLATION_REASON_CODE"`
@@ -3201,6 +3265,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_ORIGIN"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
 - `"INVALID_PARENT_ORGANIZATION"`
@@ -3227,6 +3292,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
 - `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_OPTIONS"`
 - `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
@@ -3288,12 +3354,15 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_STATUS_BUCKET"`
 - `"INVALID_STATUS_FOR_CAPTURE"`
 - `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_DELIVERY_MIGRATION_METHODS"`
+- `"INVALID_SUBSCRIPTION_OFFER_TARGETS"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
 - `"INVALID_SUGGESTED_AMOUNT"`
 - `"INVALID_SUPPORT_EMAIL"`
 - `"INVALID_SUPPORT_PHONE"`
 - `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_SWAP_VARIANTS"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
 - `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
@@ -3589,6 +3658,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
 - `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
 - `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED"`
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
@@ -3809,6 +3879,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS"`
 - `"PROMOTION_ID_REQUIRED"`
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
@@ -3820,6 +3891,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PROVISIONING_FAILED"`
 - `"QUANTITY_ABOVE_MAX"`
 - `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_CHANGE_NOT_ALLOWED"`
 - `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
@@ -3968,15 +4040,28 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
 - `"SHIPMENT_PACKAGE_TERMINAL"`
 - `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKIP_LIMIT_REACHED"`
+- `"SKIP_NOT_ALLOWED"`
 - `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
 - `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_INTERVAL_NOT_OFFERED"`
 - `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
 - `"SUBSCRIPTION_BILLING_START_INVALID"`
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_NOT_OFFERED"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_UNSUPPORTED"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_NOT_FOUND"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_MISSING"`
+- `"SUBSCRIPTION_DELIVERY_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_UNAVAILABLE"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
@@ -3987,20 +4072,34 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ARCHIVED"`
+- `"SUBSCRIPTION_OFFER_NOT_ACTIVE"`
+- `"SUBSCRIPTION_OFFER_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ORDER_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_NOT_FOREVER"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE"`
+- `"SUBSCRIPTION_OFFER_TARGET_CONFLICT"`
+- `"SUBSCRIPTION_OFFER_VARIANT_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_VERSION_CONFLICT"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_QUANTITY_NOT_OFFERED"`
+- `"SUBSCRIPTION_RENEW_NOT_ALLOWED"`
+- `"SUBSCRIPTION_RENEW_PAYMENT_FAILED"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSCRIPTION_TRIAL_NOT_SUPPORTED_FOR_PHYSICAL"`
 - `"SUBSET_ONLY_VIOLATION"`
 - `"SUGGESTED_AMOUNT_ABOVE_MAX"`
 - `"SUGGESTED_AMOUNT_BELOW_MIN"`
 - `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"SWAP_NOT_ALLOWED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_ADJUSTMENT_REASON_REQUIRED"`
@@ -4108,6 +4207,16 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | `require_phone` | Optional | boolean |  |
 | `saved_payment_details` | Optional | [CheckoutSavedPaymentDetailsSettings](MODELS.md#checkoutsavedpaymentdetailssettings) | Whether hosted checkout offers buyers the option to save the card they type for faster checkout at this merchant. Merchant scope only. Effective settings default it to on. |
 
+## CheckoutSubscriptionRecurringShipping
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_method_name` | Required | string |  |
+| `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+
 ## CheckoutSubscriptionTerms
 
 Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them.
@@ -4116,13 +4225,27 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
+| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | minItems: `1`. |
 | `contract_term_months` | Optional | integer | Minimum commitment in months, when the plan has one. Format: `int32`. |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Fee charged when the buyer cancels before the contract term ends, when the plan has one. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `quantity_options` | Required | Array of integer | minItems: `1`. |
+| `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShipping](MODELS.md#checkoutsubscriptionrecurringshipping) |  |
 | `recurring_total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Charge for one billing interval before tax: each line's unit price times its quantity, plus modifiers. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | One-time fee charged with the first payment, when the plan has one. |
 | `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. |
 | `trial_period_days` | Optional | integer | Days before the first recurring charge, when the plan has a trial. Format: `int32`. |
+
+## CheckoutSubscriptionTermsRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval` | Optional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Optional | integer | minimum: `1`. maximum: `365`. |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 
 ## CheckoutTaxConfig
 
@@ -4451,12 +4574,14 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
 | `metadata` | Optional | object |  |
 | `order_id` | Optional | string |  |
+| `page_origin` | Optional | string | Origin of the page where you render this embedded checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. maxLength: `255`. |
 | `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
 | `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
 | `subscription_plan_id` | Optional | string |  |
+| `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
 | `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
@@ -5087,6 +5212,16 @@ Variants: any, any.
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `timezone` | Required | string |  |
 
+## CreateMeSubscriptionPreviewRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `destination` | Required | [SubscriptionDeliveryDestinationRequest](MODELS.md#subscriptiondeliverydestinationrequest) |  |
+| `mode` | Required | string | Values: `"delivery_options"`. |
+| `subscription_id` | Required | string | pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
 ## CreateModifierGroupRequest
 
 
@@ -5201,6 +5336,7 @@ Variants: any, any.
 | `modifiers` | Optional | Array of any |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `subscription` | Optional | [SubscribedLineRequest](MODELS.md#subscribedlinerequest) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. |
 | `tax` | Optional | [OrderDraftLineItemTaxRequest](MODELS.md#orderdraftlineitemtaxrequest) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
@@ -5957,6 +6093,44 @@ Variants: any, any.
 | `replayed` | Optional | boolean |  |
 | `shipment` | Required | [Shipment](MODELS.md#shipment) |  |
 
+## CreateSubscriptionDeliveryMigrationRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `from_delivery_method_id` | Required | string |  |
+| `subscription_plan_id` | Optional | string | Limit the migration to this plan's live subscriptions. |
+| `to_delivery_method_id` | Required | string |  |
+
+## CreateSubscriptionLineItemRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_id` | Optional | string | pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
+| `variant_id` | Optional | string | pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+Variants: any, any.
+
+## CreateSubscriptionOfferRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval_options` | Required | Array of object | minItems: `1`. maxItems: `12`. |
+| `metadata` | Optional | object |  |
+| `name` | Required | string | minLength: `1`. maxLength: `255`. |
+| `product_ids` | Optional | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+| `promotion_id` | Optional | string or null | An active promotion with forever recurrence. On PATCH, null removes the discount for new signups; omission keeps it. |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `subscription_delivery_method_ids` | Optional | Array of string | Delivery methods offered at signup. An empty array uses the store's checkout defaults. Existing subscriptions keep their selected method. maxItems: `25`. |
+| `variant_ids` | Optional | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+
 ## CreateSubscriptionPlanRequest
 
 
@@ -5965,17 +6139,27 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | maxItems: `12`. |
 | `contract_term_months` | Optional | integer | Format: `int32`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `description` | Optional | string |  |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](MODELS.md#inventoryroutingsourcerequest) | Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an immutable policy version. Required when any line item tracks inventory. New subscriptions and payment links for the plan copy it, unless the payment link sends its own. |
 | `line_items` | Optional | Array of [SubscriptionPlanLineItemRequest](MODELS.md#subscriptionplanlineitemrequest) |  |
 | `metadata` | Optional | object |  |
 | `name` | Required | string |  |
+| `quantity_options` | Optional | Array of integer | maxItems: `10`. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `subscription_delivery_method_ids` | Optional | Array of string |  |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
+
+## CreateSubscriptionPreviewRequest
+
+
+
+Variants: object, object, object.
 
 ## CreateSubscriptionRequest
 
@@ -5984,12 +6168,16 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `billing_anchor_day` | Optional | integer | Format: `int32`. |
+| `billing_interval` | Optional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Optional | integer | minimum: `1`. maximum: `365`. |
 | `billing_schedule` | Optional | [SubscriptionBillingScheduleRequest](MODELS.md#subscriptionbillingschedulerequest) |  |
 | `billing_start` | Required | [SubscriptionBillingStartRequest](MODELS.md#subscriptionbillingstartrequest) |  |
 | `customer_id` | Required | string |  |
+| `delivery` | Optional | [SubscriptionDeliveryRequest](MODELS.md#subscriptiondeliveryrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object |  |
 | `payment_method_id` | Optional | string |  |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 | `service_location` | Optional | [SubscriptionServiceLocationRequest](MODELS.md#subscriptionservicelocationrequest) |  |
 | `subscription_plan_id` | Required | string |  |
 
@@ -6016,7 +6204,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [200 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Values: [205 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -6220,6 +6408,11 @@ Variants: any, any, any.
 - `"subscription.renewal_upcoming"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
+- `"subscription.cycle_skipped"`
+- `"subscription_delivery_migration.completed"`
 
 ## CreditNote
 
@@ -7118,10 +7311,11 @@ A boolean expression containing exactly one operator or typed condition at each 
 | `postal_code` | Optional | [DeliveryPostalCodeCondition](MODELS.md#deliverypostalcodecondition) |  |
 | `radius` | Optional | [DeliveryRadiusCondition](MODELS.md#deliveryradiuscondition) |  |
 | `state` | Optional | [DeliveryStateCondition](MODELS.md#deliverystatecondition) |  |
+| `subscription_purchase` | Optional | [DeliveryCustomerBooleanCondition](MODELS.md#deliverycustomerbooleancondition) |  |
 | `window_time` | Optional | [DeliveryWindowTimeCondition](MODELS.md#deliverywindowtimecondition) |  |
 | `zone` | Optional | [DeliveryZoneCondition](MODELS.md#deliveryzonecondition) |  |
 
-Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
+Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 ## DeliveryEligibilityMismatch
 
@@ -7129,7 +7323,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `condition` | Required | string | The configured eligibility condition family that did not match. Values: [10 declared values](#deliveryeligibilitymismatch-condition-values). |
+| `condition` | Required | string | The configured eligibility condition family that did not match. Values: [11 declared values](#deliveryeligibilitymismatch-condition-values). |
 | `expression_path` | Required | string | The condition's path in the configured eligibility expression, starting at $. |
 | `field` | Optional | string | The eligibility fact evaluated by the condition. Buyer fact values are not included. |
 | `negated` | Optional | boolean | Whether the condition matched inside a not expression and therefore rejected the method. |
@@ -7142,6 +7336,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 - `"postal_code"`
 - `"radius"`
 - `"window_time"`
+- `"subscription_purchase"`
 - `"customer_group"`
 - `"customer_verified"`
 - `"customer_has_email"`
@@ -7399,6 +7594,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `name` | Required | string | Merchant-facing method name. |
 | `recommendation_priority` | Optional | integer | Higher values win recommendation tie-breaks. Format: `int32`. |
 | `status` | Required | string | Current method lifecycle status. Values: `"inactive"`, `"active"`, `"archived"`, `"revoked"`. |
+| `subscription_counts` | Required | [SubscriptionCounts](MODELS.md#subscriptioncounts) | Response only. |
 | `type` | Optional | string | Delivery mode this method offers. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 | `updated_at` | Required | string | Time the method last changed. Format: `date-time`. |
 | `version` | Required | exact numeric string | Optimistic-concurrency version for method writes. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
@@ -9059,7 +9255,7 @@ Variants: any, any, any, any, any, any, any.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -9070,11 +9266,14 @@ Variants: any, any, any, any, any, any, any.
 | `current_source_observation_sequence` | Optional | exact numeric string | Latest accepted absolute source sequence for this item and Location. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
 | `current_version` | Optional | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on status conflicts such as INVENTORY_TRANSFER_ACTION_NOT_ALLOWED and SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_method_id` | Optional | string | Delivery method this failure concerns. On SUBSCRIPTION_DELIVERY_UNAVAILABLE, the method that cannot currently serve the subscription. |
 | `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#errordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#errordetail-eligibility_reason-values). |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#errordetail-failure_category-values). |
+| `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [18 declared values](#errordetail-failure_code-values). |
 | `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
@@ -9085,30 +9284,42 @@ Variants: any, any, any, any, any, any, any.
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_id` | Optional | string | Renewal order whose payment attempt failed. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errordetail-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#errordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#errordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
+| `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
+| `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
+| `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Optional | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
+| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
 | `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#errordetail-unavailable_reason-values). |
+| `variant_id` | Optional | string | Variant associated with the error. |
 
 #### ErrorDetail capability values
 
@@ -9195,7 +9406,6 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
-- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -9205,6 +9415,7 @@ Variants: any, any, any, any, any, any, any.
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
 - `"BARCODE_ALREADY_EXISTS"`
+- `"BILLING_INTERVAL_CHANGE_NOT_ALLOWED"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
@@ -9456,6 +9667,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DELIVERY_STATE_CONFLICT"`
 - `"DELIVERY_STATUS_COMBINATION_INVALID"`
 - `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_UPDATE_NOT_ALLOWED"`
 - `"DELIVERY_WINDOW_EXPIRED"`
 - `"DELIVERY_WINDOW_INVALID"`
 - `"DEMO_SESSIONS_UNAVAILABLE"`
@@ -9711,6 +9923,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BEARER_TOKEN"`
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_INTERVAL_OPTIONS"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
 - `"INVALID_BOGO_DISCOUNT_CLASS"`
 - `"INVALID_BOGO_QUANTITY"`
@@ -9720,6 +9933,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BUSINESS_NAME"`
 - `"INVALID_BUYER_CANCELLATION_TIMING"`
 - `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_BUYER_SKIP_MAX_CONSECUTIVE_SKIPS"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
 - `"INVALID_CANCELLATION_REASON_CODE"`
@@ -9899,6 +10113,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_ORIGIN"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
 - `"INVALID_PARENT_ORGANIZATION"`
@@ -9925,6 +10140,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
 - `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_OPTIONS"`
 - `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
@@ -9986,12 +10202,15 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_STATUS_BUCKET"`
 - `"INVALID_STATUS_FOR_CAPTURE"`
 - `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_DELIVERY_MIGRATION_METHODS"`
+- `"INVALID_SUBSCRIPTION_OFFER_TARGETS"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
 - `"INVALID_SUGGESTED_AMOUNT"`
 - `"INVALID_SUPPORT_EMAIL"`
 - `"INVALID_SUPPORT_PHONE"`
 - `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_SWAP_VARIANTS"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
 - `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
@@ -10287,6 +10506,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
 - `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
 - `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED"`
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
@@ -10507,6 +10727,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS"`
 - `"PROMOTION_ID_REQUIRED"`
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
@@ -10518,6 +10739,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PROVISIONING_FAILED"`
 - `"QUANTITY_ABOVE_MAX"`
 - `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_CHANGE_NOT_ALLOWED"`
 - `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
@@ -10666,15 +10888,28 @@ Variants: any, any, any, any, any, any, any.
 - `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
 - `"SHIPMENT_PACKAGE_TERMINAL"`
 - `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKIP_LIMIT_REACHED"`
+- `"SKIP_NOT_ALLOWED"`
 - `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
 - `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_INTERVAL_NOT_OFFERED"`
 - `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
 - `"SUBSCRIPTION_BILLING_START_INVALID"`
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_NOT_OFFERED"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_UNSUPPORTED"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_NOT_FOUND"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_MISSING"`
+- `"SUBSCRIPTION_DELIVERY_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_UNAVAILABLE"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
@@ -10685,20 +10920,34 @@ Variants: any, any, any, any, any, any, any.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ARCHIVED"`
+- `"SUBSCRIPTION_OFFER_NOT_ACTIVE"`
+- `"SUBSCRIPTION_OFFER_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ORDER_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_NOT_FOREVER"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE"`
+- `"SUBSCRIPTION_OFFER_TARGET_CONFLICT"`
+- `"SUBSCRIPTION_OFFER_VARIANT_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_VERSION_CONFLICT"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_QUANTITY_NOT_OFFERED"`
+- `"SUBSCRIPTION_RENEW_NOT_ALLOWED"`
+- `"SUBSCRIPTION_RENEW_PAYMENT_FAILED"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSCRIPTION_TRIAL_NOT_SUPPORTED_FOR_PHYSICAL"`
 - `"SUBSET_ONLY_VIOLATION"`
 - `"SUGGESTED_AMOUNT_ABOVE_MAX"`
 - `"SUGGESTED_AMOUNT_BELOW_MIN"`
 - `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"SWAP_NOT_ALLOWED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_ADJUSTMENT_REASON_REQUIRED"`
@@ -10811,6 +11060,46 @@ Variants: any, any, any, any, any, any, any.
 - `"split_prohibited"`
 - `"insufficient_quantity"`
 
+#### ErrorDetail failure_category values
+
+- `"dependency_failure"`
+- `"timeout"`
+- `"malformed_response"`
+- `"callback_transport_failure"`
+- `"callback_circuit_open"`
+- `"callback_result_invalid"`
+- `"callback_unavailable"`
+- `"pricing_failure"`
+- `"schedule_failure"`
+- `"option_lifetime_too_short"`
+- `"geography_failure"`
+- `"routing_failure"`
+- `"invalid_configuration"`
+- `"invalid_buyer_input"`
+- `"address_verification_failed"`
+- `"address_could_not_be_verified"`
+
+#### ErrorDetail failure_code values
+
+- `"card_declined"`
+- `"insufficient_funds"`
+- `"bank_account_closed"`
+- `"bank_account_not_found"`
+- `"bank_debit_not_authorized"`
+- `"bank_account_restricted"`
+- `"bank_debit_limit_exceeded"`
+- `"authentication_required"`
+- `"payment_blocked"`
+- `"expired_card"`
+- `"incorrect_cvc"`
+- `"processing_error"`
+- `"payment_method_unavailable"`
+- `"payment_method_declined"`
+- `"payment_not_completed"`
+- `"payment_action_expired"`
+- `"payment_method_temporarily_unavailable"`
+- `"payment_failed"`
+
 #### ErrorDetail payment_attempt_status values
 
 - `"open"`
@@ -10837,6 +11126,7 @@ Variants: any, any, any, any, any, any, any.
 - `"block"`
 - `"bounded_inventory_guarantee_not_supported"`
 - `"buy_item_missing"`
+- `"cancellation_scheduled"`
 - `"capability_blocked"`
 - `"capability_pending"`
 - `"card_unavailable"`
@@ -10849,12 +11139,15 @@ Variants: any, any, any, any, any, any, any.
 - `"currency_mismatch"`
 - `"currency_not_supported"`
 - `"customer_unavailable"`
+- `"delivery_hold"`
+- `"destination_not_served"`
 - `"disabled"`
 - `"disabled_by_merchant_settings"`
 - `"disabled_by_platform_policy"`
 - `"exhausted"`
 - `"existing_order_checkout"`
 - `"expired"`
+- `"external_billing_schedule"`
 - `"inactive"`
 - `"ineligible_origin"`
 - `"insufficient_available_balance"`
@@ -10866,8 +11159,10 @@ Variants: any, any, any, any, any, any, any.
 - `"merchant_account_action_required"`
 - `"merchant_hosted_customer_accounts"`
 - `"merchant_payments_disabled"`
+- `"method_unavailable"`
 - `"minimum_not_met"`
 - `"no_discountable_balance"`
+- `"not_active"`
 - `"not_checkout_session"`
 - `"not_combinable"`
 - `"not_eligible"`
@@ -10876,6 +11171,7 @@ Variants: any, any, any, any, any, any, any.
 - `"not_supported"`
 - `"not_yet_started"`
 - `"off_session_not_supported"`
+- `"page_origin_required"`
 - `"partial_payment"`
 - `"payment_account_context_invalid"`
 - `"payment_account_setup_incomplete"`
@@ -10884,10 +11180,13 @@ Variants: any, any, any, any, any, any, any.
 - `"payment_option_activation_pending"`
 - `"payment_option_not_available"`
 - `"payment_option_not_in_plan"`
-- `"recurrence"`
+- `"proof_rejected"`
+- `"proof_required"`
+- `"rate_unavailable"`
 - `"recurring_ach_not_supported"`
 - `"recurring_not_supported"`
 - `"redirects_required"`
+- `"renewal_in_progress"`
 - `"require_3ds"`
 - `"requirements_due"`
 - `"return_checkout"`
@@ -10896,6 +11195,7 @@ Variants: any, any, any, any, any, any, any.
 - `"revoked"`
 - `"session_not_open"`
 - `"setting_off"`
+- `"shipping_changed"`
 - `"source_delayed_settlement_not_supported"`
 - `"source_not_supported"`
 - `"split_payment_not_supported"`
@@ -10904,9 +11204,21 @@ Variants: any, any, any, any, any, any, any.
 - `"superseded"`
 - `"superseded_by_better_offer"`
 - `"surface_not_supported"`
+- `"tax_changed"`
+- `"trial_in_progress"`
 - `"unknown_type"`
 - `"unsupported_evaluation_schema"`
 - `"unsupported_use"`
+
+#### ErrorDetail unavailable_reason values
+
+- `"destination_not_served"`
+- `"pickup_unavailable"`
+- `"no_window_available"`
+- `"eligibility_no_match"`
+- `"method_type_not_allowed"`
+- `"pricing_unavailable"`
+- `"inventory_unavailable"`
 
 ## ErrorEnvelope
 
@@ -10926,7 +11238,7 @@ Variants: any, any, any, any, any, any, any.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1704 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -10935,11 +11247,13 @@ Variants: any, any, any, any, any, any, any.
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
 | `current_version` | Optional | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected, repeated from the first item in details. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on INVENTORY_TRANSFER_ACTION_NOT_ALLOWED. When a later item in details carries current_version, such as on SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED, read it there. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_method_id` | Optional | string | Delivery method this failure concerns. On SUBSCRIPTION_DELIVERY_UNAVAILABLE, the method that cannot currently serve the subscription. |
 | `details` | Optional | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#errorobject-failure_category-values). |
 | `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
@@ -10948,25 +11262,36 @@ Variants: any, any, any, any, any, any, any.
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Optional | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#errorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#errorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
 | `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
+| `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `scope_requirement` | Optional | [ScopeRequirement](MODELS.md#scoperequirement) | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
+| `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
+| `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
+| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
 | `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#errorobject-type-values). |
+| `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#errorobject-unavailable_reason-values). |
+| `variant_id` | Optional | string | Variant associated with the error. |
 
 #### ErrorObject capability values
 
@@ -11053,7 +11378,6 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
-- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -11063,6 +11387,7 @@ Variants: any, any, any, any, any, any, any.
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
 - `"BARCODE_ALREADY_EXISTS"`
+- `"BILLING_INTERVAL_CHANGE_NOT_ALLOWED"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
@@ -11314,6 +11639,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DELIVERY_STATE_CONFLICT"`
 - `"DELIVERY_STATUS_COMBINATION_INVALID"`
 - `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_UPDATE_NOT_ALLOWED"`
 - `"DELIVERY_WINDOW_EXPIRED"`
 - `"DELIVERY_WINDOW_INVALID"`
 - `"DEMO_SESSIONS_UNAVAILABLE"`
@@ -11569,6 +11895,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BEARER_TOKEN"`
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_INTERVAL_OPTIONS"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
 - `"INVALID_BOGO_DISCOUNT_CLASS"`
 - `"INVALID_BOGO_QUANTITY"`
@@ -11578,6 +11905,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_BUSINESS_NAME"`
 - `"INVALID_BUYER_CANCELLATION_TIMING"`
 - `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_BUYER_SKIP_MAX_CONSECUTIVE_SKIPS"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
 - `"INVALID_CANCELLATION_REASON_CODE"`
@@ -11757,6 +12085,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_ORIGIN"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
 - `"INVALID_PARENT_ORGANIZATION"`
@@ -11783,6 +12112,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
 - `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_OPTIONS"`
 - `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
@@ -11844,12 +12174,15 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_STATUS_BUCKET"`
 - `"INVALID_STATUS_FOR_CAPTURE"`
 - `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_DELIVERY_MIGRATION_METHODS"`
+- `"INVALID_SUBSCRIPTION_OFFER_TARGETS"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
 - `"INVALID_SUGGESTED_AMOUNT"`
 - `"INVALID_SUPPORT_EMAIL"`
 - `"INVALID_SUPPORT_PHONE"`
 - `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_SWAP_VARIANTS"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
 - `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
@@ -12145,6 +12478,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
 - `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
 - `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED"`
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
@@ -12365,6 +12699,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS"`
 - `"PROMOTION_ID_REQUIRED"`
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
@@ -12376,6 +12711,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PROVISIONING_FAILED"`
 - `"QUANTITY_ABOVE_MAX"`
 - `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_CHANGE_NOT_ALLOWED"`
 - `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
@@ -12524,15 +12860,28 @@ Variants: any, any, any, any, any, any, any.
 - `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
 - `"SHIPMENT_PACKAGE_TERMINAL"`
 - `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKIP_LIMIT_REACHED"`
+- `"SKIP_NOT_ALLOWED"`
 - `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
 - `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_INTERVAL_NOT_OFFERED"`
 - `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
 - `"SUBSCRIPTION_BILLING_START_INVALID"`
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_NOT_OFFERED"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_UNSUPPORTED"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_NOT_FOUND"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_MISSING"`
+- `"SUBSCRIPTION_DELIVERY_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_UNAVAILABLE"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
@@ -12543,20 +12892,34 @@ Variants: any, any, any, any, any, any, any.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ARCHIVED"`
+- `"SUBSCRIPTION_OFFER_NOT_ACTIVE"`
+- `"SUBSCRIPTION_OFFER_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ORDER_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_NOT_FOREVER"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE"`
+- `"SUBSCRIPTION_OFFER_TARGET_CONFLICT"`
+- `"SUBSCRIPTION_OFFER_VARIANT_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_VERSION_CONFLICT"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_QUANTITY_NOT_OFFERED"`
+- `"SUBSCRIPTION_RENEW_NOT_ALLOWED"`
+- `"SUBSCRIPTION_RENEW_PAYMENT_FAILED"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSCRIPTION_TRIAL_NOT_SUPPORTED_FOR_PHYSICAL"`
 - `"SUBSET_ONLY_VIOLATION"`
 - `"SUGGESTED_AMOUNT_ABOVE_MAX"`
 - `"SUGGESTED_AMOUNT_BELOW_MIN"`
 - `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"SWAP_NOT_ALLOWED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_ADJUSTMENT_REASON_REQUIRED"`
@@ -12647,6 +13010,25 @@ Variants: any, any, any, any, any, any, any.
 - `"WEEKLY_PAYOUT_DAYS_NOT_ALLOWED"`
 - `"WEEKLY_PAYOUT_DAYS_REQUIRED"`
 
+#### ErrorObject failure_category values
+
+- `"dependency_failure"`
+- `"timeout"`
+- `"malformed_response"`
+- `"callback_transport_failure"`
+- `"callback_circuit_open"`
+- `"callback_result_invalid"`
+- `"callback_unavailable"`
+- `"pricing_failure"`
+- `"schedule_failure"`
+- `"option_lifetime_too_short"`
+- `"geography_failure"`
+- `"routing_failure"`
+- `"invalid_configuration"`
+- `"invalid_buyer_input"`
+- `"address_verification_failed"`
+- `"address_could_not_be_verified"`
+
 #### ErrorObject payment_attempt_status values
 
 - `"open"`
@@ -12673,6 +13055,7 @@ Variants: any, any, any, any, any, any, any.
 - `"block"`
 - `"bounded_inventory_guarantee_not_supported"`
 - `"buy_item_missing"`
+- `"cancellation_scheduled"`
 - `"capability_blocked"`
 - `"capability_pending"`
 - `"card_unavailable"`
@@ -12685,12 +13068,15 @@ Variants: any, any, any, any, any, any, any.
 - `"currency_mismatch"`
 - `"currency_not_supported"`
 - `"customer_unavailable"`
+- `"delivery_hold"`
+- `"destination_not_served"`
 - `"disabled"`
 - `"disabled_by_merchant_settings"`
 - `"disabled_by_platform_policy"`
 - `"exhausted"`
 - `"existing_order_checkout"`
 - `"expired"`
+- `"external_billing_schedule"`
 - `"inactive"`
 - `"ineligible_origin"`
 - `"insufficient_available_balance"`
@@ -12702,8 +13088,10 @@ Variants: any, any, any, any, any, any, any.
 - `"merchant_account_action_required"`
 - `"merchant_hosted_customer_accounts"`
 - `"merchant_payments_disabled"`
+- `"method_unavailable"`
 - `"minimum_not_met"`
 - `"no_discountable_balance"`
+- `"not_active"`
 - `"not_checkout_session"`
 - `"not_combinable"`
 - `"not_eligible"`
@@ -12712,6 +13100,7 @@ Variants: any, any, any, any, any, any, any.
 - `"not_supported"`
 - `"not_yet_started"`
 - `"off_session_not_supported"`
+- `"page_origin_required"`
 - `"partial_payment"`
 - `"payment_account_context_invalid"`
 - `"payment_account_setup_incomplete"`
@@ -12720,10 +13109,13 @@ Variants: any, any, any, any, any, any, any.
 - `"payment_option_activation_pending"`
 - `"payment_option_not_available"`
 - `"payment_option_not_in_plan"`
-- `"recurrence"`
+- `"proof_rejected"`
+- `"proof_required"`
+- `"rate_unavailable"`
 - `"recurring_ach_not_supported"`
 - `"recurring_not_supported"`
 - `"redirects_required"`
+- `"renewal_in_progress"`
 - `"require_3ds"`
 - `"requirements_due"`
 - `"return_checkout"`
@@ -12732,6 +13124,7 @@ Variants: any, any, any, any, any, any, any.
 - `"revoked"`
 - `"session_not_open"`
 - `"setting_off"`
+- `"shipping_changed"`
 - `"source_delayed_settlement_not_supported"`
 - `"source_not_supported"`
 - `"split_payment_not_supported"`
@@ -12740,6 +13133,8 @@ Variants: any, any, any, any, any, any, any.
 - `"superseded"`
 - `"superseded_by_better_offer"`
 - `"surface_not_supported"`
+- `"tax_changed"`
+- `"trial_in_progress"`
 - `"unknown_type"`
 - `"unsupported_evaluation_schema"`
 - `"unsupported_use"`
@@ -12759,6 +13154,16 @@ Variants: any, any, any, any, any, any, any.
 - `"internal_error"`
 - `"invalid_request_error"`
 
+#### ErrorObject unavailable_reason values
+
+- `"destination_not_served"`
+- `"pickup_unavailable"`
+- `"no_window_available"`
+- `"eligibility_no_match"`
+- `"method_type_not_allowed"`
+- `"pricing_unavailable"`
+- `"inventory_unavailable"`
+
 ## ErrorRemediation
 
 
@@ -12777,7 +13182,7 @@ Variants: any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the blocking resource. |
-| `resource_type` | Required | string | Stable public resource name for the blocking resource. Values: [107 declared values](#errorresourcereference-resource_type-values). |
+| `resource_type` | Required | string | Stable public resource name for the blocking resource. Values: [110 declared values](#errorresourcereference-resource_type-values). |
 | `status` | Optional | string | Current public status of the blocking resource when available. |
 
 #### ErrorResourceReference resource_type values
@@ -12882,6 +13287,9 @@ Variants: any, any, any, any, any, any, any.
 - `"sandbox"`
 - `"shipment"`
 - `"subscription"`
+- `"subscription_delivery_migration"`
+- `"subscription_line_item"`
+- `"subscription_offer"`
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"user"`
@@ -13086,11 +13494,13 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | maxItems: `12`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `description` | Optional | string |  |
 | `line_items` | Optional | Array of [SubscriptionPlanLineItem](MODELS.md#subscriptionplanlineitem) |  |
 | `name` | Required | string |  |
+| `quantity_options` | Optional | Array of integer | maxItems: `10`. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. |
 | `subscription_plan_id` | Required | string |  |
@@ -13793,6 +14203,7 @@ Variants: object, object, object, object, object, object, object, object, object
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `page_origin` | Optional | string | Origin of the page where you render this embedded checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. maxLength: `255`. |
 | `redirects` | Optional | [Redirects](MODELS.md#redirects) | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the Return's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
 | `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
@@ -14860,6 +15271,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhook2aac621fe04ePayload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook2b16597f72aaPayload
 
 
@@ -14963,6 +15380,12 @@ Variants: any, any.
 | `request` | Required | object or null |  |
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
+
+## IncomingWebhook362af2129f9dPayload
+
+
+
+Variants: any, any.
 
 ## IncomingWebhook38eda7a4e990Payload
 
@@ -15156,6 +15579,12 @@ Variants: any, any.
 | `webhook_event_id` | Required | string |  |
 
 ## IncomingWebhook4cf95bc872d3Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook525b56e32d02Payload
 
 
 
@@ -15366,6 +15795,12 @@ Variants: any, any.
 
 Variants: any, any.
 
+## IncomingWebhook6ec2eb9e3a41Payload
+
+
+
+Variants: any, any.
+
 ## IncomingWebhook6f55e77725f4Payload
 
 
@@ -15508,6 +15943,12 @@ Variants: any, any.
 Variants: any, any.
 
 ## IncomingWebhook8364247aa322Payload
+
+
+
+Variants: any, any.
+
+## IncomingWebhook848c73c96bfaPayload
 
 
 
@@ -17101,7 +17542,7 @@ Variants: object, object, object.
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1666 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -17112,11 +17553,14 @@ Variants: object, object, object.
 | `current_source_observation_sequence` | Optional | exact numeric string | Latest accepted absolute source sequence for this item and Location. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
 | `current_version` | Required | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on status conflicts such as INVENTORY_TRANSFER_ACTION_NOT_ALLOWED and SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_method_id` | Optional | string | Delivery method this failure concerns. On SUBSCRIPTION_DELIVERY_UNAVAILABLE, the method that cannot currently serve the subscription. |
 | `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_LOCATION_INELIGIBLE when one demand cannot use the Location. |
 | `dependency_type` | Optional | string | Stable dependency category blocking a Location lifecycle transition. Values: [9 declared values](#inventorytransferactionconflicterrordetail-dependency_type-values). |
 | `eligibility_reason` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, why the Location in location_id cannot supply the demand. Values: [7 declared values](#inventorytransferactionconflicterrordetail-eligibility_reason-values). |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#inventorytransferactionconflicterrordetail-failure_category-values). |
+| `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [18 declared values](#inventorytransferactionconflicterrordetail-failure_code-values). |
 | `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
@@ -17127,30 +17571,42 @@ Variants: object, object, object.
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_id` | Optional | string | Renewal order whose payment attempt failed. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Required | string | Public JSON request field path associated with this failure, when applicable. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrordetail-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. Values: [80 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
+| `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `risk_rule_ids` | Optional | Array of string | On LIST_IN_USE, the enabled risk rules that reference the list. Archive or disable them before you archive the list. |
 | `scope` | Optional | string | Canonical public scope rejected by validation, when the detail concerns one scope. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
+| `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
+| `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `suggestions` | Optional | Array of string | Concrete corrective actions for this validation error. |
 | `supported_actions` | Required | Array of string | Actions accepted for the current resource state. |
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
+| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
 | `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-unavailable_reason-values). |
+| `variant_id` | Optional | string | Variant associated with the error. |
 
 #### InventoryTransferActionConflictErrorDetail capability values
 
@@ -17237,7 +17693,6 @@ Variants: object, object, object.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
-- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -17247,6 +17702,7 @@ Variants: object, object, object.
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
 - `"BARCODE_ALREADY_EXISTS"`
+- `"BILLING_INTERVAL_CHANGE_NOT_ALLOWED"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
@@ -17498,6 +17954,7 @@ Variants: object, object, object.
 - `"DELIVERY_STATE_CONFLICT"`
 - `"DELIVERY_STATUS_COMBINATION_INVALID"`
 - `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_UPDATE_NOT_ALLOWED"`
 - `"DELIVERY_WINDOW_EXPIRED"`
 - `"DELIVERY_WINDOW_INVALID"`
 - `"DEMO_SESSIONS_UNAVAILABLE"`
@@ -17753,6 +18210,7 @@ Variants: object, object, object.
 - `"INVALID_BEARER_TOKEN"`
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_INTERVAL_OPTIONS"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
 - `"INVALID_BOGO_DISCOUNT_CLASS"`
 - `"INVALID_BOGO_QUANTITY"`
@@ -17762,6 +18220,7 @@ Variants: object, object, object.
 - `"INVALID_BUSINESS_NAME"`
 - `"INVALID_BUYER_CANCELLATION_TIMING"`
 - `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_BUYER_SKIP_MAX_CONSECUTIVE_SKIPS"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
 - `"INVALID_CANCELLATION_REASON_CODE"`
@@ -17941,6 +18400,7 @@ Variants: object, object, object.
 - `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_ORIGIN"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
 - `"INVALID_PARENT_ORGANIZATION"`
@@ -17967,6 +18427,7 @@ Variants: object, object, object.
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
 - `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_OPTIONS"`
 - `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
@@ -18028,12 +18489,15 @@ Variants: object, object, object.
 - `"INVALID_STATUS_BUCKET"`
 - `"INVALID_STATUS_FOR_CAPTURE"`
 - `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_DELIVERY_MIGRATION_METHODS"`
+- `"INVALID_SUBSCRIPTION_OFFER_TARGETS"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
 - `"INVALID_SUGGESTED_AMOUNT"`
 - `"INVALID_SUPPORT_EMAIL"`
 - `"INVALID_SUPPORT_PHONE"`
 - `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_SWAP_VARIANTS"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
 - `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
@@ -18329,6 +18793,7 @@ Variants: object, object, object.
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
 - `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
 - `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED"`
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
@@ -18549,6 +19014,7 @@ Variants: object, object, object.
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS"`
 - `"PROMOTION_ID_REQUIRED"`
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
@@ -18560,6 +19026,7 @@ Variants: object, object, object.
 - `"PROVISIONING_FAILED"`
 - `"QUANTITY_ABOVE_MAX"`
 - `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_CHANGE_NOT_ALLOWED"`
 - `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
@@ -18708,15 +19175,28 @@ Variants: object, object, object.
 - `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
 - `"SHIPMENT_PACKAGE_TERMINAL"`
 - `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKIP_LIMIT_REACHED"`
+- `"SKIP_NOT_ALLOWED"`
 - `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
 - `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_INTERVAL_NOT_OFFERED"`
 - `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
 - `"SUBSCRIPTION_BILLING_START_INVALID"`
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_NOT_OFFERED"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_UNSUPPORTED"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_NOT_FOUND"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_MISSING"`
+- `"SUBSCRIPTION_DELIVERY_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_UNAVAILABLE"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
@@ -18727,20 +19207,34 @@ Variants: object, object, object.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ARCHIVED"`
+- `"SUBSCRIPTION_OFFER_NOT_ACTIVE"`
+- `"SUBSCRIPTION_OFFER_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ORDER_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_NOT_FOREVER"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE"`
+- `"SUBSCRIPTION_OFFER_TARGET_CONFLICT"`
+- `"SUBSCRIPTION_OFFER_VARIANT_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_VERSION_CONFLICT"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_QUANTITY_NOT_OFFERED"`
+- `"SUBSCRIPTION_RENEW_NOT_ALLOWED"`
+- `"SUBSCRIPTION_RENEW_PAYMENT_FAILED"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSCRIPTION_TRIAL_NOT_SUPPORTED_FOR_PHYSICAL"`
 - `"SUBSET_ONLY_VIOLATION"`
 - `"SUGGESTED_AMOUNT_ABOVE_MAX"`
 - `"SUGGESTED_AMOUNT_BELOW_MIN"`
 - `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"SWAP_NOT_ALLOWED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_ADJUSTMENT_REASON_REQUIRED"`
@@ -18853,6 +19347,46 @@ Variants: object, object, object.
 - `"split_prohibited"`
 - `"insufficient_quantity"`
 
+#### InventoryTransferActionConflictErrorDetail failure_category values
+
+- `"dependency_failure"`
+- `"timeout"`
+- `"malformed_response"`
+- `"callback_transport_failure"`
+- `"callback_circuit_open"`
+- `"callback_result_invalid"`
+- `"callback_unavailable"`
+- `"pricing_failure"`
+- `"schedule_failure"`
+- `"option_lifetime_too_short"`
+- `"geography_failure"`
+- `"routing_failure"`
+- `"invalid_configuration"`
+- `"invalid_buyer_input"`
+- `"address_verification_failed"`
+- `"address_could_not_be_verified"`
+
+#### InventoryTransferActionConflictErrorDetail failure_code values
+
+- `"card_declined"`
+- `"insufficient_funds"`
+- `"bank_account_closed"`
+- `"bank_account_not_found"`
+- `"bank_debit_not_authorized"`
+- `"bank_account_restricted"`
+- `"bank_debit_limit_exceeded"`
+- `"authentication_required"`
+- `"payment_blocked"`
+- `"expired_card"`
+- `"incorrect_cvc"`
+- `"processing_error"`
+- `"payment_method_unavailable"`
+- `"payment_method_declined"`
+- `"payment_not_completed"`
+- `"payment_action_expired"`
+- `"payment_method_temporarily_unavailable"`
+- `"payment_failed"`
+
 #### InventoryTransferActionConflictErrorDetail payment_attempt_status values
 
 - `"open"`
@@ -18879,6 +19413,7 @@ Variants: object, object, object.
 - `"block"`
 - `"bounded_inventory_guarantee_not_supported"`
 - `"buy_item_missing"`
+- `"cancellation_scheduled"`
 - `"capability_blocked"`
 - `"capability_pending"`
 - `"card_unavailable"`
@@ -18891,12 +19426,15 @@ Variants: object, object, object.
 - `"currency_mismatch"`
 - `"currency_not_supported"`
 - `"customer_unavailable"`
+- `"delivery_hold"`
+- `"destination_not_served"`
 - `"disabled"`
 - `"disabled_by_merchant_settings"`
 - `"disabled_by_platform_policy"`
 - `"exhausted"`
 - `"existing_order_checkout"`
 - `"expired"`
+- `"external_billing_schedule"`
 - `"inactive"`
 - `"ineligible_origin"`
 - `"insufficient_available_balance"`
@@ -18908,8 +19446,10 @@ Variants: object, object, object.
 - `"merchant_account_action_required"`
 - `"merchant_hosted_customer_accounts"`
 - `"merchant_payments_disabled"`
+- `"method_unavailable"`
 - `"minimum_not_met"`
 - `"no_discountable_balance"`
+- `"not_active"`
 - `"not_checkout_session"`
 - `"not_combinable"`
 - `"not_eligible"`
@@ -18918,6 +19458,7 @@ Variants: object, object, object.
 - `"not_supported"`
 - `"not_yet_started"`
 - `"off_session_not_supported"`
+- `"page_origin_required"`
 - `"partial_payment"`
 - `"payment_account_context_invalid"`
 - `"payment_account_setup_incomplete"`
@@ -18926,10 +19467,13 @@ Variants: object, object, object.
 - `"payment_option_activation_pending"`
 - `"payment_option_not_available"`
 - `"payment_option_not_in_plan"`
-- `"recurrence"`
+- `"proof_rejected"`
+- `"proof_required"`
+- `"rate_unavailable"`
 - `"recurring_ach_not_supported"`
 - `"recurring_not_supported"`
 - `"redirects_required"`
+- `"renewal_in_progress"`
 - `"require_3ds"`
 - `"requirements_due"`
 - `"return_checkout"`
@@ -18938,6 +19482,7 @@ Variants: object, object, object.
 - `"revoked"`
 - `"session_not_open"`
 - `"setting_off"`
+- `"shipping_changed"`
 - `"source_delayed_settlement_not_supported"`
 - `"source_not_supported"`
 - `"split_payment_not_supported"`
@@ -18946,9 +19491,21 @@ Variants: object, object, object.
 - `"superseded"`
 - `"superseded_by_better_offer"`
 - `"surface_not_supported"`
+- `"tax_changed"`
+- `"trial_in_progress"`
 - `"unknown_type"`
 - `"unsupported_evaluation_schema"`
 - `"unsupported_use"`
+
+#### InventoryTransferActionConflictErrorDetail unavailable_reason values
+
+- `"destination_not_served"`
+- `"pickup_unavailable"`
+- `"no_window_available"`
+- `"eligibility_no_match"`
+- `"method_type_not_allowed"`
+- `"pricing_unavailable"`
+- `"inventory_unavailable"`
 
 ## InventoryTransferActionConflictErrorEnvelope
 
@@ -18968,7 +19525,7 @@ Variants: object, object, object.
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1666 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1704 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -18977,11 +19534,13 @@ Variants: object, object, object.
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
 | `current_version` | Required | exact numeric string | Current version of the resource when a write that depends on its version or status is rejected, repeated from the first item in details. Sent on version conflicts such as DELIVERY_RESOURCE_VERSION_CONFLICT, FULFILLMENT_CHANGED, INVENTORY_CHANGED, LOCATION_CONFLICT, and RETURN_VERSION_CONFLICT, and on INVENTORY_TRANSFER_ACTION_NOT_ALLOWED. When a later item in details carries current_version, such as on SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED, read it there. Read the resource again before you retry. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_method_id` | Optional | string | Delivery method this failure concerns. On SUBSCRIPTION_DELIVERY_UNAVAILABLE, the method that cannot currently serve the subscription. |
 | `details` | Required | Array of [ErrorDetail](MODELS.md#errordetail) | Individual failures belonging to this error. An item may repeat the top-level code to carry item context. Facts about each failure appear in typed fields; param contains only request field paths. The top-level typed fields repeat the facts of the first failure. |
 | `doc_url` | Required | string | Developer error-handling documentation. |
 | `error_source` | Required | string | System boundary responsible for correcting the failure. Values: `"merchant"`, `"integration"`, `"flint"`. |
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
+| `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#inventorytransferactionconflicterrorobject-failure_category-values). |
 | `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
@@ -18990,25 +19549,36 @@ Variants: object, object, object.
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
+| `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Required | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. Values: [80 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
 | `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
+| `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
 | `scope_requirement` | Optional | [ScopeRequirement](MODELS.md#scoperequirement) | Complete route or delegation scope requirement for an INSUFFICIENT_SCOPE error. |
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
+| `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
+| `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
+| `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
 | `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
+| `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-unavailable_reason-values). |
+| `variant_id` | Optional | string | Variant associated with the error. |
 
 #### InventoryTransferActionConflictErrorObject capability values
 
@@ -19095,7 +19665,6 @@ Variants: object, object, object.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
-- `"AUTOMATIC_TAX_SUBSCRIPTION_UNSUPPORTED"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -19105,6 +19674,7 @@ Variants: object, object, object.
 - `"BANK_DEBIT_LIMIT_EXCEEDED"`
 - `"BANK_DEBIT_NOT_AUTHORIZED"`
 - `"BARCODE_ALREADY_EXISTS"`
+- `"BILLING_INTERVAL_CHANGE_NOT_ALLOWED"`
 - `"BUNDLE_COMPONENTS_REQUIRED"`
 - `"BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE"`
 - `"BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE"`
@@ -19356,6 +19926,7 @@ Variants: object, object, object.
 - `"DELIVERY_STATE_CONFLICT"`
 - `"DELIVERY_STATUS_COMBINATION_INVALID"`
 - `"DELIVERY_STATUS_INVALID"`
+- `"DELIVERY_UPDATE_NOT_ALLOWED"`
 - `"DELIVERY_WINDOW_EXPIRED"`
 - `"DELIVERY_WINDOW_INVALID"`
 - `"DEMO_SESSIONS_UNAVAILABLE"`
@@ -19611,6 +20182,7 @@ Variants: object, object, object.
 - `"INVALID_BEARER_TOKEN"`
 - `"INVALID_BILLING_ANCHOR_DAY"`
 - `"INVALID_BILLING_INTERVAL"`
+- `"INVALID_BILLING_INTERVAL_OPTIONS"`
 - `"INVALID_BILLING_SCHEDULE_OWNER"`
 - `"INVALID_BOGO_DISCOUNT_CLASS"`
 - `"INVALID_BOGO_QUANTITY"`
@@ -19620,6 +20192,7 @@ Variants: object, object, object.
 - `"INVALID_BUSINESS_NAME"`
 - `"INVALID_BUYER_CANCELLATION_TIMING"`
 - `"INVALID_BUYER_PAUSE_MAX_CYCLES"`
+- `"INVALID_BUYER_SKIP_MAX_CONSECUTIVE_SKIPS"`
 - `"INVALID_CALCULATION_BASIS"`
 - `"INVALID_CANCELLATION_REASON"`
 - `"INVALID_CANCELLATION_REASON_CODE"`
@@ -19799,6 +20372,7 @@ Variants: object, object, object.
 - `"INVALID_ORGANIZATION_ID"`
 - `"INVALID_ORIGIN"`
 - `"INVALID_PACKAGING"`
+- `"INVALID_PAGE_ORIGIN"`
 - `"INVALID_PAGE_SIZE"`
 - `"INVALID_PAGE_TOKEN"`
 - `"INVALID_PARENT_ORGANIZATION"`
@@ -19825,6 +20399,7 @@ Variants: object, object, object.
 - `"INVALID_PRODUCT_TYPE"`
 - `"INVALID_PURPOSE"`
 - `"INVALID_QUANTITY"`
+- `"INVALID_QUANTITY_OPTIONS"`
 - `"INVALID_QUANTITY_RANGE"`
 - `"INVALID_QUERY"`
 - `"INVALID_QUERY_PARAMETER"`
@@ -19886,12 +20461,15 @@ Variants: object, object, object.
 - `"INVALID_STATUS_BUCKET"`
 - `"INVALID_STATUS_FOR_CAPTURE"`
 - `"INVALID_STATUS_TRANSITION"`
+- `"INVALID_SUBSCRIPTION_DELIVERY_MIGRATION_METHODS"`
+- `"INVALID_SUBSCRIPTION_OFFER_TARGETS"`
 - `"INVALID_SUBSCRIPTION_PLAN_LINE_ITEM_ID"`
 - `"INVALID_SUGGESTED_AMOUNT"`
 - `"INVALID_SUPPORT_EMAIL"`
 - `"INVALID_SUPPORT_PHONE"`
 - `"INVALID_SUPPORT_URL"`
 - `"INVALID_SURFACE_ROUTE"`
+- `"INVALID_SWAP_VARIANTS"`
 - `"INVALID_TAX_ADJUSTMENT_AUDIT_ACTOR_TYPE"`
 - `"INVALID_TAX_ADJUSTMENT_REASON_CODE"`
 - `"INVALID_TAX_BREAKDOWN_REFUND_AMOUNT"`
@@ -20187,6 +20765,7 @@ Variants: object, object, object.
 - `"ORDER_CUSTOMER_NOT_CLEARABLE"`
 - `"ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT"`
 - `"ORDER_DELAYED_CAPTURE_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED"`
 - `"ORDER_DISCOUNT_NO_CHARGE_IDS"`
 - `"ORDER_DISCOUNT_NO_LINE_ITEM_IDS"`
 - `"ORDER_FINANCIAL_MUTATION_NOT_ALLOWED"`
@@ -20407,6 +20986,7 @@ Variants: object, object, object.
 - `"PROMOTION_CONFLICT"`
 - `"PROMOTION_DECLINED"`
 - `"PROMOTION_FILTER_TARGET_CONFLICT"`
+- `"PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS"`
 - `"PROMOTION_ID_REQUIRED"`
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
@@ -20418,6 +20998,7 @@ Variants: object, object, object.
 - `"PROVISIONING_FAILED"`
 - `"QUANTITY_ABOVE_MAX"`
 - `"QUANTITY_BELOW_MIN"`
+- `"QUANTITY_CHANGE_NOT_ALLOWED"`
 - `"QUANTITY_NOT_ADJUSTABLE"`
 - `"RANGE_REQUIRED"`
 - `"RATE_LIMIT_EXCEEDED"`
@@ -20566,15 +21147,28 @@ Variants: object, object, object.
 - `"SHIPMENT_PACKAGE_PROVIDER_REFERENCE_INCOMPLETE"`
 - `"SHIPMENT_PACKAGE_TERMINAL"`
 - `"SHIPMENT_TIMESTAMP_ORDER_INVALID"`
+- `"SKIP_LIMIT_REACHED"`
+- `"SKIP_NOT_ALLOWED"`
 - `"SKU_ALREADY_EXISTS"`
 - `"SOURCE_CONTEXT_CONFLICT"`
 - `"STANDARD_PAYOUTS_UNAVAILABLE"`
 - `"STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE"`
 - `"STREAMING_UNAVAILABLE"`
+- `"SUBSCRIPTION_BILLING_INTERVAL_NOT_OFFERED"`
 - `"SUBSCRIPTION_BILLING_SCHEDULE_REQUIRED"`
 - `"SUBSCRIPTION_BILLING_START_INVALID"`
 - `"SUBSCRIPTION_CANCELED"`
 - `"SUBSCRIPTION_CONFIRMATION_TOKEN_MISMATCH"`
+- `"SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_NOT_OFFERED"`
+- `"SUBSCRIPTION_DELIVERY_METHOD_UNSUPPORTED"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_NOT_FOUND"`
+- `"SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_PROFILE_MISSING"`
+- `"SUBSCRIPTION_DELIVERY_REQUIRED"`
+- `"SUBSCRIPTION_DELIVERY_UNAVAILABLE"`
 - `"SUBSCRIPTION_EXTERNAL_BILLING_ANCHOR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_FULFILLMENT_NOT_SUPPORTED"`
 - `"SUBSCRIPTION_IMPORT_PERIOD_NOT_CURRENT"`
@@ -20585,20 +21179,34 @@ Variants: object, object, object.
 - `"SUBSCRIPTION_NEXT_BILLING_AT_REQUIRED"`
 - `"SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR"`
 - `"SUBSCRIPTION_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ARCHIVED"`
+- `"SUBSCRIPTION_OFFER_NOT_ACTIVE"`
+- `"SUBSCRIPTION_OFFER_NOT_FOUND"`
+- `"SUBSCRIPTION_OFFER_ORDER_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_NOT_FOREVER"`
+- `"SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE"`
+- `"SUBSCRIPTION_OFFER_TARGET_CONFLICT"`
+- `"SUBSCRIPTION_OFFER_VARIANT_NOT_ELIGIBLE"`
+- `"SUBSCRIPTION_OFFER_VERSION_CONFLICT"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED"`
 - `"SUBSCRIPTION_PAYMENT_RETRY_NOT_ALLOWED"`
 - `"SUBSCRIPTION_PLAN_NOT_FOUND"`
+- `"SUBSCRIPTION_QUANTITY_NOT_OFFERED"`
+- `"SUBSCRIPTION_RENEW_NOT_ALLOWED"`
+- `"SUBSCRIPTION_RENEW_PAYMENT_FAILED"`
 - `"SUBSCRIPTION_SCHEDULE_CLEAR_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SCHEDULE_MUTATION_NOT_ALLOWED"`
 - `"SUBSCRIPTION_SERVICE_LOCATION_INVALID"`
 - `"SUBSCRIPTION_STARTS_AT_NOT_FUTURE"`
 - `"SUBSCRIPTION_STARTS_AT_TRIAL_CONFLICT"`
 - `"SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED"`
+- `"SUBSCRIPTION_TRIAL_NOT_SUPPORTED_FOR_PHYSICAL"`
 - `"SUBSET_ONLY_VIOLATION"`
 - `"SUGGESTED_AMOUNT_ABOVE_MAX"`
 - `"SUGGESTED_AMOUNT_BELOW_MIN"`
 - `"SUGGESTED_AMOUNT_OUT_OF_RANGE"`
+- `"SWAP_NOT_ALLOWED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRED"`
 - `"TAX_ADJUSTMENT_AUDIT_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_ADJUSTMENT_REASON_REQUIRED"`
@@ -20689,6 +21297,25 @@ Variants: object, object, object.
 - `"WEEKLY_PAYOUT_DAYS_NOT_ALLOWED"`
 - `"WEEKLY_PAYOUT_DAYS_REQUIRED"`
 
+#### InventoryTransferActionConflictErrorObject failure_category values
+
+- `"dependency_failure"`
+- `"timeout"`
+- `"malformed_response"`
+- `"callback_transport_failure"`
+- `"callback_circuit_open"`
+- `"callback_result_invalid"`
+- `"callback_unavailable"`
+- `"pricing_failure"`
+- `"schedule_failure"`
+- `"option_lifetime_too_short"`
+- `"geography_failure"`
+- `"routing_failure"`
+- `"invalid_configuration"`
+- `"invalid_buyer_input"`
+- `"address_verification_failed"`
+- `"address_could_not_be_verified"`
+
 #### InventoryTransferActionConflictErrorObject payment_attempt_status values
 
 - `"open"`
@@ -20715,6 +21342,7 @@ Variants: object, object, object.
 - `"block"`
 - `"bounded_inventory_guarantee_not_supported"`
 - `"buy_item_missing"`
+- `"cancellation_scheduled"`
 - `"capability_blocked"`
 - `"capability_pending"`
 - `"card_unavailable"`
@@ -20727,12 +21355,15 @@ Variants: object, object, object.
 - `"currency_mismatch"`
 - `"currency_not_supported"`
 - `"customer_unavailable"`
+- `"delivery_hold"`
+- `"destination_not_served"`
 - `"disabled"`
 - `"disabled_by_merchant_settings"`
 - `"disabled_by_platform_policy"`
 - `"exhausted"`
 - `"existing_order_checkout"`
 - `"expired"`
+- `"external_billing_schedule"`
 - `"inactive"`
 - `"ineligible_origin"`
 - `"insufficient_available_balance"`
@@ -20744,8 +21375,10 @@ Variants: object, object, object.
 - `"merchant_account_action_required"`
 - `"merchant_hosted_customer_accounts"`
 - `"merchant_payments_disabled"`
+- `"method_unavailable"`
 - `"minimum_not_met"`
 - `"no_discountable_balance"`
+- `"not_active"`
 - `"not_checkout_session"`
 - `"not_combinable"`
 - `"not_eligible"`
@@ -20754,6 +21387,7 @@ Variants: object, object, object.
 - `"not_supported"`
 - `"not_yet_started"`
 - `"off_session_not_supported"`
+- `"page_origin_required"`
 - `"partial_payment"`
 - `"payment_account_context_invalid"`
 - `"payment_account_setup_incomplete"`
@@ -20762,10 +21396,13 @@ Variants: object, object, object.
 - `"payment_option_activation_pending"`
 - `"payment_option_not_available"`
 - `"payment_option_not_in_plan"`
-- `"recurrence"`
+- `"proof_rejected"`
+- `"proof_required"`
+- `"rate_unavailable"`
 - `"recurring_ach_not_supported"`
 - `"recurring_not_supported"`
 - `"redirects_required"`
+- `"renewal_in_progress"`
 - `"require_3ds"`
 - `"requirements_due"`
 - `"return_checkout"`
@@ -20774,6 +21411,7 @@ Variants: object, object, object.
 - `"revoked"`
 - `"session_not_open"`
 - `"setting_off"`
+- `"shipping_changed"`
 - `"source_delayed_settlement_not_supported"`
 - `"source_not_supported"`
 - `"split_payment_not_supported"`
@@ -20782,6 +21420,8 @@ Variants: object, object, object.
 - `"superseded"`
 - `"superseded_by_better_offer"`
 - `"surface_not_supported"`
+- `"tax_changed"`
+- `"trial_in_progress"`
 - `"unknown_type"`
 - `"unsupported_evaluation_schema"`
 - `"unsupported_use"`
@@ -20800,6 +21440,16 @@ Variants: object, object, object.
 - `"unavailable_error"`
 - `"internal_error"`
 - `"invalid_request_error"`
+
+#### InventoryTransferActionConflictErrorObject unavailable_reason values
+
+- `"destination_not_served"`
+- `"pickup_unavailable"`
+- `"no_window_available"`
+- `"eligibility_no_match"`
+- `"method_type_not_allowed"`
+- `"pricing_unavailable"`
+- `"inventory_unavailable"`
 
 ## InventoryTransferConflictErrorEnvelope
 
@@ -21046,6 +21696,7 @@ Read-only invoice history row for timeline rendering and debugging. Detail field
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_schedule_entry_id` | Optional | string |  |
+| `page_origin` | Optional | string | Origin of the page where you render this embedded checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. maxLength: `255`. |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) | Buyer destinations. Embedded checkout requires success_redirect_url when a redirect payment option is offered. Keep return_url and redirects.success_redirect_url consistent when sending both. |
 | `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the invoice's page in the customer account. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. HTTP is accepted only for localhost in test mode. Anything else fails with INVALID_RETURN_URL. Format: `uri`. maxLength: `2048`. |
 | `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Values: `"hosted"`, `"embedded"`. |
@@ -22253,7 +22904,7 @@ Current Flint merchant billing balance for one billing account and currency.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [200 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [205 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | minimum: `1`. |
@@ -22463,6 +23114,11 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"subscription.renewal_upcoming"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
+- `"subscription.cycle_skipped"`
+- `"subscription_delivery_migration.completed"`
 
 ## Modifier
 
@@ -22755,7 +23411,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Values: [25 declared values](#nextaction-action_type-values). |
+| `action_type` | Required | string | Values: [26 declared values](#nextaction-action_type-values). |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `merchant_account_session` | Optional | [NextActionMerchantAccountSession](MODELS.md#nextactionmerchantaccountsession) | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. |
 | `reason_code` | Optional | string |  |
@@ -22793,6 +23449,7 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 - `"start_new_image_ingestion"`
 - `"get_payout_settings"`
 - `"payment_authentication"`
+- `"complete_gift_card_challenge"`
 
 #### NextAction required_scope values
 
@@ -23139,6 +23796,8 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `setup_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `status` | Required | string | Values: `"open"`, `"closed"`. Response only. |
 | `subscription` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `subscription_cycle` | Optional | exact numeric string | Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance the cycle. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
+| `subscription_delivery_changed_at` | Optional | string | Time the subscriber changed delivery after this paid renewal was prepared. The order keeps its committed destination until you correct it or refund and replace it. Format: `date-time`. Response only. |
 | `subscription_id` | Optional | string | Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `subscription_plan_id` | Optional | string | Response only. |
@@ -23568,6 +24227,9 @@ Accept the exact gift_card_estimate returned on the current order, including all
 | `selected_options` | Optional | Array of [SelectedProductOption](MODELS.md#selectedproductoption) |  |
 | `sku` | Optional | string |  |
 | `source_type` | Optional | string | Values: `"variant"`, `"bundle"`. |
+| `subscription` | Optional | [SubscribedLine](MODELS.md#subscribedline) | Recurring offer and cadence frozen for this line at signup. |
+| `subscription_id` | Optional | string | Subscription created for this line after the order is paid. |
+| `subscription_offer` | Optional | [OrderLineSubscriptionOfferSummary](MODELS.md#orderlinesubscriptionoffersummary) | Applicable active offer for a one-time line, or the offer terms frozen for a subscribed line. Response only. |
 | `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax` | Optional | [OrderCalculatedLineItemTax](MODELS.md#ordercalculatedlineitemtax) |  |
 | `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -23633,6 +24295,26 @@ Variants: any, any.
 - `"clothing"`
 - `"medical_goods"`
 - `"admission"`
+
+## OrderLineSubscriptionOfferDiscount
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_off_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `percent_off` | Optional | number | multipleOf: `0.0001`. |
+
+## OrderLineSubscriptionOfferSummary
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) |  |
+| `discount` | Optional | [OrderLineSubscriptionOfferDiscount](MODELS.md#orderlinesubscriptionofferdiscount) |  |
+| `name` | Required | string |  |
+| `subscription_offer_id` | Required | string |  |
 
 ## OrderListResponse
 
@@ -24562,7 +25244,7 @@ Variants: object, object, object, object, object, object, object, object.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object |  |
-| `event_type` | Required | string | Values: [206 declared values](#partnerwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [211 declared values](#partnerwebhookenvelope-event_type-values). |
 | `partner_app_id` | Required | string |  |
 | `webhook_event_id` | Required | string |  |
 
@@ -24761,6 +25443,10 @@ Variants: object, object, object, object, object, object, object, object.
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -24771,6 +25457,7 @@ Variants: object, object, object, object, object, object, object, object.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -25217,6 +25904,7 @@ Subscription terms shown before an active plan-backed payment link creates a che
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
 | `contract_term_months` | Optional | integer | Minimum contract term in months, when configured. Format: `int32`. |
+| `delivery_required` | Required | boolean | True when the plan has a line that ships or is delivered, so each renewal adds a shipping or delivery charge chosen at checkout. The amount is not known until the buyer enters an address and chooses a method. Response only. |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Early termination fee, when configured. |
 | `plan_image` | Optional | [Image](MODELS.md#image) | Plan image shown to the buyer, when configured. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
@@ -26147,7 +26835,7 @@ Canonical REST shape is flat: send type plus the effect fields on this object. R
 | `max_discounted_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `percent_off` | Optional | number | minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `qualifying_item_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `recurrence` | Optional | [PromotionRecurrence](MODELS.md#promotionrecurrence) | Optional on order promotion writes, but only recurrence.type = once is accepted. Subscription recurrence values are reserved for future subscription promotion support. |
+| `recurrence` | Optional | [PromotionRecurrence](MODELS.md#promotionrecurrence) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. |
 | `reward_selection` | Optional | string | Values: `"cheapest"`, `"highest_price"`, `"first_added"`. |
 | `type` | Optional | string | Values: `"percent_off"`, `"amount_off"`, `"buy_x_get_y"`. |
 
@@ -26287,8 +26975,10 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `period_count` | Optional | integer | Format: `int32`. |
-| `type` | Required | string | Only once is accepted on order promotion writes. Subscription recurrence values are reserved for future subscription promotion support. Values: `"once"`. |
+| `period_count` | Optional | integer | Number of charged payments for repeating recurrence. Omit for once and forever. minimum: `1`. |
+| `type` | Required | string | Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Values: `"once"`, `"repeating"`, `"forever"`. |
+
+Variants: any, any, any.
 
 ## PromotionRefRequest
 
@@ -27096,6 +27786,14 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `order_revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 
+## RenewSubscriptionRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+
 ## ReopenReturnRequest
 
 
@@ -27361,7 +28059,7 @@ Variants: any, any, any.
 | `error_code` | Optional | string |  |
 | `error_summary` | Optional | string |  |
 | `event_source` | Optional | string | Values: `"business_event"`, `"test_api"`. |
-| `event_type` | Optional | string | Values: [206 declared values](#resourcetimelineentry-event_type-values). |
+| `event_type` | Optional | string | Values: [211 declared values](#resourcetimelineentry-event_type-values). |
 | `http_method` | Optional | string |  |
 | `image_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `last_error` | Optional | string |  |
@@ -27378,7 +28076,7 @@ Variants: any, any, any.
 | `request_id` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `resource_timeline_entry_id` | Required | string |  |
-| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [106 declared values](#resourcetimelineentry-resource_type-values). |
+| `resource_type` | Optional | string | The public resource type associated with this request or event. Omitted when the resource type cannot be identified. Values: [109 declared values](#resourcetimelineentry-resource_type-values). |
 | `retryable` | Optional | boolean |  |
 | `route_pattern` | Optional | string |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -27606,6 +28304,10 @@ Variants: any, any, any.
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -27616,6 +28318,7 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -27722,6 +28425,9 @@ Variants: any, any, any.
 - `"sandbox"`
 - `"shipment"`
 - `"subscription"`
+- `"subscription_delivery_migration"`
+- `"subscription_line_item"`
+- `"subscription_offer"`
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"user"`
@@ -29494,7 +30200,8 @@ Signed monetary amount represented as integer minor units plus an ISO 4217 curre
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `initiated_by` | Optional | string | Optional business actor. Omit when the actor is unknown. Values: `"buyer"`, `"merchant"`, `"integration"`. |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `initiated_by` | Optional | string | Who asked for the skip. Defaults to merchant. Send buyer when you skip at the buyer's request. The subscription.cycle_skipped webhook reports this value as initiated_by. Values: `"buyer"`, `"merchant"`, `"integration"`. |
 
 ## StripeClientAuthority
 
@@ -29552,6 +30259,27 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `client_secret` | Required | string | SetupIntent client secret to pass to Stripe.js handleNextAction. |
 | `stripe_js_call` | Required | string | Stripe.js operation to perform. Today this is handle_next_action. Values: `"handle_next_action"`. |
 
+## SubscribedLine
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Required | integer | Format: `int32`. |
+| `recurring_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Line amount for the first renewal, including modifiers and recurring discounts, before shipping and tax. Signup-only discounts are excluded. Response only. |
+| `subscription_offer_id` | Required | string |  |
+
+## SubscribedLineRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Required | integer | Format: `int32`. minimum: `1`. maximum: `365`. |
+| `subscription_offer_id` | Required | string | Active subscription offer for this catalog variant. minLength: `1`. |
+
 ## Subscription
 
 
@@ -29562,12 +30290,14 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `billing_anchor_day` | Optional | integer | Format: `int32`. |
 | `billing_interval` | Optional | string | How often the subscription bills, frozen when the subscription was created. Read with billing_interval_count: monthly with a count of 3 bills quarterly. Omitted for subscriptions created before Flint recorded this interval. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. Response only. |
 | `billing_interval_count` | Optional | integer | Number of billing_interval units between charges, frozen when the subscription was created. Omitted for subscriptions created before Flint recorded this interval. Format: `int32`. Response only. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | maxItems: `12`. Response only. |
 | `billing_schedule_owner` | Required | string | Values: `"flint"`, `"external"`. Response only. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, then retry_payment, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all six every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
+| `buyer_actions` | Required | Array of [BuyerAction](MODELS.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, then renew, under the store's customer_account.buyer_capabilities. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all twelve every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. Response only. |
 | `cancel_at_period_end` | Required | boolean | True when the subscription is scheduled to cancel at the end of the current period. Schedule with the cancel route and undo with the reactivate route. Response only. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `cancellation_details` | Optional | [SubscriptionCancellationDetails](MODELS.md#subscriptioncancellationdetails) | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, such as a cancellation after failed payments, and removed when a scheduled cancellation is undone. Response only. |
+| `completed_cycles` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `contract_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `contract_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -29575,25 +30305,42 @@ Stripe.js initialization context plus one flow-specific authority object. Exactl
 | `current_period_start` | Optional | string | Response only. |
 | `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `customer_id` | Required | string |  |
+| `delivery` | Optional | [SubscriptionDelivery](MODELS.md#subscriptiondelivery) |  |
+| `delivery_hold` | Optional | [SubscriptionDeliveryHold](MODELS.md#subscriptiondeliveryhold) | Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. Response only. |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Early termination fee frozen in the subscription's contract terms. Present only before contract_end_at when those terms include a fee. Later plan changes do not change this fee. Response only. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `inventory_wait` | Optional | [SubscriptionInventoryWait](MODELS.md#subscriptioninventorywait) | Renewal waiting for stock. Included only in merchant responses and omitted from buyer responses. Response only. |
 | `line_items` | Optional | Array of [SubscriptionLineItem](MODELS.md#subscriptionlineitem) | Response only. |
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
 | `next_billing_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `next_retry_at` | Optional | string or null | Recorded automatic payment retry time. Null when no retry time is available. Format: `date-time`. Response only. |
+| `open_renewal_order_id` | Optional | string | ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed delivery destination after preference changes and cancellation. Absent when no such renewal order exists. Only renewal orders count; the signup order is not included. Response only. |
+| `pause_reason` | Optional | string | Values: `"buyer"`, `"delivery_action_required"`. Response only. |
 | `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `payment_method` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `payment_method_id` | Required | string |  |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `quantity_options` | Optional | Array of integer | maxItems: `10`. Response only. |
 | `recurring_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | What one billing period charges before tax and discounts, frozen when the subscription was created. Plan price changes after that do not change it. Omitted for subscriptions created before Flint recorded this amount. Response only. |
 | `service_location` | Optional | [SubscriptionServiceLocation](MODELS.md#subscriptionservicelocation) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `status` | Required | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`. Response only. |
 | `subscription_id` | Required | string | Response only. |
 | `subscription_plan` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `subscription_plan_id` | Required | string |  |
+| `subscription_plan_id` | Optional | string |  |
 | `trial_end` | Optional | string | Response only. |
+| `upcoming_delivery_hold` | Optional | [SubscriptionUpcomingDeliveryHold](MODELS.md#subscriptionupcomingdeliveryhold) | Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. Response only. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
+
+## SubscriptionAddressVerification
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `state` | Required | string | Values: `"verified"`, `"unverified"`, `"needs_review"`, `"unverifiable"`. |
 
 ## SubscriptionAnalytics
 
@@ -29641,6 +30388,237 @@ The cancellation request behind a scheduled or completed cancellation.
 | `requested_at` | Required | string | When the cancellation was requested. Format: `date-time`. |
 | `requested_by` | Required | string | buyer: the buyer, in Flint's buyer account or with a customer session. merchant: a merchant credential, such as an API key or the dashboard. Values: `"buyer"`, `"merchant"`. |
 
+## SubscriptionCounts
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `active` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `past_due` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `paused` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+
+## SubscriptionDelivery
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address_verification` | Optional | [SubscriptionAddressVerification](MODELS.md#subscriptionaddressverification) |  |
+| `delivery_method` | Optional | [SubscriptionDeliveryMethodSummary](MODELS.md#subscriptiondeliverymethodsummary) |  |
+| `delivery_method_id` | Required | string |  |
+| `destination` | Required | [SubscriptionDeliveryDestination](MODELS.md#subscriptiondeliverydestination) |  |
+| `recipient` | Optional | [DeliveryRecipientResource](MODELS.md#deliveryrecipientresource) |  |
+| `revision` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+## SubscriptionDeliveryDestination
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address` | Required | [PostalAddress](MODELS.md#postaladdress) | Resolved delivery address used by future shipments. |
+| `customer_address_id` | Optional | string | Display reference to the saved customer address used when this destination was written. Editing that saved address does not change the subscription destination. |
+
+## SubscriptionDeliveryDestinationRequest
+
+
+
+Variants: object, object.
+
+## SubscriptionDeliveryHold
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `ends_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `fixable_by` | Required | string | Values: `"buyer"`, `"merchant"`. |
+| `reason` | Required | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+## SubscriptionDeliveryMethodCounts
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_method_id` | Required | string |  |
+| `subscription_counts` | Required | [SubscriptionCounts](MODELS.md#subscriptioncounts) |  |
+
+## SubscriptionDeliveryMethodImpact
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_method_id` | Required | string |  |
+| `mode` | Required | string | Values: `"delivery_method_update"`. |
+| `no_longer_eligible_counts` | Required | [SubscriptionCounts](MODELS.md#subscriptioncounts) |  |
+| `subscription_counts` | Required | [SubscriptionCounts](MODELS.md#subscriptioncounts) |  |
+
+## SubscriptionDeliveryMethodSummary
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `description` | Optional | string |  |
+| `name` | Optional | string |  |
+| `price_type` | Optional | string | Values: `"fixed"`, `"quoted"`. |
+| `type` | Optional | string | Values: `"shipment"`, `"local_delivery"`. |
+
+## SubscriptionDeliveryMigration
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `failed_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `failure_reason_counts` | Required | Array of [SubscriptionDeliveryMigrationFailureReasonCount](MODELS.md#subscriptiondeliverymigrationfailurereasoncount) | Response only. |
+| `from_delivery_method_id` | Required | string | Response only. |
+| `moved_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `pending_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `status` | Required | string | Values: `"pending"`, `"running"`, `"completed"`. |
+| `subscription_delivery_migration_id` | Required | string | Response only. |
+| `subscription_plan_id` | Optional | string | Response only. |
+| `to_delivery_method_id` | Required | string | Response only. |
+| `total_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+## SubscriptionDeliveryMigrationFailure
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `message` | Required | string |  |
+| `reason` | Required | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+| `subscription_id` | Required | string |  |
+
+## SubscriptionDeliveryMigrationFailureListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [SubscriptionDeliveryMigrationFailure](MODELS.md#subscriptiondeliverymigrationfailure) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionDeliveryMigrationFailureReasonCount
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `reason` | Required | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+
+## SubscriptionDeliveryMigrationListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [SubscriptionDeliveryMigration](MODELS.md#subscriptiondeliverymigration) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionDeliveryMigrationResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [SubscriptionDeliveryMigration](MODELS.md#subscriptiondeliverymigration) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionDeliveryOption
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `availability` | Required | string | Values: `"available"`, `"unavailable"`, `"cannot_calculate"`. |
+| `current` | Required | boolean | True when this is the subscription's saved preferred delivery method, including when unavailable. |
+| `delivery_method_id` | Required | string |  |
+| `description` | Optional | string |  |
+| `failure_category` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [16 declared values](#subscriptiondeliveryoption-failure_category-values). |
+| `name` | Required | string |  |
+| `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
+| `selectable` | Required | boolean | True when this method is offered, renewable, and currently serves the destination. |
+| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
+| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [7 declared values](#subscriptiondeliveryoption-unavailable_reason-values). |
+
+#### SubscriptionDeliveryOption failure_category values
+
+- `"dependency_failure"`
+- `"timeout"`
+- `"malformed_response"`
+- `"callback_transport_failure"`
+- `"callback_circuit_open"`
+- `"callback_result_invalid"`
+- `"callback_unavailable"`
+- `"pricing_failure"`
+- `"schedule_failure"`
+- `"option_lifetime_too_short"`
+- `"geography_failure"`
+- `"routing_failure"`
+- `"invalid_configuration"`
+- `"invalid_buyer_input"`
+- `"address_verification_failed"`
+- `"address_could_not_be_verified"`
+
+#### SubscriptionDeliveryOption unavailable_reason values
+
+- `"destination_not_served"`
+- `"pickup_unavailable"`
+- `"no_window_available"`
+- `"eligibility_no_match"`
+- `"method_type_not_allowed"`
+- `"pricing_unavailable"`
+- `"inventory_unavailable"`
+
+## SubscriptionDeliveryRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_method_id` | Required | string | pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `destination` | Required | [SubscriptionDeliveryDestinationRequest](MODELS.md#subscriptiondeliverydestinationrequest) |  |
+| `recipient` | Optional | [DeliverySelectionRecipientRequest](MODELS.md#deliveryselectionrecipientrequest) |  |
+| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
+
+## SubscriptionIntervalOption
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Required | integer | minimum: `1`. maximum: `365`. |
+
+## SubscriptionInventoryWait
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string |  |
+| `order_id` | Required | string |  |
+| `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
 ## SubscriptionLineItem
 
 
@@ -29662,6 +30640,8 @@ The cancellation request behind a scheduled or completed cancellation.
 | `sku` | Optional | string |  |
 | `source_type` | Optional | string | Values: `"variant"`, `"bundle"`. |
 | `subscription_line_item_id` | Optional | string |  |
+| `subscription_offer_id` | Optional | string |  |
+| `subscription_plan_line_item_id` | Optional | string |  |
 | `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `unit_price_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
@@ -29675,6 +30655,46 @@ The cancellation request behind a scheduled or completed cancellation.
 | `data` | Required | Array of [Subscription](MODELS.md#subscription) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionOffer
+
+Recurring terms offered on catalog products or variants. Updates affect new signups; existing subscriptions keep their paid signup terms.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval_options` | Required | Array of object | minItems: `1`. maxItems: `12`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `metadata` | Required | object |  |
+| `name` | Required | string | minLength: `1`. maxLength: `255`. |
+| `product_ids` | Required | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+| `promotion_id` | Required | string or null | An active promotion with forever recurrence. On PATCH, null removes the discount for new signups; omission keeps it. |
+| `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
+| `subscription_delivery_method_ids` | Required | Array of string | Delivery methods offered at signup. An empty array uses the store's checkout defaults. Existing subscriptions keep their selected method. maxItems: `25`. |
+| `subscription_offer_id` | Required | string |  |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `variant_ids` | Required | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+| `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
+
+## SubscriptionOfferListResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Array of [SubscriptionOffer](MODELS.md#subscriptionoffer) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `next_page_token` | Optional | string |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionOfferResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [SubscriptionOffer](MODELS.md#subscriptionoffer) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
 ## SubscriptionPaymentRetry
@@ -29754,19 +30774,25 @@ The cancellation request behind a scheduled or completed cancellation.
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
+| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | maxItems: `12`. |
 | `contract_term_months` | Optional | integer | Format: `int32`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `delivery_method_subscription_counts` | Required | Array of [SubscriptionDeliveryMethodCounts](MODELS.md#subscriptiondeliverymethodcounts) | Response only. |
+| `delivery_required` | Required | boolean | Response only. |
 | `description` | Optional | string |  |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `images` | Required | Array of [Image](MODELS.md#image) |  |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](MODELS.md#inventoryroutingsourcerequest) | Where tracked demand from this plan is routed. New subscriptions and payment links for the plan copy it. Absent when the plan has no source. |
 | `line_items` | Optional | Array of [SubscriptionPlanLineItem](MODELS.md#subscriptionplanlineitem) |  |
 | `merchant_id` | Optional | string | Response only. |
 | `metadata` | Optional | object |  |
 | `name` | Required | string |  |
+| `quantity_options` | Required | Array of integer | maxItems: `10`. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. Response only. |
+| `subscription_delivery_method_ids` | Required | Array of string |  |
 | `subscription_plan_id` | Required | string | Response only. |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -29790,6 +30816,8 @@ The cancellation request behind a scheduled or completed cancellation.
 | `selected_options` | Optional | Array of [SelectedProductOption](MODELS.md#selectedproductoption) | Response only. |
 | `sku` | Optional | string | Response only. |
 | `subscription_plan_line_item_id` | Required | string | Response only. |
+| `swap_variant_ids` | Required | Array of string | maxItems: `25`. |
+| `swap_variants` | Optional | Array of [SubscriptionPlanSwapVariant](MODELS.md#subscriptionplanswapvariant) | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. Response only. |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
@@ -29807,6 +30835,7 @@ Variants: any, any, any.
 | `modifiers` | Optional | Array of any |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `swap_variant_ids` | Optional | Array of string | maxItems: `25`. |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
@@ -29831,6 +30860,55 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `data` | Required | [SubscriptionPlan](MODELS.md#subscriptionplan) |  |
+| `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
+| `request_id` | Optional | string |  |
+
+## SubscriptionPlanSwapVariant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `image` | Optional | [Image](MODELS.md#image) | Response only. |
+| `name` | Required | string | Response only. |
+| `selected_options` | Required | Array of [SelectedProductOption](MODELS.md#selectedproductoption) | Response only. |
+| `sku` | Optional | string | Response only. |
+| `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `variant_id` | Required | string | pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Response only. |
+
+## SubscriptionPreview
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address_verification` | Optional | [SubscriptionAddressVerification](MODELS.md#subscriptionaddressverification) |  |
+| `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `delivery_methods` | Optional | Array of [SubscriptionDeliveryOption](MODELS.md#subscriptiondeliveryoption) | Present in delivery_options mode ([] when no method applies); absent in create mode. |
+| `destination_address` | Optional | [PostalAddress](MODELS.md#postaladdress) |  |
+| `errors` | Optional | Array of [SubscriptionPreviewError](MODELS.md#subscriptionpreviewerror) | Present in create mode ([] when the subscription is valid); absent in delivery_options mode. |
+| `is_valid` | Optional | boolean | Present in create mode; absent in delivery_options mode. |
+| `mode` | Required | string | Values: `"create"`, `"delivery_options"`. |
+| `subscription_id` | Optional | string |  |
+
+## SubscriptionPreviewError
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `code` | Required | string |  |
+| `details` | Optional | Array of [ErrorDetail](MODELS.md#errordetail) |  |
+| `message` | Required | string |  |
+| `param` | Optional | string |  |
+
+## SubscriptionPreviewResponse
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Alternative shapes (see declared variants) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
@@ -29869,6 +30947,7 @@ Variants: object, object.
 | `dunning_end_action` | Optional | string | Values: `"cancel"`, `"pause"`, `"notify_only"`. |
 | `dunning_retry_days` | Optional | integer | Format: `int32`. |
 | `external_dunning_end_action` | Optional | string | Values: `"cancel"`, `"pause"`, `"notify_only"`. |
+| `send_backordered_email` | Optional | boolean |  |
 
 ## SubscriptionSnapshotMetrics
 
@@ -29892,6 +30971,17 @@ Variants: object, object.
 | `past_due_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `paused_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `trialing_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+
+## SubscriptionUpcomingDeliveryHold
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `detected_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `fixable_by` | Required | string | Values: `"buyer"`, `"merchant"`. |
+| `reason` | Required | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `renewal_at` | Required | string | Time of the next renewal affected by this delivery issue. Format: `date-time`. |
 
 ## SubscriptionWindowMetrics
 
@@ -30253,6 +31343,7 @@ Variants: any, any.
 | `buyer_contact` | Optional | [CheckoutBuyerContactRequest](MODELS.md#checkoutbuyercontactrequest) | Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) | Subscription plan sessions only. The billing interval and quantity the buyer chose from subscription_terms.billing_interval_options and quantity_options. Send billing_interval and billing_interval_count together. Accepted from your API key or the checkout credential. |
 | `timezone` | Optional | string | Checkout credentials only. A valid IANA timezone, such as America/Toronto, used for Flint-sent receipts. Omission keeps the previous observation; null is invalid. maxLength: `64`. |
 
 ## UpdateCreditNoteRequest
@@ -30564,6 +31655,7 @@ Variants: any, any, any, any, any.
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequest](MODELS.md#orderlineitemmodifierrequest) |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `subscription` | Optional | Alternative shapes (see declared variants) | Selects an active subscription offer and reprices an unpaid line. Null selects a one-time purchase. Omission preserves the selection. Requires expected_version from the line item and clears the delivery selection when terms change. |
 | `tax` | Optional | [OrderCalculatedLineItemTax](MODELS.md#ordercalculatedlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 
@@ -30620,6 +31712,15 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `name` | Optional | string |  |
 | `phone` | Optional | string |  |
+
+## UpdateMeSubscriptionLineItemRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `variant_id` | Required | string | pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ## UpdateModifierGroupRequest
 
@@ -30704,11 +31805,12 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `buyer_note` | Optional | string |  |
 | `customer_id` | Optional | string |  |
-| `delivery_destination` | Optional | Alternative shapes (see declared variants) | Complete replacement destination. Allowed only while the order is open and unpaid and no delivery selection controls it. |
+| `delivery_destination` | Optional | Alternative shapes (see declared variants) | Complete replacement destination. Allowed while the order is open and unpaid and no delivery selection controls it. A merchant may also correct a paid subscription signup or renewal before shipment by sending order_revision, when the committed delivery methods remain eligible and shipping and tax totals stay the same. A paid destination cannot be cleared. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `internal_note` | Optional | string |  |
 | `inventory_routing_source` | Optional | [OrderInventoryRoutingSourceRequest](MODELS.md#orderinventoryroutingsourcerequest) |  |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `order_revision` | Optional | exact numeric string | Current order_revision from the order. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `requested_tip` | Optional | Alternative shapes (see declared variants) | Requested tip to set or replace. Send null to clear the current requested tip. |
 | `tax` | Optional | [OrderTaxRequest](MODELS.md#ordertaxrequest) |  |
 
@@ -31154,7 +32256,7 @@ Variants: any, any, any, any.
 | `branding` | Optional | [BrandingSettings](MODELS.md#brandingsettings) |  |
 | `catalog` | Optional | [UpdateCatalogSettings](MODELS.md#updatecatalogsettings) |  |
 | `checkout` | Optional | [CheckoutSettings](MODELS.md#checkoutsettings) |  |
-| `customer_account` | Optional | [CustomerAccountSettings](MODELS.md#customeraccountsettings) |  |
+| `customer_account` | Optional | Alternative shapes (see declared variants) | Send null to remove the account configuration. Flint then serves the default Flint-hosted account, and GET /v1/settings omits customer_account. |
 | `customer_email_delivery` | Optional | [CustomerEmailDeliverySettings](MODELS.md#customeremaildeliverysettings) |  |
 | `expected_version` | Optional | exact numeric string | Required when replacing tax_ids or clearing tax_identity. Stale versions return a conflict. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `fulfillment` | Optional | [FulfillmentSettings](MODELS.md#fulfillmentsettings) |  |
@@ -31204,6 +32306,32 @@ A closed owner-specific billing schedule update.
 
 Variants: object, object.
 
+## UpdateSubscriptionLineItemRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
+| `variant_id` | Optional | string | pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+## UpdateSubscriptionOfferRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `billing_interval_options` | Optional | Array of object | minItems: `1`. maxItems: `12`. |
+| `expected_version` | Optional | exact numeric string | The version read before editing. A mismatch returns SUBSCRIPTION_OFFER_VERSION_CONFLICT. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `name` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `product_ids` | Optional | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+| `promotion_id` | Optional | string or null | An active promotion with forever recurrence. On PATCH, null removes the discount for new signups; omission keeps it. |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `subscription_delivery_method_ids` | Optional | Array of string | Delivery methods offered at signup. An empty array uses the store's checkout defaults. Existing subscriptions keep their selected method. maxItems: `25`. |
+| `variant_ids` | Optional | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. |
+
 ## UpdateSubscriptionPlanLineItemRequest
 
 
@@ -31216,6 +32344,7 @@ Variants: object, object.
 | `name` | Optional | string |  |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format: `int32`. minimum: `1`. maximum: `9999`. |
 | `subscription_plan_line_item_id` | Optional | string | ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs from other plans are rejected. |
+| `swap_variant_ids` | Optional | Array of string | maxItems: `25`. |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `variant_id` | Optional | string |  |
@@ -31228,16 +32357,22 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `billing_interval` | Optional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Optional | integer | Format: `int32`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](MODELS.md#subscriptionintervaloption) | maxItems: `12`. |
 | `contract_term_months` | Optional | integer | Format: `int32`. |
 | `description` | Optional | string |  |
 | `early_termination_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `expected_version` | Optional | exact numeric string | Resource version last read by the caller. Required when replacing an owned collection. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequest](MODELS.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
+| `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](MODELS.md#inventoryroutingsourcerequest) | Replaces the plan's routing source. Subscriptions and payment links that already exist keep the source they copied. It can't be cleared. |
 | `line_items` | Optional | Array of [UpdateSubscriptionPlanLineItemRequest](MODELS.md#updatesubscriptionplanlineitemrequest) | Replaces all owned plan line items atomically. Requires expected_version. Omission leaves items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id to retain an item; omit it for a new server-generated ID. Omitted members are removed. Existing subscriptions keep their snapshots. Retained catalog items with the same source keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: `1`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `name` | Optional | string |  |
+| `quantity_options` | Optional | Array of integer | maxItems: `10`. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `subscription_delivery_method_ids` | Optional | Array of string |  |
 | `trial_period_days` | Optional | integer | Format: `int32`. |
 
 ## UpdateSubscriptionRequest
@@ -31246,8 +32381,13 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `billing_interval` | Optional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Optional | integer | minimum: `1`. maximum: `365`. |
+| `delivery` | Optional | [SubscriptionDeliveryRequest](MODELS.md#subscriptiondeliveryrequest) |  |
+| `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 
 ## UpdateWebhookEndpointRequest
 
@@ -36485,6 +37625,156 @@ Variants: any, any, any.
 | `test` | Optional | boolean |  |
 | `webhook_event_id` | Required | string |  |
 
+## Webhook_subscription_cycle_skipped_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.cycle_skipped"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_cycle_skipped_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.cycle_skipped"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_action_required_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_action_required"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_action_required_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_action_required"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_migration_completed_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription_delivery_migration.completed"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_migration_completed_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [SubscriptionDeliveryMigration](MODELS.md#subscriptiondeliverymigration) |  |
+| `event_type` | Required | any | Values: `"subscription_delivery_migration.completed"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_pause_upcoming_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_pause_upcoming"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_pause_upcoming_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_pause_upcoming"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_updated_installed_merchants
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `partner_app_id` | Required | string |  |
+| `webhook_event_id` | Required | string |  |
+
+## Webhook_subscription_delivery_updated_merchant
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | object |  |
+| `event_type` | Required | any | Values: `"subscription.delivery_updated"`. |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `merchant_id` | Required | string |  |
+| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | minimum: `1`. |
+| `request` | Required | object or null |  |
+| `test` | Optional | boolean |  |
+| `webhook_event_id` | Required | string |  |
+
 ## Webhook_subscription_dunning_exhausted_installed_merchants
 
 
@@ -37115,7 +38405,7 @@ Variants: any, any, any.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `event_origin` | Required | string | Values: `"business_event"`, `"test_api"`. |
 | `event_source` | Optional | string | Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Values: [206 declared values](#webhookevent-event_type-values). |
+| `event_type` | Required | string | Values: [211 declared values](#webhookevent-event_type-values). |
 | `partner_app_id` | Optional | string |  |
 | `payload` | Optional | object | Stored webhook delivery payload as structured JSON. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired. |
 | `request_id` | Optional | string |  |
@@ -37319,6 +38609,10 @@ Variants: any, any, any.
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -37329,6 +38623,7 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -37394,7 +38689,7 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `description` | Required | string | Concise semantics for the state transition or event occurrence. |
 | `event_sources` | Required | Array of string | Event source buckets where this event type is valid. |
-| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [206 declared values](#webhookeventtype-event_type-values). |
+| `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [211 declared values](#webhookeventtype-event_type-values). |
 
 #### WebhookEventType event_type values
 
@@ -37591,6 +38886,10 @@ Variants: any, any, any.
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -37601,6 +38900,7 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
@@ -37666,7 +38966,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Values: [206 declared values](#webhookstreamwithheld-event_type-values). |
+| `event_type` | Required | string | Values: [211 declared values](#webhookstreamwithheld-event_type-values). |
 | `reason` | Required | string | Values: `"missing_resource_scope"`, `"resource_unattributed"`. |
 | `required_scopes` | Optional | Array of string |  |
 | `resource_type` | Optional | string | Values: [29 declared values](#webhookstreamwithheld-resource_type-values). |
@@ -37867,6 +39167,10 @@ Variants: any, any, any.
 - `"subscription.canceled"`
 - `"subscription.cancellation_scheduled"`
 - `"subscription.created"`
+- `"subscription.cycle_skipped"`
+- `"subscription.delivery_action_required"`
+- `"subscription.delivery_pause_upcoming"`
+- `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
@@ -37877,6 +39181,7 @@ Variants: any, any, any.
 - `"subscription.resumed"`
 - `"subscription.trial_ending"`
 - `"subscription.updated"`
+- `"subscription_delivery_migration.completed"`
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`

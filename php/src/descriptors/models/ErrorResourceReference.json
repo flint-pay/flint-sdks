@@ -1,0 +1,1 @@
+{"shared":"ErrorResourceReference","phpRepresentation":{"kind":"record","fields":{"resource_id":{"kind":"value","type":"string"},"resource_type":{"kind":"value","type":"string"},"status":{"kind":"value","type":"string"}}},"dependencies":["ErrorResourceReference","SharedCodec225"]}
