@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0-beta.20261008013000; API 2026-09-07.
+Package 3.0.0-beta.20261009223830; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -4593,7 +4593,7 @@ Returned payload: `DeliveryPreviewsCreateResponse200DataDeliveryOptions|Delivery
 
 Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
-Authentication modes: `merchant`, `merchantKey`. See [credential setup](RUNTIME.md#authentication).
+Authentication modes: `merchant`, `merchantKey`, `checkout`. See [credential setup](RUNTIME.md#authentication).
 
 Pass request options as the last argument. Attempt limit: 1. Client and request maxAttempts are capped at this limit. The SDK sends at most one attempt. idempotencyKey is not supported on this operation.
 
