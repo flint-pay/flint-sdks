@@ -16,9 +16,9 @@ export interface DeliveryPreviewsResource {
  * @example
  * client.deliveryPreviews.create({body: {currency: "USD", delivery_method_ids: [], line_items: [{variant_id: "example"}], mode: "delivery_options"}})
  */
-    create(input: DeliveryPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryPreviewResponse, ["data"]>>;
+    create(input: DeliveryPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryPreviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(input: DeliveryPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryPreviewsCreateResponse>>;
+    createWithResponse(input: DeliveryPreviewsCreateInput, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryPreviewsCreateResponse>>;
   }
 export declare class Client {
 
