@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $mode
  * @property-read string $next_step
  * @property-read string $payment_method_creation
- * @property-read array<array-key, string> $payment_method_options
+ * @property-read array<array-key, mixed> $payment_method_options
  * @property-read list<string> $payment_method_types
  * @property-read list<SelectableOrderPaymentIntent> $selectable_payment_intents
  * @property-read string $submit_to
@@ -40,7 +40,7 @@ final class PaymentCollectionStripeElements extends Model {
      */
     public function getPaymentMethodCreation(): string { return $this->get('payment_method_creation'); }
     public function hasPaymentMethodCreation(): bool { return $this->has('payment_method_creation'); }
-    /** @return array<array-key, string>
+    /** @return array<array-key, mixed>
      * @throws SdkError When payment_method_options is omitted; use hasPaymentMethodOptions() or valueOrDefault().
      */
     public function getPaymentMethodOptions(): array { return $this->get('payment_method_options'); }
