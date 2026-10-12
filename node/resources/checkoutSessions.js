@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=658e960cd5fac48cd38e1dd15296958df0d104dd5904c2165f4e3078746d39e7';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=658e960cd5fac48cd38e1dd15296958df0d104dd5904c2165f4e3078746d39e7';
+import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {

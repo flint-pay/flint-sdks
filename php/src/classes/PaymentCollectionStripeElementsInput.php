@@ -7,13 +7,13 @@ namespace Flint;
  * @property-read string $mode
  * @property-read string $next_step
  * @property-read string $payment_method_creation
- * @property-read array<array-key, string>|\stdClass $payment_method_options
+ * @property-read array<array-key, mixed>|\stdClass $payment_method_options
  * @property-read list<string> $payment_method_types
  * @property-read list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass> $selectable_payment_intents
  * @property-read string $submit_to
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentCollectionStripeElementsInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, string>|\stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'submit_to': string, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, mixed>|\stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElementsInput')); }
     /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
@@ -40,7 +40,7 @@ final class PaymentCollectionStripeElementsInput extends Model {
      */
     public function getPaymentMethodCreation(): string { return $this->get('payment_method_creation'); }
     public function hasPaymentMethodCreation(): bool { return $this->has('payment_method_creation'); }
-    /** @return array<array-key, string>|\stdClass
+    /** @return array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_method_options is omitted; use hasPaymentMethodOptions() or valueOrDefault().
      */
     public function getPaymentMethodOptions(): array|object { return $this->get('payment_method_options'); }

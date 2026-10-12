@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
 export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=658e960cd5fac48cd38e1dd15296958df0d104dd5904c2165f4e3078746d39e7';
+import r0 from '../descriptors/resources/orders.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=658e960cd5fac48cd38e1dd15296958df0d104dd5904c2165f4e3078746d39e7';
+import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {

@@ -8,6 +8,8 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `3.0.0-beta.20261012044000` fixes the Stripe Elements `payment_method_options` type, previously `Record<string, string>` in Node and a string dictionary in PHP. ACH checkout responses include nested `us_bank_account` options. The field now preserves JSON values, typed `Record<string, unknown>` in Node and an array with mixed values in PHP. Pass these options through to Stripe Elements without flattening. The API version remains `2026-09-07`.
+
 Version `3.0.0-beta.20261008013000` adds gift card challenge support for embedded checkout, `page_origin` on checkout, invoice, and return checkout launches, and 21 subscription operations. `settings.update({ customer_account: null, expected_version })` removes the account configuration and restores the default Flint-hosted account. The settings response omits `customer_account` after it is cleared.
 
 When `orders.applyGiftCard` fails with `GIFT_CARD_CHALLENGE_REQUIRED`, load the `url` from the `complete_gift_card_challenge` action in the error's `remediation.next_actions` in an iframe on your `page_origin`. The same URL is available as `checkout_session.gift_card_challenge.url`. Retry the same request and send the proof from the challenge in `Flint-Gift-Card-Challenge`. A proof works once, only for its checkout session, and expires after 5 minutes. If `reason` is `page_origin_required`, the error has no next action; launch the checkout session again with `page_origin`.
@@ -58,6 +60,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0-beta.20261012044000` | `2026-09-07` |
 | `3.0.0-beta.20261009223830` | `2026-09-07` |
 | `3.0.0-beta.20261008013000` | `2026-09-07` |
 | `3.0.0-beta.20261007031000` | `2026-09-07` |
