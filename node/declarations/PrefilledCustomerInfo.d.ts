@@ -1,4 +1,4 @@
 
-import type { PostalAddress } from './PostalAddress.js';
+import type { Address } from './Address.js';
 
-export type PrefilledCustomerInfo = { "billing_address"?: PostalAddress; "email"?: string; "phone"?: string; "shipping_address"?: PostalAddress; };
+export type PrefilledCustomerInfo = { "billing_address"?: Address; "email"?: string; "phone"?: string; "shipping_address"?: Address; };

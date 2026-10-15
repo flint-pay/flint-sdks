@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'reason_message'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveriesResendInput extends Model {
-    /** @param array{'webhook_delivery_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body'?: array{'reason_message'?: string, ...}|object}|object $values */
+    /** @param array{'webhook_delivery_id': string, 'Idempotency-Key'?: string, 'body'?: array{'reason_message'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesResendInput')); }
     /** @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
@@ -18,11 +18,6 @@ final class WebhookDeliveriesResendInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'reason_message'?: string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

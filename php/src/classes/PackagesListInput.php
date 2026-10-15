@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $query
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesListInput extends Model {
-    /** @param array{'shipment_id'?: string, 'fulfillment_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'shipment_id'?: string, 'fulfillment_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesListInput')); }
     /** @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
@@ -59,9 +59,4 @@ final class PackagesListInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

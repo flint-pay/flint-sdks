@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { AnalyticsGetOverviewInput } from '../declarations/AnalyticsGetOverviewInput.js';
@@ -25,27 +25,27 @@ export interface AnalyticsResource {
  * @example
  * client.analytics.getOverview({range: "today"})
  */
-    getOverview(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<AnalyticsOverviewResponse, ["data"]>>;
+    getOverview(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<AnalyticsOverviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOverviewWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetOverviewResponse>>;
+    getOverviewWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetOverviewResponse>>;
     /**
  * Returns merchant payment volume buckets for the requested time range.
  * GET /v1/analytics/payment-volume-timeseries
  * @example
  * client.analytics.getPaymentVolumeTimeseries({range: "today"})
  */
-    getPaymentVolumeTimeseries(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentVolumeTimeseriesResponse, ["data"]>>;
+    getPaymentVolumeTimeseries(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentVolumeTimeseriesResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPaymentVolumeTimeseriesWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetPaymentVolumeTimeseriesResponse>>;
+    getPaymentVolumeTimeseriesWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetPaymentVolumeTimeseriesResponse>>;
     /**
  * Returns windowed subscription metrics plus current subscription snapshot metrics.
  * GET /v1/analytics/subscriptions
  * @example
  * client.analytics.getSubscription({range: "today"})
  */
-    getSubscription(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionAnalyticsResponse, ["data"]>>;
+    getSubscription(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionAnalyticsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getSubscriptionWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetSubscriptionResponse>>;
+    getSubscriptionWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetSubscriptionResponse>>;
   }
 export declare class Client {
 

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -18,9 +18,9 @@ export interface ReturnPreviewsResource {
  * @example
  * client.returnPreviews.create({mode: "eligibility", eligibility: {order_id: "example", selection: {selection_type: "all_remaining_fulfilled"}}})
  */
-    create(params: (InputValue<({ "eligibility"?: CreateReturnEligibilityCheckRequestInput; "mode": "eligibility" | "resolution"; "resolution"?: CreateReturnResolutionPreviewRequestInput; }) & ((({ "mode": "eligibility"; "eligibility": unknown; }) & ({ "resolution"?: never })) | (({ "mode": "resolution"; "resolution": unknown; }) & ({ "eligibility"?: never })))>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnPreviewResponse, ["data"]>>;
+    create(params: (InputValue<({ "eligibility"?: CreateReturnEligibilityCheckRequestInput; "mode": "eligibility" | "resolution"; "resolution"?: CreateReturnResolutionPreviewRequestInput; }) & ((({ "mode": "eligibility"; "eligibility": unknown; }) & ({ "resolution"?: never })) | (({ "mode": "resolution"; "resolution": unknown; }) & ({ "eligibility"?: never })))>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnPreviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "eligibility"?: CreateReturnEligibilityCheckRequestInput; "mode": "eligibility" | "resolution"; "resolution"?: CreateReturnResolutionPreviewRequestInput; }) & ((({ "mode": "eligibility"; "eligibility": unknown; }) & ({ "resolution"?: never })) | (({ "mode": "resolution"; "resolution": unknown; }) & ({ "eligibility"?: never })))>) & { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPreviewsCreateResponse>>;
+    createWithResponse(params: (InputValue<({ "eligibility"?: CreateReturnEligibilityCheckRequestInput; "mode": "eligibility" | "resolution"; "resolution"?: CreateReturnResolutionPreviewRequestInput; }) & ((({ "mode": "eligibility"; "eligibility": unknown; }) & ({ "resolution"?: never })) | (({ "mode": "resolution"; "resolution": unknown; }) & ({ "eligibility"?: never })))>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPreviewsCreateResponse>>;
   }
 export declare class Client {
 
@@ -76,6 +76,9 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { CreateReturnPreviewRequestInput } from '../declarations/CreateReturnPreviewRequestInput.js';
+export type { MeCreateReturnPreviewInput } from '../declarations/MeCreateReturnPreviewInput.js';
+export type { ReturnHandoffRequirementLineItem } from '../declarations/ReturnHandoffRequirementLineItem.js';
+export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
 export { makeCreateReturnPreviewResponse } from '../declarations/makeCreateReturnPreviewResponse.js';
 export { makeCreateReturnPreviewData } from '../declarations/makeCreateReturnPreviewData.js';
 export { makeReturnEligibilityCheck } from '../declarations/makeReturnEligibilityCheck.js';
@@ -105,3 +108,5 @@ export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeReturnHandoffRequirementLineItem } from '../declarations/makeReturnHandoffRequirementLineItem.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';

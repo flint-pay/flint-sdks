@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
 
 
-export type PayoutSettingsGetPayoutDestinationInput = { "payout_destination_id": InputValue<string>; "X-Request-Id"?: InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; };
+export type PayoutSettingsGetPayoutDestinationInput = { "payout_destination_id": InputValue<string>; "X-Request-Id"?: InputValue<string>; };

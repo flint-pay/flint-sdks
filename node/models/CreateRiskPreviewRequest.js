@@ -1,9 +1,9 @@
-import { d462 as c0, d323 as c1, d2295 as c2, d461 as c3, d452 as c4, d453 as c5, d455 as c6, d454 as c7, d456 as c8, d458 as c9, d457 as c10, d459 as c11, d460 as c12, d2292 as c13, d2291 as c14, d2293 as c15, d2294 as c16 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d462 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d472 as c0, d323 as c1, d2311 as c2, d471 as c3, d462 as c4, d463 as c5, d465 as c6, d464 as c7, d466 as c8, d468 as c9, d467 as c10, d469 as c11, d470 as c12, d2308 as c13, d2307 as c14, d2309 as c15, d2310 as c16 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d472 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d462;
+const read = d472;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskPreviewRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNode"]:c2(),["SharedCodec146"]:c3(),["SharedCodec147"]:c4(),["SharedCodec148"]:c5(),["SharedCodec149"]:c6(),["SharedCodec150"]:c7(),["SharedCodec151"]:c8(),["SharedCodec152"]:c9(),["SharedCodec153"]:c10(),["SharedCodec154"]:c11(),["SharedCodec155"]:c12(),["SharedCodec574"]:c13(),["SharedCodec575"]:c14(),["SharedCodec576"]:c15(),["SharedCodec577"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskPreviewRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNode"]:c2(),["SharedCodec152"]:c3(),["SharedCodec153"]:c4(),["SharedCodec154"]:c5(),["SharedCodec155"]:c6(),["SharedCodec156"]:c7(),["SharedCodec157"]:c8(),["SharedCodec158"]:c9(),["SharedCodec159"]:c10(),["SharedCodec160"]:c11(),["SharedCodec161"]:c12(),["SharedCodec579"]:c13(),["SharedCodec580"]:c14(),["SharedCodec581"]:c15(),["SharedCodec582"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateRiskPreviewRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

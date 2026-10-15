@@ -1,9 +1,9 @@
-import { d2551 as c0, d2552 as c1, d2553 as c2 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2553 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d2567 as c0, d2568 as c1, d2569 as c2 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2569 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2553;
+const read = d2569;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec649"]:c0(),["SharedCodec650"]:c1(),["UpdateSubscriptionBillingScheduleRequest"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec654"]:c0(),["SharedCodec655"]:c1(),["UpdateSubscriptionBillingScheduleRequest"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateSubscriptionBillingScheduleRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

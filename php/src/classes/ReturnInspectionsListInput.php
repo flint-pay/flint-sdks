@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionsListInput extends Model {
-    /** @param array{'acceptance_status'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'inspected_after'?: string|\DateTimeInterface, 'inspected_before'?: string|\DateTimeInterface, 'location_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'source_system_type'?: string, 'status'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'acceptance_status'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'inspected_after'?: string|\DateTimeInterface, 'inspected_before'?: string|\DateTimeInterface, 'location_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'source_system_type'?: string, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionsListInput')); }
     /** @return string
      * @throws SdkError When acceptance_status is omitted; use hasAcceptanceStatus() or valueOrDefault().
@@ -96,9 +96,4 @@ final class ReturnInspectionsListInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -1,9 +1,9 @@
-import { d901 as c0, d895 as c1, d900 as c2, d1549 as c3, d1548 as c4, d1541 as c5, d1540 as c6, d1543 as c7, d1542 as c8, d1545 as c9, d1544 as c10, d1547 as c11, d1546 as c12, d1563 as c13, d1564 as c14 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1564 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d323 as c0, d903 as c1, d902 as c2, d1551 as c3, d1550 as c4, d1543 as c5, d1542 as c6, d1545 as c7, d1544 as c8, d1547 as c9, d1546 as c10, d1549 as c11, d1548 as c12, d1565 as c13, d1566 as c14 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1566 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1564;
+const read = d1566;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PartnerWebhookEnvelope"]:c0(),["SharedCodec249"]:c1(),["SharedCodec251"]:c2(),["SharedCodec390"]:c3(),["SharedCodec391"]:c4(),["SharedCodec392"]:c5(),["SharedCodec393"]:c6(),["SharedCodec394"]:c7(),["SharedCodec395"]:c8(),["SharedCodec396"]:c9(),["SharedCodec397"]:c10(),["SharedCodec398"]:c11(),["SharedCodec399"]:c12(),["SharedCodec402"]:c13(),["Webhook_order_paid_installed_merchants"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PartnerWebhookEnvelope"]:c1(),["SharedCodec252"]:c2(),["SharedCodec391"]:c3(),["SharedCodec392"]:c4(),["SharedCodec393"]:c5(),["SharedCodec394"]:c6(),["SharedCodec395"]:c7(),["SharedCodec396"]:c8(),["SharedCodec397"]:c9(),["SharedCodec398"]:c10(),["SharedCodec399"]:c11(),["SharedCodec400"]:c12(),["SharedCodec403"]:c13(),["Webhook_order_paid_installed_merchants"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_paid_installed_merchants(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,8 +1,10 @@
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const onboardingToken = process.env.ONBOARDING_TOKEN;
+if (!onboardingToken) throw new Error("Set ONBOARDING_TOKEN: this call requires a credential");
 const client = new Client({
-  baseUrl: clientBaseUrl,
-  onboardingToken: process.env.ONBOARDING_TOKEN ?? '',
+  baseUrl,
+  onboardingToken,
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();

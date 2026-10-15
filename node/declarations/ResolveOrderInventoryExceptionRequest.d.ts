@@ -1,4 +1,4 @@
 
 import type { ResendWebhookDeliveryRequest } from './ResendWebhookDeliveryRequest.js';
 
-export type ResolveOrderInventoryExceptionRequest = ResendWebhookDeliveryRequest;
+export interface ResolveOrderInventoryExceptionRequest extends ResendWebhookDeliveryRequest {}

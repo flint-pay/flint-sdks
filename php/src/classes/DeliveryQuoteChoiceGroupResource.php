@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read list<string> $allowed_types
  * @property-read string $availability_status
- * @property-read array<array-key, DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequired|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculate|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContext|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnsupportedInPreview|\stdClass> $candidate_outcomes
+ * @property-read array<array-key, DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequired|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculate|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContext|\stdClass> $candidate_outcomes
  * @property-read string $delivery_choice_group_id
  * @property-read string $evaluation_status
  * @property-read list<DeliveryQuoteExecutionLegResource> $execution_legs
@@ -28,7 +28,7 @@ final class DeliveryQuoteChoiceGroupResource extends Model {
      */
     public function getAvailabilityStatus(): string { return $this->get('availability_status'); }
     public function hasAvailabilityStatus(): bool { return $this->has('availability_status'); }
-    /** @return array<array-key, DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequired|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculate|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContext|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnsupportedInPreview|\stdClass>
+    /** @return array<array-key, DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequired|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculate|DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContext|\stdClass>
      * @throws SdkError When candidate_outcomes is omitted; use hasCandidateOutcomes() or valueOrDefault().
      */
     public function getCandidateOutcomes(): array { return $this->get('candidate_outcomes'); }

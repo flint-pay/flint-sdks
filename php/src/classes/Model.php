@@ -211,7 +211,7 @@ class Model implements \JsonSerializable
     public function get(string $field): mixed
     {
         if (!$this->has($field)) {
-            throw new SdkError(
+            throw SdkError::create(
                 'validation',
                 'Field ' .
                     $field .
@@ -249,7 +249,7 @@ class Model implements \JsonSerializable
     public function toArray(): array
     {
         if (!is_object($this->values) && !is_array($this->values)) {
-            throw new SdkError(
+            throw SdkError::create(
                 'validation',
                 'This model contains a scalar; use jsonSerialize() to access its value',
             );

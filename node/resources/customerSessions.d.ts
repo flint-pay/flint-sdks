@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -26,9 +26,9 @@ export interface CustomerSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerSessions.create({customer_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "account_url_expires_in_seconds"?: string; "customer_id": string; "expires_in_seconds"?: string; "refresh_expires_in_seconds"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
+    create(params: (InputValue<{ "account_url_expires_in_seconds"?: string; "customer_id": string; "expires_in_seconds"?: string; "refresh_expires_in_seconds"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "account_url_expires_in_seconds"?: string; "customer_id": string; "expires_in_seconds"?: string; "refresh_expires_in_seconds"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "account_url_expires_in_seconds"?: string; "customer_id": string; "expires_in_seconds"?: string; "refresh_expires_in_seconds"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionsCreateResponse>>;
     /**
  * Rotates a customer session secret and refresh token without a merchant API key. Reusing a rotated refresh token revokes the session family.
  * POST /v1/customer-sessions/refresh
@@ -37,9 +37,9 @@ export interface CustomerSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerSessions.refresh({refresh_token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    refresh(params: (InputValue<{ "refresh_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
+    refresh(params: (InputValue<{ "refresh_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<CustomerSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    refreshWithResponse(params: (InputValue<{ "refresh_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<CustomerSessionsRefreshResponse>>;
+    refreshWithResponse(params: (InputValue<{ "refresh_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<CustomerSessionsRefreshResponse>>;
     /**
  * Revokes one customer session. This does not revoke an independent Flint Account buyer session.
  * POST /v1/customer-sessions/{customer_session_id}/revoke
@@ -48,9 +48,9 @@ export interface CustomerSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerSessions.revoke("example", {}, { idempotencyKey: idempotencyKey })
  */
-    revoke(customer_session_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionRevocationResponse, ["data"]>>;
+    revoke(customer_session_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionRevocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokeWithResponse(customer_session_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionsRevokeResponse>>;
+    revokeWithResponse(customer_session_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionsRevokeResponse>>;
   }
 export declare class Client {
 
@@ -91,6 +91,7 @@ export type { NextActionMerchantAccountSessionInput } from '../declarations/Next
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { CreateCustomerSessionRequestInput } from '../declarations/CreateCustomerSessionRequestInput.js';
 export type { RefreshCustomerSessionRequestInput } from '../declarations/RefreshCustomerSessionRequestInput.js';
+export type { CreateCustomerSessionRequest } from '../declarations/CreateCustomerSessionRequest.js';
 export { makeCustomerSessionResponse } from '../declarations/makeCustomerSessionResponse.js';
 export { makeCustomerSessionRevocationResponse } from '../declarations/makeCustomerSessionRevocationResponse.js';
 export { makeCustomerSessionsRevocation } from '../declarations/makeCustomerSessionsRevocation.js';
@@ -102,3 +103,4 @@ export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeCustomerSessionRevocation } from '../declarations/makeCustomerSessionRevocation.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/makeCreateCustomerSessionRequest.js';

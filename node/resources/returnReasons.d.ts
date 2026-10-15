@@ -1,8 +1,10 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CreateReturnReasonResponse } from '../declarations/CreateReturnReasonResponse.js';
+import type { DeleteReturnReasonResponse } from '../declarations/DeleteReturnReasonResponse.js';
+import type { GetReturnReasonResponse } from '../declarations/GetReturnReasonResponse.js';
 import type { ListReturnReasonsResponse } from '../declarations/ListReturnReasonsResponse.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { ReturnReason } from '../declarations/ReturnReason.js';
@@ -17,6 +19,7 @@ import type { ReturnReasonsRemoveResponse } from '../declarations/ReturnReasonsR
 import type { ReturnReasonsUpdateInput } from '../declarations/ReturnReasonsUpdateInput.js';
 import type { ReturnReasonsUpdateResponse } from '../declarations/ReturnReasonsUpdateResponse.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { UpdateReturnReasonResponse } from '../declarations/UpdateReturnReasonResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface ReturnReasonsResource {
@@ -28,9 +31,9 @@ export interface ReturnReasonsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnReasons.create({handle: "example", name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "category_handles"?: Array<string>; "description"?: string; "external_reference_id"?: string; "handle": string; "is_note_required"?: boolean; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
+    create(params: (InputValue<{ "category_handles"?: Array<string>; "description"?: string; "external_reference_id"?: string; "handle": string; "is_note_required"?: boolean; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "category_handles"?: Array<string>; "description"?: string; "external_reference_id"?: string; "handle": string; "is_note_required"?: boolean; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "category_handles"?: Array<string>; "description"?: string; "external_reference_id"?: string; "handle": string; "is_note_required"?: boolean; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsCreateResponse>>;
     /**
  * Retire a Return reason so buyers can no longer select it. Returns that already recorded it keep the frozen reason name.
  * DELETE /v1/return-reasons/{return_reason_id}
@@ -39,30 +42,30 @@ export interface ReturnReasonsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnReasons.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(return_reason_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
+    remove(return_reason_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeleteReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(return_reason_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsRemoveResponse>>;
+    removeWithResponse(return_reason_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsRemoveResponse>>;
     /**
  * Retrieve one Return reason with its handle, category handles, and status.
  * GET /v1/return-reasons/{return_reason_id}
  * @example
  * client.returnReasons.get("example")
  */
-    get(return_reason_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
+    get(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_reason_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReasonsGetResponse>>;
+    getWithResponse(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReasonsGetResponse>>;
     /**
  * List Return reasons, including Flint-provided defaults and merchant-defined reasons.
  * GET /v1/return-reasons
  * @example
  * client.returnReasons.list()
  */
-    list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReasonsResponse>;
+    list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReasonsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReasonsListResponse>>;
-    listPages(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnReasonsResponse>;
-    listPagesWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnReasonsListResponse>>;
-    listItems(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnReason>;
+    listWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReasonsListResponse>>;
+    listPages(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnReasonsResponse>;
+    listPagesWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnReasonsListResponse>>;
+    listItems(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "source"?: InputValue<"flint" | "merchant">; "status"?: InputValue<Array<"active" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnReason>;
     /**
  * Update a Return reason. Send null to clear description. A present category_handles array replaces the existing set.
  * PATCH /v1/return-reasons/{return_reason_id}
@@ -71,9 +74,9 @@ export interface ReturnReasonsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnReasons.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(return_reason_id: InputValue<string>, params: (InputValue<({ "category_handles"?: Array<string>; "description"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "is_note_required"?: boolean; "name"?: string; }) & (((({ "category_handles"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReasonResponse, ["data"]>>;
+    update(return_reason_id: InputValue<string>, params: (InputValue<({ "category_handles"?: Array<string>; "description"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "is_note_required"?: boolean; "name"?: string; }) & (((({ "category_handles"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdateReturnReasonResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(return_reason_id: InputValue<string>, params: (InputValue<({ "category_handles"?: Array<string>; "description"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "is_note_required"?: boolean; "name"?: string; }) & (((({ "category_handles"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsUpdateResponse>>;
+    updateWithResponse(return_reason_id: InputValue<string>, params: (InputValue<({ "category_handles"?: Array<string>; "description"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "is_note_required"?: boolean; "name"?: string; }) & (((({ "category_handles"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReasonsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -87,12 +90,15 @@ export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 export type { CreateReturnReasonResponse } from '../declarations/CreateReturnReasonResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { ReturnReasonsCreateResponse } from '../declarations/ReturnReasonsCreateResponse.js';
+export type { DeleteReturnReasonResponse } from '../declarations/DeleteReturnReasonResponse.js';
 export type { ReturnReasonsRemoveResponse } from '../declarations/ReturnReasonsRemoveResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { GetReturnReasonResponse } from '../declarations/GetReturnReasonResponse.js';
 export type { ReturnReasonsGetResponse } from '../declarations/ReturnReasonsGetResponse.js';
 export type { ListReturnReasonsResponse } from '../declarations/ListReturnReasonsResponse.js';
 export type { ReturnReasonsListResponse } from '../declarations/ReturnReasonsListResponse.js';
 export type { ReturnReason } from '../declarations/ReturnReason.js';
+export type { UpdateReturnReasonResponse } from '../declarations/UpdateReturnReasonResponse.js';
 export type { ReturnReasonsUpdateResponse } from '../declarations/ReturnReasonsUpdateResponse.js';
 export type { ReturnReasonsCreateInput } from '../declarations/ReturnReasonsCreateInput.js';
 export type { ReturnReasonsRemoveInput } from '../declarations/ReturnReasonsRemoveInput.js';
@@ -109,11 +115,16 @@ export type { NextActionMerchantAccountSession } from '../declarations/NextActio
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { CreateReturnReasonRequestInput } from '../declarations/CreateReturnReasonRequestInput.js';
 export type { UpdateReturnReasonRequestInput } from '../declarations/UpdateReturnReasonRequestInput.js';
+export type { CreateReturnReasonRequest } from '../declarations/CreateReturnReasonRequest.js';
 export { makeCreateReturnReasonResponse } from '../declarations/makeCreateReturnReasonResponse.js';
+export { makeDeleteReturnReasonResponse } from '../declarations/makeDeleteReturnReasonResponse.js';
+export { makeGetReturnReasonResponse } from '../declarations/makeGetReturnReasonResponse.js';
 export { makeListReturnReasonsResponse } from '../declarations/makeListReturnReasonsResponse.js';
 export { makeReturnReason } from '../declarations/makeReturnReason.js';
+export { makeUpdateReturnReasonResponse } from '../declarations/makeUpdateReturnReasonResponse.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeCreateReturnReasonRequest } from '../declarations/makeCreateReturnReasonRequest.js';

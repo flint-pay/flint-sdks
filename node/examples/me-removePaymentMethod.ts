@@ -1,8 +1,10 @@
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const customerToken = process.env.CUSTOMER_TOKEN;
+if (!customerToken) throw new Error("Set CUSTOMER_TOKEN: this call requires a credential");
 const client = new Client({
-  baseUrl: clientBaseUrl,
-  customerToken: process.env.CUSTOMER_TOKEN ?? '',
+  baseUrl,
+  customerToken,
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
@@ -12,3 +14,4 @@ const result = await client.me.removePaymentMethod(
   {},
   { idempotencyKey: idempotencyKey },
 );
+console.log(result);

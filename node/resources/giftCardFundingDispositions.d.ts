@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -17,9 +17,9 @@ export interface GiftCardFundingDispositionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.giftCardFundingDispositions.create({disposition: "honor_value", dispute_id: "du_01JZXK4G8Q5V3N7M2P9R6T1W0Y", reason_message: "Honored after the dispute review."}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardFundingDispositionResponse, ["data"]>>;
+    create(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardFundingDispositionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardFundingDispositionsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "disposition": "honor_value"; "dispute_id": string; "reason_message": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardFundingDispositionsCreateResponse>>;
   }
 export declare class Client {
 

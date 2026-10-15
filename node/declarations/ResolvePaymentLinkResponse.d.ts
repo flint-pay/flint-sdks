@@ -1,4 +1,4 @@
 
 import type { CheckoutSessionLaunchResponse } from './CheckoutSessionLaunchResponse.js';
 
-export type ResolvePaymentLinkResponse = CheckoutSessionLaunchResponse;
+export interface ResolvePaymentLinkResponse extends CheckoutSessionLaunchResponse {}

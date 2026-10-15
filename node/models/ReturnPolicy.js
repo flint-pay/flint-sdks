@@ -1,9 +1,9 @@
-import { d323 as c0, d2223 as c1, d2221 as c2, d2237 as c3, d2272 as c4, d2274 as c5, d2276 as c6, d2222 as c7, d2235 as c8, d2236 as c9 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2223 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d323 as c0, d2239 as c1, d2237 as c2, d2253 as c3, d2288 as c4, d2290 as c5, d2292 as c6, d2238 as c7, d2251 as c8, d2252 as c9 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2239 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2223;
+const read = d2239;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicy"]:c1(),["ReturnPolicyRevision"]:c2(),["ReturnPolicyScope"]:c3(),["ReturnRestockingFeePolicy"]:c4(),["ReturnShippingPolicy"]:c5(),["ReturnWindow"]:c6(),["SharedCodec554"]:c7(),["SharedCodec562"]:c8(),["SharedCodec563"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicy"]:c1(),["ReturnPolicyRevision"]:c2(),["ReturnPolicyScope"]:c3(),["ReturnRestockingFeePolicy"]:c4(),["ReturnShippingPolicy"]:c5(),["ReturnWindow"]:c6(),["SharedCodec559"]:c7(),["SharedCodec567"]:c8(),["SharedCodec568"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnPolicy(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

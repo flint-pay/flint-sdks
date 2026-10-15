@@ -1,4 +1,4 @@
 
 import type { ReturnHandoffRequirementLineItem } from './ReturnHandoffRequirementLineItem.js';
 
-export type ReturnResolutionLineItemRequest = ReturnHandoffRequirementLineItem;
+export interface ReturnResolutionLineItemRequest extends ReturnHandoffRequirementLineItem {}

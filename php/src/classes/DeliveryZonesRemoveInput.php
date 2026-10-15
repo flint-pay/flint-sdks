@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesRemoveInput extends Model {
-    /** @param array{'delivery_zone_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'delivery_zone_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesRemoveInput')); }
     /** @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
@@ -23,9 +23,4 @@ final class DeliveryZonesRemoveInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

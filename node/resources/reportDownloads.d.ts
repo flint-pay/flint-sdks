@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -13,7 +13,7 @@ export interface ReportDownloadsResource {
  * @example
  * client.reportDownloads.get("example")
  */
-    get(report_download_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<ReportDownloadsGetResponse>>;
+    get(report_download_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<ReportDownloadsGetResponse>>;
   }
 export declare class Client {
 

@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListShipmentsInput extends Model {
-    /** @param array{'order_id'?: string, 'fulfillment_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'return_id'?: string, 'handed_off_after'?: string|\DateTimeInterface, 'handed_off_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'order_id'?: string, 'fulfillment_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'return_id'?: string, 'handed_off_after'?: string|\DateTimeInterface, 'handed_off_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListShipmentsInput')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
@@ -83,9 +83,4 @@ final class MeListShipmentsInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

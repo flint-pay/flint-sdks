@@ -1,3 +1,4 @@
+export const pointerSegment = (value) => value.replaceAll('~', '~0').replaceAll('/', '~1');
 export class Diagnostic extends Error {
     location;
     detail;

@@ -1,4 +1,4 @@
 
 import type { CreateReturnReasonResponse } from './CreateReturnReasonResponse.js';
 
-export type UpdateReturnReasonResponse = CreateReturnReasonResponse;
+export interface UpdateReturnReasonResponse extends CreateReturnReasonResponse {}

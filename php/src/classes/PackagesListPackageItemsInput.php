@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesListPackageItemsInput extends Model {
-    /** @param array{'package_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'package_id': string, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesListPackageItemsInput')); }
     /** @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
@@ -29,9 +29,4 @@ final class PackagesListPackageItemsInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

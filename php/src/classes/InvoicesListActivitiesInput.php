@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read list<string> $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListActivitiesInput extends Model {
-    /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'sort_direction'?: string, 'type'?: list<string>, 'Flint-Version'?: string}|object $values */
+    /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'sort_direction'?: string, 'type'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesListActivitiesInput')); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
@@ -36,9 +36,4 @@ final class InvoicesListActivitiesInput extends Model {
      */
     public function getType(): array { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

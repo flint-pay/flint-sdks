@@ -1,7 +1,7 @@
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: clientBaseUrl,
+  baseUrl,
 });
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();

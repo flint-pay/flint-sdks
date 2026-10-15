@@ -38,7 +38,7 @@ final class EventStream implements \IteratorAggregate
     public function getIterator(): \Traversable
     {
         if ($this->started) {
-            throw new SdkError('validation', 'A stream can only be consumed once');
+            throw SdkError::create('validation', 'A stream can only be consumed once');
         }
         $this->started = true;
         $line = '';
@@ -52,7 +52,7 @@ final class EventStream implements \IteratorAggregate
         try {
             while (!$this->closed) {
                 if (($this->settings['cancellation'] ?? null)?->isCancelled()) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'cancelled',
                         'Stream cancelled',
                         'response',
@@ -64,7 +64,7 @@ final class EventStream implements \IteratorAggregate
                     isset($this->settings['lifetimeMs']) &&
                     hrtime(true) / 1000000 - $this->created >= $this->settings['lifetimeMs']
                 ) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'deadline',
                         'Stream lifetime exceeded',
                         'response',
@@ -75,7 +75,7 @@ final class EventStream implements \IteratorAggregate
                 $wait = hrtime(true) / 1000000;
                 $chunk = $this->source->read();
                 if (($this->settings['cancellation'] ?? null)?->isCancelled()) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'cancelled',
                         'Stream cancelled',
                         'response',
@@ -84,7 +84,7 @@ final class EventStream implements \IteratorAggregate
                     );
                 }
                 if (hrtime(true) / 1000000 - $wait >= $this->settings['idleTimeoutMs']) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'deadline',
                         'Stream idle timeout exceeded',
                         'response',
@@ -94,7 +94,7 @@ final class EventStream implements \IteratorAggregate
                 }
                 if ($chunk === null) {
                     if (preg_match('//u', $line) !== 1) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Invalid UTF-8 stream',
                             'response',
@@ -110,7 +110,7 @@ final class EventStream implements \IteratorAggregate
                     $index++
                 ) {
                     if (($this->settings['cancellation'] ?? null)?->isCancelled()) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'cancelled',
                             'Stream cancelled',
                             'response',
@@ -122,7 +122,7 @@ final class EventStream implements \IteratorAggregate
                         isset($this->settings['lifetimeMs']) &&
                         hrtime(true) / 1000000 - $this->created >= $this->settings['lifetimeMs']
                     ) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'deadline',
                             'Stream lifetime exceeded',
                             'response',
@@ -138,7 +138,7 @@ final class EventStream implements \IteratorAggregate
                         }
                     }
                     if (++$bytes > $this->settings['maxEventBytes']) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'SSE event exceeds configured size limit',
                             'response',
@@ -158,7 +158,7 @@ final class EventStream implements \IteratorAggregate
                         }
                     }
                     if (preg_match('//u', $line) !== 1) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Invalid UTF-8 stream',
                             'response',
@@ -208,7 +208,7 @@ final class EventStream implements \IteratorAggregate
             if ($error->kind !== 'validation') {
                 throw $error;
             }
-            throw new SdkError(
+            throw SdkError::create(
                 'protocol',
                 'Invalid SSE event payload',
                 'response',
@@ -217,7 +217,7 @@ final class EventStream implements \IteratorAggregate
                 previous: $error,
             );
         } catch (\Throwable $error) {
-            throw new SdkError(
+            throw SdkError::create(
                 'protocol',
                 'Invalid or interrupted SSE stream',
                 'response',

@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $invoice_payment_attempt_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCancelPaymentAttemptInput extends Model {
-    /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'invoice_id': string, 'invoice_payment_attempt_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesCancelPaymentAttemptInput')); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
@@ -28,9 +28,4 @@ final class InvoicesCancelPaymentAttemptInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

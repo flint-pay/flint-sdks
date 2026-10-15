@@ -38,7 +38,9 @@ namespace Flint;
  * @property-read string $location_outcome
  * @property-read MoneyValue $maximum_money
  * @property-read string $message
+ * @property-read string $order_charge_id
  * @property-read string $order_id
+ * @property-read string $order_line_item_id
  * @property-read string $order_payment_attempt_id
  * @property-read string $order_revision
  * @property-read string $param
@@ -46,6 +48,7 @@ namespace Flint;
  * @property-read list<string> $payment_intent_ids
  * @property-read string $payment_method_domain_id
  * @property-read string $payment_option
+ * @property-read string $previous_key_expires_at
  * @property-read string $product_id
  * @property-read QuotaDetails $quota
  * @property-read string $reason
@@ -76,7 +79,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class ErrorDetail extends Model {
-    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<mixed>, 'capability'?: string, 'capturable_money'?: mixed, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: mixed, 'current_physical_revision'?: string, 'current_resource'?: mixed, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status'?: string, 'current_version'?: string, 'delivery_method_id'?: string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: mixed, 'failure_category'?: string, 'failure_code'?: string, 'gap_money'?: mixed, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: mixed, 'message': string, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'order_revision'?: string, 'param'?: string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'product_id'?: string, 'quota'?: mixed, 'reason'?: string, 'remediation'?: mixed, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: mixed, 'requoted_shipping_money'?: mixed, 'requoted_tax_money'?: mixed, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<mixed>, 'shipping_money'?: mixed, 'shortage_quantity'?: string, 'submitted_money'?: mixed, 'submitted_source_observation_sequence'?: string, 'subscription_delivery_migration_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'suggestions'?: list<string>, 'supported_actions'?: list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tax_money'?: mixed, 'tip_capable_money'?: mixed, 'unavailable_reason'?: string, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allowed_key_modes'?: list<string>, 'available_quantity'?: string, 'blocking_resource_count'?: string, 'blocking_resources'?: list<mixed>, 'capability'?: string, 'capturable_money'?: mixed, 'captured_physical_revision'?: string, 'code': string, 'conflict_type'?: string, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: mixed, 'current_physical_revision'?: string, 'current_resource'?: mixed, 'current_selection_id'?: string, 'current_source_observation_sequence'?: string, 'current_status'?: string, 'current_version'?: string, 'delivery_method_id'?: string, 'demand_key'?: string, 'dependency_type'?: string, 'eligibility_reason'?: string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: mixed, 'failure_category'?: string, 'failure_code'?: string, 'gap_money'?: mixed, 'inventory_count_line_id'?: string, 'inventory_item_id'?: string, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'location_id'?: string, 'location_outcome'?: string, 'maximum_money'?: mixed, 'message': string, 'order_charge_id'?: string, 'order_id'?: string, 'order_line_item_id'?: string, 'order_payment_attempt_id'?: string, 'order_revision'?: string, 'param'?: string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_method_domain_id'?: string, 'payment_option'?: string, 'previous_key_expires_at'?: string, 'product_id'?: string, 'quota'?: mixed, 'reason'?: string, 'remediation'?: mixed, 'requested_key_mode'?: string, 'requested_quantity'?: string, 'required_money'?: mixed, 'requoted_shipping_money'?: mixed, 'requoted_tax_money'?: mixed, 'return_resolution_id'?: string, 'risk_rule_ids'?: list<string>, 'scope'?: string, 'selectable_payment_intents'?: list<mixed>, 'shipping_money'?: mixed, 'shortage_quantity'?: string, 'submitted_money'?: mixed, 'submitted_source_observation_sequence'?: string, 'subscription_delivery_migration_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'suggestions'?: list<string>, 'supported_actions'?: list<string>, 'supported_api_versions'?: list<string>, 'surface'?: string, 'tax_money'?: mixed, 'tip_capable_money'?: mixed, 'unavailable_reason'?: string, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorDetail')); }
     /** @return list<string>
      * @throws SdkError When allowed_key_modes is omitted; use hasAllowedKeyModes() or valueOrDefault().
@@ -259,10 +262,20 @@ final class ErrorDetail extends Model {
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
     /** @return string
+     * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
+     */
+    public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
+    public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** @return string
+     * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
+     */
+    public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
+    public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
     /** @return string
      * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
@@ -298,6 +311,11 @@ final class ErrorDetail extends Model {
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
+    /** @return string
+     * @throws SdkError When previous_key_expires_at is omitted; use hasPreviousKeyExpiresAt() or valueOrDefault().
+     */
+    public function getPreviousKeyExpiresAt(): string { return $this->get('previous_key_expires_at'); }
+    public function hasPreviousKeyExpiresAt(): bool { return $this->has('previous_key_expires_at'); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */

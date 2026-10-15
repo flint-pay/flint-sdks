@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read GetPaymentIntentResultInput|array<array-key, mixed>|\stdClass $data
+ * @property-read PaymentIntentResultInput|array<array-key, mixed>|\stdClass $data
  * @property-read ResponseMetaInput|array<array-key, mixed>|\stdClass $meta
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class GetPaymentIntentResponseInput extends Model {
-    /** @param array{'data': GetPaymentIntentResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': PaymentIntentResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GetPaymentIntentResponseInput')); }
-    /** @return GetPaymentIntentResultInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentIntentResultInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): mixed { return $this->get('data'); }

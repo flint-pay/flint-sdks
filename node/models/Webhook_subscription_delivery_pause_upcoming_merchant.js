@@ -1,9 +1,9 @@
-import { d893 as c0, d490 as c1, d892 as c2, d1028 as c3, d2353 as c4, d1029 as c5 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1029 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d898 as c0, d500 as c1, d897 as c2, d1030 as c3, d2369 as c4, d1031 as c5 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1031 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1029;
+const read = d1031;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec170"]:c1(),["SharedCodec246"]:c2(),["SharedCodec289"]:c3(),["SubscriptionDeliveryHold"]:c4(),["Webhook_subscription_delivery_pause_upcoming_merchant"]:c5()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec176"]:c1(),["SharedCodec250"]:c2(),["SharedCodec290"]:c3(),["SubscriptionDeliveryHold"]:c4(),["Webhook_subscription_delivery_pause_upcoming_merchant"]:c5()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_subscription_delivery_pause_upcoming_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,4 +1,4 @@
 
 import type { AvailableTextModifierConfig } from './AvailableTextModifierConfig.js';
 
-export type TextModifierConfig = AvailableTextModifierConfig;
+export interface TextModifierConfig extends AvailableTextModifierConfig {}

@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'calculation'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string, 'late_fee_policy'?: mixed, 'name'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentTermsUpdateInput extends Model {
-    /** @param array{'invoice_payment_term_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'calculation'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string, 'late_fee_policy'?: mixed, 'name'?: string}|object}|object $values */
+    /** @param array{'invoice_payment_term_id': string, 'Idempotency-Key'?: string, 'body': array{'calculation'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string, 'late_fee_policy'?: mixed, 'name'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTermsUpdateInput')); }
     /** @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
@@ -18,11 +18,6 @@ final class InvoicePaymentTermsUpdateInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'calculation'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string, 'late_fee_policy'?: mixed, 'name'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

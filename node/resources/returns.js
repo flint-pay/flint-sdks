@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/returns.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
 export class Client {
@@ -15,173 +15,143 @@ this.returns = Object.freeze({
       addLineItem: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addLineItemWithResponse: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancel: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancelLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("cancelReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("cancelReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       complete: async (return_id, params, options) => this.#runtime.request("completeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       completeWithResponse: async (return_id, params, options) => this.#runtime.request("completeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createAccessLinkWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createDisposition: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createDispositionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createInspection: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createInspectionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createReceipt: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createReceiptWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createResolution: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createResolutionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       decide: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       decideWithResponse: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       deleteLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("deleteReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("deleteReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
-], [return_id, return_line_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_id, return_line_item_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
-], [return_id, return_line_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_id, return_line_item_id], [], false, false, params), options).then(_sdkResponse),
       listLineItems: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -192,8 +162,7 @@ this.returns = Object.freeze({
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listLineItemsWithResponse: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -205,8 +174,7 @@ this.returns = Object.freeze({
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listLineItemsPages: (return_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -218,8 +186,7 @@ this.returns = Object.freeze({
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listLineItemsPagesWithResponse: (return_id, params, options) => _sdkResponsePages(this.#runtime.pages("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -231,8 +198,7 @@ this.returns = Object.freeze({
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listLineItemsItems: (return_id, params, options) => this.#runtime.items("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -244,8 +210,7 @@ this.returns = Object.freeze({
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -266,8 +231,7 @@ this.returns = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -288,8 +252,7 @@ this.returns = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -310,8 +273,7 @@ this.returns = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -332,8 +294,7 @@ this.returns = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -354,102 +315,115 @@ this.returns = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options),
       processExisting: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       processExistingWithResponse: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       reopen: async (return_id, params, options) => this.#runtime.request("reopenReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       reopenWithResponse: async (return_id, params, options) => this.#runtime.request("reopenReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (return_id, params, options) => this.#runtime.request("updateReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (return_id, params, options) => this.#runtime.request("updateReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("updateReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("updateReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       waiveLineInspection: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       waiveLineInspectionWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
 }
 export { makeAddReturnLineItemResponse } from '../models/AddReturnLineItemResponse.js';
+export { makeCancelReturnResponse } from '../models/CancelReturnResponse.js';
+export { makeCancelReturnLineItemResponse } from '../models/CancelReturnLineItemResponse.js';
+export { makeCompleteReturnResponse } from '../models/CompleteReturnResponse.js';
+export { makeCreateReturnResponse } from '../models/CreateReturnResponse.js';
 export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
-export { makeCancelReturnDispositionResponse } from '../models/CancelReturnDispositionResponse.js';
+export { makeCreateReturnDispositionResponse } from '../models/CreateReturnDispositionResponse.js';
 export { makeCreateReturnInspectionResponse } from '../models/CreateReturnInspectionResponse.js';
 export { makeCreateReturnReceiptResponse } from '../models/CreateReturnReceiptResponse.js';
-export { makeCancelReturnResolutionResponse } from '../models/CancelReturnResolutionResponse.js';
+export { makeCreateReturnResolutionResponse } from '../models/CreateReturnResolutionResponse.js';
+export { makeDecideReturnResponse } from '../models/DecideReturnResponse.js';
+export { makeDeleteReturnLineItemResponse } from '../models/DeleteReturnLineItemResponse.js';
+export { makeGetReturnResponse } from '../models/GetReturnResponse.js';
 export { makeGetReturnLineItemResponse } from '../models/GetReturnLineItemResponse.js';
 export { makeListReturnLineItemsResponse } from '../models/ListReturnLineItemsResponse.js';
 export { makeReturnLineItem } from '../models/ReturnLineItem.js';
 export { makeListReturnsResponse } from '../models/ListReturnsResponse.js';
 export { makeReturnResource } from '../models/ReturnResource.js';
 export { makeProcessExistingReturnResponse } from '../models/ProcessExistingReturnResponse.js';
+export { makeReopenReturnResponse } from '../models/ReopenReturnResponse.js';
+export { makeUpdateReturnResponse } from '../models/UpdateReturnResponse.js';
+export { makeUpdateReturnLineItemResponse } from '../models/UpdateReturnLineItemResponse.js';
+export { makeWaiveReturnLineInspectionResponse } from '../models/WaiveReturnLineInspectionResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeAccessLink } from '../models/AccessLink.js';
+export { makeCancelReturnDispositionResponse } from '../models/CancelReturnDispositionResponse.js';
+export { makeGetReturnDispositionResponse } from '../models/GetReturnDispositionResponse.js';
+export { makeRetryReturnDispositionResponse } from '../models/RetryReturnDispositionResponse.js';
 export { makeReturnDisposition } from '../models/ReturnDisposition.js';
 export { makeReturnActor } from '../models/ReturnActor.js';
+export { makeDecideReturnInspectionLineItemResponse } from '../models/DecideReturnInspectionLineItemResponse.js';
+export { makeGetReturnInspectionResponse } from '../models/GetReturnInspectionResponse.js';
 export { makeReturnInspection } from '../models/ReturnInspection.js';
 export { makeReturnInspectionLineItem } from '../models/ReturnInspectionLineItem.js';
+export { makeGetReturnReceiptResponse } from '../models/GetReturnReceiptResponse.js';
+export { makeVerifyReturnReceiptLineItemResponse } from '../models/VerifyReturnReceiptLineItemResponse.js';
 export { makeReturnReceipt } from '../models/ReturnReceipt.js';
 export { makeReturnReceiptLineItem } from '../models/ReturnReceiptLineItem.js';
 export { makeReturnUnverifiedItem } from '../models/ReturnUnverifiedItem.js';
+export { makeCancelReturnResolutionResponse } from '../models/CancelReturnResolutionResponse.js';
+export { makeConfirmReturnResolutionResponse } from '../models/ConfirmReturnResolutionResponse.js';
+export { makeGetReturnResolutionResponse } from '../models/GetReturnResolutionResponse.js';
+export { makeReleaseReturnResolutionResponse } from '../models/ReleaseReturnResolutionResponse.js';
+export { makeRetryReturnResolutionResponse } from '../models/RetryReturnResolutionResponse.js';
+export { makeUpdateReturnResolutionResponse } from '../models/UpdateReturnResolutionResponse.js';
 export { makeReturnResolution } from '../models/ReturnResolution.js';
 export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
 export { makeReturnResolutionExecutionBlocker } from '../models/ReturnResolutionExecutionBlocker.js';
@@ -491,6 +465,7 @@ export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDet
 export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
+export { makeAddress } from '../models/Address.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
@@ -502,7 +477,10 @@ export { makeReturnCompletionBlocker } from '../models/ReturnCompletionBlocker.j
 export { makeReturnFinancialSummary } from '../models/ReturnFinancialSummary.js';
 export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement.js';
 export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination.js';
+export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
 export { makeReturnPolicyEvaluation } from '../models/ReturnPolicyEvaluation.js';
 export { makeReturnPolicyEvaluationLineItem } from '../models/ReturnPolicyEvaluationLineItem.js';
 export { makeReturnProcessResult } from '../models/ReturnProcessResult.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeUpdateReturnRequest } from '../models/UpdateReturnRequest.js';

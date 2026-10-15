@@ -1,11 +1,14 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { CreateReturnPolicyResponse } from '../declarations/CreateReturnPolicyResponse.js';
+import type { DeleteReturnPolicyResponse } from '../declarations/DeleteReturnPolicyResponse.js';
+import type { GetReturnPolicyResponse } from '../declarations/GetReturnPolicyResponse.js';
 import type { GetReturnPolicyRevisionResponse } from '../declarations/GetReturnPolicyRevisionResponse.js';
 import type { ListReturnPoliciesResponse } from '../declarations/ListReturnPoliciesResponse.js';
 import type { ListReturnPolicyRevisionsResponse } from '../declarations/ListReturnPolicyRevisionsResponse.js';
+import type { PublishReturnPolicyRevisionResponse } from '../declarations/PublishReturnPolicyRevisionResponse.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { ReturnPoliciesCreateInput } from '../declarations/ReturnPoliciesCreateInput.js';
 import type { ReturnPoliciesCreateResponse } from '../declarations/ReturnPoliciesCreateResponse.js';
@@ -27,6 +30,7 @@ import type { ReturnPolicy } from '../declarations/ReturnPolicy.js';
 import type { ReturnPolicyRevision } from '../declarations/ReturnPolicyRevision.js';
 import type { ReturnPolicyRevisionRequestInput } from '../declarations/ReturnPolicyRevisionRequestInput.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { UpdateReturnPolicyResponse } from '../declarations/UpdateReturnPolicyResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface ReturnPoliciesResource {
@@ -38,9 +42,9 @@ export interface ReturnPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
+    create(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesCreateResponse>>;
     /**
  * Retire a Return policy so it is no longer evaluated and no longer appears as an active choice.
  * DELETE /v1/return-policies/{return_policy_id}
@@ -49,51 +53,51 @@ export interface ReturnPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
+    remove(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeleteReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesRemoveResponse>>;
+    removeWithResponse(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesRemoveResponse>>;
     /**
  * Retrieve one Return policy. Supports expand for current_revision.
  * GET /v1/return-policies/{return_policy_id}
  * @example
  * client.returnPolicies.get("example")
  */
-    get(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
+    get(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetResponse>>;
+    getWithResponse(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetResponse>>;
     /**
  * Retrieve one immutable policy revision, including the exact rules a Return was evaluated against.
  * GET /v1/return-policies/{return_policy_id}/revisions/{return_policy_revision_id}
  * @example
  * client.returnPolicies.getRevision("example", "example")
  */
-    getRevision(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyRevisionResponse, ["data"]>>;
+    getRevision(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyRevisionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getRevisionWithResponse(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetRevisionResponse>>;
+    getRevisionWithResponse(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetRevisionResponse>>;
     /**
  * List Return policies with their status and current revision.
  * GET /v1/return-policies
  * @example
  * client.returnPolicies.list()
  */
-    list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPoliciesResponse>;
+    list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPoliciesResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListResponse>>;
-    listPages(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPoliciesResponse>;
-    listPagesWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListResponse>>;
-    listItems(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicy>;
+    listWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListResponse>>;
+    listPages(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPoliciesResponse>;
+    listPagesWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListResponse>>;
+    listItems(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicy>;
     /**
  * List every published revision of a Return policy.
  * GET /v1/return-policies/{return_policy_id}/revisions
  * @example
  * client.returnPolicies.listRevisions("example")
  */
-    listRevisions(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPolicyRevisionsResponse>;
+    listRevisions(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPolicyRevisionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listRevisionsWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
-    listRevisionsPages(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPolicyRevisionsResponse>;
-    listRevisionsPagesWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
-    listRevisionsItems(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicyRevision>;
+    listRevisionsWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
+    listRevisionsPages(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPolicyRevisionsResponse>;
+    listRevisionsPagesWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
+    listRevisionsItems(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicyRevision>;
     /**
  * Publish a new immutable Return policy revision while preserving the stable policy identity.
  * POST /v1/return-policies/{return_policy_id}/revisions
@@ -102,9 +106,9 @@ export interface ReturnPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.publishRevision("example", {expected_current_return_policy_revision_id: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
  */
-    publishRevision(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
+    publishRevision(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PublishReturnPolicyRevisionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    publishRevisionWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesPublishRevisionResponse>>;
+    publishRevisionWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesPublishRevisionResponse>>;
     /**
  * Update policy identity fields or set status to active or inactive. Rules live on revisions, so changing a window, fee, or scope means publishing a new revision.
  * PATCH /v1/return-policies/{return_policy_id}
@@ -113,9 +117,9 @@ export interface ReturnPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
+    update(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdateReturnPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesUpdateResponse>>;
+    updateWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesUpdateResponse>>;
   }
 export declare class Client {
 
@@ -130,8 +134,10 @@ export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 export type { CreateReturnPolicyResponse } from '../declarations/CreateReturnPolicyResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { ReturnPoliciesCreateResponse } from '../declarations/ReturnPoliciesCreateResponse.js';
+export type { DeleteReturnPolicyResponse } from '../declarations/DeleteReturnPolicyResponse.js';
 export type { ReturnPoliciesRemoveResponse } from '../declarations/ReturnPoliciesRemoveResponse.js';
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+export type { GetReturnPolicyResponse } from '../declarations/GetReturnPolicyResponse.js';
 export type { ReturnPoliciesGetResponse } from '../declarations/ReturnPoliciesGetResponse.js';
 export type { GetReturnPolicyRevisionResponse } from '../declarations/GetReturnPolicyRevisionResponse.js';
 export type { ReturnPoliciesGetRevisionResponse } from '../declarations/ReturnPoliciesGetRevisionResponse.js';
@@ -141,7 +147,9 @@ export type { ReturnPolicy } from '../declarations/ReturnPolicy.js';
 export type { ListReturnPolicyRevisionsResponse } from '../declarations/ListReturnPolicyRevisionsResponse.js';
 export type { ReturnPoliciesListRevisionsResponse } from '../declarations/ReturnPoliciesListRevisionsResponse.js';
 export type { ReturnPolicyRevision } from '../declarations/ReturnPolicyRevision.js';
+export type { PublishReturnPolicyRevisionResponse } from '../declarations/PublishReturnPolicyRevisionResponse.js';
 export type { ReturnPoliciesPublishRevisionResponse } from '../declarations/ReturnPoliciesPublishRevisionResponse.js';
+export type { UpdateReturnPolicyResponse } from '../declarations/UpdateReturnPolicyResponse.js';
 export type { ReturnPoliciesUpdateResponse } from '../declarations/ReturnPoliciesUpdateResponse.js';
 export type { ReturnPoliciesCreateInput } from '../declarations/ReturnPoliciesCreateInput.js';
 export type { ReturnPoliciesRemoveInput } from '../declarations/ReturnPoliciesRemoveInput.js';
@@ -172,11 +180,15 @@ export type { CreateReturnPolicyRequestInput } from '../declarations/CreateRetur
 export type { PublishReturnPolicyRevisionRequestInput } from '../declarations/PublishReturnPolicyRevisionRequestInput.js';
 export type { UpdateReturnPolicyRequestInput } from '../declarations/UpdateReturnPolicyRequestInput.js';
 export { makeCreateReturnPolicyResponse } from '../declarations/makeCreateReturnPolicyResponse.js';
+export { makeDeleteReturnPolicyResponse } from '../declarations/makeDeleteReturnPolicyResponse.js';
+export { makeGetReturnPolicyResponse } from '../declarations/makeGetReturnPolicyResponse.js';
 export { makeGetReturnPolicyRevisionResponse } from '../declarations/makeGetReturnPolicyRevisionResponse.js';
 export { makeListReturnPoliciesResponse } from '../declarations/makeListReturnPoliciesResponse.js';
 export { makeReturnPolicy } from '../declarations/makeReturnPolicy.js';
 export { makeListReturnPolicyRevisionsResponse } from '../declarations/makeListReturnPolicyRevisionsResponse.js';
 export { makeReturnPolicyRevision } from '../declarations/makeReturnPolicyRevision.js';
+export { makePublishReturnPolicyRevisionResponse } from '../declarations/makePublishReturnPolicyRevisionResponse.js';
+export { makeUpdateReturnPolicyResponse } from '../declarations/makeUpdateReturnPolicyResponse.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';

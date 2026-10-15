@@ -1647,7 +1647,7 @@ A retry of a past-due payment on the buyer's subscription. Includes, when availa
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `failure_category` | Optional | string | Why Flint could not calculate the method and the action that can make calculation succeed. - `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it matches the documented response schema, then retry. - `callback_transport_failure`: Restore callback DNS, TLS, network connectivity, and response timing, then retry. - `callback_result_invalid`: Fix the callback result fields or values identified by the callback logs, then retry. - `pricing_failure`: Fix the method pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct the address fields rejected by verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address, or retry when address verification is available. Values: [11 declared values](#callersupplieddeliveryoutcomerequest-failure_category-values). |
+| `failure_category` | Optional | string | Why Flint could not calculate the method and the action that can make calculation succeed. - `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it matches the documented response schema, then retry. - `pricing_failure`: Fix the method pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct the address fields rejected by verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address, or retry when address verification is available. Values: [9 declared values](#callersupplieddeliveryoutcomerequest-failure_category-values). |
 | `merchant_reference` | Optional | string | maxLength: `500`. |
 | `offered_windows` | Optional | Array of [DeliveryWindowRequest](MODELS.md#deliverywindowrequest) |  |
 | `retryable` | Optional | boolean |  |
@@ -1663,8 +1663,6 @@ A retry of a past-due payment on the buyer's subscription. Includes, when availa
 - `"dependency_failure"`
 - `"timeout"`
 - `"malformed_response"`
-- `"callback_transport_failure"`
-- `"callback_result_invalid"`
 - `"pricing_failure"`
 - `"schedule_failure"`
 - `"geography_failure"`
@@ -1834,7 +1832,7 @@ Merchant capability readiness for a payment or money movement capability.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `blocked_reasons` | Optional | Array of [MoneyMovementBlockedReason](MODELS.md#moneymovementblockedreason) | Reasons this capability is blocked, pending, or not available. |
-| `capability` | Required | string | Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Values: [7 declared values](#capability-capability-values). |
+| `capability` | Required | string | Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Values: [8 declared values](#capability-capability-values). |
 | `domain` | Required | string | Capability domain. API keys scoped to one domain only receive that domain when listing capabilities without a domain filter. Values: `"money_movement"`, `"payments"`. |
 | `next_actions` | Optional | Array of [NextAction](MODELS.md#nextaction) | Actions that can remediate or refresh this capability when Flint can suggest one. |
 | `observed_at` | Optional | string | RFC3339 timestamp for the source state used to evaluate this capability. Format: `date-time`. |
@@ -1846,6 +1844,7 @@ Merchant capability readiness for a payment or money movement capability.
 - `"accept_card_payments"`
 - `"save_payment_methods"`
 - `"accept_affirm_payments"`
+- `"accept_ach_debit_payments"`
 - `"receive_payouts"`
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
@@ -2372,6 +2371,7 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 | `save_payment_method_offered` | Optional | boolean | Whether checkout offers the buyer the option to save the card they type for faster checkout at this merchant. Present only on reads with the session's checkout credential. When true and save_payment_method_requires_verification is false, PayOrder accepts save_payment_method: true for one newly collected card. False when the merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is not an available payment option, the checkout collects an invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot email the buyer a verification code. Response only. |
 | `save_payment_method_phone_offered` | Optional | boolean | Whether the buyer can save the card they type by giving a US or Canadian mobile phone number with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted code after paying. Present only on reads with the session's checkout credential. True while Flint can send texts and either save_payment_method_requires_verification is true, so the number replaces confirming an email before paying, or the checkout acts for the customer whose email the buyer confirmed with this credential, so the number joins that customer's saved details once the buyer confirms it. Response only. |
 | `save_payment_method_requires_verification` | Optional | boolean | Whether the buyer must confirm their email with a code before the checkout can save their card or use their saved cards. Present only on reads with the session's checkout credential. True when save_payment_method_offered is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever save_payment_method_offered is false. Response only. |
+| `save_payment_method_types` | Optional | Array of string | What save_payment_method keeps, present when save_payment_method_offered is true: card, a card the buyer types into checkout. Show the save option with that payment method only. A pay request that sends save_payment_method: true with Apple Pay, Google Pay, a bank account, or Affirm, through a confirmation token created with setup_future_usage none, still pays, and its payment attempt's payment_method_save reports not_saved. The values can grow. Response only. |
 | `setup_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
 | `status` | Required | string | Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. Response only. |
 | `subscription_plan_id` | Optional | string | Response only. |
@@ -2468,7 +2468,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | --- | --- | --- | --- |
 | `base_subtotal_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Line item unit price times quantity, before modifiers. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
 | `checkout_total_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current order total the checkout collects. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1724 declared values](#checkoutsessionrevisionconflictdetail-code-values). |
 | `conflict_reason` | Optional | string | Why this item was returned. checkout_session_current_state means the item carries the line item's current state. Values: `"checkout_session_current_state"`. |
 | `latest_revision` | Optional | exact numeric string | Current revision of the line item's modifiers in this checkout session. Retry with this value as expected_version. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `line_item_key` | Optional | string | Key of the line item whose modifiers changed: the payment link line item key when the checkout came from a payment link, otherwise the order line item ID. Sent on CHECKOUT_SESSION_CURRENT_STATE. |
@@ -2558,6 +2558,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_UNAVAILABLE"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -2804,6 +2805,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DELIVERY_QUOTE_REVOKED"`
 - `"DELIVERY_QUOTE_STALE"`
 - `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"DELIVERY_RECIPIENT_REQUIRED"`
 - `"DELIVERY_REQUEST_INVALID"`
 - `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
@@ -2853,6 +2855,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
 - `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FIELD"`
 - `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
@@ -2867,11 +2870,13 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_CALCULATION_ASSIGNMENT"`
 - `"DUPLICATE_TAX_COMPONENT"`
 - `"DUPLICATE_VALUE"`
 - `"EMAIL_ALREADY_LINKED"`
@@ -2931,6 +2936,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_NOT_ALLOWED"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
 - `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
@@ -3013,7 +3019,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
 - `"IDEMPOTENCY_KEY_REQUIRED"`
 - `"IDEMPOTENCY_KEY_REUSED"`
-- `"IDEMPOTENCY_KEY_TOO_LONG"`
 - `"IDEMPOTENCY_LOAD_FAILED"`
 - `"IDEMPOTENCY_PERSIST_FAILED"`
 - `"IDEMPOTENCY_RECORD_INVALID"`
@@ -3104,6 +3109,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKBOX_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
@@ -3216,7 +3222,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
 - `"INVALID_LINE_ITEM"`
-- `"INVALID_LINE_ITEMS"`
 - `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
 - `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
 - `"INVALID_LIST_ALIAS"`
@@ -3383,7 +3388,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
 - `"INVALID_TIP_PERCENTAGES_COUNT"`
-- `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
@@ -3554,6 +3558,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
 - `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_BILLING_SUSPENDED"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
 - `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
@@ -3563,6 +3568,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
+- `"MERCHANT_UNDER_REVIEW"`
 - `"METADATA_KEY_TOO_LONG"`
 - `"METADATA_TOO_LARGE"`
 - `"METADATA_TOO_MANY_KEYS"`
@@ -3675,6 +3681,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_LINKED_AMOUNT_NOT_UPDATABLE"`
 - `"ORDER_NOT_FOUND"`
 - `"ORDER_NOT_FULFILLABLE"`
 - `"ORDER_NOT_OPEN"`
@@ -3708,15 +3715,17 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
-- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_NOT_UPDATABLE"`
 - `"ORDER_TAX_RATE_UNAVAILABLE"`
 - `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTALS_UNAVAILABLE"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
 - `"ORGANIZATION_CYCLE"`
 - `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
 - `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORGANIZATION_NOT_ACTIVE"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
 - `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
 - `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
@@ -3761,6 +3770,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PAYMENT_BLOCKED"`
 - `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CLIENT_ACTION_UNAVAILABLE"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
 - `"PAYMENT_EXPIRED"`
@@ -3818,7 +3828,9 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_SCOPE_UNSUPPORTED"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_NOT_ENABLED"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
@@ -3923,12 +3935,14 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPEATED_QUERY_PARAM"`
 - `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
 - `"REPORT_INTERVAL_TOO_LARGE"`
 - `"REPORT_NOT_FOUND"`
+- `"REQUEST_BLOCKED"`
 - `"REQUEST_BODY_NOT_ALLOWED"`
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
@@ -3961,6 +3975,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
 - `"RETURN_SHIPMENT_INVALID"`
 - `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE"`
 - `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
@@ -3993,6 +4008,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"SANDBOX_INACTIVE"`
 - `"SANDBOX_LIST_FAILED"`
 - `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_FORBIDDEN"`
 - `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"SANDBOX_NOT_ACCESSIBLE"`
 - `"SANDBOX_NOT_FOUND"`
@@ -4006,6 +4022,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_REQUIRES_FULL_PAYMENT"`
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
@@ -4116,15 +4133,18 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_NOT_ALLOWED"`
 - `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_CATEGORY_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
-- `"TAX_MODE_MISMATCH"`
 - `"TAX_MONEY_REQUIRED"`
 - `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TEST_PROCESSOR_NOT_CONFIGURED"`
 - `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_EXCEEDS_AMOUNT"`
 - `"TIP_LIMIT_EXCEEDED"`
 - `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
@@ -4197,7 +4217,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_domain` | Optional | string or null | An exact hostname such as pay.example.com. Omission keeps the current hostname. Null removes it and starts the redirect window. minLength: `1`. maxLength: `253`. |
-| `default_delivery_method_ids` | Optional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. An explicit empty delivery_method_ids array on a checkout creation request overrides this default. |
+| `default_delivery_method_ids` | Optional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. |
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `enabled_payment_options` | Optional | Array of string |  |
 | `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
@@ -4261,12 +4281,12 @@ Renewal terms a subscription checkout commits the buyer to. Frozen when the sess
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `default_smart_tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `default_tip_percent` | Optional | number | The preselected tip percent, from 1 through 100 with at most four decimal places. Must match one of tip_percent_options. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
+| `default_smart_tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | The preselected fixed tip, with a positive amount in the same currency as smart_tip_money_options. Its amount and currency must match one of the effective smart_tip_money_options: the ones sent here, or else the ones inherited from tipping settings. An inherited preselection that isn't one of the effective options is dropped. |
+| `default_tip_percent` | Optional | number | The preselected tip percent, from 1 through 100 with at most four decimal places. Must match one of the effective tip_percent_options: the ones sent here, or else the ones inherited from tipping settings. An inherited preselection that isn't one of the effective options is dropped, and checkout preselects no tip. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `enabled` | Optional | boolean |  |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
-| `smart_tip_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
+| `smart_tip_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) | Three fixed tips to offer, each with a positive amount. On a checkout session they must use the session's currency. On a payment link they must share one currency, and a checkout opened from the link offers only those in its currency. |
 | `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. |
 
 ## CLITokenRequest
@@ -4568,7 +4588,7 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | --- | --- | --- | --- |
 | `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
 | `customer_collection` | Optional | [CheckoutCustomerConfig](MODELS.md#checkoutcustomerconfig) |  |
-| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout. When omitted, uses settings.checkout.default_delivery_method_ids if the order has items to deliver, or no methods otherwise. An explicit empty array assigns no methods. |
+| `delivery_method_ids` | Optional | Array of string | Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise no methods are assigned. Empty arrays and null are rejected. minItems: `1`. maxItems: `25`. |
 | `expiration` | Optional | [CheckoutExpirationConfig](MODELS.md#checkoutexpirationconfig) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
@@ -4739,7 +4759,7 @@ Variants: any, any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object |  |
 | `name` | Required | string |  |
-| `recommendation_priority` | Optional | integer | Format: `int32`. |
+| `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 | `type` | Required | string | Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 
@@ -5000,9 +5020,9 @@ Variants: any, any, any, any, any.
 | --- | --- | --- | --- |
 | `consideration_money` | Optional | Alternative shapes (see declared variants) |  |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `source` | Required | any |  |
+| `source` | Required | Alternative shapes (see declared variants) |  |
 | `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `value_money` | Required | any |  |
+| `value_money` | Required | object |  |
 
 Variants: any, any.
 
@@ -5022,7 +5042,7 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | any |  |
+| `amount_money` | Required | object |  |
 | `capture_mode` | Required | string | Values: `"automatic"`, `"manual"`. |
 | `expected_version` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -5328,12 +5348,12 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `fulfillment` | Optional | [LineItemFulfillmentRequest](MODELS.md#lineitemfulfillmentrequest) |  |
+| `fulfillment` | Optional | [LineItemFulfillmentRequest](MODELS.md#lineitemfulfillmentrequest) | Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} for services, digital goods, and items handed over at the point of sale. |
 | `gift_card_purchase` | Optional | [GiftCardPurchaseRequest](MODELS.md#giftcardpurchaserequest) | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. |
 | `image` | Optional | [ImageReferenceRequest](MODELS.md#imagereferencerequest) |  |
 | `inventory_demands` | Optional | Array of [OrderDraftLineItemInventoryDemandRequest](MODELS.md#orderdraftlineiteminventorydemandrequest) |  |
 | `metadata` | Optional | object |  |
-| `modifiers` | Optional | Array of any |  |
+| `modifiers` | Optional | Array of Alternative shapes (see declared variants) |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `subscription` | Optional | [SubscribedLineRequest](MODELS.md#subscribedlinerequest) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. |
@@ -5363,7 +5383,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [CreatePaymentIntentResult](MODELS.md#createpaymentintentresult) |  |
+| `data` | Required | [CreateOrderPaymentIntentResult](MODELS.md#createorderpaymentintentresult) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
@@ -5400,10 +5420,10 @@ Requested tip expressed as either a flat amount or a percentage. Send exactly on
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | any | Flat requested tip in the order currency. The amount must be at least 1 minor unit; otherwise, Flint returns INVALID_TIP_AMOUNT. For USD orders, the maximum is the larger of $1,000 or the post-discount merchandise subtotal. |
-| `description` | Optional | string |  |
+| `amount_money` | Optional | object | Flat requested tip in the order currency. The amount must be at least 1 minor unit; otherwise, Flint returns INVALID_TIP_AMOUNT. For USD orders, the maximum is the larger of $1,000 or the post-discount merchandise subtotal. |
+| `description` | Optional | string | maxLength: `255`. |
 | `metadata` | Optional | object |  |
-| `name` | Optional | string |  |
+| `name` | Optional | string | maxLength: `255`. |
 | `percent` | Optional | number | Requested tip percentage from 1 through 100, calculated from the post-discount merchandise subtotal. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 
 Variants: any, any.
@@ -5507,7 +5527,7 @@ Variants: any, any.
 | `payment_options` | Required | Array of string | minItems: `1`. |
 | `payment_return_url` | Optional | string | pattern: `\S`. |
 | `receipt_email` | Optional | string |  |
-| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. Not accepted on order-linked payment intents. |
 | `transaction_purpose` | Optional | string | Values: `"goods"`, `"services"`, `"other"`. |
 
 ## CreatePaymentIntentResponse
@@ -5516,18 +5536,9 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [CreatePaymentIntentResult](MODELS.md#createpaymentintentresult) |  |
+| `data` | Required | object |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
-
-## CreatePaymentIntentResult
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `payment_collection` | Required | [PaymentCollection](MODELS.md#paymentcollection) |  |
-| `payment_intent` | Required | [PaymentIntent](MODELS.md#paymentintent) |  |
 
 ## CreatePaymentLinkRequest
 
@@ -5536,31 +5547,31 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldRequest](MODELS.md#paymentlinkcustomfieldrequest) | maxItems: `20`. |
-| `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
+| `custom_text` | Optional | [PaymentLinkCustomTextConfig](MODELS.md#paymentlinkcustomtextconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
-| `description` | Optional | string |  |
+| `description` | Optional | string | maxLength: `2048`. |
 | `donation_max_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `donation_min_amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
 | `event_config` | Optional | [PaymentLinkEventConfig](MODELS.md#paymentlinkeventconfig) |  |
-| `expiration` | Optional | [CheckoutExpirationConfig](MODELS.md#checkoutexpirationconfig) |  |
+| `expiration` | Optional | [PaymentLinkExpirationConfig](MODELS.md#paymentlinkexpirationconfig) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `image` | Optional | [ImageRequest](MODELS.md#imagerequest) |  |
-| `inactive_message` | Optional | string |  |
+| `inactive_message` | Optional | string | maxLength: `500`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](MODELS.md#inventoryroutingsourcerequest) |  |
-| `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
+| `legal` | Optional | [PaymentLinkLegalConfig](MODELS.md#paymentlinklegalconfig) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemRequest](MODELS.md#paymentlinklineitemrequest) |  |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object |  Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
-| `name` | Required | string |  |
+| `metadata` | Optional | object |  Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
+| `name` | Required | string | maxLength: `255`. |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
-| `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
+| `payments` | Optional | [PaymentLinkPaymentConfig](MODELS.md#paymentlinkpaymentconfig) |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
-| `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
+| `redirects` | Optional | [PaymentLinkRedirectsConfig](MODELS.md#paymentlinkredirectsconfig) |  |
 | `subscription_plan_id` | Optional | string |  |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
-| `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
+| `theme` | Optional | [PaymentLinkThemeConfig](MODELS.md#paymentlinkthemeconfig) |  |
 | `tip` | Optional | [CheckoutTipConfig](MODELS.md#checkouttipconfig) |  |
 
 ## CreatePaymentMethodDomainRequest
@@ -5737,10 +5748,76 @@ Variants: any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [Refund](MODELS.md#refund) |  |
-| `gift_card_codes` | Optional | Array of [RefundGiftCardCode](MODELS.md#refundgiftcardcode) | Replacement card codes recovered from the original command for 24 hours. Omitted after the recovery window and never returned by ordinary refund reads or events. Response only. |
+| `data` | Required | [CreateRefundResult](MODELS.md#createrefundresult) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
+
+## CreateRefundResult
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `credit_note_id` | Optional | string | Response only. |
+| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `customer_id` | Optional | string | Response only. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `failure_reason` | Optional | string | Flint-normalized refund failure reason. Unknown provider values are returned as refund_failed. Values: [10 declared values](#createrefundresult-failure_reason-values). Response only. |
+| `gift_card_codes` | Optional | Array of [RefundGiftCardCode](MODELS.md#refundgiftcardcode) | Replacement card codes recovered from the original command for 24 hours. Omitted after the recovery window and never returned by ordinary refund reads or events. Response only. |
+| `idempotency_key` | Optional | string | Response only. |
+| `invoice_id` | Optional | string | Response only. |
+| `line_item_allocations` | Optional | Array of [RefundLineItemAllocation](MODELS.md#refundlineitemallocation) | Response only. |
+| `merchant_id` | Optional | string | Response only. |
+| `metadata` | Optional | object |  |
+| `order` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `order_id` | Optional | string |  |
+| `payment_intent` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `payment_intent_id` | Optional | string |  |
+| `payment_refunds` | Optional | Array of [PaymentRefund](MODELS.md#paymentrefund) | Response only. |
+| `reason` | Optional | string or null | Values: [13 declared values](#createrefundresult-reason-values). |
+| `reason_message` | Optional | string |  |
+| `refund_id` | Required | string | Response only. |
+| `refund_method` | Optional | string | Values: `"original_payment"`. |
+| `refunded_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `return_id` | Optional | string | Response only. |
+| `return_resolution_id` | Optional | string | Response only. |
+| `review_id` | Optional | string | Response only. |
+| `status` | Required | string | Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"requires_action"`, `"canceled"`, `"partially_succeeded"`. Response only. |
+| `tax_breakdown_refunds` | Optional | Array of [RefundTaxBreakdownRefund](MODELS.md#refundtaxbreakdownrefund) |  |
+| `tender_allocations` | Optional | Array of [RefundTenderAllocation](MODELS.md#refundtenderallocation) | Response only. |
+| `unissued_gift_card_recoveries` | Optional | Array of [RefundUnissuedGiftCardRecovery](MODELS.md#refundunissuedgiftcardrecovery) | Cash returned after an unissued gift card purchase refund failed. Return it through a new refund against payment_intent_id and order_line_item_id. It does not issue another card. Source remaining and pending amounts describe the entire original settlement allocation; repeated entries for that source are not additive. Response only. |
+| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+#### CreateRefundResult failure_reason values
+
+- `"expired_or_canceled_card"`
+- `"lost_or_stolen_card"`
+- `"insufficient_funds"`
+- `"insufficient_available_balance"`
+- `"declined"`
+- `"merchant_request"`
+- `"payment_disputed"`
+- `"payment_refund_failed"`
+- `"payment_refund_not_attempted"`
+- `"refund_failed"`
+
+#### CreateRefundResult reason values
+
+- `"duplicate"`
+- `"fraudulent"`
+- `"requested_by_customer"`
+- `"defective_product"`
+- `"wrong_item_shipped"`
+- `"never_received"`
+- `"not_as_described"`
+- `"arrived_too_late"`
+- `"customer_changed_mind"`
+- `"better_price_found"`
+- `"accidental_order"`
+- `"other"`
+- `null`
 
 ## CreateReportRequest
 
@@ -7059,7 +7136,7 @@ A checkout or customer account hostname's status after a transition, with its pr
 | `line1` | Optional | string |  |
 | `line2` | Optional | string |  |
 | `postal_code` | Optional | string |  |
-| `state` | Optional | string | State, province, or region. State conditions read it as a subdivision of the address's country: send its code with or without the country prefix, such as NY or US-NY. In the US and Canada, the English name, such as New York, also matches. |
+| `state` | Optional | string | State, province, or region. State conditions read it as a subdivision of the address's country: send its code with or without the country prefix, such as NY or US-NY. In the US and Canada, the English name, such as New York, also matches. US addresses also accept the USPS military codes AA, AE, and AP. If the address country is listed by a state condition but state names no subdivision of that country, the condition cannot be decided: the method or rate is left out as cannot_calculate (invalid_buyer_input). |
 
 ## DeliveryAddressResource
 
@@ -7193,11 +7270,11 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `address_advisories` | Optional | Array of [DeliveryAddressAdvisoryResource](MODELS.md#deliveryaddressadvisoryresource) |  |
-| `failure_category` | Optional | string | Why Flint could not calculate the method and the action that can make calculation succeed. - `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it matches the documented response schema, then retry. - `callback_transport_failure`: Restore callback DNS, TLS, network connectivity, and response timing, then retry. - `callback_circuit_open`: Restore the callback and wait for circuit recovery before retrying. - `callback_result_invalid`: Fix the callback result fields or values identified by the callback logs, then retry. - `callback_unavailable`: Restore the configured callback endpoint or choose a non-callback pricing strategy. - `pricing_failure`: Fix the method pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested window, then retry. - `option_lifetime_too_short`: Increase the method minimum option lifetime or return a later callback expiry. - `geography_failure`: Fix the destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment, then retry. - `invalid_configuration`: Correct the invalid delivery configuration identified by diagnostics, then retry. - `invalid_buyer_input`: Correct the buyer input identified by the outcome, then retry. - `address_verification_failed`: Correct the address fields rejected by verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address, or retry when address verification is available. Values: [16 declared values](#deliverycandidateoutcomeresource-failure_category-values). |
+| `failure_category` | Optional | string | Why Flint could not calculate the method and the action that can make calculation succeed. - `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it matches the documented response schema, then retry. - `callback_transport_failure`: Restore callback DNS, TLS, network connectivity, and response timing, then retry. - `callback_circuit_open`: Restore the callback and wait for circuit recovery before retrying. - `callback_result_invalid`: Fix the callback result fields or values identified by the callback logs, then retry. - `callback_unavailable`: Retry when callback capacity is available, restore the configured callback endpoint, or choose a non-callback pricing strategy. - `pricing_failure`: Fix the method pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested window, then retry. - `option_lifetime_too_short`: Lower the method's minimum option lifetime below the quote's remaining lifetime. A quote for a cart with tracked inventory lasts just under 5 minutes. - `geography_failure`: Fix the destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment, then retry. - `invalid_configuration`: Correct the invalid delivery configuration identified by diagnostics, then retry. - `invalid_buyer_input`: Correct the buyer input identified by the outcome, then retry. - `address_verification_failed`: Correct the address fields rejected by verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address, or retry when address verification is available. Values: [16 declared values](#deliverycandidateoutcomeresource-failure_category-values). |
 | `input_requirements` | Optional | Array of [DeliveryInputRequirement](MODELS.md#deliveryinputrequirement) |  |
 | `option` | Optional | [DeliveryOptionProjection](MODELS.md#deliveryoptionprojection) |  |
 | `retryable` | Optional | boolean |  |
-| `type` | Required | string | Values: `"available"`, `"unavailable"`, `"input_required"`, `"cannot_calculate"`, `"requires_checkout_context"`, `"unsupported_in_preview"`. |
+| `type` | Required | string | Values: `"available"`, `"unavailable"`, `"input_required"`, `"cannot_calculate"`, `"requires_checkout_context"`. |
 | `unavailable_reason` | Optional | string | Why the method is unavailable and the action that can make it eligible. - `destination_not_served`: Use a destination covered by this method or choose another method. - `pickup_unavailable`: Choose an available pickup method or location. - `no_window_available`: Choose another offered window or a method with availability for the requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: Choose an origin or method backed by available inventory. Values: [7 declared values](#deliverycandidateoutcomeresource-unavailable_reason-values). |
 
 #### DeliveryCandidateOutcomeResource failure_category values
@@ -7229,7 +7306,7 @@ Variants: any, any.
 - `"pricing_unavailable"`
 - `"inventory_unavailable"`
 
-Variants: any, any, any, any, any, any.
+Variants: any, any, any, any, any.
 
 ## DeliveryCoordinateRequest
 
@@ -7247,7 +7324,7 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Values: `"destination_address"`, `"buyer_location"`. |
-| `values` | Required | Array of string |  |
+| `values` | Required | Array of string | Example: `["US"]`. |
 
 ## DeliveryCustomerBooleanCondition
 
@@ -7565,13 +7642,13 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Stable reason the method did not produce an option. - `eligibility_no_match`: The configured eligibility expression excluded the method. - `method_unavailable`: The method was unavailable for this evaluation. - `input_required`: The buyer or caller must provide more information to evaluate the method. - `checkout_context_required`: A checkout session is required to evaluate the method. - `preview_unsupported`: The method cannot be evaluated without a checkout session. - `dependency_failure`: Flint could not check whether the method is available. Values: `"eligibility_no_match"`, `"method_unavailable"`, `"input_required"`, `"checkout_context_required"`, `"preview_unsupported"`, `"dependency_failure"`. |
+| `code` | Required | string | Stable reason the method did not produce an option. - `eligibility_no_match`: The configured eligibility expression excluded the method. - `method_unavailable`: The method was unavailable for this evaluation. - `input_required`: The buyer or caller must provide more information to evaluate the method. - `checkout_context_required`: A checkout session is required to evaluate the method. - `dependency_failure`: Flint could not check whether the method is available. Values: `"eligibility_no_match"`, `"method_unavailable"`, `"input_required"`, `"checkout_context_required"`, `"dependency_failure"`. |
 | `delivery_method_id` | Optional | string |  |
 | `delivery_method_revision_id` | Optional | string |  |
 | `diagnostic_id` | Required | string |  |
 | `eligibility_mismatches` | Optional | Array of [DeliveryEligibilityMismatch](MODELS.md#deliveryeligibilitymismatch) | Configured eligibility predicates that conclusively rejected the method. Present only for eligibility_no_match. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `outcome` | Required | string | Values: `"unavailable"`, `"input_required"`, `"cannot_calculate"`, `"requires_checkout_context"`, `"unsupported_in_preview"`. |
+| `outcome` | Required | string | Values: `"unavailable"`, `"input_required"`, `"cannot_calculate"`, `"requires_checkout_context"`. |
 | `recommended_action` | Required | string | Values: `"review_configuration"`, `"provide_input"`, `"create_checkout"`, `"retry"`. |
 | `retryable` | Required | boolean |  |
 | `scope` | Required | string | Values: `"method"`. |
@@ -7592,7 +7669,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object | Caller-owned metadata. |
 | `name` | Required | string | Merchant-facing method name. |
-| `recommendation_priority` | Optional | integer | Higher values win recommendation tie-breaks. Format: `int32`. |
+| `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Required | string | Current method lifecycle status. Values: `"inactive"`, `"active"`, `"archived"`, `"revoked"`. |
 | `subscription_counts` | Required | [SubscriptionCounts](MODELS.md#subscriptioncounts) | Response only. |
 | `type` | Optional | string | Delivery mode this method offers. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
@@ -7610,7 +7687,6 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 | `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Required | [DeliveryEstimateRule](MODELS.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Required | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
-| `offer_windows` | Required | boolean | Whether buyers choose from enumerated schedule windows. Flint derives this value for new writes and returns it for stored-revision compatibility. |
 | `origin` | Required | [DeliveryMethodOriginSelector](MODELS.md#deliverymethodoriginselector) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. |
 | `pricing` | Required | [DeliveryPricingStrategy](MODELS.md#deliverypricingstrategy) | How Flint calculates the delivery charge. |
 | `public_details` | Optional | object | Buyer-visible structured details supplied by the merchant. |
@@ -7850,7 +7926,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `unit` | Required | string | Values: `"meters"`, `"kilometers"`, `"miles"`. |
+| `unit` | Required | string | Values: `"meter"`, `"kilometer"`, `"mile"`. |
 | `value` | Required | number | Maximum distance from the buyer location, greater than zero, in the selected unit. exclusiveMinimum: `0`. |
 
 ## DeliveryPickupAvailabilityMethodResource
@@ -7976,7 +8052,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | --- | --- | --- | --- |
 | `currency_options` | Required | object |  |
 | `delivery_rate_id` | Required | string |  |
-| `priority` | Required | integer | Format: `int32`. |
+| `priority` | Required | integer | Rates are checked from the highest priority to the lowest. The first matching rate sets the price. Priorities must be unique and at least 0. Format: `int32`. |
 | `when` | Optional | Alternative shapes (see declared variants) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 
 ## DeliveryPricingRateCreateRequest
@@ -7986,7 +8062,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `currency_options` | Required | object |  |
-| `priority` | Required | integer | Format: `int32`. |
+| `priority` | Required | integer | Rates are checked from the highest priority to the lowest. The first matching rate sets the price. Priorities must be unique and at least 0. Format: `int32`. |
 | `when` | Required | Alternative shapes (see declared variants) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 
 ## DeliveryPricingRateRequest
@@ -7997,7 +8073,7 @@ Variants: any, Alternative shapes (see declared variants), Alternative shapes (s
 | --- | --- | --- | --- |
 | `currency_options` | Required | object |  |
 | `delivery_rate_id` | Optional | string | Stable rate identifier returned by Flint. Include it when updating or retaining an existing rate. |
-| `priority` | Required | integer | Format: `int32`. |
+| `priority` | Required | integer | Rates are checked from the highest priority to the lowest. The first matching rate sets the price. Priorities must be unique and at least 0. Format: `int32`. |
 | `when` | Required | Alternative shapes (see declared variants) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 
 ## DeliveryPricingStrategy
@@ -8114,7 +8190,7 @@ Variants: any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_types` | Optional | Array of string | Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. |
 | `combination_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls which delivery obligations can share a choice group. Values: `"combine_when_compatible"`, `"separate_profile"`, `"separate_line_item"`, `"fulfill_alone"`. |
-| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional dimensions of one unit of the item. Delivery pricing does not use dimensions. Forbidden when requirement is none or resolution_mode is manual. |
 | `origin_policy` | Optional | [DeliveryProfileOriginPolicy](MODELS.md#deliveryprofileoriginpolicy) | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
 | `requirement` | Required | string | Whether delivery planning applies. none forbids every other configuration field. required also requires resolution_mode and allowed_types, plus the fields required by that resolution mode. Values: `"none"`, `"required"`. |
 | `resolution_mode` | Optional | string | Required when requirement is required. quote plans physical delivery and requires origin_policy, combination_policy, and splitting_policy. manual supports digital and service items and forbids physical planning fields. Values: `"quote"`, `"manual"`. |
@@ -8129,7 +8205,7 @@ Variants: any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_types` | Optional | Array of string | Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. minItems: `1`. |
 | `combination_policy` | Optional | string | Required for quote resolution and forbidden when requirement is none or resolution_mode is manual. Controls which delivery obligations can share a choice group. Values: `"combine_when_compatible"`, `"separate_profile"`, `"separate_line_item"`, `"fulfill_alone"`. |
-| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional physical dimensions used by quote planning. Forbidden when requirement is none or resolution_mode is manual. |
+| `dimensions` | Optional | [Dimensions](MODELS.md#dimensions) | Optional dimensions of one unit of the item. Delivery pricing does not use dimensions. Forbidden when requirement is none or resolution_mode is manual. |
 | `origin_policy` | Optional | [DeliveryProfileOriginPolicyRequest](MODELS.md#deliveryprofileoriginpolicyrequest) | Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. |
 | `requirement` | Optional | string | Whether delivery planning applies. none forbids every other configuration field. required also requires resolution_mode and allowed_types, plus the fields required by that resolution mode. Values: `"none"`, `"required"`. |
 | `resolution_mode` | Optional | string | Required when requirement is required. quote plans physical delivery and requires origin_policy, combination_policy, and splitting_policy. manual supports digital and service items and forbids physical planning fields. Values: `"quote"`, `"manual"`. |
@@ -8283,7 +8359,7 @@ Variants: any, any, any.
 | `description` | Optional | string |  |
 | `display_position` | Required | integer | Format: `int32`. |
 | `name` | Required | string |  |
-| `recommendation_priority` | Optional | integer | Format: `int32`. |
+| `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `type` | Required | string | Values: `"shipment"`, `"pickup"`, `"local_delivery"`. |
 
 ## DeliveryRadiusCondition
@@ -8361,11 +8437,22 @@ Only the keys you send change; keys you leave out keep their current values. Nul
 | `checked_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `delivery_rate_callback_id` | Required | string |  |
 | `delivery_rate_callback_revision_id` | Required | string |  |
-| `failure_category` | Optional | string | Values: `"connection_failed"`, `"authentication_or_http_error"`. |
+| `failure_category` | Optional | string | Why the callback connection check failed and the action that can make the next check succeed. - `authentication_or_http_error`: Return a 2xx status for a signed request. A 401 usually means the wrong secret or a body parsed before verification. - `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network policy. - `connection_error`: Restore network connectivity to the callback host, then test again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. - `invalid_response`: Return a 2xx application/json response within maximum_response_bytes. For a test delivery, the body must also follow the callback response rules. Then test again. - `request_error`: Flint couldn't complete the request for another reason. Check the URL and your server logs, then test again. - `timeout`: Acknowledge the callback within its configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again. Values: [8 declared values](#deliveryratecallbackconnectioncheck-failure_category-values). |
 | `http_status_code` | Optional | integer |  |
 | `key_id` | Required | string |  |
 | `latency_milliseconds` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `status` | Required | string | Values: `"succeeded"`, `"failed"`. |
+
+#### DeliveryRateCallbackConnectionCheck failure_category values
+
+- `"authentication_or_http_error"`
+- `"blocked_target"`
+- `"connection_error"`
+- `"dns_error"`
+- `"invalid_response"`
+- `"request_error"`
+- `"timeout"`
+- `"tls_error"`
 
 ## DeliveryRateCallbackConnectionCheckResponse
 
@@ -8426,12 +8513,23 @@ Only the keys you send change; keys you leave out keep their current values. Nul
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string |  |
 | `delivery_rate_callback_revision_id` | Required | string |  |
-| `failure_category` | Optional | string | Why the callback test failed and the action that can make the next test succeed. - `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network policy. - `connection_error`: Restore network connectivity to the callback host, then test again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. - `invalid_response`: Return the documented callback response status, headers, and JSON body, then test again. - `request_error`: Fix the callback request handling identified by the test result, then test again. - `timeout`: Acknowledge the callback within its configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again. Values: `"blocked_target"`, `"connection_error"`, `"dns_error"`, `"invalid_response"`, `"request_error"`, `"timeout"`, `"tls_error"`. |
+| `failure_category` | Optional | string | Why the callback test failed and the action that can make the next test succeed. - `authentication_or_http_error`: Return a 2xx status for a signed request. A 401 usually means the wrong secret or a body parsed before verification. - `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network policy. - `connection_error`: Restore network connectivity to the callback host, then test again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. - `invalid_response`: Return a 2xx application/json response within maximum_response_bytes. For a test delivery, the body must also follow the callback response rules. Then test again. - `request_error`: Flint couldn't complete the request for another reason. Check the URL and your server logs, then test again. - `timeout`: Acknowledge the callback within its configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again. Values: [8 declared values](#deliveryratecallbacktestdelivery-failure_category-values). |
 | `http_status_code` | Optional | integer |  |
 | `key_id` | Required | string |  |
 | `latency_milliseconds` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `status` | Required | string | Values: `"succeeded"`, `"failed"`. |
 | `tested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+#### DeliveryRateCallbackTestDelivery failure_category values
+
+- `"authentication_or_http_error"`
+- `"blocked_target"`
+- `"connection_error"`
+- `"dns_error"`
+- `"invalid_response"`
+- `"request_error"`
+- `"timeout"`
+- `"tls_error"`
 
 ## DeliveryRateCallbackTestDeliveryResponse
 
@@ -8534,7 +8632,7 @@ A typed revocation target. Each target_type accepts only its resource-specific i
 | `delivery_rate_callback_revision_id` | Optional | string |  |
 | `delivery_rate_callback_signing_key_id` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Required for delivery_method and delivery_rate_callback targets. The revocation resolves and permanently fences only the exact current revision at this stable-resource version. Omit it for exact revision, geography, and signing-key targets. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `location_geography_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `location_geography_revision` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `location_id` | Optional | string |  |
 | `target_type` | Required | string | Values: [6 declared values](#deliveryrevocationtarget-target_type-values). |
 
@@ -8556,7 +8654,6 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `availability` | Required | [DeliveryAvailability](MODELS.md#deliveryavailability) |  |
-| `offer_windows` | Required | boolean | Legacy stored-revision field. New method writes derive window selection from estimate.type. |
 
 ## DeliveryScheduleWindowRuleRequest
 
@@ -8722,7 +8819,7 @@ Variants: any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Values: `"destination_address"`, `"buyer_location"`. |
-| `values` | Required | Array of string | ISO 3166-2 subdivision codes, such as US-NY or DE-BY. For a US state or Canadian province you can send the two-letter code, such as NY or ON, and Flint stores US-NY or CA-ON. An address matches when its state names one of these subdivisions of its country, whether it was sent as NY, US-NY, or New York. |
+| `values` | Required | Array of string | ISO 3166-2 subdivision codes, such as US-NY or DE-BY. For a US state or Canadian province you can send the two-letter code, such as NY or ON, and Flint stores US-NY or CA-ON. USPS military codes AA, AE, and AP are also accepted and stored as US-AA, US-AE, and US-AP. An address matches when its state names one of these subdivisions of its country, whether it was sent as NY, US-NY, or New York. If the address country is listed by the condition but state names no subdivision of that country, the condition cannot be decided: the method or rate is left out as cannot_calculate (invalid_buyer_input). |
 
 ## DeliveryTieredPricingStrategy
 
@@ -9054,10 +9151,10 @@ Variants: any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `height` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `length` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `unit` | Required | string |  |
-| `width` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `height` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `length` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `unit` | Required | string | Length unit for length, width, and height. Use millimeter, centimeter, or inch. Values: `"millimeter"`, `"centimeter"`, `"inch"`. |
+| `width` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 
 ## DiscountPreview
 
@@ -9252,10 +9349,10 @@ Variants: any, any, any, any, any, any, any.
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errordetail-capability-values). |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#errordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1724 declared values](#errordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -9284,7 +9381,9 @@ Variants: any, any, any, any, any, any, any.
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_charge_id` | Optional | string | Existing order charge this failure concerns. Set when the order charge is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order charge. pattern: `^och_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_id` | Optional | string | Renewal order whose payment attempt failed. |
+| `order_line_item_id` | Optional | string | Existing order line item this failure concerns. Set when the order line item is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order line item. pattern: `^li_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Optional | string | Public JSON request field path associated with this failure, when applicable. |
@@ -9292,9 +9391,10 @@ Variants: any, any, any, any, any, any, any.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#errordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#errordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -9326,6 +9426,7 @@ Variants: any, any, any, any, any, any, any.
 - `"accept_card_payments"`
 - `"save_payment_methods"`
 - `"accept_affirm_payments"`
+- `"accept_ach_debit_payments"`
 - `"receive_payouts"`
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
@@ -9406,6 +9507,7 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_UNAVAILABLE"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -9652,6 +9754,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DELIVERY_QUOTE_REVOKED"`
 - `"DELIVERY_QUOTE_STALE"`
 - `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"DELIVERY_RECIPIENT_REQUIRED"`
 - `"DELIVERY_REQUEST_INVALID"`
 - `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
@@ -9701,6 +9804,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
 - `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FIELD"`
 - `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
@@ -9715,11 +9819,13 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_CALCULATION_ASSIGNMENT"`
 - `"DUPLICATE_TAX_COMPONENT"`
 - `"DUPLICATE_VALUE"`
 - `"EMAIL_ALREADY_LINKED"`
@@ -9779,6 +9885,7 @@ Variants: any, any, any, any, any, any, any.
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_NOT_ALLOWED"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
 - `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
@@ -9861,7 +9968,6 @@ Variants: any, any, any, any, any, any, any.
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
 - `"IDEMPOTENCY_KEY_REQUIRED"`
 - `"IDEMPOTENCY_KEY_REUSED"`
-- `"IDEMPOTENCY_KEY_TOO_LONG"`
 - `"IDEMPOTENCY_LOAD_FAILED"`
 - `"IDEMPOTENCY_PERSIST_FAILED"`
 - `"IDEMPOTENCY_RECORD_INVALID"`
@@ -9952,6 +10058,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKBOX_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
@@ -10064,7 +10171,6 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
 - `"INVALID_LINE_ITEM"`
-- `"INVALID_LINE_ITEMS"`
 - `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
 - `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
 - `"INVALID_LIST_ALIAS"`
@@ -10231,7 +10337,6 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
 - `"INVALID_TIP_PERCENTAGES_COUNT"`
-- `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
@@ -10402,6 +10507,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
 - `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_BILLING_SUSPENDED"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
 - `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
@@ -10411,6 +10517,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
+- `"MERCHANT_UNDER_REVIEW"`
 - `"METADATA_KEY_TOO_LONG"`
 - `"METADATA_TOO_LARGE"`
 - `"METADATA_TOO_MANY_KEYS"`
@@ -10523,6 +10630,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_LINKED_AMOUNT_NOT_UPDATABLE"`
 - `"ORDER_NOT_FOUND"`
 - `"ORDER_NOT_FULFILLABLE"`
 - `"ORDER_NOT_OPEN"`
@@ -10556,15 +10664,17 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
-- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_NOT_UPDATABLE"`
 - `"ORDER_TAX_RATE_UNAVAILABLE"`
 - `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTALS_UNAVAILABLE"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
 - `"ORGANIZATION_CYCLE"`
 - `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
 - `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORGANIZATION_NOT_ACTIVE"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
 - `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
 - `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
@@ -10609,6 +10719,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_BLOCKED"`
 - `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CLIENT_ACTION_UNAVAILABLE"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
 - `"PAYMENT_EXPIRED"`
@@ -10666,7 +10777,9 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_SCOPE_UNSUPPORTED"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_NOT_ENABLED"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
@@ -10771,12 +10884,14 @@ Variants: any, any, any, any, any, any, any.
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPEATED_QUERY_PARAM"`
 - `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
 - `"REPORT_INTERVAL_TOO_LARGE"`
 - `"REPORT_NOT_FOUND"`
+- `"REQUEST_BLOCKED"`
 - `"REQUEST_BODY_NOT_ALLOWED"`
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
@@ -10809,6 +10924,7 @@ Variants: any, any, any, any, any, any, any.
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
 - `"RETURN_SHIPMENT_INVALID"`
 - `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE"`
 - `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
@@ -10841,6 +10957,7 @@ Variants: any, any, any, any, any, any, any.
 - `"SANDBOX_INACTIVE"`
 - `"SANDBOX_LIST_FAILED"`
 - `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_FORBIDDEN"`
 - `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"SANDBOX_NOT_ACCESSIBLE"`
 - `"SANDBOX_NOT_FOUND"`
@@ -10854,6 +10971,7 @@ Variants: any, any, any, any, any, any, any.
 - `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_REQUIRES_FULL_PAYMENT"`
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
@@ -10964,15 +11082,18 @@ Variants: any, any, any, any, any, any, any.
 - `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_NOT_ALLOWED"`
 - `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_CATEGORY_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
-- `"TAX_MODE_MISMATCH"`
 - `"TAX_MONEY_REQUIRED"`
 - `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TEST_PROCESSOR_NOT_CONFIGURED"`
 - `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_EXCEEDS_AMOUNT"`
 - `"TIP_LIMIT_EXCEEDED"`
 - `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
@@ -11236,9 +11357,9 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#errorobject-capability-values). |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1704 declared values](#errorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1724 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -11261,15 +11382,18 @@ Variants: any, any, any, any, any, any, any.
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
+| `order_charge_id` | Optional | string | Existing order charge this failure concerns. Set when the order charge is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order charge. pattern: `^och_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_line_item_id` | Optional | string | Existing order line item this failure concerns. Set when the order line item is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order line item. pattern: `^li_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Optional | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE, repeated from the first item in details. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#errorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#errorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
@@ -11298,6 +11422,7 @@ Variants: any, any, any, any, any, any, any.
 - `"accept_card_payments"`
 - `"save_payment_methods"`
 - `"accept_affirm_payments"`
+- `"accept_ach_debit_payments"`
 - `"receive_payouts"`
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
@@ -11378,6 +11503,7 @@ Variants: any, any, any, any, any, any, any.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_UNAVAILABLE"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -11624,6 +11750,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DELIVERY_QUOTE_REVOKED"`
 - `"DELIVERY_QUOTE_STALE"`
 - `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"DELIVERY_RECIPIENT_REQUIRED"`
 - `"DELIVERY_REQUEST_INVALID"`
 - `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
@@ -11673,6 +11800,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
 - `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FIELD"`
 - `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
@@ -11687,11 +11815,13 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_CALCULATION_ASSIGNMENT"`
 - `"DUPLICATE_TAX_COMPONENT"`
 - `"DUPLICATE_VALUE"`
 - `"EMAIL_ALREADY_LINKED"`
@@ -11751,6 +11881,7 @@ Variants: any, any, any, any, any, any, any.
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_NOT_ALLOWED"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
 - `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
@@ -11833,7 +11964,6 @@ Variants: any, any, any, any, any, any, any.
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
 - `"IDEMPOTENCY_KEY_REQUIRED"`
 - `"IDEMPOTENCY_KEY_REUSED"`
-- `"IDEMPOTENCY_KEY_TOO_LONG"`
 - `"IDEMPOTENCY_LOAD_FAILED"`
 - `"IDEMPOTENCY_PERSIST_FAILED"`
 - `"IDEMPOTENCY_RECORD_INVALID"`
@@ -11924,6 +12054,7 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKBOX_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
@@ -12036,7 +12167,6 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
 - `"INVALID_LINE_ITEM"`
-- `"INVALID_LINE_ITEMS"`
 - `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
 - `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
 - `"INVALID_LIST_ALIAS"`
@@ -12203,7 +12333,6 @@ Variants: any, any, any, any, any, any, any.
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
 - `"INVALID_TIP_PERCENTAGES_COUNT"`
-- `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
@@ -12374,6 +12503,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
 - `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_BILLING_SUSPENDED"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
 - `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
@@ -12383,6 +12513,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
+- `"MERCHANT_UNDER_REVIEW"`
 - `"METADATA_KEY_TOO_LONG"`
 - `"METADATA_TOO_LARGE"`
 - `"METADATA_TOO_MANY_KEYS"`
@@ -12495,6 +12626,7 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_LINKED_AMOUNT_NOT_UPDATABLE"`
 - `"ORDER_NOT_FOUND"`
 - `"ORDER_NOT_FULFILLABLE"`
 - `"ORDER_NOT_OPEN"`
@@ -12528,15 +12660,17 @@ Variants: any, any, any, any, any, any, any.
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
-- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_NOT_UPDATABLE"`
 - `"ORDER_TAX_RATE_UNAVAILABLE"`
 - `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTALS_UNAVAILABLE"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
 - `"ORGANIZATION_CYCLE"`
 - `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
 - `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORGANIZATION_NOT_ACTIVE"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
 - `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
 - `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
@@ -12581,6 +12715,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_BLOCKED"`
 - `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CLIENT_ACTION_UNAVAILABLE"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
 - `"PAYMENT_EXPIRED"`
@@ -12638,7 +12773,9 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_SCOPE_UNSUPPORTED"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_NOT_ENABLED"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
@@ -12743,12 +12880,14 @@ Variants: any, any, any, any, any, any, any.
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPEATED_QUERY_PARAM"`
 - `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
 - `"REPORT_INTERVAL_TOO_LARGE"`
 - `"REPORT_NOT_FOUND"`
+- `"REQUEST_BLOCKED"`
 - `"REQUEST_BODY_NOT_ALLOWED"`
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
@@ -12781,6 +12920,7 @@ Variants: any, any, any, any, any, any, any.
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
 - `"RETURN_SHIPMENT_INVALID"`
 - `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE"`
 - `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
@@ -12813,6 +12953,7 @@ Variants: any, any, any, any, any, any, any.
 - `"SANDBOX_INACTIVE"`
 - `"SANDBOX_LIST_FAILED"`
 - `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_FORBIDDEN"`
 - `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"SANDBOX_NOT_ACCESSIBLE"`
 - `"SANDBOX_NOT_FOUND"`
@@ -12826,6 +12967,7 @@ Variants: any, any, any, any, any, any, any.
 - `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_REQUIRES_FULL_PAYMENT"`
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
@@ -12936,15 +13078,18 @@ Variants: any, any, any, any, any, any, any.
 - `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_NOT_ALLOWED"`
 - `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_CATEGORY_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
-- `"TAX_MODE_MISMATCH"`
 - `"TAX_MONEY_REQUIRED"`
 - `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TEST_PROCESSOR_NOT_CONFIGURED"`
 - `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_EXCEEDS_AMOUNT"`
 - `"TIP_LIMIT_EXCEEDED"`
 - `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
@@ -14224,71 +14369,9 @@ Variants: object, object, object, object, object, object, object, object, object
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [GetPaymentIntentResult](MODELS.md#getpaymentintentresult) |  |
+| `data` | Required | [PaymentIntentResult](MODELS.md#paymentintentresult) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
-
-## GetPaymentIntentResult
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `add_on_fees` | Optional | Array of [PaymentAddOnFee](MODELS.md#paymentaddonfee) | Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Response only. |
-| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `authorization_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `authorized_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `authorized_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Unknown processor values are returned as payment_canceled. Values: [8 declared values](#getpaymentintentresult-cancellation_reason-values). Response only. |
-| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `capture_method` | Optional | string | Values: `"automatic"`, `"manual"`. |
-| `captured_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `captured_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `current_payment_action` | Optional | [PendingPaymentAction](MODELS.md#pendingpaymentaction) | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
-| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `customer_id` | Optional | string |  |
-| `dispute_status` | Optional | string | Values: `"none"`, `"warning_needs_response"`, `"warning_under_review"`, `"warning_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`. Response only. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `fulfillment_hold` | Optional | [PaymentFulfillmentHold](MODELS.md#paymentfulfillmenthold) | Response only. |
-| `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `invoice_id` | Optional | string | Response only. |
-| `last_payment_error` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `merchant_id` | Optional | string | Response only. |
-| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
-| `metadata` | Optional | object |  |
-| `order` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `order_id` | Optional | string | Response only. |
-| `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
-| `payment_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) |  |
-| `payment_flow` | Required | string | Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Response only. |
-| `payment_intent_id` | Required | string | Response only. |
-| `payment_options` | Required | Array of string |  |
-| `payment_source` | Optional | [PaymentSourceSummary](MODELS.md#paymentsourcesummary) | Response only. |
-| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
-| `receipt_email` | Optional | string |  |
-| `refund_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `refunded_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `risk` | Optional | Alternative shapes (see declared variants) | Response only. |
-| `selected_payment_option` | Optional | string | Response only. |
-| `settlement_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`, `"disputed"`. Response only. |
-| `status` | Required | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. Response only. |
-| `support_reference` | Required | string | Opaque payment reference to share with merchant support. Do not parse its format. Response only. |
-| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `transaction_purpose` | Optional | string | Values: `"goods"`, `"services"`, `"other"`. |
-| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-
-#### GetPaymentIntentResult cancellation_reason values
-
-- `"requested_by_customer"`
-- `"duplicate"`
-- `"fraudulent"`
-- `"abandoned"`
-- `"authorization_expired"`
-- `"invoice_payment_failed"`
-- `"invoice_voided"`
-- `"payment_canceled"`
 
 ## GetReturnDispositionResponse
 
@@ -14689,7 +14772,7 @@ Independent funding resource. Value and consideration are separate. External fun
 | `refund_id` | Optional | string | Response only. |
 | `status` | Required | string | Values: `"pending"`, `"succeeded"`, `"failed"`. Response only. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Response only. |
-| `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocation](MODELS.md#giftcardpurchaserefundvalueallocation) | Actual value lots reserved or reversed for this original cash refund. Amounts use the parent value_money currency. Omitted when all value remains on the original load. Response only. |
+| `value_allocations` | Optional | Array of [GiftCardPurchaseRefundValueAllocation](MODELS.md#giftcardpurchaserefundvalueallocation) | Actual value lots reserved or reversed for this original cash refund. Omitted when all value remains on the original load. Response only. |
 | `value_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `version` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
 
@@ -14719,7 +14802,7 @@ Independent funding resource. Value and consideration are separate. External fun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `gift_card_id` | Required | string | Response only. |
 | `gift_card_load_id` | Required | string | Response only. |
 
@@ -14820,7 +14903,7 @@ Independent redemption resource. Operational reservations are separate from immu
 | --- | --- | --- | --- |
 | `original_consideration_money` | Required | Alternative shapes (see declared variants) | Response only. |
 | `original_created_at` | Required | string | Format: `date-time`. Response only. |
-| `original_source` | Required | any | Response only. |
+| `original_source` | Required | Alternative shapes (see declared variants) | Response only. |
 | `original_source_created_at` | Required | string or null | Format: `date-time`. Response only. |
 | `refund_allocation_id` | Required | string | Response only. |
 | `root_gift_card_id` | Required | string | Response only. |
@@ -15009,43 +15092,43 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook05810405f7d2Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook067bab7c655aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook06baf65fb878Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook0b04bd9d63dbPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook0caa82ed1aafPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook0d891c599afbPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook0d9fec82cba8Payload
 
@@ -15068,7 +15151,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook10de2029f92ePayload
 
@@ -15087,31 +15170,31 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook13640c439e38Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook14d267be17f3Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook155e0b06aa8fPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook172f57408f3aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook1824a72a4c81Payload
 
@@ -15134,7 +15217,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook1a6523f8bf80Payload
 
@@ -15157,31 +15240,31 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook1eb1077dc5faPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2100acf09455Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2111a23e6e7cPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook22d72673a8cdPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2410dfed959ePayload
 
@@ -15204,13 +15287,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook25a1d8aaa819Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook26154f9b0abbPayload
 
@@ -15233,67 +15316,67 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2786e5956695Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2841a4070c41Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2873f18b6724Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook28c5dc1777e5Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook28eb66b9f1a5Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook290918a8af6ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2aac621fe04ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2b16597f72aaPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook2c03ad91f156Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook30ac14eea065Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook31bad37575e1Payload
 
@@ -15316,7 +15399,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook335ccd991b2bPayload
 
@@ -15339,13 +15422,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3573c4463034Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook358012160ab8Payload
 
@@ -15385,13 +15468,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook38eda7a4e990Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook39300cef9ff7Payload
 
@@ -15431,19 +15514,19 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3ae537b058b5Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3b618fd743f5Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3b80f4a3f54aPayload
 
@@ -15466,7 +15549,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3dbc0a577678Payload
 
@@ -15489,7 +15572,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook3e2b96ab23f9Payload
 
@@ -15512,25 +15595,25 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook42dd85c73d6bPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook43a17bfb8144Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook44764240a51fPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook44e6923a1369Payload
 
@@ -15553,13 +15636,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook46209f173440Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook498370f9652cPayload
 
@@ -15582,13 +15665,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook525b56e32d02Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook527f9bd2c39dPayload
 
@@ -15611,7 +15694,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook54f564ce918cPayload
 
@@ -15634,13 +15717,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook566155358f70Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook587b04e915e2Payload
 
@@ -15663,25 +15746,25 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook58b33e47adbePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook5bf59a0e8b86Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook5de06b12da29Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook60391de8320bPayload
 
@@ -15704,43 +15787,43 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook622846acc8b6Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook63b2b06a26ecPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook63cd5f8b0721Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook64406eae7092Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook647f08b314c3Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook659c69fe23c6Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook66f11b3fe6a8Payload
 
@@ -15763,43 +15846,43 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook68e5035f44d1Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6a2a6e17495ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6abcc176d530Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6d96c0c875cdPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6e888acafb4bPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6ec2eb9e3a41Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook6f55e77725f4Payload
 
@@ -15822,73 +15905,73 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7216a23a3dddPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook72368f2647acPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7253fff5f748Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook72eec85cad89Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook769913a11504Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7730424c8474Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook78590778ef68Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7adf7ff33e7aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7bde345d1a10Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7c5df18e2269Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7cb66beed654Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7d17f7f10156Payload
 
@@ -15911,7 +15994,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook7dd2b7d6ef54Payload
 
@@ -15934,25 +16017,25 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook8172dd26545fPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook8364247aa322Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook848c73c96bfaPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook88596065c1b9Payload
 
@@ -16005,13 +16088,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook8c8f435e6e23Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook8d0ecb37ce13Payload
 
@@ -16051,61 +16134,61 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9123c6d282f9Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9647232e2632Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook968a85236406Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook96ad40704e72Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook96bb47deea93Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook96e4efc9dab0Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook97e2715bf986Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook98a976c72b8ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook993ba0d279b8Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9a3120a73ba6Payload
 
@@ -16128,67 +16211,67 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9b7963c3e444Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9d6f9adeef1cPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9f2c64cbfcafPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhook9f970012f914Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooka1881a33c0d8Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooka532d2deefcaPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooka9876afe4b94Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooka9d01c88ec13Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooka9f404707239Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookac68e02edc21Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookad7368dbf165Payload
 
@@ -16207,25 +16290,25 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb1293e1abb2aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb162e468fa9aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb1a2881c3c8dPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb1a3cccf875cPayload
 
@@ -16248,13 +16331,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb65376063a56Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookb78f9b55b73fPayload
 
@@ -16328,13 +16411,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookbca943d8a28aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookbd445ea5b01aPayload
 
@@ -16374,13 +16457,13 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc04d32fcb4e2Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc3ebf1cf7ec9Payload
 
@@ -16420,37 +16503,37 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc7c9c518e9d3Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc823e4336c4aPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc82943441c1dPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc8cb35576c0fPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookc8e851ec1b62Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookcbaf05798f54Payload
 
@@ -16469,7 +16552,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookcf769e4fa54cPayload
 
@@ -16492,19 +16575,19 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookcff5d1339489Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd299182c6639Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd2d184df8ba4Payload
 
@@ -16540,7 +16623,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd5a6f520dad7Payload
 
@@ -16580,31 +16663,31 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd7a01fed3e2fPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd7ae2aa49927Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookd8d5a73039b9Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookdb74c29bf1ffPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookdb9dd209977aPayload
 
@@ -16627,25 +16710,25 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookdc2332579846Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookdd77f0f69512Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookde0dbbc12385Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooke22691fcc424Payload
 
@@ -16664,7 +16747,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooke3b79e3983d2Payload
 
@@ -16687,7 +16770,7 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooke817b6292432Payload
 
@@ -16710,97 +16793,97 @@ Variants: any, any.
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookea0ef7d1c212Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookeab48bfd0932Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhooked8e7a89077ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookefe153a00c42Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookeff38a7dc9a0Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf2be10231857Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf4c208cc6c8ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf5b72c2a310ePayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf6f719ba2af4Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf93bed5b28a1Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookf9640e80dd75Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookfce7e0c4eba0Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookfcf5fa4b1850Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookfd258d9a47caPayload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## IncomingWebhookff9afffd27c6Payload
 
 
 
-Variants: any, any.
+Variants: object, object.
 
 ## InitialGiftCardFunding
 
@@ -16809,9 +16892,9 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `consideration_money` | Optional | Alternative shapes (see declared variants) |  |
-| `source` | Required | any |  |
+| `source` | Required | Alternative shapes (see declared variants) |  |
 | `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `value_money` | Required | any |  |
+| `value_money` | Required | object |  |
 
 Variants: any, any.
 
@@ -17539,10 +17622,10 @@ Variants: object, object, object.
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1704 declared values](#inventorytransferactionconflicterrordetail-code-values). |
+| `code` | Required | string | Stable Flint error code for this item. Every value is listed in the operation's x-flint-error-codes. Values: [1724 declared values](#inventorytransferactionconflicterrordetail-code-values). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -17571,7 +17654,9 @@ Variants: object, object, object.
 | `location_outcome` | Optional | string | On INVENTORY_LOCATION_INELIGIBLE, the routing outcome for the Location in location_id: for the demand in demand_key when present, otherwise for every demand. Values: `"ineligible"`. |
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation of this failure for your logs. The wording can change, so branch on code. |
+| `order_charge_id` | Optional | string | Existing order charge this failure concerns. Set when the order charge is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order charge. pattern: `^och_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_id` | Optional | string | Renewal order whose payment attempt failed. |
+| `order_line_item_id` | Optional | string | Existing order line item this failure concerns. Set when the order line item is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order line item. pattern: `^li_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Required | string | Public JSON request field path associated with this failure, when applicable. |
@@ -17579,9 +17664,10 @@ Variants: object, object, object.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -17613,6 +17699,7 @@ Variants: object, object, object.
 - `"accept_card_payments"`
 - `"save_payment_methods"`
 - `"accept_affirm_payments"`
+- `"accept_ach_debit_payments"`
 - `"receive_payouts"`
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
@@ -17693,6 +17780,7 @@ Variants: object, object, object.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_UNAVAILABLE"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -17939,6 +18027,7 @@ Variants: object, object, object.
 - `"DELIVERY_QUOTE_REVOKED"`
 - `"DELIVERY_QUOTE_STALE"`
 - `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"DELIVERY_RECIPIENT_REQUIRED"`
 - `"DELIVERY_REQUEST_INVALID"`
 - `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
@@ -17988,6 +18077,7 @@ Variants: object, object, object.
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
 - `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FIELD"`
 - `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
@@ -18002,11 +18092,13 @@ Variants: object, object, object.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_CALCULATION_ASSIGNMENT"`
 - `"DUPLICATE_TAX_COMPONENT"`
 - `"DUPLICATE_VALUE"`
 - `"EMAIL_ALREADY_LINKED"`
@@ -18066,6 +18158,7 @@ Variants: object, object, object.
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_NOT_ALLOWED"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
 - `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
@@ -18148,7 +18241,6 @@ Variants: object, object, object.
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
 - `"IDEMPOTENCY_KEY_REQUIRED"`
 - `"IDEMPOTENCY_KEY_REUSED"`
-- `"IDEMPOTENCY_KEY_TOO_LONG"`
 - `"IDEMPOTENCY_LOAD_FAILED"`
 - `"IDEMPOTENCY_PERSIST_FAILED"`
 - `"IDEMPOTENCY_RECORD_INVALID"`
@@ -18239,6 +18331,7 @@ Variants: object, object, object.
 - `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKBOX_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
@@ -18351,7 +18444,6 @@ Variants: object, object, object.
 - `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
 - `"INVALID_LINE_ITEM"`
-- `"INVALID_LINE_ITEMS"`
 - `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
 - `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
 - `"INVALID_LIST_ALIAS"`
@@ -18518,7 +18610,6 @@ Variants: object, object, object.
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
 - `"INVALID_TIP_PERCENTAGES_COUNT"`
-- `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
@@ -18689,6 +18780,7 @@ Variants: object, object, object.
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
 - `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_BILLING_SUSPENDED"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
 - `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
@@ -18698,6 +18790,7 @@ Variants: object, object, object.
 - `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
+- `"MERCHANT_UNDER_REVIEW"`
 - `"METADATA_KEY_TOO_LONG"`
 - `"METADATA_TOO_LARGE"`
 - `"METADATA_TOO_MANY_KEYS"`
@@ -18810,6 +18903,7 @@ Variants: object, object, object.
 - `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_LINKED_AMOUNT_NOT_UPDATABLE"`
 - `"ORDER_NOT_FOUND"`
 - `"ORDER_NOT_FULFILLABLE"`
 - `"ORDER_NOT_OPEN"`
@@ -18843,15 +18937,17 @@ Variants: object, object, object.
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
-- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_NOT_UPDATABLE"`
 - `"ORDER_TAX_RATE_UNAVAILABLE"`
 - `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTALS_UNAVAILABLE"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
 - `"ORGANIZATION_CYCLE"`
 - `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
 - `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORGANIZATION_NOT_ACTIVE"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
 - `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
 - `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
@@ -18896,6 +18992,7 @@ Variants: object, object, object.
 - `"PAYMENT_BLOCKED"`
 - `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CLIENT_ACTION_UNAVAILABLE"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
 - `"PAYMENT_EXPIRED"`
@@ -18953,7 +19050,9 @@ Variants: object, object, object.
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_SCOPE_UNSUPPORTED"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_NOT_ENABLED"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
@@ -19058,12 +19157,14 @@ Variants: object, object, object.
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPEATED_QUERY_PARAM"`
 - `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
 - `"REPORT_INTERVAL_TOO_LARGE"`
 - `"REPORT_NOT_FOUND"`
+- `"REQUEST_BLOCKED"`
 - `"REQUEST_BODY_NOT_ALLOWED"`
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
@@ -19096,6 +19197,7 @@ Variants: object, object, object.
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
 - `"RETURN_SHIPMENT_INVALID"`
 - `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE"`
 - `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
@@ -19128,6 +19230,7 @@ Variants: object, object, object.
 - `"SANDBOX_INACTIVE"`
 - `"SANDBOX_LIST_FAILED"`
 - `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_FORBIDDEN"`
 - `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"SANDBOX_NOT_ACCESSIBLE"`
 - `"SANDBOX_NOT_FOUND"`
@@ -19141,6 +19244,7 @@ Variants: object, object, object.
 - `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_REQUIRES_FULL_PAYMENT"`
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
@@ -19251,15 +19355,18 @@ Variants: object, object, object.
 - `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_NOT_ALLOWED"`
 - `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_CATEGORY_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
-- `"TAX_MODE_MISMATCH"`
 - `"TAX_MONEY_REQUIRED"`
 - `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TEST_PROCESSOR_NOT_CONFIGURED"`
 - `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_EXCEEDS_AMOUNT"`
 - `"TIP_LIMIT_EXCEEDED"`
 - `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
@@ -19523,9 +19630,9 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
-| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1704 declared values](#inventorytransferactionconflicterrorobject-code-values). |
+| `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1724 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
@@ -19548,15 +19655,18 @@ Variants: object, object, object.
 | `maximum_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Maximum money amount accepted by the failed validation, calculated from the current resource state. |
 | `message` | Required | string | Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is. |
 | `missing_scopes` | Optional | Array of string | Unsatisfied entries from scope_requirement after write-implies-read evaluation. Example: `["accounts.api_keys.write"]`. |
+| `order_charge_id` | Optional | string | Existing order charge this failure concerns. Set when the order charge is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order charge. pattern: `^och_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_line_item_id` | Optional | string | Existing order line item this failure concerns. Set when the order line item is already on the order; when the request body does not contain it, param is omitted and remediation.missing_or_invalid_fields lists paths relative to this order line item. pattern: `^li_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `order_payment_attempt_id` | Optional | string | ID of the order payment attempt this error concerns. On ORDER_PAYMENT_ATTEMPT_ACTIVE, the order's active payment attempt. On PAYMENT_ATTEMPT_NOT_RESUMABLE, the order payment attempt that can no longer be resumed. On PAYMENT_ATTEMPT_ID_REQUIRED and PAYMENT_ATTEMPT_MISMATCH, the order payment attempt that owns the payment intent; send it as order_payment_attempt_id. |
 | `order_revision` | Optional | exact numeric string | Current order_revision on ORDER_CHANGED_REFRESH_REQUIRED when param is order_revision. Read the order again before retrying the update. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. Response only. |
 | `param` | Required | string | Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field. |
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE, repeated from the first item in details. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
@@ -19585,6 +19695,7 @@ Variants: object, object, object.
 - `"accept_card_payments"`
 - `"save_payment_methods"`
 - `"accept_affirm_payments"`
+- `"accept_ach_debit_payments"`
 - `"receive_payouts"`
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
@@ -19665,6 +19776,7 @@ Variants: object, object, object.
 - `"AUTOMATIC_TAX_PARTIAL_PAYMENT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_POST_TAX_DISCOUNT_UNSUPPORTED"`
 - `"AUTOMATIC_TAX_SPLIT_PAYMENT_UNSUPPORTED"`
+- `"AUTOMATIC_TAX_UNAVAILABLE"`
 - `"BALANCE_SNAPSHOT_UNAVAILABLE"`
 - `"BALANCE_SOURCE_TYPE_REQUIRED"`
 - `"BALANCE_TRANSACTION_NOT_FOUND"`
@@ -19911,6 +20023,7 @@ Variants: object, object, object.
 - `"DELIVERY_QUOTE_REVOKED"`
 - `"DELIVERY_QUOTE_STALE"`
 - `"DELIVERY_QUOTE_UNAVAILABLE"`
+- `"DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE"`
 - `"DELIVERY_RECIPIENT_REQUIRED"`
 - `"DELIVERY_REQUEST_INVALID"`
 - `"DELIVERY_RESOURCE_HAS_DEPENDENCIES"`
@@ -19960,6 +20073,7 @@ Variants: object, object, object.
 - `"DUPLICATE_CODE"`
 - `"DUPLICATE_COMPONENT_VARIANT"`
 - `"DUPLICATE_CUSTOM_FIELD_KEY"`
+- `"DUPLICATE_FIELD"`
 - `"DUPLICATE_FULFILLMENT_LINE_ITEM"`
 - `"DUPLICATE_IMAGE_EXTERNAL_REFERENCE_ID"`
 - `"DUPLICATE_IMAGE_SOURCE"`
@@ -19974,11 +20088,13 @@ Variants: object, object, object.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"DUPLICATE_PAYMENT_OPTION_LIMIT"`
 - `"DUPLICATE_SCOPE"`
 - `"DUPLICATE_TAX_BREAKDOWN_REFUND"`
+- `"DUPLICATE_TAX_CALCULATION_ASSIGNMENT"`
 - `"DUPLICATE_TAX_COMPONENT"`
 - `"DUPLICATE_VALUE"`
 - `"EMAIL_ALREADY_LINKED"`
@@ -20038,6 +20154,7 @@ Variants: object, object, object.
 - `"FULFILLMENT_COMPLETED"`
 - `"FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_CONFLICT"`
+- `"FULFILLMENT_COMPLETION_TIMESTAMP_NOT_ALLOWED"`
 - `"FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE"`
 - `"FULFILLMENT_CONFIGURATION_ACTION_REQUIRED"`
 - `"FULFILLMENT_DETAILS_TYPE_MISMATCH"`
@@ -20120,7 +20237,6 @@ Variants: object, object, object.
 - `"IDEMPOTENCY_KEY_IN_PROGRESS"`
 - `"IDEMPOTENCY_KEY_REQUIRED"`
 - `"IDEMPOTENCY_KEY_REUSED"`
-- `"IDEMPOTENCY_KEY_TOO_LONG"`
 - `"IDEMPOTENCY_LOAD_FAILED"`
 - `"IDEMPOTENCY_PERSIST_FAILED"`
 - `"IDEMPOTENCY_RECORD_INVALID"`
@@ -20211,6 +20327,7 @@ Variants: object, object, object.
 - `"INVALID_CHARGE_REFUND_AMOUNT"`
 - `"INVALID_CHARGE_TYPE"`
 - `"INVALID_CHARGE_VALUE"`
+- `"INVALID_CHECKBOX_VALUE"`
 - `"INVALID_CHECKOUT_SESSION"`
 - `"INVALID_CHECKOUT_SURFACE"`
 - `"INVALID_CODE"`
@@ -20323,7 +20440,6 @@ Variants: object, object, object.
 - `"INVALID_INVOICE_TIMEZONE"`
 - `"INVALID_JSON"`
 - `"INVALID_LINE_ITEM"`
-- `"INVALID_LINE_ITEMS"`
 - `"INVALID_LINE_ITEM_REFUND_AMOUNT"`
 - `"INVALID_LINE_ITEM_REFUND_QUANTITY"`
 - `"INVALID_LIST_ALIAS"`
@@ -20490,7 +20606,6 @@ Variants: object, object, object.
 - `"INVALID_TIP_AMOUNT"`
 - `"INVALID_TIP_PERCENT"`
 - `"INVALID_TIP_PERCENTAGES_COUNT"`
-- `"INVALID_TOTALS"`
 - `"INVALID_TRANSACTION_PURPOSE"`
 - `"INVALID_TYPE"`
 - `"INVALID_UPDATED_AFTER"`
@@ -20661,6 +20776,7 @@ Variants: object, object, object.
 - `"MERCHANT_ACCOUNT_SESSION_UNAVAILABLE"`
 - `"MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID"`
 - `"MERCHANT_ADDRESS_INCOMPLETE"`
+- `"MERCHANT_BILLING_SUSPENDED"`
 - `"MERCHANT_CHANGED"`
 - `"MERCHANT_CONTEXT_MISSING"`
 - `"MERCHANT_ENVIRONMENT_NOT_FOUND"`
@@ -20670,6 +20786,7 @@ Variants: object, object, object.
 - `"MERCHANT_PROCESSING_RESTRICTED"`
 - `"MERCHANT_READINESS_UNAVAILABLE"`
 - `"MERCHANT_SELECTION_REQUIRED"`
+- `"MERCHANT_UNDER_REVIEW"`
 - `"METADATA_KEY_TOO_LONG"`
 - `"METADATA_TOO_LARGE"`
 - `"METADATA_TOO_MANY_KEYS"`
@@ -20782,6 +20899,7 @@ Variants: object, object, object.
 - `"ORDER_LINE_ITEM_NOT_FOUND"`
 - `"ORDER_LINE_ITEM_TAX_INPUT_REQUIRED"`
 - `"ORDER_LINE_ITEM_VERSION_CONFLICT"`
+- `"ORDER_LINKED_AMOUNT_NOT_UPDATABLE"`
 - `"ORDER_NOT_FOUND"`
 - `"ORDER_NOT_FULFILLABLE"`
 - `"ORDER_NOT_OPEN"`
@@ -20815,15 +20933,17 @@ Variants: object, object, object.
 - `"ORDER_TAX_LOCATION_INVALID"`
 - `"ORDER_TAX_LOCATION_REQUIRED"`
 - `"ORDER_TAX_NOT_READY"`
-- `"ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT"`
+- `"ORDER_TAX_NOT_UPDATABLE"`
 - `"ORDER_TAX_RATE_UNAVAILABLE"`
 - `"ORDER_TAX_UNSUPPORTED_COUNTRY"`
 - `"ORDER_TIP_MODEL_UNSUPPORTED"`
+- `"ORDER_TOTALS_UNAVAILABLE"`
 - `"ORDER_TOTAL_BELOW_NET_COLLECTED"`
 - `"ORDER_UNAVAILABLE"`
 - `"ORGANIZATION_CYCLE"`
 - `"ORGANIZATION_HAS_ACTIVE_DESCENDANTS"`
 - `"ORGANIZATION_LINKED_TO_MERCHANT"`
+- `"ORGANIZATION_NOT_ACTIVE"`
 - `"ORG_SCOPE_RESOLUTION_FAILED"`
 - `"OUTBOUND_PACKAGE_RETURN_FIELDS_FORBIDDEN"`
 - `"OUTBOUND_SHIPMENT_RETURN_FIELDS_FORBIDDEN"`
@@ -20868,6 +20988,7 @@ Variants: object, object, object.
 - `"PAYMENT_BLOCKED"`
 - `"PAYMENT_CANCELED"`
 - `"PAYMENT_CAPTURE_METHOD_NOT_ALLOWED"`
+- `"PAYMENT_CLIENT_ACTION_UNAVAILABLE"`
 - `"PAYMENT_CONFIRMATION_STATE_CHANGED"`
 - `"PAYMENT_CONFIRM_IN_PROGRESS"`
 - `"PAYMENT_EXPIRED"`
@@ -20925,7 +21046,9 @@ Variants: object, object, object.
 - `"PAYMENT_OPTION_NOT_ALLOWED"`
 - `"PAYMENT_OPTION_NOT_READY"`
 - `"PAYMENT_OPTION_RESOLVE_FAILED"`
+- `"PAYMENT_OPTION_SCOPE_UNSUPPORTED"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
+- `"PAYMENT_PROCESSING_NOT_ENABLED"`
 - `"PAYMENT_PROCESSING_UNAVAILABLE"`
 - `"PAYMENT_PROCESSOR_ERROR"`
 - `"PAYMENT_PROCESSOR_REJECTED"`
@@ -21030,12 +21153,14 @@ Variants: object, object, object.
 - `"REFUND_TENDER_NOT_FOUND"`
 - `"RELATED_OBJECT_ID_UNSUPPORTED_FOR_TYPE"`
 - `"RELATED_OBJECT_TYPE_REQUIRED"`
+- `"REPEATED_QUERY_PARAM"`
 - `"REPORTING_TIMEZONE_REQUIRED"`
 - `"REPORTING_UNAVAILABLE"`
 - `"REPORT_DOWNLOAD_EXPIRED"`
 - `"REPORT_INTERVAL_INCOMPLETE"`
 - `"REPORT_INTERVAL_TOO_LARGE"`
 - `"REPORT_NOT_FOUND"`
+- `"REQUEST_BLOCKED"`
 - `"REQUEST_BODY_NOT_ALLOWED"`
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_FAILED"`
@@ -21068,6 +21193,7 @@ Variants: object, object, object.
 - `"RETURN_RECEIPT_QUANTITY_EXCEEDED"`
 - `"RETURN_SHIPMENT_INVALID"`
 - `"RETURN_SHIPMENT_LINE_ITEMS_REQUIRED"`
+- `"RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE"`
 - `"RETURN_SHIPMENT_QUANTITY_INVALID"`
 - `"RETURN_VALUE_EXCEEDED"`
 - `"RETURN_VERSION_CONFLICT"`
@@ -21100,6 +21226,7 @@ Variants: object, object, object.
 - `"SANDBOX_INACTIVE"`
 - `"SANDBOX_LIST_FAILED"`
 - `"SANDBOX_LOOKUP_FAILED"`
+- `"SANDBOX_MANAGEMENT_FORBIDDEN"`
 - `"SANDBOX_MANAGEMENT_REQUIRES_LIVE_KEY"`
 - `"SANDBOX_NOT_ACCESSIBLE"`
 - `"SANDBOX_NOT_FOUND"`
@@ -21113,6 +21240,7 @@ Variants: object, object, object.
 - `"SAVE_PAYMENT_METHOD_PHONE_INVALID"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_ALLOWED"`
 - `"SAVE_PAYMENT_METHOD_PHONE_NOT_OFFERED"`
+- `"SAVE_PAYMENT_METHOD_REQUIRES_FULL_PAYMENT"`
 - `"SAVE_PAYMENT_METHOD_TOKEN_MISMATCH"`
 - `"SAVE_PAYMENT_METHOD_UNSUPPORTED"`
 - `"SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED"`
@@ -21223,15 +21351,18 @@ Variants: object, object, object.
 - `"TAX_BREAKDOWN_REFUND_TOTAL_MISMATCH"`
 - `"TAX_BREAKDOWN_TARGETS_EXCEED_REFUND_AMOUNT"`
 - `"TAX_BREAKDOWN_UNAVAILABLE"`
+- `"TAX_CALCULATION_NOT_ALLOWED"`
 - `"TAX_CALCULATION_REQUIRED"`
+- `"TAX_CATEGORY_REQUIRED"`
 - `"TAX_INPUT_CONFLICT"`
-- `"TAX_MODE_MISMATCH"`
 - `"TAX_MONEY_REQUIRED"`
 - `"TAX_MONEY_REQUIRES_EXPLICIT_MODE"`
 - `"TAX_REFUND_EXCEEDS_AUTOMATIC"`
+- `"TEST_PROCESSOR_NOT_CONFIGURED"`
 - `"TICKET_PREFIX_TOO_LONG"`
 - `"TIP_ALLOCATION_CAPACITY_EXCEEDED"`
 - `"TIP_CURRENCY_MISMATCH"`
+- `"TIP_EXCEEDS_AMOUNT"`
 - `"TIP_LIMIT_EXCEEDED"`
 - `"TOO_MANY_CUSTOM_FIELDS"`
 - `"TOO_MANY_LINE_ITEMS"`
@@ -21455,7 +21586,7 @@ Variants: object, object, object.
 
 
 
-Variants: object, any.
+Variants: object, object.
 
 ## InventoryTransferLine
 
@@ -21868,7 +21999,7 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `cancellation_requested_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `cancellation_requested_at` | Optional | string | When cancellation of this attempt was last requested. It stays set when Stripe refuses the cancellation or the payment settles first, so read status and canceled_at for the outcome. Format: `date-time`. |
 | `checkout_session_id` | Optional | string |  |
 | `expected_amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `expected_settlement_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -22064,7 +22195,18 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `due_at` | Optional | string | When this entry is due. Always set for `date`. For `at_issue` and `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: `date-time`. |
+| `type` | Required | string | Values: `"at_issue"`, `"date"`, `"invoice_due_date"`. |
+
+Variants: any, any, any.
+
+## InvoiceScheduleDueWrite
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `due_at` | Optional | string | When this entry is due. Required for `date`. Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format: `date-time`. |
 | `type` | Required | string | Values: `"at_issue"`, `"date"`, `"invoice_due_date"`. |
 
 Variants: any, any, any.
@@ -22093,7 +22235,7 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_specification` | Required | [InvoiceScheduleAmountSpecification](MODELS.md#invoicescheduleamountspecification) |  |
-| `due` | Required | [InvoiceScheduleDue](MODELS.md#invoicescheduledue) |  |
+| `due` | Required | [InvoiceScheduleDueWrite](MODELS.md#invoicescheduleduewrite) |  |
 | `invoice_schedule_entry_id` | Optional | string |  |
 | `kind` | Required | string | Values: `"deposit"`, `"installment"`, `"balance"`. |
 
@@ -22300,10 +22442,10 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `height` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `length` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `unit` | Required | string |  |
-| `width` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `height` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `length` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
+| `unit` | Required | string | Length unit for length, width, and height. Use millimeter, centimeter, or inch. Values: `"millimeter"`, `"centimeter"`, `"inch"`. |
+| `width` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 
 ## LineItemFulfillmentWeightRequest
 
@@ -22577,7 +22719,6 @@ An independent card saved with Flint that the current buyer can set up at this s
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `data` | Required | Array of [MeFlintWalletCard](MODELS.md#meflintwalletcard) |  |
-| `has_more` | Required | boolean | Always false. This operation returns the full usable card collection. Values: `false`. Response only. |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Required | string |  |
 
@@ -22791,7 +22932,7 @@ Current Flint merchant billing balance for one billing account and currency.
 | --- | --- | --- | --- |
 | `next_actions` | Required | Array of [NextAction](MODELS.md#nextaction) |  |
 | `status` | Required | string | Values: `"ready"`, `"blocked"`, `"pending"`, `"not_available"`, `"not_requested"`. |
-| `status_reason` | Optional | string or null | Values: [7 declared values](#merchantreadinessaxis-status_reason-values). |
+| `status_reason` | Optional | string or null | Values: [12 declared values](#merchantreadinessaxis-status_reason-values). |
 
 #### MerchantReadinessAxis status_reason values
 
@@ -22801,6 +22942,11 @@ Current Flint merchant billing balance for one billing account and currency.
 - `"disabled_by_platform_policy"`
 - `"service_unavailable"`
 - `"onboarding_not_started"`
+- `"billing_suspended"`
+- `"platform_review"`
+- `"processing_not_enabled"`
+- `"platform_funding_unavailable"`
+- `"tax_category_required"`
 - `null`
 
 ## MerchantReadinessRequirements
@@ -23963,10 +24109,10 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
-| `description` | Optional | string |  |
+| `description` | Optional | string | maxLength: `2048`. |
 | `fulfillment_id` | Optional | string |  |
 | `metadata` | Optional | object |  |
-| `name` | Required | string |  |
+| `name` | Required | string | maxLength: `255`. |
 | `percent` | Optional | number | multipleOf: `0.0001`. |
 | `tax` | Optional | [OrderCalculatedChargeTax](MODELS.md#ordercalculatedchargetax) |  |
 | `type` | Required | string | Values: [17 declared values](#orderchargerequest-type-values). |
@@ -23992,6 +24138,15 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 - `"other"`
 
 Variants: any, any.
+
+## OrderChargeTaxAssignment
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Required | [TaxCalculationRequest](MODELS.md#taxcalculationrequest) |  |
+| `order_charge_id` | Required | string |  |
 
 ## OrderDeliveryDestination
 
@@ -24028,8 +24183,8 @@ Variants: any, any.
 | `country` | Required | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. |
 | `line1` | Required | string | minLength: `1`. maxLength: `255`. pattern: `\S`. |
 | `line2` | Optional | string | maxLength: `255`. |
-| `postal_code` | Optional | string | Postal code when used by the destination country's postal format. maxLength: `20`. |
-| `state` | Optional | string | State, province, or region when used by the destination country's postal format. maxLength: `100`. |
+| `postal_code` | Optional | string | Required for US addresses. Postal code when used by the destination country's postal format. maxLength: `20`. |
+| `state` | Optional | string | Required for US addresses. State, province, or region when used by the destination country's postal format. maxLength: `100`. |
 
 ## OrderDeliveryDestinationRecipient
 
@@ -24075,11 +24230,8 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `components` | Optional | Array of [OrderDraftTaxComponentRequest](MODELS.md#orderdrafttaxcomponentrequest) | minItems: `1`. |
-| `mode` | Required | string | Values: `"automatic"`, `"external"`. |
+| `components` | Required | Array of [OrderDraftTaxComponentRequest](MODELS.md#orderdrafttaxcomponentrequest) | minItems: `1`. |
 | `price_mode` | Required | string | Values: `"additive"`, `"inclusive"`. |
-
-Variants: any, any.
 
 ## OrderDraftLineItemTaxRequest
 
@@ -24296,6 +24448,15 @@ Variants: any, any.
 - `"medical_goods"`
 - `"admission"`
 
+## OrderLineItemTaxAssignment
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Required | [TaxCalculationRequest](MODELS.md#taxcalculationrequest) |  |
+| `order_line_item_id` | Required | string |  |
+
 ## OrderLineSubscriptionOfferDiscount
 
 
@@ -24342,6 +24503,7 @@ Variants: any, any.
 | `mode` | Required | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
 | `order_payment_attempt_id` | Required | string |  |
 | `payment_intents` | Optional | Array of [PaymentAttemptPaymentIntent](MODELS.md#paymentattemptpaymentintent) |  |
+| `payment_method_save` | Optional | [OrderPaymentAttemptPaymentMethodSave](MODELS.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card saved with a mobile phone number. |
 | `pending_actions` | Optional | Array of [PendingPaymentAction](MODELS.md#pendingpaymentaction) |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `status` | Required | string | Values: [10 declared values](#orderpaymentattempt-status-values). |
@@ -24427,6 +24589,15 @@ Variants: any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `next_page_token` | Optional | string |  |
 | `request_id` | Optional | string |  |
+
+## OrderPaymentAttemptPaymentMethodSave
+
+What became of the buyer's save_payment_method. The payment does not depend on it.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `reason` | Required | string | payment_method_not_saveable: the buyer paid with Apple Pay, Google Pay, a bank account, or Affirm, and checkout saves only a card typed into it; save_payment_method_types on the checkout session lists what it saves. other: a reason this API version does not name. The values can grow. Values: `"payment_method_not_saveable"`, `"other"`. |
+| `status` | Required | string | not_saved: the payment went ahead without saving the payment method. The values can grow. Values: `"not_saved"`. |
 
 ## OrderPaymentAttemptResponse
 
@@ -24516,12 +24687,12 @@ Variants: any, any.
 | `available_location_inputs` | Optional | Array of string |  |
 | `enabled` | Required | boolean |  |
 | `exemption` | Optional | [OrderTaxExemption](MODELS.md#ordertaxexemption) |  |
-| `failure_reason` | Optional | string | Normalized reason the most recent tax calculation could not complete. Values: `"calculation_unavailable"`, `"location_unsupported"`, `"rate_unavailable"`. |
+| `failure_reason` | Optional | string | Normalized reason the most recent tax calculation could not complete. Values: `"calculation_unavailable"`. |
 | `location` | Optional | [OrderTaxLocation](MODELS.md#ordertaxlocation) |  |
 | `mode` | Required | string | Values: `"automatic"`, `"external"`. |
 | `status` | Required | string | Values: `"not_required"`, `"requires_location"`, `"calculated"`, `"exempt"`, `"incomplete"`. |
 | `tax_breakdowns` | Optional | Array of [TaxBreakdown](MODELS.md#taxbreakdown) |  |
-| `taxability_reason` | Required | string | Explains why tax was charged or zero for this order. Values: `"standard_rated"`, `"not_taxable"`, `"customer_exempt"`, `"tax_disabled"`, `"no_jurisdiction"`, `"location_required"`. |
+| `taxability_reason` | Required | string | Explains why tax was charged or zero for this order. Values: `"standard_rated"`, `"not_taxable"`, `"customer_exempt"`, `"tax_disabled"`, `"location_required"`, `"calculation_incomplete"`. |
 
 ## OrderTaxCalculationRequest
 
@@ -24542,7 +24713,7 @@ Variants: object, Alternative shapes (see declared variants).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `calculation_type` | Optional | string | Values: `"flat_amount"`. |
-| `flat_money` | Required | any | Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise, Flint returns INVALID_FLAT_TAX. |
+| `flat_money` | Required | object | Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise, Flint returns INVALID_FLAT_TAX. |
 | `jurisdiction` | Required | [OrderTaxJurisdictionRequest](MODELS.md#ordertaxjurisdictionrequest) |  |
 | `percent` | Optional | number | multipleOf: `0.0001`. |
 | `tax_type` | Optional | string | Values: `"retail_delivery_fee"`. |
@@ -24657,6 +24828,20 @@ Variants: object, object, object, object.
 | --- | --- | --- | --- |
 | `calculation` | Optional | [OrderTaxCalculationRequest](MODELS.md#ordertaxcalculationrequest) |  |
 | `enabled` | Optional | boolean |  |
+| `location` | Optional | [OrderTaxLocationRequest](MODELS.md#ordertaxlocationrequest) |  |
+
+Variants: any, any.
+
+## OrderTaxUpdateRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Optional | [OrderTaxCalculationRequest](MODELS.md#ordertaxcalculationrequest) |  |
+| `charge_calculations` | Optional | Array of [OrderChargeTaxAssignment](MODELS.md#orderchargetaxassignment) | Replace calculations for the listed components and keep unlisted calculations. Allowed only when the order uses external tax, including a switch in this request. Settled components cannot be changed. |
+| `enabled` | Optional | boolean |  |
+| `line_item_calculations` | Optional | Array of [OrderLineItemTaxAssignment](MODELS.md#orderlineitemtaxassignment) | Replace calculations for the listed components and keep unlisted calculations. Allowed only when the order uses external tax, including a switch in this request. Settled components cannot be changed. |
 | `location` | Optional | [OrderTaxLocationRequest](MODELS.md#ordertaxlocationrequest) |  |
 
 Variants: any, any.
@@ -25599,7 +25784,7 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `add_on_fees` | Optional | Array of [PaymentAddOnFee](MODELS.md#paymentaddonfee) | Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Response only. |
+| `add_on_fees` | Optional | Array of [PaymentAddOnFee](MODELS.md#paymentaddonfee) | Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `authorization_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 | `authorized_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
@@ -25618,9 +25803,9 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHold](MODELS.md#paymentfulfillmenthold) | Response only. |
 | `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `invoice_id` | Optional | string | Response only. |
-| `last_payment_error` | Required | Alternative shapes (see declared variants) | Response only. |
+| `last_payment_error` | Required | Alternative shapes (see declared variants) | Most recent payment error. Null when no payment error is recorded. Response only. |
 | `merchant_id` | Optional | string | Response only. |
-| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Response only. |
+| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
 | `metadata` | Optional | object |  |
 | `order` | Optional | Alternative shapes (see declared variants) | Response only. |
 | `order_id` | Optional | string | Response only. |
@@ -25629,17 +25814,17 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `payment_intent_id` | Required | string | Response only. |
 | `payment_options` | Required | Array of string |  |
 | `payment_source` | Optional | [PaymentSourceSummary](MODELS.md#paymentsourcesummary) | Response only. |
-| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Response only. |
+| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
 | `receipt_email` | Optional | string |  |
 | `refund_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
 | `refunded_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
-| `risk` | Required | Alternative shapes (see declared variants) | Response only. |
+| `risk` | Required | Alternative shapes (see declared variants) | Risk assessment. Null when no risk assessment is available. Response only. |
 | `selected_payment_option` | Optional | string | Response only. |
 | `settlement_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`, `"disputed"`. Response only. |
 | `status` | Required | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. Response only. |
 | `support_reference` | Required | string | Opaque payment reference to share with merchant support. Do not parse its format. Response only. |
-| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
 
@@ -25674,6 +25859,68 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `data` | Required | [PaymentIntent](MODELS.md#paymentintent) |  |
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
+
+## PaymentIntentResult
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `add_on_fees` | Optional | Array of [PaymentAddOnFee](MODELS.md#paymentaddonfee) | Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
+| `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `authorization_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `authorized_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `authorized_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Unknown processor values are returned as payment_canceled. Values: [8 declared values](#paymentintentresult-cancellation_reason-values). Response only. |
+| `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `capture_method` | Optional | string | Values: `"automatic"`, `"manual"`. |
+| `captured_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `captured_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+| `current_payment_action` | Optional | [PendingPaymentAction](MODELS.md#pendingpaymentaction) | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint without a replacement credential. Absent when no browser action is required. Response only. |
+| `customer` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `customer_id` | Optional | string |  |
+| `dispute_status` | Optional | string | Values: `"none"`, `"warning_needs_response"`, `"warning_under_review"`, `"warning_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`. Response only. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `fulfillment_hold` | Optional | [PaymentFulfillmentHold](MODELS.md#paymentfulfillmenthold) | Response only. |
+| `invoice` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `invoice_id` | Optional | string | Response only. |
+| `last_payment_error` | Required | Alternative shapes (see declared variants) | Most recent payment error. Null when no payment error is recorded. Response only. |
+| `merchant_id` | Optional | string | Response only. |
+| `merchant_net_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
+| `metadata` | Optional | object |  |
+| `order` | Optional | Alternative shapes (see declared variants) | Response only. |
+| `order_id` | Optional | string | Response only. |
+| `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Response only. |
+| `payment_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) |  |
+| `payment_flow` | Required | string | Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Response only. |
+| `payment_intent_id` | Required | string | Response only. |
+| `payment_options` | Required | Array of string |  |
+| `payment_source` | Optional | [PaymentSourceSummary](MODELS.md#paymentsourcesummary) | Response only. |
+| `processing_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Response only. |
+| `receipt_email` | Optional | string |  |
+| `refund_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
+| `refunded_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `released_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
+| `risk` | Required | Alternative shapes (see declared variants) | Risk assessment. Null when no risk assessment is available. Response only. |
+| `selected_payment_option` | Optional | string | Response only. |
+| `settlement_status` | Optional | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`, `"disputed"`. Response only. |
+| `status` | Required | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. Response only. |
+| `support_reference` | Required | string | Opaque payment reference to share with merchant support. Do not parse its format. Response only. |
+| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
+| `transaction_purpose` | Optional | string | Values: `"goods"`, `"services"`, `"other"`. |
+| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Response only. |
+
+#### PaymentIntentResult cancellation_reason values
+
+- `"requested_by_customer"`
+- `"duplicate"`
+- `"fraudulent"`
+- `"abandoned"`
+- `"authorization_expired"`
+- `"invoice_payment_failed"`
+- `"invoice_voided"`
+- `"payment_canceled"`
 
 ## PaymentLimitSettings
 
@@ -25761,11 +26008,11 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
 | `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
-| `label` | Required | string |  |
+| `label` | Required | string | maxLength: `255`. |
 | `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
 | `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
 | `payment_link_custom_field_id` | Optional | string | Stable ID of an existing custom field. Omit it to create a new custom field. |
-| `placeholder` | Optional | string |  |
+| `placeholder` | Optional | string | maxLength: `500`. |
 | `position` | Optional | integer | Format: `int32`. |
 | `required` | Optional | boolean |  |
 
@@ -25777,12 +26024,21 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | --- | --- | --- | --- |
 | `custom_field_type` | Required | string | Values: `"text"`, `"dropdown"`, `"checkbox"`, `"textarea"`. |
 | `key` | Required | string | Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are stored in order metadata as custom_field_&lt;key>. minLength: `1`. maxLength: `243`. |
-| `label` | Required | string |  |
+| `label` | Required | string | maxLength: `255`. |
 | `max_length` | Optional | integer | Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four UTF-8 bytes in the combined metadata size budget. Format: `int32`. minimum: `1`. maximum: `4096`. |
 | `options` | Optional | Array of string | Dropdown choices. Dropdown fields require at least one option. Options must not have leading or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined metadata size budget. |
-| `placeholder` | Optional | string |  |
+| `placeholder` | Optional | string | maxLength: `500`. |
 | `position` | Optional | integer | Format: `int32`. |
 | `required` | Optional | boolean |  |
+
+## PaymentLinkCustomTextConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_summary_message` | Optional | string | maxLength: `2048`. |
+| `shipping_address_label` | Optional | string | maxLength: `255`. |
 
 ## PaymentLinkEventConfig
 
@@ -25793,9 +26049,30 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `event_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `max_total_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `send_ticket_emails` | Optional | boolean |  |
-| `ticket_prefix` | Optional | string |  |
+| `ticket_prefix` | Optional | string | maxLength: `5`. |
 | `timezone` | Optional | string |  |
-| `venue` | Optional | string |  |
+| `venue` | Optional | string | maxLength: `500`. |
+
+## PaymentLinkExpirationConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expiration_url` | Optional | string | Optional URL to send buyers to after the checkout session expires. maxLength: `2048`. |
+| `expires_in_seconds` | Optional | exact numeric string | Duration in seconds before the checkout session expires after creation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
+
+## PaymentLinkLegalConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `contract_url` | Optional | string | maxLength: `2048`. |
+| `refund_policy_url` | Optional | string | maxLength: `2048`. |
+| `require_terms_of_service` | Optional | boolean |  |
+| `shipping_policy_url` | Optional | string | maxLength: `2048`. |
+| `terms_of_service_url` | Optional | string | maxLength: `2048`. |
 
 ## PaymentLinkLineItem
 
@@ -25808,7 +26085,7 @@ Optional merchant limits that can lower Flint's payment-option and surface polic
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `is_catalog_item_unavailable` | Required | boolean | True when this line item references a variant or bundle that is missing, deleted, or inactive, so it cannot be sold right now. Always false on ad-hoc line items. Response only. |
-| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -25834,15 +26111,15 @@ Variants: any, any, any, any.
 | `allow_quantity_adjustment` | Optional | boolean |  |
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
-| `description` | Optional | string |  |
-| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
+| `description` | Optional | string | maxLength: `2048`. |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. maxLength: `100`. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `min_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `name` | Optional | string |  |
+| `name` | Optional | string | maxLength: `255`. |
 | `payment_link_line_item_id` | Optional | string | Stable ID of an existing line item. Omit it to create a new line item. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
 | `unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -25859,13 +26136,13 @@ Variants: any, any, any, any.
 | `allow_quantity_adjustment` | Optional | boolean |  |
 | `allow_unit_price_adjustment` | Optional | boolean |  |
 | `bundle_id` | Optional | string |  |
-| `description` | Optional | string |  |
-| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Generated from the line item name when omitted on create; retained for an existing line item when omitted on update. |
+| `description` | Optional | string | maxLength: `2048`. |
+| `key` | Optional | string | Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update. maxLength: `100`. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `max_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `min_unit_price_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `name` | Optional | string |  |
+| `name` | Optional | string | maxLength: `255`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax` | Optional | [OrderLineItemTax](MODELS.md#orderlineitemtax) |  |
@@ -25884,6 +26161,25 @@ Variants: any, any, any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `next_page_token` | Optional | string |  |
 | `request_id` | Optional | string |  |
+
+## PaymentLinkPaymentConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `enabled_payment_options` | Optional | Array of string |  |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `payment_note` | Optional | string | maxLength: `500`. |
+
+## PaymentLinkRedirectsConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `cancel_redirect_url` | Optional | string | maxLength: `2048`. |
+| `success_redirect_url` | Optional | string | maxLength: `2048`. |
 
 ## PaymentLinkResponse
 
@@ -25911,6 +26207,16 @@ Subscription terms shown before an active plan-backed payment link creates a che
 | `recurring_total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Recurring total for one billing interval, including line quantities and resolved modifiers. |
 | `setup_fee_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Setup fee added to the first amount due, when configured. |
 | `trial_period_days` | Optional | integer | Number of trial days before the first recurring charge, when configured. Format: `int32`. |
+
+## PaymentLinkThemeConfig
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `accent_color` | Optional | string | maxLength: `50`. |
+| `primary_color` | Optional | string | maxLength: `50`. |
+| `title` | Optional | string | maxLength: `255`. |
 
 ## PaymentMethod
 
@@ -26125,11 +26431,11 @@ Variants: object, object, object, object.
 | --- | --- | --- | --- |
 | `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"confirm_payment_intents"`. |
-| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
+| `buyer_contact` | Optional | object | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `completion_behavior` | Optional | string | Values: `"complete_order"`, `"partial_payment"`. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `payment_intents` | Required | Array of [OrderPaymentIntentSelection](MODELS.md#orderpaymentintentselection) | minItems: `1`. |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
+| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. A checkout can send the buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm, in a confirmation_token created with no setup_future_usage, pays without the save, and the payment attempt's payment_method_save reports not_saved with reason payment_method_not_saveable. The session's save_payment_method_types lists what is saved. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
 | `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's save_payment_method_phone_offered is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
 
 ## PayOrderRequestPay
@@ -26140,10 +26446,10 @@ Variants: object, object, object, object.
 | --- | --- | --- | --- |
 | `accepted_gift_card_allocation` | Optional | [OrderGiftCardAllocationAcceptance](MODELS.md#ordergiftcardallocationacceptance) |  |
 | `action` | Required | string | Values: `"pay"`. |
-| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
+| `buyer_contact` | Optional | object | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `payment_source` | Optional | [PaymentSourceCredential](MODELS.md#paymentsourcecredential) |  |
-| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
+| `save_payment_method` | Optional | boolean | The buyer's choice to save the card they typed for faster checkout at this merchant. Send true only from the checkout session's own credential, when the session's save_payment_method_offered is true and save_payment_method_requires_verification is false, for one newly collected card sent as a confirmation_token created with setup_future_usage on_session. The card is saved with usage on_session once the payment succeeds, for the customer the checkout acts for: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. A typed buyer_contact.email never decides it. A checkout that acts for no customer refuses the save until the buyer confirms their email with a code, unless it sends save_payment_method_phone. A checkout the buyer bound by a texted code saves the card with that number. A checkout whose buyer confirmed the customer's email can also send save_payment_method_phone, to save the card with a number the buyer confirms by text after paying. A checkout can send the buyer's choice with every payment button: Apple Pay, Google Pay, a bank account, or Affirm, in a confirmation_token created with no setup_future_usage, pays without the save, and the payment attempt's payment_method_save reports not_saved with reason payment_method_not_saveable. The session's save_payment_method_types lists what is saved. Send false or omit it when the buyer does not choose to save; the confirmation_token must then have no setup_future_usage. |
 | `save_payment_method_phone` | Optional | string | A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a card saved while the checkout acts for no customer, or for the customer whose email the buyer confirmed in it. Send it with save_payment_method: true only from the checkout session's own credential, when the session's save_payment_method_phone_offered is true. The card is kept for the customer the checkout acts for, or else the merchant's customer with the buyer's email, once the payment succeeds, or once it is approved when the merchant captures later, but works for nothing until the buyer confirms it within 24 hours, with a code texted to this number or, when the customer's email is the email of the payment, emailed there instead: request the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method, and read payment_method_save on the checkout session. A card saved with the number makes it the customer's saved number, and the cards saved with the number it replaces are removed. A card not confirmed in time is not saved. maxLength: `16`. pattern: `^\+1[2-9][0-9]{2}[2-9][0-9]{6}$`. |
 
 ## PayOrderRequestResume
@@ -26153,7 +26459,7 @@ Variants: object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"resume"`. |
-| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
+| `buyer_contact` | Optional | object | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `order_payment_attempt_id` | Required | string | minLength: `1`. |
 
@@ -26164,7 +26470,7 @@ Variants: object, object, object, object.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"setup"`. |
-| `buyer_contact` | Optional | any | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
+| `buyer_contact` | Optional | object | Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. |
 | `expected_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `setup_payment_source` | Required | object |  |
 
@@ -26504,7 +26810,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | --- | --- | --- | --- |
 | `charge_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `requested_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `requested_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Tip money in the total: the requested tip before payment, and settled tips net of refunds after. |
 | `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `total_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -27479,8 +27785,18 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string |  |
+| `code` | Required | string | Values: [7 declared values](#refundadjustmentreason-code-values). |
 | `description` | Optional | string |  |
+
+#### RefundAdjustmentReason code values
+
+- `"customer_agreement"`
+- `"jurisdiction_specific_rule"`
+- `"merchant_policy"`
+- `"customer_request"`
+- `"restocking_policy"`
+- `"manual_tax_correction"`
+- `"other"`
 
 ## RefundCharge
 
@@ -27534,7 +27850,7 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `adjustment_type` | Required | string | Values: `"restocking_fee"`, `"withheld_amount"`, `"refund_adjustment"`, `"tax_adjustment"`. |
 | `amount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `applies_to` | Required | string |  |
+| `applies_to` | Required | string | Values: `"none"`, `"gross"`, `"tax"`. |
 | `reason` | Required | [RefundAdjustmentReason](MODELS.md#refundadjustmentreason) |  |
 | `refund_line_item_adjustment_id` | Required | string | Response only. |
 | `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
@@ -27548,7 +27864,7 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `adjustment_type` | Required | string | Values: `"restocking_fee"`, `"withheld_amount"`, `"refund_adjustment"`, `"tax_adjustment"`. |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `applies_to` | Required | string |  |
+| `applies_to` | Required | string | Values: `"none"`, `"gross"`, `"tax"`. |
 | `reason` | Optional | [RefundAdjustmentReason](MODELS.md#refundadjustmentreason) |  |
 
 ## RefundLineItemAdjustmentRefund
@@ -27699,7 +28015,7 @@ Variants: string, number, boolean, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | any |  |
+| `amount_money` | Required | object |  |
 | `destination` | Optional | string | Values: `"original"`, `"replacement"`. |
 | `gift_card_redemption_id` | Optional | string |  |
 | `payment_intent_id` | Optional | string |  |
@@ -27950,7 +28266,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `custom_field_values` | Optional | object |  |
+| `custom_field_values` | Optional | object | Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as strings. A required checkbox must be true. |
 | `modifiers` | Optional | object |  |
 | `quantity_overrides` | Optional | object | Map of keys to whole-number quantity overrides; fractional quantities are not supported. |
 | `resolution_context` | Required | string |  |
@@ -28798,7 +29114,7 @@ Variants: any, any.
 | `return_required_quantity` | Optional | exact numeric string | How much of the approved quantity the buyer must physically send back; fractional quantities are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and the Return still settles the money. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
 | `selected_resolution_type` | Optional | string | Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`. |
 
-Variants: any, any.
+Variants: any, Alternative shapes (see declared variants).
 
 ## ReturnLineItem
 
@@ -29110,7 +29426,7 @@ Variants: any, any.
 | `return_window` | Optional | [ReturnWindow](MODELS.md#returnwindow) |  |
 | `scope` | Required | [ReturnPolicyScope](MODELS.md#returnpolicyscope) |  |
 
-Variants: any, any.
+Variants: any, Alternative shapes (see declared variants).
 
 ## ReturnPolicyScope
 
@@ -29147,7 +29463,7 @@ Variants: any, Alternative shapes (see declared variants).
 | `return_required_quantity` | Optional | exact numeric string | How much of the approved quantity the buyer must physically send back; fractional quantities are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and the Return still settles the money. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. |
 | `selected_resolution_type` | Optional | string | Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`. |
 
-Variants: any, any.
+Variants: any, Alternative shapes (see declared variants).
 
 ## ReturnProcessDispositionRequest
 
@@ -29698,7 +30014,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_note` | Optional | string |  |
+| `merchant_note` | Optional | string | maxLength: `2048`. |
 | `reason` | Required | string | Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
 | `target` | Required | [DeliveryRevocationTarget](MODELS.md#deliveryrevocationtarget) |  |
 
@@ -30111,12 +30427,12 @@ Variants: object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `balance_money` | Required | [SignedMoney](MODELS.md#signedmoney) |  |
-| `credit_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `balance_money` | Required | [SignedMoney](MODELS.md#signedmoney) | outstanding_money minus credit_money. Negative when the order holds money beyond its total that has not been returned. |
+| `credit_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Money collected beyond the order total and not yet refunded. |
 | `net_collected_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `outstanding_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | What is still left to collect: the order total minus paid_money, never below zero. Refunds return money already collected and do not add to it. |
 | `paid_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `refunded_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Money returned to the buyer from what this order collected. |
 | `settled_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 
 ## Shipment
@@ -30171,10 +30487,10 @@ Variants: object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `height` | Required | number |  |
-| `length` | Required | number |  |
-| `unit` | Required | string |  |
-| `width` | Required | number |  |
+| `height` | Required | number | exclusiveMinimum: `0`. |
+| `length` | Required | number | exclusiveMinimum: `0`. |
+| `unit` | Required | string | Length unit for length, width, and height. Use millimeter, centimeter, or inch. Values: `"millimeter"`, `"centimeter"`, `"inch"`. |
+| `width` | Required | number | exclusiveMinimum: `0`. |
 
 ## ShippingWeight
 
@@ -30832,7 +31148,7 @@ Variants: any, any, any.
 | --- | --- | --- | --- |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `modifiers` | Optional | Array of any |  |
+| `modifiers` | Optional | Array of Alternative shapes (see declared variants) |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `swap_variant_ids` | Optional | Array of string | maxItems: `25`. |
@@ -31011,7 +31327,7 @@ Variants: object, object.
 | `tax_breakdown_id` | Required | string | Response only. |
 | `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 | `tax_type` | Required | string | Values: `"sales_tax"`, `"use_tax"`, `"retail_delivery_fee"`. Response only. |
-| `taxability_reason` | Required | string | Values: `"standard_rated"`, `"not_taxable"`, `"customer_exempt"`, `"tax_disabled"`, `"no_jurisdiction"`, `"location_required"`. Response only. |
+| `taxability_reason` | Required | string | Values: `"standard_rated"`, `"not_taxable"`, `"customer_exempt"`. Response only. |
 | `taxable_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. Response only. |
 
 Variants: any, any.
@@ -31022,11 +31338,8 @@ Variants: any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `components` | Optional | Array of [TaxComponentRequest](MODELS.md#taxcomponentrequest) | minItems: `1`. |
-| `mode` | Required | string | Values: `"automatic"`, `"external"`. |
+| `components` | Required | Array of [TaxComponentRequest](MODELS.md#taxcomponentrequest) | minItems: `1`. |
 | `price_mode` | Required | string | Values: `"additive"`, `"inclusive"`. |
-
-Variants: any, any.
 
 ## TaxComponentRequest
 
@@ -31190,7 +31503,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | `default_tip_percent` | Required | number or null | The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set at this scope; effective settings may inherit a preselection from a parent scope. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
-| `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
+| `smart_tip_money_options` | Optional | Array of object | minItems: `3`. maxItems: `3`. |
 | `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: `3`. maxItems: `3`. |
 
 ## TippingSettingsPatch
@@ -31204,7 +31517,7 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | `default_tip_percent` | Optional | number or null | Omit to preserve the current value. Send null to clear this scope's preselection and resume inheritance. When replacing presets, explicitly replace or clear a preselection that is no longer offered. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `is_custom_tip_enabled` | Optional | boolean |  |
 | `is_smart_tips_enabled` | Optional | boolean |  |
-| `smart_tip_money_options` | Optional | Array of any | minItems: `3`. maxItems: `3`. |
+| `smart_tip_money_options` | Optional | Array of object | minItems: `3`. maxItems: `3`. |
 | `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: `3`. maxItems: `3`. |
 
 ## TipValueSettlementAllocation
@@ -31451,7 +31764,7 @@ Variants: any, any, any, any.
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `name` | Optional | string |  |
-| `recommendation_priority` | Optional | integer or null | Format: `int32`. |
+| `recommendation_priority` | Optional | integer or null | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Send null to clear it. Format: `int32`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
 
 Variants: any, any, any, any, any, any, any, any.
@@ -31693,8 +32006,8 @@ Variants: any, any.
 | `business_name` | Optional | string | Business name buyers see. Surrounding whitespace is trimmed, and the result must have 1 to 120 characters. The name cannot be cleared, and only live credentials can set it. minLength: `1`. maxLength: `120`. |
 | `email` | Optional | string |  |
 | `expected_version` | Optional | exact numeric string | Merchant profile version last read. A different current version returns MERCHANT_CHANGED. Send this value when saving a logo or icon to detect concurrent profile edits. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `icon` | Optional | [ImageRequest](MODELS.md#imagerequest) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
-| `logo` | Optional | [ImageRequest](MODELS.md#imagerequest) |  |
+| `icon` | Optional | Alternative shapes (see declared variants) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
+| `logo` | Optional | Alternative shapes (see declared variants) |  |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `organization_id` | Optional | string |  |
 | `phone` | Optional | string |  |
@@ -31769,10 +32082,10 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `calculation_basis` | Optional | string | Values: `"subtotal_pre_discount"`, `"subtotal_post_discount"`. |
-| `description` | Optional | string |  |
+| `description` | Optional | string | maxLength: `2048`. |
 | `fulfillment_id` | Optional | string |  |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
-| `name` | Optional | string |  |
+| `name` | Optional | string | maxLength: `255`. |
 | `percent` | Optional | number | multipleOf: `0.0001`. |
 | `tax` | Optional | [OrderCalculatedChargeTax](MODELS.md#ordercalculatedchargetax) |  |
 | `type` | Optional | string | Values: [17 declared values](#updateorderchargerequest-type-values). |
@@ -31812,7 +32125,7 @@ Variants: any, any.
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `order_revision` | Optional | exact numeric string | Current order_revision from the order. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
 | `requested_tip` | Optional | Alternative shapes (see declared variants) | Requested tip to set or replace. Send null to clear the current requested tip. |
-| `tax` | Optional | [OrderTaxRequest](MODELS.md#ordertaxrequest) |  |
+| `tax` | Optional | [OrderTaxUpdateRequest](MODELS.md#ordertaxupdaterequest) |  |
 
 ## UpdateOrganizationRequest
 
@@ -31893,7 +32206,7 @@ Variants: any, any.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `receipt_email` | Optional | string |  |
-| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `tip_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. Not accepted on order-linked payment intents. |
 
 ## UpdatePaymentLinkRequest
 
@@ -31902,31 +32215,31 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](MODELS.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. maxItems: `20`. |
-| `custom_text` | Optional | [CheckoutCustomTextWriteConfig](MODELS.md#checkoutcustomtextwriteconfig) |  |
+| `custom_text` | Optional | [PaymentLinkCustomTextConfig](MODELS.md#paymentlinkcustomtextconfig) |  |
 | `customer_collection` | Optional | [PaymentLinkCustomerConfig](MODELS.md#paymentlinkcustomerconfig) |  |
 | `delivery_method_ids` | Optional | Array of string | Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: `25`. |
-| `description` | Optional | string |  |
+| `description` | Optional | string | maxLength: `2048`. |
 | `donation_max_amount_money` | Optional | Alternative shapes (see declared variants) | Maximum donation amount. Send null to clear the maximum. |
 | `donation_min_amount_money` | Optional | Alternative shapes (see declared variants) | Minimum donation amount. Send null to clear the minimum. |
 | `donation_suggested_amount_money_options` | Optional | Array of [MoneyValue](MODELS.md#moneyvalue) | Suggested donation amounts. Send an empty array to clear suggested amounts. |
 | `event_config` | Optional | [PaymentLinkEventConfig](MODELS.md#paymentlinkeventconfig) |  |
 | `expected_version` | Optional | exact numeric string | Payment link version last read by the caller. Required when line_items, custom_fields, or delivery_method_ids is present. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `1`. |
-| `expiration` | Optional | [CheckoutExpirationConfig](MODELS.md#checkoutexpirationconfig) |  |
+| `expiration` | Optional | [PaymentLinkExpirationConfig](MODELS.md#paymentlinkexpirationconfig) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `image` | Optional | Alternative shapes (see declared variants) |  |
-| `inactive_message` | Optional | string |  |
+| `inactive_message` | Optional | string | maxLength: `500`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](MODELS.md#inventoryroutingsourcerequest) |  |
-| `legal` | Optional | [LegalSettings](MODELS.md#legalsettings) |  |
+| `legal` | Optional | [PaymentLinkLegalConfig](MODELS.md#paymentlinklegalconfig) |  |
 | `line_items` | Optional | Array of [PaymentLinkLineItemPatchRequest](MODELS.md#paymentlinklineitempatchrequest) | Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted. minItems: `1`. |
 | `max_completions` | Optional | integer | Format: `int32`. |
-| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text answers are budgeted at four bytes per Unicode code point, including optional fields. If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
-| `name` | Optional | string |  |
-| `payments` | Optional | [CheckoutPaymentConfig](MODELS.md#checkoutpaymentconfig) |  |
+| `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. |
+| `name` | Optional | string | maxLength: `255`. |
+| `payments` | Optional | [PaymentLinkPaymentConfig](MODELS.md#paymentlinkpaymentconfig) |  |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
-| `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
+| `redirects` | Optional | [PaymentLinkRedirectsConfig](MODELS.md#paymentlinkredirectsconfig) |  |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `tax` | Optional | [CheckoutTaxConfig](MODELS.md#checkouttaxconfig) |  |
-| `theme` | Optional | [ThemeConfig](MODELS.md#themeconfig) |  |
+| `theme` | Optional | [PaymentLinkThemeConfig](MODELS.md#paymentlinkthemeconfig) |  |
 | `tip` | Optional | [CheckoutTipConfig](MODELS.md#checkouttipconfig) |  |
 
 ## UpdatePaymentMethodDomainRequest
@@ -32340,7 +32653,7 @@ Variants: object, object.
 | --- | --- | --- | --- |
 | `bundle_id` | Optional | string |  |
 | `description` | Optional | string |  |
-| `modifiers` | Optional | Array of any |  |
+| `modifiers` | Optional | Array of Alternative shapes (see declared variants) |  |
 | `name` | Optional | string |  |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format: `int32`. minimum: `1`. maximum: `9999`. |
 | `subscription_plan_line_item_id` | Optional | string | ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs from other plans are rejected. |
@@ -36334,7 +36647,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.canceled"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36347,7 +36660,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.canceled"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36394,7 +36707,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.payment_failed"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36407,7 +36720,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.payment_failed"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36424,7 +36737,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.processing"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36437,7 +36750,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.processing"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36454,7 +36767,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.requires_action"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36467,7 +36780,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.requires_action"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36484,7 +36797,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.requires_capture"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36497,7 +36810,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.requires_capture"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36514,7 +36827,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.succeeded"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
@@ -36527,7 +36840,7 @@ Variants: any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | object |  |
+| `data` | Required | object | Status, amounts, and capture fields come from the transition. risk, fulfillment_hold, and last_payment_error are read once when the event is prepared, usually seconds later; retries resend the same payload. |
 | `event_type` | Required | any | Values: `"payment_intent.succeeded"`. |
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |

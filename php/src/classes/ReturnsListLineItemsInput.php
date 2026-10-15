@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read list<string> $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsListLineItemsInput extends Model {
-    /** @param array{'return_id': string, 'fulfillment_id'?: string, 'merchandise_status'?: list<string>, 'order_line_item_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>, 'return_reason_id'?: string, 'status'?: list<string>, 'Flint-Version'?: string}|object $values */
+    /** @param array{'return_id': string, 'fulfillment_id'?: string, 'merchandise_status'?: list<string>, 'order_line_item_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>, 'return_reason_id'?: string, 'status'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsListLineItemsInput')); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
@@ -60,9 +60,4 @@ final class ReturnsListLineItemsInput extends Model {
      */
     public function getStatus(): array { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

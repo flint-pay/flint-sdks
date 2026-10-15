@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -33,9 +33,9 @@ export interface InvoicePaymentTermsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoicePaymentTerms.create({name: "example", calculation: {type: "on_receipt"}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "calculation": InvoicePaymentTermCalculationInput; "external_reference_id"?: string; "late_fee_policy"?: InvoiceLateFeePolicyInput; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
+    create(params: (InputValue<{ "calculation": InvoicePaymentTermCalculationInput; "external_reference_id"?: string; "late_fee_policy"?: InvoiceLateFeePolicyInput; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "calculation": InvoicePaymentTermCalculationInput; "external_reference_id"?: string; "late_fee_policy"?: InvoiceLateFeePolicyInput; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "calculation": InvoicePaymentTermCalculationInput; "external_reference_id"?: string; "late_fee_policy"?: InvoiceLateFeePolicyInput; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsCreateResponse>>;
     /**
  * Retires an invoice payment term by setting its status to archived. A default payment term cannot be retired.
  * DELETE /v1/invoice-payment-terms/{invoice_payment_term_id}
@@ -44,30 +44,30 @@ export interface InvoicePaymentTermsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoicePaymentTerms.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(invoice_payment_term_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
+    remove(invoice_payment_term_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(invoice_payment_term_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsRemoveResponse>>;
+    removeWithResponse(invoice_payment_term_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsRemoveResponse>>;
     /**
  * Returns one invoice payment term for the authenticated merchant.
  * GET /v1/invoice-payment-terms/{invoice_payment_term_id}
  * @example
  * client.invoicePaymentTerms.get("example")
  */
-    get(invoice_payment_term_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
+    get(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(invoice_payment_term_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermsGetResponse>>;
+    getWithResponse(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermsGetResponse>>;
     /**
  * Returns a paginated list of invoice payment terms for the authenticated merchant.
  * GET /v1/invoice-payment-terms
  * @example
  * client.invoicePaymentTerms.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentTermListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentTermListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTermListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicePaymentTermsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTerm>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTermListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicePaymentTermsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTerm>;
     /**
  * Update invoice payment term for the authenticated merchant.
  * PATCH /v1/invoice-payment-terms/{invoice_payment_term_id}
@@ -76,9 +76,9 @@ export interface InvoicePaymentTermsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.invoicePaymentTerms.update("example", {calculation: {type: "on_receipt"}}, { idempotencyKey: idempotencyKey })
  */
-    update(invoice_payment_term_id: InputValue<string>, params: (InputValue<{ "calculation"?: InvoicePaymentTermCalculationInput; "expected_version"?: number; "external_reference_id"?: string; "late_fee_policy"?: ((({ "amount_money"?: MoneyValueInput; "application_mode"?: "manual" | "automatic"; "grace_period_days": number; "percent"?: number; "type": "fixed" | "percentage"; }) & ((({ "type": "fixed"; "grace_period_days": unknown; "amount_money": unknown; }) & ({ "percent"?: never })) | (({ "type": "percentage"; "grace_period_days": unknown; "percent": unknown; }) & ({ "amount_money"?: never })))) | (null)); "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
+    update(invoice_payment_term_id: InputValue<string>, params: (InputValue<{ "calculation"?: InvoicePaymentTermCalculationInput; "expected_version"?: number; "external_reference_id"?: string; "late_fee_policy"?: ((({ "amount_money"?: MoneyValueInput; "application_mode"?: "manual" | "automatic"; "grace_period_days": number; "percent"?: number; "type": "fixed" | "percentage"; }) & ((({ "type": "fixed"; "grace_period_days": unknown; "amount_money": unknown; }) & ({ "percent"?: never })) | (({ "type": "percentage"; "grace_period_days": unknown; "percent": unknown; }) & ({ "amount_money"?: never })))) | (null)); "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InvoicePaymentTermResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(invoice_payment_term_id: InputValue<string>, params: (InputValue<{ "calculation"?: InvoicePaymentTermCalculationInput; "expected_version"?: number; "external_reference_id"?: string; "late_fee_policy"?: ((({ "amount_money"?: MoneyValueInput; "application_mode"?: "manual" | "automatic"; "grace_period_days": number; "percent"?: number; "type": "fixed" | "percentage"; }) & ((({ "type": "fixed"; "grace_period_days": unknown; "amount_money": unknown; }) & ({ "percent"?: never })) | (({ "type": "percentage"; "grace_period_days": unknown; "percent": unknown; }) & ({ "amount_money"?: never })))) | (null)); "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsUpdateResponse>>;
+    updateWithResponse(invoice_payment_term_id: InputValue<string>, params: (InputValue<{ "calculation"?: InvoicePaymentTermCalculationInput; "expected_version"?: number; "external_reference_id"?: string; "late_fee_policy"?: ((({ "amount_money"?: MoneyValueInput; "application_mode"?: "manual" | "automatic"; "grace_period_days": number; "percent"?: number; "type": "fixed" | "percentage"; }) & ((({ "type": "fixed"; "grace_period_days": unknown; "amount_money": unknown; }) & ({ "percent"?: never })) | (({ "type": "percentage"; "grace_period_days": unknown; "percent": unknown; }) & ({ "amount_money"?: never })))) | (null)); "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermsUpdateResponse>>;
   }
 export declare class Client {
 

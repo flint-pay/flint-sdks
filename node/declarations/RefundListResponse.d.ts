@@ -1,4 +1,4 @@
 
 import type { CreditNoteRefundListResponse } from './CreditNoteRefundListResponse.js';
 
-export type RefundListResponse = CreditNoteRefundListResponse;
+export interface RefundListResponse extends CreditNoteRefundListResponse {}

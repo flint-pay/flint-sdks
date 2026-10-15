@@ -1,4 +1,4 @@
 
 import type { IncomingWebhook1824a72a4c81Payload } from './IncomingWebhook1824a72a4c81Payload.js';
 
-export type IncomingWebhook3dbc0a577678Payload = IncomingWebhook1824a72a4c81Payload;
+export interface IncomingWebhook3dbc0a577678Payload extends IncomingWebhook1824a72a4c81Payload {}

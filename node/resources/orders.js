@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/orders.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
@@ -16,280 +16,213 @@ this.orders = Object.freeze({
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addChargeWithResponse: async (order_id, params, options) => this.#runtime.request("addOrderCharge", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       addLineItems: async (order_id, params, options) => this.#runtime.request("addOrderLineItems", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addLineItemsWithResponse: async (order_id, params, options) => this.#runtime.request("addOrderLineItems", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       applyDiscount: async (order_id, params, options) => this.#runtime.request("applyOrderDiscount", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       applyDiscountWithResponse: async (order_id, params, options) => this.#runtime.request("applyOrderDiscount", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       applyGiftCard: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Request-Id",
   "Idempotency-Key",
-  "Flint-Gift-Card-Challenge",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Flint-Gift-Card-Challenge"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       applyGiftCardWithResponse: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Request-Id",
   "Idempotency-Key",
-  "Flint-Gift-Card-Challenge",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Flint-Gift-Card-Challenge"
 ], true, true, params), options).then(_sdkResponse),
       cancelPayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelPaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
 ], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
 ], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       capturePayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       capturePaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       closeSession: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       closeSessionWithResponse: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createFulfillment: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createFulfillmentWithResponse: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createAccessLinkWithResponse: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createPaymentIntentWithResponse: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       deleteCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteChargeWithResponse: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteLineItem: async (order_id, order_line_item_id, params, options) => this.#runtime.request("deleteOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteLineItemWithResponse: async (order_id, order_line_item_id, params, options) => this.#runtime.request("deleteOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (order_id, params, options) => this.#runtime.request("getOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (order_id, params, options) => this.#runtime.request("getOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getCurrentDeliverySelection: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
   "order_id"
-], [order_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [order_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getCurrentDeliverySelectionWithResponse: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
   "order_id"
-], [order_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [order_id], [], false, false, params), options).then(_sdkResponse),
       getPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [order_id, order_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [order_id, order_payment_attempt_id], [], false, false, params), options).then(_sdkResponse),
       listActivities: async (order_id, params, options) => this.#runtime.request("listOrderActivities", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listActivitiesWithResponse: async (order_id, params, options) => this.#runtime.request("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -297,8 +230,7 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(_sdkResponse),
       listActivitiesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -306,8 +238,7 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options), []),
       listActivitiesPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -315,8 +246,7 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options)),
       listActivitiesItems: (order_id, params, options) => this.#runtime.items("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -324,53 +254,37 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options),
       listPaymentAttempts: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentAttemptsWithResponse: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentAttemptsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPaymentAttemptsPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listPaymentAttemptsItems: (order_id, params, options) => this.#runtime.items("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -396,8 +310,7 @@ this.orders = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -423,8 +336,7 @@ this.orders = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -450,8 +362,7 @@ this.orders = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -477,8 +388,7 @@ this.orders = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -504,8 +414,7 @@ this.orders = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       pay: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(result => _sdkPayload(result, ["data"])),
       payWithResponse: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(_sdkResponse),
@@ -513,143 +422,103 @@ this.orders = Object.freeze({
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       removeDiscountsWithResponse: async (order_id, params, options) => this.#runtime.request("removeOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       removeGiftCard: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
   "order_id",
   "gift_card_id"
 ], [order_id, gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       removeGiftCardWithResponse: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
   "order_id",
   "gift_card_id"
 ], [order_id, gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       repriceDiscounts: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       repriceDiscountsWithResponse: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       resolveInventoryException: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resolveInventoryExceptionWithResponse: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       sendReceipt: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       sendReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       update: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("updateOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateChargeWithResponse: async (order_id, order_charge_id, params, options) => this.#runtime.request("updateOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateLineItem: async (order_id, order_line_item_id, params, options) => this.#runtime.request("updateOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateLineItemWithResponse: async (order_id, order_line_item_id, params, options) => this.#runtime.request("updateOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -669,6 +538,7 @@ export { makeOrderPaymentAttemptListResponse } from '../models/OrderPaymentAttem
 export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
 export { makeOrderListResponse } from '../models/OrderListResponse.js';
 export { makeOrder } from '../models/Order.js';
+export { makePayOrderResponse } from '../models/PayOrderResponse.js';
 export { makeActionResponse } from '../models/ActionResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeCheckoutSessionLineItemModifierUpdate } from '../models/CheckoutSessionLineItemModifierUpdate.js';
@@ -684,6 +554,7 @@ export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentCl
 export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
 export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
 export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
 export { makePaymentFulfillmentHold } from '../models/PaymentFulfillmentHold.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
 export { makeNextAction } from '../models/NextAction.js';
@@ -694,6 +565,7 @@ export { makeSignedMoney } from '../models/SignedMoney.js';
 export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
+export { makeCancelOrderPaymentAttemptResult } from '../models/CancelOrderPaymentAttemptResult.js';
 export { makePayOrderResult } from '../models/PayOrderResult.js';
 export { makeFulfillment } from '../models/Fulfillment.js';
 export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
@@ -706,12 +578,13 @@ export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDet
 export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
+export { makeAddress } from '../models/Address.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeAccessLink } from '../models/AccessLink.js';
-export { makeCreatePaymentIntentResult } from '../models/CreatePaymentIntentResult.js';
+export { makeCreateOrderPaymentIntentResult } from '../models/CreateOrderPaymentIntentResult.js';
 export { makePaymentCollection } from '../models/PaymentCollection.js';
 export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
 export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
@@ -719,20 +592,24 @@ export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeDeliverySelection } from '../models/DeliverySelection.js';
 export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
+export { makeLocationAddress } from '../models/LocationAddress.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
 export { makeDeliverySelectionChoiceResource } from '../models/DeliverySelectionChoiceResource.js';
 export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
 export { makeDeliverySelectionInstructionsRequest } from '../models/DeliverySelectionInstructionsRequest.js';
+export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
 export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
 export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
 export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeDeliverySelectionLifecycleEventResource } from '../models/DeliverySelectionLifecycleEventResource.js';
 export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';
 export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
+export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
 export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
 export { makeOrderAuthorizationAmounts } from '../models/OrderAuthorizationAmounts.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
@@ -783,4 +660,18 @@ export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAlloca
 export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
 export { makeActionResult } from '../models/ActionResult.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
+export { makeFulfillmentLineItemRequest } from '../models/FulfillmentLineItemRequest.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
+export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
+export { makeOrderPaymentSourceCardSelection } from '../models/OrderPaymentSourceCardSelection.js';
+export { makePaymentSourceCredential } from '../models/PaymentSourceCredential.js';
+export { makeOrderPaymentIntentSelection } from '../models/OrderPaymentIntentSelection.js';
+export { makeCloseOrderRequest } from '../models/CloseOrderRequest.js';
+export { makeRemoveDiscountsRequest } from '../models/RemoveDiscountsRequest.js';
+export { makeApplyOrderGiftCardRequest } from '../models/ApplyOrderGiftCardRequest.js';
+export { makeResendWebhookDeliveryRequest } from '../models/ResendWebhookDeliveryRequest.js';
+export { makeSendOrderReceiptRequest } from '../models/SendOrderReceiptRequest.js';
 export { isOrdersUpdateLineItemResponseKnown } from '../predicates/OrdersUpdateLineItemResponse.js';

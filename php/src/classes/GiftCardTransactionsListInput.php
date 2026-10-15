@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $source_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardTransactionsListInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'external_reference_id'?: string, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'posted_after'?: string|\DateTimeInterface, 'posted_before'?: string|\DateTimeInterface, 'source_id'?: string, 'source_type'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'X-Request-Id'?: string, 'external_reference_id'?: string, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'posted_after'?: string|\DateTimeInterface, 'posted_before'?: string|\DateTimeInterface, 'source_id'?: string, 'source_type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardTransactionsListInput')); }
     /** @return string
      * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
@@ -71,9 +71,4 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getSourceType(): string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -6,7 +6,7 @@ export declare function isAuthShortcutName(name: string): boolean;
 export declare function isBaseUrlSyntax(value: unknown): value is string;
 /** Static server defaults must be usable without an input-document origin or variables. */
 export declare function isDefaultBaseUrl(value: unknown): value is string;
-import type { Operation, Retry, Schema, Auth, Webhook, Config, IncomingWebhook, AuthenticationMode, AuthShortcuts } from './contract.js';
+import type { Operation, Retry, Schema, Auth, Webhook, Config, IncomingWebhook, AuthenticationMode, AuthShortcuts, Parameter } from './contract.js';
 import { CODEC_FORMAT, type CodecPlan } from './codec-plan.js';
 /** Declared success statuses; default remains a runtime fallback, never an implicit redirect. */
 export declare function successStatus(status: string): boolean;
@@ -30,6 +30,8 @@ export interface RuntimeContract {
     };
     errors?: Config['errors'];
 }
+/** Headers supplied by the client have no independent operation input value. */
+export declare function parameterSource(op: Operation, parameter: Pick<Parameter, 'in' | 'name'>, settings: Pick<RuntimeContract, 'auth' | 'authentication' | 'apiVersion'>): 'input' | 'authentication' | 'api-version';
 /** Shared defaults also rendered into the PHP dynamic-contract adapter. */
 export declare const RETRY_DEFAULTS: {
     safeMethods: string[];
@@ -57,6 +59,8 @@ export interface CompiledOperation extends Omit<Operation, 'parameters' | 'body'
     streamEventCodecs?: Record<string, CodecPlan>;
     parameters: (Omit<Operation['parameters'][number], 'schema'> & {
         codec: CodecPlan;
+        /** Absent in historical descriptors and for ordinary input parameters. */
+        source?: 'authentication';
     })[];
     body?: CodecPlan;
     /** Sole JSON 2xx declaration eligible for an otherwise undeclared success. */

@@ -1,9 +1,9 @@
-import { d679 as c0, d1057 as c1, d893 as c2, d323 as c3, d901 as c4, d66 as c5, d490 as c6, d892 as c7, d900 as c8, d1053 as c9, d1055 as c10, d2339 as c11, d2348 as c12, d2349 as c13, d2356 as c14, d1056 as c15, d1054 as c16 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1057 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d689 as c0, d1059 as c1, d898 as c2, d323 as c3, d903 as c4, d66 as c5, d500 as c6, d897 as c7, d902 as c8, d1055 as c9, d1057 as c10, d2355 as c11, d2364 as c12, d2365 as c13, d2372 as c14, d1058 as c15, d1056 as c16 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1059 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1057;
+const read = d1059;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRecipientResource"]:c0(),["IncomingWebhook3573c4463034Payload"]:c1(),["MerchantWebhookEnvelope"]:c2(),["MoneyValue"]:c3(),["PartnerWebhookEnvelope"]:c4(),["PostalAddress"]:c5(),["SharedCodec170"]:c6(),["SharedCodec246"]:c7(),["SharedCodec251"]:c8(),["SharedCodec294"]:c9(),["SharedCodec295"]:c10(),["SubscriptionAddressVerification"]:c11(),["SubscriptionDelivery"]:c12(),["SubscriptionDeliveryDestination"]:c13(),["SubscriptionDeliveryMethodSummary"]:c14(),["Webhook_subscription_payment_succeeded_installed_merchants"]:c15(),["Webhook_subscription_payment_succeeded_merchant"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRecipientResource"]:c0(),["IncomingWebhook3573c4463034Payload"]:c1(),["MerchantWebhookEnvelope"]:c2(),["MoneyValue"]:c3(),["PartnerWebhookEnvelope"]:c4(),["PostalAddress"]:c5(),["SharedCodec176"]:c6(),["SharedCodec250"]:c7(),["SharedCodec252"]:c8(),["SharedCodec295"]:c9(),["SharedCodec296"]:c10(),["SubscriptionAddressVerification"]:c11(),["SubscriptionDelivery"]:c12(),["SubscriptionDeliveryDestination"]:c13(),["SubscriptionDeliveryMethodSummary"]:c14(),["Webhook_subscription_payment_succeeded_installed_merchants"]:c15(),["Webhook_subscription_payment_succeeded_merchant"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeIncomingWebhook3573c4463034Payload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

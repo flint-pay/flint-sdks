@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -20,18 +20,18 @@ export interface DemoSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.demoSessions.create({}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
+    create(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionsCreateResponse>>;
     /**
  * Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client email failure limit as creation.
  * POST /v1/demo-sessions/reset
  * @example
  * client.demoSessions.reset({})
  */
-    reset(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
+    reset(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resetWithResponse(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<DemoSessionsResetResponse>>;
+    resetWithResponse(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<DemoSessionsResetResponse>>;
   }
 export declare class Client {
 

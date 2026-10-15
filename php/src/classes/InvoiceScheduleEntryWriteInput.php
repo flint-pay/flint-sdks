@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass $amount_specification
- * @property-read InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass $due
+ * @property-read InvoiceScheduleDueWriteInput|array<array-key, mixed>|\stdClass $due
  * @property-read string $invoice_schedule_entry_id
  * @property-read string $kind
  * Presence-aware input; omitted fields throw when accessed. */
@@ -15,7 +15,7 @@ final class InvoiceScheduleEntryWriteInput extends Model {
      */
     public function getAmountSpecification(): mixed { return $this->get('amount_specification'); }
     public function hasAmountSpecification(): bool { return $this->has('amount_specification'); }
-    /** @return InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass
+    /** @return InvoiceScheduleDueWriteInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When due is omitted; use hasDue() or valueOrDefault().
      */
     public function getDue(): mixed { return $this->get('due'); }

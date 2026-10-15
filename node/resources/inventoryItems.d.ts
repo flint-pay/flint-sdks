@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -28,9 +28,9 @@ export interface InventoryItemsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryItems.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
+    create(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "barcode"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "sku"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsCreateResponse>>;
     /**
  * Retire an inventory item. The item is archived: it stays readable by ID and appears in lists only when you filter by status archived.
  * DELETE /v1/inventory-items/{inventory_item_id}
@@ -39,30 +39,30 @@ export interface InventoryItemsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryItems.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
+    remove(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsRemoveResponse>>;
+    removeWithResponse(inventory_item_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsRemoveResponse>>;
     /**
  * Retrieve an inventory item by ID, including archived items.
  * GET /v1/inventory-items/{inventory_item_id}
  * @example
  * client.inventoryItems.get("example")
  */
-    get(inventory_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
+    get(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(inventory_item_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemsGetResponse>>;
+    getWithResponse(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemsGetResponse>>;
     /**
  * List inventory items. Archived items are excluded unless you filter by status archived.
  * GET /v1/inventory-items
  * @example
  * client.inventoryItems.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryItemListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItemListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryItemsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItem>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItemListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryItemsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sku"?: InputValue<string>; "barcode"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItem>;
     /**
  * Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to clear.
  * PATCH /v1/inventory-items/{inventory_item_id}
@@ -71,9 +71,9 @@ export interface InventoryItemsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryItems.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(inventory_item_id: InputValue<string>, params: (InputValue<{ "barcode"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "sku"?: string | null; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
+    update(inventory_item_id: InputValue<string>, params: (InputValue<{ "barcode"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "sku"?: string | null; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(inventory_item_id: InputValue<string>, params: (InputValue<{ "barcode"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "sku"?: string | null; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsUpdateResponse>>;
+    updateWithResponse(inventory_item_id: InputValue<string>, params: (InputValue<{ "barcode"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "sku"?: string | null; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemsUpdateResponse>>;
   }
 export declare class Client {
 

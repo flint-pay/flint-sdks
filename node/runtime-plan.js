@@ -30,6 +30,19 @@ import { compileCodec, assertCodecPlan, CODEC_FORMAT, CODEC_SEMANTICS, } from '.
 export function successStatus(status) {
     return /^2\d\d$/.test(status) || ['302', '307', '304'].includes(status);
 }
+/** Headers supplied by the client have no independent operation input value. */
+export function parameterSource(op, parameter, settings) {
+    if (parameter.in !== 'header')
+        return 'input';
+    const name = parameter.name.toLowerCase();
+    if (settings.apiVersion?.header.toLowerCase() === name)
+        return 'api-version';
+    if (op.authModes?.some((mode) => settings.authentication?.[mode]?.schemes.some((scheme) => scheme.header.toLowerCase() === name)) ||
+        (settings.auth?.header.toLowerCase() === name &&
+            (op.authenticated || op.optionalAuthentication)))
+        return 'authentication';
+    return 'input';
+}
 /** Shared defaults also rendered into the PHP dynamic-contract adapter. */
 export const RETRY_DEFAULTS = {
     safeMethods: ['GET', 'HEAD', 'OPTIONS'],
@@ -94,6 +107,9 @@ export function compileRuntimePlan(contract) {
                 parameters: parameters.map(({ schema, ...parameter }) => ({
                     ...parameter,
                     codec: root(schema),
+                    ...(parameterSource(op, parameter, contract) === 'authentication'
+                        ? { source: 'authentication' }
+                        : {}),
                 })),
                 ...(body ? { body: root(body) } : {}),
                 responses: Object.fromEntries(Object.entries(responses).map(([status, { schema, ...response }]) => [
@@ -239,7 +255,8 @@ export function assertRuntimePlan(value, historical = false) {
             const field = record(parameter, `${op.id}.parameter`);
             if (typeof field.name !== 'string' ||
                 !['path', 'query', 'header'].includes(String(field.in)) ||
-                field.schema !== undefined)
+                field.schema !== undefined ||
+                (field.source !== undefined && (field.source !== 'authentication' || field.in !== 'header')))
                 throw new Error(`${op.id}: invalid compiled parameter`);
             assertCodecPlan(field.codec, `${op.id}.parameter.${field.name}`);
         }

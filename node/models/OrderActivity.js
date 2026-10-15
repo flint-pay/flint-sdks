@@ -1,9 +1,9 @@
-import { d1844 as c0, d1843 as c1, d2017 as c2 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1844 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d1847 as c0, d1846 as c1, d2034 as c2 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1847 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1844;
+const read = d1847;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OrderActivity"]:c0(),["SharedCodec472"]:c1(),["SignedMoney"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OrderActivity"]:c0(),["SharedCodec473"]:c1(),["SignedMoney"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderActivity(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

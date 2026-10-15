@@ -1,9 +1,9 @@
-import { d59 as c0, d61 as c1, d889 as c2, d323 as c3, d1874 as c4, d2171 as c5, d2172 as c6, d2175 as c7, d2217 as c8, d2218 as c9, d2219 as c10, d2224 as c11, d2225 as c12, d2226 as c13, d2244 as c14, d2318 as c15, d2173 as c16, d2174 as c17, d2415 as c18 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2171 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d59 as c0, d61 as c1, d894 as c2, d323 as c3, d1879 as c4, d2187 as c5, d2188 as c6, d2191 as c7, d2233 as c8, d2234 as c9, d2235 as c10, d2240 as c11, d2241 as c12, d2242 as c13, d2260 as c14, d2334 as c15, d2189 as c16, d2190 as c17, d2431 as c18 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2187 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2171;
+const read = d2187;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["BundleComponentVariantSummary"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["OrderLineItemModifier"]:c4(),["ReturnEligibilityCheck"]:c5(),["ReturnEligibilityCheckLineItem"]:c6(),["ReturnEligibilitySelection"]:c7(),["ReturnLineItemDecisionProposal"]:c8(),["ReturnLineItemEligibility"]:c9(),["ReturnLineItemRequest"]:c10(),["ReturnPolicyAdjustmentProposal"]:c11(),["ReturnPolicyEvaluation"]:c12(),["ReturnPolicyEvaluationLineItem"]:c13(),["ReturnReasonSummary"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec522"]:c16(),["SharedCodec523"]:c17(),["TextModifierRequest"]:c18()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["BundleComponentVariantSummary"]:c1(),["Image"]:c2(),["MoneyValue"]:c3(),["OrderLineItemModifier"]:c4(),["ReturnEligibilityCheck"]:c5(),["ReturnEligibilityCheckLineItem"]:c6(),["ReturnEligibilitySelection"]:c7(),["ReturnLineItemDecisionProposal"]:c8(),["ReturnLineItemEligibility"]:c9(),["ReturnLineItemRequest"]:c10(),["ReturnPolicyAdjustmentProposal"]:c11(),["ReturnPolicyEvaluation"]:c12(),["ReturnPolicyEvaluationLineItem"]:c13(),["ReturnReasonSummary"]:c14(),["SelectedProductOption"]:c15(),["SharedCodec527"]:c16(),["SharedCodec528"]:c17(),["TextModifierRequest"]:c18()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnEligibilityCheck(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

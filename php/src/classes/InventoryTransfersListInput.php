@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $received_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransfersListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'origin_location_id'?: string, 'destination_location_id'?: string, 'status'?: string, 'idempotency_key'?: string, 'external_reference'?: string, 'query'?: string, 'closed_reason'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'departed_after'?: string|\DateTimeInterface, 'departed_before'?: string|\DateTimeInterface, 'received_after'?: string|\DateTimeInterface, 'received_before'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'origin_location_id'?: string, 'destination_location_id'?: string, 'status'?: string, 'idempotency_key'?: string, 'external_reference'?: string, 'query'?: string, 'closed_reason'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'departed_after'?: string|\DateTimeInterface, 'departed_before'?: string|\DateTimeInterface, 'received_after'?: string|\DateTimeInterface, 'received_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransfersListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -102,9 +102,4 @@ final class InventoryTransfersListInput extends Model {
      */
     public function getReceivedBefore(): string|\DateTimeInterface { return $this->get('received_before'); }
     public function hasReceivedBefore(): bool { return $this->has('received_before'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

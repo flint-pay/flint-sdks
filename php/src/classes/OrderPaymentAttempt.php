@@ -11,12 +11,13 @@ namespace Flint;
  * @property-read string $mode
  * @property-read string $order_payment_attempt_id
  * @property-read list<PaymentAttemptPaymentIntent> $payment_intents
+ * @property-read OrderPaymentAttemptPaymentMethodSave $payment_method_save
  * @property-read list<PendingPaymentAction> $pending_actions
  * @property-read string $started_at
  * @property-read string $status
  * Presence-aware response; omitted fields throw when accessed. */
 final class OrderPaymentAttempt extends Model {
-    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'expected_outstanding_money': mixed, 'failure_code'?: string, 'failure_message'?: string, 'gift_card_redemptions'?: list<mixed>, 'is_resumable': bool, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents'?: list<mixed>, 'payment_method_save'?: mixed, 'pending_actions'?: list<mixed>, 'started_at'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentAttempt')); }
     /** @return string
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
@@ -63,6 +64,11 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getPaymentIntents(): array { return $this->get('payment_intents'); }
     public function hasPaymentIntents(): bool { return $this->has('payment_intents'); }
+    /** @return OrderPaymentAttemptPaymentMethodSave
+     * @throws SdkError When payment_method_save is omitted; use hasPaymentMethodSave() or valueOrDefault().
+     */
+    public function getPaymentMethodSave(): OrderPaymentAttemptPaymentMethodSave { return $this->get('payment_method_save'); }
+    public function hasPaymentMethodSave(): bool { return $this->has('payment_method_save'); }
     /** @return list<PendingPaymentAction>
      * @throws SdkError When pending_actions is omitted; use hasPendingActions() or valueOrDefault().
      */

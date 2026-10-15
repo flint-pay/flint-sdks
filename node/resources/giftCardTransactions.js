@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCardTransactions.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/giftCardTransactions.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["listGiftCardTransactions"]:r0});
 export class Client {
@@ -23,8 +23,7 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -37,8 +36,7 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -51,8 +49,7 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -65,8 +62,7 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -79,8 +75,7 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options),
     });
 }

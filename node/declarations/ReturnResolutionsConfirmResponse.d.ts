@@ -1,4 +1,4 @@
 
-import type { CancelReturnResolutionResponse } from './CancelReturnResolutionResponse.js';
+import type { ConfirmReturnResolutionResponse } from './ConfirmReturnResolutionResponse.js';
 
-export type ReturnResolutionsConfirmResponse = CancelReturnResolutionResponse;
+export type ReturnResolutionsConfirmResponse = ConfirmReturnResolutionResponse;

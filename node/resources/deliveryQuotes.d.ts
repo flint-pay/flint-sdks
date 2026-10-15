@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -16,12 +16,12 @@ export interface DeliveryQuotesResource {
  * @example
  * client.deliveryQuotes.list()
  */
-    list(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
+    list(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuotesListResponse>>;
-    listPages(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuoteListResponse>;
-    listPagesWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryQuotesListResponse>>;
-    listItems(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuote>;
+    listWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuotesListResponse>>;
+    listPages(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuoteListResponse>;
+    listPagesWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryQuotesListResponse>>;
+    listItems(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuote>;
   }
 export declare class Client {
 
@@ -47,6 +47,7 @@ export type { NextActionMerchantAccountSession } from '../declarations/NextActio
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { DeliveryBuyerLocationResource } from '../declarations/DeliveryBuyerLocationResource.js';
 export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
+export type { LocationAddress } from '../declarations/LocationAddress.js';
 export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
 export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
 export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
@@ -55,16 +56,19 @@ export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequ
 export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
+export type { DeliveryWindowRequest } from '../declarations/DeliveryWindowRequest.js';
 export type { DeliveryOptionProjection } from '../declarations/DeliveryOptionProjection.js';
 export type { DeliveryArrivalEstimate } from '../declarations/DeliveryArrivalEstimate.js';
 export type { BuyerInstructionsConfig } from '../declarations/BuyerInstructionsConfig.js';
 export type { DeliveryPlan } from '../declarations/DeliveryPlan.js';
 export type { DeliveryQuoteExecutionLegResource } from '../declarations/DeliveryQuoteExecutionLegResource.js';
+export type { DeliveryLocalDeliveryDetails } from '../declarations/DeliveryLocalDeliveryDetails.js';
 export type { DeliveryShipmentDetails } from '../declarations/DeliveryShipmentDetails.js';
 export type { DeliveryPickupDetails } from '../declarations/DeliveryPickupDetails.js';
 export type { DeliveryLocationSummaryResource } from '../declarations/DeliveryLocationSummaryResource.js';
 export type { DeliveryRecipientRequirement } from '../declarations/DeliveryRecipientRequirement.js';
 export type { DeliveryQuoteLineItemResource } from '../declarations/DeliveryQuoteLineItemResource.js';
+export type { DeliveryPickupAvailabilityQuantityResource } from '../declarations/DeliveryPickupAvailabilityQuantityResource.js';
 export type { DeliveryMerchantDiagnostic } from '../declarations/DeliveryMerchantDiagnostic.js';
 export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligibilityMismatch.js';
 export type { DeliveryQuoteMethodResource } from '../declarations/DeliveryQuoteMethodResource.js';
@@ -78,6 +82,7 @@ export { makeNextActionMerchantAccountSession } from '../declarations/makeNextAc
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
+export { makeLocationAddress } from '../declarations/makeLocationAddress.js';
 export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
 export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
@@ -86,16 +91,19 @@ export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressR
 export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
+export { makeDeliveryWindowRequest } from '../declarations/makeDeliveryWindowRequest.js';
 export { makeDeliveryOptionProjection } from '../declarations/makeDeliveryOptionProjection.js';
 export { makeDeliveryArrivalEstimate } from '../declarations/makeDeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../declarations/makeBuyerInstructionsConfig.js';
 export { makeDeliveryPlan } from '../declarations/makeDeliveryPlan.js';
 export { makeDeliveryQuoteExecutionLegResource } from '../declarations/makeDeliveryQuoteExecutionLegResource.js';
+export { makeDeliveryLocalDeliveryDetails } from '../declarations/makeDeliveryLocalDeliveryDetails.js';
 export { makeDeliveryShipmentDetails } from '../declarations/makeDeliveryShipmentDetails.js';
 export { makeDeliveryPickupDetails } from '../declarations/makeDeliveryPickupDetails.js';
 export { makeDeliveryLocationSummaryResource } from '../declarations/makeDeliveryLocationSummaryResource.js';
 export { makeDeliveryRecipientRequirement } from '../declarations/makeDeliveryRecipientRequirement.js';
 export { makeDeliveryQuoteLineItemResource } from '../declarations/makeDeliveryQuoteLineItemResource.js';
+export { makeDeliveryPickupAvailabilityQuantityResource } from '../declarations/makeDeliveryPickupAvailabilityQuantityResource.js';
 export { makeDeliveryMerchantDiagnostic } from '../declarations/makeDeliveryMerchantDiagnostic.js';
 export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEligibilityMismatch.js';
 export { makeDeliveryQuoteMethodResource } from '../declarations/makeDeliveryQuoteMethodResource.js';

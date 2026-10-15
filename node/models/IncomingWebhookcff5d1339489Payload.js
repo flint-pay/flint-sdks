@@ -1,9 +1,9 @@
-import { d1453 as c0, d1688 as c1, d893 as c2, d323 as c3, d901 as c4, d490 as c5, d892 as c6, d895 as c7, d900 as c8, d1449 as c9, d1451 as c10, d1686 as c11, d1687 as c12, d1452 as c13, d1450 as c14 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1453 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d1455 as c0, d1690 as c1, d898 as c2, d323 as c3, d903 as c4, d500 as c5, d897 as c6, d902 as c7, d1451 as c8, d1453 as c9, d1688 as c10, d1689 as c11, d1454 as c12, d1452 as c13 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1455 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1453;
+const read = d1455;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhookcff5d1339489Payload"]:c0(),["InvoiceLateFeePolicy"]:c1(),["MerchantWebhookEnvelope"]:c2(),["MoneyValue"]:c3(),["PartnerWebhookEnvelope"]:c4(),["SharedCodec170"]:c5(),["SharedCodec246"]:c6(),["SharedCodec249"]:c7(),["SharedCodec251"]:c8(),["SharedCodec369"]:c9(),["SharedCodec370"]:c10(),["SharedCodec433"]:c11(),["SharedCodec434"]:c12(),["Webhook_invoice_late_fee_due_installed_merchants"]:c13(),["Webhook_invoice_late_fee_due_merchant"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhookcff5d1339489Payload"]:c0(),["InvoiceLateFeePolicy"]:c1(),["MerchantWebhookEnvelope"]:c2(),["MoneyValue"]:c3(),["PartnerWebhookEnvelope"]:c4(),["SharedCodec176"]:c5(),["SharedCodec250"]:c6(),["SharedCodec252"]:c7(),["SharedCodec370"]:c8(),["SharedCodec371"]:c9(),["SharedCodec434"]:c10(),["SharedCodec435"]:c11(),["Webhook_invoice_late_fee_due_installed_merchants"]:c12(),["Webhook_invoice_late_fee_due_merchant"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeIncomingWebhookcff5d1339489Payload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

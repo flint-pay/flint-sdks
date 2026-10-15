@@ -1,4 +1,4 @@
 
 import type { CheckoutRedirectsConfig } from './CheckoutRedirectsConfig.js';
 
-export type Redirects = CheckoutRedirectsConfig;
+export interface Redirects extends CheckoutRedirectsConfig {}

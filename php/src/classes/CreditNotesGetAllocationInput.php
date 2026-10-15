@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $credit_note_allocation_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesGetAllocationInput extends Model {
-    /** @param array{'credit_note_id': string, 'credit_note_allocation_id': string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'credit_note_id': string, 'credit_note_allocation_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNotesGetAllocationInput')); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
@@ -18,9 +18,4 @@ final class CreditNotesGetAllocationInput extends Model {
      */
     public function getCreditNoteAllocationId(): string { return $this->get('credit_note_allocation_id'); }
     public function hasCreditNoteAllocationId(): bool { return $this->has('credit_note_allocation_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

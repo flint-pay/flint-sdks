@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { BrandingSettingsInput } from '../declarations/BrandingSettingsInput.js';
@@ -44,18 +44,18 @@ export interface SettingsResource {
  * @example
  * client.settings.getEffective()
  */
-    getEffective(params?: { "location_id"?: InputValue<string>; "device_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
+    getEffective(params?: { "location_id"?: InputValue<string>; "device_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getEffectiveWithResponse(params?: { "location_id"?: InputValue<string>; "device_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsGetEffectiveResponse>>;
+    getEffectiveWithResponse(params?: { "location_id"?: InputValue<string>; "device_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsGetEffectiveResponse>>;
     /**
  * Returns the raw merchant-scoped settings record for the authenticated merchant. No inheritance is applied.
  * GET /v1/settings
  * @example
  * client.settings.get()
  */
-    get(params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
+    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsGetResponse>>;
+    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsGetResponse>>;
     /**
  * Applies a sparse patch to merchant-scoped settings. Send catalog by itself because it has its own version fence. Fee and payment limit controls remain internal-only.
  * PATCH /v1/settings
@@ -64,9 +64,9 @@ export interface SettingsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.settings.update({}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: (({ "buyer_capabilities"?: BuyerCapabilitiesInput; "merchant_account_url"?: string; "mode"?: "flint_hosted" | "merchant_hosted"; "presentation"?: CustomerAccountPresentationInput; "route_templates"?: CustomerAccountRouteTemplatesInput; }) | (null)); "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
+    update(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: (({ "buyer_capabilities"?: BuyerCapabilitiesInput; "merchant_account_url"?: string; "mode"?: "flint_hosted" | "merchant_hosted"; "presentation"?: CustomerAccountPresentationInput; "route_templates"?: CustomerAccountRouteTemplatesInput; }) | (null)); "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: (({ "buyer_capabilities"?: BuyerCapabilitiesInput; "merchant_account_url"?: string; "mode"?: "flint_hosted" | "merchant_hosted"; "presentation"?: CustomerAccountPresentationInput; "route_templates"?: CustomerAccountRouteTemplatesInput; }) | (null)); "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsUpdateResponse>>;
+    updateWithResponse(params: (InputValue<({ "branding"?: BrandingSettingsInput; "catalog"?: UpdateCatalogSettingsInput; "checkout"?: CheckoutSettingsInput; "customer_account"?: (({ "buyer_capabilities"?: BuyerCapabilitiesInput; "merchant_account_url"?: string; "mode"?: "flint_hosted" | "merchant_hosted"; "presentation"?: CustomerAccountPresentationInput; "route_templates"?: CustomerAccountRouteTemplatesInput; }) | (null)); "customer_email_delivery"?: CustomerEmailDeliverySettingsInput; "expected_version"?: string; "fulfillment"?: FulfillmentSettingsInput; "inventory"?: InventorySettingsInput; "invoices"?: (({ "autopay_retry_policy"?: (({ "retry_day_offsets": Array<number>; }) | (null)); "credit_note_number_prefix"?: string | null; "default_collection_mode"?: "buyer_initiated" | "automatic" | "external" | null; "default_footer"?: string | null; "default_invoice_payment_term_id"?: string | null; "default_memo"?: string | null; "invoice_number_prefix"?: string | null; "payment_policy"?: (({ "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">; "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>; "show_cost_comparison"?: boolean; }) | (null)); "reminder_policy"?: (({ "rules": Array<InvoiceReminderRuleInput>; }) | (null)); "remit_to_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "reply_to_email"?: string | null; "timezone"?: string | null; }) | (null)); "legal"?: LegalSettingsInput; "metadata"?: Record<string, string | null> | null; "promotions"?: PromotionSettingsInput; "receipts"?: ReceiptSettingsInput; "subscriptions"?: SubscriptionSettingsInput; "tax"?: TaxSettingsInput; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); "tipping"?: TippingSettingsPatchInput; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsUpdateResponse>>;
     /**
  * Rechecks ownership and restarts validation for the configured checkout or customer account hostname. Send no request body or an empty JSON object. Each domain can be checked once every 60 seconds; rate limited responses include Retry-After.
  * POST /v1/settings/custom-domains/{domain_type}/validate
@@ -75,9 +75,9 @@ export interface SettingsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.settings.validateCustomDomain("checkout", {}, { idempotencyKey: idempotencyKey })
  */
-    validateCustomDomain(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<{ "data": CustomDomainStatus; "request_id": string; }, ["data"]>>;
+    validateCustomDomain(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<{ "data": CustomDomainStatus; "request_id": string; }, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    validateCustomDomainWithResponse(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsValidateCustomDomainResponse>>;
+    validateCustomDomainWithResponse(domain_type: InputValue<"checkout" | "customer_account">, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsValidateCustomDomainResponse>>;
   }
 export declare class Client {
 
@@ -142,6 +142,7 @@ export type { CatalogSettings } from '../declarations/CatalogSettings.js';
 export type { CheckoutSettings } from '../declarations/CheckoutSettings.js';
 export type { CheckoutRecoveryEmailSettings } from '../declarations/CheckoutRecoveryEmailSettings.js';
 export type { CheckoutSavedPaymentDetailsSettings } from '../declarations/CheckoutSavedPaymentDetailsSettings.js';
+export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
 export type { CustomerAccountSettings } from '../declarations/CustomerAccountSettings.js';
 export type { BuyerCapabilities } from '../declarations/BuyerCapabilities.js';
 export type { BuyerPauseCapability } from '../declarations/BuyerPauseCapability.js';
@@ -159,8 +160,10 @@ export type { InvoicePaymentPolicy } from '../declarations/InvoicePaymentPolicy.
 export type { InvoicePaymentOptionLimit } from '../declarations/InvoicePaymentOptionLimit.js';
 export type { InvoiceReminderPolicy } from '../declarations/InvoiceReminderPolicy.js';
 export type { InvoiceReminderRule } from '../declarations/InvoiceReminderRule.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
+export type { CheckoutLegalConfig } from '../declarations/CheckoutLegalConfig.js';
 export type { PaymentLimitSettings } from '../declarations/PaymentLimitSettings.js';
 export type { PromotionSettings } from '../declarations/PromotionSettings.js';
 export type { ReceiptSettings } from '../declarations/ReceiptSettings.js';
@@ -181,6 +184,7 @@ export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.
 export type { NextActionInput } from '../declarations/NextActionInput.js';
 export type { NextActionMerchantAccountSessionInput } from '../declarations/NextActionMerchantAccountSessionInput.js';
 export type { UpdateSettingsRequestInput } from '../declarations/UpdateSettingsRequestInput.js';
+export type { UpdateCatalogSettings } from '../declarations/UpdateCatalogSettings.js';
 export { makeSettingsResponse } from '../declarations/makeSettingsResponse.js';
 export { makeCustomDomainStatus } from '../declarations/makeCustomDomainStatus.js';
 export { makeSettings } from '../declarations/makeSettings.js';
@@ -195,6 +199,7 @@ export { makeCatalogSettings } from '../declarations/makeCatalogSettings.js';
 export { makeCheckoutSettings } from '../declarations/makeCheckoutSettings.js';
 export { makeCheckoutRecoveryEmailSettings } from '../declarations/makeCheckoutRecoveryEmailSettings.js';
 export { makeCheckoutSavedPaymentDetailsSettings } from '../declarations/makeCheckoutSavedPaymentDetailsSettings.js';
+export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
 export { makeCustomerAccountSettings } from '../declarations/makeCustomerAccountSettings.js';
 export { makeBuyerCapabilities } from '../declarations/makeBuyerCapabilities.js';
 export { makeBuyerPauseCapability } from '../declarations/makeBuyerPauseCapability.js';
@@ -212,8 +217,10 @@ export { makeInvoicePaymentPolicy } from '../declarations/makeInvoicePaymentPoli
 export { makeInvoicePaymentOptionLimit } from '../declarations/makeInvoicePaymentOptionLimit.js';
 export { makeInvoiceReminderPolicy } from '../declarations/makeInvoiceReminderPolicy.js';
 export { makeInvoiceReminderRule } from '../declarations/makeInvoiceReminderRule.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
+export { makeCheckoutLegalConfig } from '../declarations/makeCheckoutLegalConfig.js';
 export { makePaymentLimitSettings } from '../declarations/makePaymentLimitSettings.js';
 export { makePromotionSettings } from '../declarations/makePromotionSettings.js';
 export { makeReceiptSettings } from '../declarations/makeReceiptSettings.js';
@@ -221,3 +228,4 @@ export { makeSubscriptionSettings } from '../declarations/makeSubscriptionSettin
 export { makeTaxSettings } from '../declarations/makeTaxSettings.js';
 export { makeDocumentTaxID } from '../declarations/makeDocumentTaxID.js';
 export { makeTippingSettings } from '../declarations/makeTippingSettings.js';
+export { makeUpdateCatalogSettings } from '../declarations/makeUpdateCatalogSettings.js';

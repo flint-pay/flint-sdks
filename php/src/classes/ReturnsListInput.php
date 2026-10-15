@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read list<string> $work_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsListInput extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'decision_status'?: list<string>, 'external_reference_id'?: string, 'merchandise_status'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: list<string>, 'resolution_type'?: list<string>, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'work_type'?: list<string>, 'Flint-Version'?: string}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'decision_status'?: list<string>, 'external_reference_id'?: string, 'merchandise_status'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: list<string>, 'resolution_type'?: list<string>, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'work_type'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsListInput')); }
     /** @return string|\DateTimeInterface
      * @throws SdkError When created_after is omitted; use hasCreatedAfter() or valueOrDefault().
@@ -120,9 +120,4 @@ final class ReturnsListInput extends Model {
      */
     public function getWorkType(): array { return $this->get('work_type'); }
     public function hasWorkType(): bool { return $this->has('work_type'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

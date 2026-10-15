@@ -6,6 +6,8 @@ export type Json = null | boolean | number | string | Json[] | {
 };
 export type Schema = {
     'x-sdk-ref'?: string;
+    /** Source component name for Node declarations; codecs retain their shared reference. */
+    'x-sdk-type-name'?: string;
     'x-sdk-definitions'?: Record<string, Schema>;
     type?: string | string[];
     properties?: Record<string, Schema>;
@@ -214,6 +216,8 @@ export interface Config {
         overview?: string;
         guides?: Record<string, string>;
         examples?: string[];
+        /** Auth shortcut shown in README and operation examples where the operation permits it. */
+        authShortcut?: string;
     };
     release?: {
         baseUrl?: string;
@@ -221,6 +225,11 @@ export interface Config {
     };
 }
 export interface Contract {
+    /** Private publication provenance; excluded from compiled compatibility facts and effective output. */
+    exampleProtection?: {
+        locations: string[];
+        schemas: string[];
+    };
     defaultBaseUrl?: string;
     title: string;
     apiVersion: string;

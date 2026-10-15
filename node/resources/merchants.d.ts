@@ -1,8 +1,7 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 import type { MerchantResponse } from '../declarations/MerchantResponse.js';
 import type { MerchantsGetInput } from '../declarations/MerchantsGetInput.js';
 import type { MerchantsGetResponse } from '../declarations/MerchantsGetResponse.js';
@@ -20,9 +19,9 @@ export interface MerchantsResource {
  * @example
  * client.merchants.get()
  */
-    get(params?: { "expand"?: InputValue<Array<"organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
+    get(params?: { "expand"?: InputValue<Array<"organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(params?: { "expand"?: InputValue<Array<"organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantsGetResponse>>;
+    getWithResponse(params?: { "expand"?: InputValue<Array<"organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantsGetResponse>>;
     /**
  * Applies a sparse update to the authenticated merchant's public business profile fields.
  * PATCH /v1/merchant
@@ -31,9 +30,9 @@ export interface MerchantsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.merchants.update({}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: ImageRequestInput; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
+    update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "logo"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: ImageRequestInput; "logo"?: ImageRequestInput; "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantsUpdateResponse>>;
+    updateWithResponse(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "logo"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -49,7 +48,6 @@ export type { MerchantResponse } from '../declarations/MerchantResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { MerchantsGetResponse } from '../declarations/MerchantsGetResponse.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 export type { MerchantsUpdateResponse } from '../declarations/MerchantsUpdateResponse.js';
 export type { MerchantsGetInput } from '../declarations/MerchantsGetInput.js';
 export type { MerchantsUpdateInput } from '../declarations/MerchantsUpdateInput.js';
@@ -57,6 +55,7 @@ export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
 export type { Merchant } from '../declarations/Merchant.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { Banner } from '../declarations/Banner.js';
 export type { Image } from '../declarations/Image.js';
@@ -70,6 +69,7 @@ export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { UpdateMerchantRequestInput } from '../declarations/UpdateMerchantRequestInput.js';
 export { makeMerchantResponse } from '../declarations/makeMerchantResponse.js';
 export { makeMerchant } from '../declarations/makeMerchant.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeBanner } from '../declarations/makeBanner.js';
 export { makeImage } from '../declarations/makeImage.js';

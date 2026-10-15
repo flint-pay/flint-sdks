@@ -1,9 +1,9 @@
-import { d54 as c0, d765 as c1, d889 as c2, d1782 as c3, d1797 as c4, d1798 as c5, d323 as c6, d1820 as c7, d1821 as c8, d1824 as c9, d1825 as c10, d1826 as c11, d1838 as c12, d1839 as c13, d66 as c14, d2162 as c15, d2163 as c16, d14 as c17, d1781 as c18, d1819 as c19, d2560 as c20 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1838 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d54 as c0, d775 as c1, d894 as c2, d1785 as c3, d1800 as c4, d1801 as c5, d323 as c6, d1823 as c7, d1824 as c8, d1827 as c9, d1828 as c10, d1829 as c11, d1841 as c12, d1842 as c13, d66 as c14, d2178 as c15, d2179 as c16, d14 as c17, d1784 as c18, d1822 as c19, d2576 as c20 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1841 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1838;
+const read = d1841;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["Banner"]:c0(),["ExpandedOrganizationSummary"]:c1(),["Image"]:c2(),["Merchant"]:c3(),["MerchantReadinessAxis"]:c4(),["MerchantReadinessRequirements"]:c5(),["MoneyValue"]:c6(),["NextAction"]:c7(),["NextActionMerchantAccountSession"]:c8(),["OnboardingLaunchRecommendedPolicy"]:c9(),["OnboardingLaunchReference"]:c10(),["OnboardingNextStep"]:c11(),["OnboardingVerifyEmailResponse"]:c12(),["OnboardingVerifyEmailResult"]:c13(),["PostalAddress"]:c14(),["ResponseMeta"]:c15(),["ResponseWarning"]:c16(),["SharedCodec1"]:c17(),["SharedCodec464"]:c18(),["SharedCodec466"]:c19(),["User"]:c20()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Banner"]:c0(),["ExpandedOrganizationSummary"]:c1(),["Image"]:c2(),["Merchant"]:c3(),["MerchantReadinessAxis"]:c4(),["MerchantReadinessRequirements"]:c5(),["MoneyValue"]:c6(),["NextAction"]:c7(),["NextActionMerchantAccountSession"]:c8(),["OnboardingLaunchRecommendedPolicy"]:c9(),["OnboardingLaunchReference"]:c10(),["OnboardingNextStep"]:c11(),["OnboardingVerifyEmailResponse"]:c12(),["OnboardingVerifyEmailResult"]:c13(),["PostalAddress"]:c14(),["ResponseMeta"]:c15(),["ResponseWarning"]:c16(),["SharedCodec1"]:c17(),["SharedCodec465"]:c18(),["SharedCodec467"]:c19(),["User"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOnboardingVerifyEmailResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

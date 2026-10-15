@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $permission_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
-    /** @param array{'client_id': string, 'redirect_uri': string, 'mode': string, 'permission_ids'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'client_id': string, 'redirect_uri': string, 'mode': string, 'permission_ids'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OauthPreviewPartnerInstallAuthorizationInput')); }
     /** @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
@@ -30,9 +30,4 @@ final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
      */
     public function getPermissionIds(): string { return $this->get('permission_ids'); }
     public function hasPermissionIds(): bool { return $this->has('permission_ids'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

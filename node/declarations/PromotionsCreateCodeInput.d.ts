@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
 import type { CreatePromotionCodeRequestInput } from './CreatePromotionCodeRequestInput.js';
 
-export type PromotionsCreateCodeInput = { "promotion_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; /** Format: date. */ "Flint-Version"?: InputValue<string>; "body": InputValue<CreatePromotionCodeRequestInput>; };
+export type PromotionsCreateCodeInput = { "promotion_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "body": InputValue<CreatePromotionCodeRequestInput>; };

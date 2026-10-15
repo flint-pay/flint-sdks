@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -19,9 +19,9 @@ export interface EmailPreferenceLinksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.emailPreferenceLinks.lookup({token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    lookup(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<EmailPreferenceLinkResponse, ["data"]>>;
+    lookup(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<EmailPreferenceLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    lookupWithResponse(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<EmailPreferenceLinksLookupResponse>>;
+    lookupWithResponse(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<EmailPreferenceLinksLookupResponse>>;
     /**
  * Disables the email preference represented by an emailed token without signing the buyer in. Repeating the request keeps it disabled. The merchant key must match the token's merchant and environment.
  * POST /v1/email-preference-links/unsubscribe
@@ -30,9 +30,9 @@ export interface EmailPreferenceLinksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.emailPreferenceLinks.unsubscribe({token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    unsubscribe(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<EmailPreferenceLinkResponse, ["data"]>>;
+    unsubscribe(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<EmailPreferenceLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    unsubscribeWithResponse(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<EmailPreferenceLinksUnsubscribeResponse>>;
+    unsubscribeWithResponse(params: (InputValue<{ "token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<EmailPreferenceLinksUnsubscribeResponse>>;
   }
 export declare class Client {
 

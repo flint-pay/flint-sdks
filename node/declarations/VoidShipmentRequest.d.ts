@@ -1,4 +1,4 @@
 
 import type { VoidPackageRequest } from './VoidPackageRequest.js';
 
-export type VoidShipmentRequest = VoidPackageRequest;
+export interface VoidShipmentRequest extends VoidPackageRequest {}

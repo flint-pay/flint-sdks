@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass> $custom_fields
- * @property-read CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass $custom_text
+ * @property-read PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass $custom_text
  * @property-read PaymentLinkCustomerConfigInput|array<array-key, mixed>|\stdClass $customer_collection
  * @property-read list<string> $delivery_method_ids
  * @property-read string $description
@@ -12,22 +12,22 @@ namespace Flint;
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $donation_suggested_amount_money_options
  * @property-read PaymentLinkEventConfigInput|array<array-key, mixed>|\stdClass $event_config
  * @property-read string $expected_version
- * @property-read CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass $expiration
+ * @property-read PaymentLinkExpirationConfigInput|array<array-key, mixed>|\stdClass $expiration
  * @property-read string $external_reference_id
  * @property-read array{'alt'?: string, 'external_reference_id'?: string, 'source_url': string, ...}|object|null $image
  * @property-read string $inactive_message
  * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
- * @property-read LegalSettingsInput|array<array-key, mixed>|\stdClass $legal
+ * @property-read PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass $legal
  * @property-read list<PaymentLinkLineItemPatchRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read int $max_completions
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $name
- * @property-read CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
+ * @property-read PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
  * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
- * @property-read CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass $redirects
+ * @property-read PaymentLinkRedirectsConfigInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string $status
  * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
- * @property-read ThemeConfigInput|array<array-key, mixed>|\stdClass $theme
+ * @property-read PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass $theme
  * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePaymentLinkRequestInput extends Model {
@@ -38,7 +38,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getCustomFields(): array { return $this->get('custom_fields'); }
     public function hasCustomFields(): bool { return $this->has('custom_fields'); }
-    /** @return CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When custom_text is omitted; use hasCustomText() or valueOrDefault().
      */
     public function getCustomText(): mixed { return $this->get('custom_text'); }
@@ -83,7 +83,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return CheckoutExpirationConfigInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkExpirationConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When expiration is omitted; use hasExpiration() or valueOrDefault().
      */
     public function getExpiration(): mixed { return $this->get('expiration'); }
@@ -108,7 +108,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** @return LegalSettingsInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
      */
     public function getLegal(): mixed { return $this->get('legal'); }
@@ -133,7 +133,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */
     public function getPayments(): mixed { return $this->get('payments'); }
@@ -143,7 +143,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** @return CheckoutRedirectsConfigInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkRedirectsConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When redirects is omitted; use hasRedirects() or valueOrDefault().
      */
     public function getRedirects(): mixed { return $this->get('redirects'); }
@@ -158,7 +158,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** @return ThemeConfigInput|array<array-key, mixed>|\stdClass
+    /** @return PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When theme is omitted; use hasTheme() or valueOrDefault().
      */
     public function getTheme(): mixed { return $this->get('theme'); }

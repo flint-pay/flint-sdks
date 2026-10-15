@@ -1,7 +1,7 @@
-import { d144 as c0, d201 as c1, d199 as c2, d200 as c3, d2437 as c4 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2437 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d144 as c0, d201 as c1, d199 as c2, d200 as c3, d2453 as c4 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2453 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2437;
+const read = d2453;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["CheckoutSubscriptionTermsRequest"]:c1(),["SharedCodec34"]:c2(),["SharedCodec35"]:c3(),["UpdateCheckoutSessionRequest"]:c4()}); }
 export { codec as _validate };

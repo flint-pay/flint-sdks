@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string $sort_by
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentEventsListInput extends Model {
-    /** @param array{'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'event_type'?: string, 'external_system'?: string, 'external_event_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'sort_by'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'event_type'?: string, 'external_system'?: string, 'external_event_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'sort_by'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentEventsListInput')); }
     /** @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
@@ -83,9 +83,4 @@ final class FulfillmentEventsListInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

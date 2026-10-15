@@ -1,4 +1,4 @@
 
 import type { IncomingWebhook1824a72a4c81Payload } from './IncomingWebhook1824a72a4c81Payload.js';
 
-export type Webhook_return_resolution_created_merchant = IncomingWebhook1824a72a4c81Payload;
+export interface Webhook_return_resolution_created_merchant extends IncomingWebhook1824a72a4c81Payload {}

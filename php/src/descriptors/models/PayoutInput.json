@@ -1,1 +1,1 @@
-{"shared":"Payout","dependencies":["ExpandedPayoutDestinationSummary","ExpandedPayoutSummary","MoneyValue","Payout","PayoutTraceID","SharedCodec244","SharedCodec504","SharedCodec505","SharedCodec506","SignedMoney"]}
+{"shared":"Payout","dependencies":["ExpandedPayoutDestinationSummary","ExpandedPayoutSummary","MoneyValue","Payout","PayoutTraceID","SharedCodec248","SharedCodec509","SharedCodec510","SharedCodec511","SignedMoney"]}

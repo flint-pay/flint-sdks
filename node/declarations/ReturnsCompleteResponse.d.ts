@@ -1,4 +1,4 @@
 
-import type { MeCancelReturnResponse } from './MeCancelReturnResponse.js';
+import type { CompleteReturnResponse } from './CompleteReturnResponse.js';
 
-export type ReturnsCompleteResponse = MeCancelReturnResponse;
+export type ReturnsCompleteResponse = CompleteReturnResponse;

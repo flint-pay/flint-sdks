@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read list<string> $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReasonsListInput extends Model {
-    /** @param array{'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'source'?: string, 'status'?: list<string>, 'Flint-Version'?: string}|object $values */
+    /** @param array{'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'source'?: string, 'status'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReasonsListInput')); }
     /** @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
@@ -42,9 +42,4 @@ final class ReturnReasonsListInput extends Model {
      */
     public function getStatus(): array { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -84,6 +84,7 @@ export type { Credentials } from '../declarations/Credentials.js';
 export type { SubscriptionAddressVerification } from '../declarations/SubscriptionAddressVerification.js';
 export type { SubscriptionDeliveryOption } from '../declarations/SubscriptionDeliveryOption.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { SubscriptionPreviewError } from '../declarations/SubscriptionPreviewError.js';
 export type { ErrorDetail } from '../declarations/ErrorDetail.js';
@@ -105,6 +106,7 @@ export type { FulfillmentRecipient } from '../declarations/FulfillmentRecipient.
 export type { ServiceFulfillmentDetails } from '../declarations/ServiceFulfillmentDetails.js';
 export type { ExpandedShipmentSummary } from '../declarations/ExpandedShipmentSummary.js';
 export type { ReturnShipmentLineItemAllocation } from '../declarations/ReturnShipmentLineItemAllocation.js';
+export type { ReturnHandoffRequirementLineItem } from '../declarations/ReturnHandoffRequirementLineItem.js';
 export type { ShippingDimensions } from '../declarations/ShippingDimensions.js';
 export type { ShippingWeight } from '../declarations/ShippingWeight.js';
 export type { QuotaDetails } from '../declarations/QuotaDetails.js';
@@ -118,10 +120,25 @@ export type { PaymentCollectionStripe } from '../declarations/PaymentCollectionS
 export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
+export type { OrderDeliveryDestinationAddressRequest } from '../declarations/OrderDeliveryDestinationAddressRequest.js';
+export type { DeliverySelectionRecipientRequest } from '../declarations/DeliverySelectionRecipientRequest.js';
+export type { DeliveryRadiusOrigin } from '../declarations/DeliveryRadiusOrigin.js';
+export type { DeliveryWindowTimeCondition } from '../declarations/DeliveryWindowTimeCondition.js';
+export type { DeliveryScheduleWindowRuleInput } from '../declarations/DeliveryScheduleWindowRuleInput.js';
+export type { DeliveryBlackoutInterval } from '../declarations/DeliveryBlackoutInterval.js';
+export type { DeliveryWeeklyInterval } from '../declarations/DeliveryWeeklyInterval.js';
+export type { DeliveryBusinessDayRange } from '../declarations/DeliveryBusinessDayRange.js';
+export type { DeliveryDistanceUnitPriceInput } from '../declarations/DeliveryDistanceUnitPriceInput.js';
+export type { DeliveryWeightUnitPriceInput } from '../declarations/DeliveryWeightUnitPriceInput.js';
+export type { DeliveryFixedPricingStrategyInput } from '../declarations/DeliveryFixedPricingStrategyInput.js';
+export type { DeliveryTieredPricingStrategyInput } from '../declarations/DeliveryTieredPricingStrategyInput.js';
+export type { DeliveryPricingTierBandInput } from '../declarations/DeliveryPricingTierBandInput.js';
+export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
 export { makeSubscriptionPreviewResponse } from '../declarations/makeSubscriptionPreviewResponse.js';
 export { makeSubscriptionAddressVerification } from '../declarations/makeSubscriptionAddressVerification.js';
 export { makeSubscriptionDeliveryOption } from '../declarations/makeSubscriptionDeliveryOption.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeSubscriptionPreviewError } from '../declarations/makeSubscriptionPreviewError.js';
 export { makeErrorDetail } from '../declarations/makeErrorDetail.js';
@@ -143,6 +160,7 @@ export { makeFulfillmentRecipient } from '../declarations/makeFulfillmentRecipie
 export { makeServiceFulfillmentDetails } from '../declarations/makeServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../declarations/makeExpandedShipmentSummary.js';
 export { makeReturnShipmentLineItemAllocation } from '../declarations/makeReturnShipmentLineItemAllocation.js';
+export { makeReturnHandoffRequirementLineItem } from '../declarations/makeReturnHandoffRequirementLineItem.js';
 export { makeShippingDimensions } from '../declarations/makeShippingDimensions.js';
 export { makeShippingWeight } from '../declarations/makeShippingWeight.js';
 export { makeQuotaDetails } from '../declarations/makeQuotaDetails.js';
@@ -156,3 +174,11 @@ export { makePaymentCollectionStripe } from '../declarations/makePaymentCollecti
 export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../declarations/makeOrderDeliveryDestinationAddressRequest.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/makeDeliverySelectionRecipientRequest.js';
+export { makeDeliveryRadiusOrigin } from '../declarations/makeDeliveryRadiusOrigin.js';
+export { makeDeliveryWindowTimeCondition } from '../declarations/makeDeliveryWindowTimeCondition.js';
+export { makeDeliveryBlackoutInterval } from '../declarations/makeDeliveryBlackoutInterval.js';
+export { makeDeliveryWeeklyInterval } from '../declarations/makeDeliveryWeeklyInterval.js';
+export { makeDeliveryBusinessDayRange } from '../declarations/makeDeliveryBusinessDayRange.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';

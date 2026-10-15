@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/payoutSettings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/payoutSettings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["deletePayoutDestination"]:r0,["getPayoutDestination"]:r0,["getPayoutSettings"]:r0,["listPayoutDestinations"]:r0,["updatePayoutDestination"]:r0,["updatePayoutSettings"]:r0});
 export class Client {
@@ -16,35 +16,29 @@ this.payoutSettings = Object.freeze({
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       deletePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("deletePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       getPayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPayoutDestinations: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -55,8 +49,7 @@ this.payoutSettings = Object.freeze({
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPayoutDestinationsWithResponse: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -67,8 +60,7 @@ this.payoutSettings = Object.freeze({
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPayoutDestinationsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -79,8 +71,7 @@ this.payoutSettings = Object.freeze({
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPayoutDestinationsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -91,8 +82,7 @@ this.payoutSettings = Object.freeze({
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listPayoutDestinationsItems: (params, options) => this.#runtime.items("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -103,32 +93,27 @@ this.payoutSettings = Object.freeze({
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       updatePayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updatePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -147,3 +132,5 @@ export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeMoneyMovementListMeta } from '../models/MoneyMovementListMeta.js';
 export { makeMoneyMovementHistoryMeta } from '../models/MoneyMovementHistoryMeta.js';
 export { makeMoneyMovementBlockedReason } from '../models/MoneyMovementBlockedReason.js';
+export { makeCancelPayoutRequest } from '../models/CancelPayoutRequest.js';
+export { makeUpdatePayoutDestinationRequest } from '../models/UpdatePayoutDestinationRequest.js';

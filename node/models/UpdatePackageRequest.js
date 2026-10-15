@@ -1,9 +1,9 @@
-import { d2505 as c0, d2506 as c1, d2327 as c2, d2328 as c3, d2507 as c4 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2507 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d2522 as c0, d2523 as c1, d2343 as c2, d2344 as c3, d2524 as c4 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2524 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2507;
+const read = d2524;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec635"]:c0(),["SharedCodec636"]:c1(),["ShippingDimensions"]:c2(),["ShippingWeight"]:c3(),["UpdatePackageRequest"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec641"]:c0(),["SharedCodec642"]:c1(),["ShippingDimensions"]:c2(),["ShippingWeight"]:c3(),["UpdatePackageRequest"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePackageRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

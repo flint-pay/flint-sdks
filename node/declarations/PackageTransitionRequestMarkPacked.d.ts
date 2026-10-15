@@ -1,4 +1,4 @@
 
 import type { FulfillmentTransitionRequestMarkPacked } from './FulfillmentTransitionRequestMarkPacked.js';
 
-export type PackageTransitionRequestMarkPacked = FulfillmentTransitionRequestMarkPacked;
+export interface PackageTransitionRequestMarkPacked extends FulfillmentTransitionRequestMarkPacked {}

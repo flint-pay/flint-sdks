@@ -1,4 +1,4 @@
 
 import type { DeliveryPricingTierBand } from './DeliveryPricingTierBand.js';
 
-export type DeliveryPricingTierBandRequest = DeliveryPricingTierBand;
+export interface DeliveryPricingTierBandRequest extends DeliveryPricingTierBand {}

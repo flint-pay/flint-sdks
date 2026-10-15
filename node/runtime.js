@@ -21,7 +21,7 @@ export class SdkError extends Error {
         this.code = code;
         this.details = details;
         this.raw = raw;
-        this.name = 'SdkError';
+        this.name = errorNames.get(new.target) ?? new.target.name;
     }
     get status() {
         return this.meta?.status;
@@ -41,8 +41,87 @@ export class SdkError extends Error {
         };
     }
 }
+// Preserve the root class identity while providing both namespace values and types.
+const BaseSdkError = SdkError;
+export var errors;
+(function (errors) {
+    errors.SdkError = BaseSdkError;
+    class ConnectionError extends BaseSdkError {
+    }
+    errors.ConnectionError = ConnectionError;
+    class AuthenticationError extends BaseSdkError {
+    }
+    errors.AuthenticationError = AuthenticationError;
+    class ValidationError extends BaseSdkError {
+    }
+    errors.ValidationError = ValidationError;
+    class RateLimitError extends BaseSdkError {
+    }
+    errors.RateLimitError = RateLimitError;
+    class NotFoundError extends BaseSdkError {
+    }
+    errors.NotFoundError = NotFoundError;
+    class ConflictError extends BaseSdkError {
+    }
+    errors.ConflictError = ConflictError;
+    class ServerError extends BaseSdkError {
+    }
+    errors.ServerError = ServerError;
+    class ApiError extends BaseSdkError {
+    }
+    errors.ApiError = ApiError;
+    class ProtocolError extends BaseSdkError {
+    }
+    errors.ProtocolError = ProtocolError;
+    class CancelledError extends BaseSdkError {
+    }
+    errors.CancelledError = CancelledError;
+    class DeadlineError extends BaseSdkError {
+    }
+    errors.DeadlineError = DeadlineError;
+    class DestinationError extends BaseSdkError {
+    }
+    errors.DestinationError = DestinationError;
+})(errors || (errors = {}));
+// Built-in identities survive minification; consumer subclasses retain their own names.
+const errorNames = new Map([
+    [SdkError, 'SdkError'],
+    [errors.ConnectionError, 'ConnectionError'],
+    [errors.AuthenticationError, 'AuthenticationError'],
+    [errors.ValidationError, 'ValidationError'],
+    [errors.RateLimitError, 'RateLimitError'],
+    [errors.NotFoundError, 'NotFoundError'],
+    [errors.ConflictError, 'ConflictError'],
+    [errors.ServerError, 'ServerError'],
+    [errors.ApiError, 'ApiError'],
+    [errors.ProtocolError, 'ProtocolError'],
+    [errors.CancelledError, 'CancelledError'],
+    [errors.DeadlineError, 'DeadlineError'],
+    [errors.DestinationError, 'DestinationError'],
+]);
+const errorClasses = {
+    transport: errors.ConnectionError,
+    authentication: errors.AuthenticationError,
+    validation: errors.ValidationError,
+    rate_limit: errors.RateLimitError,
+    not_found: errors.NotFoundError,
+    conflict: errors.ConflictError,
+    server: errors.ServerError,
+    api: errors.ApiError,
+    protocol: errors.ProtocolError,
+    cancelled: errors.CancelledError,
+    deadline: errors.DeadlineError,
+    destination: errors.DestinationError,
+};
+/** Internal construction boundary; public constructors keep their existing arguments. */
+export function createSdkError(...args) {
+    const error = new errorClasses[args[0]](...args);
+    if (typeof Error.captureStackTrace === 'function')
+        Error.captureStackTrace(error, createSdkError);
+    return error;
+}
 const webhookError = (kind, code, message) => {
-    throw new SdkError(kind, message, 'not_sent', false, undefined, 'webhook_' + code);
+    throw createSdkError(kind, message, 'not_sent', false, undefined, 'webhook_' + code);
 };
 function webhookHeaderValues(headers, name) {
     if (!headers || typeof headers !== 'object' || Array.isArray(headers))
@@ -103,7 +182,7 @@ export class EventStream {
     failure;
     lifetime;
     abort = () => {
-        this.failure = new SdkError('cancelled', 'Stream cancelled', 'response', false, this.meta);
+        this.failure = createSdkError('cancelled', 'Stream cancelled', 'response', false, this.meta);
         void this.close();
     };
     constructor(reader, meta, settings, decodeEvent = (_event, data) => data, released = () => { }) {
@@ -117,7 +196,7 @@ export class EventStream {
             this.abort();
         if (settings.lifetimeMs)
             this.lifetime = schedule(() => {
-                this.failure = new SdkError('deadline', 'Stream lifetime exceeded', 'response', false, this.meta);
+                this.failure = createSdkError('deadline', 'Stream lifetime exceeded', 'response', false, this.meta);
                 void this.close();
             }, settings.lifetimeMs);
     }
@@ -135,7 +214,7 @@ export class EventStream {
     }
     async *[Symbol.asyncIterator]() {
         if (this.started)
-            throw new SdkError('validation', 'A stream can only be consumed once');
+            throw createSdkError('validation', 'A stream can only be consumed once');
         this.started = true;
         const decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
         let firstCharacter = true;
@@ -185,7 +264,7 @@ export class EventStream {
                 const next = await Promise.race([
                     this.reader.read(),
                     new Promise((_resolve, reject) => {
-                        timer = schedule(() => reject(new SdkError('deadline', 'Stream idle timeout exceeded', 'response', false, this.meta)), this.settings.idleTimeoutMs);
+                        timer = schedule(() => reject(createSdkError('deadline', 'Stream idle timeout exceeded', 'response', false, this.meta)), this.settings.idleTimeoutMs);
                     }),
                 ]).finally(() => timer?.cancel());
                 if (this.failure)
@@ -203,7 +282,7 @@ export class EventStream {
                         if (character === '\ufeff') {
                             bytes = 3;
                             if (bytes > this.settings.maxEventBytes)
-                                throw new SdkError('protocol', 'SSE event exceeds configured size limit', 'response');
+                                throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response');
                             continue;
                         }
                     }
@@ -214,7 +293,7 @@ export class EventStream {
                     }
                     if (character === '\r' || character === '\n') {
                         if (++bytes > this.settings.maxEventBytes)
-                            throw new SdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
+                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
                         skipLF = character === '\r';
                         const frame = consumeLine();
                         if (frame)
@@ -223,7 +302,7 @@ export class EventStream {
                     else {
                         bytes += Buffer.byteLength(character);
                         if (bytes > this.settings.maxEventBytes)
-                            throw new SdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
+                            throw createSdkError('protocol', 'SSE event exceeds configured size limit', 'response', false, this.meta);
                         line += character;
                     }
                 }
@@ -234,7 +313,7 @@ export class EventStream {
         catch (cause) {
             if (cause instanceof SdkError && cause.kind !== 'validation')
                 throw cause;
-            throw new SdkError('protocol', 'Invalid or interrupted SSE stream', 'response', false, this.meta, undefined, undefined, { cause });
+            throw createSdkError('protocol', 'Invalid or interrupted SSE stream', 'response', false, this.meta, undefined, undefined, { cause });
         }
         finally {
             await this.close();
@@ -244,7 +323,7 @@ export class EventStream {
 const validationFailures = new WeakMap();
 const bad = (path, reason) => {
     const message = `${path}: ${reason}`;
-    const error = new SdkError('validation', message);
+    const error = createSdkError('validation', message);
     validationFailures.set(error, message);
     throw error;
 };
@@ -1573,7 +1652,7 @@ function positive(v, label) {
 }
 function stopped(signal, outcome = 'unknown') {
     if (signal?.aborted)
-        throw new SdkError('cancelled', 'Local request cancelled; this does not cancel the remote operation', outcome);
+        throw createSdkError('cancelled', 'Local request cancelled; this does not cancel the remote operation', outcome);
 }
 function abortable(promise, signal) {
     return new Promise((resolve, reject) => {
@@ -1603,7 +1682,7 @@ async function delay(ms, signal) {
         }, ms);
         const cancel = () => {
             timer?.cancel();
-            reject(new SdkError('cancelled', 'Local waiting cancelled', 'unknown'));
+            reject(createSdkError('cancelled', 'Local waiting cancelled', 'unknown'));
         };
         signal?.addEventListener('abort', cancel, { once: true });
     });
@@ -1622,13 +1701,152 @@ function clientBaseUrl(baseUrl) {
 }
 function destinationUrl(value, base) {
     if (/[\\\x00-\x20]/.test(value))
-        throw new SdkError('destination', 'Invalid destination URL');
+        throw createSdkError('destination', 'Invalid destination URL');
     try {
         return new URL(value, base);
     }
     catch {
-        throw new SdkError('destination', 'Invalid destination URL');
+        throw createSdkError('destination', 'Invalid destination URL');
     }
+}
+/** Verify compiled webhook descriptors without constructing an HTTP runtime. */
+export function verifyWebhookFromPlan(source, rawBody, headers, secrets, nowSeconds = Date.now() / 1000, redactFields = []) {
+    const decode = (value, codec, context) => executeCodec(value, codec, {
+        ...context,
+        definitions: source instanceof DescriptorSource ? source.definitions() : (source.definitions ?? {}),
+    });
+    const w = source instanceof DescriptorSource ? source.webhook() : source.webhook;
+    if (!w)
+        return bad('webhook', 'capability is not declared');
+    if (!(rawBody instanceof Uint8Array))
+        return webhookError('validation', 'invalid_input', 'Webhook body must be original Buffer or Uint8Array bytes; capture it before JSON parsing');
+    if (typeof nowSeconds !== 'number' || !Number.isFinite(nowSeconds))
+        return webhookError('validation', 'invalid_input', 'Webhook nowSeconds must be a finite Unix timestamp in seconds');
+    const supplied = typeof secrets === 'string' ? [secrets] : Array.isArray(secrets) ? Array.from(secrets) : [];
+    if (!supplied.length || !supplied.every((secret) => typeof secret === 'string'))
+        return webhookError('validation', 'invalid_secret', 'Webhook secrets must be a nonempty string or array of strings');
+    const format = w.format ?? 'hex';
+    const keys = [];
+    for (const secret of supplied) {
+        if (!secret)
+            continue;
+        if (format !== 'standard-webhooks')
+            keys.push(secret);
+        else if (/^whsec_[A-Za-z0-9+/]{43}=$/.test(secret)) {
+            const key = Buffer.from(secret.slice(6), 'base64');
+            if (key.length === 32 && key.toString('base64') === secret.slice(6))
+                keys.push(key);
+        }
+    }
+    if (!keys.length)
+        return webhookError('validation', 'invalid_secret', format === 'standard-webhooks'
+            ? 'Webhook secret must be whsec_ followed by canonical base64 encoding of 32 bytes'
+            : 'Provide at least one nonempty webhook signing secret');
+    const signatures = webhookHeaderValues(headers, w.header);
+    let timestamp = '';
+    let candidates = [];
+    let prefix = '';
+    if (format === 'timestamped-hex') {
+        const parts = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
+        const timestamps = parts.filter((part) => part.startsWith('t='));
+        const signedTimestamp = timestamps[0];
+        if (timestamps.length !== 1 || signedTimestamp === undefined)
+            return webhookError('authentication', 'invalid_timestamp', 'Webhook signature must contain exactly one t= timestamp');
+        timestamp = signedTimestamp.slice(2);
+        candidates = parts.filter((part) => part.startsWith('v1=')).map((part) => part.slice(3));
+    }
+    else {
+        if (!w.timestampHeader)
+            return bad('webhook', 'timestamp header is not declared');
+        timestamp = webhookScalarHeader(headers, w.timestampHeader, true);
+        if (format === 'standard-webhooks') {
+            if (!w.idHeader)
+                return bad('webhook', 'ID header is not declared');
+            prefix = webhookScalarHeader(headers, w.idHeader) + '.';
+            // Fetch combines repeated header lines with commas. The comma inside v1,<digest>
+            // belongs to the signature token; commas between versioned tokens delimit values.
+            candidates = signatures
+                .flatMap((signature) => signature.trim().split(/(?:\s+|,\s*(?=v\d+,))/))
+                .filter((part) => part.startsWith('v1,'))
+                .map((part) => part.slice(3));
+        }
+        else
+            candidates = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
+    }
+    if (!/^\d+$/.test(timestamp) || !Number.isSafeInteger(Number(timestamp)))
+        return webhookError('authentication', 'invalid_timestamp', 'Webhook timestamp must be an integer Unix timestamp in seconds');
+    if (Math.abs(nowSeconds - Number(timestamp)) > w.toleranceSeconds)
+        return webhookError('authentication', 'timestamp_out_of_tolerance', 'Webhook timestamp is outside the allowed tolerance; check the server clock and delivery age');
+    const signed = Buffer.concat([
+        Buffer.from(prefix + timestamp + w.separator),
+        Buffer.from(rawBody),
+    ]);
+    const digests = candidates
+        .filter((candidate) => format === 'standard-webhooks'
+        ? /^[A-Za-z0-9+/]{43}=$/.test(candidate) &&
+            Buffer.from(candidate, 'base64').toString('base64') === candidate
+        : /^[a-fA-F0-9]{64}$/.test(candidate))
+        .map((candidate) => Buffer.from(candidate, format === 'standard-webhooks' ? 'base64' : 'hex'));
+    let valid = false;
+    for (const key of keys) {
+        const expected = createHmac('sha256', key).update(signed).digest();
+        for (const actual of digests)
+            valid = timingSafeEqual(expected, actual) || valid;
+    }
+    if (!valid)
+        return webhookError('authentication', 'invalid_signature', 'Invalid webhook signature; check the signing secret and preserve the original request body bytes without reserializing JSON');
+    let event;
+    try {
+        event = parseJson(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.from(rawBody)), true);
+    }
+    catch (cause) {
+        throw createSdkError('protocol', 'Invalid webhook JSON', 'response', false, undefined, 'webhook_invalid_json', undefined, { cause });
+    }
+    const eventType = field(event, w.typeField);
+    const schema = typeof eventType === 'string' && Object.hasOwn(w.events, eventType)
+        ? w.events[eventType]
+        : undefined;
+    // Decode first: malformed declared payloads remain protocol errors. Matching is
+    // a separate predicate over the original exact JSON values, not decoded strings.
+    let decoded = event;
+    if (schema) {
+        try {
+            decoded = decode(event, schema, {
+                mode: 'response',
+                path: 'event',
+                redactFields: redactFields,
+            });
+        }
+        catch (cause) {
+            if (!(cause instanceof SdkError) || cause.kind !== 'validation')
+                throw cause;
+            throw createSdkError('protocol', 'Invalid webhook payload' +
+                (validationFailures.has(cause) ? ': ' + validationFailures.get(cause) : ''), 'response', false, undefined, undefined, undefined, { cause });
+        }
+    }
+    let known = false;
+    if (schema) {
+        try {
+            decode(event, schema, {
+                mode: 'match',
+                direction: 'response',
+                path: 'event',
+                allowUnknownResponseFields: true,
+            });
+            known = true;
+        }
+        catch (error) {
+            if (!(error instanceof SdkError) || error.kind !== 'validation')
+                throw error;
+        }
+    }
+    return known
+        ? { event: plainNumbers(decoded), known: true }
+        : {
+            event: plainNumbers(decoded),
+            known: false,
+            reason: schema ? 'unmatched_envelope' : 'unknown_event',
+        };
 }
 class CompiledRuntime {
     dynamicPlan;
@@ -1669,7 +1887,7 @@ class CompiledRuntime {
         if (this.compiledContract.authentication &&
             options.token !== undefined &&
             !this.compiledContract.authShortcuts?.token)
-            throw new SdkError('authentication', `token is not configured for this SDK; use ${Object.keys(this.compiledContract.authShortcuts ?? {})
+            throw createSdkError('authentication', `token is not configured for this SDK; use ${Object.keys(this.compiledContract.authShortcuts ?? {})
                 .sort()
                 .join(', ') || 'authMode and credentials'}`);
         this.allowed = new Set(options.allowedOrigins ?? [this.base.origin]);
@@ -1683,15 +1901,41 @@ class CompiledRuntime {
     decode(value, codec, context) {
         return executeCodec(value, codec, { ...context, definitions: this.definitions() });
     }
+    validateHeaderValue(value, codec, path) {
+        // Simple headers carry scalars or comma-separated scalar arrays. Validate
+        // their possible wire interpretations with the request codec, keeping the
+        // original header spelling and exact numeric tokens intact.
+        const parseScalar = (text) => text === 'true' || text === 'false'
+            ? text === 'true'
+            : exactDecimal.test(text)
+                ? new ParsedNumber(text)
+                : text;
+        const parts = value.split(',');
+        let failure;
+        for (const candidate of [value, parseScalar(value), parts, parts.map(parseScalar)]) {
+            try {
+                this.decode(candidate, codec, { mode: 'request', path });
+                return;
+            }
+            catch (error) {
+                if (!(error instanceof SdkError) || error.kind !== 'validation')
+                    throw error;
+                failure ??= error;
+            }
+        }
+        if (failure)
+            throw failure;
+        throw new Error('Header validation did not evaluate a value');
+    }
     checkUrl(url) {
         if (!url.hostname || url.username || url.password || url.hash)
-            throw new SdkError('destination', 'Invalid destination: embedded credentials and fragments are not allowed');
+            throw createSdkError('destination', 'Invalid destination: embedded credentials and fragments are not allowed');
         if (!['https:', 'http:'].includes(url.protocol))
-            throw new SdkError('destination', 'Unsupported destination protocol; use HTTPS');
+            throw createSdkError('destination', 'Unsupported destination protocol; use HTTPS');
         if (url.protocol === 'http:' && !this.options.allowInsecureHttp)
-            throw new SdkError('destination', 'HTTP is disabled; set allowInsecureHttp: true for deliberate local testing');
+            throw createSdkError('destination', 'HTTP is disabled; set allowInsecureHttp: true for deliberate local testing');
         if (!this.allowed.has(url.origin))
-            throw new SdkError('destination', 'Destination origin is not in allowedOrigins');
+            throw createSdkError('destination', 'Destination origin is not in allowedOrigins');
     }
     async request(id, input = {}, options = {}, continuation) {
         if (!input || typeof input !== 'object' || Array.isArray(input))
@@ -1736,6 +1980,11 @@ class CompiledRuntime {
         let path = op.path;
         const query = [];
         for (const p of op.parameters) {
+            if (p.source === 'authentication') {
+                if (Object.hasOwn(input, p.name))
+                    bad(p.name, 'supply this header through authentication options');
+                continue;
+            }
             let value = Object.hasOwn(input, p.name) ? input[p.name] : undefined;
             if (value === undefined &&
                 p.in === 'header' &&
@@ -1792,7 +2041,7 @@ class CompiledRuntime {
                     value[key] !== undefined);
                 if (supplied.length > 1 ||
                     (supplied.length && (value.authMode !== undefined || value.credentials !== undefined)))
-                    throw new SdkError('authentication', 'Use one authentication shortcut or explicit authMode/credentials, not both');
+                    throw createSdkError('authentication', 'Use one authentication shortcut or explicit authMode/credentials, not both');
                 const entry = supplied[0];
                 return entry
                     ? {
@@ -1810,10 +2059,10 @@ class CompiledRuntime {
             if (modeName === undefined && op.authenticated && permitted.length === 1)
                 modeName = permitted[0];
             if (modeName === undefined && op.authenticated)
-                throw new SdkError('authentication', `Select an explicit authentication mode for ${op.id}; permitted modes: ${permitted.join(', ')}`);
+                throw createSdkError('authentication', `Select an explicit authentication mode for ${op.id}; permitted modes: ${permitted.join(', ')}`);
             const selected = modeName === undefined ? undefined : this.contract.authentication[modeName];
             if (modeName !== undefined && (!selected || !permitted.includes(modeName)))
-                throw new SdkError('authentication', `Authentication mode is not permitted for ${op.id}; permitted modes: ${permitted.join(', ')}`);
+                throw createSdkError('authentication', `Authentication mode is not permitted for ${op.id}; permitted modes: ${permitted.join(', ')}`);
             const expected = Object.create(null);
             if (selected && modeName !== undefined) {
                 const credentials = requestShortcut?.credentials ??
@@ -1824,7 +2073,7 @@ class CompiledRuntime {
                 for (const scheme of selected.schemes) {
                     const credential = credentials?.[scheme.name];
                     if (typeof credential !== 'string' || !credential || /[\r\n]/.test(credential))
-                        throw new SdkError('authentication', `Missing or invalid credential ${scheme.name} for authentication mode ${modeName}`);
+                        throw createSdkError('authentication', `Missing or invalid credential ${scheme.name} for authentication mode ${modeName}`);
                     expected[scheme.header.toLowerCase()] =
                         scheme.type === 'bearer' ? 'Bearer ' + credential : credential;
                 }
@@ -1833,18 +2082,29 @@ class CompiledRuntime {
                 for (const scheme of mode.schemes) {
                     const name = scheme.header.toLowerCase();
                     if (headers[name] !== undefined && headers[name] !== expected[name])
-                        throw new SdkError('authentication', 'Request headers conflict with the selected authentication mode');
+                        throw createSdkError('authentication', 'Request headers conflict with the selected authentication mode');
                 }
             for (const [name, value] of Object.entries(expected))
                 setHeader(name, value);
         }
         else if (op.authenticated || (op.optionalAuthentication && this.options.token)) {
             if (!this.options.token || !this.contract.auth)
-                throw new SdkError('authentication', 'Explicit API credentials are required');
+                throw createSdkError('authentication', 'Explicit API credentials are required');
             setHeader(this.contract.auth.header, this.contract.auth.type === 'bearer' ? `Bearer ${this.options.token}` : this.options.token);
         }
         if (apiVersion)
             setHeader(apiVersion.header, apiVersion.value);
+        for (const p of op.parameters) {
+            if (p.source !== 'authentication')
+                continue;
+            const value = headers[p.name.toLowerCase()];
+            if (value === undefined) {
+                if (p.required)
+                    bad(p.name, 'required parameter is missing');
+            }
+            else
+                this.validateHeaderValue(value, p.codec, p.name);
+        }
         if (options.ifMatch !== undefined) {
             if (!op.conditional)
                 bad('ifMatch', 'operation does not declare conditional requests');
@@ -1883,7 +2143,7 @@ class CompiledRuntime {
             stopped(options.signal, attempt === 1 ? 'not_sent' : 'unknown');
             const remaining = deadline - performance.now();
             if (remaining <= 0)
-                throw new SdkError('deadline', 'Overall deadline exceeded', attempt === 1 ? 'not_sent' : 'unknown');
+                throw createSdkError('deadline', 'Overall deadline exceeded', attempt === 1 ? 'not_sent' : 'unknown');
             const controller = new AbortController();
             const abort = () => controller.abort();
             options.signal?.addEventListener('abort', abort, { once: true });
@@ -1926,7 +2186,7 @@ class CompiledRuntime {
                         'text/event-stream' ||
                         !response.body) {
                         await response.body?.cancel();
-                        throw new SdkError('protocol', 'Expected an SSE response stream', 'response', false, meta);
+                        throw createSdkError('protocol', 'Expected an SSE response stream', 'response', false, meta);
                     }
                     const idleTimeoutMs = options.streamIdleTimeoutMs ?? op.stream?.idleTimeoutMs ?? 30000;
                     positive(idleTimeoutMs, 'streamIdleTimeoutMs');
@@ -1967,10 +2227,10 @@ class CompiledRuntime {
                         ?.trim()
                         .toLowerCase();
                     if (contentType !== declaredResponse.mediaType)
-                        throw new SdkError('protocol', 'Unexpected binary response media type', 'response', false, meta);
+                        throw createSdkError('protocol', 'Unexpected binary response media type', 'response', false, meta);
                     meta.durationMs = performance.now() - start;
                     if (performance.now() >= deadline)
-                        throw new SdkError('deadline', 'Response exceeded the overall deadline', 'response', false, meta);
+                        throw createSdkError('deadline', 'Response exceeded the overall deadline', 'response', false, meta);
                     const data = new Uint8Array(bytes);
                     const result = { data, meta, raw: data };
                     Object.defineProperty(result, inspect.custom, {
@@ -1987,14 +2247,14 @@ class CompiledRuntime {
                 }
                 catch (cause) {
                     if (response.ok)
-                        throw new SdkError('protocol', 'Invalid JSON success response', 'response', false, meta, undefined, undefined, { cause }, raw);
+                        throw createSdkError('protocol', 'Invalid JSON success response', 'response', false, meta, undefined, undefined, { cause }, raw);
                 }
                 if (response.status >= 300 && response.status < 400 && response.status !== 304 && !redirect)
-                    throw new SdkError('destination', 'Redirects are not followed; explicitly configure an approved endpoint', 'response', false, meta);
+                    throw createSdkError('destination', 'Redirects are not followed; explicitly configure an approved endpoint', 'response', false, meta);
                 if (response.ok || response.status === 304 || redirect) {
                     const declared = declaredResponse;
                     if (!declared)
-                        throw new SdkError('protocol', 'Undeclared success status', 'response', false, meta, undefined, undefined, undefined, raw);
+                        throw createSdkError('protocol', 'Undeclared success status', 'response', false, meta, undefined, undefined, undefined, raw);
                     try {
                         if (redirect) {
                             const location = response.headers.get('location');
@@ -2017,7 +2277,7 @@ class CompiledRuntime {
                             throw new Error('Unexpected body for an empty response');
                     }
                     catch (cause) {
-                        throw new SdkError('protocol', 'Response cannot be represented by the declared schema' +
+                        throw createSdkError('protocol', 'Response cannot be represented by the declared schema' +
                             (cause instanceof Error && validationFailures.has(cause)
                                 ? ': ' + validationFailures.get(cause)
                                 : ''), 'response', false, meta, undefined, undefined, { cause }, raw);
@@ -2026,7 +2286,7 @@ class CompiledRuntime {
                     // overall duration again before reporting a successful response.
                     meta.durationMs = performance.now() - start;
                     if (performance.now() >= deadline)
-                        throw new SdkError('deadline', 'Response decoding exceeded the overall deadline', 'response', false, meta, undefined, undefined, undefined, raw);
+                        throw createSdkError('deadline', 'Response decoding exceeded the overall deadline', 'response', false, meta, undefined, undefined, undefined, raw);
                     const result = { data: data, meta, raw };
                     Object.defineProperty(result, inspect.custom, {
                         value: () => ({
@@ -2059,7 +2319,7 @@ class CompiledRuntime {
                     (policy.statuses.includes(response.status) ||
                         (typeof code === 'string' &&
                             (policy.errors ?? []).some((rule) => rule.status === response.status && rule.codes.includes(code))));
-                error = new SdkError(kind, typeof originalMessage === 'string' &&
+                error = createSdkError(kind, typeof originalMessage === 'string' &&
                     originalMessage.trim() &&
                     typeof message === 'string'
                     ? message
@@ -2087,7 +2347,7 @@ class CompiledRuntime {
                         ? 'deadline'
                         : 'transport';
                 stopped(options.signal);
-                error = new SdkError(performance.now() >= deadline ? 'deadline' : 'transport', 'Request did not produce a usable response; remote outcome is unknown', 'unknown', safe && policy.transport, diagnosticMeta, undefined, undefined, { cause });
+                error = createSdkError(performance.now() >= deadline ? 'deadline' : 'transport', 'Request did not produce a usable response; remote outcome is unknown', 'unknown', safe && policy.transport, diagnosticMeta, undefined, undefined, { cause });
             }
             finally {
                 timer?.cancel();
@@ -2114,7 +2374,7 @@ class CompiledRuntime {
                 throw error;
             const wait = Math.max(retryAfter, Math.random() * policy.baseDelayMs * 2 ** (attempt - 1));
             if (performance.now() + wait >= deadline)
-                throw new SdkError('deadline', 'Retry wait would exceed the overall deadline', error.outcome, error.retryAllowed, error.meta);
+                throw createSdkError('deadline', 'Retry wait would exceed the overall deadline', error.outcome, error.retryAllowed, error.meta);
             await delay(wait, options.signal);
         }
         throw new Error('Unreachable retry state');
@@ -2140,13 +2400,13 @@ class CompiledRuntime {
             if (next === undefined || next === null || next === '')
                 return;
             if (p.kind === 'link' && typeof next !== 'string')
-                throw new SdkError('protocol', 'Expected a pagination URL', 'response');
+                throw createSdkError('protocol', 'Expected a pagination URL', 'response');
             if (p.kind === 'link')
                 next = destinationUrl(next, result.meta.url ?? this.base).href;
             if (next === previous ||
                 (p.kind === 'offset' && previous !== undefined && String(next) === String(previous)) ||
                 (p.kind === 'link' && next === result.meta.url))
-                throw new SdkError('protocol', 'Pagination returned a non-advancing continuation', 'response');
+                throw createSdkError('protocol', 'Pagination returned a non-advancing continuation', 'response');
             if (p.kind !== 'link')
                 request[p.parameter] = next;
         }
@@ -2162,7 +2422,7 @@ class CompiledRuntime {
         for await (const page of this.pages(id, input, options)) {
             const values = field(page.data, p.items);
             if (!Array.isArray(values))
-                throw new SdkError('protocol', 'Pagination items field is not an array', 'response');
+                throw createSdkError('protocol', 'Pagination items field is not an array', 'response');
             for (const value of values) {
                 stopped(options.signal);
                 yield value;
@@ -2181,145 +2441,19 @@ class CompiledRuntime {
         for (;;) {
             const remaining = deadline - performance.now();
             if (remaining <= 0)
-                throw new SdkError('deadline', 'Polling deadline exceeded; remote operation may still be running', 'unknown');
+                throw createSdkError('deadline', 'Polling deadline exceeded; remote operation may still be running', 'unknown');
             const result = await this.request(id, input, { ...options, deadlineMs: remaining });
             const state = field(result.data, p.state);
             if (p.success.includes(state))
                 return result;
             if (p.failure.includes(state))
-                throw new SdkError('api', 'Operation reached a declared failure state', 'response', false, result.meta);
+                throw createSdkError('api', 'Operation reached a declared failure state', 'response', false, result.meta);
             await delay(Math.min(interval, Math.max(0, deadline - performance.now())), options.signal);
             interval = Math.min(interval * 1.5, 10000);
         }
     }
-    verifyWebhook(rawBody, headers, secrets, nowSeconds = Date.now() / 1000) {
-        const w = this.descriptors ? this.descriptors.webhook() : this.contract.webhook;
-        if (!w)
-            return bad('webhook', 'capability is not declared');
-        if (!(rawBody instanceof Uint8Array))
-            return webhookError('validation', 'invalid_input', 'Webhook body must be original Buffer or Uint8Array bytes; capture it before JSON parsing');
-        if (typeof nowSeconds !== 'number' || !Number.isFinite(nowSeconds))
-            return webhookError('validation', 'invalid_input', 'Webhook nowSeconds must be a finite Unix timestamp in seconds');
-        const supplied = typeof secrets === 'string' ? [secrets] : Array.isArray(secrets) ? Array.from(secrets) : [];
-        if (!supplied.length ||
-            !supplied.every((secret) => typeof secret === 'string'))
-            return webhookError('validation', 'invalid_secret', 'Webhook secrets must be a nonempty string or array of strings');
-        const format = w.format ?? 'hex';
-        const keys = [];
-        for (const secret of supplied) {
-            if (!secret)
-                continue;
-            if (format !== 'standard-webhooks')
-                keys.push(secret);
-            else if (/^whsec_[A-Za-z0-9+/]{43}=$/.test(secret)) {
-                const key = Buffer.from(secret.slice(6), 'base64');
-                if (key.length === 32 && key.toString('base64') === secret.slice(6))
-                    keys.push(key);
-            }
-        }
-        if (!keys.length)
-            return webhookError('validation', 'invalid_secret', format === 'standard-webhooks'
-                ? 'Webhook secret must be whsec_ followed by canonical base64 encoding of 32 bytes'
-                : 'Provide at least one nonempty webhook signing secret');
-        const signatures = webhookHeaderValues(headers, w.header);
-        let timestamp = '';
-        let candidates = [];
-        let prefix = '';
-        if (format === 'timestamped-hex') {
-            const parts = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
-            const timestamps = parts.filter((part) => part.startsWith('t='));
-            const signedTimestamp = timestamps[0];
-            if (timestamps.length !== 1 || signedTimestamp === undefined)
-                return webhookError('authentication', 'invalid_timestamp', 'Webhook signature must contain exactly one t= timestamp');
-            timestamp = signedTimestamp.slice(2);
-            candidates = parts.filter((part) => part.startsWith('v1=')).map((part) => part.slice(3));
-        }
-        else {
-            if (!w.timestampHeader)
-                return bad('webhook', 'timestamp header is not declared');
-            timestamp = webhookScalarHeader(headers, w.timestampHeader, true);
-            if (format === 'standard-webhooks') {
-                if (!w.idHeader)
-                    return bad('webhook', 'ID header is not declared');
-                prefix = webhookScalarHeader(headers, w.idHeader) + '.';
-                // Fetch combines repeated header lines with commas. The comma inside v1,<digest>
-                // belongs to the signature token; commas between versioned tokens delimit values.
-                candidates = signatures
-                    .flatMap((signature) => signature.trim().split(/(?:\s+|,\s*(?=v\d+,))/))
-                    .filter((part) => part.startsWith('v1,'))
-                    .map((part) => part.slice(3));
-            }
-            else
-                candidates = signatures.flatMap((signature) => signature.split(',').map((part) => part.trim()));
-        }
-        if (!/^\d+$/.test(timestamp) || !Number.isSafeInteger(Number(timestamp)))
-            return webhookError('authentication', 'invalid_timestamp', 'Webhook timestamp must be an integer Unix timestamp in seconds');
-        if (Math.abs(nowSeconds - Number(timestamp)) > w.toleranceSeconds)
-            return webhookError('authentication', 'timestamp_out_of_tolerance', 'Webhook timestamp is outside the allowed tolerance; check the server clock and delivery age');
-        const signed = Buffer.concat([
-            Buffer.from(prefix + timestamp + w.separator),
-            Buffer.from(rawBody),
-        ]);
-        const digests = candidates
-            .filter((candidate) => format === 'standard-webhooks'
-            ? /^[A-Za-z0-9+/]{43}=$/.test(candidate) &&
-                Buffer.from(candidate, 'base64').toString('base64') === candidate
-            : /^[a-fA-F0-9]{64}$/.test(candidate))
-            .map((candidate) => Buffer.from(candidate, format === 'standard-webhooks' ? 'base64' : 'hex'));
-        let valid = false;
-        for (const key of keys) {
-            const expected = createHmac('sha256', key).update(signed).digest();
-            for (const actual of digests)
-                valid = timingSafeEqual(expected, actual) || valid;
-        }
-        if (!valid)
-            return webhookError('authentication', 'invalid_signature', 'Invalid webhook signature; check the signing secret and preserve the original request body bytes without reserializing JSON');
-        let event;
-        try {
-            event = parseJson(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.from(rawBody)), true);
-        }
-        catch (cause) {
-            throw new SdkError('protocol', 'Invalid webhook JSON', 'response', false, undefined, 'webhook_invalid_json', undefined, { cause });
-        }
-        const eventType = field(event, w.typeField);
-        const schema = typeof eventType === 'string' && Object.hasOwn(w.events, eventType)
-            ? w.events[eventType]
-            : undefined;
-        // Decode first: malformed declared payloads remain protocol errors. Matching is
-        // a separate predicate over the original exact JSON values, not decoded strings.
-        let decoded = event;
-        if (schema) {
-            try {
-                decoded = this.decode(event, schema, {
-                    mode: 'response',
-                    path: 'event',
-                    redactFields: this.options.redactFields ?? [],
-                });
-            }
-            catch (cause) {
-                if (!(cause instanceof SdkError) || cause.kind !== 'validation')
-                    throw cause;
-                throw new SdkError('protocol', 'Invalid webhook payload' +
-                    (validationFailures.has(cause) ? ': ' + validationFailures.get(cause) : ''), 'response', false, undefined, undefined, undefined, { cause });
-            }
-        }
-        let known = false;
-        if (schema) {
-            try {
-                this.decode(event, schema, {
-                    mode: 'match',
-                    direction: 'response',
-                    path: 'event',
-                    allowUnknownResponseFields: true,
-                });
-                known = true;
-            }
-            catch (error) {
-                if (!(error instanceof SdkError) || error.kind !== 'validation')
-                    throw error;
-            }
-        }
-        return { event: plainNumbers(decoded), known };
+    verifyWebhook(rawBody, headers, secrets, nowSeconds) {
+        return verifyWebhookFromPlan(this.descriptors ?? this.contract, rawBody, headers, secrets, nowSeconds, this.options.redactFields ?? []);
     }
     money(currency, major) {
         const currencies = this.contract.money?.currencies;

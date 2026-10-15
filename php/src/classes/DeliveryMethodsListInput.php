@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'type'?: string, 'delivery_zone_id'?: string, 'delivery_location_set_id'?: string, 'delivery_rate_callback_id'?: string, 'location_id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'type'?: string, 'delivery_zone_id'?: string, 'delivery_location_set_id'?: string, 'delivery_rate_callback_id'?: string, 'location_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodsListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -66,9 +66,4 @@ final class DeliveryMethodsListInput extends Model {
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -19,9 +19,9 @@ export interface CustomerVerificationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerVerifications.confirm("cver_example", {code: "123456"}, { idempotencyKey: idempotencyKey })
  */
-    confirm(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
+    confirm(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    confirmWithResponse(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsConfirmResponse>>;
+    confirmWithResponse(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsConfirmResponse>>;
     /**
  * Sends the buyer a Flint verification code for linking guest purchases. Set purpose to link_guest_purchases. The only channel is email, which is also the default. The response has the same shape whether a code was sent. Enter the code through the confirm operation before linking purchases.
  * POST /v1/customer-verifications
@@ -30,9 +30,9 @@ export interface CustomerVerificationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerVerifications.create({channel: "email", customer_id: "cus_example", email: "buyer@example.com", purpose: "link_guest_purchases"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
+    create(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsCreateResponse>>;
   }
 export declare class Client {
 

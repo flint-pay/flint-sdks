@@ -27,7 +27,7 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'delivery_method_id'?: string, 'hold_reason'?: string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'expand'?: list<string>, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'delivery_method_id'?: string, 'hold_reason'?: string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -144,9 +144,4 @@ final class SubscriptionsListInput extends Model {
      */
     public function getExpand(): array { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

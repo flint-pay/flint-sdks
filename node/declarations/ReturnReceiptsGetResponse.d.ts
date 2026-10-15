@@ -1,4 +1,4 @@
 
-import type { CreateReturnReceiptResponse } from './CreateReturnReceiptResponse.js';
+import type { GetReturnReceiptResponse } from './GetReturnReceiptResponse.js';
 
-export type ReturnReceiptsGetResponse = CreateReturnReceiptResponse;
+export type ReturnReceiptsGetResponse = GetReturnReceiptResponse;

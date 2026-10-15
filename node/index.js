@@ -1,8 +1,8 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from './response.js';
 import { requestInput as _sdkRequestInput } from './request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from './runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from './runtime.js';
-import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from './runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from './runtime.js';
+import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 const r0 = () => resource("analytics");
 const r1 = () => resource("apiKeys");
 const r2 = () => resource("balanceTransactions");
@@ -103,7 +103,7 @@ const r96 = () => resource("webhookEndpoints");
 const r97 = () => resource("webhookEventTypes");
 const r98 = () => resource("webhookEvents");
 import { DescriptorSource } from './descriptor-source.js';
-import settings from './descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from './descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getBalanceTransaction"]:r2,["listBalanceTransactions"]:r2,["listBalances"]:r3,["createBundle"]:r4,["deleteBundle"]:r4,["getBundle"]:r4,["listBundleComponents"]:r4,["listBundles"]:r4,["updateBundle"]:r4,["listCapabilities"]:r5,["createCategory"]:r6,["deleteCategory"]:r6,["getCategory"]:r6,["listCategories"]:r6,["updateCategory"]:r6,["closeCheckoutSession"]:r7,["confirmCheckoutSessionCustomerVerification"]:r7,["createCheckoutSession"]:r7,["createCheckoutSessionCustomerVerification"]:r7,["createCheckoutSessionDeliveryQuote"]:r7,["createCheckoutSessionDeliverySelection"]:r7,["deleteCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSession"]:r7,["getCheckoutSessionCurrentDeliverySelection"]:r7,["getCheckoutSessionDeliveryQuote"]:r7,["getCheckoutSessionDeliverySelectionHistory"]:r7,["listCheckoutSessions"]:r7,["updateCheckoutSession"]:r7,["createCreditNote"]:r8,["createCreditNoteAllocation"]:r8,["createCreditNoteRefund"]:r8,["getCreditNote"]:r8,["getCreditNoteAllocation"]:r8,["getCreditNotePDF"]:r8,["issueCreditNote"]:r8,["listCreditNoteAllocations"]:r8,["listCreditNoteRefunds"]:r8,["listCreditNotes"]:r8,["reverseCreditNoteAllocation"]:r8,["updateCreditNote"]:r8,["voidCreditNote"]:r8,["listCustomerDeletionRequests"]:r9,["resolveCustomerDeletionRequest"]:r9,["createCustomerSession"]:r10,["refreshCustomerSession"]:r10,["revokeCustomerSession"]:r10,["confirmCustomerVerification"]:r11,["createCustomerVerification"]:r11,["createCustomer"]:r12,["createCustomerAddress"]:r12,["createCustomerDeletionRequest"]:r12,["deleteCustomerAddress"]:r12,["getCustomer"]:r12,["getCustomerAddress"]:r12,["getCustomerDeletionRequest"]:r12,["linkCustomerGuestPurchases"]:r12,["listCustomerAddresses"]:r12,["listCustomers"]:r12,["revokeCustomerSessions"]:r12,["setDefaultCustomerAddress"]:r12,["updateCustomer"]:r12,["updateCustomerAddress"]:r12,["createDeliveryLocationSet"]:r13,["deleteDeliveryLocationSet"]:r13,["getDeliveryLocationSet"]:r13,["listDeliveryLocationSets"]:r13,["updateDeliveryLocationSet"]:r13,["createDeliveryMethod"]:r14,["deleteDeliveryMethod"]:r14,["getDeliveryMethod"]:r14,["listDeliveryMethods"]:r14,["updateDeliveryMethod"]:r14,["createDeliveryPreview"]:r15,["assignToUnconfiguredDeliveryProfile"]:r16,["createDeliveryProfile"]:r16,["deleteDeliveryProfile"]:r16,["getDeliveryProfile"]:r16,["listDeliveryProfiles"]:r16,["updateDeliveryProfile"]:r16,["listDeliveryQuotes"]:r17,["checkDeliveryRateCallbackConnection"]:r18,["createDeliveryRateCallback"]:r18,["createDeliveryRateCallbackTestDelivery"]:r18,["deleteDeliveryRateCallback"]:r18,["getDeliveryRateCallback"]:r18,["listDeliveryRateCallbacks"]:r18,["rotateDeliveryRateCallbackSigningKey"]:r18,["updateDeliveryRateCallback"]:r18,["getDeliveryRevocation"]:r19,["revokeDeliveryDependency"]:r19,["createDeliveryZone"]:r20,["deleteDeliveryZone"]:r20,["getDeliveryZone"]:r20,["listDeliveryZones"]:r20,["updateDeliveryZone"]:r20,["createDemoSession"]:r21,["resetDemoSession"]:r21,["createDeveloperPartnerApp"]:r22,["createDeveloperSandbox"]:r22,["deleteDeveloperSandbox"]:r22,["getCurrentAPIKeyRequestLog"]:r22,["getDeveloperAuthContext"]:r22,["getDeveloperPartnerApp"]:r22,["getDeveloperPartnerAppInstall"]:r22,["getDeveloperSandbox"]:r22,["getResourceTimeline"]:r22,["issueDeveloperSandboxTestKey"]:r22,["listCurrentAPIKeyRequestLogs"]:r22,["listDeveloperPartnerAppInstalls"]:r22,["listDeveloperPartnerApps"]:r22,["listDeveloperSandboxes"]:r22,["resetDeveloperSandbox"]:r22,["revokeDeveloperPartnerAppInstall"]:r22,["revokeDeveloperPartnerEnvironmentGrant"]:r22,["rotateDeveloperPartnerAppSecret"]:r22,["updateDeveloperPartnerApp"]:r22,["createDevice"]:r23,["deleteDevice"]:r23,["getDevice"]:r23,["listDevices"]:r23,["updateDevice"]:r23,["createDiscountPreview"]:r24,["getDispute"]:r25,["listDisputes"]:r25,["lookupEmailPreferenceLink"]:r26,["unsubscribeEmailPreferenceLink"]:r26,["createFeedbackReport"]:r27,["getFeedbackReport"]:r27,["listFeedbackReports"]:r27,["getFraudWarning"]:r28,["listFraudWarnings"]:r28,["getFulfillmentEvent"]:r29,["listFulfillmentEvents"]:r29,["getFulfillmentNotification"]:r30,["listFulfillmentNotifications"]:r30,["createFulfillmentEvent"]:r31,["createShipment"]:r31,["getFulfillment"]:r31,["listFulfillments"]:r31,["transitionFulfillment"]:r31,["updateFulfillment"]:r31,["createGiftCardAdjustment"]:r32,["createGiftCardCashOut"]:r33,["createGiftCardFundingDisposition"]:r34,["createGiftCardLoad"]:r35,["getGiftCardLoad"]:r35,["listGiftCardLoads"]:r35,["cancelGiftCardNotification"]:r36,["createGiftCardNotification"]:r36,["getGiftCardNotification"]:r36,["listGiftCardNotifications"]:r36,["cancelGiftCardRedemption"]:r37,["captureGiftCardRedemption"]:r37,["createGiftCardRedemption"]:r37,["getGiftCardRedemption"]:r37,["listGiftCardRedemptions"]:r37,["listGiftCardTransactions"]:r38,["createGiftCard"]:r39,["getGiftCard"]:r39,["listGiftCards"]:r39,["lookupGiftCard"]:r39,["rotateGiftCardCode"]:r39,["transitionGiftCard"]:r39,["updateGiftCard"]:r39,["createInventoryAdjustment"]:r40,["listInventoryAdjustments"]:r40,["createInventoryAllocationPolicy"]:r41,["deleteInventoryAllocationPolicy"]:r41,["getInventoryAllocationPolicy"]:r41,["listInventoryAllocationPolicies"]:r41,["updateInventoryAllocationPolicy"]:r41,["applyInventoryCount"]:r42,["cancelInventoryCount"]:r42,["createInventoryCount"]:r42,["listInventoryCounts"]:r42,["updateInventoryCount"]:r42,["createInventoryItem"]:r43,["deleteInventoryItem"]:r43,["getInventoryItem"]:r43,["listInventoryItems"]:r43,["updateInventoryItem"]:r43,["listInventoryLevels"]:r44,["updateInventoryLevel"]:r44,["listInventoryMovements"]:r45,["createInventoryReceipt"]:r46,["listInventoryReceipts"]:r46,["commitInventoryReservation"]:r47,["consumeInventoryReservation"]:r47,["createInventoryReservation"]:r47,["listInventoryReservations"]:r47,["releaseInventoryReservation"]:r47,["createInventoryTransfer"]:r48,["listInventoryTransfers"]:r48,["transitionInventoryTransfer"]:r48,["updateInventoryTransfer"]:r48,["createInvoicePaymentTerm"]:r49,["deleteInvoicePaymentTerm"]:r49,["getInvoicePaymentTerm"]:r49,["listInvoicePaymentTerms"]:r49,["updateInvoicePaymentTerm"]:r49,["assessInvoiceLateFee"]:r50,["cancelInvoicePaymentAttempt"]:r50,["collectInvoice"]:r50,["createInvoice"]:r50,["getInvoice"]:r50,["getInvoicePaymentAttempt"]:r50,["getInvoicePDF"]:r50,["getOrCreateInvoiceCheckoutSession"]:r50,["issueInvoice"]:r50,["listInvoiceActivities"]:r50,["listInvoiceDeliveryAttempts"]:r50,["listInvoicePaymentAttempts"]:r50,["listInvoices"]:r50,["markInvoiceUncollectible"]:r50,["recordManualInvoicePayment"]:r50,["regenerateInvoicePublicLink"]:r50,["reverseManualInvoicePayment"]:r50,["sendInvoiceReminder"]:r50,["updateInvoice"]:r50,["voidInvoice"]:r50,["waiveInvoiceLateFee"]:r50,["createLocation"]:r51,["deleteLocation"]:r51,["getLocation"]:r51,["listLocations"]:r51,["publishLocationGeography"]:r51,["updateLocation"]:r51,["updateLocationInventory"]:r51,["cancelMeReturn"]:r52,["cancelMeSubscription"]:r52,["changeMeSubscriptionBillingInterval"]:r52,["changeMeSubscriptionDelivery"]:r52,["changeMeSubscriptionPaymentMethod"]:r52,["changeMeSubscriptionQuantity"]:r52,["confirmMeEmailChangeRequest"]:r52,["createMeAddress"]:r52,["createMeDeletionRequest"]:r52,["createMeEmailChangeRequest"]:r52,["createMeFlintWalletStoreSetup"]:r52,["createMeInvoiceCheckoutSession"]:r52,["createMeReturn"]:r52,["createMeReturnPreview"]:r52,["createMeReturnResolutionCheckoutSession"]:r52,["createMeSubscriptionPaymentRetry"]:r52,["createMeSubscriptionPreview"]:r52,["deleteMeAddress"]:r52,["getMe"]:r52,["getMeAddress"]:r52,["getMeCreditNote"]:r52,["getMeCreditNotePDF"]:r52,["getMeDeletionRequest"]:r52,["getMeEmailPreferences"]:r52,["getMeGiftCard"]:r52,["getMeInvoice"]:r52,["getMeInvoicePDF"]:r52,["getMeOrder"]:r52,["getMePaymentMethod"]:r52,["getMeReturn"]:r52,["getMeSubscription"]:r52,["getMeSubscriptionPaymentRetry"]:r52,["listMeAddresses"]:r52,["listMeCreditNotes"]:r52,["listMeDeletionRequests"]:r52,["listMeFlintWalletPaymentMethods"]:r52,["listMeFulfillmentEvents"]:r52,["listMeFulfillments"]:r52,["listMeGiftCards"]:r52,["listMeGiftCardTransactions"]:r52,["listMeInvoices"]:r52,["listMeOrderActivities"]:r52,["listMeOrders"]:r52,["listMePackages"]:r52,["listMePaymentMethods"]:r52,["listMePayments"]:r52,["listMeRefunds"]:r52,["listMeReturns"]:r52,["listMeShipments"]:r52,["listMeSubscriptions"]:r52,["pauseMeSubscription"]:r52,["reactivateMeSubscription"]:r52,["removeMeGiftCard"]:r52,["removeMePaymentMethod"]:r52,["renewMeSubscription"]:r52,["resumeMeSubscription"]:r52,["saveMeGiftCard"]:r52,["saveMePaymentMethod"]:r52,["sendMeOrderReceipt"]:r52,["setDefaultMeAddress"]:r52,["setDefaultMePaymentMethod"]:r52,["skipMeSubscriptionCycle"]:r52,["updateMe"]:r52,["updateMeAddress"]:r52,["updateMeEmailPreferences"]:r52,["updateMeSubscriptionLineItem"]:r52,["createMerchantAccountSession"]:r53,["refreshMerchantAccountSession"]:r53,["getMerchantBillingBalance"]:r54,["listMerchantBillingBalances"]:r54,["getMerchantSubscriptionInvoice"]:r55,["listMerchantSubscriptionInvoices"]:r55,["getMerchant"]:r56,["updateMerchant"]:r56,["createModifierGroup"]:r57,["deleteModifierGroup"]:r57,["getModifierGroup"]:r57,["listModifierGroups"]:r57,["updateModifierGroup"]:r57,["createModifierSet"]:r58,["deleteModifierSet"]:r58,["getModifierSet"]:r58,["listModifierSets"]:r58,["updateModifierSet"]:r58,["authorizePartnerInstall"]:r59,["exchangePartnerInstallToken"]:r59,["previewPartnerInstallAuthorization"]:r59,["advanceOnboarding"]:r60,["createOnboardingAPIKey"]:r60,["getOnboardingState"]:r60,["startOnboarding"]:r60,["verifyOnboardingEmail"]:r60,["addOrderCharge"]:r61,["addOrderLineItems"]:r61,["applyOrderDiscount"]:r61,["applyOrderGiftCard"]:r61,["cancelOrderPayment"]:r61,["cancelOrderPaymentAttempt"]:r61,["captureOrderPayment"]:r61,["closeOrder"]:r61,["createFulfillment"]:r61,["createOrder"]:r61,["createOrderAccessLink"]:r61,["createOrderPaymentIntent"]:r61,["deleteOrderCharge"]:r61,["deleteOrderLineItem"]:r61,["getOrder"]:r61,["getOrderCurrentDeliverySelection"]:r61,["getOrderPaymentAttempt"]:r61,["listOrderActivities"]:r61,["listOrderPaymentAttempts"]:r61,["listOrders"]:r61,["payOrder"]:r61,["removeOrderDiscounts"]:r61,["removeOrderGiftCard"]:r61,["repriceOrderDiscounts"]:r61,["resolveOrderInventoryException"]:r61,["sendOrderReceipt"]:r61,["updateOrder"]:r61,["updateOrderCharge"]:r61,["updateOrderLineItem"]:r61,["createOrganization"]:r62,["deleteOrganization"]:r62,["getOrganization"]:r62,["grantOrganizationMembership"]:r62,["listOrganizationMemberships"]:r62,["listOrganizations"]:r62,["revokeOrganizationMembership"]:r62,["transferOrganizationOwnership"]:r62,["updateOrganization"]:r62,["createPackageItem"]:r63,["deletePackageItem"]:r63,["getPackage"]:r63,["getPackageItem"]:r63,["listPackageItems"]:r63,["listPackages"]:r63,["transitionPackage"]:r63,["updatePackage"]:r63,["updatePackageItem"]:r63,["voidPackage"]:r63,["cancelPaymentIntent"]:r64,["capturePaymentIntent"]:r64,["confirmPaymentIntent"]:r64,["createPaymentIntent"]:r64,["getPaymentIntent"]:r64,["listPaymentIntents"]:r64,["updatePaymentIntent"]:r64,["createPaymentLink"]:r65,["getPaymentLink"]:r65,["getPaymentLinkPublic"]:r65,["listPaymentLinks"]:r65,["resolvePaymentLink"]:r65,["updatePaymentLink"]:r65,["createPaymentMethodDomain"]:r66,["getPaymentMethodDomain"]:r66,["listPaymentMethodDomains"]:r66,["updatePaymentMethodDomain"]:r66,["getPaymentMethod"]:r67,["listPaymentMethods"]:r67,["removePaymentMethod"]:r67,["savePaymentMethod"]:r67,["setDefaultPaymentMethod"]:r67,["deletePayoutDestination"]:r68,["getPayoutDestination"]:r68,["getPayoutSettings"]:r68,["listPayoutDestinations"]:r68,["updatePayoutDestination"]:r68,["updatePayoutSettings"]:r68,["cancelPayout"]:r69,["createPayout"]:r69,["getPayout"]:r69,["listPayoutEntries"]:r69,["listPayouts"]:r69,["createProduct"]:r70,["createProductVariant"]:r70,["deleteProduct"]:r70,["deleteProductVariant"]:r70,["getProduct"]:r70,["getProductOption"]:r70,["getProductVariant"]:r70,["listProductOptions"]:r70,["listProducts"]:r70,["listProductVariants"]:r70,["updateProduct"]:r70,["updateProductVariant"]:r70,["createPromotion"]:r71,["createPromotionCode"]:r71,["deletePromotion"]:r71,["deletePromotionCode"]:r71,["getPromotion"]:r71,["listPromotionCodes"]:r71,["listPromotions"]:r71,["updatePromotion"]:r71,["updatePromotionCode"]:r71,["createRefund"]:r72,["getRefund"]:r72,["listRefunds"]:r72,["updateRefund"]:r72,["getReportDownload"]:r73,["createReport"]:r74,["getReport"]:r74,["listReports"]:r74,["cancelReturnDisposition"]:r75,["getReturnDisposition"]:r75,["listReturnDispositions"]:r75,["retryReturnDisposition"]:r75,["decideReturnInspectionLineItem"]:r76,["getReturnInspection"]:r76,["listReturnInspections"]:r76,["createReturnPolicy"]:r77,["deleteReturnPolicy"]:r77,["getReturnPolicy"]:r77,["getReturnPolicyRevision"]:r77,["listReturnPolicies"]:r77,["listReturnPolicyRevisions"]:r77,["publishReturnPolicyRevision"]:r77,["updateReturnPolicy"]:r77,["createReturnPreview"]:r78,["createReturnReason"]:r79,["deleteReturnReason"]:r79,["getReturnReason"]:r79,["listReturnReasons"]:r79,["updateReturnReason"]:r79,["getReturnReceipt"]:r80,["listReturnReceipts"]:r80,["verifyReturnReceiptLineItem"]:r80,["cancelReturnResolution"]:r81,["confirmReturnResolution"]:r81,["getOrCreateReturnResolutionCheckoutSession"]:r81,["getReturnResolution"]:r81,["listReturnResolutions"]:r81,["releaseReturnResolution"]:r81,["retryReturnResolution"]:r81,["updateReturnResolution"]:r81,["addReturnLineItem"]:r82,["cancelReturn"]:r82,["cancelReturnLineItem"]:r82,["completeReturn"]:r82,["createReturn"]:r82,["createReturnAccessLink"]:r82,["createReturnDisposition"]:r82,["createReturnInspection"]:r82,["createReturnReceipt"]:r82,["createReturnResolution"]:r82,["decideReturn"]:r82,["deleteReturnLineItem"]:r82,["getReturn"]:r82,["getReturnLineItem"]:r82,["listReturnLineItems"]:r82,["listReturns"]:r82,["processExistingReturn"]:r82,["reopenReturn"]:r82,["updateReturn"]:r82,["updateReturnLineItem"]:r82,["waiveReturnLineInspection"]:r82,["approveReview"]:r83,["declineReview"]:r83,["getReview"]:r83,["listReviews"]:r83,["addRiskListItems"]:r84,["createRiskList"]:r84,["deleteRiskList"]:r84,["deleteRiskListItem"]:r84,["getRiskList"]:r84,["getRiskListItem"]:r84,["listRiskListItems"]:r84,["listRiskLists"]:r84,["updateRiskList"]:r84,["createRiskPreview"]:r85,["createRiskRule"]:r86,["deleteRiskRule"]:r86,["getRiskRule"]:r86,["getRiskRuleAttributeRegistry"]:r86,["listRiskRules"]:r86,["updateRiskRule"]:r86,["getEffectiveSettings"]:r87,["getSettings"]:r87,["updateSettings"]:r87,["validateCustomDomain"]:r87,["createPackage"]:r88,["getShipment"]:r88,["listShipments"]:r88,["updateShipment"]:r88,["voidShipment"]:r88,["getOpenAPISpec"]:r89,["createSubscriptionDeliveryMigration"]:r90,["getSubscriptionDeliveryMigration"]:r90,["listSubscriptionDeliveryMigrationFailures"]:r90,["listSubscriptionDeliveryMigrations"]:r90,["createSubscriptionOffer"]:r91,["deleteSubscriptionOffer"]:r91,["getSubscriptionOffer"]:r91,["listSubscriptionOffers"]:r91,["updateSubscriptionOffer"]:r91,["createSubscriptionPlan"]:r92,["deleteSubscriptionPlan"]:r92,["getSubscriptionPlan"]:r92,["listSubscriptionPlans"]:r92,["updateSubscriptionPlan"]:r92,["createSubscriptionPreview"]:r93,["cancelSubscription"]:r94,["changeSubscriptionPaymentMethod"]:r94,["createSubscription"]:r94,["createSubscriptionAccessLink"]:r94,["createSubscriptionLineItem"]:r94,["createSubscriptionPaymentRetry"]:r94,["deleteSubscriptionLineItem"]:r94,["getSubscription"]:r94,["getSubscriptionPaymentRetry"]:r94,["listSubscriptionPaymentRetries"]:r94,["listSubscriptions"]:r94,["pauseSubscription"]:r94,["reactivateSubscription"]:r94,["renewSubscription"]:r94,["resumeSubscription"]:r94,["skipSubscriptionCycle"]:r94,["updateSubscription"]:r94,["updateSubscriptionBillingSchedule"]:r94,["updateSubscriptionLineItem"]:r94,["getWebhookDelivery"]:r95,["listWebhookDeliveryAttempts"]:r95,["resendWebhookDelivery"]:r95,["createWebhookEndpoint"]:r96,["createWebhookTestEvent"]:r96,["deleteWebhookEndpoint"]:r96,["getWebhookEndpoint"]:r96,["listWebhookEndpoints"]:r96,["rotateWebhookSecret"]:r96,["updateWebhookEndpoint"]:r96,["listWebhookEventTypes"]:r97,["getWebhookEvent"]:r98,["listWebhookDeliveries"]:r98,["listWebhookEvents"]:r98,["streamWebhookEvents"]:r98}, webhook);
 
@@ -116,60 +116,48 @@ export class Client {
   "range",
   "timezone",
   "include_previous_period",
-  "currency",
-  "Flint-Version"
+  "currency"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOverviewWithResponse: async (params, options) => this.#runtime.request("getAnalyticsOverview", _sdkRequestInput([], [], [
   "range",
   "timezone",
   "include_previous_period",
-  "currency",
-  "Flint-Version"
+  "currency"
 ], false, false, params), options).then(_sdkResponse),
       getPaymentVolumeTimeseries: async (params, options) => this.#runtime.request("getPaymentVolumeTimeseries", _sdkRequestInput([], [], [
   "range",
   "timezone",
   "include_previous_period",
-  "currency",
-  "Flint-Version"
+  "currency"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentVolumeTimeseriesWithResponse: async (params, options) => this.#runtime.request("getPaymentVolumeTimeseries", _sdkRequestInput([], [], [
   "range",
   "timezone",
   "include_previous_period",
-  "currency",
-  "Flint-Version"
+  "currency"
 ], false, false, params), options).then(_sdkResponse),
       getSubscription: async (params, options) => this.#runtime.request("getSubscriptionAnalytics", _sdkRequestInput([], [], [
   "range",
-  "timezone",
-  "Flint-Version"
+  "timezone"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getSubscriptionWithResponse: async (params, options) => this.#runtime.request("getSubscriptionAnalytics", _sdkRequestInput([], [], [
   "range",
-  "timezone",
-  "Flint-Version"
+  "timezone"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.apiKeys = Object.freeze({
       create: async (params, options) => this.#runtime.request("createAPIKey", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createAPIKey", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (api_key_id, params, options) => this.#runtime.request("getAPIKey", _sdkRequestInput([
   "api_key_id"
-], [api_key_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [api_key_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (api_key_id, params, options) => this.#runtime.request("getAPIKey", _sdkRequestInput([
   "api_key_id"
-], [api_key_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [api_key_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listAPIKeys", _sdkRequestInput([], [], [
   "status",
   "page_size",
@@ -179,8 +167,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listAPIKeys", _sdkRequestInput([], [], [
   "status",
@@ -191,8 +178,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listAPIKeys", _sdkRequestInput([], [], [
   "status",
@@ -203,8 +189,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listAPIKeys", _sdkRequestInput([], [], [
   "status",
@@ -215,8 +200,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listAPIKeys", _sdkRequestInput([], [], [
   "status",
@@ -227,32 +211,27 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       revoke: async (api_key_id, params, options) => this.#runtime.request("revokeAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokeWithResponse: async (api_key_id, params, options) => this.#runtime.request("revokeAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       update: async (api_key_id, params, options) => this.#runtime.request("updateAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (api_key_id, params, options) => this.#runtime.request("updateAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.balanceTransactions = Object.freeze({
@@ -260,15 +239,13 @@ export class Client {
   "balance_transaction_id"
 ], [balance_transaction_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (balance_transaction_id, params, options) => this.#runtime.request("getBalanceTransaction", _sdkRequestInput([
   "balance_transaction_id"
 ], [balance_transaction_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listBalanceTransactions", _sdkRequestInput([], [], [
   "currency",
@@ -282,8 +259,7 @@ export class Client {
   "available_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listBalanceTransactions", _sdkRequestInput([], [], [
   "currency",
@@ -297,8 +273,7 @@ export class Client {
   "available_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listBalanceTransactions", _sdkRequestInput([], [], [
   "currency",
@@ -312,8 +287,7 @@ export class Client {
   "available_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listBalanceTransactions", _sdkRequestInput([], [], [
   "currency",
@@ -327,8 +301,7 @@ export class Client {
   "available_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listBalanceTransactions", _sdkRequestInput([], [], [
   "currency",
@@ -342,60 +315,51 @@ export class Client {
   "available_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.balances = Object.freeze({
       list: async (params, options) => this.#runtime.request("listBalances", _sdkRequestInput([], [], [
   "currency",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listBalances", _sdkRequestInput([], [], [
   "currency",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.bundles = Object.freeze({
       create: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (bundle_id, params, options) => this.#runtime.request("deleteBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (bundle_id, params, options) => this.#runtime.request("deleteBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (bundle_id, params, options) => this.#runtime.request("getBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (bundle_id, params, options) => this.#runtime.request("getBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listComponents: async (bundle_id, params, options) => this.#runtime.request("listBundleComponents", _sdkRequestInput([
   "bundle_id"
@@ -403,8 +367,7 @@ export class Client {
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listComponentsWithResponse: async (bundle_id, params, options) => this.#runtime.request("listBundleComponents", _sdkRequestInput([
   "bundle_id"
@@ -412,8 +375,7 @@ export class Client {
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(_sdkResponse),
       listComponentsPages: (bundle_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listBundleComponents", _sdkRequestInput([
   "bundle_id"
@@ -421,8 +383,7 @@ export class Client {
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options), []),
       listComponentsPagesWithResponse: (bundle_id, params, options) => _sdkResponsePages(this.#runtime.pages("listBundleComponents", _sdkRequestInput([
   "bundle_id"
@@ -430,8 +391,7 @@ export class Client {
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options)),
       listComponentsItems: (bundle_id, params, options) => this.#runtime.items("listBundleComponents", _sdkRequestInput([
   "bundle_id"
@@ -439,8 +399,7 @@ export class Client {
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -453,8 +412,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -467,8 +425,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -481,8 +438,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -495,8 +451,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -509,22 +464,19 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options),
       update: async (bundle_id, params, options) => this.#runtime.request("updateBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (bundle_id, params, options) => this.#runtime.request("updateBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.capabilities = Object.freeze({
@@ -534,8 +486,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCapabilities", _sdkRequestInput([], [], [
   "domain",
@@ -543,8 +494,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCapabilities", _sdkRequestInput([], [], [
   "domain",
@@ -552,8 +502,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCapabilities", _sdkRequestInput([], [], [
   "domain",
@@ -561,8 +510,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCapabilities", _sdkRequestInput([], [], [
   "domain",
@@ -570,93 +518,77 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.categories = Object.freeze({
       create: async (params, options) => this.#runtime.request("createCategory", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCategory", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (category_id, params, options) => this.#runtime.request("deleteCategory", _sdkRequestInput([
   "category_id"
 ], [category_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (category_id, params, options) => this.#runtime.request("deleteCategory", _sdkRequestInput([
   "category_id"
 ], [category_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (category_id, params, options) => this.#runtime.request("getCategory", _sdkRequestInput([
   "category_id"
-], [category_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [category_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (category_id, params, options) => this.#runtime.request("getCategory", _sdkRequestInput([
   "category_id"
-], [category_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [category_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listCategories", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCategories", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCategories", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCategories", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCategories", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (category_id, params, options) => this.#runtime.request("updateCategory", _sdkRequestInput([
   "category_id"
 ], [category_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (category_id, params, options) => this.#runtime.request("updateCategory", _sdkRequestInput([
   "category_id"
 ], [category_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.checkoutSessions = Object.freeze({
@@ -664,172 +596,112 @@ export class Client {
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       closeSessionWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("closeCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       confirmCustomerVerification: async (checkout_session_id, customer_verification_id, params, options) => this.#runtime.request("confirmCheckoutSessionCustomerVerification", _sdkRequestInput([
   "checkout_session_id",
   "customer_verification_id"
 ], [checkout_session_id, customer_verification_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmCustomerVerificationWithResponse: async (checkout_session_id, customer_verification_id, params, options) => this.#runtime.request("confirmCheckoutSessionCustomerVerification", _sdkRequestInput([
   "checkout_session_id",
   "customer_verification_id"
 ], [checkout_session_id, customer_verification_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createCheckoutSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCheckoutSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createCustomerVerification: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionCustomerVerification", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createCustomerVerificationWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionCustomerVerification", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createDeliveryQuote: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createDeliveryQuoteWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createDeliverySelectionWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       deleteCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("deleteCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
   "expected_delivery_selection_id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteCurrentDeliverySelectionWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("deleteCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
   "expected_delivery_selection_id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [checkout_session_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getCurrentDeliverySelectionWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [checkout_session_id], [], false, false, params), options).then(_sdkResponse),
       getDeliveryQuote: async (checkout_session_id, delivery_quote_id, params, options) => this.#runtime.request("getCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id",
   "delivery_quote_id"
-], [checkout_session_id, delivery_quote_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [checkout_session_id, delivery_quote_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getDeliveryQuoteWithResponse: async (checkout_session_id, delivery_quote_id, params, options) => this.#runtime.request("getCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id",
   "delivery_quote_id"
-], [checkout_session_id, delivery_quote_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [checkout_session_id, delivery_quote_id], [], false, false, params), options).then(_sdkResponse),
       getDeliverySelectionHistory: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelectionHistory", _sdkRequestInput([
   "checkout_session_id",
   "delivery_selection_id"
-], [checkout_session_id, delivery_selection_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getDeliverySelectionHistoryWithResponse: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelectionHistory", _sdkRequestInput([
   "checkout_session_id",
   "delivery_selection_id"
-], [checkout_session_id, delivery_selection_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -847,8 +719,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "expires_after",
-  "expires_before",
-  "Flint-Version"
+  "expires_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
@@ -867,8 +738,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "expires_after",
-  "expires_before",
-  "Flint-Version"
+  "expires_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
@@ -887,8 +757,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "expires_after",
-  "expires_before",
-  "Flint-Version"
+  "expires_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
@@ -907,8 +776,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "expires_after",
-  "expires_before",
-  "Flint-Version"
+  "expires_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
@@ -927,179 +795,144 @@ export class Client {
   "updated_after",
   "updated_before",
   "expires_after",
-  "expires_before",
-  "Flint-Version"
+  "expires_before"
 ], false, false, params), options),
       update: async (checkout_session_id, params, options) => this.#runtime.request("updateCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("updateCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.creditNotes = Object.freeze({
       create: async (params, options) => this.#runtime.request("createCreditNote", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCreditNote", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAllocation: async (credit_note_id, params, options) => this.#runtime.request("createCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createAllocationWithResponse: async (credit_note_id, params, options) => this.#runtime.request("createCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createRefund: async (credit_note_id, params, options) => this.#runtime.request("createCreditNoteRefund", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createRefundWithResponse: async (credit_note_id, params, options) => this.#runtime.request("createCreditNoteRefund", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (credit_note_id, params, options) => this.#runtime.request("getCreditNote", _sdkRequestInput([
   "credit_note_id"
-], [credit_note_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [credit_note_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (credit_note_id, params, options) => this.#runtime.request("getCreditNote", _sdkRequestInput([
   "credit_note_id"
-], [credit_note_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [credit_note_id], [], false, false, params), options).then(_sdkResponse),
       getAllocation: async (credit_note_id, credit_note_allocation_id, params, options) => this.#runtime.request("getCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id",
   "credit_note_allocation_id"
-], [credit_note_id, credit_note_allocation_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [credit_note_id, credit_note_allocation_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getAllocationWithResponse: async (credit_note_id, credit_note_allocation_id, params, options) => this.#runtime.request("getCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id",
   "credit_note_allocation_id"
-], [credit_note_id, credit_note_allocation_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [credit_note_id, credit_note_allocation_id], [], false, false, params), options).then(_sdkResponse),
       getPDF: async (credit_note_id, params, options) => this.#runtime.request("getCreditNotePDF", _sdkRequestInput([
   "credit_note_id"
-], [credit_note_id], [
-  "Flint-Version"
-], false, false, params), options),
+], [credit_note_id], [], false, false, params), options),
       issue: async (credit_note_id, params, options) => this.#runtime.request("issueCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       issueWithResponse: async (credit_note_id, params, options) => this.#runtime.request("issueCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       listAllocations: async (credit_note_id, params, options) => this.#runtime.request("listCreditNoteAllocations", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listAllocationsWithResponse: async (credit_note_id, params, options) => this.#runtime.request("listCreditNoteAllocations", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(_sdkResponse),
       listAllocationsPages: (credit_note_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCreditNoteAllocations", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options), []),
       listAllocationsPagesWithResponse: (credit_note_id, params, options) => _sdkResponsePages(this.#runtime.pages("listCreditNoteAllocations", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options)),
       listAllocationsItems: (credit_note_id, params, options) => this.#runtime.items("listCreditNoteAllocations", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options),
       listRefunds: async (credit_note_id, params, options) => this.#runtime.request("listCreditNoteRefunds", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listRefundsWithResponse: async (credit_note_id, params, options) => this.#runtime.request("listCreditNoteRefunds", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(_sdkResponse),
       listRefundsPages: (credit_note_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCreditNoteRefunds", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options), []),
       listRefundsPagesWithResponse: (credit_note_id, params, options) => _sdkResponsePages(this.#runtime.pages("listCreditNoteRefunds", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options)),
       listRefundsItems: (credit_note_id, params, options) => this.#runtime.items("listCreditNoteRefunds", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listCreditNotes", _sdkRequestInput([], [], [
   "page_size",
@@ -1107,8 +940,7 @@ export class Client {
   "invoice_id",
   "external_reference_id",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCreditNotes", _sdkRequestInput([], [], [
   "page_size",
@@ -1116,8 +948,7 @@ export class Client {
   "invoice_id",
   "external_reference_id",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCreditNotes", _sdkRequestInput([], [], [
   "page_size",
@@ -1125,8 +956,7 @@ export class Client {
   "invoice_id",
   "external_reference_id",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCreditNotes", _sdkRequestInput([], [], [
   "page_size",
@@ -1134,8 +964,7 @@ export class Client {
   "invoice_id",
   "external_reference_id",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCreditNotes", _sdkRequestInput([], [], [
   "page_size",
@@ -1143,46 +972,39 @@ export class Client {
   "invoice_id",
   "external_reference_id",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       reverseAllocation: async (credit_note_id, credit_note_allocation_id, params, options) => this.#runtime.request("reverseCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id",
   "credit_note_allocation_id"
 ], [credit_note_id, credit_note_allocation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       reverseAllocationWithResponse: async (credit_note_id, credit_note_allocation_id, params, options) => this.#runtime.request("reverseCreditNoteAllocation", _sdkRequestInput([
   "credit_note_id",
   "credit_note_allocation_id"
 ], [credit_note_id, credit_note_allocation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       update: async (credit_note_id, params, options) => this.#runtime.request("updateCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (credit_note_id, params, options) => this.#runtime.request("updateCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (credit_note_id, params, options) => this.#runtime.request("voidCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       voidResourceWithResponse: async (credit_note_id, params, options) => this.#runtime.request("voidCreditNote", _sdkRequestInput([
   "credit_note_id"
 ], [credit_note_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
     });
     this.customerDeletionRequests = Object.freeze({
@@ -1191,90 +1013,77 @@ export class Client {
   "customer_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCustomerDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "customer_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "customer_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCustomerDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "customer_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCustomerDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "customer_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       resolve: async (customer_deletion_request_id, params, options) => this.#runtime.request("resolveCustomerDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
 ], [customer_deletion_request_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       resolveWithResponse: async (customer_deletion_request_id, params, options) => this.#runtime.request("resolveCustomerDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
 ], [customer_deletion_request_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.customerSessions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createCustomerSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCustomerSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       refresh: async (params, options) => this.#runtime.request("refreshCustomerSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       refreshWithResponse: async (params, options) => this.#runtime.request("refreshCustomerSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       revoke: async (customer_session_id, params, options) => this.#runtime.request("revokeCustomerSession", _sdkRequestInput([
   "customer_session_id"
 ], [customer_session_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokeWithResponse: async (customer_session_id, params, options) => this.#runtime.request("revokeCustomerSession", _sdkRequestInput([
   "customer_session_id"
 ], [customer_session_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.customerVerifications = Object.freeze({
@@ -1282,175 +1091,150 @@ export class Client {
   "customer_verification_id"
 ], [customer_verification_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (customer_verification_id, params, options) => this.#runtime.request("confirmCustomerVerification", _sdkRequestInput([
   "customer_verification_id"
 ], [customer_verification_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createCustomerVerification", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCustomerVerification", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.customers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createAddress: async (customer_id, params, options) => this.#runtime.request("createCustomerAddress", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createAddressWithResponse: async (customer_id, params, options) => this.#runtime.request("createCustomerAddress", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createDeletionRequest: async (customer_id, params, options) => this.#runtime.request("createCustomerDeletionRequest", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createDeletionRequestWithResponse: async (customer_id, params, options) => this.#runtime.request("createCustomerDeletionRequest", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("deleteCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteAddressWithResponse: async (customer_id, customer_address_id, params, options) => this.#runtime.request("deleteCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (customer_id, params, options) => this.#runtime.request("getCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (customer_id, params, options) => this.#runtime.request("getCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("getCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getAddressWithResponse: async (customer_id, customer_address_id, params, options) => this.#runtime.request("getCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getDeletionRequest: async (customer_id, customer_deletion_request_id, params, options) => this.#runtime.request("getCustomerDeletionRequest", _sdkRequestInput([
   "customer_id",
   "customer_deletion_request_id"
 ], [customer_id, customer_deletion_request_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getDeletionRequestWithResponse: async (customer_id, customer_deletion_request_id, params, options) => this.#runtime.request("getCustomerDeletionRequest", _sdkRequestInput([
   "customer_id",
   "customer_deletion_request_id"
 ], [customer_id, customer_deletion_request_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       linkGuestPurchases: async (customer_id, params, options) => this.#runtime.request("linkCustomerGuestPurchases", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       linkGuestPurchasesWithResponse: async (customer_id, params, options) => this.#runtime.request("linkCustomerGuestPurchases", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       listAddresses: async (customer_id, params, options) => this.#runtime.request("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listAddressesWithResponse: async (customer_id, params, options) => this.#runtime.request("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listAddressesPages: (customer_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listAddressesPagesWithResponse: (customer_id, params, options) => _sdkResponsePages(this.#runtime.pages("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listAddressesItems: (customer_id, params, options) => this.#runtime.items("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listCustomers", _sdkRequestInput([], [], [
   "page_size",
@@ -1464,8 +1248,7 @@ export class Client {
   "created_before",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listCustomers", _sdkRequestInput([], [], [
   "page_size",
@@ -1479,8 +1262,7 @@ export class Client {
   "created_before",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomers", _sdkRequestInput([], [], [
   "page_size",
@@ -1494,8 +1276,7 @@ export class Client {
   "created_before",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCustomers", _sdkRequestInput([], [], [
   "page_size",
@@ -1509,8 +1290,7 @@ export class Client {
   "created_before",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listCustomers", _sdkRequestInput([], [], [
   "page_size",
@@ -1524,111 +1304,93 @@ export class Client {
   "created_before",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options),
       revokeSessions: async (customer_id, params, options) => this.#runtime.request("revokeCustomerSessions", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokeSessionsWithResponse: async (customer_id, params, options) => this.#runtime.request("revokeCustomerSessions", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       setDefaultAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("setDefaultCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       setDefaultAddressWithResponse: async (customer_id, customer_address_id, params, options) => this.#runtime.request("setDefaultCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (customer_id, params, options) => this.#runtime.request("updateCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (customer_id, params, options) => this.#runtime.request("updateCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("updateCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateAddressWithResponse: async (customer_id, customer_address_id, params, options) => this.#runtime.request("updateCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryLocationSets = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryLocationSet", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryLocationSet", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (delivery_location_set_id, params, options) => this.#runtime.request("deleteDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
 ], [delivery_location_set_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (delivery_location_set_id, params, options) => this.#runtime.request("deleteDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
 ], [delivery_location_set_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_location_set_id, params, options) => this.#runtime.request("getDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
-], [delivery_location_set_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_location_set_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_location_set_id, params, options) => this.#runtime.request("getDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
-], [delivery_location_set_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [delivery_location_set_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDeliveryLocationSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryLocationSets", _sdkRequestInput([], [], [
   "page_size",
@@ -1636,8 +1398,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryLocationSets", _sdkRequestInput([], [], [
   "page_size",
@@ -1645,8 +1406,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryLocationSets", _sdkRequestInput([], [], [
   "page_size",
@@ -1654,8 +1414,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryLocationSets", _sdkRequestInput([], [], [
   "page_size",
@@ -1663,55 +1422,44 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options),
       update: async (delivery_location_set_id, params, options) => this.#runtime.request("updateDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
 ], [delivery_location_set_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (delivery_location_set_id, params, options) => this.#runtime.request("updateDeliveryLocationSet", _sdkRequestInput([
   "delivery_location_set_id"
 ], [delivery_location_set_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryMethods = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (delivery_method_id, params, options) => this.#runtime.request("deleteDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("deleteDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_method_id, params, options) => this.#runtime.request("getDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
-], [delivery_method_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("getDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
-], [delivery_method_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [delivery_method_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -1722,8 +1470,7 @@ export class Client {
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id",
-  "Flint-Version"
+  "location_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
@@ -1735,8 +1482,7 @@ export class Client {
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id",
-  "Flint-Version"
+  "location_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
@@ -1748,8 +1494,7 @@ export class Client {
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id",
-  "Flint-Version"
+  "location_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
@@ -1761,8 +1506,7 @@ export class Client {
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id",
-  "Flint-Version"
+  "location_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
@@ -1774,20 +1518,17 @@ export class Client {
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id",
-  "Flint-Version"
+  "location_id"
 ], false, false, params), options),
       update: async (delivery_method_id, params, options) => this.#runtime.request("updateDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("updateDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryPreviews = Object.freeze({
@@ -1798,48 +1539,40 @@ export class Client {
       assignToUnconfigured: async (delivery_profile_id, params, options) => this.#runtime.request("assignToUnconfiguredDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       assignToUnconfiguredWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("assignToUnconfiguredDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createDeliveryProfile", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryProfile", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (delivery_profile_id, params, options) => this.#runtime.request("deleteDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("deleteDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_profile_id, params, options) => this.#runtime.request("getDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("getDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
@@ -1848,8 +1581,7 @@ export class Client {
   "external_reference_id",
   "status",
   "resolution_mode",
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
@@ -1858,8 +1590,7 @@ export class Client {
   "external_reference_id",
   "status",
   "resolution_mode",
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
@@ -1868,8 +1599,7 @@ export class Client {
   "external_reference_id",
   "status",
   "resolution_mode",
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
@@ -1878,8 +1608,7 @@ export class Client {
   "external_reference_id",
   "status",
   "resolution_mode",
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
@@ -1888,20 +1617,17 @@ export class Client {
   "external_reference_id",
   "status",
   "resolution_mode",
-  "include_diagnostics",
-  "Flint-Version"
+  "include_diagnostics"
 ], false, false, params), options),
       update: async (delivery_profile_id, params, options) => this.#runtime.request("updateDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("updateDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryQuotes = Object.freeze({
@@ -1913,8 +1639,7 @@ export class Client {
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -1924,8 +1649,7 @@ export class Client {
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -1935,8 +1659,7 @@ export class Client {
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -1946,8 +1669,7 @@ export class Client {
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -1957,75 +1679,61 @@ export class Client {
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
     });
     this.deliveryRateCallbacks = Object.freeze({
       checkConnection: async (delivery_rate_callback_id, params, options) => this.#runtime.request("checkDeliveryRateCallbackConnection", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       checkConnectionWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("checkDeliveryRateCallbackConnection", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createTestDelivery: async (delivery_rate_callback_id, params, options) => this.#runtime.request("createDeliveryRateCallbackTestDelivery", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createTestDeliveryWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("createDeliveryRateCallbackTestDelivery", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       remove: async (delivery_rate_callback_id, params, options) => this.#runtime.request("deleteDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("deleteDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_rate_callback_id, params, options) => this.#runtime.request("getDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_rate_callback_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("getDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [delivery_rate_callback_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
@@ -2033,8 +1741,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
@@ -2042,8 +1749,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
@@ -2051,8 +1757,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
@@ -2060,95 +1765,75 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options),
       rotateSigningKey: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSigningKey", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       rotateSigningKeyWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSigningKey", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       update: async (delivery_rate_callback_id, params, options) => this.#runtime.request("updateDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("updateDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryRevocations = Object.freeze({
       get: async (delivery_revocation_id, params, options) => this.#runtime.request("getDeliveryRevocation", _sdkRequestInput([
   "delivery_revocation_id"
-], [delivery_revocation_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_revocation_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_revocation_id, params, options) => this.#runtime.request("getDeliveryRevocation", _sdkRequestInput([
   "delivery_revocation_id"
-], [delivery_revocation_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [delivery_revocation_id], [], false, false, params), options).then(_sdkResponse),
       revokeDeliveryDependency: async (params, options) => this.#runtime.request("revokeDeliveryDependency", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       revokeDeliveryDependencyWithResponse: async (params, options) => this.#runtime.request("revokeDeliveryDependency", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.deliveryZones = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (delivery_zone_id, params, options) => this.#runtime.request("deleteDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("deleteDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_zone_id, params, options) => this.#runtime.request("getDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
-], [delivery_zone_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_zone_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("getDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
-], [delivery_zone_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [delivery_zone_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
@@ -2156,8 +1841,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
@@ -2165,8 +1849,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
@@ -2174,8 +1857,7 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
@@ -2183,136 +1865,109 @@ export class Client {
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id",
-  "Flint-Version"
+  "delivery_method_id"
 ], false, false, params), options),
       update: async (delivery_zone_id, params, options) => this.#runtime.request("updateDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("updateDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.demoSessions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDemoSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Turnstile-Token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDemoSession", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Turnstile-Token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       reset: async (params, options) => this.#runtime.request("resetDemoSession", _sdkRequestInput([], [], [
   "X-Turnstile-Token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       resetWithResponse: async (params, options) => this.#runtime.request("resetDemoSession", _sdkRequestInput([], [], [
   "X-Turnstile-Token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.developer = Object.freeze({
       createPartnerApp: async (params, options) => this.#runtime.request("createDeveloperPartnerApp", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createPartnerAppWithResponse: async (params, options) => this.#runtime.request("createDeveloperPartnerApp", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createSandbox: async (params, options) => this.#runtime.request("createDeveloperSandbox", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createSandboxWithResponse: async (params, options) => this.#runtime.request("createDeveloperSandbox", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       deleteSandbox: async (sandbox_id, params, options) => this.#runtime.request("deleteDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("deleteDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getCurrentAPIKeyRequestLog: async (api_request_log_id, params, options) => this.#runtime.request("getCurrentAPIKeyRequestLog", _sdkRequestInput([
   "api_request_log_id"
-], [api_request_log_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [api_request_log_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getCurrentAPIKeyRequestLogWithResponse: async (api_request_log_id, params, options) => this.#runtime.request("getCurrentAPIKeyRequestLog", _sdkRequestInput([
   "api_request_log_id"
-], [api_request_log_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
-      getAuthContext: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getAuthContextWithResponse: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [api_request_log_id], [], false, false, params), options).then(_sdkResponse),
+      getAuthContext: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getAuthContextWithResponse: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       getPartnerApp: async (partner_app_id, params, options) => this.#runtime.request("getDeveloperPartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("getDeveloperPartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getPartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getDeveloperPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
 ], [partner_app_id, partner_app_install_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getDeveloperPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
 ], [partner_app_id, partner_app_install_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getSandbox: async (sandbox_id, params, options) => this.#runtime.request("getDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("getDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getResourceTimeline: async (resource_id, params, options) => this.#runtime.request("getResourceTimeline", _sdkRequestInput([
   "resource_id"
@@ -2322,8 +1977,7 @@ export class Client {
   "page_size",
   "page_token",
   "occurred_after",
-  "occurred_before",
-  "Flint-Version"
+  "occurred_before"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getResourceTimelineWithResponse: async (resource_id, params, options) => this.#runtime.request("getResourceTimeline", _sdkRequestInput([
   "resource_id"
@@ -2333,22 +1987,19 @@ export class Client {
   "page_size",
   "page_token",
   "occurred_after",
-  "occurred_before",
-  "Flint-Version"
+  "occurred_before"
 ], false, false, params), options).then(_sdkResponse),
       issueSandboxTestKey: async (sandbox_id, params, options) => this.#runtime.request("issueDeveloperSandboxTestKey", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       issueSandboxTestKeyWithResponse: async (sandbox_id, params, options) => this.#runtime.request("issueDeveloperSandboxTestKey", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       listCurrentAPIKeyRequestLogs: async (params, options) => this.#runtime.request("listCurrentAPIKeyRequestLogs", _sdkRequestInput([], [], [
   "page_size",
@@ -2360,8 +2011,7 @@ export class Client {
   "resource_id",
   "status_bucket",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listCurrentAPIKeyRequestLogsWithResponse: async (params, options) => this.#runtime.request("listCurrentAPIKeyRequestLogs", _sdkRequestInput([], [], [
   "page_size",
@@ -2373,8 +2023,7 @@ export class Client {
   "resource_id",
   "status_bucket",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listCurrentAPIKeyRequestLogsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCurrentAPIKeyRequestLogs", _sdkRequestInput([], [], [
   "page_size",
@@ -2386,8 +2035,7 @@ export class Client {
   "resource_id",
   "status_bucket",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listCurrentAPIKeyRequestLogsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listCurrentAPIKeyRequestLogs", _sdkRequestInput([], [], [
   "page_size",
@@ -2399,8 +2047,7 @@ export class Client {
   "resource_id",
   "status_bucket",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listCurrentAPIKeyRequestLogsItems: (params, options) => this.#runtime.items("listCurrentAPIKeyRequestLogs", _sdkRequestInput([], [], [
   "page_size",
@@ -2412,138 +2059,118 @@ export class Client {
   "resource_id",
   "status_bucket",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
       listPartnerAppInstalls: async (partner_app_id, params, options) => this.#runtime.request("listDeveloperPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPartnerAppInstallsWithResponse: async (partner_app_id, params, options) => this.#runtime.request("listDeveloperPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPartnerAppInstallsPages: (partner_app_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPartnerAppInstallsPagesWithResponse: (partner_app_id, params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listPartnerAppInstallsItems: (partner_app_id, params, options) => this.#runtime.items("listDeveloperPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listPartnerApps: async (params, options) => this.#runtime.request("listDeveloperPartnerApps", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPartnerAppsWithResponse: async (params, options) => this.#runtime.request("listDeveloperPartnerApps", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPartnerAppsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperPartnerApps", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPartnerAppsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperPartnerApps", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listPartnerAppsItems: (params, options) => this.#runtime.items("listDeveloperPartnerApps", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listSandboxes: async (params, options) => this.#runtime.request("listDeveloperSandboxes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listSandboxesWithResponse: async (params, options) => this.#runtime.request("listDeveloperSandboxes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listSandboxesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperSandboxes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listSandboxesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperSandboxes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listSandboxesItems: (params, options) => this.#runtime.items("listDeveloperSandboxes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       resetSandbox: async (sandbox_id, params, options) => this.#runtime.request("resetDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resetSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("resetDeveloperSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       revokePartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokeDeveloperPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
 ], [partner_app_id, partner_app_install_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokePartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokeDeveloperPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
 ], [partner_app_id, partner_app_install_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       revokePartnerEnvironmentGrant: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokeDeveloperPartnerEnvironmentGrant", _sdkRequestInput([
   "partner_app_id",
@@ -2551,8 +2178,7 @@ export class Client {
   "environment_grant_id"
 ], [partner_app_id, partner_app_install_id, environment_grant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokePartnerEnvironmentGrantWithResponse: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokeDeveloperPartnerEnvironmentGrant", _sdkRequestInput([
   "partner_app_id",
@@ -2560,81 +2186,67 @@ export class Client {
   "environment_grant_id"
 ], [partner_app_id, partner_app_install_id, environment_grant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       rotatePartnerAppSecret: async (partner_app_id, params, options) => this.#runtime.request("rotateDeveloperPartnerAppSecret", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       rotatePartnerAppSecretWithResponse: async (partner_app_id, params, options) => this.#runtime.request("rotateDeveloperPartnerAppSecret", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       updatePartnerApp: async (partner_app_id, params, options) => this.#runtime.request("updateDeveloperPartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updatePartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("updateDeveloperPartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.devices = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDevice", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDevice", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (device_id, params, options) => this.#runtime.request("deleteDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (device_id, params, options) => this.#runtime.request("deleteDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (device_id, params, options) => this.#runtime.request("getDevice", _sdkRequestInput([
   "device_id"
-], [device_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [device_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (device_id, params, options) => this.#runtime.request("getDevice", _sdkRequestInput([
   "device_id"
-], [device_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [device_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDevices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "location_id",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDevices", _sdkRequestInput([], [], [
   "page_size",
@@ -2642,8 +2254,7 @@ export class Client {
   "status",
   "location_id",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDevices", _sdkRequestInput([], [], [
   "page_size",
@@ -2651,8 +2262,7 @@ export class Client {
   "status",
   "location_id",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDevices", _sdkRequestInput([], [], [
   "page_size",
@@ -2660,8 +2270,7 @@ export class Client {
   "status",
   "location_id",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDevices", _sdkRequestInput([], [], [
   "page_size",
@@ -2669,36 +2278,27 @@ export class Client {
   "status",
   "location_id",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options),
       update: async (device_id, params, options) => this.#runtime.request("updateDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (device_id, params, options) => this.#runtime.request("updateDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.discountPreviews = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.disputes = Object.freeze({
@@ -2706,15 +2306,13 @@ export class Client {
   "dispute_id"
 ], [dispute_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (dispute_id, params, options) => this.#runtime.request("getDispute", _sdkRequestInput([
   "dispute_id"
 ], [dispute_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listDisputes", _sdkRequestInput([], [], [
   "payment_intent_id",
@@ -2729,8 +2327,7 @@ export class Client {
   "evidence_due_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDisputes", _sdkRequestInput([], [], [
   "payment_intent_id",
@@ -2745,8 +2342,7 @@ export class Client {
   "evidence_due_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDisputes", _sdkRequestInput([], [], [
   "payment_intent_id",
@@ -2761,8 +2357,7 @@ export class Client {
   "evidence_due_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDisputes", _sdkRequestInput([], [], [
   "payment_intent_id",
@@ -2777,8 +2372,7 @@ export class Client {
   "evidence_due_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDisputes", _sdkRequestInput([], [], [
   "payment_intent_id",
@@ -2793,84 +2387,70 @@ export class Client {
   "evidence_due_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.emailPreferenceLinks = Object.freeze({
       lookup: async (params, options) => this.#runtime.request("lookupEmailPreferenceLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       lookupWithResponse: async (params, options) => this.#runtime.request("lookupEmailPreferenceLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       unsubscribe: async (params, options) => this.#runtime.request("unsubscribeEmailPreferenceLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       unsubscribeWithResponse: async (params, options) => this.#runtime.request("unsubscribeEmailPreferenceLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.feedbackReports = Object.freeze({
       create: async (params, options) => this.#runtime.request("createFeedbackReport", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createFeedbackReport", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (feedback_report_id, params, options) => this.#runtime.request("getFeedbackReport", _sdkRequestInput([
   "feedback_report_id"
 ], [feedback_report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (feedback_report_id, params, options) => this.#runtime.request("getFeedbackReport", _sdkRequestInput([
   "feedback_report_id"
 ], [feedback_report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.fraudWarnings = Object.freeze({
@@ -2878,55 +2458,48 @@ export class Client {
   "fraud_warning_id"
 ], [fraud_warning_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (fraud_warning_id, params, options) => this.#runtime.request("getFraudWarning", _sdkRequestInput([
   "fraud_warning_id"
 ], [fraud_warning_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFraudWarnings", _sdkRequestInput([], [], [
   "actionable",
   "payment_intent_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFraudWarnings", _sdkRequestInput([], [], [
   "actionable",
   "payment_intent_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFraudWarnings", _sdkRequestInput([], [], [
   "actionable",
   "payment_intent_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFraudWarnings", _sdkRequestInput([], [], [
   "actionable",
   "payment_intent_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFraudWarnings", _sdkRequestInput([], [], [
   "actionable",
   "payment_intent_id",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.fulfillmentEvents = Object.freeze({
@@ -2934,15 +2507,13 @@ export class Client {
   "fulfillment_event_id"
 ], [fulfillment_event_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (fulfillment_event_id, params, options) => this.#runtime.request("getFulfillmentEvent", _sdkRequestInput([
   "fulfillment_event_id"
 ], [fulfillment_event_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillmentEvents", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -2957,8 +2528,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "sort_by",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillmentEvents", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -2973,8 +2543,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "sort_by",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillmentEvents", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -2989,8 +2558,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "sort_by",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillmentEvents", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3005,8 +2573,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "sort_by",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillmentEvents", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3021,8 +2588,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "sort_by",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.fulfillmentNotifications = Object.freeze({
@@ -3030,15 +2596,13 @@ export class Client {
   "fulfillment_notification_id"
 ], [fulfillment_notification_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (fulfillment_notification_id, params, options) => this.#runtime.request("getFulfillmentNotification", _sdkRequestInput([
   "fulfillment_notification_id"
 ], [fulfillment_notification_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3049,8 +2613,7 @@ export class Client {
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3061,8 +2624,7 @@ export class Client {
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3073,8 +2635,7 @@ export class Client {
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3085,8 +2646,7 @@ export class Client {
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -3097,8 +2657,7 @@ export class Client {
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.fulfillments = Object.freeze({
@@ -3106,43 +2665,37 @@ export class Client {
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createEventWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createShipment: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createShipmentWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -3159,8 +2712,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -3177,8 +2729,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -3195,8 +2746,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -3213,8 +2763,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -3231,8 +2780,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(_sdkResponse),
@@ -3240,15 +2788,13 @@ export class Client {
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.giftCardAdjustments = Object.freeze({
@@ -3256,15 +2802,13 @@ export class Client {
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardAdjustment", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.giftCardCashOuts = Object.freeze({
@@ -3272,27 +2816,23 @@ export class Client {
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardCashOut", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.giftCardFundingDispositions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createGiftCardFundingDisposition", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCardFundingDisposition", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.giftCardLoads = Object.freeze({
@@ -3300,27 +2840,23 @@ export class Client {
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardLoad", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (gift_card_load_id, params, options) => this.#runtime.request("getGiftCardLoad", _sdkRequestInput([
   "gift_card_load_id"
 ], [gift_card_load_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (gift_card_load_id, params, options) => this.#runtime.request("getGiftCardLoad", _sdkRequestInput([
   "gift_card_load_id"
 ], [gift_card_load_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCardLoads", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3332,8 +2868,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardLoads", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3345,8 +2880,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardLoads", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3358,8 +2892,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardLoads", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3371,8 +2904,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardLoads", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3384,8 +2916,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options),
     });
     this.giftCardNotifications = Object.freeze({
@@ -3393,37 +2924,31 @@ export class Client {
   "gift_card_notification_id"
 ], [gift_card_notification_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (gift_card_notification_id, params, options) => this.#runtime.request("cancelGiftCardNotification", _sdkRequestInput([
   "gift_card_notification_id"
 ], [gift_card_notification_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createGiftCardNotification", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCardNotification", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (gift_card_notification_id, params, options) => this.#runtime.request("getGiftCardNotification", _sdkRequestInput([
   "gift_card_notification_id"
 ], [gift_card_notification_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (gift_card_notification_id, params, options) => this.#runtime.request("getGiftCardNotification", _sdkRequestInput([
   "gift_card_notification_id"
 ], [gift_card_notification_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3432,8 +2957,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3442,8 +2966,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3452,8 +2975,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3462,8 +2984,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardNotifications", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3472,8 +2993,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
     });
     this.giftCardRedemptions = Object.freeze({
@@ -3481,51 +3001,43 @@ export class Client {
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("cancelGiftCardRedemption", _sdkRequestInput([
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       capture: async (gift_card_redemption_id, params, options) => this.#runtime.request("captureGiftCardRedemption", _sdkRequestInput([
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       captureWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("captureGiftCardRedemption", _sdkRequestInput([
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createGiftCardRedemption", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCardRedemption", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (gift_card_redemption_id, params, options) => this.#runtime.request("getGiftCardRedemption", _sdkRequestInput([
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (gift_card_redemption_id, params, options) => this.#runtime.request("getGiftCardRedemption", _sdkRequestInput([
   "gift_card_redemption_id"
 ], [gift_card_redemption_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCardRedemptions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3538,8 +3050,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardRedemptions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3552,8 +3063,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardRedemptions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3566,8 +3076,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardRedemptions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3580,8 +3089,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardRedemptions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3594,8 +3102,7 @@ export class Client {
   "page_size",
   "page_token",
   "source_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
     });
     this.giftCardTransactions = Object.freeze({
@@ -3610,8 +3117,7 @@ export class Client {
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3624,8 +3130,7 @@ export class Client {
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3638,8 +3143,7 @@ export class Client {
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3652,8 +3156,7 @@ export class Client {
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardTransactions", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3666,32 +3169,27 @@ export class Client {
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type",
-  "Flint-Version"
+  "source_type"
 ], false, false, params), options),
     });
     this.giftCards = Object.freeze({
       create: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3701,8 +3199,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3712,8 +3209,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3723,8 +3219,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3734,8 +3229,7 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
@@ -3745,68 +3239,57 @@ export class Client {
   "gift_card_id",
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       lookupWithResponse: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       rotateCode: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       rotateCodeWithResponse: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       transition: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryAdjustments = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryAdjustment", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryAdjustment", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
@@ -3821,8 +3304,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
@@ -3837,8 +3319,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
@@ -3853,8 +3334,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
@@ -3869,8 +3349,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
@@ -3885,128 +3364,106 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
     });
     this.inventoryAllocationPolicies = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryAllocationPolicy", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryAllocationPolicy", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("deleteInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("deleteInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
-], [inventory_allocation_policy_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [inventory_allocation_policy_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
-], [inventory_allocation_policy_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [inventory_allocation_policy_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("updateInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("updateInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryCounts = Object.freeze({
       apply: async (inventory_count_id, params, options) => this.#runtime.request("applyInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       applyWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("applyInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancel: async (inventory_count_id, params, options) => this.#runtime.request("cancelInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("cancelInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createInventoryCount", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryCount", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
@@ -4018,8 +3475,7 @@ export class Client {
   "created_after",
   "created_before",
   "applied_after",
-  "applied_before",
-  "Flint-Version"
+  "applied_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
@@ -4031,8 +3487,7 @@ export class Client {
   "created_after",
   "created_before",
   "applied_after",
-  "applied_before",
-  "Flint-Version"
+  "applied_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
@@ -4044,8 +3499,7 @@ export class Client {
   "created_after",
   "created_before",
   "applied_after",
-  "applied_before",
-  "Flint-Version"
+  "applied_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
@@ -4057,8 +3511,7 @@ export class Client {
   "created_after",
   "created_before",
   "applied_after",
-  "applied_before",
-  "Flint-Version"
+  "applied_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
@@ -4070,55 +3523,44 @@ export class Client {
   "created_after",
   "created_before",
   "applied_after",
-  "applied_before",
-  "Flint-Version"
+  "applied_before"
 ], false, false, params), options),
       update: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryItems = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryItem", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryItem", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (inventory_item_id, params, options) => this.#runtime.request("deleteInventoryItem", _sdkRequestInput([
   "inventory_item_id"
 ], [inventory_item_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (inventory_item_id, params, options) => this.#runtime.request("deleteInventoryItem", _sdkRequestInput([
   "inventory_item_id"
 ], [inventory_item_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (inventory_item_id, params, options) => this.#runtime.request("getInventoryItem", _sdkRequestInput([
   "inventory_item_id"
-], [inventory_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [inventory_item_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (inventory_item_id, params, options) => this.#runtime.request("getInventoryItem", _sdkRequestInput([
   "inventory_item_id"
-], [inventory_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [inventory_item_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryItems", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -4126,8 +3568,7 @@ export class Client {
   "sku",
   "barcode",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryItems", _sdkRequestInput([], [], [
   "page_size",
@@ -4136,8 +3577,7 @@ export class Client {
   "sku",
   "barcode",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryItems", _sdkRequestInput([], [], [
   "page_size",
@@ -4146,8 +3586,7 @@ export class Client {
   "sku",
   "barcode",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryItems", _sdkRequestInput([], [], [
   "page_size",
@@ -4156,8 +3595,7 @@ export class Client {
   "sku",
   "barcode",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryItems", _sdkRequestInput([], [], [
   "page_size",
@@ -4166,20 +3604,17 @@ export class Client {
   "sku",
   "barcode",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (inventory_item_id, params, options) => this.#runtime.request("updateInventoryItem", _sdkRequestInput([
   "inventory_item_id"
 ], [inventory_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_item_id, params, options) => this.#runtime.request("updateInventoryItem", _sdkRequestInput([
   "inventory_item_id"
 ], [inventory_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryLevels = Object.freeze({
@@ -4197,8 +3632,7 @@ export class Client {
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
@@ -4214,8 +3648,7 @@ export class Client {
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
@@ -4231,8 +3664,7 @@ export class Client {
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
@@ -4248,8 +3680,7 @@ export class Client {
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
@@ -4265,20 +3696,17 @@ export class Client {
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options),
       update: async (inventory_level_id, params, options) => this.#runtime.request("updateInventoryLevel", _sdkRequestInput([
   "inventory_level_id"
 ], [inventory_level_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_level_id, params, options) => this.#runtime.request("updateInventoryLevel", _sdkRequestInput([
   "inventory_level_id"
 ], [inventory_level_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryMovements = Object.freeze({
@@ -4302,8 +3730,7 @@ export class Client {
   "created_after",
   "created_before",
   "source_reference_type",
-  "source_reference_id",
-  "Flint-Version"
+  "source_reference_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryMovements", _sdkRequestInput([], [], [
   "page_size",
@@ -4325,8 +3752,7 @@ export class Client {
   "created_after",
   "created_before",
   "source_reference_type",
-  "source_reference_id",
-  "Flint-Version"
+  "source_reference_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryMovements", _sdkRequestInput([], [], [
   "page_size",
@@ -4348,8 +3774,7 @@ export class Client {
   "created_after",
   "created_before",
   "source_reference_type",
-  "source_reference_id",
-  "Flint-Version"
+  "source_reference_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryMovements", _sdkRequestInput([], [], [
   "page_size",
@@ -4371,8 +3796,7 @@ export class Client {
   "created_after",
   "created_before",
   "source_reference_type",
-  "source_reference_id",
-  "Flint-Version"
+  "source_reference_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryMovements", _sdkRequestInput([], [], [
   "page_size",
@@ -4394,18 +3818,15 @@ export class Client {
   "created_after",
   "created_before",
   "source_reference_type",
-  "source_reference_id",
-  "Flint-Version"
+  "source_reference_id"
 ], false, false, params), options),
     });
     this.inventoryReceipts = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryReceipt", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryReceipt", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryReceipts", _sdkRequestInput([], [], [
   "page_size",
@@ -4422,8 +3843,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryReceipts", _sdkRequestInput([], [], [
   "page_size",
@@ -4440,8 +3860,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryReceipts", _sdkRequestInput([], [], [
   "page_size",
@@ -4458,8 +3877,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryReceipts", _sdkRequestInput([], [], [
   "page_size",
@@ -4476,8 +3894,7 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryReceipts", _sdkRequestInput([], [], [
   "page_size",
@@ -4494,42 +3911,35 @@ export class Client {
   "occurred_after",
   "occurred_before",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
     });
     this.inventoryReservations = Object.freeze({
       commit: async (inventory_reservation_id, params, options) => this.#runtime.request("commitInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       commitWithResponse: async (inventory_reservation_id, params, options) => this.#runtime.request("commitInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       consume: async (inventory_reservation_id, params, options) => this.#runtime.request("consumeInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       consumeWithResponse: async (inventory_reservation_id, params, options) => this.#runtime.request("consumeInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createInventoryReservation", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryReservation", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryReservations", _sdkRequestInput([], [], [
   "page_size",
@@ -4545,8 +3955,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryReservations", _sdkRequestInput([], [], [
   "page_size",
@@ -4562,8 +3971,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryReservations", _sdkRequestInput([], [], [
   "page_size",
@@ -4579,8 +3987,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryReservations", _sdkRequestInput([], [], [
   "page_size",
@@ -4596,8 +4003,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryReservations", _sdkRequestInput([], [], [
   "page_size",
@@ -4613,30 +4019,25 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       release: async (inventory_reservation_id, params, options) => this.#runtime.request("releaseInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       releaseWithResponse: async (inventory_reservation_id, params, options) => this.#runtime.request("releaseInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.inventoryTransfers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -4654,8 +4055,7 @@ export class Client {
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -4673,8 +4073,7 @@ export class Client {
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -4692,8 +4091,7 @@ export class Client {
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -4711,8 +4109,7 @@ export class Client {
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -4730,219 +4127,181 @@ export class Client {
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(_sdkResponse),
       update: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.invoicePaymentTerms = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInvoicePaymentTerm", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInvoicePaymentTerm", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (invoice_payment_term_id, params, options) => this.#runtime.request("deleteInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("deleteInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (invoice_payment_term_id, params, options) => this.#runtime.request("getInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
-], [invoice_payment_term_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_payment_term_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("getInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
-], [invoice_payment_term_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_payment_term_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (invoice_payment_term_id, params, options) => this.#runtime.request("updateInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("updateInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.invoices = Object.freeze({
       assessLateFee: async (invoice_id, params, options) => this.#runtime.request("assessInvoiceLateFee", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       assessLateFeeWithResponse: async (invoice_id, params, options) => this.#runtime.request("assessInvoiceLateFee", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancelPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
 ], [invoice_id, invoice_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
 ], [invoice_id, invoice_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       collect: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       collectWithResponse: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(_sdkResponse),
       getPDF: async (invoice_id, params, options) => this.#runtime.request("getInvoicePDF", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Flint-Version"
-], false, false, params), options),
+], [invoice_id], [], false, false, params), options),
       getOrCreateCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("getOrCreateInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOrCreateCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("getOrCreateInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       issue: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       issueWithResponse: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       listActivities: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -4950,8 +4309,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listActivitiesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -4959,8 +4317,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(_sdkResponse),
       listActivitiesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -4968,8 +4325,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options), []),
       listActivitiesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -4977,8 +4333,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options)),
       listActivitiesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -4986,83 +4341,72 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options),
       listDeliveryAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listDeliveryAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listDeliveryAttemptsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listDeliveryAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listDeliveryAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listPaymentAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentAttemptsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options), []),
       listPaymentAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options)),
       listPaymentAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -5079,8 +4423,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -5097,8 +4440,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -5115,8 +4457,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -5133,8 +4474,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -5151,163 +4491,137 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       markUncollectible: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       markUncollectibleWithResponse: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       recordManualPayment: async (invoice_id, params, options) => this.#runtime.request("recordManualInvoicePayment", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       recordManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("recordManualInvoicePayment", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       regeneratePublicLink: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       regeneratePublicLinkWithResponse: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       reverseManualPayment: async (invoice_id, params, options) => this.#runtime.request("reverseManualInvoicePayment", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       reverseManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("reverseManualInvoicePayment", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       sendReminder: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       sendReminderWithResponse: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       update: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       voidResourceWithResponse: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       waiveLateFee: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
   "invoice_id",
   "invoice_late_fee_id"
 ], [invoice_id, invoice_late_fee_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       waiveLateFeeWithResponse: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
   "invoice_id",
   "invoice_late_fee_id"
 ], [invoice_id, invoice_late_fee_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.locations = Object.freeze({
       create: async (params, options) => this.#runtime.request("createLocation", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createLocation", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (location_id, params, options) => this.#runtime.request("deleteLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (location_id, params, options) => this.#runtime.request("deleteLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (location_id, params, options) => this.#runtime.request("getLocation", _sdkRequestInput([
   "location_id"
-], [location_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [location_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (location_id, params, options) => this.#runtime.request("getLocation", _sdkRequestInput([
   "location_id"
-], [location_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [location_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listLocations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "inventory_allocation_status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listLocations", _sdkRequestInput([], [], [
   "page_size",
@@ -5315,8 +4629,7 @@ export class Client {
   "status",
   "inventory_allocation_status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listLocations", _sdkRequestInput([], [], [
   "page_size",
@@ -5324,8 +4637,7 @@ export class Client {
   "status",
   "inventory_allocation_status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listLocations", _sdkRequestInput([], [], [
   "page_size",
@@ -5333,8 +4645,7 @@ export class Client {
   "status",
   "inventory_allocation_status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listLocations", _sdkRequestInput([], [], [
   "page_size",
@@ -5342,510 +4653,403 @@ export class Client {
   "status",
   "inventory_allocation_status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       publishGeography: async (location_id, params, options) => this.#runtime.request("publishLocationGeography", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       publishGeographyWithResponse: async (location_id, params, options) => this.#runtime.request("publishLocationGeography", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateInventory: async (location_id, params, options) => this.#runtime.request("updateLocationInventory", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateInventoryWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocationInventory", _sdkRequestInput([
   "location_id"
 ], [location_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.me = Object.freeze({
       cancelReturn: async (return_id, params, options) => this.#runtime.request("cancelMeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelReturnWithResponse: async (return_id, params, options) => this.#runtime.request("cancelMeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancelSubscription: async (subscription_id, params, options) => this.#runtime.request("cancelMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("cancelMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionBillingInterval: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       changeSubscriptionBillingIntervalWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionDelivery: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionDelivery", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       changeSubscriptionDeliveryWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionDelivery", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionPaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       changeSubscriptionPaymentMethodWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionQuantity: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       changeSubscriptionQuantityWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       confirmEmailChangeRequest: async (email_change_request_id, params, options) => this.#runtime.request("confirmMeEmailChangeRequest", _sdkRequestInput([
   "email_change_request_id"
 ], [email_change_request_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmEmailChangeRequestWithResponse: async (email_change_request_id, params, options) => this.#runtime.request("confirmMeEmailChangeRequest", _sdkRequestInput([
   "email_change_request_id"
 ], [email_change_request_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createAddress: async (params, options) => this.#runtime.request("createMeAddress", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createAddressWithResponse: async (params, options) => this.#runtime.request("createMeAddress", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createDeletionRequest: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createDeletionRequestWithResponse: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       createEmailChangeRequest: async (params, options) => this.#runtime.request("createMeEmailChangeRequest", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createEmailChangeRequestWithResponse: async (params, options) => this.#runtime.request("createMeEmailChangeRequest", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createFlintWalletStoreSetup: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
   "id"
 ], [id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createFlintWalletStoreSetupWithResponse: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
   "id"
 ], [id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       createInvoiceCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createInvoiceCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createReturn: async (params, options) => this.#runtime.request("createMeReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createReturnWithResponse: async (params, options) => this.#runtime.request("createMeReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      createReturnPreview: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createReturnPreviewWithResponse: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
+      createReturnPreview: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createReturnPreviewWithResponse: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
       createReturnResolutionCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createReturnResolutionCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createSubscriptionPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
-      createSubscriptionPreview: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createSubscriptionPreviewWithResponse: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
+      createSubscriptionPreview: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createSubscriptionPreviewWithResponse: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
-      get: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+      get: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       getAddress: async (customer_address_id, params, options) => this.#runtime.request("getMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("getMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getCreditNote: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "invoice_id",
   "credit_note_id"
-], [invoice_id, credit_note_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id, credit_note_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getCreditNoteWithResponse: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "invoice_id",
   "credit_note_id"
-], [invoice_id, credit_note_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_id, credit_note_id], [], false, false, params), options).then(_sdkResponse),
       getCreditNotePDF: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
   "invoice_id",
   "credit_note_id"
-], [invoice_id, credit_note_id], [
-  "Flint-Version"
-], false, false, params), options),
+], [invoice_id, credit_note_id], [], false, false, params), options),
       getDeletionRequest: async (customer_deletion_request_id, params, options) => this.#runtime.request("getMeDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
 ], [customer_deletion_request_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getDeletionRequestWithResponse: async (customer_deletion_request_id, params, options) => this.#runtime.request("getMeDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
 ], [customer_deletion_request_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getGiftCard: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getInvoice: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getInvoiceWithResponse: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [invoice_id], [], false, false, params), options).then(_sdkResponse),
       getInvoicePDF: async (invoice_id, params, options) => this.#runtime.request("getMeInvoicePDF", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [
-  "Flint-Version"
-], false, false, params), options),
+], [invoice_id], [], false, false, params), options),
       getOrder: async (order_id, params, options) => this.#runtime.request("getMeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOrderWithResponse: async (order_id, params, options) => this.#runtime.request("getMeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], false, false, params), options).then(_sdkResponse),
       getPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
-], [payment_method_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [payment_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
-], [payment_method_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [payment_method_id], [], false, false, params), options).then(_sdkResponse),
       getReturn: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
   "return_id"
-], [return_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getReturnWithResponse: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
   "return_id"
-], [return_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_id], [], false, false, params), options).then(_sdkResponse),
       getSubscription: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], false, false, params), options).then(_sdkResponse),
       getSubscriptionPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getSubscriptionPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(_sdkResponse),
       listAddresses: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listAddressesWithResponse: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listAddressesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listAddressesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listAddressesItems: (params, options) => this.#runtime.items("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       listCreditNotes: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listCreditNotesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listCreditNotesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listCreditNotesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listCreditNotesItems: (invoice_id, params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listDeletionRequests: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listDeletionRequestsWithResponse: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listDeletionRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listDeletionRequestsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
-      listFlintWalletPaymentMethods: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      listFlintWalletPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+      listFlintWalletPaymentMethods: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      listFlintWalletPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       listFulfillmentEvents: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "shipment_id",
   "package_id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listFulfillmentEventsWithResponse: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
@@ -5853,8 +5057,7 @@ export class Client {
   "shipment_id",
   "package_id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listFulfillmentEventsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
@@ -5862,8 +5065,7 @@ export class Client {
   "shipment_id",
   "package_id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listFulfillmentEventsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
@@ -5871,8 +5073,7 @@ export class Client {
   "shipment_id",
   "package_id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listFulfillmentEventsItems: (params, options) => this.#runtime.items("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
@@ -5880,8 +5081,7 @@ export class Client {
   "shipment_id",
   "package_id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listFulfillments: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
@@ -5897,8 +5097,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listFulfillmentsWithResponse: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
@@ -5914,8 +5113,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listFulfillmentsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
@@ -5931,8 +5129,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listFulfillmentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
@@ -5948,8 +5145,7 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listFulfillmentsItems: (params, options) => this.#runtime.items("listMeFulfillments", _sdkRequestInput([], [], [
   "order_id",
@@ -5965,78 +5161,67 @@ export class Client {
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       listGiftCards: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listGiftCardsWithResponse: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listGiftCardsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listGiftCardsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listGiftCardsItems: (params, options) => this.#runtime.items("listMeGiftCards", _sdkRequestInput([], [], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listGiftCardTransactions: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listGiftCardTransactionsWithResponse: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listGiftCardTransactionsPages: (gift_card_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listGiftCardTransactionsPagesWithResponse: (gift_card_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listGiftCardTransactionsItems: (gift_card_id, params, options) => this.#runtime.items("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       listInvoices: async (params, options) => this.#runtime.request("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -6052,8 +5237,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listInvoicesWithResponse: async (params, options) => this.#runtime.request("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -6069,8 +5253,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listInvoicesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -6086,8 +5269,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listInvoicesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -6103,8 +5285,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listInvoicesItems: (params, options) => this.#runtime.items("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -6120,8 +5301,7 @@ export class Client {
   "has_amount_due",
   "sort_by",
   "sort_direction",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       listOrderActivities: async (order_id, params, options) => this.#runtime.request("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -6129,8 +5309,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listOrderActivitiesWithResponse: async (order_id, params, options) => this.#runtime.request("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -6138,8 +5317,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(_sdkResponse),
       listOrderActivitiesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -6147,8 +5325,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options), []),
       listOrderActivitiesPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -6156,8 +5333,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options)),
       listOrderActivitiesItems: (order_id, params, options) => this.#runtime.items("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -6165,8 +5341,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options),
       listOrders: async (params, options) => this.#runtime.request("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -6191,8 +5366,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listOrdersWithResponse: async (params, options) => this.#runtime.request("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -6217,8 +5391,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listOrdersPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -6243,8 +5416,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listOrdersPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -6269,8 +5441,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listOrdersItems: (params, options) => this.#runtime.items("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -6295,8 +5466,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       listPackages: async (params, options) => this.#runtime.request("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -6307,8 +5477,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPackagesWithResponse: async (params, options) => this.#runtime.request("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -6319,8 +5488,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPackagesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -6331,8 +5499,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPackagesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -6343,8 +5510,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listPackagesItems: (params, options) => this.#runtime.items("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -6355,48 +5521,42 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       listPaymentMethods: async (params, options) => this.#runtime.request("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentMethodsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options), []),
       listPaymentMethodsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options)),
       listPaymentMethodsItems: (params, options) => this.#runtime.items("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options),
       listPayments: async (params, options) => this.#runtime.request("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -6421,8 +5581,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentsWithResponse: async (params, options) => this.#runtime.request("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -6447,8 +5606,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -6473,8 +5631,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPaymentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -6499,8 +5656,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listPaymentsItems: (params, options) => this.#runtime.items("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -6525,8 +5681,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       listRefunds: async (params, options) => this.#runtime.request("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -6548,8 +5703,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listRefundsWithResponse: async (params, options) => this.#runtime.request("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -6571,8 +5725,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listRefundsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -6594,8 +5747,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listRefundsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -6617,8 +5769,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listRefundsItems: (params, options) => this.#runtime.items("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -6640,8 +5791,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       listReturns: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -6661,8 +5811,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listReturnsWithResponse: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -6682,8 +5831,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(_sdkResponse),
       listReturnsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -6703,8 +5851,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options), []),
       listReturnsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -6724,8 +5871,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options)),
       listReturnsItems: (params, options) => this.#runtime.items("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -6745,8 +5891,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options),
       listShipments: async (params, options) => this.#runtime.request("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -6761,8 +5906,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listShipmentsWithResponse: async (params, options) => this.#runtime.request("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -6777,8 +5921,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listShipmentsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -6793,8 +5936,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listShipmentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -6809,8 +5951,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listShipmentsItems: (params, options) => this.#runtime.items("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -6825,8 +5966,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       listSubscriptions: async (params, options) => this.#runtime.request("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -6847,8 +5987,7 @@ export class Client {
   "updated_before",
   "next_billing_at_after",
   "next_billing_at_before",
-  "needs_attention",
-  "Flint-Version"
+  "needs_attention"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listSubscriptionsWithResponse: async (params, options) => this.#runtime.request("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -6869,8 +6008,7 @@ export class Client {
   "updated_before",
   "next_billing_at_after",
   "next_billing_at_before",
-  "needs_attention",
-  "Flint-Version"
+  "needs_attention"
 ], false, false, params), options).then(_sdkResponse),
       listSubscriptionsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -6891,8 +6029,7 @@ export class Client {
   "updated_before",
   "next_billing_at_after",
   "next_billing_at_before",
-  "needs_attention",
-  "Flint-Version"
+  "needs_attention"
 ], false, false, params), options), []),
       listSubscriptionsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -6913,8 +6050,7 @@ export class Client {
   "updated_before",
   "next_billing_at_after",
   "next_billing_at_before",
-  "needs_attention",
-  "Flint-Version"
+  "needs_attention"
 ], false, false, params), options)),
       listSubscriptionsItems: (params, options) => this.#runtime.items("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -6935,385 +6071,321 @@ export class Client {
   "updated_before",
   "next_billing_at_after",
   "next_billing_at_before",
-  "needs_attention",
-  "Flint-Version"
+  "needs_attention"
 ], false, false, params), options),
       pauseSubscription: async (subscription_id, params, options) => this.#runtime.request("pauseMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       pauseSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("pauseMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       reactivateSubscription: async (subscription_id, params, options) => this.#runtime.request("reactivateMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       reactivateSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("reactivateMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       removeGiftCard: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       removePaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removePaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       renewSubscription: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       renewSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       resumeSubscription: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resumeSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       saveGiftCard: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       saveGiftCardWithResponse: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       savePaymentMethod: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       savePaymentMethodWithResponse: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       sendOrderReceipt: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       sendOrderReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       setDefaultAddress: async (customer_address_id, params, options) => this.#runtime.request("setDefaultMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       setDefaultAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("setDefaultMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       setDefaultPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("setDefaultMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       setDefaultPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("setDefaultMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       skipSubscriptionCycle: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       skipSubscriptionCycleWithResponse: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateMe", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (params, options) => this.#runtime.request("updateMe", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateAddress: async (customer_address_id, params, options) => this.#runtime.request("updateMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("updateMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateEmailPreferences: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateSubscriptionLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateSubscriptionLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.merchantAccountSessions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createMerchantAccountSession", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createMerchantAccountSession", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       refresh: async (params, options) => this.#runtime.request("refreshMerchantAccountSession", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       refreshWithResponse: async (params, options) => this.#runtime.request("refreshMerchantAccountSession", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.merchantBillingBalances = Object.freeze({
       get: async (merchant_billing_balance_id, params, options) => this.#runtime.request("getMerchantBillingBalance", _sdkRequestInput([
   "merchant_billing_balance_id"
 ], [merchant_billing_balance_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (merchant_billing_balance_id, params, options) => this.#runtime.request("getMerchantBillingBalance", _sdkRequestInput([
   "merchant_billing_balance_id"
 ], [merchant_billing_balance_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listMerchantBillingBalances", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listMerchantBillingBalances", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMerchantBillingBalances", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMerchantBillingBalances", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listMerchantBillingBalances", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.merchantSubscriptionInvoices = Object.freeze({
       get: async (merchant_subscription_invoice_id, params, options) => this.#runtime.request("getMerchantSubscriptionInvoice", _sdkRequestInput([
   "merchant_subscription_invoice_id"
 ], [merchant_subscription_invoice_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (merchant_subscription_invoice_id, params, options) => this.#runtime.request("getMerchantSubscriptionInvoice", _sdkRequestInput([
   "merchant_subscription_invoice_id"
 ], [merchant_subscription_invoice_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.merchants = Object.freeze({
       get: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.modifierGroups = Object.freeze({
       create: async (params, options) => this.#runtime.request("createModifierGroup", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createModifierGroup", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (modifier_group_id, params, options) => this.#runtime.request("deleteModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("deleteModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (modifier_group_id, params, options) => this.#runtime.request("getModifierGroup", _sdkRequestInput([
   "modifier_group_id"
-], [modifier_group_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [modifier_group_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("getModifierGroup", _sdkRequestInput([
   "modifier_group_id"
-], [modifier_group_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [modifier_group_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -7321,8 +6393,7 @@ export class Client {
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -7330,8 +6401,7 @@ export class Client {
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -7339,8 +6409,7 @@ export class Client {
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -7348,114 +6417,96 @@ export class Client {
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (modifier_group_id, params, options) => this.#runtime.request("updateModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("updateModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.modifierSets = Object.freeze({
       create: async (params, options) => this.#runtime.request("createModifierSet", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createModifierSet", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (modifier_set_id, params, options) => this.#runtime.request("deleteModifierSet", _sdkRequestInput([
   "modifier_set_id"
 ], [modifier_set_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (modifier_set_id, params, options) => this.#runtime.request("deleteModifierSet", _sdkRequestInput([
   "modifier_set_id"
 ], [modifier_set_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (modifier_set_id, params, options) => this.#runtime.request("getModifierSet", _sdkRequestInput([
   "modifier_set_id"
-], [modifier_set_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [modifier_set_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (modifier_set_id, params, options) => this.#runtime.request("getModifierSet", _sdkRequestInput([
   "modifier_set_id"
-], [modifier_set_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [modifier_set_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listModifierSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listModifierSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listModifierSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listModifierSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listModifierSets", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
-  "query",
-  "Flint-Version"
+  "query"
 ], false, false, params), options),
       update: async (modifier_set_id, params, options) => this.#runtime.request("updateModifierSet", _sdkRequestInput([
   "modifier_set_id"
 ], [modifier_set_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (modifier_set_id, params, options) => this.#runtime.request("updateModifierSet", _sdkRequestInput([
   "modifier_set_id"
 ], [modifier_set_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.oauth = Object.freeze({
@@ -7467,25 +6518,20 @@ export class Client {
   "permission_ids",
   "environment_id",
   "merchant_id",
-  "state",
-  "Flint-Version"
+  "state"
 ], false, false, params), options),
-      exchangePartnerInstallToken: async (params, options) => this.#runtime.request("exchangePartnerInstallToken", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options),
+      exchangePartnerInstallToken: async (params, options) => this.#runtime.request("exchangePartnerInstallToken", _sdkRequestInput([], [], [], true, true, params), options),
       previewPartnerInstallAuthorization: async (params, options) => this.#runtime.request("previewPartnerInstallAuthorization", _sdkRequestInput([], [], [
   "client_id",
   "redirect_uri",
   "mode",
-  "permission_ids",
-  "Flint-Version"
+  "permission_ids"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       previewPartnerInstallAuthorizationWithResponse: async (params, options) => this.#runtime.request("previewPartnerInstallAuthorization", _sdkRequestInput([], [], [
   "client_id",
   "redirect_uri",
   "mode",
-  "permission_ids",
-  "Flint-Version"
+  "permission_ids"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.onboarding = Object.freeze({
@@ -7494,32 +6540,26 @@ export class Client {
       createAPIKey: (input = {}, options) => this.#runtime.request("createOnboardingAPIKey", input, options).then(result => _sdkPayload(result, ["data"])),
       createAPIKeyWithResponse: (input = {}, options) => this.#runtime.request("createOnboardingAPIKey", input, options).then(_sdkResponse),
       getState: async (params, options) => this.#runtime.request("getOnboardingState", _sdkRequestInput([], [], [
-  "sandbox_id",
-  "Flint-Version"
+  "sandbox_id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getStateWithResponse: async (params, options) => this.#runtime.request("getOnboardingState", _sdkRequestInput([], [], [
-  "sandbox_id",
-  "Flint-Version"
+  "sandbox_id"
 ], false, false, params), options).then(_sdkResponse),
       startFlow: async (params, options) => this.#runtime.request("startOnboarding", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       startFlowWithResponse: async (params, options) => this.#runtime.request("startOnboarding", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       verifyEmailCode: async (params, options) => this.#runtime.request("verifyOnboardingEmail", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       verifyEmailCodeWithResponse: async (params, options) => this.#runtime.request("verifyOnboardingEmail", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.orders = Object.freeze({
@@ -7527,280 +6567,213 @@ export class Client {
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addChargeWithResponse: async (order_id, params, options) => this.#runtime.request("addOrderCharge", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       addLineItems: async (order_id, params, options) => this.#runtime.request("addOrderLineItems", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addLineItemsWithResponse: async (order_id, params, options) => this.#runtime.request("addOrderLineItems", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       applyDiscount: async (order_id, params, options) => this.#runtime.request("applyOrderDiscount", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       applyDiscountWithResponse: async (order_id, params, options) => this.#runtime.request("applyOrderDiscount", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       applyGiftCard: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Request-Id",
   "Idempotency-Key",
-  "Flint-Gift-Card-Challenge",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Flint-Gift-Card-Challenge"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       applyGiftCardWithResponse: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "X-Request-Id",
   "Idempotency-Key",
-  "Flint-Gift-Card-Challenge",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Flint-Gift-Card-Challenge"
 ], true, true, params), options).then(_sdkResponse),
       cancelPayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelPaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
 ], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
 ], [order_id, order_payment_attempt_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       capturePayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       capturePaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
   "order_id",
   "payment_intent_id"
 ], [order_id, payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       closeSession: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       closeSessionWithResponse: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createFulfillment: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createFulfillmentWithResponse: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
   "X-Request-Id",
   "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Checkout-Session-Secret"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createAccessLinkWithResponse: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createPaymentIntentWithResponse: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       deleteCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteChargeWithResponse: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteLineItem: async (order_id, order_line_item_id, params, options) => this.#runtime.request("deleteOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteLineItemWithResponse: async (order_id, order_line_item_id, params, options) => this.#runtime.request("deleteOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (order_id, params, options) => this.#runtime.request("getOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (order_id, params, options) => this.#runtime.request("getOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getCurrentDeliverySelection: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
   "order_id"
-], [order_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [order_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getCurrentDeliverySelectionWithResponse: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
   "order_id"
-], [order_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [order_id], [], false, false, params), options).then(_sdkResponse),
       getPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [order_id, order_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentAttemptWithResponse: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [order_id, order_payment_attempt_id], [], false, false, params), options).then(_sdkResponse),
       listActivities: async (order_id, params, options) => this.#runtime.request("listOrderActivities", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listActivitiesWithResponse: async (order_id, params, options) => this.#runtime.request("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -7808,8 +6781,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options).then(_sdkResponse),
       listActivitiesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -7817,8 +6789,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options), []),
       listActivitiesPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -7826,8 +6797,7 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options)),
       listActivitiesItems: (order_id, params, options) => this.#runtime.items("listOrderActivities", _sdkRequestInput([
   "order_id"
@@ -7835,53 +6805,37 @@ export class Client {
   "page_size",
   "page_token",
   "sort_direction",
-  "type",
-  "Flint-Version"
+  "type"
 ], false, false, params), options),
       listPaymentAttempts: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentAttemptsWithResponse: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentAttemptsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPaymentAttemptsPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listPaymentAttemptsItems: (order_id, params, options) => this.#runtime.items("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
-  "page_token",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -7907,8 +6861,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -7934,8 +6887,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -7961,8 +6913,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -7988,8 +6939,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listOrders", _sdkRequestInput([], [], [
   "page_size",
@@ -8015,8 +6965,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       pay: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(result => _sdkPayload(result, ["data"])),
       payWithResponse: (input = {}, options) => this.#runtime.request("payOrder", input, options).then(_sdkResponse),
@@ -8024,230 +6973,177 @@ export class Client {
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       removeDiscountsWithResponse: async (order_id, params, options) => this.#runtime.request("removeOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       removeGiftCard: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
   "order_id",
   "gift_card_id"
 ], [order_id, gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       removeGiftCardWithResponse: async (order_id, gift_card_id, params, options) => this.#runtime.request("removeOrderGiftCard", _sdkRequestInput([
   "order_id",
   "gift_card_id"
 ], [order_id, gift_card_id], [
   "X-Request-Id",
-  "Idempotency-Key",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       repriceDiscounts: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       repriceDiscountsWithResponse: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       resolveInventoryException: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resolveInventoryExceptionWithResponse: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       sendReceipt: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       sendReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       update: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("updateOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateChargeWithResponse: async (order_id, order_charge_id, params, options) => this.#runtime.request("updateOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateLineItem: async (order_id, order_line_item_id, params, options) => this.#runtime.request("updateOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateLineItemWithResponse: async (order_id, order_line_item_id, params, options) => this.#runtime.request("updateOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.organizations = Object.freeze({
       create: async (params, options) => this.#runtime.request("createOrganization", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createOrganization", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (organization_id, params, options) => this.#runtime.request("deleteOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (organization_id, params, options) => this.#runtime.request("deleteOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (organization_id, params, options) => this.#runtime.request("getOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (organization_id, params, options) => this.#runtime.request("getOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       grantMembership: async (organization_id, params, options) => this.#runtime.request("grantOrganizationMembership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       grantMembershipWithResponse: async (organization_id, params, options) => this.#runtime.request("grantOrganizationMembership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       listMemberships: async (organization_id, params, options) => this.#runtime.request("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listMembershipsWithResponse: async (organization_id, params, options) => this.#runtime.request("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listMembershipsPages: (organization_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listMembershipsPagesWithResponse: (organization_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listMembershipsItems: (organization_id, params, options) => this.#runtime.items("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -8259,8 +7155,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -8272,8 +7167,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -8285,8 +7179,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -8298,8 +7191,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -8311,52 +7203,45 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       revokeMembership: async (organization_id, user_id, params, options) => this.#runtime.request("revokeOrganizationMembership", _sdkRequestInput([
   "organization_id",
   "user_id"
 ], [organization_id, user_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       revokeMembershipWithResponse: async (organization_id, user_id, params, options) => this.#runtime.request("revokeOrganizationMembership", _sdkRequestInput([
   "organization_id",
   "user_id"
 ], [organization_id, user_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       transferOwnership: async (organization_id, params, options) => this.#runtime.request("transferOrganizationOwnership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       transferOwnershipWithResponse: async (organization_id, params, options) => this.#runtime.request("transferOrganizationOwnership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (organization_id, params, options) => this.#runtime.request("updateOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (organization_id, params, options) => this.#runtime.request("updateOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.packages = Object.freeze({
@@ -8364,101 +7249,88 @@ export class Client {
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createItemWithResponse: async (package_id, params, options) => this.#runtime.request("createPackageItem", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       deleteItem: async (package_id, package_item_id, params, options) => this.#runtime.request("deletePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("deletePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (package_id, params, options) => this.#runtime.request("getPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (package_id, params, options) => this.#runtime.request("getPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getItem: async (package_id, package_item_id, params, options) => this.#runtime.request("getPackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("getPackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPackageItems: async (package_id, params, options) => this.#runtime.request("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPackageItemsWithResponse: async (package_id, params, options) => this.#runtime.request("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPackageItemsPages: (package_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPackageItemsPagesWithResponse: (package_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listPackageItemsItems: (package_id, params, options) => this.#runtime.items("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -8469,8 +7341,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -8481,8 +7352,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -8493,8 +7363,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -8505,8 +7374,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -8517,8 +7385,7 @@ export class Client {
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionPackage", input, options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionPackage", input, options).then(_sdkResponse),
@@ -8526,45 +7393,39 @@ export class Client {
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (package_id, params, options) => this.#runtime.request("updatePackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateItem: async (package_id, package_item_id, params, options) => this.#runtime.request("updatePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("updatePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (package_id, params, options) => this.#runtime.request("voidPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       voidResourceWithResponse: async (package_id, params, options) => this.#runtime.request("voidPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
     });
     this.paymentIntents = Object.freeze({
@@ -8572,71 +7433,57 @@ export class Client {
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("cancelPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       capture: async (payment_intent_id, params, options) => this.#runtime.request("capturePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       captureWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("capturePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       confirm: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
-  "Flint-Buyer-Device",
-  "Flint-Version"
+  "Flint-Buyer-Device"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
-  "Flint-Buyer-Device",
-  "Flint-Version"
+  "Flint-Buyer-Device"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_intent_id, params, options) => this.#runtime.request("getPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("getPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -8662,8 +7509,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -8689,8 +7535,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -8716,8 +7561,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -8743,8 +7587,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -8770,58 +7613,49 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       update: async (payment_intent_id, params, options) => this.#runtime.request("updatePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("updatePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.paymentLinks = Object.freeze({
       create: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getPublic: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPublicWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -8834,8 +7668,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -8848,8 +7681,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -8862,8 +7694,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -8876,8 +7707,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -8890,115 +7720,91 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
       resolve: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       resolveWithResponse: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.paymentMethodDomains = Object.freeze({
       create: async (params, options) => this.#runtime.request("createPaymentMethodDomain", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentMethodDomain", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_method_domain_id, params, options) => this.#runtime.request("getPaymentMethodDomain", _sdkRequestInput([
   "payment_method_domain_id"
-], [payment_method_domain_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [payment_method_domain_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_method_domain_id, params, options) => this.#runtime.request("getPaymentMethodDomain", _sdkRequestInput([
   "payment_method_domain_id"
-], [payment_method_domain_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [payment_method_domain_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentMethodDomains", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentMethodDomains", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentMethodDomains", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentMethodDomains", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentMethodDomains", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       update: async (payment_method_domain_id, params, options) => this.#runtime.request("updatePaymentMethodDomain", _sdkRequestInput([
   "payment_method_domain_id"
 ], [payment_method_domain_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (payment_method_domain_id, params, options) => this.#runtime.request("updatePaymentMethodDomain", _sdkRequestInput([
   "payment_method_domain_id"
 ], [payment_method_domain_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.paymentMethods = Object.freeze({
       get: async (payment_method_id, params, options) => this.#runtime.request("getPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -9006,10 +7812,7 @@ export class Client {
   "page_token",
   "type",
   "status",
-  "usage",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -9017,10 +7820,7 @@ export class Client {
   "page_token",
   "type",
   "status",
-  "usage",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -9028,10 +7828,7 @@ export class Client {
   "page_token",
   "type",
   "status",
-  "usage",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -9039,10 +7836,7 @@ export class Client {
   "page_token",
   "type",
   "status",
-  "usage",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -9050,48 +7844,39 @@ export class Client {
   "page_token",
   "type",
   "status",
-  "usage",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "usage"
 ], false, false, params), options),
       remove: async (payment_method_id, params, options) => this.#runtime.request("removePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (payment_method_id, params, options) => this.#runtime.request("removePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       save: async (params, options) => this.#runtime.request("savePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       saveWithResponse: async (params, options) => this.#runtime.request("savePaymentMethod", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       setDefault: async (payment_method_id, params, options) => this.#runtime.request("setDefaultPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       setDefaultWithResponse: async (payment_method_id, params, options) => this.#runtime.request("setDefaultPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.payoutSettings = Object.freeze({
@@ -9099,35 +7884,29 @@ export class Client {
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       deletePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("deletePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       getPayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPayoutDestinations: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -9138,8 +7917,7 @@ export class Client {
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPayoutDestinationsWithResponse: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -9150,8 +7928,7 @@ export class Client {
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPayoutDestinationsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -9162,8 +7939,7 @@ export class Client {
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPayoutDestinationsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -9174,8 +7950,7 @@ export class Client {
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listPayoutDestinationsItems: (params, options) => this.#runtime.items("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -9186,32 +7961,27 @@ export class Client {
   "include_deleted",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       updatePayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updatePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.payouts = Object.freeze({
@@ -9219,79 +7989,68 @@ export class Client {
   "payout_id"
 ], [payout_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (payout_id, params, options) => this.#runtime.request("cancelPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPayout", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPayout", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payout_id, params, options) => this.#runtime.request("getPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payout_id, params, options) => this.#runtime.request("getPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listEntries: async (payout_id, params, options) => this.#runtime.request("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listEntriesWithResponse: async (payout_id, params, options) => this.#runtime.request("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listEntriesPages: (payout_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listEntriesPagesWithResponse: (payout_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listEntriesItems: (payout_id, params, options) => this.#runtime.items("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -9307,8 +8066,7 @@ export class Client {
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -9324,8 +8082,7 @@ export class Client {
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -9341,8 +8098,7 @@ export class Client {
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -9358,8 +8114,7 @@ export class Client {
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -9375,50 +8130,43 @@ export class Client {
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.products = Object.freeze({
       create: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createVariant: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createVariantWithResponse: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteVariant: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
@@ -9426,8 +8174,7 @@ export class Client {
 ], [product_id, variant_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
@@ -9435,86 +8182,72 @@ export class Client {
 ], [product_id, variant_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getOption: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [product_id, option_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOptionWithResponse: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [product_id, option_id], [], false, false, params), options).then(_sdkResponse),
       getVariant: async (product_id, variant_id, params, options) => this.#runtime.request("getProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("getProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listOptions: async (product_id, params, options) => this.#runtime.request("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listOptionsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listOptionsPages: (product_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listOptionsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listOptionsItems: (product_id, params, options) => this.#runtime.items("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -9532,8 +8265,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -9551,8 +8283,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -9570,8 +8301,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -9589,8 +8319,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -9608,8 +8337,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       listVariants: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -9622,8 +8350,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listVariantsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -9636,8 +8363,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(_sdkResponse),
       listVariantsPages: (product_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -9650,8 +8376,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options), []),
       listVariantsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -9664,8 +8389,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options)),
       listVariantsItems: (product_id, params, options) => this.#runtime.items("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -9678,113 +8402,95 @@ export class Client {
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options),
       update: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateVariant: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.promotions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createPromotion", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPromotion", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createCode: async (promotion_id, params, options) => this.#runtime.request("createPromotionCode", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createCodeWithResponse: async (promotion_id, params, options) => this.#runtime.request("createPromotionCode", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (promotion_id, params, options) => this.#runtime.request("deletePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (promotion_id, params, options) => this.#runtime.request("deletePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteCode: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("deletePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
 ], [promotion_id, promotion_code_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteCodeWithResponse: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("deletePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
 ], [promotion_id, promotion_code_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (promotion_id, params, options) => this.#runtime.request("getPromotion", _sdkRequestInput([
   "promotion_id"
-], [promotion_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [promotion_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (promotion_id, params, options) => this.#runtime.request("getPromotion", _sdkRequestInput([
   "promotion_id"
-], [promotion_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [promotion_id], [], false, false, params), options).then(_sdkResponse),
       listCodes: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
   "code",
   "status",
   "page_size",
   "page_token",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listCodesWithResponse: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
@@ -9792,8 +8498,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listCodesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
@@ -9801,8 +8506,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options), []),
       listCodesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
@@ -9810,8 +8514,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options)),
       listCodesItems: (params, options) => this.#runtime.items("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
@@ -9819,8 +8522,7 @@ export class Client {
   "status",
   "page_size",
   "page_token",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPromotions", _sdkRequestInput([], [], [
   "page_size",
@@ -9839,8 +8541,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPromotions", _sdkRequestInput([], [], [
   "page_size",
@@ -9859,8 +8560,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotions", _sdkRequestInput([], [], [
   "page_size",
@@ -9879,8 +8579,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPromotions", _sdkRequestInput([], [], [
   "page_size",
@@ -9899,8 +8598,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPromotions", _sdkRequestInput([], [], [
   "page_size",
@@ -9919,62 +8617,53 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       update: async (promotion_id, params, options) => this.#runtime.request("updatePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (promotion_id, params, options) => this.#runtime.request("updatePromotion", _sdkRequestInput([
   "promotion_id"
 ], [promotion_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateCode: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("updatePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
 ], [promotion_id, promotion_code_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateCodeWithResponse: async (promotion_id, promotion_code_id, params, options) => this.#runtime.request("updatePromotionCode", _sdkRequestInput([
   "promotion_id",
   "promotion_code_id"
 ], [promotion_id, promotion_code_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.refunds = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (refund_id, params, options) => this.#runtime.request("getRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (refund_id, params, options) => this.#runtime.request("getRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -9997,8 +8686,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -10021,8 +8709,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -10045,8 +8732,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -10069,8 +8755,7 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -10093,121 +8778,100 @@ export class Client {
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       update: async (refund_id, params, options) => this.#runtime.request("updateRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (refund_id, params, options) => this.#runtime.request("updateRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.reportDownloads = Object.freeze({
       get: async (report_download_id, params, options) => this.#runtime.request("getReportDownload", _sdkRequestInput([
   "report_download_id"
 ], [report_download_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.reports = Object.freeze({
       create: async (params, options) => this.#runtime.request("createReport", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createReport", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (report_id, params, options) => this.#runtime.request("getReport", _sdkRequestInput([
   "report_id"
 ], [report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (report_id, params, options) => this.#runtime.request("getReport", _sdkRequestInput([
   "report_id"
 ], [report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getWait: (report_id, params, options) => this.#runtime.wait("getReport", _sdkRequestInput([
   "report_id"
 ], [report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWaitWithResponse: (report_id, params, options) => this.#runtime.wait("getReport", _sdkRequestInput([
   "report_id"
 ], [report_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReports", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.returnDispositions = Object.freeze({
       cancel: async (return_disposition_id, params, options) => this.#runtime.request("cancelReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (return_disposition_id, params, options) => this.#runtime.request("cancelReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (return_disposition_id, params, options) => this.#runtime.request("getReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
-], [return_disposition_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_disposition_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_disposition_id, params, options) => this.#runtime.request("getReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
-], [return_disposition_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_disposition_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnDispositions", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -10226,8 +8890,7 @@ export class Client {
   "return_receipt_line_item_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnDispositions", _sdkRequestInput([], [], [
   "created_after",
@@ -10247,8 +8910,7 @@ export class Client {
   "return_receipt_line_item_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnDispositions", _sdkRequestInput([], [], [
   "created_after",
@@ -10268,8 +8930,7 @@ export class Client {
   "return_receipt_line_item_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnDispositions", _sdkRequestInput([], [], [
   "created_after",
@@ -10289,8 +8950,7 @@ export class Client {
   "return_receipt_line_item_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnDispositions", _sdkRequestInput([], [], [
   "created_after",
@@ -10310,20 +8970,17 @@ export class Client {
   "return_receipt_line_item_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       retry: async (return_disposition_id, params, options) => this.#runtime.request("retryReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       retryWithResponse: async (return_disposition_id, params, options) => this.#runtime.request("retryReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.returnInspections = Object.freeze({
@@ -10331,26 +8988,20 @@ export class Client {
   "return_inspection_id",
   "return_inspection_line_item_id"
 ], [return_inspection_id, return_inspection_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       decideLineItemWithResponse: async (return_inspection_id, return_inspection_line_item_id, params, options) => this.#runtime.request("decideReturnInspectionLineItem", _sdkRequestInput([
   "return_inspection_id",
   "return_inspection_line_item_id"
 ], [return_inspection_id, return_inspection_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (return_inspection_id, params, options) => this.#runtime.request("getReturnInspection", _sdkRequestInput([
   "return_inspection_id"
-], [return_inspection_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_inspection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_inspection_id, params, options) => this.#runtime.request("getReturnInspection", _sdkRequestInput([
   "return_inspection_id"
-], [return_inspection_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_inspection_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
   "created_after",
@@ -10366,8 +9017,7 @@ export class Client {
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -10384,8 +9034,7 @@ export class Client {
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -10402,8 +9051,7 @@ export class Client {
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -10420,8 +9068,7 @@ export class Client {
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -10438,206 +9085,168 @@ export class Client {
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
     });
     this.returnPolicies = Object.freeze({
       create: async (params, options) => this.#runtime.request("createReturnPolicy", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createReturnPolicy", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (return_policy_id, params, options) => this.#runtime.request("deleteReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (return_policy_id, params, options) => this.#runtime.request("deleteReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (return_policy_id, params, options) => this.#runtime.request("getReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_policy_id, params, options) => this.#runtime.request("getReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getRevision: async (return_policy_id, return_policy_revision_id, params, options) => this.#runtime.request("getReturnPolicyRevision", _sdkRequestInput([
   "return_policy_id",
   "return_policy_revision_id"
-], [return_policy_id, return_policy_revision_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_policy_id, return_policy_revision_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getRevisionWithResponse: async (return_policy_id, return_policy_revision_id, params, options) => this.#runtime.request("getReturnPolicyRevision", _sdkRequestInput([
   "return_policy_id",
   "return_policy_revision_id"
-], [return_policy_id, return_policy_revision_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_policy_id, return_policy_revision_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnPolicies", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnPolicies", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnPolicies", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnPolicies", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnPolicies", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       listRevisions: async (return_policy_id, params, options) => this.#runtime.request("listReturnPolicyRevisions", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listRevisionsWithResponse: async (return_policy_id, params, options) => this.#runtime.request("listReturnPolicyRevisions", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listRevisionsPages: (return_policy_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnPolicyRevisions", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listRevisionsPagesWithResponse: (return_policy_id, params, options) => _sdkResponsePages(this.#runtime.pages("listReturnPolicyRevisions", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listRevisionsItems: (return_policy_id, params, options) => this.#runtime.items("listReturnPolicyRevisions", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       publishRevision: async (return_policy_id, params, options) => this.#runtime.request("publishReturnPolicyRevision", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       publishRevisionWithResponse: async (return_policy_id, params, options) => this.#runtime.request("publishReturnPolicyRevision", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (return_policy_id, params, options) => this.#runtime.request("updateReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (return_policy_id, params, options) => this.#runtime.request("updateReturnPolicy", _sdkRequestInput([
   "return_policy_id"
 ], [return_policy_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.returnPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createWithResponse: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [
-  "Flint-Version"
-], true, true, params), options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createWithResponse: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
     });
     this.returnReasons = Object.freeze({
       create: async (params, options) => this.#runtime.request("createReturnReason", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createReturnReason", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (return_reason_id, params, options) => this.#runtime.request("deleteReturnReason", _sdkRequestInput([
   "return_reason_id"
 ], [return_reason_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (return_reason_id, params, options) => this.#runtime.request("deleteReturnReason", _sdkRequestInput([
   "return_reason_id"
 ], [return_reason_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (return_reason_id, params, options) => this.#runtime.request("getReturnReason", _sdkRequestInput([
   "return_reason_id"
-], [return_reason_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_reason_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_reason_id, params, options) => this.#runtime.request("getReturnReason", _sdkRequestInput([
   "return_reason_id"
-], [return_reason_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_reason_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnReasons", _sdkRequestInput([], [], [
   "external_reference_id",
   "page_size",
   "page_token",
   "query",
   "source",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnReasons", _sdkRequestInput([], [], [
   "external_reference_id",
@@ -10645,8 +9254,7 @@ export class Client {
   "page_token",
   "query",
   "source",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnReasons", _sdkRequestInput([], [], [
   "external_reference_id",
@@ -10654,8 +9262,7 @@ export class Client {
   "page_token",
   "query",
   "source",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnReasons", _sdkRequestInput([], [], [
   "external_reference_id",
@@ -10663,8 +9270,7 @@ export class Client {
   "page_token",
   "query",
   "source",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnReasons", _sdkRequestInput([], [], [
   "external_reference_id",
@@ -10672,33 +9278,26 @@ export class Client {
   "page_token",
   "query",
   "source",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       update: async (return_reason_id, params, options) => this.#runtime.request("updateReturnReason", _sdkRequestInput([
   "return_reason_id"
 ], [return_reason_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (return_reason_id, params, options) => this.#runtime.request("updateReturnReason", _sdkRequestInput([
   "return_reason_id"
 ], [return_reason_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.returnReceipts = Object.freeze({
       get: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
-], [return_receipt_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_receipt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
-], [return_receipt_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_receipt_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -10714,8 +9313,7 @@ export class Client {
   "shipment_id",
   "source_system_type",
   "status",
-  "verification_status",
-  "Flint-Version"
+  "verification_status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
@@ -10732,8 +9330,7 @@ export class Client {
   "shipment_id",
   "source_system_type",
   "status",
-  "verification_status",
-  "Flint-Version"
+  "verification_status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
@@ -10750,8 +9347,7 @@ export class Client {
   "shipment_id",
   "source_system_type",
   "status",
-  "verification_status",
-  "Flint-Version"
+  "verification_status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
@@ -10768,8 +9364,7 @@ export class Client {
   "shipment_id",
   "source_system_type",
   "status",
-  "verification_status",
-  "Flint-Version"
+  "verification_status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
@@ -10786,72 +9381,61 @@ export class Client {
   "shipment_id",
   "source_system_type",
   "status",
-  "verification_status",
-  "Flint-Version"
+  "verification_status"
 ], false, false, params), options),
       verifyLineItem: async (return_receipt_id, return_receipt_line_item_id, params, options) => this.#runtime.request("verifyReturnReceiptLineItem", _sdkRequestInput([
   "return_receipt_id",
   "return_receipt_line_item_id"
 ], [return_receipt_id, return_receipt_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       verifyLineItemWithResponse: async (return_receipt_id, return_receipt_line_item_id, params, options) => this.#runtime.request("verifyReturnReceiptLineItem", _sdkRequestInput([
   "return_receipt_id",
   "return_receipt_line_item_id"
 ], [return_receipt_id, return_receipt_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.returnResolutions = Object.freeze({
       cancel: async (return_resolution_id, params, options) => this.#runtime.request("cancelReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("cancelReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       confirm: async (return_resolution_id, params, options) => this.#runtime.request("confirmReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("confirmReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       getOrCreateCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -10868,8 +9452,7 @@ export class Client {
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -10886,8 +9469,7 @@ export class Client {
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -10904,8 +9486,7 @@ export class Client {
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -10922,8 +9503,7 @@ export class Client {
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -10940,217 +9520,180 @@ export class Client {
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       release: async (return_resolution_id, params, options) => this.#runtime.request("releaseReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       releaseWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("releaseReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       retry: async (return_resolution_id, params, options) => this.#runtime.request("retryReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       retryWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("retryReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (return_resolution_id, params, options) => this.#runtime.request("updateReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("updateReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.returns = Object.freeze({
       addLineItem: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addLineItemWithResponse: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancel: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       cancelLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("cancelReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("cancelReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       complete: async (return_id, params, options) => this.#runtime.request("completeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       completeWithResponse: async (return_id, params, options) => this.#runtime.request("completeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createAccessLinkWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createDisposition: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createDispositionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createInspection: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createInspectionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createReceipt: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createReceiptWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createResolution: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createResolutionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       decide: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       decideWithResponse: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       deleteLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("deleteReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("deleteReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
-], [return_id, return_line_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_id, return_line_item_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
-], [return_id, return_line_item_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [return_id, return_line_item_id], [], false, false, params), options).then(_sdkResponse),
       listLineItems: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -11161,8 +9704,7 @@ export class Client {
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listLineItemsWithResponse: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -11174,8 +9716,7 @@ export class Client {
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listLineItemsPages: (return_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -11187,8 +9728,7 @@ export class Client {
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listLineItemsPagesWithResponse: (return_id, params, options) => _sdkResponsePages(this.#runtime.pages("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -11200,8 +9740,7 @@ export class Client {
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listLineItemsItems: (return_id, params, options) => this.#runtime.items("listReturnLineItems", _sdkRequestInput([
   "return_id"
@@ -11213,8 +9752,7 @@ export class Client {
   "page_token",
   "resolution_status",
   "return_reason_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -11235,8 +9773,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -11257,8 +9794,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -11279,8 +9815,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -11301,8 +9836,7 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -11323,72 +9857,61 @@ export class Client {
   "status",
   "updated_after",
   "updated_before",
-  "work_type",
-  "Flint-Version"
+  "work_type"
 ], false, false, params), options),
       processExisting: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       processExistingWithResponse: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       reopen: async (return_id, params, options) => this.#runtime.request("reopenReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       reopenWithResponse: async (return_id, params, options) => this.#runtime.request("reopenReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (return_id, params, options) => this.#runtime.request("updateReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (return_id, params, options) => this.#runtime.request("updateReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("updateReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("updateReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       waiveLineInspection: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       waiveLineInspectionWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.reviews = Object.freeze({
@@ -11396,43 +9919,37 @@ export class Client {
   "review_id"
 ], [review_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       approveWithResponse: async (review_id, params, options) => this.#runtime.request("approveReview", _sdkRequestInput([
   "review_id"
 ], [review_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       decline: async (review_id, params, options) => this.#runtime.request("declineReview", _sdkRequestInput([
   "review_id"
 ], [review_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       declineWithResponse: async (review_id, params, options) => this.#runtime.request("declineReview", _sdkRequestInput([
   "review_id"
 ], [review_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       get: async (review_id, params, options) => this.#runtime.request("getReview", _sdkRequestInput([
   "review_id"
 ], [review_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (review_id, params, options) => this.#runtime.request("getReview", _sdkRequestInput([
   "review_id"
 ], [review_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listReviews", _sdkRequestInput([], [], [
   "status",
@@ -11444,8 +9961,7 @@ export class Client {
   "created_after",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listReviews", _sdkRequestInput([], [], [
   "status",
@@ -11457,8 +9973,7 @@ export class Client {
   "created_after",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReviews", _sdkRequestInput([], [], [
   "status",
@@ -11470,8 +9985,7 @@ export class Client {
   "created_after",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReviews", _sdkRequestInput([], [], [
   "status",
@@ -11483,8 +9997,7 @@ export class Client {
   "created_after",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReviews", _sdkRequestInput([], [], [
   "status",
@@ -11496,8 +10009,7 @@ export class Client {
   "created_after",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
     this.riskLists = Object.freeze({
@@ -11505,319 +10017,268 @@ export class Client {
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       addItemsWithResponse: async (risk_list_id, params, options) => this.#runtime.request("addRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createRiskList", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createRiskList", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (risk_list_id, params, options) => this.#runtime.request("deleteRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (risk_list_id, params, options) => this.#runtime.request("deleteRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteItem: async (risk_list_id, risk_list_item_id, params, options) => this.#runtime.request("deleteRiskListItem", _sdkRequestInput([
   "risk_list_id",
   "risk_list_item_id"
 ], [risk_list_id, risk_list_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteItemWithResponse: async (risk_list_id, risk_list_item_id, params, options) => this.#runtime.request("deleteRiskListItem", _sdkRequestInput([
   "risk_list_id",
   "risk_list_item_id"
 ], [risk_list_id, risk_list_item_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (risk_list_id, params, options) => this.#runtime.request("getRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (risk_list_id, params, options) => this.#runtime.request("getRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getItem: async (risk_list_id, risk_list_item_id, params, options) => this.#runtime.request("getRiskListItem", _sdkRequestInput([
   "risk_list_id",
   "risk_list_item_id"
 ], [risk_list_id, risk_list_item_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getItemWithResponse: async (risk_list_id, risk_list_item_id, params, options) => this.#runtime.request("getRiskListItem", _sdkRequestInput([
   "risk_list_id",
   "risk_list_item_id"
 ], [risk_list_id, risk_list_item_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listRiskListItems: async (risk_list_id, params, options) => this.#runtime.request("listRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listRiskListItemsWithResponse: async (risk_list_id, params, options) => this.#runtime.request("listRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listRiskListItemsPages: (risk_list_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listRiskListItemsPagesWithResponse: (risk_list_id, params, options) => _sdkResponsePages(this.#runtime.pages("listRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listRiskListItemsItems: (risk_list_id, params, options) => this.#runtime.items("listRiskListItems", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listRiskLists", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listRiskLists", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRiskLists", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listRiskLists", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listRiskLists", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       update: async (risk_list_id, params, options) => this.#runtime.request("updateRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (risk_list_id, params, options) => this.#runtime.request("updateRiskList", _sdkRequestInput([
   "risk_list_id"
 ], [risk_list_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.riskPreviews = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRiskPreview", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createRiskPreview", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.riskRules = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (risk_rule_id, params, options) => this.#runtime.request("deleteRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("deleteRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (risk_rule_id, params, options) => this.#runtime.request("getRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("getRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       getAttributeRegistry: async (params, options) => this.#runtime.request("getRiskRuleAttributeRegistry", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getAttributeRegistryWithResponse: async (params, options) => this.#runtime.request("getRiskRuleAttributeRegistry", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listRiskRules", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listRiskRules", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRiskRules", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listRiskRules", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listRiskRules", _sdkRequestInput([], [], [
   "include_archived",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       update: async (risk_rule_id, params, options) => this.#runtime.request("updateRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("updateRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.settings = Object.freeze({
       getEffective: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [
   "location_id",
-  "device_id",
-  "Flint-Version"
+  "device_id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getEffectiveWithResponse: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [
   "location_id",
-  "device_id",
-  "Flint-Version"
+  "device_id"
 ], false, false, params), options).then(_sdkResponse),
-      get: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+      get: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getWithResponse: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (params, options) => this.#runtime.request("updateSettings", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       validateCustomDomain: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
   "domain_type"
 ], [domain_type], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       validateCustomDomainWithResponse: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
   "domain_type"
 ], [domain_type], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
     });
     this.shipments = Object.freeze({
@@ -11825,29 +10286,25 @@ export class Client {
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createPackageWithResponse: async (shipment_id, params, options) => this.#runtime.request("createPackage", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -11862,8 +10319,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -11878,8 +10334,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -11894,8 +10349,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -11910,8 +10364,7 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -11926,172 +10379,142 @@ export class Client {
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       update: async (shipment_id, params, options) => this.#runtime.request("updateShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (shipment_id, params, options) => this.#runtime.request("updateShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (shipment_id, params, options) => this.#runtime.request("voidShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       voidResourceWithResponse: async (shipment_id, params, options) => this.#runtime.request("voidShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
     });
     this.specification = Object.freeze({
       get: async (params, options) => this.#runtime.request("getOpenAPISpec", _sdkRequestInput([], [], [
-  "version",
-  "Flint-Version"
+  "version"
 ], false, false, params), options),
     });
     this.subscriptionDeliveryMigrations = Object.freeze({
       create: async (params, options) => this.#runtime.request("createSubscriptionDeliveryMigration", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscriptionDeliveryMigration", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (subscription_delivery_migration_id, params, options) => this.#runtime.request("getSubscriptionDeliveryMigration", _sdkRequestInput([
   "subscription_delivery_migration_id"
-], [subscription_delivery_migration_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_delivery_migration_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (subscription_delivery_migration_id, params, options) => this.#runtime.request("getSubscriptionDeliveryMigration", _sdkRequestInput([
   "subscription_delivery_migration_id"
-], [subscription_delivery_migration_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [subscription_delivery_migration_id], [], false, false, params), options).then(_sdkResponse),
       listFailures: async (subscription_delivery_migration_id, params, options) => this.#runtime.request("listSubscriptionDeliveryMigrationFailures", _sdkRequestInput([
   "subscription_delivery_migration_id"
 ], [subscription_delivery_migration_id], [
   "page_size",
   "page_token",
-  "reason",
-  "Flint-Version"
+  "reason"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listFailuresWithResponse: async (subscription_delivery_migration_id, params, options) => this.#runtime.request("listSubscriptionDeliveryMigrationFailures", _sdkRequestInput([
   "subscription_delivery_migration_id"
 ], [subscription_delivery_migration_id], [
   "page_size",
   "page_token",
-  "reason",
-  "Flint-Version"
+  "reason"
 ], false, false, params), options).then(_sdkResponse),
       listFailuresPages: (subscription_delivery_migration_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionDeliveryMigrationFailures", _sdkRequestInput([
   "subscription_delivery_migration_id"
 ], [subscription_delivery_migration_id], [
   "page_size",
   "page_token",
-  "reason",
-  "Flint-Version"
+  "reason"
 ], false, false, params), options), []),
       listFailuresPagesWithResponse: (subscription_delivery_migration_id, params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionDeliveryMigrationFailures", _sdkRequestInput([
   "subscription_delivery_migration_id"
 ], [subscription_delivery_migration_id], [
   "page_size",
   "page_token",
-  "reason",
-  "Flint-Version"
+  "reason"
 ], false, false, params), options)),
       listFailuresItems: (subscription_delivery_migration_id, params, options) => this.#runtime.items("listSubscriptionDeliveryMigrationFailures", _sdkRequestInput([
   "subscription_delivery_migration_id"
 ], [subscription_delivery_migration_id], [
   "page_size",
   "page_token",
-  "reason",
-  "Flint-Version"
+  "reason"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listSubscriptionDeliveryMigrations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "from_delivery_method_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptionDeliveryMigrations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "from_delivery_method_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionDeliveryMigrations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "from_delivery_method_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionDeliveryMigrations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "from_delivery_method_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptionDeliveryMigrations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "from_delivery_method_id",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
     });
     this.subscriptionOffers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createSubscriptionOffer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscriptionOffer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (subscription_offer_id, params, options) => this.#runtime.request("deleteSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("deleteSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
   "expected_version",
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_offer_id, params, options) => this.#runtime.request("getSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
-], [subscription_offer_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_offer_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("getSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
-], [subscription_offer_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [subscription_offer_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -12100,8 +10523,7 @@ export class Client {
   "variant_id",
   "query",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
@@ -12111,8 +10533,7 @@ export class Client {
   "variant_id",
   "query",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
@@ -12122,8 +10543,7 @@ export class Client {
   "variant_id",
   "query",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
@@ -12133,8 +10553,7 @@ export class Client {
   "variant_id",
   "query",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
@@ -12144,59 +10563,48 @@ export class Client {
   "variant_id",
   "query",
   "sort_by",
-  "sort_direction",
-  "Flint-Version"
+  "sort_direction"
 ], false, false, params), options),
       update: async (subscription_offer_id, params, options) => this.#runtime.request("updateSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("updateSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.subscriptionPlans = Object.freeze({
       create: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
-], [subscription_plan_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_plan_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
-], [subscription_plan_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [subscription_plan_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -12206,8 +10614,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -12218,8 +10625,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -12230,8 +10636,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -12242,8 +10647,7 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -12254,22 +10658,19 @@ export class Client {
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
       update: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.subscriptionPreviews = Object.freeze({
@@ -12281,163 +10682,134 @@ export class Client {
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (subscription_id, params, options) => this.#runtime.request("cancelSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       changePaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       changePaymentMethodWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createSubscription", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscription", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createAccessLinkWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       createLineItem: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionLineItem", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createLineItemWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionLineItem", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       createPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
       deleteLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("deleteSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
   "Idempotency-Key",
-  "expected_version",
-  "Flint-Version"
+  "expected_version"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("deleteSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
   "Idempotency-Key",
-  "expected_version",
-  "Flint-Version"
+  "expected_version"
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(_sdkResponse),
       listPaymentRetries: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listPaymentRetriesWithResponse: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentRetriesPages: (subscription_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options), []),
       listPaymentRetriesPagesWithResponse: (subscription_id, params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options)),
       listPaymentRetriesItems: (subscription_id, params, options) => this.#runtime.items("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "page_size",
   "page_token",
-  "idempotency_key",
-  "Flint-Version"
+  "idempotency_key"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -12462,8 +10834,7 @@ export class Client {
   "next_billing_at_after",
   "next_billing_at_before",
   "needs_attention",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -12488,8 +10859,7 @@ export class Client {
   "next_billing_at_after",
   "next_billing_at_before",
   "needs_attention",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -12514,8 +10884,7 @@ export class Client {
   "next_billing_at_after",
   "next_billing_at_before",
   "needs_attention",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -12540,8 +10909,7 @@ export class Client {
   "next_billing_at_after",
   "next_billing_at_before",
   "needs_attention",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptions", _sdkRequestInput([], [], [
   "page_size",
@@ -12566,90 +10934,77 @@ export class Client {
   "next_billing_at_after",
   "next_billing_at_before",
   "needs_attention",
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options),
       pause: async (subscription_id, params, options) => this.#runtime.request("pauseSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       pauseWithResponse: async (subscription_id, params, options) => this.#runtime.request("pauseSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       reactivate: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       reactivateWithResponse: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       renew: async (subscription_id, params, options) => this.#runtime.request("renewSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       renewWithResponse: async (subscription_id, params, options) => this.#runtime.request("renewSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       resume: async (subscription_id, params, options) => this.#runtime.request("resumeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resumeWithResponse: async (subscription_id, params, options) => this.#runtime.request("resumeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       skipCycle: async (subscription_id, params, options) => this.#runtime.request("skipSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       skipCycleWithResponse: async (subscription_id, params, options) => this.#runtime.request("skipSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (subscription_id, params, options) => this.#runtime.request("updateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (subscription_id, params, options) => this.#runtime.request("updateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateBillingSchedule: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(result => _sdkPayload(result, ["data"])),
       updateBillingScheduleWithResponse: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(_sdkResponse),
@@ -12657,259 +11012,213 @@ export class Client {
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.webhookDeliveries = Object.freeze({
       get: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
-], [webhook_delivery_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_delivery_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
-], [webhook_delivery_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [webhook_delivery_id], [], false, false, params), options).then(_sdkResponse),
       listAttempts: async (webhook_delivery_id, params, options) => this.#runtime.request("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listAttemptsWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listAttemptsPages: (webhook_delivery_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listAttemptsPagesWithResponse: (webhook_delivery_id, params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listAttemptsItems: (webhook_delivery_id, params, options) => this.#runtime.items("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       resend: async (webhook_delivery_id, params, options) => this.#runtime.request("resendWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resendWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("resendWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
     });
     this.webhookEndpoints = Object.freeze({
       create: async (params, options) => this.#runtime.request("createWebhookEndpoint", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createWebhookEndpoint", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createWebhookTestEvent: async (webhook_endpoint_id, params, options) => this.#runtime.request("createWebhookTestEvent", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWebhookTestEventWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("createWebhookTestEvent", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (webhook_endpoint_id, params, options) => this.#runtime.request("deleteWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("deleteWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (webhook_endpoint_id, params, options) => this.#runtime.request("getWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
-], [webhook_endpoint_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_endpoint_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("getWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
-], [webhook_endpoint_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [webhook_endpoint_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "event_sources",
-  "partner_app_id",
-  "Flint-Version"
+  "partner_app_id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "event_sources",
-  "partner_app_id",
-  "Flint-Version"
+  "partner_app_id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "event_sources",
-  "partner_app_id",
-  "Flint-Version"
+  "partner_app_id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "event_sources",
-  "partner_app_id",
-  "Flint-Version"
+  "partner_app_id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "event_sources",
-  "partner_app_id",
-  "Flint-Version"
+  "partner_app_id"
 ], false, false, params), options),
       rotateWebhookSecret: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookSecret", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       rotateWebhookSecretWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookSecret", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       update: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
     this.webhookEventTypes = Object.freeze({
       list: async (params, options) => this.#runtime.request("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
     });
     this.webhookEvents = Object.freeze({
       get: async (webhook_event_id, params, options) => this.#runtime.request("getWebhookEvent", _sdkRequestInput([
   "webhook_event_id"
-], [webhook_event_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_event_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (webhook_event_id, params, options) => this.#runtime.request("getWebhookEvent", _sdkRequestInput([
   "webhook_event_id"
-], [webhook_event_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [webhook_event_id], [], false, false, params), options).then(_sdkResponse),
       listWebhookDeliveries: async (webhook_event_id, params, options) => this.#runtime.request("listWebhookDeliveries", _sdkRequestInput([
   "webhook_event_id"
 ], [webhook_event_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWebhookDeliveriesWithResponse: async (webhook_event_id, params, options) => this.#runtime.request("listWebhookDeliveries", _sdkRequestInput([
   "webhook_event_id"
 ], [webhook_event_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listWebhookDeliveriesPages: (webhook_event_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookDeliveries", _sdkRequestInput([
   "webhook_event_id"
 ], [webhook_event_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listWebhookDeliveriesPagesWithResponse: (webhook_event_id, params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookDeliveries", _sdkRequestInput([
   "webhook_event_id"
 ], [webhook_event_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listWebhookDeliveriesItems: (webhook_event_id, params, options) => this.#runtime.items("listWebhookDeliveries", _sdkRequestInput([
   "webhook_event_id"
 ], [webhook_event_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listWebhookEvents", _sdkRequestInput([], [], [
   "page_size",
@@ -12926,8 +11235,7 @@ export class Client {
   "correlation_id",
   "created_after",
   "created_before",
-  "include",
-  "Flint-Version"
+  "include"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listWebhookEvents", _sdkRequestInput([], [], [
   "page_size",
@@ -12944,8 +11252,7 @@ export class Client {
   "correlation_id",
   "created_after",
   "created_before",
-  "include",
-  "Flint-Version"
+  "include"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookEvents", _sdkRequestInput([], [], [
   "page_size",
@@ -12962,8 +11269,7 @@ export class Client {
   "correlation_id",
   "created_after",
   "created_before",
-  "include",
-  "Flint-Version"
+  "include"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookEvents", _sdkRequestInput([], [], [
   "page_size",
@@ -12980,8 +11286,7 @@ export class Client {
   "correlation_id",
   "created_after",
   "created_before",
-  "include",
-  "Flint-Version"
+  "include"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listWebhookEvents", _sdkRequestInput([], [], [
   "page_size",
@@ -12998,20 +11303,19 @@ export class Client {
   "correlation_id",
   "created_after",
   "created_before",
-  "include",
-  "Flint-Version"
+  "include"
 ], false, false, params), options),
       stream: async (params, options) => this.#runtime.request("streamWebhookEvents", _sdkRequestInput([], [], [
   "event_type",
   "after_event_id",
-  "Last-Event-ID",
-  "Flint-Version"
+  "Last-Event-ID"
 ], false, false, params), options),
     });
   }
   close() { return this.#runtime.close(); }
   verifyWebhook(...args) { return this.#runtime.verifyWebhook(...args); }
 }
+export function verifyWebhook(rawBody, headers, secrets, nowSeconds) { return verifyWebhookFromPlan(_sdkDescriptors, rawBody, headers, secrets, nowSeconds); }
 export function isOrdersUpdateLineItemResponseKnown(value) { const prepared = _sdkModelCodec("OrdersUpdateLineItemResponse"); return prepared.some.some(codec => isKnownCodec(value, {...codec, definitions: prepared.definitions})); }
 export function makeAccessLink(value) { return modelFromCodec(value, {..._sdkModelCodec("AccessLink"), constraints: true}); }
 export function makeAccessLinkResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("AccessLinkResponse"), constraints: true}); }
@@ -13266,7 +11570,6 @@ export function makeCreatePartnerAppRequest(value) { return modelFromCodec(value
 export function makeCreatePartnerAppResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePartnerAppResponse"), constraints: true}); }
 export function makeCreatePaymentIntentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePaymentIntentRequest"), constraints: true}); }
 export function makeCreatePaymentIntentResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePaymentIntentResponse"), constraints: true}); }
-export function makeCreatePaymentIntentResult(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePaymentIntentResult"), constraints: true}); }
 export function makeCreatePaymentLinkRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePaymentLinkRequest"), constraints: true}); }
 export function makeCreatePaymentMethodDomainRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePaymentMethodDomainRequest"), constraints: true}); }
 export function makeCreatePayoutRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePayoutRequest"), constraints: true}); }
@@ -13279,6 +11582,7 @@ export function makeCreatePromotionCodeRequest(value) { return modelFromCodec(va
 export function makeCreatePromotionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePromotionRequest"), constraints: true}); }
 export function makeCreateRefundRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundRequest"), constraints: true}); }
 export function makeCreateRefundResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundResponse"), constraints: true}); }
+export function makeCreateRefundResult(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundResult"), constraints: true}); }
 export function makeCreateReportRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReportRequest"), constraints: true}); }
 export function makeCreateReturnDispositionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReturnDispositionRequest"), constraints: true}); }
 export function makeCreateReturnDispositionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReturnDispositionResponse"), constraints: true}); }
@@ -13592,7 +11896,6 @@ export function makeFulfillmentTransitionRequestStart(value) { return modelFromC
 export function makeGetOrCreateReturnResolutionCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GetOrCreateReturnResolutionCheckoutSessionRequest"), constraints: true}); }
 export function makeGetOrCreateReturnResolutionCheckoutSessionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetOrCreateReturnResolutionCheckoutSessionResponse"), constraints: true}); }
 export function makeGetPaymentIntentResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetPaymentIntentResponse"), constraints: true}); }
-export function makeGetPaymentIntentResult(value) { return modelFromCodec(value, {..._sdkModelCodec("GetPaymentIntentResult"), constraints: true}); }
 export function makeGetReturnDispositionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnDispositionResponse"), constraints: true}); }
 export function makeGetReturnInspectionResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnInspectionResponse"), constraints: true}); }
 export function makeGetReturnLineItemResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("GetReturnLineItemResponse"), constraints: true}); }
@@ -13955,6 +12258,7 @@ export function makeInvoiceReminderRule(value) { return modelFromCodec(value, {.
 export function makeInvoiceResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceResponse"), constraints: true}); }
 export function makeInvoiceScheduleAmountSpecification(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceScheduleAmountSpecification"), constraints: true}); }
 export function makeInvoiceScheduleDue(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceScheduleDue"), constraints: true}); }
+export function makeInvoiceScheduleDueWrite(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceScheduleDueWrite"), constraints: true}); }
 export function makeInvoiceScheduleEntry(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceScheduleEntry"), constraints: true}); }
 export function makeInvoiceScheduleEntryWrite(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceScheduleEntryWrite"), constraints: true}); }
 export function makeInvoiceSettings(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceSettings"), constraints: true}); }
@@ -14063,6 +12367,7 @@ export function makeOrderCalculatedChargeTax(value) { return modelFromCodec(valu
 export function makeOrderCalculatedLineItemTax(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderCalculatedLineItemTax"), constraints: true}); }
 export function makeOrderCharge(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderCharge"), constraints: true}); }
 export function makeOrderChargeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderChargeRequest"), constraints: true}); }
+export function makeOrderChargeTaxAssignment(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderChargeTaxAssignment"), constraints: true}); }
 export function makeOrderDeliveryDestination(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryDestination"), constraints: true}); }
 export function makeOrderDeliveryDestinationAddress(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryDestinationAddress"), constraints: true}); }
 export function makeOrderDeliveryDestinationAddressRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryDestinationAddressRequest"), constraints: true}); }
@@ -14084,11 +12389,13 @@ export function makeOrderLineItem(value) { return modelFromCodec(value, {..._sdk
 export function makeOrderLineItemModifier(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifier"), constraints: true}); }
 export function makeOrderLineItemModifierRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifierRequest"), constraints: true}); }
 export function makeOrderLineItemTax(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemTax"), constraints: true}); }
+export function makeOrderLineItemTaxAssignment(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemTaxAssignment"), constraints: true}); }
 export function makeOrderLineSubscriptionOfferDiscount(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineSubscriptionOfferDiscount"), constraints: true}); }
 export function makeOrderLineSubscriptionOfferSummary(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineSubscriptionOfferSummary"), constraints: true}); }
 export function makeOrderListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderListResponse"), constraints: true}); }
 export function makeOrderPaymentAttempt(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentAttempt"), constraints: true}); }
 export function makeOrderPaymentAttemptListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentAttemptListResponse"), constraints: true}); }
+export function makeOrderPaymentAttemptPaymentMethodSave(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentAttemptPaymentMethodSave"), constraints: true}); }
 export function makeOrderPaymentAttemptResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentAttemptResponse"), constraints: true}); }
 export function makeOrderPaymentIntentSelection(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelection"), constraints: true}); }
 export function makeOrderPaymentLifecycleResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentLifecycleResponse"), constraints: true}); }
@@ -14111,6 +12418,7 @@ export function makeOrderTaxLocationInputPostalCode(value) { return modelFromCod
 export function makeOrderTaxLocationPostalAddressRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxLocationPostalAddressRequest"), constraints: true}); }
 export function makeOrderTaxLocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxLocationRequest"), constraints: true}); }
 export function makeOrderTaxRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxRequest"), constraints: true}); }
+export function makeOrderTaxUpdateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxUpdateRequest"), constraints: true}); }
 export function makeOrganization(value) { return modelFromCodec(value, {..._sdkModelCodec("Organization"), constraints: true}); }
 export function makeOrganizationListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("OrganizationListResponse"), constraints: true}); }
 export function makeOrganizationMembership(value) { return modelFromCodec(value, {..._sdkModelCodec("OrganizationMembership"), constraints: true}); }
@@ -14167,19 +12475,26 @@ export function makePaymentFulfillmentHold(value) { return modelFromCodec(value,
 export function makePaymentIntent(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentIntent"), constraints: true}); }
 export function makePaymentIntentListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentIntentListResponse"), constraints: true}); }
 export function makePaymentIntentResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentIntentResponse"), constraints: true}); }
+export function makePaymentIntentResult(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentIntentResult"), constraints: true}); }
 export function makePaymentLimitSettings(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLimitSettings"), constraints: true}); }
 export function makePaymentLink(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLink"), constraints: true}); }
 export function makePaymentLinkCustomerConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkCustomerConfig"), constraints: true}); }
 export function makePaymentLinkCustomField(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkCustomField"), constraints: true}); }
 export function makePaymentLinkCustomFieldPatchRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkCustomFieldPatchRequest"), constraints: true}); }
 export function makePaymentLinkCustomFieldRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkCustomFieldRequest"), constraints: true}); }
+export function makePaymentLinkCustomTextConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkCustomTextConfig"), constraints: true}); }
 export function makePaymentLinkEventConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkEventConfig"), constraints: true}); }
+export function makePaymentLinkExpirationConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkExpirationConfig"), constraints: true}); }
+export function makePaymentLinkLegalConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkLegalConfig"), constraints: true}); }
 export function makePaymentLinkLineItem(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkLineItem"), constraints: true}); }
 export function makePaymentLinkLineItemPatchRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkLineItemPatchRequest"), constraints: true}); }
 export function makePaymentLinkLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkLineItemRequest"), constraints: true}); }
 export function makePaymentLinkListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkListResponse"), constraints: true}); }
+export function makePaymentLinkPaymentConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkPaymentConfig"), constraints: true}); }
+export function makePaymentLinkRedirectsConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkRedirectsConfig"), constraints: true}); }
 export function makePaymentLinkResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkResponse"), constraints: true}); }
 export function makePaymentLinkSubscriptionPreview(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkSubscriptionPreview"), constraints: true}); }
+export function makePaymentLinkThemeConfig(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentLinkThemeConfig"), constraints: true}); }
 export function makePaymentMethod(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentMethod"), constraints: true}); }
 export function makePaymentMethodDomain(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentMethodDomain"), constraints: true}); }
 export function makePaymentMethodDomainListResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentMethodDomainListResponse"), constraints: true}); }

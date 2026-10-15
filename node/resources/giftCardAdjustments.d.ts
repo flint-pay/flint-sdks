@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -18,9 +18,9 @@ export interface GiftCardAdjustmentsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.giftCardAdjustments.create("example", {amount_money: {amount: "100", currency: "USD"}, reason: "complimentary"}, { idempotencyKey: idempotencyKey })
  */
-    create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": SignedMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
+    create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": SignedMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": SignedMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardAdjustmentsCreateResponse>>;
+    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": SignedMoneyInput; "expected_version"?: string; "reason": "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased"; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardAdjustmentsCreateResponse>>;
   }
 export declare class Client {
 
@@ -64,6 +64,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { CreateGiftCardAdjustmentRequestInput } from '../declarations/CreateGiftCardAdjustmentRequestInput.js';
+export type { SignedMoney } from '../declarations/SignedMoney.js';
 export { makeGiftCardCommandResponse } from '../declarations/makeGiftCardCommandResponse.js';
 export { makeGiftCardCommandResult } from '../declarations/makeGiftCardCommandResult.js';
 export { makeGiftCard } from '../declarations/makeGiftCard.js';
@@ -89,3 +90,4 @@ export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+export { makeSignedMoney } from '../declarations/makeSignedMoney.js';

@@ -1,0 +1,1 @@
+{"shared":"TaxJurisdiction","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"country":{"kind":"value","type":"string"},"level":{"kind":"value","type":"string"},"name":{"kind":"value","type":"string"},"state":{"kind":"value","type":"string"}}},"dependencies":["TaxJurisdiction"]}

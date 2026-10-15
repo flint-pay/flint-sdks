@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -23,21 +23,21 @@ export interface WebhookDeliveriesResource {
  * @example
  * client.webhookDeliveries.get("example")
  */
-    get(webhook_delivery_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<WebhookDeliveryResponse, ["data"]>>;
+    get(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<WebhookDeliveryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(webhook_delivery_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveriesGetResponse>>;
+    getWithResponse(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveriesGetResponse>>;
     /**
  * Returns the attempts recorded for a specific webhook delivery.
  * GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts
  * @example
  * client.webhookDeliveries.listAttempts("example")
  */
-    listAttempts(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDeliveryAttemptListResponse>;
+    listAttempts(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDeliveryAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listAttemptsWithResponse(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveriesListAttemptsResponse>>;
-    listAttemptsPages(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttemptListResponse>;
-    listAttemptsPagesWithResponse(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookDeliveriesListAttemptsResponse>>;
-    listAttemptsItems(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttempt>;
+    listAttemptsWithResponse(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveriesListAttemptsResponse>>;
+    listAttemptsPages(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttemptListResponse>;
+    listAttemptsPagesWithResponse(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookDeliveriesListAttemptsResponse>>;
+    listAttemptsItems(webhook_delivery_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttempt>;
     /**
  * Sends the canonical event payload again to the delivery's current webhook endpoint URL. Safe to retry with the same Idempotency-Key.
  * POST /v1/webhook-deliveries/{webhook_delivery_id}/resend
@@ -46,9 +46,9 @@ export interface WebhookDeliveriesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.webhookDeliveries.resend("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<WebhookDeliveryActionResponse, ["data"]>>;
+    resend(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<WebhookDeliveryActionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resendWithResponse(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveriesResendResponse>>;
+    resendWithResponse(webhook_delivery_id: InputValue<string>, params?: (InputValue<{ "reason_message"?: string; }> | { "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveriesResendResponse>>;
   }
 export declare class Client {
 
@@ -82,6 +82,7 @@ export type { NextActionMerchantAccountSession } from '../declarations/NextActio
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { WebhookDeliveryAction } from '../declarations/WebhookDeliveryAction.js';
 export type { ResendWebhookDeliveryRequestInput } from '../declarations/ResendWebhookDeliveryRequestInput.js';
+export type { ResendWebhookDeliveryRequest } from '../declarations/ResendWebhookDeliveryRequest.js';
 export { makeWebhookDeliveryResponse } from '../declarations/makeWebhookDeliveryResponse.js';
 export { makeWebhookDeliveryAttemptListResponse } from '../declarations/makeWebhookDeliveryAttemptListResponse.js';
 export { makeWebhookDeliveryAttempt } from '../declarations/makeWebhookDeliveryAttempt.js';
@@ -93,3 +94,4 @@ export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeWebhookDeliveryAction } from '../declarations/makeWebhookDeliveryAction.js';
+export { makeResendWebhookDeliveryRequest } from '../declarations/makeResendWebhookDeliveryRequest.js';

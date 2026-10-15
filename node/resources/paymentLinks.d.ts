@@ -1,28 +1,28 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { CheckoutCustomTextWriteConfigInput } from '../declarations/CheckoutCustomTextWriteConfigInput.js';
-import type { CheckoutExpirationConfigInput } from '../declarations/CheckoutExpirationConfigInput.js';
-import type { CheckoutPaymentConfigInput } from '../declarations/CheckoutPaymentConfigInput.js';
 import type { CheckoutPromotionConfigInput } from '../declarations/CheckoutPromotionConfigInput.js';
-import type { CheckoutRedirectsConfigInput } from '../declarations/CheckoutRedirectsConfigInput.js';
-import type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSessionLaunchResponse.js';
 import type { CheckoutTaxConfigInput } from '../declarations/CheckoutTaxConfigInput.js';
 import type { CheckoutTipConfigInput } from '../declarations/CheckoutTipConfigInput.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
 import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 import type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
-import type { LegalSettingsInput } from '../declarations/LegalSettingsInput.js';
 import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 import type { PaymentLink } from '../declarations/PaymentLink.js';
 import type { PaymentLinkCustomFieldPatchRequestInput } from '../declarations/PaymentLinkCustomFieldPatchRequestInput.js';
 import type { PaymentLinkCustomFieldRequestInput } from '../declarations/PaymentLinkCustomFieldRequestInput.js';
+import type { PaymentLinkCustomTextConfigInput } from '../declarations/PaymentLinkCustomTextConfigInput.js';
 import type { PaymentLinkCustomerConfigInput } from '../declarations/PaymentLinkCustomerConfigInput.js';
 import type { PaymentLinkEventConfigInput } from '../declarations/PaymentLinkEventConfigInput.js';
+import type { PaymentLinkExpirationConfigInput } from '../declarations/PaymentLinkExpirationConfigInput.js';
+import type { PaymentLinkLegalConfigInput } from '../declarations/PaymentLinkLegalConfigInput.js';
 import type { PaymentLinkLineItemPatchRequestInput } from '../declarations/PaymentLinkLineItemPatchRequestInput.js';
 import type { PaymentLinkLineItemRequestInput } from '../declarations/PaymentLinkLineItemRequestInput.js';
 import type { PaymentLinkListResponse } from '../declarations/PaymentLinkListResponse.js';
+import type { PaymentLinkPaymentConfigInput } from '../declarations/PaymentLinkPaymentConfigInput.js';
+import type { PaymentLinkRedirectsConfigInput } from '../declarations/PaymentLinkRedirectsConfigInput.js';
 import type { PaymentLinkResponse } from '../declarations/PaymentLinkResponse.js';
+import type { PaymentLinkThemeConfigInput } from '../declarations/PaymentLinkThemeConfigInput.js';
 import type { PaymentLinksCreateInput } from '../declarations/PaymentLinksCreateInput.js';
 import type { PaymentLinksCreateResponse } from '../declarations/PaymentLinksCreateResponse.js';
 import type { PaymentLinksGetInput } from '../declarations/PaymentLinksGetInput.js';
@@ -38,8 +38,8 @@ import type { PaymentLinksUpdateResponse } from '../declarations/PaymentLinksUpd
 import type { PublicPaymentLinkResponse } from '../declarations/PublicPaymentLinkResponse.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { ResolvePaymentLinkLineItemModifiersInput } from '../declarations/ResolvePaymentLinkLineItemModifiersInput.js';
+import type { ResolvePaymentLinkResponse } from '../declarations/ResolvePaymentLinkResponse.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { ThemeConfigInput } from '../declarations/ThemeConfigInput.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface PaymentLinksResource {
@@ -51,39 +51,39 @@ export interface PaymentLinksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentLinks.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "subscription_plan_id"?: string; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
+    create(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: PaymentLinkCustomTextConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: PaymentLinkExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: PaymentLinkLegalConfigInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: PaymentLinkPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: PaymentLinkRedirectsConfigInput; "subscription_plan_id"?: string; "tax"?: CheckoutTaxConfigInput; "theme"?: PaymentLinkThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "subscription_plan_id"?: string; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentLinksCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "custom_fields"?: Array<PaymentLinkCustomFieldRequestInput>; "custom_text"?: PaymentLinkCustomTextConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: MoneyValueInput; "donation_min_amount_money"?: MoneyValueInput; "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expiration"?: PaymentLinkExpirationConfigInput; "external_reference_id"?: string; "image"?: ImageRequestInput; "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: PaymentLinkLegalConfigInput; "line_items"?: Array<PaymentLinkLineItemRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string>; "name": string; "payment_link_type"?: "standard" | "donation" | "event"; "payments"?: PaymentLinkPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: PaymentLinkRedirectsConfigInput; "subscription_plan_id"?: string; "tax"?: CheckoutTaxConfigInput; "theme"?: PaymentLinkThemeConfigInput; "tip"?: CheckoutTipConfigInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentLinksCreateResponse>>;
     /**
  * Returns a single payment link by ID.
  * GET /v1/payment-links/{payment_link_id}
  * @example
  * client.paymentLinks.get("example")
  */
-    get(payment_link_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
+    get(payment_link_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(payment_link_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"subscription_plan">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentLinksGetResponse>>;
+    getWithResponse(payment_link_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentLinksGetResponse>>;
     /**
  * Returns the sanitized buyer-facing payment-link snapshot and a private resolution context for this browser operation.
  * GET /v1/payment-links/{payment_link_id}/public
  * @example
  * client.paymentLinks.getPublic("example")
  */
-    getPublic(payment_link_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<PublicPaymentLinkResponse, ["data"]>>;
+    getPublic(payment_link_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<PublicPaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPublicWithResponse(payment_link_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<PaymentLinksGetPublicResponse>>;
+    getPublicWithResponse(payment_link_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<PaymentLinksGetPublicResponse>>;
     /**
  * Returns a paginated list of payment links for the authenticated merchant.
  * GET /v1/payment-links
  * @example
  * client.paymentLinks.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentLinkListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentLinkListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentLinksListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentLinkListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentLinksListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentLink>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentLinksListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentLinkListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentLinksListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "payment_link_type"?: InputValue<"standard" | "donation" | "event">; "has_plan"?: InputValue<boolean>; "sort_by"?: InputValue<"created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentLink>;
     /**
  * Creates a buyer checkout session from an active payment link. Catalog-backed modifier availability is frozen onto the checkout session and selected modifiers are resolved onto the backing order.
  * POST /v1/payment-links/{payment_link_id}/resolve
@@ -92,9 +92,9 @@ export interface PaymentLinksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentLinks.resolve("example", {resolution_context: "example"}, { idempotencyKey: idempotencyKey })
  */
-    resolve(payment_link_id: InputValue<string>, params: (InputValue<{ "custom_field_values"?: Record<string, string>; "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>; "quantity_overrides"?: Record<string, number>; "resolution_context": string; "unit_price_overrides"?: Record<string, MoneyValueInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<CheckoutSessionLaunchResponse, ["data"]>>;
+    resolve(payment_link_id: InputValue<string>, params: (InputValue<{ "custom_field_values"?: Record<string, string>; "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>; "quantity_overrides"?: Record<string, number>; "resolution_context": string; "unit_price_overrides"?: Record<string, MoneyValueInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<ResolvePaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resolveWithResponse(payment_link_id: InputValue<string>, params: (InputValue<{ "custom_field_values"?: Record<string, string>; "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>; "quantity_overrides"?: Record<string, number>; "resolution_context": string; "unit_price_overrides"?: Record<string, MoneyValueInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<PaymentLinksResolveResponse>>;
+    resolveWithResponse(payment_link_id: InputValue<string>, params: (InputValue<{ "custom_field_values"?: Record<string, string>; "modifiers"?: Record<string, ResolvePaymentLinkLineItemModifiersInput>; "quantity_overrides"?: Record<string, number>; "resolution_context": string; "unit_price_overrides"?: Record<string, MoneyValueInput>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<PaymentLinksResolveResponse>>;
     /**
  * Updates a payment link. To replace line items, custom fields, or delivery methods, send the complete array with `expected_version`.
  * PATCH /v1/payment-links/{payment_link_id}
@@ -103,9 +103,9 @@ export interface PaymentLinksResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentLinks.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(payment_link_id: InputValue<string>, params: (InputValue<({ "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_min_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expected_version"?: string; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string | null> | null; "name"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "status"?: "active" | "inactive"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "custom_fields"?: never })) | ({ "expected_version": unknown; }))) & (((({ "delivery_method_ids"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
+    update(payment_link_id: InputValue<string>, params: (InputValue<({ "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>; "custom_text"?: PaymentLinkCustomTextConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_min_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expected_version"?: string; "expiration"?: PaymentLinkExpirationConfigInput; "external_reference_id"?: string; "image"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: PaymentLinkLegalConfigInput; "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string | null> | null; "name"?: string; "payments"?: PaymentLinkPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: PaymentLinkRedirectsConfigInput; "status"?: "active" | "inactive"; "tax"?: CheckoutTaxConfigInput; "theme"?: PaymentLinkThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "custom_fields"?: never })) | ({ "expected_version": unknown; }))) & (((({ "delivery_method_ids"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentLinkResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(payment_link_id: InputValue<string>, params: (InputValue<({ "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>; "custom_text"?: CheckoutCustomTextWriteConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_min_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expected_version"?: string; "expiration"?: CheckoutExpirationConfigInput; "external_reference_id"?: string; "image"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: LegalSettingsInput; "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string | null> | null; "name"?: string; "payments"?: CheckoutPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: CheckoutRedirectsConfigInput; "status"?: "active" | "inactive"; "tax"?: CheckoutTaxConfigInput; "theme"?: ThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "custom_fields"?: never })) | ({ "expected_version": unknown; }))) & (((({ "delivery_method_ids"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentLinksUpdateResponse>>;
+    updateWithResponse(payment_link_id: InputValue<string>, params: (InputValue<({ "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>; "custom_text"?: PaymentLinkCustomTextConfigInput; "customer_collection"?: PaymentLinkCustomerConfigInput; "delivery_method_ids"?: Array<string>; "description"?: string; "donation_max_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_min_amount_money"?: (({ "amount": string; "currency": string; }) | (null)); "donation_suggested_amount_money_options"?: Array<MoneyValueInput>; "event_config"?: PaymentLinkEventConfigInput; "expected_version"?: string; "expiration"?: PaymentLinkExpirationConfigInput; "external_reference_id"?: string; "image"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "inactive_message"?: string; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "legal"?: PaymentLinkLegalConfigInput; "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>; "max_completions"?: number; "metadata"?: Record<string, string | null> | null; "name"?: string; "payments"?: PaymentLinkPaymentConfigInput; "promotion_config"?: CheckoutPromotionConfigInput; "redirects"?: PaymentLinkRedirectsConfigInput; "status"?: "active" | "inactive"; "tax"?: CheckoutTaxConfigInput; "theme"?: PaymentLinkThemeConfigInput; "tip"?: CheckoutTipConfigInput; }) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; }))) & (((({ "custom_fields"?: never })) | ({ "expected_version": unknown; }))) & (((({ "delivery_method_ids"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentLinksUpdateResponse>>;
   }
 export declare class Client {
 
@@ -115,20 +115,20 @@ export declare class Client {
 readonly paymentLinks: PaymentLinksResource;
 }
 export type { PaymentLinkCustomFieldRequestInput } from '../declarations/PaymentLinkCustomFieldRequestInput.js';
-export type { CheckoutCustomTextWriteConfigInput } from '../declarations/CheckoutCustomTextWriteConfigInput.js';
+export type { PaymentLinkCustomTextConfigInput } from '../declarations/PaymentLinkCustomTextConfigInput.js';
 export type { PaymentLinkCustomerConfigInput } from '../declarations/PaymentLinkCustomerConfigInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { PaymentLinkEventConfigInput } from '../declarations/PaymentLinkEventConfigInput.js';
-export type { CheckoutExpirationConfigInput } from '../declarations/CheckoutExpirationConfigInput.js';
+export type { PaymentLinkExpirationConfigInput } from '../declarations/PaymentLinkExpirationConfigInput.js';
 export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
 export type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
-export type { LegalSettingsInput } from '../declarations/LegalSettingsInput.js';
+export type { PaymentLinkLegalConfigInput } from '../declarations/PaymentLinkLegalConfigInput.js';
 export type { PaymentLinkLineItemRequestInput } from '../declarations/PaymentLinkLineItemRequestInput.js';
-export type { CheckoutPaymentConfigInput } from '../declarations/CheckoutPaymentConfigInput.js';
+export type { PaymentLinkPaymentConfigInput } from '../declarations/PaymentLinkPaymentConfigInput.js';
 export type { CheckoutPromotionConfigInput } from '../declarations/CheckoutPromotionConfigInput.js';
-export type { CheckoutRedirectsConfigInput } from '../declarations/CheckoutRedirectsConfigInput.js';
+export type { PaymentLinkRedirectsConfigInput } from '../declarations/PaymentLinkRedirectsConfigInput.js';
 export type { CheckoutTaxConfigInput } from '../declarations/CheckoutTaxConfigInput.js';
-export type { ThemeConfigInput } from '../declarations/ThemeConfigInput.js';
+export type { PaymentLinkThemeConfigInput } from '../declarations/PaymentLinkThemeConfigInput.js';
 export type { CheckoutTipConfigInput } from '../declarations/CheckoutTipConfigInput.js';
 export type { RequestOptions } from '../declarations/RequestOptions.js';
 export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
@@ -143,7 +143,7 @@ export type { PaymentLinkListResponse } from '../declarations/PaymentLinkListRes
 export type { PaymentLinksListResponse } from '../declarations/PaymentLinksListResponse.js';
 export type { PaymentLink } from '../declarations/PaymentLink.js';
 export type { ResolvePaymentLinkLineItemModifiersInput } from '../declarations/ResolvePaymentLinkLineItemModifiersInput.js';
-export type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSessionLaunchResponse.js';
+export type { ResolvePaymentLinkResponse } from '../declarations/ResolvePaymentLinkResponse.js';
 export type { PaymentLinksResolveResponse } from '../declarations/PaymentLinksResolveResponse.js';
 export type { PaymentLinkCustomFieldPatchRequestInput } from '../declarations/PaymentLinkCustomFieldPatchRequestInput.js';
 export type { PaymentLinkLineItemPatchRequestInput } from '../declarations/PaymentLinkLineItemPatchRequestInput.js';
@@ -168,8 +168,10 @@ export type { ThemeConfig } from '../declarations/ThemeConfig.js';
 export type { Image } from '../declarations/Image.js';
 export type { PublicPaymentLink } from '../declarations/PublicPaymentLink.js';
 export type { PaymentLinkCustomField } from '../declarations/PaymentLinkCustomField.js';
+export type { CheckoutCustomTextConfig } from '../declarations/CheckoutCustomTextConfig.js';
 export type { CheckoutCustomTextWriteConfig } from '../declarations/CheckoutCustomTextWriteConfig.js';
 export type { PaymentLinkEventConfig } from '../declarations/PaymentLinkEventConfig.js';
+export type { CheckoutLegalConfig } from '../declarations/CheckoutLegalConfig.js';
 export type { LegalSettings } from '../declarations/LegalSettings.js';
 export type { PaymentLinkLineItem } from '../declarations/PaymentLinkLineItem.js';
 export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
@@ -178,6 +180,7 @@ export type { PublicResolvedLineItemInfo } from '../declarations/PublicResolvedL
 export type { PublicResolvedModifierGroup } from '../declarations/PublicResolvedModifierGroup.js';
 export type { PublicResolvedModifierOption } from '../declarations/PublicResolvedModifierOption.js';
 export type { PublicResolvedTextModifier } from '../declarations/PublicResolvedTextModifier.js';
+export type { TextModifierConfigRequest } from '../declarations/TextModifierConfigRequest.js';
 export type { PublicResolvedBundleComponent } from '../declarations/PublicResolvedBundleComponent.js';
 export type { PublicResolvedBundleVariantSummary } from '../declarations/PublicResolvedBundleVariantSummary.js';
 export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
@@ -196,9 +199,12 @@ export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifie
 export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
 export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
 export type { CheckoutTaxConfig } from '../declarations/CheckoutTaxConfig.js';
+export type { CheckoutSavedPaymentDetailsSettings } from '../declarations/CheckoutSavedPaymentDetailsSettings.js';
 export type { CheckoutTipConfig } from '../declarations/CheckoutTipConfig.js';
 export type { ResolvePaymentLinkLineItemModifierRequestInput } from '../declarations/ResolvePaymentLinkLineItemModifierRequestInput.js';
 export type { ResolvePaymentLinkTextModifierRequestInput } from '../declarations/ResolvePaymentLinkTextModifierRequestInput.js';
+export type { CheckoutSessionLaunchResponse } from '../declarations/CheckoutSessionLaunchResponse.js';
+export type { GetOrCreateReturnResolutionCheckoutSessionResponse } from '../declarations/GetOrCreateReturnResolutionCheckoutSessionResponse.js';
 export type { CheckoutSessionLaunchResult } from '../declarations/CheckoutSessionLaunchResult.js';
 export type { CheckoutAccess } from '../declarations/CheckoutAccess.js';
 export type { CheckoutSession } from '../declarations/CheckoutSession.js';
@@ -207,6 +213,7 @@ export type { PaymentAttemptGiftCardRedemption } from '../declarations/PaymentAt
 export type { PaymentAttemptPaymentIntent } from '../declarations/PaymentAttemptPaymentIntent.js';
 export type { PaymentErrorSummary } from '../declarations/PaymentErrorSummary.js';
 export type { ErrorRemediation } from '../declarations/ErrorRemediation.js';
+export type { OrderPaymentAttemptPaymentMethodSave } from '../declarations/OrderPaymentAttemptPaymentMethodSave.js';
 export type { PendingPaymentAction } from '../declarations/PendingPaymentAction.js';
 export type { PaymentClientAction } from '../declarations/PaymentClientAction.js';
 export type { StripePaymentClientAction } from '../declarations/StripePaymentClientAction.js';
@@ -215,9 +222,11 @@ export type { StripeSetupIntentClientAction } from '../declarations/StripeSetupI
 export type { PendingPaymentActionSubject } from '../declarations/PendingPaymentActionSubject.js';
 export type { PendingPaymentActionPaymentIntentSubject } from '../declarations/PendingPaymentActionPaymentIntentSubject.js';
 export type { PendingPaymentActionSetupPaymentSourceSubject } from '../declarations/PendingPaymentActionSetupPaymentSourceSubject.js';
+export type { ChangeSubscriptionPaymentMethodRequest } from '../declarations/ChangeSubscriptionPaymentMethodRequest.js';
 export type { CheckoutBuyerContact } from '../declarations/CheckoutBuyerContact.js';
 export type { CheckoutCustomerConfig } from '../declarations/CheckoutCustomerConfig.js';
 export type { PrefilledCustomerInfo } from '../declarations/PrefilledCustomerInfo.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { CheckoutCustomerPrefill } from '../declarations/CheckoutCustomerPrefill.js';
 export type { CheckoutDeliveryPinnedDependency } from '../declarations/CheckoutDeliveryPinnedDependency.js';
@@ -228,17 +237,21 @@ export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequ
 export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
 export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
 export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
+export type { DeliveryWindowRequest } from '../declarations/DeliveryWindowRequest.js';
 export type { DeliveryOptionProjection } from '../declarations/DeliveryOptionProjection.js';
 export type { DeliveryArrivalEstimate } from '../declarations/DeliveryArrivalEstimate.js';
 export type { BuyerInstructionsConfig } from '../declarations/BuyerInstructionsConfig.js';
 export type { DeliveryPlan } from '../declarations/DeliveryPlan.js';
 export type { DeliveryQuoteExecutionLegResource } from '../declarations/DeliveryQuoteExecutionLegResource.js';
+export type { DeliveryLocalDeliveryDetails } from '../declarations/DeliveryLocalDeliveryDetails.js';
 export type { DeliveryShipmentDetails } from '../declarations/DeliveryShipmentDetails.js';
 export type { DeliveryPickupDetails } from '../declarations/DeliveryPickupDetails.js';
 export type { DeliveryLocationSummaryResource } from '../declarations/DeliveryLocationSummaryResource.js';
 export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
+export type { LocationAddress } from '../declarations/LocationAddress.js';
 export type { DeliveryRecipientRequirement } from '../declarations/DeliveryRecipientRequirement.js';
 export type { DeliveryQuoteLineItemResource } from '../declarations/DeliveryQuoteLineItemResource.js';
+export type { DeliveryPickupAvailabilityQuantityResource } from '../declarations/DeliveryPickupAvailabilityQuantityResource.js';
 export type { DeliveryMerchantDiagnostic } from '../declarations/DeliveryMerchantDiagnostic.js';
 export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligibilityMismatch.js';
 export type { BuyerDeliveryQuoteChoiceGroupResource } from '../declarations/BuyerDeliveryQuoteChoiceGroupResource.js';
@@ -263,11 +276,19 @@ export type { CheckoutSubscriptionRecurringShipping } from '../declarations/Chec
 export type { CreatePaymentLinkRequestInput } from '../declarations/CreatePaymentLinkRequestInput.js';
 export type { ResolvePaymentLinkRequestInput } from '../declarations/ResolvePaymentLinkRequestInput.js';
 export type { UpdatePaymentLinkRequestInput } from '../declarations/UpdatePaymentLinkRequestInput.js';
+export type { PaymentLinkCustomTextConfig } from '../declarations/PaymentLinkCustomTextConfig.js';
+export type { PaymentLinkExpirationConfig } from '../declarations/PaymentLinkExpirationConfig.js';
+export type { ImageRequest } from '../declarations/ImageRequest.js';
+export type { PaymentLinkLegalConfig } from '../declarations/PaymentLinkLegalConfig.js';
+export type { PaymentLinkPaymentConfig } from '../declarations/PaymentLinkPaymentConfig.js';
+export type { PaymentLinkRedirectsConfig } from '../declarations/PaymentLinkRedirectsConfig.js';
+export type { PaymentLinkThemeConfig } from '../declarations/PaymentLinkThemeConfig.js';
+export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
 export { makePaymentLinkResponse } from '../declarations/makePaymentLinkResponse.js';
 export { makePublicPaymentLinkResponse } from '../declarations/makePublicPaymentLinkResponse.js';
 export { makePaymentLinkListResponse } from '../declarations/makePaymentLinkListResponse.js';
 export { makePaymentLink } from '../declarations/makePaymentLink.js';
-export { makeCheckoutSessionLaunchResponse } from '../declarations/makeCheckoutSessionLaunchResponse.js';
+export { makeResolvePaymentLinkResponse } from '../declarations/makeResolvePaymentLinkResponse.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
@@ -278,8 +299,10 @@ export { makeThemeConfig } from '../declarations/makeThemeConfig.js';
 export { makeImage } from '../declarations/makeImage.js';
 export { makePublicPaymentLink } from '../declarations/makePublicPaymentLink.js';
 export { makePaymentLinkCustomField } from '../declarations/makePaymentLinkCustomField.js';
+export { makeCheckoutCustomTextConfig } from '../declarations/makeCheckoutCustomTextConfig.js';
 export { makeCheckoutCustomTextWriteConfig } from '../declarations/makeCheckoutCustomTextWriteConfig.js';
 export { makePaymentLinkEventConfig } from '../declarations/makePaymentLinkEventConfig.js';
+export { makeCheckoutLegalConfig } from '../declarations/makeCheckoutLegalConfig.js';
 export { makeLegalSettings } from '../declarations/makeLegalSettings.js';
 export { makePaymentLinkLineItem } from '../declarations/makePaymentLinkLineItem.js';
 export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
@@ -288,6 +311,7 @@ export { makePublicResolvedLineItemInfo } from '../declarations/makePublicResolv
 export { makePublicResolvedModifierGroup } from '../declarations/makePublicResolvedModifierGroup.js';
 export { makePublicResolvedModifierOption } from '../declarations/makePublicResolvedModifierOption.js';
 export { makePublicResolvedTextModifier } from '../declarations/makePublicResolvedTextModifier.js';
+export { makeTextModifierConfigRequest } from '../declarations/makeTextModifierConfigRequest.js';
 export { makePublicResolvedBundleComponent } from '../declarations/makePublicResolvedBundleComponent.js';
 export { makePublicResolvedBundleVariantSummary } from '../declarations/makePublicResolvedBundleVariantSummary.js';
 export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
@@ -306,7 +330,10 @@ export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModi
 export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
 export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
 export { makeCheckoutTaxConfig } from '../declarations/makeCheckoutTaxConfig.js';
+export { makeCheckoutSavedPaymentDetailsSettings } from '../declarations/makeCheckoutSavedPaymentDetailsSettings.js';
 export { makeCheckoutTipConfig } from '../declarations/makeCheckoutTipConfig.js';
+export { makeCheckoutSessionLaunchResponse } from '../declarations/makeCheckoutSessionLaunchResponse.js';
+export { makeGetOrCreateReturnResolutionCheckoutSessionResponse } from '../declarations/makeGetOrCreateReturnResolutionCheckoutSessionResponse.js';
 export { makeCheckoutSessionLaunchResult } from '../declarations/makeCheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../declarations/makeCheckoutAccess.js';
 export { makeCheckoutSession } from '../declarations/makeCheckoutSession.js';
@@ -315,6 +342,7 @@ export { makePaymentAttemptGiftCardRedemption } from '../declarations/makePaymen
 export { makePaymentAttemptPaymentIntent } from '../declarations/makePaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../declarations/makePaymentErrorSummary.js';
 export { makeErrorRemediation } from '../declarations/makeErrorRemediation.js';
+export { makeOrderPaymentAttemptPaymentMethodSave } from '../declarations/makeOrderPaymentAttemptPaymentMethodSave.js';
 export { makePendingPaymentAction } from '../declarations/makePendingPaymentAction.js';
 export { makePaymentClientAction } from '../declarations/makePaymentClientAction.js';
 export { makeStripePaymentClientAction } from '../declarations/makeStripePaymentClientAction.js';
@@ -323,9 +351,11 @@ export { makeStripeSetupIntentClientAction } from '../declarations/makeStripeSet
 export { makePendingPaymentActionSubject } from '../declarations/makePendingPaymentActionSubject.js';
 export { makePendingPaymentActionPaymentIntentSubject } from '../declarations/makePendingPaymentActionPaymentIntentSubject.js';
 export { makePendingPaymentActionSetupPaymentSourceSubject } from '../declarations/makePendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../declarations/makeChangeSubscriptionPaymentMethodRequest.js';
 export { makeCheckoutBuyerContact } from '../declarations/makeCheckoutBuyerContact.js';
 export { makeCheckoutCustomerConfig } from '../declarations/makeCheckoutCustomerConfig.js';
 export { makePrefilledCustomerInfo } from '../declarations/makePrefilledCustomerInfo.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeCheckoutCustomerPrefill } from '../declarations/makeCheckoutCustomerPrefill.js';
 export { makeCheckoutDeliveryPinnedDependency } from '../declarations/makeCheckoutDeliveryPinnedDependency.js';
@@ -336,17 +366,21 @@ export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressR
 export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
+export { makeDeliveryWindowRequest } from '../declarations/makeDeliveryWindowRequest.js';
 export { makeDeliveryOptionProjection } from '../declarations/makeDeliveryOptionProjection.js';
 export { makeDeliveryArrivalEstimate } from '../declarations/makeDeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../declarations/makeBuyerInstructionsConfig.js';
 export { makeDeliveryPlan } from '../declarations/makeDeliveryPlan.js';
 export { makeDeliveryQuoteExecutionLegResource } from '../declarations/makeDeliveryQuoteExecutionLegResource.js';
+export { makeDeliveryLocalDeliveryDetails } from '../declarations/makeDeliveryLocalDeliveryDetails.js';
 export { makeDeliveryShipmentDetails } from '../declarations/makeDeliveryShipmentDetails.js';
 export { makeDeliveryPickupDetails } from '../declarations/makeDeliveryPickupDetails.js';
 export { makeDeliveryLocationSummaryResource } from '../declarations/makeDeliveryLocationSummaryResource.js';
 export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
+export { makeLocationAddress } from '../declarations/makeLocationAddress.js';
 export { makeDeliveryRecipientRequirement } from '../declarations/makeDeliveryRecipientRequirement.js';
 export { makeDeliveryQuoteLineItemResource } from '../declarations/makeDeliveryQuoteLineItemResource.js';
+export { makeDeliveryPickupAvailabilityQuantityResource } from '../declarations/makeDeliveryPickupAvailabilityQuantityResource.js';
 export { makeDeliveryMerchantDiagnostic } from '../declarations/makeDeliveryMerchantDiagnostic.js';
 export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEligibilityMismatch.js';
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../declarations/makeBuyerDeliveryQuoteChoiceGroupResource.js';
@@ -368,3 +402,11 @@ export { makeCheckoutPaymentMethodSave } from '../declarations/makeCheckoutPayme
 export { makeCheckoutProblemResource } from '../declarations/makeCheckoutProblemResource.js';
 export { makeCheckoutSubscriptionTerms } from '../declarations/makeCheckoutSubscriptionTerms.js';
 export { makeCheckoutSubscriptionRecurringShipping } from '../declarations/makeCheckoutSubscriptionRecurringShipping.js';
+export { makePaymentLinkCustomTextConfig } from '../declarations/makePaymentLinkCustomTextConfig.js';
+export { makePaymentLinkExpirationConfig } from '../declarations/makePaymentLinkExpirationConfig.js';
+export { makeImageRequest } from '../declarations/makeImageRequest.js';
+export { makePaymentLinkLegalConfig } from '../declarations/makePaymentLinkLegalConfig.js';
+export { makePaymentLinkPaymentConfig } from '../declarations/makePaymentLinkPaymentConfig.js';
+export { makePaymentLinkRedirectsConfig } from '../declarations/makePaymentLinkRedirectsConfig.js';
+export { makePaymentLinkThemeConfig } from '../declarations/makePaymentLinkThemeConfig.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';

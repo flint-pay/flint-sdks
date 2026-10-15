@@ -36,13 +36,12 @@
   },
   "riskSliceSha256": "7077821046302edb8c39d5e14c24b0ac6ff4ad6c28bda437534474e89210da68",
   "readResponseOverrides": {
-    "pointers": [
+    "pointers": [],
+    "previousPointers": [
       "/components/schemas/GetPaymentIntentResult/properties/last_payment_error",
       "/components/schemas/GetPaymentIntentResult/properties/risk"
     ],
-    "replacement": "Preserve each field schema and add nullable: true",
-    "reason": "The export omits nullable for last_payment_error and risk. The backend serializer explicitly emits both fields when nil; the raw source export is preserved.",
-    "source": "server/monolith/internal/publicapi/models.go"
+    "reason": "Removed for 3.0.0: the pinned export declares PaymentIntent.risk and last_payment_error as nullable, so the profile no longer overrides them."
   },
   "webhookProfile": {
     "format": "standard-webhooks",

@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $query
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'inventory_allocation_status'?: string, 'external_reference_id'?: string, 'query'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'inventory_allocation_status'?: string, 'external_reference_id'?: string, 'query'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationsListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -42,9 +42,4 @@ final class LocationsListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

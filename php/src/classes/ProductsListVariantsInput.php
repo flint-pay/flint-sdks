@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $delivery_configuration_status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductsListVariantsInput extends Model {
-    /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'product_id': string, 'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsListVariantsInput')); }
     /** @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
@@ -66,9 +66,4 @@ final class ProductsListVariantsInput extends Model {
      */
     public function getDeliveryConfigurationStatus(): string { return $this->get('delivery_configuration_status'); }
     public function hasDeliveryConfigurationStatus(): bool { return $this->has('delivery_configuration_status'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

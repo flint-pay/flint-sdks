@@ -1,4 +1,4 @@
 
 import type { DeliveryWeightUnitPrice } from './DeliveryWeightUnitPrice.js';
 
-export type DeliveryWeightUnitPriceRequest = DeliveryWeightUnitPrice;
+export interface DeliveryWeightUnitPriceRequest extends DeliveryWeightUnitPrice {}

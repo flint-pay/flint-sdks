@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -44,9 +44,9 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.createItem("example", {order_line_item_id: "example", quantity: "100"}, { idempotencyKey: idempotencyKey })
  */
-    createItem(package_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string>; "order_line_item_id": string; "quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
+    createItem(package_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string>; "order_line_item_id": string; "quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createItemWithResponse(package_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string>; "order_line_item_id": string; "quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesCreateItemResponse>>;
+    createItemWithResponse(package_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string>; "order_line_item_id": string; "quantity": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesCreateItemResponse>>;
     /**
  * Removes an order line quantity from a package while the package is still mutable.
  * DELETE /v1/packages/{package_id}/items/{package_item_id}
@@ -55,51 +55,51 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
+    deleteItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesDeleteItemResponse>>;
+    deleteItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesDeleteItemResponse>>;
     /**
  * Retrieves one package by ID.
  * GET /v1/packages/{package_id}
  * @example
  * client.packages.get("example")
  */
-    get(package_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageResponse, ["data"]>>;
+    get(package_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(package_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesGetResponse>>;
+    getWithResponse(package_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesGetResponse>>;
     /**
  * Retrieves one package item by ID.
  * GET /v1/packages/{package_id}/items/{package_item_id}
  * @example
  * client.packages.getItem("example", "example")
  */
-    getItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
+    getItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesGetItemResponse>>;
+    getItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"order">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesGetItemResponse>>;
     /**
  * Lists order line quantities contained in packages.
  * GET /v1/packages/{package_id}/items
  * @example
  * client.packages.listPackageItems("example")
  */
-    listPackageItems(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageItemListResponse>;
+    listPackageItems(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listPackageItemsWithResponse(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesListPackageItemsResponse>>;
-    listPackageItemsPages(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItemListResponse>;
-    listPackageItemsPagesWithResponse(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackagesListPackageItemsResponse>>;
-    listPackageItemsItems(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItem>;
+    listPackageItemsWithResponse(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesListPackageItemsResponse>>;
+    listPackageItemsPages(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItemListResponse>;
+    listPackageItemsPagesWithResponse(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackagesListPackageItemsResponse>>;
+    listPackageItemsItems(package_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItem>;
     /**
  * Lists package records, newest created first.
  * GET /v1/packages
  * @example
  * client.packages.list()
  */
-    list(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageListResponse>;
+    list(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesListResponse>>;
-    listPages(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageListResponse>;
-    listPagesWithResponse(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackagesListResponse>>;
-    listItems(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Package>;
+    listWithResponse(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackagesListResponse>>;
+    listPages(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageListResponse>;
+    listPagesWithResponse(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackagesListResponse>>;
+    listItems(params?: { "shipment_id"?: InputValue<string>; "fulfillment_id"?: InputValue<string>; "order_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_system"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Package>;
     /**
  * Performs one action from the package's supported_actions. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/packages/{package_id}/transitions
@@ -119,9 +119,9 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(package_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string | null; "dimensions"?: (({ "height": number; "length": number; "unit": string; "width": number; }) | (null)); "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "label_url"?: string | null; "metadata"?: Record<string, string | null> | null; "service_code"?: string | null; "status_reason"?: string | null; "tracking_number"?: string | null; "tracking_url"?: string | null; "weight"?: (({ "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": number; }) | (null)); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdatePackageResponse, ["data"]>>;
+    update(package_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string | null; "dimensions"?: (({ "height": number; "length": number; "unit": "millimeter" | "centimeter" | "inch"; "width": number; }) | (null)); "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "label_url"?: string | null; "metadata"?: Record<string, string | null> | null; "service_code"?: string | null; "status_reason"?: string | null; "tracking_number"?: string | null; "tracking_url"?: string | null; "weight"?: (({ "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": number; }) | (null)); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdatePackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(package_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string | null; "dimensions"?: (({ "height": number; "length": number; "unit": string; "width": number; }) | (null)); "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "label_url"?: string | null; "metadata"?: Record<string, string | null> | null; "service_code"?: string | null; "status_reason"?: string | null; "tracking_number"?: string | null; "tracking_url"?: string | null; "weight"?: (({ "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": number; }) | (null)); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesUpdateResponse>>;
+    updateWithResponse(package_id: InputValue<string>, params: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "carrier"?: string | null; "dimensions"?: (({ "height": number; "length": number; "unit": "millimeter" | "centimeter" | "inch"; "width": number; }) | (null)); "expected_version"?: string; "external_reference_id"?: string | null; "external_system"?: string | null; "label_url"?: string | null; "metadata"?: Record<string, string | null> | null; "service_code"?: string | null; "status_reason"?: string | null; "tracking_number"?: string | null; "tracking_url"?: string | null; "weight"?: (({ "unit": "gram" | "kilogram" | "ounce" | "pound"; "value": number; }) | (null)); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesUpdateResponse>>;
     /**
  * Updates a package item quantity or metadata while the package is still mutable.
  * PATCH /v1/packages/{package_id}/items/{package_item_id}
@@ -130,9 +130,9 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.updateItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    updateItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "quantity"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
+    updateItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "quantity"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PackageItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "quantity"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesUpdateItemResponse>>;
+    updateItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "quantity"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesUpdateItemResponse>>;
     /**
  * Voids a package before carrier handoff and appends a package timeline event. Voided package items no longer count against fulfillment package allocation capacity. expected_version is optional and rejects a stale resource version when supplied.
  * POST /v1/packages/{package_id}/void
@@ -141,9 +141,9 @@ export interface PackagesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.packages.voidResource("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    voidResource(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<VoidPackageResponse, ["data"]>>;
+    voidResource(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<VoidPackageResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    voidResourceWithResponse(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesVoidResourceResponse>>;
+    voidResourceWithResponse(package_id: InputValue<string>, params?: (InputValue<{ "buyer_notification_behavior"?: "send" | "suppress"; "expected_version"?: string; "occurred_at"?: string | globalThis.Date; "reason_message"?: string; }> | { "buyer_notification_behavior"?: never; "expected_version"?: never; "occurred_at"?: never; "reason_message"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackagesVoidResourceResponse>>;
   }
 export declare class Client {
 
@@ -198,6 +198,7 @@ export type { SettlementAmounts } from '../declarations/SettlementAmounts.js';
 export type { SignedMoney } from '../declarations/SignedMoney.js';
 export type { ShippingDimensions } from '../declarations/ShippingDimensions.js';
 export type { ReturnShipmentLineItemAllocation } from '../declarations/ReturnShipmentLineItemAllocation.js';
+export type { ReturnHandoffRequirementLineItem } from '../declarations/ReturnHandoffRequirementLineItem.js';
 export type { ShippingWeight } from '../declarations/ShippingWeight.js';
 export type { PackageTransitionRequestInput } from '../declarations/PackageTransitionRequestInput.js';
 export type { PackageStatusUpdateResult } from '../declarations/PackageStatusUpdateResult.js';
@@ -210,6 +211,9 @@ export type { CreatePackageItemRequestInput } from '../declarations/CreatePackag
 export type { UpdatePackageRequestInput } from '../declarations/UpdatePackageRequestInput.js';
 export type { UpdatePackageItemRequestInput } from '../declarations/UpdatePackageItemRequestInput.js';
 export type { VoidPackageRequestInput } from '../declarations/VoidPackageRequestInput.js';
+export type { MeListPackagesInput } from '../declarations/MeListPackagesInput.js';
+export type { CreatePackageItemRequest } from '../declarations/CreatePackageItemRequest.js';
+export type { UpdatePackageItemRequest } from '../declarations/UpdatePackageItemRequest.js';
 export { makePackageItemResponse } from '../declarations/makePackageItemResponse.js';
 export { makePackageResponse } from '../declarations/makePackageResponse.js';
 export { makePackageItemListResponse } from '../declarations/makePackageItemListResponse.js';
@@ -229,6 +233,7 @@ export { makeSettlementAmounts } from '../declarations/makeSettlementAmounts.js'
 export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
 export { makeShippingDimensions } from '../declarations/makeShippingDimensions.js';
 export { makeReturnShipmentLineItemAllocation } from '../declarations/makeReturnShipmentLineItemAllocation.js';
+export { makeReturnHandoffRequirementLineItem } from '../declarations/makeReturnHandoffRequirementLineItem.js';
 export { makeShippingWeight } from '../declarations/makeShippingWeight.js';
 export { makePackageStatusUpdateResult } from '../declarations/makePackageStatusUpdateResult.js';
 export { makeFulfillmentEvent } from '../declarations/makeFulfillmentEvent.js';
@@ -236,3 +241,5 @@ export { makeFulfillmentNotification } from '../declarations/makeFulfillmentNoti
 export { makePackageStatusUpdate } from '../declarations/makePackageStatusUpdate.js';
 export { makeUpdatePackageResult } from '../declarations/makeUpdatePackageResult.js';
 export { makeVoidPackageResult } from '../declarations/makeVoidPackageResult.js';
+export { makeCreatePackageItemRequest } from '../declarations/makeCreatePackageItemRequest.js';
+export { makeUpdatePackageItemRequest } from '../declarations/makeUpdatePackageItemRequest.js';

@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class BalanceTransactionsListInput extends Model {
-    /** @param array{'currency'?: string, 'type'?: string, 'related_object_type'?: string, 'related_object_id'?: string, 'status'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'available_after'?: string|\DateTimeInterface, 'available_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'currency'?: string, 'type'?: string, 'related_object_type'?: string, 'related_object_id'?: string, 'status'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'available_after'?: string|\DateTimeInterface, 'available_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceTransactionsListInput')); }
     /** @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
@@ -77,9 +77,4 @@ final class BalanceTransactionsListInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

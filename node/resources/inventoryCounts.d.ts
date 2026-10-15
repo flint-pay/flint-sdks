@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -31,9 +31,9 @@ export interface InventoryCountsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryCounts.apply("example", {}, { idempotencyKey: idempotencyKey })
  */
-    apply(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResultResponse, ["data"]>>;
+    apply(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    applyWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsApplyResponse>>;
+    applyWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsApplyResponse>>;
     /**
  * Cancel an open physical count without changing inventory levels.
  * POST /v1/inventory-counts/{inventory_count_id}/cancel
@@ -42,9 +42,9 @@ export interface InventoryCountsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryCounts.cancel("example", {}, { idempotencyKey: idempotencyKey })
  */
-    cancel(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResultResponse, ["data"]>>;
+    cancel(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    cancelWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsCancelResponse>>;
+    cancelWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsCancelResponse>>;
     /**
  * Open a physical count for selected inventory items at one Location.
  * POST /v1/inventory-counts
@@ -53,21 +53,21 @@ export interface InventoryCountsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryCounts.create({inventory_item_ids: ["example"], location_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "inventory_item_ids": Array<string>; "location_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResponse, ["data"]>>;
+    create(params: (InputValue<{ "inventory_item_ids": Array<string>; "location_id": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "inventory_item_ids": Array<string>; "location_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "inventory_item_ids": Array<string>; "location_id": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsCreateResponse>>;
     /**
  * List inventory counts.
  * GET /v1/inventory-counts
  * @example
  * client.inventoryCounts.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryCountListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryCountListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryCountsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCountListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryCountsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCount>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryCountsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCountListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryCountsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "status"?: InputValue<"draft" | "applied" | "canceled">; "idempotency_key"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "applied_after"?: InputValue<string | globalThis.Date>; "applied_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCount>;
     /**
  * Replace a count's observations atomically. Send expected_version to reject concurrent changes.
  * PATCH /v1/inventory-counts/{inventory_count_id}
@@ -76,9 +76,9 @@ export interface InventoryCountsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryCounts.update("example", {expected_version: "2", observations: [{counted_damaged_quantity: "0", counted_on_hand_quantity: "12", counted_quality_control_quantity: "0", counted_quarantined_quantity: "0", inventory_item_id: "invi_01K0P7W6A4N9F3J2T8Q5R1C6XM"}], source_system: {type: "manual"}}, { idempotencyKey: idempotencyKey })
  */
-    update(inventory_count_id: InputValue<string>, params: (InputValue<({ "expected_version"?: string; "external_actor_id"?: string; "observations": Array<InventoryCountObservationRequestInput>; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }) & (((({ "observations"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResponse, ["data"]>>;
+    update(inventory_count_id: InputValue<string>, params: (InputValue<({ "expected_version"?: string; "external_actor_id"?: string; "observations": Array<InventoryCountObservationRequestInput>; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }) & (((({ "observations"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryCountResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<({ "expected_version"?: string; "external_actor_id"?: string; "observations": Array<InventoryCountObservationRequestInput>; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }) & (((({ "observations"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsUpdateResponse>>;
+    updateWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<({ "expected_version"?: string; "external_actor_id"?: string; "observations": Array<InventoryCountObservationRequestInput>; "occurred_at"?: string | globalThis.Date; "source_system"?: InventorySourceSystemRequestInput; }) & (((({ "observations"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -123,6 +123,9 @@ export type { CountProvenance } from '../declarations/CountProvenance.js';
 export type { InventoryCountTransitionRequestInput } from '../declarations/InventoryCountTransitionRequestInput.js';
 export type { CreateInventoryCountRequestInput } from '../declarations/CreateInventoryCountRequestInput.js';
 export type { UpdateInventoryCountRequestInput } from '../declarations/UpdateInventoryCountRequestInput.js';
+export type { InventoryCountObservationRequest } from '../declarations/InventoryCountObservationRequest.js';
+export type { InventoryCountTransitionRequest } from '../declarations/InventoryCountTransitionRequest.js';
+export type { CreateInventoryCountRequest } from '../declarations/CreateInventoryCountRequest.js';
 export { makeInventoryCountResultResponse } from '../declarations/makeInventoryCountResultResponse.js';
 export { makeInventoryCountResponse } from '../declarations/makeInventoryCountResponse.js';
 export { makeInventoryCountListResponse } from '../declarations/makeInventoryCountListResponse.js';
@@ -137,3 +140,6 @@ export { makeNextActionMerchantAccountSession } from '../declarations/makeNextAc
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeInventoryCountLine } from '../declarations/makeInventoryCountLine.js';
 export { makeCountProvenance } from '../declarations/makeCountProvenance.js';
+export { makeInventoryCountObservationRequest } from '../declarations/makeInventoryCountObservationRequest.js';
+export { makeInventoryCountTransitionRequest } from '../declarations/makeInventoryCountTransitionRequest.js';
+export { makeCreateInventoryCountRequest } from '../declarations/makeCreateInventoryCountRequest.js';

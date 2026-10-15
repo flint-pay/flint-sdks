@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -19,9 +19,9 @@ export interface MerchantAccountSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.merchantAccountSessions.create({components: ["account_onboarding"]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
+    create(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsCreateResponse>>;
     /**
  * Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant. An onboarding session can refresh only sandbox launch tokens created by the same user with an onboarding session. The sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id named another sandbox of the same merchant at creation. Live onboarding requires a live API key, and refresh requires the same API key that created the launch token.
  * POST /v1/merchant-account-sessions/refresh
@@ -30,9 +30,9 @@ export interface MerchantAccountSessionsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.merchantAccountSessions.refresh({launch_token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    refresh(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
+    refresh(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    refreshWithResponse(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsRefreshResponse>>;
+    refreshWithResponse(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsRefreshResponse>>;
   }
 export declare class Client {
 

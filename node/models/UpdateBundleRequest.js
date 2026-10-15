@@ -1,9 +1,9 @@
-import { d891 as c0, d323 as c1, d2431 as c2, d2432 as c3, d2433 as c4, d2430 as c5, d2434 as c6 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2434 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d896 as c0, d323 as c1, d2447 as c2, d2448 as c3, d2449 as c4, d2446 as c5, d2450 as c6 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2450 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2434;
+const read = d2450;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec600"]:c2(),["SharedCodec601"]:c3(),["SharedCodec602"]:c4(),["UpdateBundleComponentRequest"]:c5(),["UpdateBundleRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec605"]:c2(),["SharedCodec606"]:c3(),["SharedCodec607"]:c4(),["UpdateBundleComponentRequest"]:c5(),["UpdateBundleRequest"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateBundleRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

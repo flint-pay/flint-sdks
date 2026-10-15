@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/webhookDeliveries.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/webhookDeliveries.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getWebhookDelivery"]:r0,["listWebhookDeliveryAttempts"]:r0,["resendWebhookDelivery"]:r0});
 export class Client {
@@ -14,60 +14,49 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.webhookDeliveries = Object.freeze({
       get: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
-], [webhook_delivery_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_delivery_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
-], [webhook_delivery_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [webhook_delivery_id], [], false, false, params), options).then(_sdkResponse),
       listAttempts: async (webhook_delivery_id, params, options) => this.#runtime.request("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listAttemptsWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listAttemptsPages: (webhook_delivery_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listAttemptsPagesWithResponse: (webhook_delivery_id, params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listAttemptsItems: (webhook_delivery_id, params, options) => this.#runtime.items("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
       resend: async (webhook_delivery_id, params, options) => this.#runtime.request("resendWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       resendWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("resendWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
     });
 }
@@ -84,3 +73,4 @@ export { makeNextAction } from '../models/NextAction.js';
 export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeWebhookDeliveryAction } from '../models/WebhookDeliveryAction.js';
+export { makeResendWebhookDeliveryRequest } from '../models/ResendWebhookDeliveryRequest.js';

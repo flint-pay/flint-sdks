@@ -1,8 +1,8 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateReturnReceiptResponse } from '../declarations/CreateReturnReceiptResponse.js';
+import type { GetReturnReceiptResponse } from '../declarations/GetReturnReceiptResponse.js';
 import type { ListReturnReceiptsResponse } from '../declarations/ListReturnReceiptsResponse.js';
 import type { RequestOptions } from '../declarations/RequestOptions.js';
 import type { ReturnReceipt } from '../declarations/ReturnReceipt.js';
@@ -13,6 +13,7 @@ import type { ReturnReceiptsListResponse } from '../declarations/ReturnReceiptsL
 import type { ReturnReceiptsVerifyLineItemInput } from '../declarations/ReturnReceiptsVerifyLineItemInput.js';
 import type { ReturnReceiptsVerifyLineItemResponse } from '../declarations/ReturnReceiptsVerifyLineItemResponse.js';
 import type { SdkResponse } from '../declarations/SdkResponse.js';
+import type { VerifyReturnReceiptLineItemResponse } from '../declarations/VerifyReturnReceiptLineItemResponse.js';
 import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface ReturnReceiptsResource {
@@ -22,21 +23,21 @@ export interface ReturnReceiptsResource {
  * @example
  * client.returnReceipts.get("example")
  */
-    get(return_receipt_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreateReturnReceiptResponse, ["data"]>>;
+    get(return_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnReceiptResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_receipt_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReceiptsGetResponse>>;
+    getWithResponse(return_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReceiptsGetResponse>>;
     /**
  * List merchandise receipts. Omitting return_id lists receipts across every Return for the merchant.
  * GET /v1/return-receipts
  * @example
  * client.returnReceipts.list()
  */
-    list(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReceiptsResponse>;
+    list(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReceiptsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReceiptsListResponse>>;
-    listPages(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnReceiptsResponse>;
-    listPagesWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnReceiptsListResponse>>;
-    listItems(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnReceipt>;
+    listWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnReceiptsListResponse>>;
+    listPages(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnReceiptsResponse>;
+    listPagesWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnReceiptsListResponse>>;
+    listItems(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "received_after"?: InputValue<string | globalThis.Date>; "received_before"?: InputValue<string | globalThis.Date>; "receiving_location_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "shipment_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded">; "verification_status"?: InputValue<"matched" | "unverified" | "excess"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnReceipt>;
     /**
  * Establish the Return line identity for receipt quantity that arrived without one. Unverified quantity counts toward no line and releases no refund timing gate until it is verified.
  * POST /v1/return-receipts/{return_receipt_id}/line-items/{return_receipt_line_item_id}/verify
@@ -45,9 +46,9 @@ export interface ReturnReceiptsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.returnReceipts.verifyLineItem("example", "example", {return_line_item_id: "example", verification_reason: "order_match_confirmed"}, { idempotencyKey: idempotencyKey })
  */
-    verifyLineItem(return_receipt_id: InputValue<string>, return_receipt_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "return_line_item_id": string; "verification_reason": "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other"; "verification_reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnReceiptResponse, ["data"]>>;
+    verifyLineItem(return_receipt_id: InputValue<string>, return_receipt_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "return_line_item_id": string; "verification_reason": "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other"; "verification_reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<VerifyReturnReceiptLineItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    verifyLineItemWithResponse(return_receipt_id: InputValue<string>, return_receipt_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "return_line_item_id": string; "verification_reason": "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other"; "verification_reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReceiptsVerifyLineItemResponse>>;
+    verifyLineItemWithResponse(return_receipt_id: InputValue<string>, return_receipt_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "return_line_item_id": string; "verification_reason": "order_match_confirmed" | "sku_match_confirmed" | "inspection_confirmed" | "merchant_review" | "other"; "verification_reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnReceiptsVerifyLineItemResponse>>;
   }
 export declare class Client {
 
@@ -59,12 +60,13 @@ readonly returnReceipts: ReturnReceiptsResource;
 export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export type { RequestOptions } from '../declarations/RequestOptions.js';
 export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CreateReturnReceiptResponse } from '../declarations/CreateReturnReceiptResponse.js';
+export type { GetReturnReceiptResponse } from '../declarations/GetReturnReceiptResponse.js';
 export type { SdkResponse } from '../declarations/SdkResponse.js';
 export type { ReturnReceiptsGetResponse } from '../declarations/ReturnReceiptsGetResponse.js';
 export type { ListReturnReceiptsResponse } from '../declarations/ListReturnReceiptsResponse.js';
 export type { ReturnReceiptsListResponse } from '../declarations/ReturnReceiptsListResponse.js';
 export type { ReturnReceipt } from '../declarations/ReturnReceipt.js';
+export type { VerifyReturnReceiptLineItemResponse } from '../declarations/VerifyReturnReceiptLineItemResponse.js';
 export type { ReturnReceiptsVerifyLineItemResponse } from '../declarations/ReturnReceiptsVerifyLineItemResponse.js';
 export type { ReturnReceiptsGetInput } from '../declarations/ReturnReceiptsGetInput.js';
 export type { ReturnReceiptsListInput } from '../declarations/ReturnReceiptsListInput.js';
@@ -72,6 +74,7 @@ export type { ReturnReceiptsVerifyLineItemInput } from '../declarations/ReturnRe
 export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
+export type { CreateReturnReceiptResponse } from '../declarations/CreateReturnReceiptResponse.js';
 export type { ResponseMeta } from '../declarations/ResponseMeta.js';
 export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
@@ -82,9 +85,11 @@ export type { ReturnActor } from '../declarations/ReturnActor.js';
 export type { ReturnReceiptLineItem } from '../declarations/ReturnReceiptLineItem.js';
 export type { ReturnUnverifiedItem } from '../declarations/ReturnUnverifiedItem.js';
 export type { VerifyReturnReceiptLineItemRequestInput } from '../declarations/VerifyReturnReceiptLineItemRequestInput.js';
-export { makeCreateReturnReceiptResponse } from '../declarations/makeCreateReturnReceiptResponse.js';
+export { makeGetReturnReceiptResponse } from '../declarations/makeGetReturnReceiptResponse.js';
 export { makeListReturnReceiptsResponse } from '../declarations/makeListReturnReceiptsResponse.js';
 export { makeReturnReceipt } from '../declarations/makeReturnReceipt.js';
+export { makeVerifyReturnReceiptLineItemResponse } from '../declarations/makeVerifyReturnReceiptLineItemResponse.js';
+export { makeCreateReturnReceiptResponse } from '../declarations/makeCreateReturnReceiptResponse.js';
 export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
 export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';

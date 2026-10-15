@@ -9,12 +9,12 @@ namespace Flint;
  * @property-read string $merchant_id
  * @property-read string $mode
  * @property-read int $payload_version
- * @property-read array{'id': string, 'idempotency_key': string}|object|null $request
+ * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
  * @property-read bool $test
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_order_fulfillment_completed_merchantInput extends Model {
-    /** @param array{'data': array{'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_order_fulfillment_completed_merchantInput')); }
     /** @return array{'fulfillment': array{'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'order_id': string, 'resource_url': string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface}|object, 'fulfillment_id': string, 'order': array{'fulfillment_status'?: string, 'order_id': string, 'status'?: string}|object, 'order_id': string}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
@@ -51,7 +51,7 @@ final class Webhook_order_fulfillment_completed_merchantInput extends Model {
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /** @return array{'id': string, 'idempotency_key': string}|object|null
+    /** @return array{'id': string, 'idempotency_key'?: string}|object|null
      * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
      */
     public function getRequest(): array|object|null { return $this->get('request'); }

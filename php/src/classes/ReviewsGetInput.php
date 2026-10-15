@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReviewsGetInput extends Model {
-    /** @param array{'review_id': string, 'expand'?: list<string>, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'review_id': string, 'expand'?: list<string>, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReviewsGetInput')); }
     /** @return string
      * @throws SdkError When review_id is omitted; use hasReviewId() or valueOrDefault().
@@ -23,9 +23,4 @@ final class ReviewsGetInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { CategoriesCreateInput } from '../declarations/CategoriesCreateInput.js';
@@ -28,9 +28,9 @@ export interface CategoriesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
+    create(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesCreateResponse>>;
     /**
  * Permanently deletes an unreferenced category and returns it with status deleted. Deleted categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return configuration references before deleting.
  * DELETE /v1/categories/{category_id}
@@ -39,30 +39,30 @@ export interface CategoriesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
+    remove(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesRemoveResponse>>;
+    removeWithResponse(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesRemoveResponse>>;
     /**
  * Get category.
  * GET /v1/categories/{category_id}
  * @example
  * client.categories.get("example")
  */
-    get(category_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
+    get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(category_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesGetResponse>>;
+    getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesGetResponse>>;
     /**
  * List categories.
  * GET /v1/categories
  * @example
  * client.categories.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CategoryListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CategoriesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Category>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CategoryListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CategoriesListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Category>;
     /**
  * Update category.
  * PATCH /v1/categories/{category_id}
@@ -71,9 +71,9 @@ export interface CategoriesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
+    update(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesUpdateResponse>>;
+    updateWithResponse(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesUpdateResponse>>;
   }
 export declare class Client {
 
@@ -109,6 +109,8 @@ export type { NextActionMerchantAccountSession } from '../declarations/NextActio
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { CreateCategoryRequestInput } from '../declarations/CreateCategoryRequestInput.js';
 export type { UpdateCategoryRequestInput } from '../declarations/UpdateCategoryRequestInput.js';
+export type { CreateCategoryRequest } from '../declarations/CreateCategoryRequest.js';
+export type { UpdateCategoryRequest } from '../declarations/UpdateCategoryRequest.js';
 export { makeCategoryResponse } from '../declarations/makeCategoryResponse.js';
 export { makeCategoryListResponse } from '../declarations/makeCategoryListResponse.js';
 export { makeCategory } from '../declarations/makeCategory.js';
@@ -117,3 +119,5 @@ export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
 export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+export { makeCreateCategoryRequest } from '../declarations/makeCreateCategoryRequest.js';
+export { makeUpdateCategoryRequest } from '../declarations/makeUpdateCategoryRequest.js';

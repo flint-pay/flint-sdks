@@ -9,12 +9,12 @@ namespace Flint;
  * @property-read string $merchant_id
  * @property-read string $mode
  * @property-read int $payload_version
- * @property-read array{'id': string, 'idempotency_key': string}|object|null $request
+ * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
  * @property-read bool $test
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class IncomingWebhook0d9fec82cba8PayloadInput extends Model {
-    /** @param array{'data': array{'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_at': string|\DateTimeInterface, 'invoice_number': string, 'issued_at'?: string|\DateTimeInterface, 'lines': list<MerchantSubscriptionInvoiceLineInput|array<array-key, mixed>|\stdClass>, 'merchant_subscription_invoice_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'period_end': string, 'period_start': string, 'status': string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key': string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_at': string|\DateTimeInterface, 'invoice_number': string, 'issued_at'?: string|\DateTimeInterface, 'lines': list<MerchantSubscriptionInvoiceLineInput|array<array-key, mixed>|\stdClass>, 'merchant_subscription_invoice_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'period_end': string, 'period_start': string, 'status': string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IncomingWebhook0d9fec82cba8PayloadInput')); }
     /** @return array{'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_at': string|\DateTimeInterface, 'invoice_number': string, 'issued_at'?: string|\DateTimeInterface, 'lines': list<MerchantSubscriptionInvoiceLineInput|array<array-key, mixed>|\stdClass>, 'merchant_subscription_invoice_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'period_end': string, 'period_start': string, 'status': string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
@@ -51,7 +51,7 @@ final class IncomingWebhook0d9fec82cba8PayloadInput extends Model {
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /** @return array{'id': string, 'idempotency_key': string}|object|null
+    /** @return array{'id': string, 'idempotency_key'?: string}|object|null
      * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
      */
     public function getRequest(): array|object|null { return $this->get('request'); }

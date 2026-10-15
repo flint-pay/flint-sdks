@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPreview"]:r0});
 export class Client {
@@ -22,6 +22,7 @@ export { makeSubscriptionPreviewResponse } from '../models/SubscriptionPreviewRe
 export { makeSubscriptionAddressVerification } from '../models/SubscriptionAddressVerification.js';
 export { makeSubscriptionDeliveryOption } from '../models/SubscriptionDeliveryOption.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeAddress } from '../models/Address.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeSubscriptionPreviewError } from '../models/SubscriptionPreviewError.js';
 export { makeErrorDetail } from '../models/ErrorDetail.js';
@@ -43,6 +44,7 @@ export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
 export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
 export { makeShippingDimensions } from '../models/ShippingDimensions.js';
 export { makeShippingWeight } from '../models/ShippingWeight.js';
 export { makeQuotaDetails } from '../models/QuotaDetails.js';
@@ -56,3 +58,11 @@ export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.j
 export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
+export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
+export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
+export { makeDeliveryBlackoutInterval } from '../models/DeliveryBlackoutInterval.js';
+export { makeDeliveryWeeklyInterval } from '../models/DeliveryWeeklyInterval.js';
+export { makeDeliveryBusinessDayRange } from '../models/DeliveryBusinessDayRange.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';

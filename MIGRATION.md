@@ -1,3 +1,79 @@
+# SDK 3.0.0
+
+This guide covers upgrading from `3.0.0-beta.20261012044000`. If you are upgrading from `2.0.0`, first apply the changes in the `3.0.0-beta` entries of the [README](README.md#packages), oldest first. The API version stays `2026-09-07`.
+
+## Credentials and API version
+
+Remove `X-Checkout-Session-ID`, `X-Checkout-Session-Secret` and `Flint-Version` from method params. TypeScript rejects them. Both SDKs reject credential headers in params before sending the request, and PHP also rejects `Flint-Version`. Supply credentials through client or request options instead. The SDK always sends the pinned `Flint-Version`; a value in params never changed it.
+
+```js
+await client.orders.get(orderId, undefined, {
+  authMode: "checkout",
+  credentials: {
+    CheckoutSessionIDHeader: sessionId,
+    CheckoutSessionSecretHeader: sessionSecret,
+  },
+});
+```
+
+```php
+$client->orders->get($orderId, null, new RequestOptions(authMode: 'checkout', credentials: [
+  'CheckoutSessionIDHeader' => $sessionId, 'CheckoutSessionSecretHeader' => $sessionSecret,
+]));
+```
+
+## Payment intents and refunds
+
+`paymentIntents.create` returns the payment intent itself, with a required `payment_collection`. `orders.createPaymentIntent` keeps the separate `payment_intent` and `payment_collection` fields.
+
+```js
+const intent = await client.paymentIntents.create(params, { idempotencyKey });
+console.log(intent.payment_intent_id); // was intent.payment_intent.payment_intent_id
+```
+
+```php
+echo $intent->payment_intent_id; // was $intent->payment_intent->payment_intent_id
+```
+
+- The Node `CreatePaymentIntentResult` and `GetPaymentIntentResult` types are removed. Use `PaymentIntentResult` for `paymentIntents.get`. In PHP, `create` returns `PaymentIntentsCreateResponse201Data` and `get` returns `PaymentIntentResult`.
+- `risk` and `last_payment_error` are always present and can be `null`. Check for `null` before reading them.
+- `refunds.create` returns `gift_card_codes` on the refund result. In PHP, it returns `CreateRefundResult` instead of `Refund`.
+
+## Errors
+
+Errors for state conflicts that returned 400 now return 409. Their `kind` is `conflict` instead of `validation`; one example is `GIFT_CARD_CHALLENGE_REQUIRED`. `INVALID_TOTALS` and `INVALID_LINE_ITEMS` become 500 `ORDER_TOTALS_UNAVAILABLE` (`server`), and `ORDER_TAX_NOT_UPDATABLE_AFTER_PAYMENT` becomes `ORDER_TAX_NOT_UPDATABLE`. Review checks that match on `kind` or `code`. `instanceof SdkError` still matches every error.
+
+```js
+import { errors } from "@flintpay/node";
+if (error instanceof errors.ConflictError) {
+  /* reload, then retry */
+}
+```
+
+```php
+use Flint\Errors\ConflictError;
+try { /* call */ } catch (ConflictError $error) { /* reload, then retry */ }
+```
+
+In Node, `error.name` is the subclass name, such as `ConflictError`. Logs or tests that compare it to `"SdkError"` need updating.
+
+## Webhooks
+
+- Call `verifyWebhook(rawBody, headers, secrets)` from `@flintpay/node` or `Flint\Webhooks::verify(...)` without creating a client. Client methods still work.
+- Results with `known: false` include `reason`: `unknown_event` or `unmatched_envelope`.
+- `payment_intent.*` events carry the full payment intent in `data.payment_intent`.
+- Money `amount` values in `invoice.*`, `order.paid`, `order.partially_paid` and `merchant_billing_balance.updated` events are int64 strings, like API responses (`MoneyValue`), not numbers. PHP getters return `MoneyValue`.
+- `request.idempotency_key` in event envelopes is present only when the caller sent one.
+
+## Other contract changes
+
+- Delivery method `configuration.offer_windows` is removed. Sending it returns `UNKNOWN_FIELD`.
+- Dimension `unit` must be `millimeter`, `centimeter` or `inch`. Pickup `maximum_distance.unit` must be `meter`, `kilometer` or `mile`.
+- `checkoutSessions.create` `delivery_method_ids` must list 1 to 25 IDs; to use the defaults, omit the field.
+- Line item and charge tax `calculation` no longer has `mode` and requires `components`. Set the mode in the order's `tax.calculation` instead.
+- `me.listFlintWalletPaymentMethods` no longer returns `has_more`.
+- Gift card purchase refund `value_allocations` use `amount_money` instead of `amount`.
+
 # SDK 2.0.0
 
 This release refreshes all generated runtimes and types. List methods now return page bodies with `data` and `next_page_token` directly. `listPages()` yields page bodies; use `listPagesWithResponse()` for HTTP metadata. Single-resource methods return the resource payload, while `WithResponse` methods retain the original body and HTTP metadata. Exact integer values remain decimal strings. CLI OAuth methods remain excluded.

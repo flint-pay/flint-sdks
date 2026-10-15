@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read array{'expected_version'?: string, 'variant_id': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeUpdateSubscriptionLineItemInput extends Model {
-    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'subscription_line_item_id': string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string, 'variant_id': string}|object}|object $values */
+    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'subscription_line_item_id': string, 'body': array{'expected_version'?: string, 'variant_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeUpdateSubscriptionLineItemInput')); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
@@ -24,11 +24,6 @@ final class MeUpdateSubscriptionLineItemInput extends Model {
      */
     public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'expected_version'?: string, 'variant_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
