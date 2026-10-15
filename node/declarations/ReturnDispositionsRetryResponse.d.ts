@@ -1,4 +1,4 @@
 
-import type { ReturnDispositionsGetResponse } from './ReturnDispositionsGetResponse.js';
+import type { RetryReturnDispositionResponse } from './RetryReturnDispositionResponse.js';
 
-export type ReturnDispositionsRetryResponse = ReturnDispositionsGetResponse;
+export type ReturnDispositionsRetryResponse = RetryReturnDispositionResponse;

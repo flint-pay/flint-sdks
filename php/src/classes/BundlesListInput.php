@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $delivery_configuration_status
  * Presence-aware input; omitted fields throw when accessed. */
 final class BundlesListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'sku'?: string, 'query'?: string, 'category_handle'?: string, 'status'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'sku'?: string, 'query'?: string, 'category_handle'?: string, 'status'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'delivery_profile_id'?: string, 'delivery_configuration_status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundlesListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -72,9 +72,4 @@ final class BundlesListInput extends Model {
      */
     public function getDeliveryConfigurationStatus(): string { return $this->get('delivery_configuration_status'); }
     public function hasDeliveryConfigurationStatus(): bool { return $this->has('delivery_configuration_status'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

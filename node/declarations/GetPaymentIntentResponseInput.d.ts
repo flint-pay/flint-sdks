@@ -1,5 +1,5 @@
 
-import type { GetPaymentIntentResultInput } from './GetPaymentIntentResultInput.js';
+import type { PaymentIntentResultInput } from './PaymentIntentResultInput.js';
 import type { ResponseMetaInput } from './ResponseMetaInput.js';
 
-export type GetPaymentIntentResponseInput = { "data": GetPaymentIntentResultInput; "meta"?: ResponseMetaInput; "request_id"?: string; };
+export type GetPaymentIntentResponseInput = { "data": PaymentIntentResultInput; "meta"?: ResponseMetaInput; "request_id"?: string; };

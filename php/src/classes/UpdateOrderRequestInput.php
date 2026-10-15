@@ -11,10 +11,10 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $order_revision
  * @property-read mixed $requested_tip
- * @property-read OrderTaxRequestInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateOrderRequestInput extends Model {
-    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateOrderRequestInput')); }
     /** @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
@@ -61,7 +61,7 @@ final class UpdateOrderRequestInput extends Model {
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** @return OrderTaxRequestInput|array<array-key, mixed>|\stdClass
+    /** @return OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }

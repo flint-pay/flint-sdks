@@ -1,4 +1,4 @@
 
 import type { CancelReturnDispositionResponse } from './CancelReturnDispositionResponse.js';
 
-export type RetryReturnDispositionResponse = CancelReturnDispositionResponse;
+export interface RetryReturnDispositionResponse extends CancelReturnDispositionResponse {}

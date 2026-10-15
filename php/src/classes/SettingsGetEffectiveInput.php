@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $device_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SettingsGetEffectiveInput extends Model {
-    /** @param array{'location_id'?: string, 'device_id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'location_id'?: string, 'device_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SettingsGetEffectiveInput')); }
     /** @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
@@ -18,9 +18,4 @@ final class SettingsGetEffectiveInput extends Model {
      */
     public function getDeviceId(): string { return $this->get('device_id'); }
     public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

@@ -7,7 +7,6 @@ namespace Flint;
  * @property-read \stdClass $eligibility
  * @property-read DeliveryEstimateRule $estimate
  * @property-read string $minimum_option_lifetime_seconds
- * @property-read bool $offer_windows
  * @property-read DeliveryMethodConfigurationOriginFixedLocation|\stdClass $origin
  * @property-read DeliveryMethodConfigurationPricingCalculated|DeliveryMethodConfigurationPricingCallback|DeliveryMethodConfigurationPricingCallerSupplied|DeliveryMethodConfigurationPricingFixed|DeliveryMethodConfigurationPricingRateTable|DeliveryMethodConfigurationPricingTiered|\stdClass $pricing
  * @property-read DeliveryMethodConfigurationPublicDetails $public_details
@@ -17,7 +16,7 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware response; omitted fields throw when accessed. */
 final class DeliveryMethodConfiguration extends Model {
-    /** @param array{'buyer_instructions'?: mixed, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': mixed, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': mixed, 'pricing': mixed, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable': bool|null, ...}|object $values */
+    /** @param array{'buyer_instructions'?: mixed, 'charge_tax_category': string|null, 'eligibility'?: mixed, 'estimate': mixed, 'minimum_option_lifetime_seconds': string, 'origin': mixed, 'pricing': mixed, 'public_details'?: object{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<mixed>, 'selection_guarantee_seconds': string, 'taxable': bool|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfiguration')); }
     /** @return BuyerInstructionsConfig
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
@@ -44,11 +43,6 @@ final class DeliveryMethodConfiguration extends Model {
      */
     public function getMinimumOptionLifetimeSeconds(): string { return $this->get('minimum_option_lifetime_seconds'); }
     public function hasMinimumOptionLifetimeSeconds(): bool { return $this->has('minimum_option_lifetime_seconds'); }
-    /** @return bool
-     * @throws SdkError When offer_windows is omitted; use hasOfferWindows() or valueOrDefault().
-     */
-    public function getOfferWindows(): bool { return $this->get('offer_windows'); }
-    public function hasOfferWindows(): bool { return $this->has('offer_windows'); }
     /** @return DeliveryMethodConfigurationOriginFixedLocation|\stdClass
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -76,9 +76,9 @@ export interface OnboardingResource {
  * @example
  * client.onboarding.getState()
  */
-    getState(params?: { "sandbox_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<OnboardingStateResponse, ["data"]>>;
+    getState(params?: { "sandbox_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<OnboardingStateResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getStateWithResponse(params?: { "sandbox_id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<OnboardingGetStateResponse>>;
+    getStateWithResponse(params?: { "sandbox_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<OnboardingGetStateResponse>>;
     /**
  * Starts the consolidated onboarding flow by emailing a short-lived verification code and returning a temporary verification token.
  * POST /v1/onboarding/start
@@ -87,9 +87,9 @@ export interface OnboardingResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.onboarding.startFlow({email: "example", first_name: "example", last_name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingStartResponse, ["data"]>>;
+    startFlow(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingStartResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    startFlowWithResponse(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingStartFlowResponse>>;
+    startFlowWithResponse(params: (InputValue<{ "email": string; "first_name": string; "last_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingStartFlowResponse>>;
     /**
  * Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one.
  * POST /v1/onboarding/verify-email
@@ -98,9 +98,9 @@ export interface OnboardingResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.onboarding.verifyEmailCode({verification_code: "example", verification_token: "example"}, { idempotencyKey: idempotencyKey })
  */
-    verifyEmailCode(params: (InputValue<{ "merchant_id"?: string; "verification_code": string; "verification_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingVerifyEmailResponse, ["data"]>>;
+    verifyEmailCode(params: (InputValue<{ "merchant_id"?: string; "verification_code": string; "verification_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<OnboardingVerifyEmailResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    verifyEmailCodeWithResponse(params: (InputValue<{ "merchant_id"?: string; "verification_code": string; "verification_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingVerifyEmailCodeResponse>>;
+    verifyEmailCodeWithResponse(params: (InputValue<{ "merchant_id"?: string; "verification_code": string; "verification_token": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<OnboardingVerifyEmailCodeResponse>>;
   }
 export declare class Client {
 
@@ -170,6 +170,7 @@ export type { NextActionInput } from '../declarations/NextActionInput.js';
 export type { NextActionMerchantAccountSessionInput } from '../declarations/NextActionMerchantAccountSessionInput.js';
 export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
 export type { Merchant } from '../declarations/Merchant.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { Banner } from '../declarations/Banner.js';
 export type { Image } from '../declarations/Image.js';
@@ -180,6 +181,7 @@ export type { MerchantInput } from '../declarations/MerchantInput.js';
 export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
 export type { ImageInput } from '../declarations/ImageInput.js';
 export type { UserInput } from '../declarations/UserInput.js';
+export type { DeveloperInitialAPIKeyRequest } from '../declarations/DeveloperInitialAPIKeyRequest.js';
 export { makeOnboardingStateResponse } from '../declarations/makeOnboardingStateResponse.js';
 export { makeCreateAPIKeyResponse } from '../declarations/makeCreateAPIKeyResponse.js';
 export { makeOnboardingStartResponse } from '../declarations/makeOnboardingStartResponse.js';
@@ -203,9 +205,11 @@ export { makeNextActionMerchantAccountSession } from '../declarations/makeNextAc
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeAPIKeyWithSecret } from '../declarations/makeAPIKeyWithSecret.js';
 export { makeMerchant } from '../declarations/makeMerchant.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeBanner } from '../declarations/makeBanner.js';
 export { makeImage } from '../declarations/makeImage.js';
 export { makeMerchantReadinessAxis } from '../declarations/makeMerchantReadinessAxis.js';
 export { makeMerchantReadinessRequirements } from '../declarations/makeMerchantReadinessRequirements.js';
 export { makeUser } from '../declarations/makeUser.js';
+export { makeDeveloperInitialAPIKeyRequest } from '../declarations/makeDeveloperInitialAPIKeyRequest.js';

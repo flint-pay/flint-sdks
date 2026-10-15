@@ -1,4 +1,4 @@
 
 import type { CreateReturnReasonResponse } from './CreateReturnReasonResponse.js';
 
-export type DeleteReturnReasonResponse = CreateReturnReasonResponse;
+export interface DeleteReturnReasonResponse extends CreateReturnReasonResponse {}

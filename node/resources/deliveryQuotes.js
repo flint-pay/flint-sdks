@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryQuotes.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/deliveryQuotes.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["listDeliveryQuotes"]:r0});
 export class Client {
@@ -20,8 +20,7 @@ this.deliveryQuotes = Object.freeze({
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -31,8 +30,7 @@ this.deliveryQuotes = Object.freeze({
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -42,8 +40,7 @@ this.deliveryQuotes = Object.freeze({
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -53,8 +50,7 @@ this.deliveryQuotes = Object.freeze({
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listDeliveryQuotes", _sdkRequestInput([], [], [
   "checkout_session_id",
@@ -64,8 +60,7 @@ this.deliveryQuotes = Object.freeze({
   "created_after",
   "created_before",
   "page_size",
-  "page_token",
-  "Flint-Version"
+  "page_token"
 ], false, false, params), options),
     });
 }
@@ -80,6 +75,7 @@ export { makeNextActionMerchantAccountSession } from '../models/NextActionMercha
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
 export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
+export { makeLocationAddress } from '../models/LocationAddress.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
 export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
 export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
@@ -88,16 +84,19 @@ export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js'
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
 export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
 export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
 export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
+export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
 export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
 export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
 export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
+export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
 export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
 export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
 export { makeDeliveryQuoteMethodResource } from '../models/DeliveryQuoteMethodResource.js';

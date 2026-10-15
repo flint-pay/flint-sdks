@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read bool $include_diagnostics
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfilesListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'resolution_mode'?: string, 'include_diagnostics'?: bool, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'status'?: string, 'resolution_mode'?: string, 'include_diagnostics'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfilesListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -48,9 +48,4 @@ final class DeliveryProfilesListInput extends Model {
      */
     public function getIncludeDiagnostics(): bool { return $this->get('include_diagnostics'); }
     public function hasIncludeDiagnostics(): bool { return $this->has('include_diagnostics'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

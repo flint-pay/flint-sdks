@@ -1,4 +1,4 @@
 
-import type { ReturnReceiptsGetResponse } from './ReturnReceiptsGetResponse.js';
+import type { VerifyReturnReceiptLineItemResponse } from './VerifyReturnReceiptLineItemResponse.js';
 
-export type ReturnReceiptsVerifyLineItemResponse = ReturnReceiptsGetResponse;
+export type ReturnReceiptsVerifyLineItemResponse = VerifyReturnReceiptLineItemResponse;

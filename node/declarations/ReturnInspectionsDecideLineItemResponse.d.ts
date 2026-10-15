@@ -1,4 +1,4 @@
 
-import type { CreateReturnInspectionResponse } from './CreateReturnInspectionResponse.js';
+import type { DecideReturnInspectionLineItemResponse } from './DecideReturnInspectionLineItemResponse.js';
 
-export type ReturnInspectionsDecideLineItemResponse = CreateReturnInspectionResponse;
+export type ReturnInspectionsDecideLineItemResponse = DecideReturnInspectionLineItemResponse;

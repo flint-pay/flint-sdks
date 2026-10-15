@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'payment_link_type'?: string, 'has_plan'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'external_reference_id'?: string, 'query'?: string, 'payment_link_type'?: string, 'has_plan'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -72,9 +72,4 @@ final class PaymentLinksListInput extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

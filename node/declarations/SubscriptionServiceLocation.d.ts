@@ -1,4 +1,4 @@
 
-import type { PostalAddress } from './PostalAddress.js';
+import type { Address } from './Address.js';
 
-export type SubscriptionServiceLocation = { "address"?: PostalAddress; "customer_address_id"?: string; };
+export type SubscriptionServiceLocation = { "address"?: Address; "customer_address_id"?: string; };

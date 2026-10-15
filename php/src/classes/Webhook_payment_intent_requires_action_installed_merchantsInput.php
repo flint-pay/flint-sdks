@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': array{'amount_money': array{'amount': int, 'currency': string}|object, 'cancellation_reason'?: string, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'status': string}|object, 'source_type': mixed}|object $data
+ * @property-read array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': PaymentIntentInput|array<array-key, mixed>|\stdClass, 'source_type': mixed}|object $data
  * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
@@ -10,9 +10,9 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_payment_intent_requires_action_installed_merchantsInput extends Model {
-    /** @param array{'data': array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': array{'amount_money': array{'amount': int, 'currency': string}|object, 'cancellation_reason'?: string, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'status': string}|object, 'source_type': mixed}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': PaymentIntentInput|array<array-key, mixed>|\stdClass, 'source_type': mixed}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'partner_app_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_payment_intent_requires_action_installed_merchantsInput')); }
-    /** @return array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': array{'amount_money': array{'amount': int, 'currency': string}|object, 'cancellation_reason'?: string, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'status': string}|object, 'source_type': mixed}|object
+    /** @return array{'environment_grant_id': string, 'environment_id'?: string, 'merchant_id': string, 'mode': string, 'partner_app_install_id': string, 'payment_intent': PaymentIntentInput|array<array-key, mixed>|\stdClass, 'source_type': mixed}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }

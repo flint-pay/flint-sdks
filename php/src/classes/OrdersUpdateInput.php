@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateInput extends Model {
-    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
+    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateInput')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
@@ -23,21 +23,6 @@ final class OrdersUpdateInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-ID is omitted; use hasXCheckoutSessionId() or valueOrDefault().
-     */
-    public function getXCheckoutSessionId(): string { return $this->get('X-Checkout-Session-ID'); }
-    public function hasXCheckoutSessionId(): bool { return $this->has('X-Checkout-Session-ID'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-Secret is omitted; use hasXCheckoutSessionSecret() or valueOrDefault().
-     */
-    public function getXCheckoutSessionSecret(): string { return $this->get('X-Checkout-Session-Secret'); }
-    public function hasXCheckoutSessionSecret(): bool { return $this->has('X-Checkout-Session-Secret'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

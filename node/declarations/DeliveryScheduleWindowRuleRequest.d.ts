@@ -1,4 +1,4 @@
 
-import type { DeliveryAvailability } from './DeliveryAvailability.js';
+import type { DeliveryScheduleWindowRule } from './DeliveryScheduleWindowRule.js';
 
-export type DeliveryScheduleWindowRuleRequest = { "availability": DeliveryAvailability; };
+export interface DeliveryScheduleWindowRuleRequest extends DeliveryScheduleWindowRule {}

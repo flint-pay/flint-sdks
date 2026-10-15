@@ -41,7 +41,7 @@ class Runtime
         ) {
             $shortcuts = array_keys($this->contract['authShortcuts'] ?? []);
             sort($shortcuts);
-            throw new SdkError(
+            throw SdkError::create(
                 'authentication',
                 'token is not configured for this SDK; use ' .
                     ($shortcuts ? implode(', ', $shortcuts) : 'authMode and credentials'),
@@ -214,6 +214,13 @@ class Runtime
                 }
             }
             foreach ($op['parameters'] as $parameter) {
+                if (
+                    array_key_exists('source', $parameter) &&
+                    ($parameter['source'] !== 'authentication' ||
+                        ($parameter['in'] ?? null) !== 'header')
+                ) {
+                    throw new \InvalidArgumentException('Invalid compiled parameter source');
+                }
                 Codec::assertPlan($parameter['codec'], $op['id'] . '.parameter');
             }
             if (isset($op['body'])) {
@@ -317,6 +324,37 @@ class Runtime
     {
         return Codec::execute($value, $codec, $context + ['definitions' => $this->definitions()]);
     }
+    private function validateHeaderValue(string $value, array $codec, string $path): void
+    {
+        // Simple headers carry scalars or comma-separated scalar arrays. Keep
+        // their spelling and exact numeric tokens while the request codec
+        // validates the possible wire interpretations.
+        $parseScalar = static fn(string $text): mixed => $text === 'true' || $text === 'false'
+            ? $text === 'true'
+            : (preg_match('/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/D', $text)
+                ? new ParsedNumber($text)
+                : $text);
+        $parts = explode(',', $value);
+        $failure = null;
+        foreach (
+            [$value, $parseScalar($value), $parts, array_map($parseScalar, $parts)]
+            as $candidate
+        ) {
+            try {
+                $this->decode($candidate, $codec, ['path' => $path]);
+                return;
+            } catch (SdkError $error) {
+                if ($error->kind !== 'validation') {
+                    throw $error;
+                }
+                $failure ??= $error;
+            }
+        }
+        if ($failure !== null) {
+            throw $failure;
+        }
+        throw new \LogicException('Header validation did not evaluate a value');
+    }
     private static function now(): int
     {
         return (int) floor(hrtime(true) / 1000000);
@@ -358,29 +396,29 @@ class Runtime
             isset($p['pass']) ||
             isset($p['fragment'])
         ) {
-            throw new SdkError(
+            throw SdkError::create(
                 'destination',
                 'Invalid destination: embedded credentials and fragments are not allowed',
             );
         }
         $scheme = strtolower($p['scheme'] ?? '');
         if (!in_array($scheme, ['https', 'http'], true)) {
-            throw new SdkError('destination', 'Unsupported destination protocol; use HTTPS');
+            throw SdkError::create('destination', 'Unsupported destination protocol; use HTTPS');
         }
         if ($scheme === 'http' && !$this->options->allowInsecureHttp) {
-            throw new SdkError(
+            throw SdkError::create(
                 'destination',
                 'HTTP is disabled; set allowInsecureHttp: true for deliberate local testing',
             );
         }
         if (!in_array(self::origin($url), $this->allowed, true)) {
-            throw new SdkError('destination', 'Destination origin is not in allowedOrigins');
+            throw SdkError::create('destination', 'Destination origin is not in allowedOrigins');
         }
     }
     private static function checkCancel(?Cancellation $c, string $outcome = 'unknown'): void
     {
         if ($c?->isCancelled()) {
-            throw new SdkError(
+            throw SdkError::create(
                 'cancelled',
                 'Local waiting cancelled; this does not cancel the remote operation',
                 $outcome,
@@ -482,6 +520,12 @@ class Runtime
         $path = $op['path'];
         $query = [];
         foreach ($op['parameters'] as $p) {
+            if (($p['source'] ?? null) === 'authentication') {
+                if (array_key_exists($p['name'], $input)) {
+                    Codec::fail($p['name'], 'supply this header through authentication options');
+                }
+                continue;
+            }
             $present = array_key_exists($p['name'], $input);
             $value = $present ? $input[$p['name']] : null;
             if (
@@ -616,7 +660,7 @@ class Runtime
                                 ($options instanceof RequestOptions ||
                                     $options->credentials !== []))))
                 ) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'authentication',
                         'Use one authentication shortcut or explicit authMode/credentials, not both',
                     );
@@ -632,7 +676,7 @@ class Runtime
                 $modeName = $permitted[0];
             }
             if ($modeName === null && $op['authenticated']) {
-                throw new SdkError(
+                throw SdkError::create(
                     'authentication',
                     'Select an explicit authentication mode for ' .
                         $op['id'] .
@@ -646,7 +690,7 @@ class Runtime
                 $modeName !== null &&
                 ($selected === null || !in_array($modeName, $permitted, true))
             ) {
-                throw new SdkError(
+                throw SdkError::create(
                     'authentication',
                     'Authentication mode is not permitted for ' .
                         $op['id'] .
@@ -669,7 +713,7 @@ class Runtime
                         $credential === '' ||
                         preg_match('/[\r\n]/', $credential)
                     ) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'authentication',
                             'Missing or invalid credential ' .
                                 $scheme['name'] .
@@ -685,7 +729,7 @@ class Runtime
                 foreach ($mode['schemes'] as $scheme) {
                     $name = strtolower($scheme['header']);
                     if (isset($headers[$name]) && $headers[$name] !== ($expected[$name] ?? null)) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'authentication',
                             'Request headers conflict with the selected authentication mode',
                         );
@@ -701,7 +745,7 @@ class Runtime
         ) {
             $auth = $this->contract['auth'] ?? null;
             if (!$auth || !$this->options->token) {
-                throw new SdkError('authentication', 'Explicit API credentials are required');
+                throw SdkError::create('authentication', 'Explicit API credentials are required');
             }
             $set(
                 $auth['header'],
@@ -712,6 +756,19 @@ class Runtime
         }
         if (isset($this->contract['apiVersion'])) {
             $set($this->contract['apiVersion']['header'], $this->contract['apiVersion']['value']);
+        }
+        foreach ($op['parameters'] as $p) {
+            if (($p['source'] ?? null) !== 'authentication') {
+                continue;
+            }
+            $value = $headers[strtolower($p['name'])] ?? null;
+            if ($value === null) {
+                if ($p['required'] ?? false) {
+                    Codec::fail($p['name'], 'required parameter is missing');
+                }
+            } else {
+                $this->validateHeaderValue($value, $p['codec'], $p['name']);
+            }
         }
         if ($o->ifMatch !== null) {
             if (!isset($op['conditional'])) {
@@ -763,7 +820,7 @@ class Runtime
             self::checkCancel($o->cancellation, $attempt === 1 ? 'not_sent' : 'unknown');
             $remaining = $deadline - self::now();
             if ($remaining <= 0) {
-                throw new SdkError(
+                throw SdkError::create(
                     'deadline',
                     'Overall deadline exceeded',
                     $attempt === 1 ? 'not_sent' : 'unknown',
@@ -841,7 +898,7 @@ class Runtime
                         if ($source instanceof ByteStream) {
                             $source->close();
                         }
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Expected an SSE response stream',
                             'response',
@@ -895,7 +952,7 @@ class Runtime
                     }
                 } catch (\Throwable $cause) {
                     if ($status >= 200 && $status < 300) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Invalid JSON success response',
                             'response',
@@ -907,7 +964,7 @@ class Runtime
                     }
                 }
                 if ($status >= 300 && $status < 400 && $status !== 304 && !$redirect) {
-                    throw new SdkError(
+                    throw SdkError::create(
                         'destination',
                         'Redirects are not followed; explicitly configure an approved endpoint',
                         'response',
@@ -918,7 +975,7 @@ class Runtime
                 if (($status >= 200 && $status < 300) || $status === 304 || $redirect) {
                     $declared = $declaredResponse;
                     if ($declared === null) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Undeclared success status',
                             'response',
@@ -1001,7 +1058,7 @@ class Runtime
                             }
                         }
                     } catch (\Throwable $cause) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'protocol',
                             'Response cannot be represented by the declared schema' .
                                 (($reason = Codec::validationFailureMessage($cause)) !== null
@@ -1018,7 +1075,7 @@ class Runtime
                     // timeouts cannot interrupt them. Include them in the deadline.
                     $meta['durationMs'] = self::now() - $start;
                     if (self::now() >= $deadline) {
-                        throw new SdkError(
+                        throw SdkError::create(
                             'deadline',
                             'Response decoding exceeded the overall deadline',
                             'response',
@@ -1063,7 +1120,7 @@ class Runtime
                     $details = self::field($details, $this->contract['errors']['detailsPath']);
                 }
                 $diagnosticError = $kind;
-                $error = new SdkError(
+                $error = SdkError::create(
                     $kind,
                     // Match JavaScript trim's Unicode whitespace without changing the message.
                     is_string($message) &&
@@ -1104,7 +1161,7 @@ class Runtime
                     : (self::now() >= $deadline
                         ? 'deadline'
                         : 'transport');
-                $error = new SdkError(
+                $error = SdkError::create(
                     $diagnosticError,
                     'Request did not produce a usable response; remote outcome is unknown',
                     'unknown',
@@ -1140,7 +1197,7 @@ class Runtime
                 random_int(0, (int) ($policy['baseDelayMs'] * 2 ** ($attempt - 1))),
             );
             if (self::now() + $wait >= $deadline) {
-                throw new SdkError(
+                throw SdkError::create(
                     'deadline',
                     'Retry wait would exceed the overall deadline',
                     $error->outcome,
@@ -1250,7 +1307,7 @@ class Runtime
         }
         $parts = parse_url($link);
         if ($parts === false) {
-            throw new SdkError('destination', 'Invalid continuation URL');
+            throw SdkError::create('destination', 'Invalid continuation URL');
         }
         $path = str_starts_with($link, '/')
             ? $parts['path'] ?? '/'
@@ -1299,7 +1356,7 @@ class Runtime
                 return;
             }
             if ($p['kind'] === 'link' && !is_string($next)) {
-                throw new SdkError('protocol', 'Expected a pagination URL', 'response');
+                throw SdkError::create('protocol', 'Expected a pagination URL', 'response');
             }
             if ($p['kind'] === 'link') {
                 $next = self::resolveLink($next, $result->meta['url']);
@@ -1311,7 +1368,7 @@ class Runtime
                     (string) $next === (string) $previous) ||
                 ($p['kind'] === 'link' && $next === $result->meta['url'])
             ) {
-                throw new SdkError(
+                throw SdkError::create(
                     'protocol',
                     'Pagination returned a non-advancing continuation',
                     'response',
@@ -1339,7 +1396,7 @@ class Runtime
         foreach ($this->pages($id, $input, $options) as $page) {
             $items = self::field($page->data, $p['items']);
             if (!is_array($items)) {
-                throw new SdkError(
+                throw SdkError::create(
                     'protocol',
                     'Pagination items field is not an array',
                     'response',
@@ -1366,7 +1423,7 @@ class Runtime
         while (true) {
             $remaining = $deadline - self::now();
             if ($remaining <= 0) {
-                throw new SdkError(
+                throw SdkError::create(
                     'deadline',
                     'Polling deadline exceeded; remote operation may still be running',
                     'unknown',
@@ -1378,7 +1435,7 @@ class Runtime
                 return $result;
             }
             if (in_array($state, $p['failure'], true)) {
-                throw new SdkError(
+                throw SdkError::create(
                     'api',
                     'Operation reached a declared failure state',
                     'response',
@@ -1392,7 +1449,7 @@ class Runtime
     }
     private static function webhookError(string $kind, string $code, string $message): never
     {
-        throw new SdkError($kind, $message, errorCode: 'webhook_' . $code);
+        throw SdkError::create($kind, $message, errorCode: 'webhook_' . $code);
     }
     private static function webhookHeaderValues(array $headers, string $name): array
     {
@@ -1455,9 +1512,38 @@ class Runtime
         mixed $secrets,
         mixed $nowSeconds = null,
     ): array {
-        $w = $this->descriptors
-            ? $this->descriptors->webhook()
-            : $this->contract['webhook'] ?? null;
+        return self::verifyWebhookFromPlan(
+            $this->descriptors ?? $this->contract,
+            $rawBody,
+            $headers,
+            $secrets,
+            $nowSeconds,
+            $this->options->redactFields,
+        );
+    }
+    /** Verify compiled webhook descriptors without constructing an HTTP runtime. */
+    public static function verifyWebhookFromPlan(
+        array|Internal\DescriptorSource $source,
+        mixed $rawBody,
+        mixed $headers,
+        mixed $secrets,
+        mixed $nowSeconds = null,
+        array $redactFields = [],
+    ): array {
+        $w =
+            $source instanceof Internal\DescriptorSource
+                ? $source->webhook()
+                : $source['webhook'] ?? null;
+        $decode = static fn(mixed $value, array $codec, array $context): mixed => Codec::execute(
+            $value,
+            $codec,
+            $context + [
+                'definitions' =>
+                    $source instanceof Internal\DescriptorSource
+                        ? $source->definitions()
+                        : $source['definitions'] ?? [],
+            ],
+        );
         if (!$w) {
             Codec::fail('webhook', 'capability is not declared');
         }
@@ -1619,7 +1705,7 @@ class Runtime
         try {
             $event = Codec::parse($rawBody, true);
         } catch (\Throwable $cause) {
-            throw new SdkError(
+            throw SdkError::create(
                 'protocol',
                 'Invalid webhook JSON',
                 'response',
@@ -1632,7 +1718,7 @@ class Runtime
         $known = false;
         if ($schema) {
             try {
-                $decoded = $this->decode($event, $schema, [
+                $decoded = $decode($event, $schema, [
                     'mode' => 'response',
                     'path' => 'event',
                 ]);
@@ -1640,7 +1726,7 @@ class Runtime
                 if ($cause->kind !== 'validation') {
                     throw $cause;
                 }
-                throw new SdkError(
+                throw SdkError::create(
                     'protocol',
                     'Invalid webhook payload' .
                         (($reason = Codec::validationFailureMessage($cause)) !== null
@@ -1651,7 +1737,7 @@ class Runtime
                 );
             }
             try {
-                $this->decode($event, $schema, [
+                $decode($event, $schema, [
                     'mode' => 'match',
                     'direction' => 'response',
                     'path' => 'event',
@@ -1673,11 +1759,12 @@ class Runtime
             is_object($event)
         ) {
             $class = __NAMESPACE__ . '\\' . $w['eventModels'][$eventType];
-            $event = new $class((array) $event, $this->options->redactFields);
+            $event = new $class((array) $event, $redactFields);
         }
         return [
             'event' => $event,
             'known' => $known,
+            ...$known ? [] : ['reason' => $schema ? 'unmatched_envelope' : 'unknown_event'],
         ];
     }
     public function money(string $currency, string $major): array

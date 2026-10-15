@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -26,9 +26,9 @@ export interface ReviewsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.reviews.approve("example", {}, { idempotencyKey: idempotencyKey })
  */
-    approve(review_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
+    approve(review_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    approveWithResponse(review_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReviewsApproveResponse>>;
+    approveWithResponse(review_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReviewsApproveResponse>>;
     /**
  * Decline a payment review for the authenticated merchant environment.
  * POST /v1/reviews/{review_id}/decline
@@ -37,30 +37,30 @@ export interface ReviewsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.reviews.decline("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    decline(review_id: InputValue<string>, params?: (InputValue<{ "add_to_block_list"?: boolean; }> | { "add_to_block_list"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
+    decline(review_id: InputValue<string>, params?: (InputValue<{ "add_to_block_list"?: boolean; }> | { "add_to_block_list"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    declineWithResponse(review_id: InputValue<string>, params?: (InputValue<{ "add_to_block_list"?: boolean; }> | { "add_to_block_list"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReviewsDeclineResponse>>;
+    declineWithResponse(review_id: InputValue<string>, params?: (InputValue<{ "add_to_block_list"?: boolean; }> | { "add_to_block_list"?: never }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReviewsDeclineResponse>>;
     /**
  * Get a payment review for the authenticated merchant environment.
  * GET /v1/reviews/{review_id}
  * @example
  * client.reviews.get("example")
  */
-    get(review_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
+    get(review_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(review_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReviewsGetResponse>>;
+    getWithResponse(review_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReviewsGetResponse>>;
     /**
  * List payment reviews for the authenticated merchant environment.
  * GET /v1/reviews
  * @example
  * client.reviews.list()
  */
-    list(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReviewListResponse>;
+    list(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReviewListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReviewsListResponse>>;
-    listPages(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReviewListResponse>;
-    listPagesWithResponse(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReviewsListResponse>>;
-    listItems(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Review>;
+    listWithResponse(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReviewsListResponse>>;
+    listPages(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReviewListResponse>;
+    listPagesWithResponse(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReviewsListResponse>>;
+    listItems(params?: { "status"?: InputValue<Array<"open" | "resolving" | "closed">>; "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>; "payment_flow"?: InputValue<Array<"checkout" | "payment_link" | "invoice" | "subscription_initial" | "subscription_renewal" | "virtual_terminal" | "api">>; "payment_intent_id"?: InputValue<string>; "order_id"?: InputValue<string>; "customer_id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Review>;
   }
 export declare class Client {
 
@@ -101,6 +101,7 @@ export type { PaymentSourceCardSummary } from '../declarations/PaymentSourceCard
 export type { PublicRiskPaymentSummary } from '../declarations/PublicRiskPaymentSummary.js';
 export type { PublicReviewRisk } from '../declarations/PublicReviewRisk.js';
 export type { DeclineReviewRequestInput } from '../declarations/DeclineReviewRequestInput.js';
+export type { DeclineReviewRequest } from '../declarations/DeclineReviewRequest.js';
 export { makeReviewResponse } from '../declarations/makeReviewResponse.js';
 export { makeReviewListResponse } from '../declarations/makeReviewListResponse.js';
 export { makeReview } from '../declarations/makeReview.js';
@@ -117,3 +118,4 @@ export { makePaymentSourceAchDebitSummary } from '../declarations/makePaymentSou
 export { makePaymentSourceCardSummary } from '../declarations/makePaymentSourceCardSummary.js';
 export { makePublicRiskPaymentSummary } from '../declarations/makePublicRiskPaymentSummary.js';
 export { makePublicReviewRisk } from '../declarations/makePublicReviewRisk.js';
+export { makeDeclineReviewRequest } from '../declarations/makeDeclineReviewRequest.js';

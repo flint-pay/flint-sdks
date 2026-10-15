@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentLinks.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/paymentLinks.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPaymentLink"]:r0,["getPaymentLink"]:r0,["getPaymentLinkPublic"]:r0,["listPaymentLinks"]:r0,["resolvePaymentLink"]:r0,["updatePaymentLink"]:r0});
 export class Client {
@@ -14,37 +14,31 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.paymentLinks = Object.freeze({
       create: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getPublic: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getPublicWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -57,8 +51,7 @@ this.paymentLinks = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -71,8 +64,7 @@ this.paymentLinks = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -85,8 +77,7 @@ this.paymentLinks = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -99,8 +90,7 @@ this.paymentLinks = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -113,36 +103,31 @@ this.paymentLinks = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before",
-  "Flint-Version"
+  "created_before"
 ], false, false, params), options),
       resolve: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       resolveWithResponse: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       update: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -152,7 +137,7 @@ export { makePaymentLinkResponse } from '../models/PaymentLinkResponse.js';
 export { makePublicPaymentLinkResponse } from '../models/PublicPaymentLinkResponse.js';
 export { makePaymentLinkListResponse } from '../models/PaymentLinkListResponse.js';
 export { makePaymentLink } from '../models/PaymentLink.js';
-export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
+export { makeResolvePaymentLinkResponse } from '../models/ResolvePaymentLinkResponse.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
@@ -163,8 +148,10 @@ export { makeThemeConfig } from '../models/ThemeConfig.js';
 export { makeImage } from '../models/Image.js';
 export { makePublicPaymentLink } from '../models/PublicPaymentLink.js';
 export { makePaymentLinkCustomField } from '../models/PaymentLinkCustomField.js';
+export { makeCheckoutCustomTextConfig } from '../models/CheckoutCustomTextConfig.js';
 export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
 export { makePaymentLinkEventConfig } from '../models/PaymentLinkEventConfig.js';
+export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
 export { makeLegalSettings } from '../models/LegalSettings.js';
 export { makePaymentLinkLineItem } from '../models/PaymentLinkLineItem.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
@@ -173,6 +160,7 @@ export { makePublicResolvedLineItemInfo } from '../models/PublicResolvedLineItem
 export { makePublicResolvedModifierGroup } from '../models/PublicResolvedModifierGroup.js';
 export { makePublicResolvedModifierOption } from '../models/PublicResolvedModifierOption.js';
 export { makePublicResolvedTextModifier } from '../models/PublicResolvedTextModifier.js';
+export { makeTextModifierConfigRequest } from '../models/TextModifierConfigRequest.js';
 export { makePublicResolvedBundleComponent } from '../models/PublicResolvedBundleComponent.js';
 export { makePublicResolvedBundleVariantSummary } from '../models/PublicResolvedBundleVariantSummary.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
@@ -191,7 +179,10 @@ export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
 export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
+export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
+export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
+export { makeGetOrCreateReturnResolutionCheckoutSessionResponse } from '../models/GetOrCreateReturnResolutionCheckoutSessionResponse.js';
 export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
 export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
 export { makeCheckoutSession } from '../models/CheckoutSession.js';
@@ -200,6 +191,7 @@ export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGi
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
+export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
 export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
 export { makePaymentClientAction } from '../models/PaymentClientAction.js';
 export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
@@ -208,9 +200,11 @@ export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentCl
 export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
 export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
 export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
 export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
 export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
 export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
+export { makeAddress } from '../models/Address.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
 export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
@@ -221,17 +215,21 @@ export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js'
 export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
 export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
 export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
 export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
 export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
 export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
+export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
 export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
 export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
 export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
 export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
+export { makeLocationAddress } from '../models/LocationAddress.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
+export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
 export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
 export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
 export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
@@ -253,3 +251,11 @@ export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSa
 export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
 export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
 export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
+export { makePaymentLinkCustomTextConfig } from '../models/PaymentLinkCustomTextConfig.js';
+export { makePaymentLinkExpirationConfig } from '../models/PaymentLinkExpirationConfig.js';
+export { makeImageRequest } from '../models/ImageRequest.js';
+export { makePaymentLinkLegalConfig } from '../models/PaymentLinkLegalConfig.js';
+export { makePaymentLinkPaymentConfig } from '../models/PaymentLinkPaymentConfig.js';
+export { makePaymentLinkRedirectsConfig } from '../models/PaymentLinkRedirectsConfig.js';
+export { makePaymentLinkThemeConfig } from '../models/PaymentLinkThemeConfig.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveriesListAttemptsInput extends Model {
-    /** @param array{'webhook_delivery_id': string, 'page_size'?: int, 'page_token'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'webhook_delivery_id': string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesListAttemptsInput')); }
     /** @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
@@ -24,9 +24,4 @@ final class WebhookDeliveriesListAttemptsInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

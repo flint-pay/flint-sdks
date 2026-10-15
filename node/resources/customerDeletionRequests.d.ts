@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -20,12 +20,12 @@ export interface CustomerDeletionRequestsResource {
  * @example
  * client.customerDeletionRequests.list()
  */
-    list(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
+    list(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestsListResponse>>;
-    listPages(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
-    listPagesWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestsListResponse>>;
-    listItems(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequest>;
+    listWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestsListResponse>>;
+    listPages(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
+    listPagesWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestsListResponse>>;
+    listItems(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequest>;
     /**
  * Approves or rejects a pending deletion request. Approval returns processing while account data and buyer credentials are deleted asynchronously. A failed deletion can be approved again but cannot be rejected. Approval is blocked while the customer has non-canceled subscriptions or usable saved payment methods.
  * POST /v1/customer-deletion-requests/{customer_deletion_request_id}/resolve
@@ -34,9 +34,9 @@ export interface CustomerDeletionRequestsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.customerDeletionRequests.resolve("example", {decision: "approve"}, { idempotencyKey: idempotencyKey })
  */
-    resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
+    resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resolveWithResponse(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestsResolveResponse>>;
+    resolveWithResponse(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestsResolveResponse>>;
   }
 export declare class Client {
 
@@ -65,6 +65,7 @@ export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { ResolveCustomerDeletionRequestInput } from '../declarations/ResolveCustomerDeletionRequestInput.js';
+export type { MeGetDeletionRequestResponse } from '../declarations/MeGetDeletionRequestResponse.js';
 export { makeCustomerDeletionRequestListResponse } from '../declarations/makeCustomerDeletionRequestListResponse.js';
 export { makeCustomerDeletionRequest } from '../declarations/makeCustomerDeletionRequest.js';
 export { makeCustomerDeletionRequestResponse } from '../declarations/makeCustomerDeletionRequestResponse.js';

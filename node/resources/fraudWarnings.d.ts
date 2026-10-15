@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -20,21 +20,21 @@ export interface FraudWarningsResource {
  * @example
  * client.fraudWarnings.get("example")
  */
-    get(fraud_warning_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"dispute" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FraudWarningResponse, ["data"]>>;
+    get(fraud_warning_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"dispute" | "payment_intent">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FraudWarningResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(fraud_warning_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"dispute" | "payment_intent">>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FraudWarningsGetResponse>>;
+    getWithResponse(fraud_warning_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"dispute" | "payment_intent">>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FraudWarningsGetResponse>>;
     /**
  * List early fraud warnings for the authenticated merchant environment.
  * GET /v1/fraud-warnings
  * @example
  * client.fraudWarnings.list()
  */
-    list(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FraudWarningListResponse>;
+    list(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FraudWarningListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FraudWarningsListResponse>>;
-    listPages(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FraudWarningListResponse>;
-    listPagesWithResponse(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FraudWarningsListResponse>>;
-    listItems(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FraudWarning>;
+    listWithResponse(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FraudWarningsListResponse>>;
+    listPages(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FraudWarningListResponse>;
+    listPagesWithResponse(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FraudWarningsListResponse>>;
+    listItems(params?: { "actionable"?: InputValue<boolean>; "payment_intent_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FraudWarning>;
   }
 export declare class Client {
 

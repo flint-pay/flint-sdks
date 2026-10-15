@@ -1,9 +1,9 @@
-import { d1565 as c0, d893 as c1, d901 as c2, d490 as c3, d892 as c4, d895 as c5, d900 as c6, d1549 as c7, d1548 as c8, d1541 as c9, d1540 as c10, d1543 as c11, d1542 as c12, d1545 as c13, d1544 as c14, d1547 as c15, d1546 as c16, d1561 as c17, d1563 as c18, d1564 as c19, d1562 as c20 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1565 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d1567 as c0, d898 as c1, d323 as c2, d903 as c3, d500 as c4, d897 as c5, d902 as c6, d1551 as c7, d1550 as c8, d1543 as c9, d1542 as c10, d1545 as c11, d1544 as c12, d1547 as c13, d1546 as c14, d1549 as c15, d1548 as c16, d1563 as c17, d1565 as c18, d1566 as c19, d1564 as c20 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1567 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1565;
+const read = d1567;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhookf93bed5b28a1Payload"]:c0(),["MerchantWebhookEnvelope"]:c1(),["PartnerWebhookEnvelope"]:c2(),["SharedCodec170"]:c3(),["SharedCodec246"]:c4(),["SharedCodec249"]:c5(),["SharedCodec251"]:c6(),["SharedCodec390"]:c7(),["SharedCodec391"]:c8(),["SharedCodec392"]:c9(),["SharedCodec393"]:c10(),["SharedCodec394"]:c11(),["SharedCodec395"]:c12(),["SharedCodec396"]:c13(),["SharedCodec397"]:c14(),["SharedCodec398"]:c15(),["SharedCodec399"]:c16(),["SharedCodec401"]:c17(),["SharedCodec402"]:c18(),["Webhook_order_paid_installed_merchants"]:c19(),["Webhook_order_paid_merchant"]:c20()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhookf93bed5b28a1Payload"]:c0(),["MerchantWebhookEnvelope"]:c1(),["MoneyValue"]:c2(),["PartnerWebhookEnvelope"]:c3(),["SharedCodec176"]:c4(),["SharedCodec250"]:c5(),["SharedCodec252"]:c6(),["SharedCodec391"]:c7(),["SharedCodec392"]:c8(),["SharedCodec393"]:c9(),["SharedCodec394"]:c10(),["SharedCodec395"]:c11(),["SharedCodec396"]:c12(),["SharedCodec397"]:c13(),["SharedCodec398"]:c14(),["SharedCodec399"]:c15(),["SharedCodec400"]:c16(),["SharedCodec402"]:c17(),["SharedCodec403"]:c18(),["Webhook_order_paid_installed_merchants"]:c19(),["Webhook_order_paid_merchant"]:c20()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeIncomingWebhookf93bed5b28a1Payload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

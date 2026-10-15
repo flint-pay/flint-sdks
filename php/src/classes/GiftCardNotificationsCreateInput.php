@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read array{'gift_card_id': string, 'recipient': mixed, 'resend_of_notification_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardNotificationsCreateInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'gift_card_id': string, 'recipient': mixed, 'resend_of_notification_id'?: string}|object}|object $values */
+    /** @param array{'X-Request-Id'?: string, 'Idempotency-Key'?: string, 'body': array{'gift_card_id': string, 'recipient': mixed, 'resend_of_notification_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationsCreateInput')); }
     /** @return string
      * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
@@ -17,11 +17,6 @@ final class GiftCardNotificationsCreateInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'gift_card_id': string, 'recipient': mixed, 'resend_of_notification_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

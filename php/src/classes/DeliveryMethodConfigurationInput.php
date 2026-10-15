@@ -7,7 +7,6 @@ namespace Flint;
  * @property-read DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass $eligibility
  * @property-read DeliveryEstimateRuleInput|array<array-key, mixed>|\stdClass $estimate
  * @property-read string $minimum_option_lifetime_seconds
- * @property-read bool $offer_windows
  * @property-read DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass $origin
  * @property-read DeliveryPricingStrategyInput|array<array-key, mixed>|\stdClass $pricing
  * @property-read array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object $public_details
@@ -17,7 +16,7 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationInput extends Model {
-    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass, 'charge_tax_category': string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate': DeliveryEstimateRuleInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds': string, 'offer_windows': bool, 'origin': DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass, 'charge_tax_category': string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate': DeliveryEstimateRuleInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds': string, 'origin': DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': string, 'taxable': bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationInput')); }
     /** @return BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
@@ -44,11 +43,6 @@ final class DeliveryMethodConfigurationInput extends Model {
      */
     public function getMinimumOptionLifetimeSeconds(): string { return $this->get('minimum_option_lifetime_seconds'); }
     public function hasMinimumOptionLifetimeSeconds(): bool { return $this->has('minimum_option_lifetime_seconds'); }
-    /** @return bool
-     * @throws SdkError When offer_windows is omitted; use hasOfferWindows() or valueOrDefault().
-     */
-    public function getOfferWindows(): bool { return $this->get('offer_windows'); }
-    public function hasOfferWindows(): bool { return $this->has('offer_windows'); }
     /** @return DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */

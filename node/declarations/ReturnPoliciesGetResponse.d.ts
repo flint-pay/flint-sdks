@@ -1,4 +1,4 @@
 
-import type { CreateReturnPolicyResponse } from './CreateReturnPolicyResponse.js';
+import type { GetReturnPolicyResponse } from './GetReturnPolicyResponse.js';
 
-export type ReturnPoliciesGetResponse = CreateReturnPolicyResponse;
+export type ReturnPoliciesGetResponse = GetReturnPolicyResponse;

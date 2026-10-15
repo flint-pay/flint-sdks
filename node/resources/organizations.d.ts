@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -41,9 +41,9 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
+    create(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsCreateResponse>>;
     /**
  * Soft-deletes an organization when it has no active descendants or merchant links.
  * DELETE /v1/organizations/{organization_id}
@@ -52,18 +52,18 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
+    remove(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRemoveResponse>>;
+    removeWithResponse(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRemoveResponse>>;
     /**
  * Returns an accessible organization by ID.
  * GET /v1/organizations/{organization_id}
  * @example
  * client.organizations.get("example")
  */
-    get(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
+    get(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsGetResponse>>;
+    getWithResponse(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsGetResponse>>;
     /**
  * Adds or updates a direct organization membership for a user.
  * POST /v1/organizations/{organization_id}/memberships
@@ -72,33 +72,33 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.grantMembership("example", {role: "owner", user_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    grantMembership(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationMembershipResponse, ["data"]>>;
+    grantMembership(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationMembershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    grantMembershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsGrantMembershipResponse>>;
+    grantMembershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsGrantMembershipResponse>>;
     /**
  * Returns the direct memberships for an organization.
  * GET /v1/organizations/{organization_id}/memberships
  * @example
  * client.organizations.listMemberships("example")
  */
-    listMemberships(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationMembershipListResponse>;
+    listMemberships(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationMembershipListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listMembershipsWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListMembershipsResponse>>;
-    listMembershipsPages(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembershipListResponse>;
-    listMembershipsPagesWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListMembershipsResponse>>;
-    listMembershipsItems(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembership>;
+    listMembershipsWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListMembershipsResponse>>;
+    listMembershipsPages(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembershipListResponse>;
+    listMembershipsPagesWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListMembershipsResponse>>;
+    listMembershipsItems(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembership>;
     /**
  * Returns the organizations accessible to the caller, filtered to the authenticated merchant's organization subtree for external API keys.
  * GET /v1/organizations
  * @example
  * client.organizations.list()
  */
-    list(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationListResponse>;
+    list(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListResponse>>;
-    listPages(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationListResponse>;
-    listPagesWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListResponse>>;
-    listItems(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Organization>;
+    listWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListResponse>>;
+    listPages(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationListResponse>;
+    listPagesWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListResponse>>;
+    listItems(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Organization>;
     /**
  * Revokes a direct organization membership for a user.
  * DELETE /v1/organizations/{organization_id}/memberships/{user_id}
@@ -107,9 +107,9 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.revokeMembership("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    revokeMembership(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RevokeOrganizationMembershipResponse, ["data"]>>;
+    revokeMembership(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RevokeOrganizationMembershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokeMembershipWithResponse(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRevokeMembershipResponse>>;
+    revokeMembershipWithResponse(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRevokeMembershipResponse>>;
     /**
  * Transfers the organization owner role to another user.
  * POST /v1/organizations/{organization_id}/transfer-ownership
@@ -118,9 +118,9 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.transferOwnership("example", {new_owner_user_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    transferOwnership(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<TransferOrganizationOwnershipResponse, ["data"]>>;
+    transferOwnership(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<TransferOrganizationOwnershipResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    transferOwnershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsTransferOwnershipResponse>>;
+    transferOwnershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsTransferOwnershipResponse>>;
     /**
  * Applies a sparse update to an accessible organization.
  * PATCH /v1/organizations/{organization_id}
@@ -129,9 +129,9 @@ export interface OrganizationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
+    update(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsUpdateResponse>>;
+    updateWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -184,6 +184,8 @@ export type { CreateOrganizationRequestInput } from '../declarations/CreateOrgan
 export type { GrantOrganizationMembershipRequestInput } from '../declarations/GrantOrganizationMembershipRequestInput.js';
 export type { TransferOrganizationOwnershipRequestInput } from '../declarations/TransferOrganizationOwnershipRequestInput.js';
 export type { UpdateOrganizationRequestInput } from '../declarations/UpdateOrganizationRequestInput.js';
+export type { CreateOrganizationRequest } from '../declarations/CreateOrganizationRequest.js';
+export type { UpdateOrganizationRequest } from '../declarations/UpdateOrganizationRequest.js';
 export { makeOrganizationResponse } from '../declarations/makeOrganizationResponse.js';
 export { makeOrganizationMembershipResponse } from '../declarations/makeOrganizationMembershipResponse.js';
 export { makeOrganizationMembershipListResponse } from '../declarations/makeOrganizationMembershipListResponse.js';
@@ -199,3 +201,5 @@ export { makeNextActionMerchantAccountSession } from '../declarations/makeNextAc
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeRevokeOrganizationMembershipResult } from '../declarations/makeRevokeOrganizationMembershipResult.js';
 export { makeTransferOrganizationOwnershipResult } from '../declarations/makeTransferOrganizationOwnershipResult.js';
+export { makeCreateOrganizationRequest } from '../declarations/makeCreateOrganizationRequest.js';
+export { makeUpdateOrganizationRequest } from '../declarations/makeUpdateOrganizationRequest.js';

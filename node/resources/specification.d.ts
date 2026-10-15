@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -13,7 +13,7 @@ export interface SpecificationResource {
  * @example
  * client.specification.get()
  */
-    get(params?: { "version"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<Result<SpecificationGetResponse>>;
+    get(params?: { "version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<Result<SpecificationGetResponse>>;
   }
 export declare class Client {
 
@@ -29,3 +29,5 @@ export type { SpecificationGetInput } from '../declarations/SpecificationGetInpu
 export type { ClientOptions } from '../declarations/ClientOptions.js';
 export type { AuthMode } from '../declarations/AuthMode.js';
 export type { Credentials } from '../declarations/Credentials.js';
+export type { CancelPayoutRequest } from '../declarations/CancelPayoutRequest.js';
+export { makeCancelPayoutRequest } from '../declarations/makeCancelPayoutRequest.js';

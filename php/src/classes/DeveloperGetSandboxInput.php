@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $sandbox_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetSandboxInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'sandbox_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeveloperGetSandboxInput')); }
     /** @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
@@ -22,9 +22,4 @@ final class DeveloperGetSandboxInput extends Model {
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

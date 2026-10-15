@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntents"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -16,71 +16,57 @@ this.paymentIntents = Object.freeze({
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("cancelPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       capture: async (payment_intent_id, params, options) => this.#runtime.request("capturePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       captureWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("capturePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       confirm: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
-  "Flint-Buyer-Device",
-  "Flint-Version"
+  "Flint-Buyer-Device"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       confirmWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("confirmPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
   "X-Request-Id",
-  "Flint-Buyer-Device",
-  "Flint-Version"
+  "Flint-Buyer-Device"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentIntent", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_intent_id, params, options) => this.#runtime.request("getPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("getPaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
-  "expand",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -106,8 +92,7 @@ this.paymentIntents = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -133,8 +118,7 @@ this.paymentIntents = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -160,8 +144,7 @@ this.paymentIntents = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -187,8 +170,7 @@ this.paymentIntents = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentIntents", _sdkRequestInput([], [], [
   "page_size",
@@ -214,29 +196,26 @@ this.paymentIntents = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       update: async (payment_intent_id, params, options) => this.#runtime.request("updatePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("updatePaymentIntent", _sdkRequestInput([
   "payment_intent_id"
 ], [payment_intent_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
 close() { return this.#runtime.close(); }
 }
 export { makePaymentIntentResponse } from '../models/PaymentIntentResponse.js';
-export { makeCreateOrderPaymentIntentResponse } from '../models/CreateOrderPaymentIntentResponse.js';
+export { makeCreatePaymentIntentResponse } from '../models/CreatePaymentIntentResponse.js';
 export { makeGetPaymentIntentResponse } from '../models/GetPaymentIntentResponse.js';
 export { makePaymentIntentListResponse } from '../models/PaymentIntentListResponse.js';
 export { makePaymentIntent } from '../models/PaymentIntent.js';
@@ -245,13 +224,6 @@ export { makeResponseWarning } from '../models/ResponseWarning.js';
 export { makeNextAction } from '../models/NextAction.js';
 export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeCreatePaymentIntentResult } from '../models/CreatePaymentIntentResult.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeGetPaymentIntentResult } from '../models/GetPaymentIntentResult.js';
 export { makePaymentAddOnFee } from '../models/PaymentAddOnFee.js';
 export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
 export { makePaymentClientAction } from '../models/PaymentClientAction.js';
@@ -261,10 +233,18 @@ export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentCl
 export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
 export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
 export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
 export { makePaymentFulfillmentHold } from '../models/PaymentFulfillmentHold.js';
+export { makeErrorRemediation } from '../models/ErrorRemediation.js';
 export { makePricingAmounts } from '../models/PricingAmounts.js';
 export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
 export { makeSignedMoney } from '../models/SignedMoney.js';
 export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
 export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
 export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
+export { makePaymentCollection } from '../models/PaymentCollection.js';
+export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
+export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
+export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
+export { makePaymentIntentResult } from '../models/PaymentIntentResult.js';
+export { makeConfirmPaymentIntentRequest } from '../models/ConfirmPaymentIntentRequest.js';

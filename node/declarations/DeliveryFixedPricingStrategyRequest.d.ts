@@ -1,4 +1,4 @@
 
 import type { DeliveryFixedPricingStrategy } from './DeliveryFixedPricingStrategy.js';
 
-export type DeliveryFixedPricingStrategyRequest = DeliveryFixedPricingStrategy;
+export interface DeliveryFixedPricingStrategyRequest extends DeliveryFixedPricingStrategy {}

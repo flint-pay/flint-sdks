@@ -321,5 +321,8 @@
         "scheme": "BearerAuth"
       }
     }
+  },
+  "documentation": {
+    "authShortcut": "apiKey"
   }
 }

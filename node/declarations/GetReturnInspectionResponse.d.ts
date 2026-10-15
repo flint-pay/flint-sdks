@@ -1,4 +1,4 @@
 
 import type { CreateReturnInspectionResponse } from './CreateReturnInspectionResponse.js';
 
-export type GetReturnInspectionResponse = CreateReturnInspectionResponse;
+export interface GetReturnInspectionResponse extends CreateReturnInspectionResponse {}

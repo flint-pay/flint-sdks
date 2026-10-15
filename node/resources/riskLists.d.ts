@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -40,9 +40,9 @@ export interface RiskListsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.addItems("example", {values: ["sdk-example"]}, { idempotencyKey: idempotencyKey })
  */
-    addItems(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResultsResponse, ["data"]>>;
+    addItems(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResultsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    addItemsWithResponse(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsAddItemsResponse>>;
+    addItemsWithResponse(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsAddItemsResponse>>;
     /**
  * Create a risk list for the authenticated merchant environment.
  * POST /v1/risk-lists
@@ -51,9 +51,9 @@ export interface RiskListsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
+    create(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsCreateResponse>>;
     /**
  * Retire a risk list for the authenticated merchant environment.
  * DELETE /v1/risk-lists/{risk_list_id}
@@ -62,9 +62,9 @@ export interface RiskListsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
+    remove(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsRemoveResponse>>;
+    removeWithResponse(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsRemoveResponse>>;
     /**
  * Delete a risk list item for the authenticated merchant environment.
  * DELETE /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
@@ -73,51 +73,51 @@ export interface RiskListsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
+    deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsDeleteItemResponse>>;
+    deleteItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsDeleteItemResponse>>;
     /**
  * Get a risk list for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}
  * @example
  * client.riskLists.get("example")
  */
-    get(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
+    get(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetResponse>>;
+    getWithResponse(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetResponse>>;
     /**
  * Get a risk list item for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
  * @example
  * client.riskLists.getItem("example", "example")
  */
-    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
+    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetItemResponse>>;
+    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetItemResponse>>;
     /**
  * List risk list items for the authenticated merchant environment.
  * GET /v1/risk-lists/{risk_list_id}/items
  * @example
  * client.riskLists.listRiskListItems("example")
  */
-    listRiskListItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
+    listRiskListItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listRiskListItemsWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListRiskListItemsResponse>>;
-    listRiskListItemsPages(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItemListResponse>;
-    listRiskListItemsPagesWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListRiskListItemsResponse>>;
-    listRiskListItemsItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItem>;
+    listRiskListItemsWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListRiskListItemsResponse>>;
+    listRiskListItemsPages(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItemListResponse>;
+    listRiskListItemsPagesWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListRiskListItemsResponse>>;
+    listRiskListItemsItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItem>;
     /**
  * List risk lists for the authenticated merchant environment.
  * GET /v1/risk-lists
  * @example
  * client.riskLists.list()
  */
-    list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
+    list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListResponse>>;
-    listPages(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListListResponse>;
-    listPagesWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListResponse>>;
-    listItems(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskList>;
+    listWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListResponse>>;
+    listPages(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListListResponse>;
+    listPagesWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListResponse>>;
+    listItems(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskList>;
     /**
  * Update a risk list for the authenticated merchant environment.
  * PATCH /v1/risk-lists/{risk_list_id}
@@ -126,9 +126,9 @@ export interface RiskListsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
+    update(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsUpdateResponse>>;
+    updateWithResponse(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsUpdateResponse>>;
   }
 export declare class Client {
 

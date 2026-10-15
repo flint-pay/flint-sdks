@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/payouts.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/payouts.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPayout"]:r0,["createPayout"]:r0,["getPayout"]:r0,["listPayoutEntries"]:r0,["listPayouts"]:r0});
 export class Client {
@@ -16,79 +16,68 @@ this.payouts = Object.freeze({
   "payout_id"
 ], [payout_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       cancelWithResponse: async (payout_id, params, options) => this.#runtime.request("cancelPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createPayout", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createPayout", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payout_id, params, options) => this.#runtime.request("getPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (payout_id, params, options) => this.#runtime.request("getPayout", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listEntries: async (payout_id, params, options) => this.#runtime.request("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listEntriesWithResponse: async (payout_id, params, options) => this.#runtime.request("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listEntriesPages: (payout_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listEntriesPagesWithResponse: (payout_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listEntriesItems: (payout_id, params, options) => this.#runtime.items("listPayoutEntries", _sdkRequestInput([
   "payout_id"
 ], [payout_id], [
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -104,8 +93,7 @@ this.payouts = Object.freeze({
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -121,8 +109,7 @@ this.payouts = Object.freeze({
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -138,8 +125,7 @@ this.payouts = Object.freeze({
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -155,8 +141,7 @@ this.payouts = Object.freeze({
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPayouts", _sdkRequestInput([], [], [
   "currency",
@@ -172,8 +157,7 @@ this.payouts = Object.freeze({
   "arrival_before",
   "page_size",
   "page_token",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
     });
 }
@@ -193,3 +177,4 @@ export { makeSignedMoney } from '../models/SignedMoney.js';
 export { makeMoneyMovementListMeta } from '../models/MoneyMovementListMeta.js';
 export { makeMoneyMovementHistoryMeta } from '../models/MoneyMovementHistoryMeta.js';
 export { makePayoutTraceID } from '../models/PayoutTraceID.js';
+export { makeCancelPayoutRequest } from '../models/CancelPayoutRequest.js';

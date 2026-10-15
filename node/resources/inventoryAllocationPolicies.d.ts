@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -29,9 +29,9 @@ export interface InventoryAllocationPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryAllocationPolicies.create({configuration: {location_groups: [{group_priority: 1, location_id: "example"}], maximum_locations_per_assignment: 1, splitting_behavior: "single_location"}, name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
+    create(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "configuration": InventoryAllocationPolicyConfigurationInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesCreateResponse>>;
     /**
  * Retire an allocation policy. The policy is archived: it stays readable by ID and appears in lists only when you filter by status archived.
  * DELETE /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
@@ -40,30 +40,30 @@ export interface InventoryAllocationPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryAllocationPolicies.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
+    remove(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesRemoveResponse>>;
+    removeWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesRemoveResponse>>;
     /**
  * Retrieve an allocation policy by ID, including archived policies.
  * GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
  * @example
  * client.inventoryAllocationPolicies.get("example")
  */
-    get(inventory_allocation_policy_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
+    get(inventory_allocation_policy_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAllocationPoliciesGetResponse>>;
+    getWithResponse(inventory_allocation_policy_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAllocationPoliciesGetResponse>>;
     /**
  * List allocation policies. Archived policies are excluded unless you filter by status archived.
  * GET /v1/inventory-allocation-policies
  * @example
  * client.inventoryAllocationPolicies.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAllocationPolicyListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAllocationPolicyListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAllocationPoliciesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAllocationPolicyListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryAllocationPoliciesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAllocationPolicy>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAllocationPoliciesListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAllocationPolicyListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryAllocationPoliciesListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAllocationPolicy>;
     /**
  * Update policy fields, availability, or atomically replace its routing configuration. Send expected_version to reject concurrent changes.
  * PATCH /v1/inventory-allocation-policies/{inventory_allocation_policy_id}
@@ -72,9 +72,9 @@ export interface InventoryAllocationPoliciesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.inventoryAllocationPolicies.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(inventory_allocation_policy_id: InputValue<string>, params: (InputValue<({ "configuration"?: InventoryAllocationPolicyConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
+    update(inventory_allocation_policy_id: InputValue<string>, params: (InputValue<({ "configuration"?: InventoryAllocationPolicyConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryAllocationPolicyResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(inventory_allocation_policy_id: InputValue<string>, params: (InputValue<({ "configuration"?: InventoryAllocationPolicyConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesUpdateResponse>>;
+    updateWithResponse(inventory_allocation_policy_id: InputValue<string>, params: (InputValue<({ "configuration"?: InventoryAllocationPolicyConfigurationInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryAllocationPoliciesUpdateResponse>>;
   }
 export declare class Client {
 

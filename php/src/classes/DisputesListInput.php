@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class DisputesListInput extends Model {
-    /** @param array{'payment_intent_id'?: string, 'order_id'?: string, 'customer_id'?: string, 'status'?: string, 'reason'?: string, 'case_type'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'evidence_due_after'?: string|\DateTimeInterface, 'evidence_due_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'payment_intent_id'?: string, 'order_id'?: string, 'customer_id'?: string, 'status'?: string, 'reason'?: string, 'case_type'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'evidence_due_after'?: string|\DateTimeInterface, 'evidence_due_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputesListInput')); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
@@ -83,9 +83,4 @@ final class DisputesListInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

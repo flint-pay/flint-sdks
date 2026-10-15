@@ -1,12 +1,16 @@
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const checkoutSessionIDHeader = process.env.API_CHECKOUT_CHECKOUTSESSIONIDHEADER;
+if (!checkoutSessionIDHeader) throw new Error("Set API_CHECKOUT_CHECKOUTSESSIONIDHEADER: this call requires a credential");
+const checkoutSessionSecretHeader = process.env.API_CHECKOUT_CHECKOUTSESSIONSECRETHEADER;
+if (!checkoutSessionSecretHeader) throw new Error("Set API_CHECKOUT_CHECKOUTSESSIONSECRETHEADER: this call requires a credential");
 const client = new Client({
-  baseUrl: clientBaseUrl,
+  baseUrl,
   authMode: "checkout",
   credentials: {
     ["checkout"]: {
-      ["CheckoutSessionIDHeader"]: process.env.API_CHECKOUT_CHECKOUTSESSIONIDHEADER ?? '',
-      ["CheckoutSessionSecretHeader"]: process.env.API_CHECKOUT_CHECKOUTSESSIONSECRETHEADER ?? '',
+      ["CheckoutSessionIDHeader"]: checkoutSessionIDHeader,
+      ["CheckoutSessionSecretHeader"]: checkoutSessionSecretHeader,
     },
   },
 });
@@ -18,8 +22,6 @@ const result = await client.checkoutSessions.confirmCustomerVerification(
   "cscv_example",
   {
     code: "123456",
-    "X-Checkout-Session-ID": "cs_example",
-    "X-Checkout-Session-Secret": "checkout_secret_example",
   },
   { idempotencyKey: idempotencyKey },
 );

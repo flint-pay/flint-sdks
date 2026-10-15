@@ -1,4 +1,4 @@
 
-import type { CheckoutSessionLaunchResponse } from './CheckoutSessionLaunchResponse.js';
+import type { ResolvePaymentLinkResponse } from './ResolvePaymentLinkResponse.js';
 
-export type PaymentLinksResolveResponse = CheckoutSessionLaunchResponse;
+export type PaymentLinksResolveResponse = ResolvePaymentLinkResponse;

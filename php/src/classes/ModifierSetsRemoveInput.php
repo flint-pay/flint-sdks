@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsRemoveInput extends Model {
-    /** @param array{'modifier_set_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'modifier_set_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetsRemoveInput')); }
     /** @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
@@ -28,9 +28,4 @@ final class ModifierSetsRemoveInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

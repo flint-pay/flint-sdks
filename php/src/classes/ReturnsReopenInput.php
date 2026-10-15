@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'expected_version'?: string, 'reason': string, 'reason_message'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsReopenInput extends Model {
-    /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string, 'reason': string, 'reason_message'?: string}|object}|object $values */
+    /** @param array{'return_id': string, 'Idempotency-Key'?: string, 'body': array{'expected_version'?: string, 'reason': string, 'reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsReopenInput')); }
     /** @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
@@ -18,11 +18,6 @@ final class ReturnsReopenInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'expected_version'?: string, 'reason': string, 'reason_message'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

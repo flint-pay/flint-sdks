@@ -1,9 +1,9 @@
-import { d323 as c0, d2234 as c1, d2237 as c2, d2272 as c3, d2274 as c4, d2276 as c5, d2188 as c6, d2187 as c7, d2228 as c8, d2227 as c9, d2233 as c10, d2231 as c11, d2230 as c12, d2229 as c13, d2232 as c14, d2235 as c15, d2236 as c16 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2234 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d323 as c0, d2250 as c1, d2253 as c2, d2288 as c3, d2290 as c4, d2292 as c5, d2204 as c6, d2203 as c7, d2244 as c8, d2243 as c9, d2249 as c10, d2247 as c11, d2246 as c12, d2245 as c13, d2248 as c14, d2251 as c15, d2252 as c16 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2250 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2234;
+const read = d2250;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicyRevisionRequest"]:c1(),["ReturnPolicyScope"]:c2(),["ReturnRestockingFeePolicy"]:c3(),["ReturnShippingPolicy"]:c4(),["ReturnWindow"]:c5(),["SharedCodec528"]:c6(),["SharedCodec529"]:c7(),["SharedCodec555"]:c8(),["SharedCodec556"]:c9(),["SharedCodec557"]:c10(),["SharedCodec558"]:c11(),["SharedCodec559"]:c12(),["SharedCodec560"]:c13(),["SharedCodec561"]:c14(),["SharedCodec562"]:c15(),["SharedCodec563"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicyRevisionRequest"]:c1(),["ReturnPolicyScope"]:c2(),["ReturnRestockingFeePolicy"]:c3(),["ReturnShippingPolicy"]:c4(),["ReturnWindow"]:c5(),["SharedCodec533"]:c6(),["SharedCodec534"]:c7(),["SharedCodec560"]:c8(),["SharedCodec561"]:c9(),["SharedCodec562"]:c10(),["SharedCodec563"]:c11(),["SharedCodec564"]:c12(),["SharedCodec565"]:c13(),["SharedCodec566"]:c14(),["SharedCodec567"]:c15(),["SharedCodec568"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnPolicyRevisionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

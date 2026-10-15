@@ -15,4 +15,5 @@ $result = $client->onboarding->startFlow([
   'first_name' => 'example',
   'last_name' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

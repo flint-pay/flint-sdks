@@ -1,4 +1,4 @@
 
 import type { CancelReturnResolutionResponse } from './CancelReturnResolutionResponse.js';
 
-export type CreateReturnResolutionResponse = CancelReturnResolutionResponse;
+export interface CreateReturnResolutionResponse extends CancelReturnResolutionResponse {}

@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -55,9 +55,9 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.create({invoice_id: "example", reason: "returned_goods"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "external_reference_id"?: string; "invoice_id": string; "memo"?: string; "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
+    create(params: (InputValue<{ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "external_reference_id"?: string; "invoice_id": string; "memo"?: string; "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "external_reference_id"?: string; "invoice_id": string; "memo"?: string; "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "external_reference_id"?: string; "invoice_id": string; "memo"?: string; "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateResponse>>;
     /**
  * Applies credit from an issued credit note to its invoice, reducing outstanding_money. The amount cannot exceed the credit note's unallocated_money or the invoice's outstanding balance. Closing the balance with credit sets the invoice to credited. Returns the allocation, the credit note, and the recomputed invoice together. An Idempotency-Key is required and becomes the allocation's identity.
  * POST /v1/credit-notes/{credit_note_id}/allocations
@@ -66,9 +66,9 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.createAllocation("example", {amount_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
  */
-    createAllocation(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteAllocationResultResponse, ["data"]>>;
+    createAllocation(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteAllocationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createAllocationWithResponse(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateAllocationResponse>>;
+    createAllocationWithResponse(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateAllocationResponse>>;
     /**
  * Creates a refund against an issued credit note on a paid invoice. Omit amount_money to refund all available credit. Refunds use the source invoice's original payments and do not reopen its balance. Idempotency-Key is required and retained for the lifetime of the refund command, scoped to merchant, environment, credit note, and key. Reusing it with another request conflicts. Recover a lost response by listing this note's refunds with idempotency_key. A failed remainder can be requested with a new key after its outcome is definitive.
  * POST /v1/credit-notes/{credit_note_id}/refunds
@@ -77,34 +77,34 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.createRefund("example", {reason: "duplicate"}, { idempotencyKey: idempotencyKey })
  */
-    createRefund(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; "expected_version"?: string; "reason": "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RefundResponse, ["data"]>>;
+    createRefund(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; "expected_version"?: string; "reason": "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RefundResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createRefundWithResponse(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; "expected_version"?: string; "reason": "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateRefundResponse>>;
+    createRefundWithResponse(credit_note_id: InputValue<string>, params: (InputValue<{ "amount_money"?: MoneyValueInput; "expected_version"?: string; "reason": "duplicate" | "fraudulent" | "requested_by_customer" | "defective_product" | "wrong_item_shipped" | "never_received" | "not_as_described" | "arrived_too_late" | "customer_changed_mind" | "better_price_found" | "accidental_order" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesCreateRefundResponse>>;
     /**
  * Returns one credit note with its lines, total, and the credit still available to allocate.
  * GET /v1/credit-notes/{credit_note_id}
  * @example
  * client.creditNotes.get("example")
  */
-    get(credit_note_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
+    get(credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(credit_note_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesGetResponse>>;
+    getWithResponse(credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesGetResponse>>;
     /**
  * Returns one allocation. A non-null reversed_at means the credit was returned to the credit note and the invoice balance reopened.
  * GET /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}
  * @example
  * client.creditNotes.getAllocation("example", "example")
  */
-    getAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreditNoteAllocationResponse, ["data"]>>;
+    getAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CreditNoteAllocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesGetAllocationResponse>>;
+    getAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesGetAllocationResponse>>;
     /**
  * Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
  * GET /v1/credit-notes/{credit_note_id}/pdf
  * @example
  * client.creditNotes.getPDF("example")
  */
-    getPDF(credit_note_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<CreditNotesGetPDFResponse>>;
+    getPDF(credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<CreditNotesGetPDFResponse>>;
     /**
  * Issues a draft credit note and freezes its PDF. Optionally provide refund to initiate a linked refund on a paid invoice. With refund, Idempotency-Key is required and retained for the lifetime of the refund command, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original result. Use the credit note refunds list filtered by idempotency_key after a lost response. A pending refund is accepted, not completed. Without refund, issuance does not move money.
  * POST /v1/credit-notes/{credit_note_id}/issue
@@ -113,45 +113,45 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.issue("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    issue(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; "refund"?: CreditNoteRefundRequestInput; }> | { "expected_version"?: never; "refund"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<IssueCreditNoteResponse, ["data"]>>;
+    issue(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; "refund"?: CreditNoteRefundRequestInput; }> | { "expected_version"?: never; "refund"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<IssueCreditNoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    issueWithResponse(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; "refund"?: CreditNoteRefundRequestInput; }> | { "expected_version"?: never; "refund"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesIssueResponse>>;
+    issueWithResponse(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; "refund"?: CreditNoteRefundRequestInput; }> | { "expected_version"?: never; "refund"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesIssueResponse>>;
     /**
  * Returns every allocation made from a credit note, including reversed ones. Filter by idempotency_key to find the allocation a given request produced.
  * GET /v1/credit-notes/{credit_note_id}/allocations
  * @example
  * client.creditNotes.listAllocations("example")
  */
-    listAllocations(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteAllocationListResponse>;
+    listAllocations(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteAllocationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listAllocationsWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListAllocationsResponse>>;
-    listAllocationsPages(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocationListResponse>;
-    listAllocationsPagesWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListAllocationsResponse>>;
-    listAllocationsItems(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocation>;
+    listAllocationsWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListAllocationsResponse>>;
+    listAllocationsPages(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocationListResponse>;
+    listAllocationsPagesWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListAllocationsResponse>>;
+    listAllocationsItems(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocation>;
     /**
  * Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to recover a refund after a lost response.
  * GET /v1/credit-notes/{credit_note_id}/refunds
  * @example
  * client.creditNotes.listRefunds("example")
  */
-    listRefunds(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteRefundListResponse>;
+    listRefunds(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteRefundListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listRefundsWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListRefundsResponse>>;
-    listRefundsPages(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteRefundListResponse>;
-    listRefundsPagesWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListRefundsResponse>>;
-    listRefundsItems(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Refund>;
+    listRefundsWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListRefundsResponse>>;
+    listRefundsPages(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteRefundListResponse>;
+    listRefundsPagesWithResponse(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListRefundsResponse>>;
+    listRefundsItems(credit_note_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Refund>;
     /**
  * Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
  * GET /v1/credit-notes
  * @example
  * client.creditNotes.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void">; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNote>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNotesListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNotesListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "invoice_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<"draft" | "issued" | "void"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNote>;
     /**
  * Reverses an allocation and reopens that much of the invoice balance. The original allocation keeps its row and gains reversed_at, so the history stays append-only. Reversing the allocation that closed an invoice moves it from credited back to open or partially_paid.
  * POST /v1/credit-notes/{credit_note_id}/allocations/{credit_note_allocation_id}/reverse
@@ -160,9 +160,9 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.reverseAllocation("example", "example", undefined, { idempotencyKey: idempotencyKey })
  */
-    reverseAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteAllocationResultResponse, ["data"]>>;
+    reverseAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteAllocationResultResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    reverseAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesReverseAllocationResponse>>;
+    reverseAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesReverseAllocationResponse>>;
     /**
  * Updates draft credit note fields and corrections atomically. Omitted fields are unchanged, a null memo clears it, and credit_note_lines requires expected_version. Issued and void credit notes are frozen.
  * PATCH /v1/credit-notes/{credit_note_id}
@@ -171,9 +171,9 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(credit_note_id: InputValue<string>, params: (InputValue<({ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "expected_version"?: string; "external_reference_id"?: string; "memo"?: string | null; "reason"?: "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }) & (((({ "credit_note_lines"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
+    update(credit_note_id: InputValue<string>, params: (InputValue<({ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "expected_version"?: string; "external_reference_id"?: string; "memo"?: string | null; "reason"?: "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }) & (((({ "credit_note_lines"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(credit_note_id: InputValue<string>, params: (InputValue<({ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "expected_version"?: string; "external_reference_id"?: string; "memo"?: string | null; "reason"?: "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }) & (((({ "credit_note_lines"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesUpdateResponse>>;
+    updateWithResponse(credit_note_id: InputValue<string>, params: (InputValue<({ "credit_note_lines"?: Array<CreditNoteLineRequestInput>; "expected_version"?: string; "external_reference_id"?: string; "memo"?: string | null; "reason"?: "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other"; }) & (((({ "credit_note_lines"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesUpdateResponse>>;
     /**
  * Voids an issued credit note. Every allocation has to be reversed first. Void is terminal, and an invoice cannot be voided while an issued credit note stands against it.
  * POST /v1/credit-notes/{credit_note_id}/void
@@ -182,9 +182,9 @@ export interface CreditNotesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.creditNotes.voidResource("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    voidResource(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
+    voidResource(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreditNoteResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    voidResourceWithResponse(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesVoidResourceResponse>>;
+    voidResourceWithResponse(credit_note_id: InputValue<string>, params?: (InputValue<{ "expected_version"?: string; }> | { "expected_version"?: never }) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNotesVoidResourceResponse>>;
   }
 export declare class Client {
 
@@ -257,6 +257,7 @@ export type { InvoicePaymentPolicy } from '../declarations/InvoicePaymentPolicy.
 export type { InvoicePaymentOptionLimit } from '../declarations/InvoicePaymentOptionLimit.js';
 export type { InvoicePaymentTermsSnapshot } from '../declarations/InvoicePaymentTermsSnapshot.js';
 export type { InvoicePaymentTermCalculation } from '../declarations/InvoicePaymentTermCalculation.js';
+export type { Address } from '../declarations/Address.js';
 export type { PostalAddress } from '../declarations/PostalAddress.js';
 export type { InvoiceScheduleEntry } from '../declarations/InvoiceScheduleEntry.js';
 export type { InvoiceScheduleAmountSpecification } from '../declarations/InvoiceScheduleAmountSpecification.js';
@@ -281,6 +282,7 @@ export type { InvoiceTip } from '../declarations/InvoiceTip.js';
 export type { IssuedCreditNote } from '../declarations/IssuedCreditNote.js';
 export type { TaxIdentity } from '../declarations/TaxIdentity.js';
 export type { CreditNoteLine } from '../declarations/CreditNoteLine.js';
+export type { RefundListResponse } from '../declarations/RefundListResponse.js';
 export type { RefundLineItemAllocation } from '../declarations/RefundLineItemAllocation.js';
 export type { RefundLineItemAdjustmentRefund } from '../declarations/RefundLineItemAdjustmentRefund.js';
 export type { RefundLineItemAdjustment } from '../declarations/RefundLineItemAdjustment.js';
@@ -301,6 +303,8 @@ export type { CreateCreditNoteRefundRequestInput } from '../declarations/CreateC
 export type { IssueCreditNoteRequestInput } from '../declarations/IssueCreditNoteRequestInput.js';
 export type { ResourceVersionRequestInput } from '../declarations/ResourceVersionRequestInput.js';
 export type { UpdateCreditNoteRequestInput } from '../declarations/UpdateCreditNoteRequestInput.js';
+export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
+export type { ConfirmReturnResolutionRequest } from '../declarations/ConfirmReturnResolutionRequest.js';
 export { makeCreditNoteResponse } from '../declarations/makeCreditNoteResponse.js';
 export { makeCreditNoteAllocationResultResponse } from '../declarations/makeCreditNoteAllocationResultResponse.js';
 export { makeRefundResponse } from '../declarations/makeRefundResponse.js';
@@ -328,6 +332,7 @@ export { makeInvoicePaymentPolicy } from '../declarations/makeInvoicePaymentPoli
 export { makeInvoicePaymentOptionLimit } from '../declarations/makeInvoicePaymentOptionLimit.js';
 export { makeInvoicePaymentTermsSnapshot } from '../declarations/makeInvoicePaymentTermsSnapshot.js';
 export { makeInvoicePaymentTermCalculation } from '../declarations/makeInvoicePaymentTermCalculation.js';
+export { makeAddress } from '../declarations/makeAddress.js';
 export { makePostalAddress } from '../declarations/makePostalAddress.js';
 export { makeInvoiceScheduleEntry } from '../declarations/makeInvoiceScheduleEntry.js';
 export { makeInvoiceScheduleAmountSpecification } from '../declarations/makeInvoiceScheduleAmountSpecification.js';
@@ -352,6 +357,7 @@ export { makeInvoiceTip } from '../declarations/makeInvoiceTip.js';
 export { makeIssuedCreditNote } from '../declarations/makeIssuedCreditNote.js';
 export { makeTaxIdentity } from '../declarations/makeTaxIdentity.js';
 export { makeCreditNoteLine } from '../declarations/makeCreditNoteLine.js';
+export { makeRefundListResponse } from '../declarations/makeRefundListResponse.js';
 export { makeRefundLineItemAllocation } from '../declarations/makeRefundLineItemAllocation.js';
 export { makeRefundLineItemAdjustmentRefund } from '../declarations/makeRefundLineItemAdjustmentRefund.js';
 export { makeRefundLineItemAdjustment } from '../declarations/makeRefundLineItemAdjustment.js';
@@ -366,3 +372,5 @@ export { makePaymentRefund } from '../declarations/makePaymentRefund.js';
 export { makeRefundTenderAllocation } from '../declarations/makeRefundTenderAllocation.js';
 export { makeRefundGiftCardDestination } from '../declarations/makeRefundGiftCardDestination.js';
 export { makeRefundUnissuedGiftCardRecovery } from '../declarations/makeRefundUnissuedGiftCardRecovery.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/makeConfirmReturnResolutionRequest.js';

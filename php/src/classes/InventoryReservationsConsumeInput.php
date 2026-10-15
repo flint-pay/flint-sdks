@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': mixed, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsConsumeInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'inventory_reservation_id': string, 'Flint-Version'?: string, 'body': array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': mixed, ...}|object}|object $values */
+    /** @param array{'Idempotency-Key'?: string, 'inventory_reservation_id': string, 'body': array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': mixed, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationsConsumeInput')); }
     /** @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
@@ -18,11 +18,6 @@ final class InventoryReservationsConsumeInput extends Model {
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'expected_version'?: string, 'lines': list<array{'inventory_reservation_line_id': string, 'target_consumed_quantity': string, ...}|object>, 'provenance': mixed, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

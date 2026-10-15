@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/shipments.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/shipments.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPackage"]:r0,["getShipment"]:r0,["listShipments"]:r0,["updateShipment"]:r0,["voidShipment"]:r0});
 export class Client {
@@ -16,29 +16,25 @@ this.shipments = Object.freeze({
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createPackageWithResponse: async (shipment_id, params, options) => this.#runtime.request("createPackage", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -53,8 +49,7 @@ this.shipments = Object.freeze({
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -69,8 +64,7 @@ this.shipments = Object.freeze({
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -85,8 +79,7 @@ this.shipments = Object.freeze({
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -101,8 +94,7 @@ this.shipments = Object.freeze({
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listShipments", _sdkRequestInput([], [], [
   "order_id",
@@ -117,36 +109,31 @@ this.shipments = Object.freeze({
   "handed_off_before",
   "created_after",
   "created_before",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       update: async (shipment_id, params, options) => this.#runtime.request("updateShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (shipment_id, params, options) => this.#runtime.request("updateShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (shipment_id, params, options) => this.#runtime.request("voidShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
       voidResourceWithResponse: async (shipment_id, params, options) => this.#runtime.request("voidShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, false, params), options).then(_sdkResponse),
     });
 }
@@ -168,6 +155,7 @@ export { makeFulfillmentNotification } from '../models/FulfillmentNotification.j
 export { makePackage } from '../models/Package.js';
 export { makeShippingDimensions } from '../models/ShippingDimensions.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
 export { makeShippingWeight } from '../models/ShippingWeight.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
 export { makeResponseWarning } from '../models/ResponseWarning.js';
@@ -175,3 +163,4 @@ export { makeNextAction } from '../models/NextAction.js';
 export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeUpdateShipmentResult } from '../models/UpdateShipmentResult.js';
 export { makeVoidShipmentResult } from '../models/VoidShipmentResult.js';
+export { makeUpdateShipmentRequest } from '../models/UpdateShipmentRequest.js';

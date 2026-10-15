@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'amount_money'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string, 'tip_money'?: mixed, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsUpdateInput extends Model {
-    /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'amount_money'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string, 'tip_money'?: mixed, ...}|object}|object $values */
+    /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'amount_money'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string, 'tip_money'?: mixed, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsUpdateInput')); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
@@ -23,11 +23,6 @@ final class PaymentIntentsUpdateInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'amount_money'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string, 'tip_money'?: mixed, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

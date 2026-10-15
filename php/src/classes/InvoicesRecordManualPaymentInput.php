@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'amount_money': mixed, 'expected_version'?: string, 'external_reference_id'?: string, 'note'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesRecordManualPaymentInput extends Model {
-    /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'amount_money': mixed, 'expected_version'?: string, 'external_reference_id'?: string, 'note'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object}|object $values */
+    /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'amount_money': mixed, 'expected_version'?: string, 'external_reference_id'?: string, 'note'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesRecordManualPaymentInput')); }
     /** @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
@@ -23,11 +23,6 @@ final class InvoicesRecordManualPaymentInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'amount_money': mixed, 'expected_version'?: string, 'external_reference_id'?: string, 'note'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

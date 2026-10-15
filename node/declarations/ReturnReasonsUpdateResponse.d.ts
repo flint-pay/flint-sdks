@@ -1,4 +1,4 @@
 
-import type { ReturnReasonsGetResponse } from './ReturnReasonsGetResponse.js';
+import type { UpdateReturnReasonResponse } from './UpdateReturnReasonResponse.js';
 
-export type ReturnReasonsUpdateResponse = ReturnReasonsGetResponse;
+export type ReturnReasonsUpdateResponse = UpdateReturnReasonResponse;

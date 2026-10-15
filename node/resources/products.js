@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/products.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/products.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createProduct"]:r0,["createProductVariant"]:r0,["deleteProduct"]:r0,["deleteProductVariant"]:r0,["getProduct"]:r0,["getProductOption"]:r0,["getProductVariant"]:r0,["listProductOptions"]:r0,["listProducts"]:r0,["listProductVariants"]:r0,["updateProduct"]:r0,["updateProductVariant"]:r0});
 export class Client {
@@ -14,43 +14,37 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.products = Object.freeze({
       create: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createVariant: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createVariantWithResponse: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       removeWithResponse: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       deleteVariant: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
@@ -58,8 +52,7 @@ this.products = Object.freeze({
 ], [product_id, variant_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       deleteVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
@@ -67,86 +60,72 @@ this.products = Object.freeze({
 ], [product_id, variant_id], [
   "expected_version",
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       get: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getOption: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [
-  "Flint-Version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [product_id, option_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getOptionWithResponse: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [
-  "Flint-Version"
-], false, false, params), options).then(_sdkResponse),
+], [product_id, option_id], [], false, false, params), options).then(_sdkResponse),
       getVariant: async (product_id, variant_id, params, options) => this.#runtime.request("getProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("getProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listOptions: async (product_id, params, options) => this.#runtime.request("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listOptionsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options).then(_sdkResponse),
       listOptionsPages: (product_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options), []),
       listOptionsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options)),
       listOptionsItems: (product_id, params, options) => this.#runtime.items("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "page_size",
   "page_token",
-  "status",
-  "Flint-Version"
+  "status"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -164,8 +143,7 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -183,8 +161,7 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -202,8 +179,7 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -221,8 +197,7 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -240,8 +215,7 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       listVariants: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -254,8 +228,7 @@ this.products = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listVariantsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -268,8 +241,7 @@ this.products = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options).then(_sdkResponse),
       listVariantsPages: (product_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -282,8 +254,7 @@ this.products = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options), []),
       listVariantsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -296,8 +267,7 @@ this.products = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options)),
       listVariantsItems: (product_id, params, options) => this.#runtime.items("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -310,38 +280,33 @@ this.products = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status",
-  "Flint-Version"
+  "delivery_configuration_status"
 ], false, false, params), options),
       update: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       updateVariant: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -369,8 +334,12 @@ export { makeModifierSetGroup } from '../models/ModifierSetGroup.js';
 export { makeModifierGroup } from '../models/ModifierGroup.js';
 export { makeModifier } from '../models/Modifier.js';
 export { makeTextModifierConfig } from '../models/TextModifierConfig.js';
+export { makeAvailableTextModifierConfig } from '../models/AvailableTextModifierConfig.js';
 export { makeModifierOverride } from '../models/ModifierOverride.js';
 export { makeProductPriceRange } from '../models/ProductPriceRange.js';
 export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
 export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
 export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
+export { makeImageRequest } from '../models/ImageRequest.js';
+export { makeInventoryItemCreateRequest } from '../models/InventoryItemCreateRequest.js';
+export { makeProductVariantSelectedOptionRequest } from '../models/ProductVariantSelectedOptionRequest.js';

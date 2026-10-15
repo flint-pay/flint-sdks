@@ -1,4 +1,4 @@
 
-import type { CreateOrderPaymentIntentResponse } from './CreateOrderPaymentIntentResponse.js';
+import type { CreatePaymentIntentResponse } from './CreatePaymentIntentResponse.js';
 
-export type PaymentIntentsCreateResponse = CreateOrderPaymentIntentResponse;
+export type PaymentIntentsCreateResponse = CreatePaymentIntentResponse;

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read array{'amount_money'?: mixed, 'calculation_basis'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'percent'?: int|float, 'tax'?: mixed, 'type'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateChargeInput extends Model {
-    /** @param array{'order_id': string, 'order_charge_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'amount_money'?: mixed, 'calculation_basis'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'percent'?: int|float, 'tax'?: mixed, 'type'?: string, ...}|object}|object $values */
+    /** @param array{'order_id': string, 'order_charge_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'amount_money'?: mixed, 'calculation_basis'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'percent'?: int|float, 'tax'?: mixed, 'type'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateChargeInput')); }
     /** @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
@@ -29,11 +29,6 @@ final class OrdersUpdateChargeInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'amount_money'?: mixed, 'calculation_basis'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'percent'?: int|float, 'tax'?: mixed, 'type'?: string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

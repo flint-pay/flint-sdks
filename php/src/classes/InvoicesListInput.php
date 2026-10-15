@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $query
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'customer_id'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_after'?: string|\DateTimeInterface, 'due_before'?: string|\DateTimeInterface, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'customer_id'?: string, 'order_id'?: string, 'external_reference_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_after'?: string|\DateTimeInterface, 'due_before'?: string|\DateTimeInterface, 'is_overdue'?: bool, 'has_amount_due'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -96,9 +96,4 @@ final class InvoicesListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

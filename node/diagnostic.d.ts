@@ -1,3 +1,4 @@
+export declare const pointerSegment: (value: string) => string;
 export declare class Diagnostic extends Error {
     location: string;
     detail: string;

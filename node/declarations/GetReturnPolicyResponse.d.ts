@@ -1,4 +1,4 @@
 
 import type { CreateReturnPolicyResponse } from './CreateReturnPolicyResponse.js';
 
-export type GetReturnPolicyResponse = CreateReturnPolicyResponse;
+export interface GetReturnPolicyResponse extends CreateReturnPolicyResponse {}

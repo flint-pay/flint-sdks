@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $currency
  * Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
-    /** @param array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'currency'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'range': string, 'timezone'?: string, 'include_previous_period'?: bool, 'currency'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AnalyticsGetPaymentVolumeTimeseriesInput')); }
     /** @return string
      * @throws SdkError When range is omitted; use hasRange() or valueOrDefault().
@@ -30,9 +30,4 @@ final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

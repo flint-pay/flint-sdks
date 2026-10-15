@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $idempotency_key
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesListRefundsInput extends Model {
-    /** @param array{'credit_note_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'credit_note_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNotesListRefundsInput')); }
     /** @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
@@ -30,9 +30,4 @@ final class CreditNotesListRefundsInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

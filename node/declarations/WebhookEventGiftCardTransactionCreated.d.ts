@@ -1,0 +1,8 @@
+
+import type { GiftCardTransaction } from './GiftCardTransaction.js';
+import type { MerchantWebhookEnvelope } from './MerchantWebhookEnvelope.js';
+import type { MoneyValue } from './MoneyValue.js';
+import type { PartnerWebhookEnvelope } from './PartnerWebhookEnvelope.js';
+import type { SignedMoney } from './SignedMoney.js';
+
+export type WebhookEventGiftCardTransactionCreated = (((({ "data"?: GiftCardTransaction; "event_type"?: unknown; }) & (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)) | (({ "data"?: { "amount_money": SignedMoney; "balance_after_money": MoneyValue; "balance_before_money": MoneyValue; "environment_grant_id": string; "environment_id"?: string; "external_reference_id": string | null; "gift_card_id": string; "gift_card_transaction_id": string; "idempotency_key": string; "merchant_id": string; "merchant_sequence": string; "mode": "test" | "live" | (string & {}); "order_id"?: string; "partner_app_install_id": string; "posted_at": string; "reason": "" | "complimentary" | "balance_accidentally_decreased" | "support_issue" | "suspicious_activity" | "balance_accidentally_increased" | "customer_request" | (string & {}); "sequence": string; "source_id": string; "source_type": unknown; "transaction_type": "load" | "import" | "redeem" | "refund" | "refund_transfer" | "adjustment" | "cash_out" | "purchase_reversal" | "funding_loss_accepted" | "purchase_refund_recovery" | "purchase_refund_recovery_transfer" | (string & {}); }; "event_type"?: unknown; }) & (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>))) & { "event_type": "gift_card_transaction.created" });

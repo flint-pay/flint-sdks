@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -31,9 +31,9 @@ export interface ModifierGroupsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
+    create(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsCreateResponse>>;
     /**
  * Retire modifier group.
  * DELETE /v1/modifier-groups/{modifier_group_id}
@@ -42,30 +42,30 @@ export interface ModifierGroupsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
+    remove(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsRemoveResponse>>;
+    removeWithResponse(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsRemoveResponse>>;
     /**
  * Get modifier group.
  * GET /v1/modifier-groups/{modifier_group_id}
  * @example
  * client.modifierGroups.get("example")
  */
-    get(modifier_group_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
+    get(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(modifier_group_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsGetResponse>>;
+    getWithResponse(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsGetResponse>>;
     /**
  * List modifier groups.
  * GET /v1/modifier-groups
  * @example
  * client.modifierGroups.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierGroupListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierGroupListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroupListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ModifierGroupsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroup>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroupListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ModifierGroupsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroup>;
     /**
  * Update modifier group.
  * PATCH /v1/modifier-groups/{modifier_group_id}
@@ -74,9 +74,9 @@ export interface ModifierGroupsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
+    update(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsUpdateResponse>>;
+    updateWithResponse(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -116,8 +116,10 @@ export type { NextActionMerchantAccountSession } from '../declarations/NextActio
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { Modifier } from '../declarations/Modifier.js';
 export type { TextModifierConfig } from '../declarations/TextModifierConfig.js';
+export type { AvailableTextModifierConfig } from '../declarations/AvailableTextModifierConfig.js';
 export type { CreateModifierGroupRequestInput } from '../declarations/CreateModifierGroupRequestInput.js';
 export type { UpdateModifierGroupRequestInput } from '../declarations/UpdateModifierGroupRequestInput.js';
+export type { PublicResolvedTextModifier } from '../declarations/PublicResolvedTextModifier.js';
 export { makeModifierGroupResponse } from '../declarations/makeModifierGroupResponse.js';
 export { makeModifierGroupListResponse } from '../declarations/makeModifierGroupListResponse.js';
 export { makeModifierGroup } from '../declarations/makeModifierGroup.js';
@@ -128,3 +130,5 @@ export { makeNextActionMerchantAccountSession } from '../declarations/makeNextAc
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeModifier } from '../declarations/makeModifier.js';
 export { makeTextModifierConfig } from '../declarations/makeTextModifierConfig.js';
+export { makeAvailableTextModifierConfig } from '../declarations/makeAvailableTextModifierConfig.js';
+export { makePublicResolvedTextModifier } from '../declarations/makePublicResolvedTextModifier.js';

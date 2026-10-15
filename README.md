@@ -8,6 +8,21 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `3.0.0` is the first stable release of the 3.0 line, published under npm `latest` and as a stable Composer release. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^3.0`. It is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json); the API version remains `2026-09-07`. Upgrading from `2.0.0` also brings every change in the `3.0.0-beta` entries below. See [the migration guide](MIGRATION.md#sdk-300).
+
+This release adds one error class per `kind`, under `errors` in Node (`errors.ConflictError`) and `Flint\Errors` in PHP. Each extends `SdkError`, and `kind` remains authoritative. In Node, `error.name` is now the subclass name. `verifyWebhook` (Node) and `Flint\Webhooks::verify` (PHP) verify deliveries without a client. Results with `known: false` include `reason`, either `unknown_event` or `unmatched_envelope`. Node exports `VerifiedWebhook`, `KnownWebhookEvent` and one `WebhookEvent<Name>` type per event. `payment_intent.*` webhooks now carry the full payment intent.
+
+Breaking changes:
+
+- Method params no longer accept credential headers such as `X-Checkout-Session-ID`, or `Flint-Version`. Pass credentials in client or request options. The SDK sets the version header itself.
+- `paymentIntents.create` returns the payment intent itself, with `payment_collection`.
+- `refunds.create` returns `gift_card_codes` on the refund.
+- Many state-conflict codes now return 409 and raise `conflict` errors instead of `validation` errors.
+- `INVALID_TOTALS` and `INVALID_LINE_ITEMS` are replaced by 500 `ORDER_TOTALS_UNAVAILABLE`.
+- In invoice, order paid and merchant billing balance webhooks, money amounts are now int64 strings.
+- Payment intent `risk` and `last_payment_error` are always present and can be `null`.
+- Removed fields and changed units for delivery, tax, wallet and refund resources are listed in [the migration guide](MIGRATION.md#sdk-300).
+
 Version `3.0.0-beta.20261012044000` fixes the Stripe Elements `payment_method_options` type, previously `Record<string, string>` in Node and a string dictionary in PHP. ACH checkout responses include nested `us_bank_account` options. The field now preserves JSON values, typed `Record<string, unknown>` in Node and an array with mixed values in PHP. Pass these options through to Stripe Elements without flattening. The API version remains `2026-09-07`.
 
 Version `3.0.0-beta.20261008013000` adds gift card challenge support for embedded checkout, `page_origin` on checkout, invoice, and return checkout launches, and 21 subscription operations. `settings.update({ customer_account: null, expected_version })` removes the account configuration and restores the default Flint-hosted account. The settings response omits `customer_account` after it is cleared.
@@ -60,6 +75,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `3.0.0`                  | `2026-09-07` |
 | `3.0.0-beta.20261012044000` | `2026-09-07` |
 | `3.0.0-beta.20261009223830` | `2026-09-07` |
 | `3.0.0-beta.20261008013000` | `2026-09-07` |

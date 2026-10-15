@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createFulfillmentEvent"]:r0,["createShipment"]:r0,["getFulfillment"]:r0,["listFulfillments"]:r0,["transitionFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
@@ -16,43 +16,37 @@ this.fulfillments = Object.freeze({
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createEventWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createShipment: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createShipmentWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "expand",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -69,8 +63,7 @@ this.fulfillments = Object.freeze({
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -87,8 +80,7 @@ this.fulfillments = Object.freeze({
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -105,8 +97,7 @@ this.fulfillments = Object.freeze({
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -123,8 +114,7 @@ this.fulfillments = Object.freeze({
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillments", _sdkRequestInput([], [], [
   "expand",
@@ -141,8 +131,7 @@ this.fulfillments = Object.freeze({
   "updated_after",
   "updated_before",
   "sort_direction",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(_sdkResponse),
@@ -150,15 +139,13 @@ this.fulfillments = Object.freeze({
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -181,6 +168,7 @@ export { makeFulfillmentNotification } from '../models/FulfillmentNotification.j
 export { makePackage } from '../models/Package.js';
 export { makeShippingDimensions } from '../models/ShippingDimensions.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
 export { makeShippingWeight } from '../models/ShippingWeight.js';
 export { makeShipment } from '../models/Shipment.js';
 export { makeResponseMeta } from '../models/ResponseMeta.js';
@@ -198,6 +186,7 @@ export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDet
 export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
 export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
 export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
+export { makeAddress } from '../models/Address.js';
 export { makePostalAddress } from '../models/PostalAddress.js';
 export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
 export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
@@ -209,6 +198,7 @@ export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGi
 export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
 export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
 export { makeErrorRemediation } from '../models/ErrorRemediation.js';
+export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
 export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
 export { makePaymentClientAction } from '../models/PaymentClientAction.js';
 export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
@@ -217,6 +207,7 @@ export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentCl
 export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
 export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
 export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
 export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
 export { makeOrderAuthorizationAmounts } from '../models/OrderAuthorizationAmounts.js';
 export { makeBuyerAction } from '../models/BuyerAction.js';
@@ -271,3 +262,4 @@ export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
 export { makeTip } from '../models/Tip.js';
 export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
 export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
+export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';

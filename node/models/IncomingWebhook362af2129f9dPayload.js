@@ -1,9 +1,9 @@
-import { d1063 as c0, d893 as c1, d901 as c2, d490 as c3, d892 as c4, d900 as c5, d1061 as c6, d2357 as c7, d2360 as c8, d1062 as c9, d1060 as c10 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1063 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d1065 as c0, d898 as c1, d903 as c2, d500 as c3, d897 as c4, d902 as c5, d1063 as c6, d2373 as c7, d2376 as c8, d1064 as c9, d1062 as c10 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1065 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1063;
+const read = d1065;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhook362af2129f9dPayload"]:c0(),["MerchantWebhookEnvelope"]:c1(),["PartnerWebhookEnvelope"]:c2(),["SharedCodec170"]:c3(),["SharedCodec246"]:c4(),["SharedCodec251"]:c5(),["SharedCodec296"]:c6(),["SubscriptionDeliveryMigration"]:c7(),["SubscriptionDeliveryMigrationFailureReasonCount"]:c8(),["Webhook_subscription_delivery_migration_completed_installed_merchants"]:c9(),["Webhook_subscription_delivery_migration_completed_merchant"]:c10()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhook362af2129f9dPayload"]:c0(),["MerchantWebhookEnvelope"]:c1(),["PartnerWebhookEnvelope"]:c2(),["SharedCodec176"]:c3(),["SharedCodec250"]:c4(),["SharedCodec252"]:c5(),["SharedCodec297"]:c6(),["SubscriptionDeliveryMigration"]:c7(),["SubscriptionDeliveryMigrationFailureReasonCount"]:c8(),["Webhook_subscription_delivery_migration_completed_installed_merchants"]:c9(),["Webhook_subscription_delivery_migration_completed_merchant"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeIncomingWebhook362af2129f9dPayload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string $sort_direction
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsListInput extends Model {
-    /** @param array{'expand'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'type'?: string, 'location_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'sort_direction'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'expand'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: string, 'type'?: string, 'location_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'sort_direction'?: string, 'X-Request-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentsListInput')); }
     /** @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
@@ -95,9 +95,4 @@ final class FulfillmentsListInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

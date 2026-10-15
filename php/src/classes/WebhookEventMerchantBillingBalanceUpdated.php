@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware response; omitted fields throw when accessed. */
 final class WebhookEventMerchantBillingBalanceUpdated extends Model {
-    /** @param array{'data': object{'available_credit_money': object{'amount': int, 'currency': string}, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': object{'amount': int, 'currency': string}}, 'event_type': string, 'api_version': string, 'created_at': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': object{'id': string, 'idempotency_key': string}|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'data': object{'available_credit_money': mixed, 'merchant_billing_balance_id': string, 'observed_at': string, 'outstanding_money': mixed}, 'event_type': string, 'api_version': string, 'created_at': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': object{'id': string, 'idempotency_key'?: string}|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventMerchantBillingBalanceUpdated')); }
     /** @return WebhookEventMerchantBillingBalanceUpdatedData
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().

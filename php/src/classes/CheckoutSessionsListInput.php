@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $expires_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'order_id'?: string, 'payment_link_id'?: string, 'customer_id'?: string, 'origin'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'order_id'?: string, 'payment_link_id'?: string, 'customer_id'?: string, 'origin'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -108,9 +108,4 @@ final class CheckoutSessionsListInput extends Model {
      */
     public function getExpiresBefore(): string|\DateTimeInterface { return $this->get('expires_before'); }
     public function hasExpiresBefore(): bool { return $this->has('expires_before'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

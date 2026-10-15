@@ -1,4 +1,4 @@
 
 import type { CheckoutSessionLaunchResponse } from './CheckoutSessionLaunchResponse.js';
 
-export type GetOrCreateReturnResolutionCheckoutSessionResponse = CheckoutSessionLaunchResponse;
+export interface GetOrCreateReturnResolutionCheckoutSessionResponse extends CheckoutSessionLaunchResponse {}

@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read bool $needs_attention
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListSubscriptionsInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'delivery_method_id'?: string, 'hold_reason'?: string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: string, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'delivery_method_id'?: string, 'hold_reason'?: string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_at_after'?: string|\DateTimeInterface, 'next_billing_at_before'?: string|\DateTimeInterface, 'needs_attention'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListSubscriptionsInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -120,9 +120,4 @@ final class MeListSubscriptionsInput extends Model {
      */
     public function getNeedsAttention(): bool { return $this->get('needs_attention'); }
     public function hasNeedsAttention(): bool { return $this->has('needs_attention'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

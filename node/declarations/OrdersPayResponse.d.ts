@@ -1,4 +1,4 @@
 
-import type { CancelOrderPaymentAttemptResponse } from './CancelOrderPaymentAttemptResponse.js';
+import type { PayOrderResponse } from './PayOrderResponse.js';
 
-export type OrdersPayResponse = CancelOrderPaymentAttemptResponse;
+export type OrdersPayResponse = PayOrderResponse;

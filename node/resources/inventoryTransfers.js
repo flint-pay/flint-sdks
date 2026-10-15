@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryTransfer"]:r0,["listInventoryTransfers"]:r0,["transitionInventoryTransfer"]:r0,["updateInventoryTransfer"]:r0});
 export class Client {
@@ -13,12 +13,10 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryTransfers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -36,8 +34,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -55,8 +52,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -74,8 +70,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -93,8 +88,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
@@ -112,22 +106,19 @@ this.inventoryTransfers = Object.freeze({
   "departed_after",
   "departed_before",
   "received_after",
-  "received_before",
-  "Flint-Version"
+  "received_before"
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(result => _sdkPayload(result, ["data"])),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(_sdkResponse),
       update: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
-  "Idempotency-Key",
-  "Flint-Version"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }

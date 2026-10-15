@@ -215,7 +215,7 @@ final class Codec
     public static function fail(string $path, string $reason): never
     {
         $message = "$path: $reason";
-        $error = new SdkError('validation', $message);
+        $error = SdkError::create('validation', $message);
         self::$validationFailures ??= new \WeakMap();
         self::$validationFailures[$error] = $message;
         throw $error;

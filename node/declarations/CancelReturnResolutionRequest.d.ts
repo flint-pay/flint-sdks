@@ -1,4 +1,4 @@
 
 import type { CancelReturnRequest } from './CancelReturnRequest.js';
 
-export type CancelReturnResolutionRequest = CancelReturnRequest;
+export interface CancelReturnResolutionRequest extends CancelReturnRequest {}

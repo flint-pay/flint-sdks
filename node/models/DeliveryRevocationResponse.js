@@ -1,9 +1,9 @@
-import { d680 as c0, d681 as c1, d682 as c2, d695 as c3, d323 as c4, d1820 as c5, d1821 as c6, d2162 as c7, d2163 as c8, d14 as c9, d684 as c10, d683 as c11, d686 as c12, d685 as c13, d688 as c14, d687 as c15, d690 as c16, d689 as c17, d692 as c18, d691 as c19, d694 as c20, d693 as c21, d1819 as c22 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d682 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d690 as c0, d691 as c1, d692 as c2, d705 as c3, d323 as c4, d1823 as c5, d1824 as c6, d2178 as c7, d2179 as c8, d14 as c9, d694 as c10, d693 as c11, d696 as c12, d695 as c13, d698 as c14, d697 as c15, d700 as c16, d699 as c17, d702 as c18, d701 as c19, d704 as c20, d703 as c21, d1822 as c22 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d692 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d682;
+const read = d692;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocation"]:c0(),["DeliveryRevocationImpact"]:c1(),["DeliveryRevocationResponse"]:c2(),["DeliveryRevocationTarget"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SharedCodec1"]:c9(),["SharedCodec203"]:c10(),["SharedCodec204"]:c11(),["SharedCodec205"]:c12(),["SharedCodec206"]:c13(),["SharedCodec207"]:c14(),["SharedCodec208"]:c15(),["SharedCodec209"]:c16(),["SharedCodec210"]:c17(),["SharedCodec211"]:c18(),["SharedCodec212"]:c19(),["SharedCodec213"]:c20(),["SharedCodec214"]:c21(),["SharedCodec466"]:c22()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryRevocation"]:c0(),["DeliveryRevocationImpact"]:c1(),["DeliveryRevocationResponse"]:c2(),["DeliveryRevocationTarget"]:c3(),["MoneyValue"]:c4(),["NextAction"]:c5(),["NextActionMerchantAccountSession"]:c6(),["ResponseMeta"]:c7(),["ResponseWarning"]:c8(),["SharedCodec1"]:c9(),["SharedCodec209"]:c10(),["SharedCodec210"]:c11(),["SharedCodec211"]:c12(),["SharedCodec212"]:c13(),["SharedCodec213"]:c14(),["SharedCodec214"]:c15(),["SharedCodec215"]:c16(),["SharedCodec216"]:c17(),["SharedCodec217"]:c18(),["SharedCodec218"]:c19(),["SharedCodec219"]:c20(),["SharedCodec220"]:c21(),["SharedCodec467"]:c22()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryRevocationResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

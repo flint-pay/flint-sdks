@@ -1,9 +1,9 @@
-import { d323 as c0, d417 as c1, d2079 as c2, d2080 as c3, d422 as c4, d420 as c5, d419 as c6, d418 as c7, d421 as c8, d2077 as c9, d2076 as c10, d2075 as c11, d2078 as c12 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2079 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d323 as c0, d424 as c1, d2096 as c2, d2097 as c3, d429 as c4, d427 as c5, d426 as c6, d425 as c7, d428 as c8, d2094 as c9, d2093 as c10, d2092 as c11, d2095 as c12 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2096 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2079;
+const read = d2096;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionRule"]:c1(),["PromotionRuleGroup"]:c2(),["PromotionRuleValue"]:c3(),["SharedCodec136"]:c4(),["SharedCodec137"]:c5(),["SharedCodec138"]:c6(),["SharedCodec139"]:c7(),["SharedCodec140"]:c8(),["SharedCodec512"]:c9(),["SharedCodec513"]:c10(),["SharedCodec514"]:c11(),["SharedCodec515"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionRule"]:c1(),["PromotionRuleGroup"]:c2(),["PromotionRuleValue"]:c3(),["SharedCodec141"]:c4(),["SharedCodec142"]:c5(),["SharedCodec143"]:c6(),["SharedCodec144"]:c7(),["SharedCodec145"]:c8(),["SharedCodec517"]:c9(),["SharedCodec518"]:c10(),["SharedCodec519"]:c11(),["SharedCodec520"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionRuleGroup(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

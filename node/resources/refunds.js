@@ -1,10 +1,10 @@
 import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPages as _sdkPayloadPages, sdkResponsePages as _sdkResponsePages } from '../response.js';
 import { requestInput as _sdkRequestInput } from '../request.js';
-import { runtimeFromPlan, modelFromCodec, isKnownCodec } from '../runtime.js';
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/refunds.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+import r0 from '../descriptors/resources/refunds.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRefund"]:r0,["getRefund"]:r0,["listRefunds"]:r0,["updateRefund"]:r0});
 export class Client {
@@ -14,25 +14,21 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.refunds = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       get: async (refund_id, params, options) => this.#runtime.request("getRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
       getWithResponse: async (refund_id, params, options) => this.#runtime.request("getRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
-  "expand",
-  "Flint-Version"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -55,8 +51,7 @@ this.refunds = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(result => _sdkPayload(result, [])),
       listWithResponse: async (params, options) => this.#runtime.request("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -79,8 +74,7 @@ this.refunds = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -103,8 +97,7 @@ this.refunds = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options), []),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -127,8 +120,7 @@ this.refunds = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listRefunds", _sdkRequestInput([], [], [
   "page_size",
@@ -151,22 +143,19 @@ this.refunds = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before",
-  "Flint-Version"
+  "updated_before"
 ], false, false, params), options),
       update: async (refund_id, params, options) => this.#runtime.request("updateRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       updateWithResponse: async (refund_id, params, options) => this.#runtime.request("updateRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "Flint-Version"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
@@ -174,14 +163,11 @@ close() { return this.#runtime.close(); }
 }
 export { makeCreateRefundResponse } from '../models/CreateRefundResponse.js';
 export { makeRefundResponse } from '../models/RefundResponse.js';
-export { makeCreditNoteRefundListResponse } from '../models/CreditNoteRefundListResponse.js';
+export { makeRefundListResponse } from '../models/RefundListResponse.js';
 export { makeRefund } from '../models/Refund.js';
-export { makeRefundGiftCardCode } from '../models/RefundGiftCardCode.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateRefundResult } from '../models/CreateRefundResult.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeRefundGiftCardCode } from '../models/RefundGiftCardCode.js';
 export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
 export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
 export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
@@ -201,3 +187,9 @@ export { makePaymentRefund } from '../models/PaymentRefund.js';
 export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
 export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
 export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
+export { makeResponseMeta } from '../models/ResponseMeta.js';
+export { makeResponseWarning } from '../models/ResponseWarning.js';
+export { makeNextAction } from '../models/NextAction.js';
+export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreditNoteRefundListResponse } from '../models/CreditNoteRefundListResponse.js';
+export { makeUpdatePayoutDestinationRequest } from '../models/UpdatePayoutDestinationRequest.js';

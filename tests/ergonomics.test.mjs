@@ -16,6 +16,9 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
     payment_options: ["card"],
     status: "succeeded",
     support_reference: "support_test",
+    // The contract requires both fields; the API sends null when they do not apply.
+    risk: null,
+    last_payment_error: null,
   };
   const server = createServer((req, res) => {
     assert.equal(req.url, "/v1/payment-intents/pi_shortcut_test");

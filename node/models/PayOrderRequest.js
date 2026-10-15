@@ -1,9 +1,9 @@
-import { d144 as c0, d323 as c1, d1867 as c2, d1883 as c3, d2010 as c4, d1999 as c5, d1864 as c6, d1866 as c7, d1865 as c8, d2006 as c9, d2005 as c10, d2004 as c11, d2007 as c12, d2008 as c13, d2009 as c14 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d2010 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d144 as c0, d323 as c1, d1872 as c2, d1890 as c3, d2027 as c4, d2016 as c5, d1869 as c6, d1871 as c7, d1870 as c8, d2023 as c9, d2022 as c10, d2021 as c11, d2024 as c12, d2025 as c13, d2026 as c14 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d2027 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2010;
+const read = d2027;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["OrderGiftCardAllocationAcceptance"]:c2(),["OrderPaymentIntentSelection"]:c3(),["PayOrderRequest"]:c4(),["PaymentSourceCredential"]:c5(),["SharedCodec474"]:c6(),["SharedCodec475"]:c7(),["SharedCodec476"]:c8(),["SharedCodec498"]:c9(),["SharedCodec499"]:c10(),["SharedCodec500"]:c11(),["SharedCodec501"]:c12(),["SharedCodec502"]:c13(),["SharedCodec503"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerContactRequest"]:c0(),["MoneyValue"]:c1(),["OrderGiftCardAllocationAcceptance"]:c2(),["OrderPaymentIntentSelection"]:c3(),["PayOrderRequest"]:c4(),["PaymentSourceCredential"]:c5(),["SharedCodec476"]:c6(),["SharedCodec477"]:c7(),["SharedCodec478"]:c8(),["SharedCodec503"]:c9(),["SharedCodec504"]:c10(),["SharedCodec505"]:c11(),["SharedCodec506"]:c12(),["SharedCodec507"]:c13(),["SharedCodec508"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePayOrderRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

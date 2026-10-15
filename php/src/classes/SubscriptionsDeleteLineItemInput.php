@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsDeleteLineItemInput extends Model {
-    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'subscription_line_item_id': string, 'expected_version'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'subscription_line_item_id': string, 'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsDeleteLineItemInput')); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
@@ -29,9 +29,4 @@ final class SubscriptionsDeleteLineItemInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

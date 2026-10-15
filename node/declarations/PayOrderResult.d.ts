@@ -1,4 +1,4 @@
 
 import type { CancelOrderPaymentAttemptResult } from './CancelOrderPaymentAttemptResult.js';
 
-export type PayOrderResult = CancelOrderPaymentAttemptResult;
+export interface PayOrderResult extends CancelOrderPaymentAttemptResult {}

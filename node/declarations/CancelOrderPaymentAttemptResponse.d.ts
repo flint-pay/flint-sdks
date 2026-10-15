@@ -1,5 +1,5 @@
 
-import type { PayOrderResult } from './PayOrderResult.js';
+import type { CancelOrderPaymentAttemptResult } from './CancelOrderPaymentAttemptResult.js';
 import type { ResponseMeta } from './ResponseMeta.js';
 
-export type CancelOrderPaymentAttemptResponse = { "data": PayOrderResult; "meta"?: ResponseMeta; "request_id"?: string; };
+export type CancelOrderPaymentAttemptResponse = { "data": CancelOrderPaymentAttemptResult; "meta"?: ResponseMeta; "request_id"?: string; };

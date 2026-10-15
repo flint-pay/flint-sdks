@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -26,30 +26,30 @@ export interface PaymentMethodDomainsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentMethodDomains.create({domain_name: "payments.example.invalid"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "domain_name": (string); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
+    create(params: (InputValue<{ "domain_name": (string); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "domain_name": (string); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodDomainsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "domain_name": (string); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodDomainsCreateResponse>>;
     /**
  * Returns one environment-scoped payment method domain and its Apple Pay and Google Pay readiness.
  * GET /v1/payment-method-domains/{payment_method_domain_id}
  * @example
  * client.paymentMethodDomains.get("example")
  */
-    get(payment_method_domain_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
+    get(payment_method_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(payment_method_domain_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodDomainsGetResponse>>;
+    getWithResponse(payment_method_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodDomainsGetResponse>>;
     /**
  * Returns payment method domains ordered by payment_method_domain_id ascending in the selected Flint environment. Page tokens are opaque, bind to the list parameters, and return a validation error when invalid or mismatched.
  * GET /v1/payment-method-domains
  * @example
  * client.paymentMethodDomains.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentMethodDomainListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentMethodDomainListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodDomainsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodDomainListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentMethodDomainsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodDomain>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodDomainsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodDomainListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentMethodDomainsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodDomain>;
     /**
  * Sets the domain registration status. Activating the domain also validates Apple Pay and Google Pay readiness.
  * PATCH /v1/payment-method-domains/{payment_method_domain_id}
@@ -58,9 +58,9 @@ export interface PaymentMethodDomainsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentMethodDomains.update("example", {status: "active"}, { idempotencyKey: idempotencyKey })
  */
-    update(payment_method_domain_id: InputValue<string>, params: (InputValue<{ "status": "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
+    update(payment_method_domain_id: InputValue<string>, params: (InputValue<{ "status": "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodDomainResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(payment_method_domain_id: InputValue<string>, params: (InputValue<{ "status": "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodDomainsUpdateResponse>>;
+    updateWithResponse(payment_method_domain_id: InputValue<string>, params: (InputValue<{ "status": "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodDomainsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -95,6 +95,7 @@ export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { PaymentMethodDomainPaymentOption } from '../declarations/PaymentMethodDomainPaymentOption.js';
 export type { CreatePaymentMethodDomainRequestInput } from '../declarations/CreatePaymentMethodDomainRequestInput.js';
 export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/UpdatePaymentMethodDomainRequestInput.js';
+export type { CreatePaymentMethodDomainRequest } from '../declarations/CreatePaymentMethodDomainRequest.js';
 export { makePaymentMethodDomainResponse } from '../declarations/makePaymentMethodDomainResponse.js';
 export { makePaymentMethodDomainListResponse } from '../declarations/makePaymentMethodDomainListResponse.js';
 export { makePaymentMethodDomain } from '../declarations/makePaymentMethodDomain.js';
@@ -104,3 +105,4 @@ export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makePaymentMethodDomainPaymentOption } from '../declarations/makePaymentMethodDomainPaymentOption.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/makeCreatePaymentMethodDomainRequest.js';

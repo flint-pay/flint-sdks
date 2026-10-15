@@ -1,4 +1,4 @@
 
 import type { AddReturnLineItemResponse } from './AddReturnLineItemResponse.js';
 
-export type CompleteReturnResponse = AddReturnLineItemResponse;
+export interface CompleteReturnResponse extends AddReturnLineItemResponse {}

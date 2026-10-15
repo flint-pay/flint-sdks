@@ -1,4 +1,4 @@
 
-import type { Dimensions } from './Dimensions.js';
+import type { DimensionsInput } from './DimensionsInput.js';
 
-export type LineItemFulfillmentSizeRequestInput = Dimensions;
+export type LineItemFulfillmentSizeRequestInput = DimensionsInput;

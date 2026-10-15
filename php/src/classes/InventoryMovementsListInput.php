@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read string $source_reference_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryMovementsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'type'?: string, 'reason'?: string, 'idempotency_key'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'order'?: string, 'expand'?: list<string>, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'source_reference_type'?: string, 'source_reference_id'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'type'?: string, 'reason'?: string, 'idempotency_key'?: string, 'return_id'?: string, 'return_disposition_id'?: string, 'order'?: string, 'expand'?: list<string>, 'source_system_type'?: string, 'external_source_id'?: string, 'external_actor_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'source_reference_type'?: string, 'source_reference_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryMovementsListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -126,9 +126,4 @@ final class InventoryMovementsListInput extends Model {
      */
     public function getSourceReferenceId(): string { return $this->get('source_reference_id'); }
     public function hasSourceReferenceId(): bool { return $this->has('source_reference_id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

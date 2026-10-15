@@ -34,7 +34,7 @@ export declare class SdkError extends Error {
         name: string;
         kind: ErrorKind;
         message: string;
-        outcome: "response" | "unknown" | "not_sent";
+        outcome: "unknown" | "response" | "not_sent";
         retryAllowed: boolean;
         requestId: string | undefined;
         status: number | undefined;
@@ -43,6 +43,38 @@ export declare class SdkError extends Error {
         stack: string | undefined;
     };
 }
+declare const BaseSdkError: typeof import("./runtime.js").SdkError;
+type BaseSdkError = SdkError;
+export declare namespace errors {
+    const SdkError: typeof import("./runtime.js").SdkError;
+    type SdkError = BaseSdkError;
+    class ConnectionError extends BaseSdkError {
+    }
+    class AuthenticationError extends BaseSdkError {
+    }
+    class ValidationError extends BaseSdkError {
+    }
+    class RateLimitError extends BaseSdkError {
+    }
+    class NotFoundError extends BaseSdkError {
+    }
+    class ConflictError extends BaseSdkError {
+    }
+    class ServerError extends BaseSdkError {
+    }
+    class ApiError extends BaseSdkError {
+    }
+    class ProtocolError extends BaseSdkError {
+    }
+    class CancelledError extends BaseSdkError {
+    }
+    class DeadlineError extends BaseSdkError {
+    }
+    class DestinationError extends BaseSdkError {
+    }
+}
+/** Internal construction boundary; public constructors keep their existing arguments. */
+export declare function createSdkError(...args: ConstructorParameters<typeof SdkError>): SdkError;
 export interface DiagnosticEvent {
     operation: string;
     attempt: number;
@@ -174,6 +206,16 @@ export declare function isModel(value: unknown): value is Model;
 export declare function modelInputValue(model: Model): unknown;
 /** Internal factory; does not expand the public Model class method surface. */
 export declare function modelFromCodec<T>(value: InputValue<T>, codec: CodecPlan): Model<T>;
+export type WebhookVerification = {
+    known: true;
+    event: unknown;
+} | {
+    known: false;
+    event: unknown;
+    reason: 'unknown_event' | 'unmatched_envelope';
+};
+/** Verify compiled webhook descriptors without constructing an HTTP runtime. */
+export declare function verifyWebhookFromPlan(source: DescriptorSource | CompiledRuntimePlan, rawBody: Uint8Array, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number, redactFields?: string[]): WebhookVerification;
 declare class CompiledRuntime {
     private readonly dynamicPlan?;
     private readonly streams;
@@ -192,15 +234,13 @@ declare class CompiledRuntime {
         credentials: string;
     };
     private decode;
+    private validateHeaderValue;
     private checkUrl;
     request<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions, continuation?: string): Promise<Result<T>>;
     pages<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions): AsyncGenerator<Result<T>>;
     items<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions): AsyncGenerator<T>;
     wait<T = unknown>(id: string, input: Record<string, unknown>, options?: RequestOptions): Promise<Result<T>>;
-    verifyWebhook(rawBody: Uint8Array, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): {
-        event: unknown;
-        known: boolean;
-    };
+    verifyWebhook(rawBody: Uint8Array, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): WebhookVerification;
     money(currency: string, major: string): {
         currency: string;
         amount: string;

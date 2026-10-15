@@ -79,7 +79,7 @@ final class CurlByteStream implements ByteStream
                 // Before delivery, Runtime owns retry classification.
                 throw new \RuntimeException('Streaming connection failed');
             }
-            throw new SdkError('transport', 'Streaming transport failed', 'unknown');
+            throw SdkError::create('transport', 'Streaming transport failed', 'unknown');
         }
     }
     private function checkRequestTimeout(): void
@@ -106,10 +106,10 @@ final class CurlByteStream implements ByteStream
     {
         $this->checkRequestTimeout();
         if (($this->request['cancellation'] ?? null)?->isCancelled()) {
-            throw new SdkError('cancelled', 'Stream cancelled', 'response');
+            throw SdkError::create('cancelled', 'Stream cancelled', 'response');
         }
         if ($this->streaming && self::now() - $waitStart >= $timeout) {
-            throw new SdkError(
+            throw SdkError::create(
                 'deadline',
                 'Stream idle or connection timeout exceeded',
                 'response',
@@ -120,7 +120,7 @@ final class CurlByteStream implements ByteStream
             isset($this->request['streamLifetimeMs']) &&
             self::now() - $this->started >= $this->request['streamLifetimeMs']
         ) {
-            throw new SdkError('deadline', 'Stream lifetime exceeded', 'response');
+            throw SdkError::create('deadline', 'Stream lifetime exceeded', 'response');
         }
         if ($this->multi === null) {
             return;
@@ -131,7 +131,7 @@ final class CurlByteStream implements ByteStream
                 // Before delivery, Runtime owns retry classification.
                 throw new \RuntimeException('Streaming connection failed');
             }
-            throw new SdkError('transport', 'Streaming transport failed', 'unknown');
+            throw SdkError::create('transport', 'Streaming transport failed', 'unknown');
         }
         while ($info = curl_multi_info_read($this->multi)) {
             $this->done = true;
@@ -156,7 +156,7 @@ final class CurlByteStream implements ByteStream
             while ($this->handle !== null) {
                 $this->checkRequestTimeout();
                 if (($this->request['cancellation'] ?? null)?->isCancelled()) {
-                    throw new SdkError('cancelled', 'Stream cancelled', 'response');
+                    throw SdkError::create('cancelled', 'Stream cancelled', 'response');
                 }
                 if ($this->pending !== null) {
                     $chunk = $this->pending;

@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $sort_direction
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionOffersListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'product_id'?: string, 'variant_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: string, 'product_id'?: string, 'variant_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffersListInput')); }
     /** @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
@@ -54,9 +54,4 @@ final class SubscriptionOffersListInput extends Model {
      */
     public function getSortDirection(): string { return $this->get('sort_direction'); }
     public function hasSortDirection(): bool { return $this->has('sort_direction'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

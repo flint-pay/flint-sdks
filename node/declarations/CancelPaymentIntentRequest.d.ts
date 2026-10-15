@@ -1,4 +1,4 @@
 
 import type { CancelOrderPaymentAttemptRequest } from './CancelOrderPaymentAttemptRequest.js';
 
-export type CancelPaymentIntentRequest = CancelOrderPaymentAttemptRequest;
+export interface CancelPaymentIntentRequest extends CancelOrderPaymentAttemptRequest {}

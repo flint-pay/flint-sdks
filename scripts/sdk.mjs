@@ -65,6 +65,8 @@ function cli(action, ...argv) {
     join(generator, "dist/cli.js"),
     action,
     ...argv,
+    // Generator 0.1.0 after flint-pay/sdk-generator#64 prints summaries unless asked for JSON.
+    "--json",
   ]);
   writeFileSync(`.generated/logs/${action}.json`, result);
   return JSON.parse(result);

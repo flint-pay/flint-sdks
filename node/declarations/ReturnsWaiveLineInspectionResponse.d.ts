@@ -1,4 +1,4 @@
 
-import type { MeCancelReturnResponse } from './MeCancelReturnResponse.js';
+import type { WaiveReturnLineInspectionResponse } from './WaiveReturnLineInspectionResponse.js';
 
-export type ReturnsWaiveLineInspectionResponse = MeCancelReturnResponse;
+export type ReturnsWaiveLineInspectionResponse = WaiveReturnLineInspectionResponse;

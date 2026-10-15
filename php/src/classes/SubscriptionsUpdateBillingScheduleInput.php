@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'billing_anchor_day'?: int, 'initiated_by': string, 'next_billing_at': string|\DateTimeInterface, 'owner': string}|object|array{'initiated_by': string, 'next_billing_at'?: string|\DateTimeInterface|null, 'owner': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsUpdateBillingScheduleInput extends Model {
-    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'billing_anchor_day'?: int, 'initiated_by': string, 'next_billing_at': string|\DateTimeInterface, 'owner': string}|object|array{'initiated_by': string, 'next_billing_at'?: string|\DateTimeInterface|null, 'owner': string}|object}|object $values */
+    /** @param array{'subscription_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'billing_anchor_day'?: int, 'initiated_by': string, 'next_billing_at': string|\DateTimeInterface, 'owner': string}|object|array{'initiated_by': string, 'next_billing_at'?: string|\DateTimeInterface|null, 'owner': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsUpdateBillingScheduleInput')); }
     /** @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
@@ -23,11 +23,6 @@ final class SubscriptionsUpdateBillingScheduleInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'billing_anchor_day'?: int, 'initiated_by': string, 'next_billing_at': string|\DateTimeInterface, 'owner': string}|object|array{'initiated_by': string, 'next_billing_at'?: string|\DateTimeInterface|null, 'owner': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

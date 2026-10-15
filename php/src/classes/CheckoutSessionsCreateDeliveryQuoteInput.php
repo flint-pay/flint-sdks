@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'basis_delivery_quote_id'?: string, 'buyer_location'?: mixed, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'inventory_assignments'?: list<mixed>, 'method_results'?: list<mixed>, 'pickup_location_id'?: string, 'tier_key'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCreateDeliveryQuoteInput extends Model {
-    /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string, 'body': array{'basis_delivery_quote_id'?: string, 'buyer_location'?: mixed, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'inventory_assignments'?: list<mixed>, 'method_results'?: list<mixed>, 'pickup_location_id'?: string, 'tier_key'?: string, ...}|object}|object $values */
+    /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'body': array{'basis_delivery_quote_id'?: string, 'buyer_location'?: mixed, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'inventory_assignments'?: list<mixed>, 'method_results'?: list<mixed>, 'pickup_location_id'?: string, 'tier_key'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsCreateDeliveryQuoteInput')); }
     /** @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
@@ -18,21 +18,6 @@ final class CheckoutSessionsCreateDeliveryQuoteInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-ID is omitted; use hasXCheckoutSessionId() or valueOrDefault().
-     */
-    public function getXCheckoutSessionId(): string { return $this->get('X-Checkout-Session-ID'); }
-    public function hasXCheckoutSessionId(): bool { return $this->has('X-Checkout-Session-ID'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-Secret is omitted; use hasXCheckoutSessionSecret() or valueOrDefault().
-     */
-    public function getXCheckoutSessionSecret(): string { return $this->get('X-Checkout-Session-Secret'); }
-    public function hasXCheckoutSessionSecret(): bool { return $this->has('X-Checkout-Session-Secret'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'basis_delivery_quote_id'?: string, 'buyer_location'?: mixed, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'inventory_assignments'?: list<mixed>, 'method_results'?: list<mixed>, 'pickup_location_id'?: string, 'tier_key'?: string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

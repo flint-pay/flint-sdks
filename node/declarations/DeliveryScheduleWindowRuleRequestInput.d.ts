@@ -1,4 +1,4 @@
 
-import type { DeliveryAvailabilityInput } from './DeliveryAvailabilityInput.js';
+import type { DeliveryScheduleWindowRuleInput } from './DeliveryScheduleWindowRuleInput.js';
 
-export type DeliveryScheduleWindowRuleRequestInput = { "availability": DeliveryAvailabilityInput; };
+export type DeliveryScheduleWindowRuleRequestInput = DeliveryScheduleWindowRuleInput;

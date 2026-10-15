@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -17,9 +17,9 @@ export interface DiscountPreviewsResource {
  * @example
  * client.discountPreviews.create({order_id: "example"})
  */
-    create(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DiscountPreviewResponse, ["data"]>>;
+    create(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DiscountPreviewResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DiscountPreviewsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DiscountPreviewsCreateResponse>>;
   }
 export declare class Client {
 
@@ -52,6 +52,7 @@ export type { ResponseWarning } from '../declarations/ResponseWarning.js';
 export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { DiscountPreviewRequestInput } from '../declarations/DiscountPreviewRequestInput.js';
+export type { ApplyDiscountRequestInput } from '../declarations/ApplyDiscountRequestInput.js';
 export { makeDiscountPreviewResponse } from '../declarations/makeDiscountPreviewResponse.js';
 export { makeDiscountPreview } from '../declarations/makeDiscountPreview.js';
 export { makePromotionCandidate } from '../declarations/makePromotionCandidate.js';

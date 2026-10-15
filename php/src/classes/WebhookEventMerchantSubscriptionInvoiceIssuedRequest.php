@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $idempotency_key
  * Presence-aware response; omitted fields throw when accessed. */
 final class WebhookEventMerchantSubscriptionInvoiceIssuedRequest extends Model {
-    /** @param object{'id': string, 'idempotency_key': string} $values */
+    /** @param object{'id': string, 'idempotency_key'?: string} $values */
     public function __construct(array|object $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventMerchantSubscriptionInvoiceIssuedRequest')); }
     /** @return string
      * @throws SdkError When id is omitted; use hasId() or valueOrDefault().

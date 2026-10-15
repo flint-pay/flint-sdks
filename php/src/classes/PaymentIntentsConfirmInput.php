@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'confirmation_token'?: string, 'payment_method_id'?: string, 'payment_source_token'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsConfirmInput extends Model {
-    /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Buyer-Device'?: string, 'Flint-Version'?: string, 'body': array{'confirmation_token'?: string, 'payment_method_id'?: string, 'payment_source_token'?: string, ...}|object}|object $values */
+    /** @param array{'payment_intent_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Buyer-Device'?: string, 'body': array{'confirmation_token'?: string, 'payment_method_id'?: string, 'payment_source_token'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsConfirmInput')); }
     /** @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
@@ -28,11 +28,6 @@ final class PaymentIntentsConfirmInput extends Model {
      */
     public function getFlintBuyerDevice(): string { return $this->get('Flint-Buyer-Device'); }
     public function hasFlintBuyerDevice(): bool { return $this->has('Flint-Buyer-Device'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'confirmation_token'?: string, 'payment_method_id'?: string, 'payment_source_token'?: string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

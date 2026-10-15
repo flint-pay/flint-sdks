@@ -4,9 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
 if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+$apiKey = getenv('API_KEY') ?: null;
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
-  token: getenv('API_TOKEN') ?: '',
+  apiKey: $apiKey,
 ));
 $result = $client->oauth->authorizePartnerInstall([
   'response_type' => 'code',

@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read array{'current_email_code'?: string, 'new_email_code': string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeConfirmEmailChangeRequestInput extends Model {
-    /** @param array{'email_change_request_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'Flint-Version'?: string, 'body': array{'current_email_code'?: string, 'new_email_code': string, ...}|object}|object $values */
+    /** @param array{'email_change_request_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'current_email_code'?: string, 'new_email_code': string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeConfirmEmailChangeRequestInput')); }
     /** @return string
      * @throws SdkError When email_change_request_id is omitted; use hasEmailChangeRequestId() or valueOrDefault().
@@ -23,11 +23,6 @@ final class MeConfirmEmailChangeRequestInput extends Model {
      */
     public function getXRequestId(): string { return $this->get('X-Request-Id'); }
     public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
     /** @return array{'current_email_code'?: string, 'new_email_code': string, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

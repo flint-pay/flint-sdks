@@ -1,4 +1,4 @@
 
+import type { MoneyValue } from './MoneyValue.js';
 
-
-export type GiftCardPurchaseRefundValueAllocation = { /** Use an exact numeric string, not a floating-point number. Format: int64. */ "amount": string; "gift_card_id": string; "gift_card_load_id": string; };
+export type GiftCardPurchaseRefundValueAllocation = { /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "amount_money": MoneyValue; "gift_card_id": string; "gift_card_load_id": string; };

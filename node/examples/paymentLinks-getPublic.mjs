@@ -1,7 +1,7 @@
-import { Client } from '@flintpay/node';
-const clientBaseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
 const client = new Client({
-  baseUrl: clientBaseUrl,
+  baseUrl,
 });
 const result = await client.paymentLinks.getPublic(
   "example"

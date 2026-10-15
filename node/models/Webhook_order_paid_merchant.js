@@ -1,9 +1,9 @@
-import { d893 as c0, d490 as c1, d892 as c2, d895 as c3, d1549 as c4, d1548 as c5, d1541 as c6, d1540 as c7, d1543 as c8, d1542 as c9, d1545 as c10, d1544 as c11, d1547 as c12, d1546 as c13, d1561 as c14, d1562 as c15 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
-import { d1562 } from '../descriptors/data.js?sdk=f52d30b14a1c286c1efe9a110f4087e084c68c57774eb8c111836fdb26fbef01';
+import { d898 as c0, d323 as c1, d500 as c2, d897 as c3, d1551 as c4, d1550 as c5, d1543 as c6, d1542 as c7, d1545 as c8, d1544 as c9, d1547 as c10, d1546 as c11, d1549 as c12, d1548 as c13, d1563 as c14, d1564 as c15 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1564 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1562;
+const read = d1564;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["SharedCodec170"]:c1(),["SharedCodec246"]:c2(),["SharedCodec249"]:c3(),["SharedCodec390"]:c4(),["SharedCodec391"]:c5(),["SharedCodec392"]:c6(),["SharedCodec393"]:c7(),["SharedCodec394"]:c8(),["SharedCodec395"]:c9(),["SharedCodec396"]:c10(),["SharedCodec397"]:c11(),["SharedCodec398"]:c12(),["SharedCodec399"]:c13(),["SharedCodec401"]:c14(),["Webhook_order_paid_merchant"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MerchantWebhookEnvelope"]:c0(),["MoneyValue"]:c1(),["SharedCodec176"]:c2(),["SharedCodec250"]:c3(),["SharedCodec391"]:c4(),["SharedCodec392"]:c5(),["SharedCodec393"]:c6(),["SharedCodec394"]:c7(),["SharedCodec395"]:c8(),["SharedCodec396"]:c9(),["SharedCodec397"]:c10(),["SharedCodec398"]:c11(),["SharedCodec399"]:c12(),["SharedCodec400"]:c13(),["SharedCodec402"]:c14(),["Webhook_order_paid_merchant"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeWebhook_order_paid_merchant(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

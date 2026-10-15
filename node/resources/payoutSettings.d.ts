@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -34,39 +34,39 @@ export interface PayoutSettingsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.payoutSettings.deletePayoutDestination("example", {}, { idempotencyKey: idempotencyKey })
  */
-    deletePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
+    deletePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deletePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsDeletePayoutDestinationResponse>>;
+    deletePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params: (InputValue<{  [key: string]: unknown; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsDeletePayoutDestinationResponse>>;
     /**
  * Returns one payout destination by ID.
  * GET /v1/payout-settings/destinations/{payout_destination_id}
  * @example
  * client.payoutSettings.getPayoutDestination("example")
  */
-    getPayoutDestination(payout_destination_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
+    getPayoutDestination(payout_destination_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsGetPayoutDestinationResponse>>;
+    getPayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsGetPayoutDestinationResponse>>;
     /**
  * Returns payout settings that control default payout behavior for the authenticated merchant.
  * GET /v1/payout-settings
  * @example
  * client.payoutSettings.get()
  */
-    get(params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
+    get(params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(params?: { "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsGetResponse>>;
+    getWithResponse(params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsGetResponse>>;
     /**
  * Returns a paginated list of payout destinations available to the authenticated merchant.
  * GET /v1/payout-settings/destinations
  * @example
  * client.payoutSettings.listPayoutDestinations()
  */
-    listPayoutDestinations(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutDestinationListResponse>;
+    listPayoutDestinations(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutDestinationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listPayoutDestinationsWithResponse(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsListPayoutDestinationsResponse>>;
-    listPayoutDestinationsPages(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestinationListResponse>;
-    listPayoutDestinationsPagesWithResponse(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PayoutSettingsListPayoutDestinationsResponse>>;
-    listPayoutDestinationsItems(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestination>;
+    listPayoutDestinationsWithResponse(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsListPayoutDestinationsResponse>>;
+    listPayoutDestinationsPages(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestinationListResponse>;
+    listPayoutDestinationsPagesWithResponse(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PayoutSettingsListPayoutDestinationsResponse>>;
+    listPayoutDestinationsItems(params?: { "currency"?: InputValue<string>; "type"?: InputValue<"bank_account" | "debit_card">; "status"?: InputValue<"pending" | "active" | "verification_required" | "disabled" | "deleted" | "failed">; "available_payout_method"?: InputValue<"standard">; "default_for_currency"?: InputValue<boolean>; "include_deleted"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestination>;
     /**
  * Updates mutable metadata and settings for a payout destination. Safe to retry with the same Idempotency-Key.
  * PATCH /v1/payout-settings/destinations/{payout_destination_id}
@@ -75,9 +75,9 @@ export interface PayoutSettingsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.payoutSettings.updatePayoutDestination("example", {}, { idempotencyKey: idempotencyKey })
  */
-    updatePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
+    updatePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutDestinationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updatePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsUpdatePayoutDestinationResponse>>;
+    updatePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsUpdatePayoutDestinationResponse>>;
     /**
  * Updates mutable payout settings for the authenticated merchant. Safe to retry with the same Idempotency-Key.
  * PATCH /v1/payout-settings
@@ -86,9 +86,9 @@ export interface PayoutSettingsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.payoutSettings.update({}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
+    update(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PayoutSettingsResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsUpdateResponse>>;
+    updateWithResponse(params: (InputValue<{ "default_payout_destinations"?: Record<string, string>; "delay_days_override"?: number | null; "interval"?: "manual" | "daily" | "weekly" | "monthly"; "minimum_balance_by_currency"?: Record<string, (({ "amount": string; "currency": string; }) | (null))>; "monthly_payout_days"?: Array<number>; "statement_descriptor"?: string; "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsUpdateResponse>>;
   }
 export declare class Client {
 
@@ -139,6 +139,9 @@ export type { NextActionMerchantAccountSessionInput } from '../declarations/Next
 export type { CancelPayoutRequestInput } from '../declarations/CancelPayoutRequestInput.js';
 export type { UpdatePayoutDestinationRequestInput } from '../declarations/UpdatePayoutDestinationRequestInput.js';
 export type { UpdatePayoutSettingsRequestInput } from '../declarations/UpdatePayoutSettingsRequestInput.js';
+export type { MeGetEmailPreferencesInput } from '../declarations/MeGetEmailPreferencesInput.js';
+export type { CancelPayoutRequest } from '../declarations/CancelPayoutRequest.js';
+export type { UpdatePayoutDestinationRequest } from '../declarations/UpdatePayoutDestinationRequest.js';
 export { makePayoutDestinationResponse } from '../declarations/makePayoutDestinationResponse.js';
 export { makePayoutSettingsResponse } from '../declarations/makePayoutSettingsResponse.js';
 export { makePayoutDestinationListResponse } from '../declarations/makePayoutDestinationListResponse.js';
@@ -152,3 +155,5 @@ export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeMoneyMovementListMeta } from '../declarations/makeMoneyMovementListMeta.js';
 export { makeMoneyMovementHistoryMeta } from '../declarations/makeMoneyMovementHistoryMeta.js';
 export { makeMoneyMovementBlockedReason } from '../declarations/makeMoneyMovementBlockedReason.js';
+export { makeCancelPayoutRequest } from '../declarations/makeCancelPayoutRequest.js';
+export { makeUpdatePayoutDestinationRequest } from '../declarations/makeUpdatePayoutDestinationRequest.js';

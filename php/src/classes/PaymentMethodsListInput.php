@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodsListInput extends Model {
-    /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: string, 'status'?: string, 'usage'?: string, 'X-Checkout-Session-ID'?: string, 'X-Checkout-Session-Secret'?: string, 'Flint-Version'?: string}|object $values */
+    /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: string, 'status'?: string, 'usage'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodsListInput')); }
     /** @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
@@ -42,19 +42,4 @@ final class PaymentMethodsListInput extends Model {
      */
     public function getUsage(): string { return $this->get('usage'); }
     public function hasUsage(): bool { return $this->has('usage'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-ID is omitted; use hasXCheckoutSessionId() or valueOrDefault().
-     */
-    public function getXCheckoutSessionId(): string { return $this->get('X-Checkout-Session-ID'); }
-    public function hasXCheckoutSessionId(): bool { return $this->has('X-Checkout-Session-ID'); }
-    /** @return string
-     * @throws SdkError When X-Checkout-Session-Secret is omitted; use hasXCheckoutSessionSecret() or valueOrDefault().
-     */
-    public function getXCheckoutSessionSecret(): string { return $this->get('X-Checkout-Session-Secret'); }
-    public function hasXCheckoutSessionSecret(): bool { return $this->has('X-Checkout-Session-Secret'); }
-    /** @return string
-     * @throws SdkError When Flint-Version is omitted; use hasFlintVersion() or valueOrDefault().
-     */
-    public function getFlintVersion(): string { return $this->get('Flint-Version'); }
-    public function hasFlintVersion(): bool { return $this->has('Flint-Version'); }
 }

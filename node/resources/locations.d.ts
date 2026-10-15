@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -36,9 +36,9 @@ export interface LocationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.locations.create({address: {}, name: "example", timezone: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "external_reference_id"?: string; "inventory"?: LocationInventoryRequestInput; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
+    create(params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "external_reference_id"?: string; "inventory"?: LocationInventoryRequestInput; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "external_reference_id"?: string; "inventory"?: LocationInventoryRequestInput; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "external_reference_id"?: string; "inventory"?: LocationInventoryRequestInput; "metadata"?: Record<string, string>; "name": string; "status"?: "active" | "inactive"; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsCreateResponse>>;
     /**
  * Retire a Location. Preserves the archived resource for direct reads.
  * DELETE /v1/locations/{location_id}
@@ -47,30 +47,30 @@ export interface LocationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.locations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(location_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
+    remove(location_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(location_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsRemoveResponse>>;
+    removeWithResponse(location_id: InputValue<string>, params?: { "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsRemoveResponse>>;
     /**
  * Get location.
  * GET /v1/locations/{location_id}
  * @example
  * client.locations.get("example")
  */
-    get(location_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
+    get(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(location_id: InputValue<string>, params?: { "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationsGetResponse>>;
+    getWithResponse(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationsGetResponse>>;
     /**
  * List Locations. Filtering by inventory_allocation_status requires commerce.inventory.read; the inventory block is omitted entirely when the caller lacks inventory read authority.
  * GET /v1/locations
  * @example
  * client.locations.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<LocationListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<LocationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<LocationListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<LocationsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Location>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationsListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<LocationListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<LocationsListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "inventory_allocation_status"?: InputValue<"active" | "inactive">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Location>;
     /**
  * Publishes the location geography atomically. Supply the complete address and timezone; omitted coordinates are cleared. This PATCH does not merge nested address fields. Requires expected_geography_revision, independently of the location version used for metadata edits.
  * PATCH /v1/locations/{location_id}/geography
@@ -79,9 +79,9 @@ export interface LocationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.locations.publishGeography("example", {address: {}, expected_geography_revision: "0", timezone: "example"}, { idempotencyKey: idempotencyKey })
  */
-    publishGeography(location_id: InputValue<string>, params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "expected_geography_revision": string; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
+    publishGeography(location_id: InputValue<string>, params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "expected_geography_revision": string; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    publishGeographyWithResponse(location_id: InputValue<string>, params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "expected_geography_revision": string; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsPublishGeographyResponse>>;
+    publishGeographyWithResponse(location_id: InputValue<string>, params: (InputValue<{ "address": LocationAddressInput; "coordinate"?: LocationCoordinateInput; "coordinate_source"?: "merchant_supplied" | "geocoded" | null; "expected_geography_revision": string; "timezone": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsPublishGeographyResponse>>;
     /**
  * Update a Location's profile or availability. Accepts status active or inactive.
  * PATCH /v1/locations/{location_id}
@@ -90,9 +90,9 @@ export interface LocationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.locations.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(location_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
+    update(location_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(location_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsUpdateResponse>>;
+    updateWithResponse(location_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsUpdateResponse>>;
     /**
  * Enable or disable inventory allocation at a Location. Omit expected_inventory_revision when enabling inventory for the first time; otherwise send the current inventory_revision.
  * PATCH /v1/locations/{location_id}/inventory
@@ -101,9 +101,9 @@ export interface LocationsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.locations.updateInventory("example", {allocation_status: "active"}, { idempotencyKey: idempotencyKey })
  */
-    updateInventory(location_id: InputValue<string>, params: (InputValue<{ "allocation_status": "active" | "inactive"; "expected_inventory_revision"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationInventoryResponse, ["data"]>>;
+    updateInventory(location_id: InputValue<string>, params: (InputValue<{ "allocation_status": "active" | "inactive"; "expected_inventory_revision"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<LocationInventoryResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateInventoryWithResponse(location_id: InputValue<string>, params: (InputValue<{ "allocation_status": "active" | "inactive"; "expected_inventory_revision"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsUpdateInventoryResponse>>;
+    updateInventoryWithResponse(location_id: InputValue<string>, params: (InputValue<{ "allocation_status": "active" | "inactive"; "expected_inventory_revision"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationsUpdateInventoryResponse>>;
   }
 export declare class Client {
 
@@ -146,6 +146,7 @@ export type { NextAction } from '../declarations/NextAction.js';
 export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
 export type { MoneyValue } from '../declarations/MoneyValue.js';
 export type { LocationAddress } from '../declarations/LocationAddress.js';
+export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
 export type { LocationCoordinate } from '../declarations/LocationCoordinate.js';
 export type { LocationInventory } from '../declarations/LocationInventory.js';
 export type { CreateLocationRequestInput } from '../declarations/CreateLocationRequestInput.js';
@@ -162,5 +163,6 @@ export { makeNextAction } from '../declarations/makeNextAction.js';
 export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
 export { makeLocationAddress } from '../declarations/makeLocationAddress.js';
+export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
 export { makeLocationCoordinate } from '../declarations/makeLocationCoordinate.js';
 export { makeLocationInventory } from '../declarations/makeLocationInventory.js';

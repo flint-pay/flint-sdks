@@ -1,4 +1,4 @@
-export { SdkError, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/ClientOptions.js';
@@ -32,9 +32,9 @@ export interface DeliveryProfilesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryProfiles.assignToUnconfigured("example", {}, { idempotencyKey: idempotencyKey })
  */
-    assignToUnconfigured(delivery_profile_id: InputValue<string>, params: (InputValue<{ "expected_catalog_default_version"?: string; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileAssignmentResponse, ["data"]>>;
+    assignToUnconfigured(delivery_profile_id: InputValue<string>, params: (InputValue<{ "expected_catalog_default_version"?: string; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileAssignmentResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    assignToUnconfiguredWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<{ "expected_catalog_default_version"?: string; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesAssignToUnconfiguredResponse>>;
+    assignToUnconfiguredWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<{ "expected_catalog_default_version"?: string; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesAssignToUnconfiguredResponse>>;
     /**
  * Delivery profiles define reusable delivery rules assigned to catalog obligations. Creation publishes immutable revision 1. It starts active.
  * POST /v1/delivery-profiles
@@ -43,9 +43,9 @@ export interface DeliveryProfilesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryProfiles.create({name: "example", configuration: {requirement: "none"}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "configuration": DeliveryProfileConfigurationRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
+    create(params: (InputValue<{ "configuration": DeliveryProfileConfigurationRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "configuration": DeliveryProfileConfigurationRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "configuration": DeliveryProfileConfigurationRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesCreateResponse>>;
     /**
  * Retires the delivery profile after checking current dependencies. The retired resource remains available by ID for historical records.
  * DELETE /v1/delivery-profiles/{delivery_profile_id}
@@ -54,30 +54,30 @@ export interface DeliveryProfilesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryProfiles.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(delivery_profile_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
+    remove(delivery_profile_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(delivery_profile_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesRemoveResponse>>;
+    removeWithResponse(delivery_profile_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesRemoveResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery profile.
  * GET /v1/delivery-profiles/{delivery_profile_id}
  * @example
  * client.deliveryProfiles.get("example")
  */
-    get(delivery_profile_id: InputValue<string>, params?: { "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
+    get(delivery_profile_id: InputValue<string>, params?: { "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(delivery_profile_id: InputValue<string>, params?: { "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfilesGetResponse>>;
+    getWithResponse(delivery_profile_id: InputValue<string>, params?: { "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfilesGetResponse>>;
     /**
  * Returns delivery profiles in a stable, cursor-paginated order.
  * GET /v1/delivery-profiles
  * @example
  * client.deliveryProfiles.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryProfileListResponse>;
+    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryProfileListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfilesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfileListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryProfilesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean>; "Flint-Version"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfile>;
+    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfilesListResponse>>;
+    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfileListResponse>;
+    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryProfilesListResponse>>;
+    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "status"?: InputValue<"inactive" | "active" | "archived" | "revoked">; "resolution_mode"?: InputValue<"quote" | "manual">; "include_diagnostics"?: InputValue<boolean> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfile>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision and requires expected_version.
  * PATCH /v1/delivery-profiles/{delivery_profile_id}
@@ -86,9 +86,9 @@ export interface DeliveryProfilesResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.deliveryProfiles.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryProfileConfigurationRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
+    update(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryProfileConfigurationRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeliveryProfileResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryProfileConfigurationRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "Flint-Version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesUpdateResponse>>;
+    updateWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<({ "configuration"?: DeliveryProfileConfigurationRequestInput; "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; }) & (((({ "configuration"?: never })) | ({ "expected_version": unknown; }))) & (({ "name": unknown; }) | ({ "external_reference_id": unknown; }) | ({ "configuration": unknown; }) | ({ "metadata": unknown; }))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfilesUpdateResponse>>;
   }
 export declare class Client {
 
@@ -138,6 +138,7 @@ export type { DeliveryProfileDiagnostics } from '../declarations/DeliveryProfile
 export type { AssignToUnconfiguredDeliveryProfileRequestInput } from '../declarations/AssignToUnconfiguredDeliveryProfileRequestInput.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/CreateDeliveryProfileRequestInput.js';
 export type { UpdateDeliveryProfileRequestInput } from '../declarations/UpdateDeliveryProfileRequestInput.js';
+export type { AssignToUnconfiguredDeliveryProfileRequest } from '../declarations/AssignToUnconfiguredDeliveryProfileRequest.js';
 export { makeDeliveryProfileAssignmentResponse } from '../declarations/makeDeliveryProfileAssignmentResponse.js';
 export { makeDeliveryProfileResponse } from '../declarations/makeDeliveryProfileResponse.js';
 export { makeDeliveryProfileListResponse } from '../declarations/makeDeliveryProfileListResponse.js';
@@ -153,3 +154,4 @@ export { makeDimensions } from '../declarations/makeDimensions.js';
 export { makeDeliveryProfileOriginPolicy } from '../declarations/makeDeliveryProfileOriginPolicy.js';
 export { makeWeight } from '../declarations/makeWeight.js';
 export { makeDeliveryProfileDiagnostics } from '../declarations/makeDeliveryProfileDiagnostics.js';
+export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/makeAssignToUnconfiguredDeliveryProfileRequest.js';

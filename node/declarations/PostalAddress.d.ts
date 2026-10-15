@@ -1,4 +1,4 @@
 
 import type { Address } from './Address.js';
 
-export type PostalAddress = Address;
+export interface PostalAddress extends Address {}
