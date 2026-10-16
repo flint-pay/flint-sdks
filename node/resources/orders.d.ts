@@ -215,9 +215,9 @@ export interface OrdersResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.orders.create({line_items: [{variant_id: "example"}]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
+    create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateResponse>>;
+    createWithResponse(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrdersCreateResponse>>;
     /**
  * Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED, and for an order without a customer, ACCESS_LINK_CUSTOMER_REQUIRED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
  * POST /v1/orders/{order_id}/access-links
@@ -670,7 +670,6 @@ export type { OrderLineSubscriptionOfferDiscount } from '../declarations/OrderLi
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { ExpandedPaymentIntentSummary } from '../declarations/ExpandedPaymentIntentSummary.js';
 export type { PurchasedEvent } from '../declarations/PurchasedEvent.js';
-export type { RequestedTip } from '../declarations/RequestedTip.js';
 export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
@@ -714,6 +713,7 @@ export type { UpdateLineItemRequestInput } from '../declarations/UpdateLineItemR
 export type { FulfillmentLineItemRequest } from '../declarations/FulfillmentLineItemRequest.js';
 export type { InventoryRoutingSourceInput } from '../declarations/InventoryRoutingSourceInput.js';
 export type { OrderDeliveryDestinationAddressRequest } from '../declarations/OrderDeliveryDestinationAddressRequest.js';
+export type { MeGetOrderInput } from '../declarations/MeGetOrderInput.js';
 export type { MeListOrderActivitiesInput } from '../declarations/MeListOrderActivitiesInput.js';
 export type { DimensionsInput } from '../declarations/DimensionsInput.js';
 export type { ImageReferenceRequest } from '../declarations/ImageReferenceRequest.js';
@@ -850,7 +850,6 @@ export { makeOrderLineSubscriptionOfferDiscount } from '../declarations/makeOrde
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makeExpandedPaymentIntentSummary } from '../declarations/makeExpandedPaymentIntentSummary.js';
 export { makePurchasedEvent } from '../declarations/makePurchasedEvent.js';
-export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class RefundsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Creates a refund for an order or payment intent. This is a financial operation.
+    /** Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
      * @param array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return CreateRefundResult
      */

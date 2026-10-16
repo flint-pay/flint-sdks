@@ -623,7 +623,7 @@ Variants: any, any.
 | `customer_facing_name` | Optional | string |  |
 | `discount_class` | Optional | string | Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `order_charge_ids` | Optional | Array of string |  |
-| `order_discount_id` | Required | string | Identifier for this applied discount, unique within the order and with no prefix. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. |
+| `order_discount_id` | Required | string | Identifier for this applied discount, unique within the order. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. |
 | `order_id` | Required | string |  |
 | `order_line_item_ids` | Optional | Array of string |  |
 | `promotion_code` | Optional | string | Promotion code used to create this discount. Present only when source is promotion and a code was used. |
@@ -2220,7 +2220,7 @@ The checkout after a confirmed code, and the credential that acts for the custom
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `url` | Required | string | Load this URL in an iframe on page_origin when applying a gift card returns GIFT_CARD_CHALLENGE_REQUIRED. The page posts a single-use proof to your page; send it in Flint-Gift-Card-Challenge. Treat the URL as opaque. It stays the same for the session and stops working when the session ends. Format: `uri`. |
+| `url` | Required | string | Load this URL in an iframe on page_origin when applying a gift card returns GIFT_CARD_CHALLENGE_REQUIRED. On a hosted session, Flint's checkout loads it for you, so you don't need to do anything. The page posts a single-use proof to your page; send it in Flint-Gift-Card-Challenge. Treat the URL as opaque. It stays the same for the session and stops working when the session ends. Format: `uri`. |
 
 ## CheckoutLegalConfig
 
@@ -2284,7 +2284,7 @@ A card the buyer saved with the checkout's payment by giving a mobile phone numb
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `automatic_enabled` | Optional | boolean |  |
-| `codes_enabled` | Optional | boolean or null | Object-level override for hosted checkout promotion code entry and application. Omit to inherit the merchant checkout default. True shows code entry when policy allows it; false hides it for this checkout. |
+| `codes_enabled` | Optional | boolean or null | Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Hosted checkout shows or hides code entry to match. Omit to inherit checkout.promotion_code_entry_enabled. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout. |
 
 ## CheckoutQuickPayItemRequest
 
@@ -2514,7 +2514,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"AMOUNT_NOT_ADJUSTABLE"`
 - `"AMOUNT_NOT_UPDATABLE"`
 - `"AMOUNT_REQUIRED"`
-- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
 - `"AMOUNT_TOO_LARGE"`
 - `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
@@ -2635,7 +2634,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
-- `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
 - `"CHECKOUT_RECOVERY_RESTRICTED"`
@@ -2834,6 +2832,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DISCOUNT_AMOUNT_INVALID"`
 - `"DISCOUNT_IDS_REQUIRED"`
 - `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_NOT_REMOVABLE"`
 - `"DISCOUNT_REQUIRED"`
 - `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
@@ -2870,6 +2869,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_ORDER_DISCOUNT_ID"`
 - `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
@@ -2913,6 +2913,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
 - `"FIELD_NOT_ALLOWED_FOR_CALLER"`
@@ -3618,6 +3619,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
 - `"NAME_TOO_LONG"`
+- `"NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
@@ -3756,15 +3758,12 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PAYMENT_ALREADY_SETTLED"`
 - `"PAYMENT_ALREADY_SUCCEEDED"`
 - `"PAYMENT_AMOUNT_CHANGED"`
-- `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
-- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
-- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
 - `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
@@ -3783,6 +3782,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
 - `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_IN_PROGRESS"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
@@ -3896,7 +3896,6 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
-- `"PROMOTION_NO_ACTIVE_CODES"`
 - `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
@@ -4166,6 +4165,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 - `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_RULE_VALUE"`
 - `"UNKNOWN_SCOPE"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
@@ -4220,7 +4220,7 @@ The checkout session and the credential to operate it. For hosted checkout, send
 | `default_delivery_method_ids` | Optional | Array of string | Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. |
 | `default_expires_in_seconds` | Optional | exact numeric string | Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `enabled_payment_options` | Optional | Array of string |  |
-| `promotion_code_entry_enabled` | Optional | boolean | Merchant default for hosted checkout promotion code entry. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
+| `promotion_code_entry_enabled` | Optional | boolean | Merchant default for whether a checkout session's buyer can apply promotion codes, hosted or headless; hosted checkout shows or hides code entry to match. Object-level promotion_config.codes_enabled can override it for a session or payment link. |
 | `recovery_email` | Optional | [CheckoutRecoveryEmailSettings](MODELS.md#checkoutrecoveryemailsettings) | Checkout reminder email: one email to a buyer who entered an email address in hosted checkout and left without paying. Merchant scope only. Effective settings default it to off with a 3600 second delay. |
 | `require_billing_address` | Optional | boolean |  |
 | `require_email` | Optional | boolean |  |
@@ -4599,7 +4599,7 @@ Why the buyer is confirming, the email to confirm, and how the code reaches them
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
-| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns PAYMENT_IN_PROGRESS. |
 | `subscription_plan_id` | Optional | string |  |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
@@ -5681,7 +5681,7 @@ Variants: any, any.
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object |  |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. |
 
 ## CreatePromotionRequest
 
@@ -5691,19 +5691,19 @@ Variants: any, any.
 | --- | --- | --- | --- |
 | `application_method` | Required | [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) |  |
 | `codes` | Optional | Array of [CreatePromotionCodeRequest](MODELS.md#createpromotioncoderequest) | Write-only create sugar for code-gated promotions. Accepted only on create; it is not returned on read and cannot be changed via PATCH. Manage codes after create via the /v1/promotions/{promotion_id}/codes child routes. Input only. |
-| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
+| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) | Which discount classes this promotion can combine with. Omitted classes default to true. |
 | `description` | Optional | string |  |
 | `discount_class` | Optional | string | Defaults to order when omitted. Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `display_name` | Optional | string | Buyer-facing promotion name shown in checkout and order discount surfaces. Defaults to name when omitted. |
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `exclusivity` | Optional | [PromotionExclusivity](MODELS.md#promotionexclusivity) |  |
+| `exclusivity` | Optional | [PromotionExclusivityRequest](MODELS.md#promotionexclusivityrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object |  |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. This is not intended for buyer-facing checkout or receipt copy. |
 | `redemption_type` | Optional | string | Values: `"automatic"`, `"code"`. |
 | `schedule` | Optional | [PromotionSchedule](MODELS.md#promotionschedule) |  |
-| `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
+| `stacking_mode` | Optional | string | continue lets lower-ranked promotions still apply. stop_after admits this promotion and skips every lower-ranked candidate, meaning every candidate with a smaller standalone discount; on a tie, the earlier-created promotion ranks higher. Values: `"continue"`, `"stop_after"`. |
 
 ## CreateRefundRequest
 
@@ -7683,7 +7683,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Required | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Required | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Required | [DeliveryEstimateRule](MODELS.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Required | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7702,7 +7702,7 @@ Variants: any, any, any, any, any, any, any, any, any, any, any, any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Optional | [DeliveryEstimateRuleRequest](MODELS.md#deliveryestimaterulerequest) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7723,7 +7723,7 @@ Only the keys you send change; keys you leave out keep their current values. Eac
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. It does not currently change the automatic rate. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. |
 | `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -7742,7 +7742,7 @@ Only the keys you send change; keys you leave out keep their current values. Eac
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | [BuyerInstructionsConfig](MODELS.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. |
-| `charge_tax_category` | Optional | string or null | Charge classification used in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. It does not currently change the automatic rate. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](MODELS.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. |
 | `estimate` | Optional | [DeliveryEstimateRuleRequest](MODELS.md#deliveryestimaterulerequest) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. |
 | `minimum_option_lifetime_seconds` | Optional | exact numeric string | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Use an exact numeric string, not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
@@ -9347,8 +9347,8 @@ Variants: any, any, any, any, any, any, any.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#errordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
@@ -9356,7 +9356,7 @@ Variants: any, any, any, any, any, any, any.
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. On ORDER_TOTAL_BELOW_NET_COLLECTED, what the change would leave: the order total, or the total without its unpaid tip when items and charges would fall below the money collected for them. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the outstanding balance the allocation would leave. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
@@ -9371,7 +9371,7 @@ Variants: any, any, any, any, any, any, any.
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#errordetail-failure_category-values). |
 | `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [18 declared values](#errordetail-failure_code-values). |
-| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, how far current_money falls below required_money. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -9391,14 +9391,15 @@ Variants: any, any, any, any, any, any, any.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payout_terms_expires_at` | Optional | string | RFC 3339 timestamp in UTC when the new account payout terms end on NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE. Sent at second precision. Choose an allowed schedule or delay, or make the change after this time. Format: `date-time`. |
 | `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#errordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, reason is payout_frequency for a schedule that pays out too often, or payout_delay for a delay_days_override below delay_days. Values: [94 declared values](#errordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, the money already collected for the order. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the order's unpaid tip the invoice must keep outstanding. |
 | `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
 | `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
@@ -9407,7 +9408,7 @@ Variants: any, any, any, any, any, any, any.
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the unpaid tip the payment would have to carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
 | `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
@@ -9417,7 +9418,7 @@ Variants: any, any, any, any, any, any, any.
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the payment can carry: the balance left to collect. |
 | `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#errordetail-unavailable_reason-values). |
 | `variant_id` | Optional | string | Variant associated with the error. |
 
@@ -9463,7 +9464,6 @@ Variants: any, any, any, any, any, any, any.
 - `"AMOUNT_NOT_ADJUSTABLE"`
 - `"AMOUNT_NOT_UPDATABLE"`
 - `"AMOUNT_REQUIRED"`
-- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
 - `"AMOUNT_TOO_LARGE"`
 - `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
@@ -9584,7 +9584,6 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
-- `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
 - `"CHECKOUT_RECOVERY_RESTRICTED"`
@@ -9783,6 +9782,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DISCOUNT_AMOUNT_INVALID"`
 - `"DISCOUNT_IDS_REQUIRED"`
 - `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_NOT_REMOVABLE"`
 - `"DISCOUNT_REQUIRED"`
 - `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
@@ -9819,6 +9819,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_ORDER_DISCOUNT_ID"`
 - `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
@@ -9862,6 +9863,7 @@ Variants: any, any, any, any, any, any, any.
 - `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
 - `"FIELD_NOT_ALLOWED_FOR_CALLER"`
@@ -10567,6 +10569,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
 - `"NAME_TOO_LONG"`
+- `"NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
@@ -10705,15 +10708,12 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_ALREADY_SETTLED"`
 - `"PAYMENT_ALREADY_SUCCEEDED"`
 - `"PAYMENT_AMOUNT_CHANGED"`
-- `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
-- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
-- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
 - `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
@@ -10732,6 +10732,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
 - `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_IN_PROGRESS"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
@@ -10845,7 +10846,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
-- `"PROMOTION_NO_ACTIVE_CODES"`
 - `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
@@ -11115,6 +11115,7 @@ Variants: any, any, any, any, any, any, any.
 - `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_RULE_VALUE"`
 - `"UNKNOWN_SCOPE"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
@@ -11324,6 +11325,7 @@ Variants: any, any, any, any, any, any, any.
 - `"subscription_terms_locked"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"surface_not_supported"`
 - `"tax_changed"`
 - `"trial_in_progress"`
@@ -11355,15 +11357,15 @@ Variants: any, any, any, any, any, any, any.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#errorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1724 declared values](#errorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. On ORDER_TOTAL_BELOW_NET_COLLECTED, what the change would leave: the order total, or the total without its unpaid tip when items and charges would fall below the money collected for them. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the outstanding balance the allocation would leave. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Optional | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
@@ -11375,7 +11377,7 @@ Variants: any, any, any, any, any, any, any.
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#errorobject-failure_category-values). |
-| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, how far current_money falls below required_money. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -11390,14 +11392,15 @@ Variants: any, any, any, any, any, any, any.
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#errorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payout_terms_expires_at` | Optional | string | RFC 3339 timestamp in UTC when the new account payout terms end on NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, repeated from the first item in details. Sent at second precision. Choose an allowed schedule or delay, or make the change after this time. Format: `date-time`. |
 | `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE, repeated from the first item in details. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#errorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, reason is payout_frequency for a schedule that pays out too often, or payout_delay for a delay_days_override below delay_days. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [94 declared values](#errorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, the money already collected for the order. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the order's unpaid tip the invoice must keep outstanding. |
 | `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
 | `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
@@ -11405,14 +11408,14 @@ Variants: any, any, any, any, any, any, any.
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the unpaid tip the payment would have to carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
 | `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
 | `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `supported_actions` | Optional | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the payment can carry: the balance left to collect. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#errorobject-type-values). |
 | `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#errorobject-unavailable_reason-values). |
 | `variant_id` | Optional | string | Variant associated with the error. |
@@ -11459,7 +11462,6 @@ Variants: any, any, any, any, any, any, any.
 - `"AMOUNT_NOT_ADJUSTABLE"`
 - `"AMOUNT_NOT_UPDATABLE"`
 - `"AMOUNT_REQUIRED"`
-- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
 - `"AMOUNT_TOO_LARGE"`
 - `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
@@ -11580,7 +11582,6 @@ Variants: any, any, any, any, any, any, any.
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
-- `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
 - `"CHECKOUT_RECOVERY_RESTRICTED"`
@@ -11779,6 +11780,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DISCOUNT_AMOUNT_INVALID"`
 - `"DISCOUNT_IDS_REQUIRED"`
 - `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_NOT_REMOVABLE"`
 - `"DISCOUNT_REQUIRED"`
 - `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
@@ -11815,6 +11817,7 @@ Variants: any, any, any, any, any, any, any.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_ORDER_DISCOUNT_ID"`
 - `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
@@ -11858,6 +11861,7 @@ Variants: any, any, any, any, any, any, any.
 - `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
 - `"FIELD_NOT_ALLOWED_FOR_CALLER"`
@@ -12563,6 +12567,7 @@ Variants: any, any, any, any, any, any, any.
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
 - `"NAME_TOO_LONG"`
+- `"NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
@@ -12701,15 +12706,12 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_ALREADY_SETTLED"`
 - `"PAYMENT_ALREADY_SUCCEEDED"`
 - `"PAYMENT_AMOUNT_CHANGED"`
-- `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
-- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
-- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
 - `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
@@ -12728,6 +12730,7 @@ Variants: any, any, any, any, any, any, any.
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
 - `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_IN_PROGRESS"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
@@ -12841,7 +12844,6 @@ Variants: any, any, any, any, any, any, any.
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
-- `"PROMOTION_NO_ACTIVE_CODES"`
 - `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
@@ -13111,6 +13113,7 @@ Variants: any, any, any, any, any, any, any.
 - `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_RULE_VALUE"`
 - `"UNKNOWN_SCOPE"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
@@ -13277,6 +13280,7 @@ Variants: any, any, any, any, any, any, any.
 - `"subscription_terms_locked"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"surface_not_supported"`
 - `"tax_changed"`
 - `"trial_in_progress"`
@@ -17620,8 +17624,8 @@ Variants: object, object, object.
 | --- | --- | --- | --- |
 | `allowed_key_modes` | Optional | Array of string | API key modes in which this scope may be granted. |
 | `available_quantity` | Optional | exact numeric string | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#inventorytransferactionconflicterrordetail-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `captured_physical_revision` | Optional | exact numeric string | Physical revision captured when the inventory count started. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
@@ -17629,7 +17633,7 @@ Variants: object, object, object.
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. Values: `"physical_revision"`, `"source_observation_sequence"`. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. On ORDER_TOTAL_BELOW_NET_COLLECTED, what the change would leave: the order total, or the total without its unpaid tip when items and charges would fall below the money collected for them. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the outstanding balance the allocation would leave. |
 | `current_physical_revision` | Optional | exact numeric string | Current physical revision observed when applying the inventory count. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
@@ -17644,7 +17648,7 @@ Variants: object, object, object.
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#inventorytransferactionconflicterrordetail-failure_category-values). |
 | `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [18 declared values](#inventorytransferactionconflicterrordetail-failure_code-values). |
-| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, how far current_money falls below required_money. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Sent on INVENTORY_INSUFFICIENT, INVENTORY_LOCATION_INELIGIBLE, INVENTORY_COUNT_PHYSICAL_REVISION_CHANGED, and INVENTORY_SOURCE_SEQUENCE_CHANGED. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
@@ -17664,14 +17668,15 @@ Variants: object, object, object.
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_method_domain_id` | Optional | string | On PAYMENT_METHOD_DOMAIN_ALREADY_EXISTS, the ID of the payment method domain already registered for this domain_name. Use it instead of registering the domain again. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payout_terms_expires_at` | Optional | string | RFC 3339 timestamp in UTC when the new account payout terms end on NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE. Sent at second precision. Choose an allowed schedule or delay, or make the change after this time. Format: `date-time`. |
 | `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. Values: [93 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, reason is payout_frequency for a schedule that pays out too often, or payout_delay for a delay_days_override below delay_days. Values: [94 declared values](#inventorytransferactionconflicterrordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. |
 | `requested_key_mode` | Optional | string | API key mode requested for the rejected scope grant. Values: `"live"`, `"test"`. |
 | `requested_quantity` | Optional | exact numeric string | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, the money already collected for the order. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the order's unpaid tip the invoice must keep outstanding. |
 | `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
 | `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
@@ -17680,7 +17685,7 @@ Variants: object, object, object.
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
 | `shortage_quantity` | Optional | exact numeric string | Whole-number quantity; fractional quantities are not supported. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the unpaid tip the payment would have to carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `submitted_source_observation_sequence` | Optional | exact numeric string | Absolute source sequence submitted for this inventory count line. Use an exact numeric string, not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
 | `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
@@ -17690,7 +17695,7 @@ Variants: object, object, object.
 | `supported_api_versions` | Optional | Array of string | On INVALID_API_VERSION and API_VERSION_RETIRED, the API versions you can use now. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the payment can carry: the balance left to collect. |
 | `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#inventorytransferactionconflicterrordetail-unavailable_reason-values). |
 | `variant_id` | Optional | string | Variant associated with the error. |
 
@@ -17736,7 +17741,6 @@ Variants: object, object, object.
 - `"AMOUNT_NOT_ADJUSTABLE"`
 - `"AMOUNT_NOT_UPDATABLE"`
 - `"AMOUNT_REQUIRED"`
-- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
 - `"AMOUNT_TOO_LARGE"`
 - `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
@@ -17857,7 +17861,6 @@ Variants: object, object, object.
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
-- `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
 - `"CHECKOUT_RECOVERY_RESTRICTED"`
@@ -18056,6 +18059,7 @@ Variants: object, object, object.
 - `"DISCOUNT_AMOUNT_INVALID"`
 - `"DISCOUNT_IDS_REQUIRED"`
 - `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_NOT_REMOVABLE"`
 - `"DISCOUNT_REQUIRED"`
 - `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
@@ -18092,6 +18096,7 @@ Variants: object, object, object.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_ORDER_DISCOUNT_ID"`
 - `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
@@ -18135,6 +18140,7 @@ Variants: object, object, object.
 - `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
 - `"FIELD_NOT_ALLOWED_FOR_CALLER"`
@@ -18840,6 +18846,7 @@ Variants: object, object, object.
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
 - `"NAME_TOO_LONG"`
+- `"NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
@@ -18978,15 +18985,12 @@ Variants: object, object, object.
 - `"PAYMENT_ALREADY_SETTLED"`
 - `"PAYMENT_ALREADY_SUCCEEDED"`
 - `"PAYMENT_AMOUNT_CHANGED"`
-- `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
-- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
-- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
 - `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
@@ -19005,6 +19009,7 @@ Variants: object, object, object.
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
 - `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_IN_PROGRESS"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
@@ -19118,7 +19123,6 @@ Variants: object, object, object.
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
-- `"PROMOTION_NO_ACTIVE_CODES"`
 - `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
@@ -19388,6 +19392,7 @@ Variants: object, object, object.
 - `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_RULE_VALUE"`
 - `"UNKNOWN_SCOPE"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
@@ -19597,6 +19602,7 @@ Variants: object, object, object.
 - `"subscription_terms_locked"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"surface_not_supported"`
 - `"tax_changed"`
 - `"trial_in_progress"`
@@ -19628,15 +19634,15 @@ Variants: object, object, object.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_ATTEMPT_STILL_PROCESSING, PAYMENT_ATTEMPT_FROZEN, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_IN_PROGRESS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, CHECKOUT_PAYMENT_RESOLVING, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
+| `blocking_resource_count` | Optional | exact numeric string | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, the total number of blocking resources. blocking_resources lists up to 25 of them. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. Use an exact numeric string, not a floating-point number. Format: `int64`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](MODELS.md#errorresourcereference) | On DELIVERY_RESOURCE_HAS_DEPENDENCIES, FULFILLMENT_METHOD_UNAVAILABLE, RETURN_LINE_CANCELLATION_CONFLICT, ORDER_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_ATTEMPT_ACTIVE, INVOICE_PAYMENT_PROCESSING, PAYMENT_OPERATION_IN_PROGRESS, PAYMENT_CONFIRM_IN_PROGRESS, PAYMENT_REVIEW_OPEN, PAYMENT_IN_PROGRESS, SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS, ORDER_PAYMENT_FLOW_REQUIRED, INVOICE_ISSUE_IN_PROGRESS, CREDIT_NOTE_ISSUE_IN_PROGRESS, INVOICE_HAS_ISSUED_CREDIT_NOTE, CREDIT_NOTE_HAS_ALLOCATIONS, ORDER_ALREADY_HAS_ACTIVE_INVOICE, ORDER_HAS_OPEN_CHECKOUT, ORDER_HAS_ACTIVE_PAYMENT_INTENT, ORDER_ALREADY_HAS_PAYMENTS, ORDER_ALREADY_HAS_REFUNDS, ORDER_HAS_MANUAL_PAYMENTS, INVOICE_PAYMENT_TERM_IN_USE, INVOICE_PAYMENT_RESOLVING, INVOICE_LOCKED_ORDER_FINANCIALS, PAYMENT_ATTEMPT_REQUIRES_CAPTURE, ORDER_COLLECTION_IN_PROGRESS, ORDER_COLLECTION_ALREADY_ACTIVE, ORDER_CUSTOMER_CHECKOUT_ACTIVE, CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SESSION_CURRENT_CHANGED, INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, CUSTOMER_EMAIL_ALREADY_USED, resources that must transition or be corrected before the operation can succeed. Invoice and order dependency conflicts list up to 25 resources; blocking_resource_count is the total when present. Buyer credentials do not receive merchant-only blocking resources. Manual payment conflicts identify their owning invoices. On CHECKOUT_SESSION_CURRENT_CHANGED, blockers are present only when the current session is known. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [8 declared values](#inventorytransferactionconflicterrorobject-capability-values). |
 | `capturable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE, the most you can capture now. Retry with an amount at or below it. |
 | `code` | Required | string | Stable Flint error code. Use x-flint-error-codes on each operation to discover the codes relevant to that call. Values: [1724 declared values](#inventorytransferactionconflicterrorobject-code-values). |
 | `conflict_details` | Optional | Array of [CheckoutSessionRevisionConflictDetail](MODELS.md#checkoutsessionrevisionconflictdetail) | On CHECKOUT_SESSION_REVISION_CONFLICT, the latest revision of the line item's modifiers and, when available, the line item's current modifiers and amounts. Show the current state, then retry with latest_revision as expected_version. |
 | `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on PAYMENT_SOURCE_CONFLICT, PAYMENT_START_SHAPE_CONFLICT, and PAYMENT_ATTEMPT_RESUME_CONFLICT. |
 | `current_checkout_session_id` | Optional | string | On CHECKOUT_SESSION_CURRENT_CHANGED, the ID of the checkout session that is current. The request named an earlier one. |
-| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. |
+| `current_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Current money amount counted toward the threshold, when the error is threshold-based. On ORDER_CHANGED_REFRESH_REQUIRED and PAYMENT_LEG_SELECTION_REQUIRED, the order's current outstanding balance. On ORDER_TOTAL_BELOW_NET_COLLECTED, what the change would leave: the order total, or the total without its unpaid tip when items and charges would fall below the money collected for them. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the outstanding balance the allocation would leave. |
 | `current_resource` | Optional | Alternative shapes (see declared variants) | Current fulfillment, shipment, or package returned when a conditional write conflicts with resource state. |
 | `current_selection_id` | Optional | string | Current effective delivery selection ID returned with a selection concurrency conflict. |
 | `current_status` | Required | string | Current lifecycle status of the resource when the requested mutation is not allowed. |
@@ -19648,7 +19654,7 @@ Variants: object, object, object.
 | `existing_checkout_session_id` | Optional | string | ID of the open checkout session that already owns the order. Sent on CHECKOUT_SESSION_ALREADY_EXISTS, CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE, and ORDER_CUSTOMER_CHECKOUT_ACTIVE. Recover the session from this field, not from message. |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On ORDER_CHANGED_REFRESH_REQUIRED when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. |
 | `failure_category` | Optional | string | Delivery pricing failure category on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the rate cannot be calculated. Values: [16 declared values](#inventorytransferactionconflicterrorobject-failure_category-values). |
-| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. |
+| `gap_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Additional money amount needed to satisfy the threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, how far current_money falls below required_money. |
 | `invoice_payment_attempt_id` | Optional | string | ID of the invoice payment attempt this error concerns. On INVOICE_PAYMENT_ATTEMPT_ACTIVE and INVOICE_PAYMENT_PROCESSING, the invoice's open payment attempt. On INVOICE_PAYMENT_FAILED, the invoice payment attempt that failed. |
 | `is_resumable` | Optional | boolean | Whether the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id can be resumed. On order payment attempt errors, if false, read payment_attempt_status before starting another payment. Invoice payment attempt errors always send false. |
 | `limit` | Optional | exact numeric string | The limit that was reached. On PAYMENT_INTENT_LIMIT_REACHED, the most payment intents an order can have over its lifetime. On SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED, the most payment retries a subscription allows in one billing period. Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -19663,14 +19669,15 @@ Variants: object, object, object.
 | `payment_attempt_status` | Optional | string | Status of the payment attempt identified by order_payment_attempt_id or invoice_payment_attempt_id when the error was returned. Values: [11 declared values](#inventorytransferactionconflicterrorobject-payment_attempt_status-values). |
 | `payment_intent_ids` | Optional | Array of string | Payment intent IDs this error concerns. On ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE and CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED, the order's unpaid payment intents, which you can cancel to collect the order through hosted checkout. On ORDER_OWNED_PAYMENT_INTENT_REQUIRED, the selected payment intent that this order does not own. |
 | `payment_option` | Optional | string | Flint payment option associated with this error, when the error is about a specific requested or selected payment option. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payout_terms_expires_at` | Optional | string | RFC 3339 timestamp in UTC when the new account payout terms end on NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, repeated from the first item in details. Sent at second precision. Choose an allowed schedule or delay, or make the change after this time. Format: `date-time`. |
 | `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE, repeated from the first item in details. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. |
 | `product_id` | Optional | string | Product associated with the error. |
 | `quota` | Optional | [QuotaDetails](MODELS.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. |
-| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [93 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
+| `reason` | Optional | string | Stable Flint reason code associated with this error. For payment option availability errors this matches PaymentOptionBlocker.code. When code is PAYMENT_PROCESSING_UNAVAILABLE, PAYMENT_OPTION_UNAVAILABLE, or MONEY_MOVEMENT_OPERATION_BLOCKED, platform_funding_unavailable identifies a stop on Flint's platform that requires no merchant changes. When code is PROMOTION_DECLINED, branch on reason. Promotion decline reasons are: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, disabled, exhausted, expired, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED, current reasons are shipping_changed, tax_changed, and method_unavailable. Additional reasons may be added. When code is NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE, reason is payout_frequency for a schedule that pays out too often, or payout_delay for a delay_days_override below delay_days. When code is CHECKOUT_SESSION_MODIFIERS_READ_ONLY, reason is existing_order_checkout, invoice_finalized, or subscription_terms_locked. When code is GIFT_CARD_CHALLENGE_REQUIRED, reason is proof_required, proof_rejected, or page_origin_required. Values: [94 declared values](#inventorytransferactionconflicterrorobject-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](MODELS.md#errorremediation) | Recovery guidance: whether retrying can succeed and what to do next. |
 | `request_id` | Optional | string | ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. |
 | `request_log_url` | Optional | string | Authenticated request-log lookup filtered to this request_id. |
-| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. |
+| `required_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Money amount required to satisfy a minimum threshold, when the error is threshold-based. On ORDER_TOTAL_BELOW_NET_COLLECTED, the money already collected for the order. On CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE, the order's unpaid tip the invoice must keep outstanding. |
 | `requoted_shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Shipping total computed for the new destination, when available. Response only. |
 | `requoted_tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Tax total computed for the new destination, when available. Response only. |
 | `return_resolution_id` | Optional | string | On RETURN_CHECKOUT_REQUIRED, the return resolution whose balance the order collects. Create the checkout session with POST /v1/return-resolutions/{return_resolution_id}/checkout-session instead. |
@@ -19678,14 +19685,14 @@ Variants: object, object, object.
 | `selectable_merchants` | Optional | Array of [SelectableMerchant](MODELS.md#selectablemerchant) | Merchants available to this developer identity when code is MERCHANT_SELECTION_REQUIRED or INVALID_MERCHANT_SELECTION. Retry with one of the returned merchant_id values. |
 | `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](MODELS.md#selectableorderpaymentintent) | On PAYMENT_LEG_SELECTION_REQUIRED, the order's payment intents you can choose from. Retry with a payment_intents selection built from these. |
 | `shipping_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed shipping total on the paid order when its destination cannot change without repricing. Response only. |
-| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the tip the selected payment legs must carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
+| `submitted_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Amount from your request that failed the check. On TIP_ALLOCATION_CAPACITY_EXCEEDED, the unpaid tip the payment would have to carry. On ORDER_CHANGED_REFRESH_REQUIRED, the expected_outstanding_money you sent, or the total of the selected payment legs when they do not fit the outstanding balance. |
 | `subscription_delivery_migration_id` | Optional | string | Subscription delivery migration associated with the error. |
 | `subscription_offer_id` | Optional | string | Subscription offer associated with the error. |
 | `subscription_plan_line_item_id` | Optional | string | Subscription plan line item associated with the error. |
 | `supported_actions` | Required | Array of string | Actions currently accepted by the resource. |
 | `surface` | Optional | string | On CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED, the current surface of the checkout session in existing_checkout_session_id: hosted or embedded. Request this surface to keep using that session. |
 | `tax_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Committed tax total on the paid order when its destination cannot change without repricing. Response only. |
-| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the selected payment legs can carry. Select more tip-capable payment legs to cover submitted_money. |
+| `tip_capable_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | On TIP_ALLOCATION_CAPACITY_EXCEEDED, the largest tip the payment can carry: the balance left to collect. |
 | `type` | Required | string | Coarse category determined by the HTTP status. 400, 422: validation_error; 401: authentication_error; 402: payment_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415: invalid_request_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Values: [12 declared values](#inventorytransferactionconflicterrorobject-type-values). |
 | `unavailable_reason` | Optional | string | Delivery eligibility reason on SUBSCRIPTION_DELIVERY_UNAVAILABLE, when the selected method is unavailable. Values: [7 declared values](#inventorytransferactionconflicterrorobject-unavailable_reason-values). |
 | `variant_id` | Optional | string | Variant associated with the error. |
@@ -19732,7 +19739,6 @@ Variants: object, object, object.
 - `"AMOUNT_NOT_ADJUSTABLE"`
 - `"AMOUNT_NOT_UPDATABLE"`
 - `"AMOUNT_REQUIRED"`
-- `"AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS"`
 - `"AMOUNT_TOO_LARGE"`
 - `"AMOUNT_TOO_SMALL"`
 - `"API_KEYS_UNAVAILABLE"`
@@ -19853,7 +19859,6 @@ Variants: object, object, object.
 - `"CHECKOUT_MANUAL_DISCOUNT_NOT_ALLOWED"`
 - `"CHECKOUT_ORDER_UPDATE_FIELD_NOT_ALLOWED"`
 - `"CHECKOUT_PAYMENT_METHOD_STATUS_UNSUPPORTED"`
-- `"CHECKOUT_PAYMENT_RESOLVING"`
 - `"CHECKOUT_RECOVERY_ATTEMPT_MISMATCH"`
 - `"CHECKOUT_RECOVERY_EMAIL_ADDRESS_REQUIRED"`
 - `"CHECKOUT_RECOVERY_RESTRICTED"`
@@ -20052,6 +20057,7 @@ Variants: object, object, object.
 - `"DISCOUNT_AMOUNT_INVALID"`
 - `"DISCOUNT_IDS_REQUIRED"`
 - `"DISCOUNT_NOT_FOUND"`
+- `"DISCOUNT_NOT_REMOVABLE"`
 - `"DISCOUNT_REQUIRED"`
 - `"DISPLAY_NAME_TOO_LONG"`
 - `"DISPUTES_UNAVAILABLE"`
@@ -20088,6 +20094,7 @@ Variants: object, object, object.
 - `"DUPLICATE_OPTION_SELECTION"`
 - `"DUPLICATE_OPTION_VALUE"`
 - `"DUPLICATE_ORDER_CHARGE_ID"`
+- `"DUPLICATE_ORDER_DISCOUNT_ID"`
 - `"DUPLICATE_PAYMENT_INTENT_ID"`
 - `"DUPLICATE_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"DUPLICATE_PAYMENT_LINK_LINE_ITEM_ID"`
@@ -20131,6 +20138,7 @@ Variants: object, object, object.
 - `"EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"EXTERNAL_TAX_COMPONENTS_REQUIRED"`
+- `"EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED"`
 - `"FEEDBACK_REPORTS_UNAVAILABLE"`
 - `"FEEDBACK_REPORT_NOT_FOUND"`
 - `"FIELD_NOT_ALLOWED_FOR_CALLER"`
@@ -20836,6 +20844,7 @@ Variants: object, object, object.
 - `"MULTIPLE_IDENTITIES_FOUND"`
 - `"NAME_REQUIRED"`
 - `"NAME_TOO_LONG"`
+- `"NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE"`
 - `"NORMALIZED_IMAGE_TOO_LARGE"`
 - `"NOTE_TOO_LONG"`
 - `"NOTHING_TO_REFUND"`
@@ -20974,15 +20983,12 @@ Variants: object, object, object.
 - `"PAYMENT_ALREADY_SETTLED"`
 - `"PAYMENT_ALREADY_SUCCEEDED"`
 - `"PAYMENT_AMOUNT_CHANGED"`
-- `"PAYMENT_ATTEMPT_FROZEN"`
 - `"PAYMENT_ATTEMPT_ID_REQUIRED"`
-- `"PAYMENT_ATTEMPT_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_MISMATCH"`
 - `"PAYMENT_ATTEMPT_NOT_CANCELABLE"`
 - `"PAYMENT_ATTEMPT_NOT_RESUMABLE"`
 - `"PAYMENT_ATTEMPT_REQUIRES_CAPTURE"`
 - `"PAYMENT_ATTEMPT_RESUME_CONFLICT"`
-- `"PAYMENT_ATTEMPT_STILL_PROCESSING"`
 - `"PAYMENT_AUTHORIZATION_EXPIRED"`
 - `"PAYMENT_AUTHORIZATION_NOT_CAPTURABLE"`
 - `"PAYMENT_BLOCKED"`
@@ -21001,6 +21007,7 @@ Variants: object, object, object.
 - `"PAYMENT_INTENT_NOT_PART_OF_ORDER"`
 - `"PAYMENT_INTENT_NOT_REFUNDABLE"`
 - `"PAYMENT_INTENT_ORDER_MISMATCH"`
+- `"PAYMENT_IN_PROGRESS"`
 - `"PAYMENT_LEG_SELECTION_REQUIRED"`
 - `"PAYMENT_LINKS_UNAVAILABLE"`
 - `"PAYMENT_LINK_CHANGED"`
@@ -21114,7 +21121,6 @@ Variants: object, object, object.
 - `"PROMOTION_NOT_CODE_GATED"`
 - `"PROMOTION_NOT_FOUND"`
 - `"PROMOTION_NOT_REDEEMABLE"`
-- `"PROMOTION_NO_ACTIVE_CODES"`
 - `"PROMOTION_SHAPE_IMMUTABLE"`
 - `"PROVIDER_ACCOUNT_CLEANUP_REQUIRED"`
 - `"PROVIDER_READINESS_UNAVAILABLE"`
@@ -21384,6 +21390,7 @@ Variants: object, object, object.
 - `"UNKNOWN_PAYMENT_LINK_CUSTOM_FIELD_ID"`
 - `"UNKNOWN_PAYMENT_LINK_LINE_ITEM_ID"`
 - `"UNKNOWN_PREDICATE_FIELD"`
+- `"UNKNOWN_RULE_VALUE"`
 - `"UNKNOWN_SCOPE"`
 - `"UNSAFE_FEEDBACK_CONTENT"`
 - `"UNSUPPORTED_APPLICATION_TYPE"`
@@ -21550,6 +21557,7 @@ Variants: object, object, object.
 - `"subscription_terms_locked"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"surface_not_supported"`
 - `"tax_changed"`
 - `"trial_in_progress"`
@@ -23936,7 +23944,6 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 | `purchased_event` | Optional | [PurchasedEvent](MODELS.md#purchasedevent) | Response only. |
 | `refund_ids` | Optional | Array of string | Response only. |
 | `refund_status` | Required | string | Values: `"none"`, `"partially_refunded"`, `"refunded"`. Response only. |
-| `requested_tip` | Optional | [RequestedTip](MODELS.md#requestedtip) |  |
 | `return_credit_settlements` | Optional | Array of [OrderReturnCreditSettlement](MODELS.md#orderreturncreditsettlement) | Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Response only. |
 | `settlement_amounts` | Required | [SettlementAmounts](MODELS.md#settlementamounts) | Response only. |
 | `setup_collection` | Optional | [PaymentCollection](MODELS.md#paymentcollection) | Response only. |
@@ -24030,7 +24037,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `calculation` | Optional | [TaxCalculationRequest](MODELS.md#taxcalculationrequest) |  |
-| `charge_tax_category` | Optional | string | Flint charge tax category. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
+| `charge_tax_category` | Optional | string | Tax category of the charge, which decides its automatic tax: shipping and delivery are taxed at the general rate, and a taxable charge in another category fails with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Omitted, the charge takes delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and handling from handling_fee; other types take none. The default follows type and is not returned. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
 | `taxable` | Optional | boolean |  |
 
 ## OrderCalculatedLineItemTax
@@ -26808,8 +26815,8 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `charge_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
+| `charge_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Total of the order's service charges after service-charge discounts. |
+| `discount_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Total of order and line-item discounts. Service-charge discounts, such as free shipping, are not included; they reduce charge_money. |
 | `requested_tip_money` | Required | [MoneyValue](MODELS.md#moneyvalue) | Tip money in the total: the requested tip before payment, and settled tips net of refunds after. |
 | `subtotal_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
 | `tax_money` | Required | [MoneyValue](MODELS.md#moneyvalue) |  |
@@ -27117,7 +27124,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `promotion_id` | Required | string |  |
 | `redemption_type` | Required | string | Values: `"automatic"`, `"code"`. |
 | `schedule` | Optional | [PromotionSchedule](MODELS.md#promotionschedule) |  |
-| `stacking_mode` | Required | string | Values: `"continue"`, `"stop_after"`. |
+| `stacking_mode` | Required | string | continue lets lower-ranked promotions still apply. stop_after admits this promotion and skips every lower-ranked candidate, meaning every candidate with a smaller standalone discount; on a tie, the earlier-created promotion ranks higher. Values: `"continue"`, `"stop_after"`. |
 | `status` | Required | string | Read-only, computed from the schedule, usage, and codes: active, inactive, expired, not_yet_started, exhausted, no_active_codes, or archived. Only active and inactive can be set via PATCH. Values: `"active"`, `"inactive"`, `"expired"`, `"not_yet_started"`, `"exhausted"`, `"no_active_codes"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `uses_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
@@ -27138,7 +27145,7 @@ Canonical REST shape is flat: send type plus the effect fields on this object. R
 | `get_percent_off` | Optional | number | minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `max_applications_per_order` | Optional | integer | Format: `int32`. minimum: `1`. |
-| `max_discounted_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
+| `max_discounted_quantity` | Optional | integer | Maximum number of matched units that receive the discount. Only valid when type is percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns INVALID_MAX_DISCOUNTED_QUANTITY. Whole-number quantity; fractional quantities are not supported. Flint discounts the first matched units in line-item order (the order items were added), not the cheapest. Format: `int32`. minimum: `1`. |
 | `percent_off` | Optional | number | minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `qualifying_item_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
 | `recurrence` | Optional | [PromotionRecurrence](MODELS.md#promotionrecurrence) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. |
@@ -27165,7 +27172,7 @@ Variants: any, any, any.
 | `order_line_item_ids` | Optional | Array of string |  |
 | `promotion_code` | Optional | string |  |
 | `promotion_code_id` | Optional | string |  |
-| `promotion_decline_reason` | Optional | string | Values: [19 declared values](#promotioncandidate-promotion_decline_reason-values). |
+| `promotion_decline_reason` | Optional | string | Values: [20 declared values](#promotioncandidate-promotion_decline_reason-values). |
 | `promotion_id` | Required | string |  |
 | `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
 | `threshold_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Minimum money amount required by a threshold rule for available[] candidates. |
@@ -27191,6 +27198,7 @@ Variants: any, any, any.
 - `"not_yet_started"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"unknown_type"`
 
 ## PromotionCode
@@ -27208,8 +27216,8 @@ Variants: any, any, any.
 | `promotion` | Optional | [Promotion](MODELS.md#promotion) | The promotion this code belongs to. Present only when the list request asked for expand=promotion. |
 | `promotion_code_id` | Required | string |  |
 | `promotion_id` | Required | string |  |
-| `status` | Required | string | Read-only, computed from stored active or inactive state, expires_at, and max_uses: active, inactive, expired, or exhausted. Only active and inactive can be set via PATCH. Values: `"active"`, `"inactive"`, `"expired"`, `"exhausted"`. |
-| `timezone` | Optional | string |  |
+| `status` | Required | string | Read-only, computed from stored active or inactive state, expires_at, and max_uses: active, inactive, expired, or exhausted. Only active and inactive can be set via PATCH. Describes only the code: an active code under an inactive, expired, not yet started, or archived promotion still can't be redeemed. Values: `"active"`, `"inactive"`, `"expired"`, `"exhausted"`. |
+| `timezone` | Optional | string | IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `uses_count` | Required | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 
@@ -27264,6 +27272,16 @@ Variants: any, any, any.
 | `priority` | Optional | integer | Format: `int32`. |
 | `selection` | Required | string | Values: `"best_of"`, `"highest_priority"`. |
 
+## PromotionExclusivityRequest
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `group` | Required | string |  |
+| `priority` | Optional | integer | Format: `int32`. |
+| `selection` | Optional | string | Defaults to `best_of`. Values: `"best_of"`, `"highest_priority"`. |
+
 ## PromotionListResponse
 
 
@@ -27293,7 +27311,7 @@ Variants: any, any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `promotion_code` | Optional | string | Human-entered promotion code. Use this when redeeming a campaign code. |
-| `promotion_id` | Optional | string | Flint promotion ID. Use this for server-side apply flows where you already know the promotion. |
+| `promotion_id` | Optional | string | Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. |
 
 Variants: any, any.
 
@@ -27338,7 +27356,7 @@ Variants: string, number, boolean, object.
 | --- | --- | --- | --- |
 | `ends_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `starts_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute timestamps, so this does not change when the promotion starts or ends. |
 
 ## PromotionSettings
 
@@ -28183,18 +28201,6 @@ Variants: any, any, any.
 | `meta` | Optional | [ResponseMeta](MODELS.md#responsemeta) |  |
 | `request_id` | Optional | string |  |
 
-## RequestedTip
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) |  |
-| `description` | Optional | string |  |
-| `metadata` | Optional | object |  |
-| `name` | Optional | string |  |
-| `percent` | Optional | number | multipleOf: `0.0001`. |
-
 ## ResendWebhookDeliveryRequest
 
 
@@ -28793,12 +28799,12 @@ Variants: any, any, any.
 | `message` | Required | string |  |
 | `next_actions` | Optional | Array of [NextAction](MODELS.md#nextaction) |  |
 | `observed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning. |
-| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Values: [19 declared values](#responsewarning-reason-values). |
+| `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning, or the code of a removed promotion discount, on a promotion_removed warning. |
+| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Values: [20 declared values](#responsewarning-reason-values). |
 | `resource` | Optional | string |  |
 | `resource_id` | Optional | string |  |
 | `severity` | Optional | string |  |
-| `would_have_applied_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning. |
+| `would_have_applied_money` | Optional | [MoneyValue](MODELS.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning, or the amount a removed promotion discount applied before removal, on a promotion_removed warning. |
 
 #### ResponseWarning reason values
 
@@ -28820,6 +28826,7 @@ Variants: any, any, any.
 - `"not_yet_started"`
 - `"superseded"`
 - `"superseded_by_better_offer"`
+- `"superseded_by_higher_priority"`
 - `"unknown_type"`
 
 ## RetryReturnDispositionRequest
@@ -32385,7 +32392,7 @@ Variants: any, any.
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `status` | Optional | string | Stored code switch. Only active and inactive can be set; expired and exhausted are computed on reads. Values: `"active"`, `"inactive"`. |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. |
 
 ## UpdatePromotionRequest
 
@@ -32394,18 +32401,18 @@ Variants: any, any.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `application_method` | Optional | [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) |  |
-| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
+| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) | Send only the classes to change. Omitted classes keep their current value. null, an empty object, and null classes are invalid. |
 | `description` | Optional | string |  |
 | `discount_class` | Optional | string | Promotion discount class. Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `display_name` | Optional | string | Buyer-facing promotion name shown in checkout and order discount surfaces. |
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `exclusivity` | Optional | [PromotionExclusivity](MODELS.md#promotionexclusivity) |  |
+| `exclusivity` | Optional | [PromotionExclusivityRequest](MODELS.md#promotionexclusivityrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `name` | Optional | string | Internal promotion name for dashboards, searching, and reporting. |
 | `schedule` | Optional | [PromotionSchedule](MODELS.md#promotionschedule) |  |
-| `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
+| `stacking_mode` | Optional | string | continue lets lower-ranked promotions still apply. stop_after admits this promotion and skips every lower-ranked candidate, meaning every candidate with a smaller standalone discount; on a tie, the earlier-created promotion ranks higher. Values: `"continue"`, `"stop_after"`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 
 ## UpdateRefundRequest

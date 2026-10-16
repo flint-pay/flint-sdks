@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class DiscountPreviewsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
+    /** Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. The response includes applied, skipped, and single-threshold available promotion candidates.
      * @param array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return DiscountPreview
      */

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $discount_class
  * @property-read string $display_name
  * @property-read list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object $eligibility_rules
- * @property-read PromotionExclusivityInput|array<array-key, mixed>|\stdClass $exclusivity
+ * @property-read PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass $exclusivity
  * @property-read string $external_reference_id
  * @property-read string $max_uses
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePromotionRequestInput extends Model {
-    /** @param array{'application_method'?: PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'combines_with'?: PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'stacking_mode'?: string, 'status'?: string, ...}|object $values */
+    /** @param array{'application_method'?: PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'combines_with'?: PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: list<PromotionRuleInput|array<array-key, mixed>|\stdClass>|array{'all': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<array{'attribute': string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'operator': string, 'values'?: list<PromotionRuleValueInput|array<array-key, mixed>|\stdClass>}|object|PromotionRuleGroupInput|array<array-key, mixed>|\stdClass>}|object, 'exclusivity'?: PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'stacking_mode'?: string, 'status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePromotionRequestInput')); }
     /** @return PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When application_method is omitted; use hasApplicationMethod() or valueOrDefault().
@@ -50,7 +50,7 @@ final class UpdatePromotionRequestInput extends Model {
      */
     public function getEligibilityRules(): mixed { return $this->get('eligibility_rules'); }
     public function hasEligibilityRules(): bool { return $this->has('eligibility_rules'); }
-    /** @return PromotionExclusivityInput|array<array-key, mixed>|\stdClass
+    /** @return PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When exclusivity is omitted; use hasExclusivity() or valueOrDefault().
      */
     public function getExclusivity(): mixed { return $this->get('exclusivity'); }
