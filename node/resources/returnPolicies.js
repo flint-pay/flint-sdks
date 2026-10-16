@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnPolicies.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import r0 from '../descriptors/resources/returnPolicies.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createReturnPolicy"]:r0,["deleteReturnPolicy"]:r0,["getReturnPolicy"]:r0,["getReturnPolicyRevision"]:r0,["listReturnPolicies"]:r0,["listReturnPolicyRevisions"]:r0,["publishReturnPolicyRevision"]:r0,["updateReturnPolicy"]:r0});
 export class Client {

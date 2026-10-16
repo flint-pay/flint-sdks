@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import r0 from '../descriptors/resources/customers.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["setDefaultCustomerAddress"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
 export class Client {

@@ -25,7 +25,7 @@ import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface RefundsResource {
     /**
- * Creates a refund for an order or payment intent. This is a financial operation.
+ * Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
  * POST /v1/refunds
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.

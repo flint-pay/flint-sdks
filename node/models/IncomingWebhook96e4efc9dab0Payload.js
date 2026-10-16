@@ -1,5 +1,5 @@
-import { d1315 as c0, d898 as c1, d903 as c2, d500 as c3, d897 as c4, d902 as c5, d906 as c6, d922 as c7, d923 as c8, d926 as c9, d924 as c10, d925 as c11, d927 as c12, d1311 as c13, d1310 as c14, d1313 as c15, d1314 as c16, d1312 as c17 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
-import { d1315 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d1315 as c0, d898 as c1, d903 as c2, d500 as c3, d897 as c4, d902 as c5, d906 as c6, d922 as c7, d923 as c8, d926 as c9, d924 as c10, d925 as c11, d927 as c12, d1311 as c13, d1310 as c14, d1313 as c15, d1314 as c16, d1312 as c17 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d1315 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d1315;
 let prepared;

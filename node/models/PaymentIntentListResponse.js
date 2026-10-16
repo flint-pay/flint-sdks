@@ -1,5 +1,5 @@
-import { d772 as c0, d90 as c1, d183 as c2, d42 as c3, d323 as c4, d1823 as c5, d1824 as c6, d1969 as c7, d1972 as c8, d404 as c9, d1976 as c10, d408 as c11, d1977 as c12, d406 as c13, d2014 as c14, d2015 as c15, d2017 as c16, d2049 as c17, d2050 as c18, d2051 as c19, d2052 as c20, d2056 as c21, d2178 as c22, d2179 as c23, d2340 as c24, d14 as c25, d405 as c26, d407 as c27, d91 as c28, d92 as c29, d184 as c30, d1822 as c31, d2034 as c32, d2349 as c33, d2350 as c34, d2351 as c35 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
-import { d1977 } from '../descriptors/data.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import { d772 as c0, d90 as c1, d183 as c2, d42 as c3, d323 as c4, d1823 as c5, d1824 as c6, d1969 as c7, d1972 as c8, d404 as c9, d1976 as c10, d408 as c11, d1977 as c12, d406 as c13, d2014 as c14, d2015 as c15, d2017 as c16, d2049 as c17, d2050 as c18, d2051 as c19, d2052 as c20, d2056 as c21, d2178 as c22, d2179 as c23, d2340 as c24, d14 as c25, d405 as c26, d407 as c27, d91 as c28, d92 as c29, d184 as c30, d1822 as c31, d2034 as c32, d2349 as c33, d2350 as c34, d2351 as c35 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d1977 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d1977;
 let prepared;

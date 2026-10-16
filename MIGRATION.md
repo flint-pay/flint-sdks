@@ -1,3 +1,21 @@
+# SDK 4.0.0
+
+This guide covers upgrading from `3.0.0`. The API version stays `2026-09-07`.
+
+## Orders
+
+Order responses no longer include `requested_tip`. Read the requested tip from the `tips` entry that carries it, which also has its ID and resolved amount. `requested_tip` stays a request field on order create and update and invoice quick pay. The `RequestedTip` model is removed.
+
+`orders.create`, `me.getOrder` and `me.getSubscription` no longer accept checkout session credentials. Remove `X-Checkout-Session-ID` and `X-Checkout-Session-Secret` from their params; `me.getOrder` and `me.getSubscription` use the customer session.
+
+## Promotions
+
+Promotion rules that match charge types or delivery types accept only the listed values. Unknown values are rejected with `UNKNOWN_RULE_VALUE`. A request's `exclusivity` uses `PromotionExclusivityRequest`, and promotion application methods reject `max_discounted_quantity` where it does not apply.
+
+## Error codes
+
+These codes are no longer returned: `AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS`, `CHECKOUT_PAYMENT_RESOLVING`, `PAYMENT_ATTEMPT_FROZEN`, `PAYMENT_ATTEMPT_IN_PROGRESS`, `PAYMENT_ATTEMPT_STILL_PROCESSING` and `PROMOTION_NO_ACTIVE_CODES`. Handle `PAYMENT_IN_PROGRESS` where you handled the payment attempt codes. New codes are `DISCOUNT_NOT_REMOVABLE`, `DUPLICATE_ORDER_DISCOUNT_ID`, `EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED`, `NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE`, `PAYMENT_IN_PROGRESS` and `UNKNOWN_RULE_VALUE`.
+
 # SDK 3.0.0
 
 This guide covers upgrading from `3.0.0-beta.20261012044000`. If you are upgrading from `2.0.0`, first apply the changes in the `3.0.0-beta` entries of the [README](README.md#packages), oldest first. The API version stays `2026-09-07`.

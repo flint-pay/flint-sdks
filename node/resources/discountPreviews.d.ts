@@ -12,7 +12,7 @@ import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
 import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
 export interface DiscountPreviewsResource {
     /**
- * Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
+ * Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. The response includes applied, skipped, and single-threshold available promotion candidates.
  * POST /v1/discount-previews
  * @example
  * client.discountPreviews.create({order_id: "example"})

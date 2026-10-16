@@ -8,6 +8,8 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `4.0.0` is generated from the API contract deployed to production and pinned in [`spec/openapi.json`](spec/openapi.json). Install with `npm install @flintpay/node` or `composer require flintpay/flint:^4.0`. It removes the `requested_tip` duplicate from order responses, the checkout session headers that `orders.create`, `me.getOrder` and `me.getSubscription` no longer accept, and retired error codes, and types promotion rule values. The API version remains `2026-09-07`. See [the migration guide](MIGRATION.md#sdk-400).
+
 Version `3.0.0` is the first stable release of the 3.0 line, published under npm `latest` and as a stable Composer release. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^3.0`. It is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json); the API version remains `2026-09-07`. Upgrading from `2.0.0` also brings every change in the `3.0.0-beta` entries below. See [the migration guide](MIGRATION.md#sdk-300).
 
 This release adds one error class per `kind`, under `errors` in Node (`errors.ConflictError`) and `Flint\Errors` in PHP. Each extends `SdkError`, and `kind` remains authoritative. In Node, `error.name` is now the subclass name. `verifyWebhook` (Node) and `Flint\Webhooks::verify` (PHP) verify deliveries without a client. Results with `known: false` include `reason`, either `unknown_event` or `unmatched_envelope`. Node exports `VerifiedWebhook`, `KnownWebhookEvent` and one `WebhookEvent<Name>` type per event. `payment_intent.*` webhooks now carry the full payment intent.
@@ -75,6 +77,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP) | API version  |
 | -------------------------- | ------------ |
+| `4.0.0`                  | `2026-09-07` |
 | `3.0.0`                  | `2026-09-07` |
 | `3.0.0-beta.20261012044000` | `2026-09-07` |
 | `3.0.0-beta.20261009223830` | `2026-09-07` |

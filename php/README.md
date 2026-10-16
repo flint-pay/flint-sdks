@@ -74,7 +74,7 @@ echo $result->status . PHP_EOL;
 
 ### refunds.create
 
-Creates a refund for an order or payment intent. This is a financial operation.
+Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
 
 ```php
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -123,4 +123,4 @@ Verify each delivery with `$client->verifyWebhook($rawBody, $headers, $secrets)`
 - [pagination-and-retries](guides/pagination-and-retries.md)
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 3.0.0, generated for API 2026-09-07.
+Package 4.0.0, generated for API 2026-09-07.

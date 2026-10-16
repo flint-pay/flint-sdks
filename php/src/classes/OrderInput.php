@@ -9,10 +9,9 @@ namespace Flint;
  * @property-read string $internal_note
  * @property-read InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read array<array-key, string>|\stdClass $metadata
- * @property-read RequestedTipInput|array<array-key, mixed>|\stdClass $requested_tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderInput extends Model {
-    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'requested_tip'?: RequestedTipInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderInput')); }
     /** @return string
      * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
@@ -49,9 +48,4 @@ final class OrderInput extends Model {
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return RequestedTipInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When requested_tip is omitted; use hasRequestedTip() or valueOrDefault().
-     */
-    public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
-    public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
 }

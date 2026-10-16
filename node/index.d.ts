@@ -3959,6 +3959,9 @@ export { makePromotionCombinesWith } from './declarations/makePromotionCombinesW
 export { PromotionExclusivity } from './declarations/PromotionExclusivity.js';
 export { PromotionExclusivityInput } from './declarations/PromotionExclusivityInput.js';
 export { makePromotionExclusivity } from './declarations/makePromotionExclusivity.js';
+export { PromotionExclusivityRequest } from './declarations/PromotionExclusivityRequest.js';
+export { PromotionExclusivityRequestInput } from './declarations/PromotionExclusivityRequestInput.js';
+export { makePromotionExclusivityRequest } from './declarations/makePromotionExclusivityRequest.js';
 export { PromotionListResponse } from './declarations/PromotionListResponse.js';
 export { PromotionListResponseInput } from './declarations/PromotionListResponseInput.js';
 export { makePromotionListResponse } from './declarations/makePromotionListResponse.js';
@@ -4166,9 +4169,6 @@ export { makeReportListResponse } from './declarations/makeReportListResponse.js
 export { ReportResponse } from './declarations/ReportResponse.js';
 export { ReportResponseInput } from './declarations/ReportResponseInput.js';
 export { makeReportResponse } from './declarations/makeReportResponse.js';
-export { RequestedTip } from './declarations/RequestedTip.js';
-export { RequestedTipInput } from './declarations/RequestedTipInput.js';
-export { makeRequestedTip } from './declarations/makeRequestedTip.js';
 export { ResendWebhookDeliveryRequest } from './declarations/ResendWebhookDeliveryRequest.js';
 export { ResendWebhookDeliveryRequestInput } from './declarations/ResendWebhookDeliveryRequestInput.js';
 export { makeResendWebhookDeliveryRequest } from './declarations/makeResendWebhookDeliveryRequest.js';

@@ -41,7 +41,6 @@ namespace Flint;
  * @property-read PurchasedEvent $purchased_event
  * @property-read list<string> $refund_ids
  * @property-read string $refund_status
- * @property-read RequestedTip $requested_tip
  * @property-read list<OrderReturnCreditSettlement> $return_credit_settlements
  * @property-read SettlementAmounts $settlement_amounts
  * @property-read PaymentCollection $setup_collection
@@ -57,7 +56,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted fields throw when accessed. */
 final class Order extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'pricing_amounts': mixed, 'purchased_event'?: mixed, 'refund_ids'?: list<string>, 'refund_status': string, 'requested_tip'?: mixed, 'return_credit_settlements'?: list<mixed>, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'pricing_amounts': mixed, 'purchased_event'?: mixed, 'refund_ids'?: list<string>, 'refund_status': string, 'return_credit_settlements'?: list<mixed>, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Order')); }
     /** @return OrderPaymentAttempt
      * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
@@ -254,11 +253,6 @@ final class Order extends Model {
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** @return RequestedTip
-     * @throws SdkError When requested_tip is omitted; use hasRequestedTip() or valueOrDefault().
-     */
-    public function getRequestedTip(): RequestedTip { return $this->get('requested_tip'); }
-    public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
     /** @return list<OrderReturnCreditSettlement>
      * @throws SdkError When return_credit_settlements is omitted; use hasReturnCreditSettlements() or valueOrDefault().
      */

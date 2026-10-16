@@ -394,7 +394,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     createFlintWalletStoreSetupWithResponse(id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"customer">): Promise<SdkResponse<MeCreateFlintWalletStoreSetupResponse>>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
  * POST /v1/me/invoices/{invoice_id}/checkout-session
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -485,7 +485,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getAddressWithResponse(customer_address_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetAddressResponse>>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
  * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}
  * @example
  * client.me.getCreditNote("example", "example")
@@ -494,7 +494,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getCreditNoteWithResponse(invoice_id: InputValue<string>, credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<SdkResponse<MeGetCreditNoteResponse>>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
  * GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf
  * @example
  * client.me.getCreditNotePDF("example", "example")
@@ -528,7 +528,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getGiftCardWithResponse(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetGiftCardResponse>>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single invoice by ID.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns a single invoice by ID.
  * GET /v1/me/invoices/{invoice_id}
  * @example
  * client.me.getInvoice("example")
@@ -537,7 +537,7 @@ export interface MeResource {
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
     getInvoiceWithResponse(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>): Promise<SdkResponse<MeGetInvoiceResponse>>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  * GET /v1/me/invoices/{invoice_id}/pdf
  * @example
  * client.me.getInvoicePDF("example")
@@ -549,9 +549,9 @@ export interface MeResource {
  * @example
  * client.me.getOrder("example")
  */
-    getOrder(order_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
+    getOrder(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<OrderResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOrderWithResponse(order_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetOrderResponse>>;
+    getOrderWithResponse(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetOrderResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single payment method by ID.
  * GET /v1/me/payment-methods/{payment_method_id}
@@ -576,9 +576,9 @@ export interface MeResource {
  * @example
  * client.me.getSubscription("example")
  */
-    getSubscription(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
+    getSubscription(subscription_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getSubscriptionWithResponse(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetSubscriptionResponse>>;
+    getSubscriptionWithResponse(subscription_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): Promise<SdkResponse<MeGetSubscriptionResponse>>;
     /**
  * Uses the customer identity fixed by the customer session. Returns one durable manual subscription payment retry.
  * GET /v1/me/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
@@ -601,7 +601,7 @@ export interface MeResource {
     listAddressesPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<SdkResponse<MeListAddressesResponse>>;
     listAddressesItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>): AsyncGenerator<CustomerAddress>;
     /**
- * Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
+ * Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
  * GET /v1/me/invoices/{invoice_id}/credit-notes
  * @example
  * client.me.listCreditNotes("example")
@@ -1459,7 +1459,6 @@ export type { OrderLineSubscriptionOfferSummary } from '../declarations/OrderLin
 export type { OrderLineSubscriptionOfferDiscount } from '../declarations/OrderLineSubscriptionOfferDiscount.js';
 export type { OrderCalculatedLineItemTax } from '../declarations/OrderCalculatedLineItemTax.js';
 export type { PurchasedEvent } from '../declarations/PurchasedEvent.js';
-export type { RequestedTip } from '../declarations/RequestedTip.js';
 export type { OrderReturnCreditSettlement } from '../declarations/OrderReturnCreditSettlement.js';
 export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
 export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
@@ -1831,7 +1830,6 @@ export { makeOrderLineSubscriptionOfferSummary } from '../declarations/makeOrder
 export { makeOrderLineSubscriptionOfferDiscount } from '../declarations/makeOrderLineSubscriptionOfferDiscount.js';
 export { makeOrderCalculatedLineItemTax } from '../declarations/makeOrderCalculatedLineItemTax.js';
 export { makePurchasedEvent } from '../declarations/makePurchasedEvent.js';
-export { makeRequestedTip } from '../declarations/makeRequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../declarations/makeOrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
 export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';

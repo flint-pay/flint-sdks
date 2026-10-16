@@ -1,6 +1,6 @@
 # Flint Public API API reference
 
-Package 3.0.0; API 2026-09-07.
+Package 4.0.0; API 2026-09-07.
 
 [Models and field descriptions](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -2276,7 +2276,7 @@ Body model: [CreateCheckoutSessionRequest](MODELS.md#createcheckoutsessionreques
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
-| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns PAYMENT_IN_PROGRESS. |
 | `subscription_plan_id` | Optional | string |  |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
@@ -2305,7 +2305,7 @@ Body model: [CreateCheckoutSessionRequest](MODELS.md#createcheckoutsessionreques
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
-| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns PAYMENT_IN_PROGRESS. |
 | `subscription_plan_id` | Optional | string |  |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
@@ -2334,7 +2334,7 @@ Body model: [CreateCheckoutSessionRequest](MODELS.md#createcheckoutsessionreques
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Required | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
-| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns PAYMENT_IN_PROGRESS. |
 | `subscription_plan_id` | Optional | string |  |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
@@ -2363,7 +2363,7 @@ Body model: [CreateCheckoutSessionRequest](MODELS.md#createcheckoutsessionreques
 | `promotion_config` | Optional | [CheckoutPromotionConfig](MODELS.md#checkoutpromotionconfig) |  |
 | `quick_pay_item` | Optional | [CheckoutQuickPayItemRequest](MODELS.md#checkoutquickpayitemrequest) |  |
 | `redirects` | Optional | [CheckoutRedirectsConfig](MODELS.md#checkoutredirectsconfig) |  |
-| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns CHECKOUT_PAYMENT_RESOLVING. |
+| `replace_checkout_session_id` | Optional | string | Expected current open checkout session to replace atomically. Allowed only with order_id. A stale value returns CHECKOUT_SESSION_CURRENT_CHANGED and the current session ID; active payment work returns PAYMENT_IN_PROGRESS. |
 | `subscription_plan_id` | Required | string |  |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](MODELS.md#checkoutsubscriptiontermsrequest) |  |
 | `surface` | Optional | string | Defaults to hosted when omitted. Use embedded for a merchant-owned presentation. Values: `"hosted"`, `"embedded"`. |
@@ -2384,7 +2384,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### checkoutSessions.createCustomerVerification
 
-Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, whose default channel is email, Flint sends a code to any valid address. With purpose use_saved_payment_methods and channel email, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose use_saved_payment_methods and channel auto, its default, a checkout asks as the buyer leaves the email field, and Flint sends the code the way the email's details were saved: it texts the mobile phone number they carry, as channel sms does, or, when they carry none, emails a code when the email has cards saved by email. The response's channel says which. For an email with neither, or past a cap, it sends nothing and returns CUSTOMER_VERIFICATION_NOT_SENT; show nothing about saved details then. So this answer tells anyone who types the email whether it has saved details at the merchant; name channel email for an answer that doesn't. While an emailed code a checkout sent this way still works, another auto request for the same email answers with that code and sends nothing; request channel email to send another. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and 10 codes emailed by channel auto, and make 30 text and auto requests together, an hour, and 20 requests of any kind a minute. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
+Sends the buyer a six-digit code that confirms they control an email address or a mobile phone number, so the checkout can save their card or use the details they saved at this merchant before. Only the session's own checkout credential can call it, and no payment attempt may be in progress. With channel email, Flint emails the code, while the session is open and save_payment_method_requires_verification is true. With purpose save_payment_method, whose default channel is email, Flint sends a code to any valid address. With purpose use_saved_payment_methods and channel email, Flint sends one only when a customer with that email has saved details, cards saved by email or with a mobile phone number, and the response is the same either way, so it never reveals whether the email shops at the merchant. The emailed code opens only the cards saved by email; confirming it when there are none still binds the checkout to the customer, so the buyer can save a card with their own number, which replaces the customer's saved number. With channel sms and purpose use_saved_payment_methods, Flint texts the code to the mobile phone number saved with that email's details at the merchant, and returns channel sms and phone_last_digits. Always offer the emailed code beside it. When the email has no details saved with a number, or Flint cannot text now, it texts nothing and returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE; offer the emailed code instead. This answer tells anyone who types the email whether it has details saved with a number at the merchant, and the number's last two digits. A texted code opens only the cards saved with that number, and an emailed code opens only the cards saved by email. Every text reads "Your Flint Pay verification code is: " and the code, and names Flint Pay rather than the merchant, so the prompt for the code should say it comes from Flint Pay. A new text to a number ends the code any other checkout, at any merchant, texted to it, so only the latest texted code for a number works. With purpose use_saved_payment_methods and channel auto, its default, a checkout asks as the buyer leaves the email field, and Flint sends the code the way the email's details were saved: it texts the mobile phone number they carry, as channel sms does, or, when they carry none, emails a code when the email has cards saved by email. The response's channel says which. For an email with neither, or past a cap, it sends nothing and returns CUSTOMER_VERIFICATION_NOT_SENT; show nothing about saved details then. So this answer tells anyone who types the email whether it has saved details at the merchant; name channel email for an answer that doesn't. While an emailed code a checkout sent this way still works, another auto request for the same email answers with that code and sends nothing; request channel email to send another. With purpose confirm_saved_payment_method, after a payment that sent save_payment_method_phone, Flint sends the code that confirms the saved card: channel sms texts the number given with the payment, and channel email emails the customer's email, only when it is the email the payment was made with; otherwise it refuses the request with a 409, and the texted code confirms the card. The response shows that email masked, such as a•••@example.com. Send no email with it. It works on the paid session, or the open one whose payment is approved for the merchant to capture later, until payment_method_save.status leaves pending. A texted code saves the card with the number when the payment created the customer, when the buyer confirmed the customer's email in this checkout, or when the number is already the customer's saved number and a card saved with it is active. Otherwise payment_method_save.email_confirmation_required becomes true, and an emailed code finishes the save. A card saved with a number makes it the customer's saved number: the cards saved with the number it replaces are removed, with payment_method.removed. An emailed code works for 15 minutes and a texted code for 10, each for 5 tries, and a new request replaces the checkout's earlier codes. A checkout can request 5 emailed codes and 6 text lookups with 3 texts before paying, and 3 of each channel to confirm a saved card; codes can be requested for one email 3 times in 15 minutes and 10 times in 24 hours at the merchant; one number gets 3 texts in 10 minutes and 10 in 24 hours; one network can have 10 texts sent and 10 codes emailed by channel auto, and make 30 text and auto requests together, an hour, and 20 requests of any kind a minute. When you call Flint with the checkout credential from your own server, these network caps count per merchant environment and calling IP address, and are ten times higher. A text request over a cap on texts, the checkout's, the network's, or the number's, returns CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE, like an email with no number to text; over a cap on text requests, it returns CUSTOMER_VERIFICATION_LIMIT_REACHED for the checkout and CUSTOMER_VERIFICATION_RATE_LIMITED for the network. A merchant's checkouts can send 1,000 texts in 24 hours; past that, text requests return CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE. After 10 wrong tries in 24 hours, or 30 in 7 days, across the codes for one email at the merchant or texted to one number, Flint sends that email or number no codes and accepts none of its codes. In a sandbox, Flint sends no texts: a texted code's request answers as if it texted the number, and to confirm it, 000000 is a wrong code, 999999 returns CUSTOMER_VERIFICATION_UNAVAILABLE, and any other six digits confirm it. Emailed codes arrive as in live mode.
 
 `POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications`
 
@@ -10013,7 +10013,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### discountPreviews.create
 
-Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Merchant-authenticated callers may include a promotion by promotion_id or promotion_code; checkout-authenticated buyers must provide a code. The response includes applied, skipped, and single-threshold available promotion candidates.
+Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. The response includes applied, skipped, and single-threshold available promotion candidates.
 
 `POST /v1/discount-previews`
 
@@ -18524,7 +18524,7 @@ Idempotency header: Idempotency-Key; retention: Responses are retained for 24 ho
 
 ### me.createInvoiceCheckoutSession
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/me/invoices/{invoice_id}/checkout-session`
 
@@ -18943,7 +18943,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.getCreditNote
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
 
 `GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}`
 
@@ -18971,7 +18971,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.getCreditNotePDF
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and carries your branding, the credited lines, and the invoice it corrects.
 
 `GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf`
 
@@ -19080,7 +19080,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.getInvoice
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a single invoice by ID.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns a single invoice by ID.
 
 `GET /v1/me/invoices/{invoice_id}`
 
@@ -19107,7 +19107,7 @@ Pass request options as the last argument. Attempt limit: 1. Client and request 
 
 ### me.getInvoicePDF
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
 
 `GET /v1/me/invoices/{invoice_id}/pdf`
 
@@ -19136,19 +19136,17 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/orders/{order_id}`
 
-Call: `getOrder(order_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `getOrder(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: `path0` = `order_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; "X-Checkout-Session-ID"?: string; "X-Checkout-Session-Secret"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "order_id": string; }`
 
 Returned payload: `Order`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_id` | Required | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
 
 Returns the payload at `data` directly. Use `getOrderWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -19219,19 +19217,17 @@ Uses the customer identity fixed by the customer session. The request cannot sel
 
 `GET /v1/me/subscriptions/{subscription_id}`
 
-Call: `getSubscription(subscription_id: InputValue<string>, params?: { "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Call: `getSubscription(subscription_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 Path arguments: `path0` = `subscription_id`. Params contain flat body fields and query/header fields.
 
-Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; "X-Checkout-Session-ID"?: string; "X-Checkout-Session-Secret"?: string; }`
+Canonical input schema (for configuration examples and HTTP fixtures): `{ "subscription_id": string; }`
 
 Returned payload: `Subscription`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
 
 Returns the payload at `data` directly. Use `getSubscriptionWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -19356,7 +19352,7 @@ for await (const page of client.me.listAddressesPagesWithResponse({}, { maxPages
 
 ### me.listCreditNotes
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
 
 `GET /v1/me/invoices/{invoice_id}/credit-notes`
 
@@ -23772,7 +23768,7 @@ Creates an order for the authenticated merchant. For USD orders, an effective re
 
 `POST /v1/orders`
 
-Call: `create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; "X-Checkout-Session-ID"?: InputValue<string>; "X-Checkout-Session-Secret"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<{ "buyer_note"?: string; "customer_id"?: string; "delivery_destination"?: OrderDeliveryDestinationRequestInput; "discounts"?: Array<CreateOrderDiscountInput>; "external_reference_id"?: string; "internal_note"?: string; "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput; "line_items": Array<CreateOrderLineItemInput>; "metadata"?: Record<string, string>; "requested_tip"?: CreateOrderTipInput; "tax"?: OrderTaxRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -23782,8 +23778,6 @@ Canonical input schema (for configuration examples and HTTP fixtures):
 {
   "Idempotency-Key"?: string;
   "X-Request-Id"?: string;
-  "X-Checkout-Session-ID"?: string;
-  "X-Checkout-Session-Secret"?: string;
   "body": {
     "buyer_note"?: string;
     "customer_id"?: string;
@@ -23806,8 +23800,6 @@ Returned payload: `Order`
 | --- | --- | --- | --- |
 | `Idempotency-Key` | Optional | string |  |
 | `X-Request-Id` | Optional | string |  |
-| `X-Checkout-Session-ID` | Optional | string |  |
-| `X-Checkout-Session-Secret` | Optional | string |  |
 | `body` | Required | object |  |
 
 Body model: [CreateOrderRequest](MODELS.md#createorderrequest).
@@ -30319,7 +30311,7 @@ Creates a promotion for the authenticated merchant.
 
 `POST /v1/promotions`
 
-Call: `create(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `create(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: none. Params contain flat body fields and query/header fields.
 
@@ -30377,17 +30369,21 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     }))) & (({
       "type"?: "percent_off";
       "percent_off": unknown;
-    }) | ({
+    }) | (({
       "type"?: "amount_off";
       "amount_off_money": unknown;
-    }) | ({
+    }) & ({
+      "max_discounted_quantity"?: never
+    })) | (({
       "type"?: "buy_x_get_y";
       "qualifying_item_rules": unknown;
       "buy_min_quantity": unknown;
       "discounted_item_rules": unknown;
       "get_quantity": unknown;
       "get_percent_off": unknown;
-    }));
+    }) & ({
+      "max_discounted_quantity"?: never
+    })));
   }) & ({
     "application_method": PromotionApplicationMethodInput;
     "codes"?: Array<CreatePromotionCodeRequestInput>;
@@ -30410,7 +30406,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "values"?: Array<PromotionRuleValueInput>;
       }) | (PromotionRuleGroupInput))>;
     }));
-    "exclusivity"?: PromotionExclusivityInput;
+    "exclusivity"?: PromotionExclusivityRequestInput;
     "external_reference_id"?: string;
     "max_uses"?: string;
     "metadata"?: Record<string, string>;
@@ -30436,19 +30432,19 @@ Returned payload: `Promotion`
 | --- | --- | --- | --- |
 | `application_method` | Required | Alternative shapes (see declared variants) and [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) and [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) | Canonical REST shape is flat: send type plus the effect fields on this object. Responses always use this flat shape. |
 | `codes` | Optional | Array of [CreatePromotionCodeRequest](MODELS.md#createpromotioncoderequest) | Write-only create sugar for code-gated promotions. Accepted only on create; it is not returned on read and cannot be changed via PATCH. Manage codes after create via the /v1/promotions/{promotion_id}/codes child routes. Input only. |
-| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
+| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) | Which discount classes this promotion can combine with. Omitted classes default to true. |
 | `description` | Optional | string |  |
 | `discount_class` | Optional | string | Defaults to order when omitted. Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `display_name` | Optional | string | Buyer-facing promotion name shown in checkout and order discount surfaces. Defaults to name when omitted. |
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `exclusivity` | Optional | [PromotionExclusivity](MODELS.md#promotionexclusivity) |  |
+| `exclusivity` | Optional | [PromotionExclusivityRequest](MODELS.md#promotionexclusivityrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object |  |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. This is not intended for buyer-facing checkout or receipt copy. |
 | `redemption_type` | Optional | string | Values: `"automatic"`, `"code"`. |
 | `schedule` | Optional | [PromotionSchedule](MODELS.md#promotionschedule) |  |
-| `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
+| `stacking_mode` | Optional | string | continue lets lower-ranked promotions still apply. stop_after admits this promotion and skips every lower-ranked candidate, meaning every candidate with a smaller standalone discount; on a tie, the earlier-created promotion ranks higher. Values: `"continue"`, `"stop_after"`. |
 
 Returns the payload at `data` directly. Use `createWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -30507,7 +30503,7 @@ Body model: [CreatePromotionCodeRequest](MODELS.md#createpromotioncoderequest).
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object |  |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. |
 
 Returns the payload at `data` directly. Use `createCodeWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -30840,7 +30836,7 @@ Applies a sparse update to promotion fields.
 
 `PATCH /v1/promotions/{promotion_id}`
 
-Call: `update(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; })); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
+Call: `update(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">)`
 
 Path arguments: `path0` = `promotion_id`. Params contain flat body fields and query/header fields.
 
@@ -30899,17 +30895,21 @@ Canonical input schema (for configuration examples and HTTP fixtures):
     }))) & (({
       "type"?: "percent_off";
       "percent_off": unknown;
-    }) | ({
+    }) | (({
       "type"?: "amount_off";
       "amount_off_money": unknown;
-    }) | ({
+    }) & ({
+      "max_discounted_quantity"?: never
+    })) | (({
       "type"?: "buy_x_get_y";
       "qualifying_item_rules": unknown;
       "buy_min_quantity": unknown;
       "discounted_item_rules": unknown;
       "get_quantity": unknown;
       "get_percent_off": unknown;
-    }));
+    }) & ({
+      "max_discounted_quantity"?: never
+    })));
   }) & ({
     "application_method"?: PromotionApplicationMethodInput;
     "combines_with"?: PromotionCombinesWithInput;
@@ -30931,7 +30931,7 @@ Canonical input schema (for configuration examples and HTTP fixtures):
         "values"?: Array<PromotionRuleValueInput>;
       }) | (PromotionRuleGroupInput))>;
     }));
-    "exclusivity"?: PromotionExclusivityInput;
+    "exclusivity"?: PromotionExclusivityRequestInput;
     "external_reference_id"?: string;
     "max_uses"?: string;
     "metadata"?: Record<string, string | null> | null;
@@ -30957,18 +30957,18 @@ Returned payload: `Promotion`
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `application_method` | Optional | Alternative shapes (see declared variants) and [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) and [PromotionApplicationMethod](MODELS.md#promotionapplicationmethod) | Canonical REST shape is flat: send type plus the effect fields on this object. Responses always use this flat shape. |
-| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) |  |
+| `combines_with` | Optional | [PromotionCombinesWith](MODELS.md#promotioncombineswith) | Send only the classes to change. Omitted classes keep their current value. null, an empty object, and null classes are invalid. |
 | `description` | Optional | string |  |
 | `discount_class` | Optional | string | Promotion discount class. Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `display_name` | Optional | string | Buyer-facing promotion name shown in checkout and order discount surfaces. |
 | `eligibility_rules` | Optional | Alternative shapes (see declared variants) | A rule group is exactly one of three forms, never a blend: an array of rules for a simple list (an implicit AND), an object with only all for nested AND, or an object with only any for OR. The all and any arrays contain rules or nested rule groups. There is no rules key. Sending a rules key, an unexpected key, or both all and any is rejected with INVALID_RULE_GROUP. |
-| `exclusivity` | Optional | [PromotionExclusivity](MODELS.md#promotionexclusivity) |  |
+| `exclusivity` | Optional | [PromotionExclusivityRequest](MODELS.md#promotionexclusivityrequest) |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `name` | Optional | string | Internal promotion name for dashboards, searching, and reporting. |
 | `schedule` | Optional | [PromotionSchedule](MODELS.md#promotionschedule) |  |
-| `stacking_mode` | Optional | string | Values: `"continue"`, `"stop_after"`. |
+| `stacking_mode` | Optional | string | continue lets lower-ranked promotions still apply. stop_after admits this promotion and skips every lower-ranked candidate, meaning every candidate with a smaller standalone discount; on a tie, the earlier-created promotion ranks higher. Values: `"continue"`, `"stop_after"`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 
 Returns the payload at `data` directly. Use `updateWithResponse` for `body`, `meta` and `raw` without unwrapping.
@@ -31030,7 +31030,7 @@ Body model: [UpdatePromotionCodeRequest](MODELS.md#updatepromotioncoderequest).
 | `max_uses` | Optional | exact numeric string | Use an exact numeric string, not a floating-point number. Format: `int64`. |
 | `metadata` | Optional | object or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all metadata. An empty object makes no change. Empty strings are stored. Keys starting with flint_ are reserved and cannot be written through the public API. |
 | `status` | Optional | string | Stored code switch. Only active and inactive can be set; expired and exhausted are computed on reads. Values: `"active"`, `"inactive"`. |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. |
 
 Returns the payload at `data` directly. Use `updateCodeWithResponse` for `body`, `meta` and `raw` without unwrapping.
 
@@ -31047,7 +31047,7 @@ Idempotency header: Idempotency-Key; retention: Use the endpoint-specific replay
 
 ### refunds.create
 
-Creates a refund for an order or payment intent. This is a financial operation.
+Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
 
 `POST /v1/refunds`
 

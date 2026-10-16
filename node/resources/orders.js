@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import r0 from '../descriptors/resources/orders.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=e3d9889159843c7c48c93704fe031dc30213693cb8266d78ea7ca38cc46462af';
+import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["addOrderCharge"]:r0,["addOrderLineItems"]:r0,["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
@@ -130,15 +130,11 @@ this.orders = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret"
+  "X-Request-Id"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
       createWithResponse: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Idempotency-Key",
-  "X-Request-Id",
-  "X-Checkout-Session-ID",
-  "X-Checkout-Session-Secret"
+  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
@@ -646,7 +642,6 @@ export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubsc
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
 export { makePurchasedEvent } from '../models/PurchasedEvent.js';
-export { makeRequestedTip } from '../models/RequestedTip.js';
 export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
 export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
 export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';

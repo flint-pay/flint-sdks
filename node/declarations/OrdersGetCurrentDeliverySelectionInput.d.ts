@@ -1,4 +1,4 @@
 import type { InputValue } from '../runtime.js';
+import type { MeGetOrderInput } from './MeGetOrderInput.js';
 
-
-export type OrdersGetCurrentDeliverySelectionInput = { "order_id": InputValue<string>; };
+export type OrdersGetCurrentDeliverySelectionInput = MeGetOrderInput;
