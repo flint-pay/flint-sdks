@@ -1,6 +1,33 @@
+# SDK 5.0.0
+
+This guide covers upgrading from `4.0.0`. The API date stays `2026-09-07` and the generator is unchanged. Version 5.0.0 pins the Flint API contract on `main` at `2d3123e0`, 34 commits after the production contract (`366e50d4`) that `4.0.0` was generated from. Use it with an API build that serves this contract.
+
+## Credentials
+
+Flint accepts secret API keys only in `Authorization: Bearer` and refuses the obsolete credential headers. The `merchantKey` mode and its `ApiKeyHeader` (`X-API-Key`) credential are removed. Use `apiKey`, or `authMode: "merchant"` with `BearerAuth`.
+
+## Methods
+
+| Removed method                  | Replacement                                                                                  |
+| ------------------------------- | -------------------------------------------------------------------------------------------- |
+| `orders.capturePayment`         | `paymentIntents.capture` with the payment intent ID.                                         |
+| `orders.cancelPayment`          | `paymentIntents.cancel` with the payment intent ID.                                          |
+| `developer.issueSandboxTestKey` | `developer.createSandboxAPIKey`, which creates a sandbox API key through the API key routes. |
+
+New methods: `developer.createSandboxAPIKey` and `me.listSubscriptionPaymentRetries`. Payout destination methods and `merchantAccountSessions.refresh` keep their names and call the moved `/v1/payout-destinations` and `/v1/merchant-account-session-refreshes` routes. Both merchant account session handoffs answer `200`, and a retry with the same key and input replays the original handoff for 24 hours.
+
+## Requests and responses
+
+- Commerce and buyer writes that guard against concurrent changes take `expected_version` more widely, and resources report positive persisted `version` values. Replacing payout settings `default_payout_destinations`, `minimum_balance_by_currency`, `monthly_payout_days` or `weekly_payout_days` requires `expected_version`, and payout settings updates no longer accept `default_payout_destinations` input.
+- Return replacement sources, return receipts and subscription line items name their `type` explicitly (for example `subscriptions.createLineItem` takes `type: "variant"`), and return policy scopes require `match_type`.
+- List filters can recover a create by its original idempotency key. `inventoryTransfers.create` no longer requires an idempotency key; unkeyed calls create distinct drafts.
+- Organizations require `parent_organization_id` on create, and `merchants.update` no longer accepts `organization_id`. Onboarding takes its environment from the credential rather than a request selector. The payout destination list filter is `available_payout_methods`.
+- `InvoicePaymentAttempt` and `InvoiceActivity` no longer include `expected_settlement_at`, and money movement list `meta` no longer declares `request_id`; read the top-level `request_id`.
+- Demo session operations take `Flint-Challenge-Token`.
+
 # SDK 4.0.0
 
-This guide covers upgrading from `3.0.0`. The API date stays `2026-09-07`. Install `@flintpay/node@4.0.0` or `flintpay/flint:^4.0` after publication. The earlier `4.0.0` preparation was never tagged or published; this entry includes its contract changes and the subsequent API and generator updates.
+This guide covers upgrading from `3.0.0`. The API date stays `2026-09-07`. Install `@flintpay/node@4.0.0` or `flintpay/flint:4.0.0`. The earlier `4.0.0` preparation was never tagged or published; this entry includes its contract changes and the subsequent API and generator updates.
 
 ## Runtime requirements and imports
 
@@ -19,7 +46,7 @@ Node ESM consumers need Node.js 22.3 or later; CommonJS consumers need 22.12 or 
 
 ## Credentials, errors and webhooks
 
-Replace checkout ID/secret credentials with `checkoutToken`, or the explicit `checkout` mode with `CheckoutSessionBearer`. The `apiKey` shortcut continues to send a merchant bearer credential. Flint no longer accepts secret keys in `X-API-Key`, so the `merchantKey` mode and its `ApiKeyHeader` credential are removed; use `apiKey`, or `authMode: "merchant"` with `BearerAuth`. Method params no longer carry credential or API-version headers.
+Replace checkout ID/secret credentials with `checkoutToken`, or the explicit `checkout` mode with `CheckoutSessionBearer`. The production `apiKey` shortcut continues to send a merchant bearer credential. Method params no longer carry credential or API-version headers.
 
 ```js
 await client.orders.get(orderId, undefined, { checkoutToken });
@@ -31,7 +58,7 @@ $client->orders->get($orderId, null, new \Flint\RequestOptions(checkoutToken: $c
 
 `checkoutSessions.create` now returns the `CheckoutSessionWithSecret` session directly. Read `url` and `checkout_auth_token` on that session instead of the retired `CheckoutAccess` / `CheckoutSessionLaunchResult` wrapper. Follow the generated result models for invoice, payment-link and Return checkout launches.
 
-Read resources from verified webhook `event.data.object`, rather than resource-specific fields such as `event.data.payment_intent`. Amounts are exact int64 strings, including values larger than JavaScript's safe integer range. Event names and required payload fields follow the pinned contract; older stored events can return `known: false`, so retain an unknown-event path.
+Read resources from verified webhook `event.data.object`, rather than resource-specific fields such as `event.data.payment_intent`. Amounts are exact int64 strings, including values larger than JavaScript's safe integer range. Event names and required payload fields follow the pinned production contract; older stored events can return `known: false`, so retain an unknown-event path.
 
 Node error `code` offers known code completions with future strings. Narrow optional `details` before reading it: malformed or incompatible API details are `undefined`, while explicit `raw` recovery remains available. PHP error messages append HTTP status, provider code and request ID; use structured fields instead of exact message matching. PHP `getCode()` returns the HTTP status, or 0 without a response; `errorCode` remains the provider code. Errors and response metadata expose available idempotency keys, and errors expose a valid server wait as `retryAfterMs`.
 
@@ -64,9 +91,9 @@ All requests keep a single attempt by default, with caller-supplied idempotency 
 
 ## Moved operations
 
-Except for the five removed inventory names mapped above, the SDK preserves these published names while calling the current routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
+Except for the five removed inventory names mapped above, the SDK preserves these published names while calling the production routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
 
-| Published SDK method                | Current operation and consumer change                                                                                                                                   |
+| Published SDK method                | Production operation and consumer change                                                                                                                                |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `inventoryCounts.apply`             | Legacy name removed; use `inventoryCounts.transition` with `body.action: "apply"`.                                                                                      |
 | `inventoryCounts.cancel`            | Legacy name removed; use `inventoryCounts.transition` with `body.action: "cancel"`.                                                                                     |
@@ -96,11 +123,8 @@ These methods are removed without aliases:
 | `paymentMethods.setDefault`       | Set `default_payment_method_id` through `customers.update`; send null to clear it.                |
 | `me.setDefaultPaymentMethod`      | Set `default_payment_method_id` through `me.update`; send null to clear it.                       |
 | `organizations.transferOwnership` | Removed from the API. Account ownership changes are reserved for Flint.                           |
-| `orders.capturePayment`           | Use `paymentIntents.capture` with the payment intent ID.                                          |
-| `orders.cancelPayment`            | Use `paymentIntents.cancel` with the payment intent ID.                                           |
-| `developer.issueSandboxTestKey`   | Use `developer.createSandboxAPIKey`, which creates a sandbox API key.                             |
 
-`oauth.exchangePartnerInstallToken` is also no longer generated: the OAuth token exchange now requires form encoding. It remains an API operation (`exchangeOAuthToken`), but form-only CLI/OAuth flows are outside these SDKs. Use a form-capable HTTP client for that exchange. Partner authorization entry is anonymous and requires PKCE `code_challenge` and `code_challenge_method`.
+`oauth.exchangePartnerInstallToken` is also no longer generated: the production OAuth token exchange now requires form encoding. It remains an API operation (`exchangeOAuthToken`), but form-only CLI/OAuth flows are outside these SDKs. Use a form-capable HTTP client for that exchange. Partner authorization entry is anonymous and requires PKCE `code_challenge` and `code_challenge_method`.
 
 ## Routes with unchanged operation IDs
 
@@ -121,8 +145,6 @@ Order responses no longer include `requested_tip`. Read it from the relevant `ti
 Promotion rule values and request exclusivity are typed and request enums are closed. Promotion application requests accept only the fields appropriate to their variant. Risk-list additions require plural `values`; singular `value` is rejected. Return decisions use current override reasons and nullable `automatic_resolution_type` instead of `decision_basis` and `selected_resolution_type`; Return policies use `release_timing` instead of `refund_timing`.
 
 Payment-intent create/get results expose payment fields directly. Creation requires `payment_collection`; reads can omit it. Handle optional nullable `risk` and nullable `last_payment_error`. Capture/cancel/update return a payment intent; confirm uses the current action-bearing result. Payment methods use `archived` instead of `removed`; ordinary lists now include non-active unarchived methods, so card pickers should filter `status: ["active"]`.
-
-New methods since the production contract this release was first prepared from include `developer.createSandboxAPIKey` and `me.listSubscriptionPaymentRetries`. Payout destination methods and `merchantAccountSessions.refresh` keep their names and call the moved `/v1/payout-destinations` and `/v1/merchant-account-session-refreshes` routes. `inventoryTransfers.create` no longer requires an idempotency key; a key you send still makes retries safe.
 
 The contract also updates version fences, required response fields, request bounds, nullable fields, list filters and error envelopes across resources. Rebuild typed callers and review the affected generated resource/model references. Shared error codes now describe generic categories with facts and remediation in the error envelope; replace checks for retired codes with the current structured error contract. This includes the earlier retirement of `AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS`, `CHECKOUT_PAYMENT_RESOLVING`, `PAYMENT_ATTEMPT_FROZEN`, `PAYMENT_ATTEMPT_IN_PROGRESS`, `PAYMENT_ATTEMPT_STILL_PROCESSING` and `PROMOTION_NO_ACTIVE_CODES`.
 
